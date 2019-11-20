@@ -1,0 +1,1 @@
+These source file represent external files and are deliberately not included in the vcxproj file

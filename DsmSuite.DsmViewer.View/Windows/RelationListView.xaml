@@ -1,0 +1,22 @@
+﻿<Window x:Class="DsmSuite.DsmViewer.View.Windows.RelationListView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DsmSuite.DsmViewer.View.Windows"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="600" Width="600">
+    <Grid>
+        <ListView Margin="10" ItemsSource="{Binding Relations}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Index" Width="20" DisplayMemberBinding="{Binding Path=Index}" />
+                    <GridViewColumn Header="Consumer name" Width="600" DisplayMemberBinding="{Binding Path=ConsumerName}" />
+                    <GridViewColumn Header="Provider name" Width="600" DisplayMemberBinding="{Binding Path=ProviderName}" />
+                    <GridViewColumn Header="Relation type" Width="100" DisplayMemberBinding="{Binding Path=RelationType}" />
+                    <GridViewColumn Header="Relation weight" Width="50" DisplayMemberBinding="{Binding Path=RelationWeight}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>

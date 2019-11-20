@@ -1,0 +1,18 @@
+﻿<Window x:Class="DsmSuite.DsmViewer.View.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:userControls="clr-namespace:DsmSuite.DsmViewer.View.UserControls"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="Auto" Width="Auto"
+        Loaded="MainWindow_OnLoaded" Background="{StaticResource BackgroundColor}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <userControls:ToolView Grid.Row="0"/>
+        <userControls:MatrixView Grid.Row="1"/>
+    </Grid>
+</Window>

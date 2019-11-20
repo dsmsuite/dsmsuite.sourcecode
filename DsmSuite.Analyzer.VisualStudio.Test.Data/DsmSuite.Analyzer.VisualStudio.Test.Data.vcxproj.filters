@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FolderA">
+      <UniqueIdentifier>{8506edcf-fa04-4729-9f2c-ca684292ac32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FolderB">
+      <UniqueIdentifier>{94f5fb66-8e91-44b0-9a5c-1328e1da36b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FolderC">
+      <UniqueIdentifier>{b466ef11-7202-4dd2-b2ef-458cc452cb08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FolderD">
+      <UniqueIdentifier>{a67893c7-b656-42bd-a489-2b46abf3e73e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FolderClones">
+      <UniqueIdentifier>{ccbf777d-04d6-4f78-b1f0-5c2ce5fc8237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FolderClones\Identical">
+      <UniqueIdentifier>{0a749f03-1349-413a-9464-12e0a6c253ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FolderClones\NotIdentical">
+      <UniqueIdentifier>{20d7c385-d4d7-4b7a-9b67-794c38cc23d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FolderIDL">
+      <UniqueIdentifier>{6b21d636-8b0f-4fae-a39b-240372816649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FolderE">
+      <UniqueIdentifier>{4aa85685-e90d-4a97-ace4-bbcc581b2cff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DirA/ClassA1.cpp">
+      <Filter>FolderA</Filter>
+    </ClCompile>
+    <ClCompile Include="DirA/ClassA2.cpp">
+      <Filter>FolderA</Filter>
+    </ClCompile>
+    <ClCompile Include="DirB/ClassB1.cpp">
+      <Filter>FolderB</Filter>
+    </ClCompile>
+    <ClCompile Include="DirC\ClassC1.cpp">
+      <Filter>FolderC</Filter>
+    </ClCompile>
+    <ClCompile Include="DirD\ClassD1.cpp">
+      <Filter>FolderD</Filter>
+    </ClCompile>
+    <ClCompile Include="DirClones\Identical\ClassA1.cpp">
+      <Filter>FolderClones\Identical</Filter>
+    </ClCompile>
+    <ClCompile Include="DirClones\Identical\CopyClassA1.cpp">
+      <Filter>FolderClones\Identical</Filter>
+    </ClCompile>
+    <ClCompile Include="DirClones\NotIdentical\ClassA1.cpp">
+      <Filter>FolderClones\NotIdentical</Filter>
+    </ClCompile>
+    <ClCompile Include="DirE\ClassE1.cpp">
+      <Filter>FolderE</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="DirA/ClassA1.h">
+      <Filter>FolderA</Filter>
+    </ClInclude>
+    <ClInclude Include="DirA/ClassA2.h">
+      <Filter>FolderA</Filter>
+    </ClInclude>
+    <ClInclude Include="DirB/ClassB1.h">
+      <Filter>FolderB</Filter>
+    </ClInclude>
+    <ClInclude Include="DirC\ClassC1.h">
+      <Filter>FolderC</Filter>
+    </ClInclude>
+    <ClInclude Include="DirD\ClassD1.h">
+      <Filter>FolderD</Filter>
+    </ClInclude>
+    <ClInclude Include="DirA\ClassA3.h">
+      <Filter>FolderA</Filter>
+    </ClInclude>
+    <ClInclude Include="DirE\ClassE1.h">
+      <Filter>FolderE</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="DirIDL\IInterface1.idl">
+      <Filter>FolderIDL</Filter>
+    </Midl>
+    <Midl Include="DirIDL\IInterface2.idl">
+      <Filter>FolderIDL</Filter>
+    </Midl>
+  </ItemGroup>
+</Project>

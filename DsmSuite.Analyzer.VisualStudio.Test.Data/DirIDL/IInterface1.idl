@@ -1,0 +1,36 @@
+// Required to test IDL generated files using no output directory
+// -Empty setting for implementation file
+// -%(Filename) for header file
+// -Directly declared name to type library
+import "oaidl.idl";
+import "ocidl.idl";
+
+// Something in the IDL file must be defined to ensure files are generated
+[
+	object,
+	uuid(E0BFEE0D-D227-4E00-B3C5-6D26D636A0D3),
+	pointer_default(unique)
+]
+interface IInterface1 : IUnknown
+{
+	HRESULT MyMethod();
+};
+
+[
+	uuid(98874237-AD43-47B6-AF7F-78592744FB12),
+	version (1.0),
+]
+library Lib1
+{
+	importlib("stdole2.tlb");
+
+	[
+		uuid(94617AA0-2D3A-47F5-A9E0-818D2C800416),
+	]
+	coclass CoClass1
+	{
+		[default, source] interface IInterface1;
+	};
+};
+
+

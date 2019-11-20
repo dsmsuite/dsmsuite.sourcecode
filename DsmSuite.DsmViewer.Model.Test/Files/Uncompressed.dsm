@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model>
+  <elements>
+    <element id="11" order="1" name="a" type="" expanded="True" />
+    <element id="12" order="2" name="a1" type="eta" expanded="False" parent="11" />
+    <element id="13" order="3" name="a2" type="eta" expanded="False" parent="11" />
+    <element id="14" order="4" name="b" type="" expanded="False" />
+    <element id="15" order="5" name="b1" type="etb" expanded="False" parent="14" />
+    <element id="16" order="6" name="b2" type="etb" expanded="False" parent="14" />
+    <element id="17" order="7" name="c" type="" expanded="False" />
+    <element id="18" order="8" name="c1" type="etc" expanded="False" parent="17" />
+    <element id="19" order="9" name="c2" type="etc" expanded="False" parent="17" />
+  </elements>
+  <relations>
+    <relation from="12" to="15" type="ra" weight="1000" />
+    <relation from="13" to="15" type="ra" weight="200" />
+    <relation from="12" to="16" type="ra" weight="30" />
+    <relation from="13" to="16" type="ra" weight="4" />
+    <relation from="12" to="19" type="ra" weight="5" />
+    <relation from="16" to="12" type="rb" weight="1" />
+    <relation from="16" to="13" type="rb" weight="2" />
+    <relation from="18" to="13" type="rc" weight="4" />
+  </relations>
+</model>

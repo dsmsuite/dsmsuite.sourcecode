@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:valueConverters="clr-namespace:DsmSuite.DsmViewer.View.ValueConverters">
+    <valueConverters:CellColorConverter x:Key="CellColorConverter" 
+                    Brush1="{StaticResource MatrixColor1}"
+                    Brush2="{StaticResource MatrixColor2}"
+                    Brush3="{StaticResource MatrixColor3}"
+                    Brush4="{StaticResource MatrixColor4}"
+                    BrushCyclic="{StaticResource MatrixColorCyclic}"
+                    HighlightFactorHovered="{StaticResource HighlightFactorHovered}"
+                    HighlightFactorSelected="{StaticResource HighlightFactorSelected}" />
+    <valueConverters:ElementColorConverter x:Key="ElementColorConverter" 
+                    Brush1="{StaticResource MatrixColor1}"
+                    Brush2="{StaticResource MatrixColor2}"
+                    Brush3="{StaticResource MatrixColor3}"
+                    Brush4="{StaticResource MatrixColor4}"
+                    HighlightFactorHovered="{StaticResource HighlightFactorHovered}"
+                    HighlightFactorSelected="{StaticResource HighlightFactorSelected}" />
+    <valueConverters:DependencyWeightConverter x:Key="DependencyWeightConverter" />
+    <valueConverters:ExpandedRotationConverter x:Key="ExpandedRotationConverter" />
+    <valueConverters:ExpandableIconConverter x:Key="ExpandableIconConverter" />
+</ResourceDictionary>

@@ -1,0 +1,33 @@
+// Required to test IDL generated files using output directory
+import "oaidl.idl";
+import "ocidl.idl";
+
+// Something in the IDL file must be defined to ensure files are generated
+[
+	object,
+	uuid(7381D5D8-8669-44A8-8A2F-3DFE8070C2E1),
+	pointer_default(unique)
+]
+interface IInterface2 : IUnknown
+{
+	HRESULT MyMethod();
+};
+
+[
+	uuid(2C235B12-24FF-4167-A473-B81E0BBC0A3A),
+	version (1.0),
+]
+library Lib2
+{
+	importlib("stdole2.tlb");
+
+	[
+		uuid(94617AA0-2D3A-47F5-A9E0-818D2C800416),
+	]
+	coclass CoClass2
+	{
+		[default, source] interface IInterface2;
+	};
+};
+
+

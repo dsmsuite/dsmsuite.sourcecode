@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<system xmlns="urn:dsi-schema">
+  <metadatagroup name="Group1">
+    <metadata name="Name11" value="Value11" />
+    <metadata name="Name12" value="Value12" />
+  </metadatagroup>
+  <metadatagroup name="Group2">
+    <metadata name="Name21" value="Value21" />
+    <metadata name="Name22" value="Value22" />
+  </metadatagroup>  
+  <elements>
+    <element id="12" name="a.a1" type="eta" source="" />
+    <element id="13" name="a.a2" type="eta" source="" />
+    <element id="15" name="b.b1" type="etb" source="" />
+    <element id="16" name="b.b2" type="etb" source="" />
+    <element id="18" name="c.c1" type="etc" source="" />
+    <element id="19" name="c.c2" type="etc" source="" />
+  </elements>
+  <relations>
+	<relation consumerId="12" providerId="15" type="ra" weight="1000" />
+    <relation consumerId="13" providerId="15" type="ra" weight="200" />
+    <relation consumerId="12" providerId="16" type="ra" weight="30" />
+    <relation consumerId="13" providerId="16" type="ra" weight="4" />
+    <relation consumerId="12" providerId="19" type="ra" weight="5" />
+    <relation consumerId="16" providerId="12" type="rb" weight="1" />
+    <relation consumerId="16" providerId="13" type="rb" weight="2" />
+    <relation consumerId="18" providerId="13" type="rc" weight="4" />
+  </relations>
+</system>

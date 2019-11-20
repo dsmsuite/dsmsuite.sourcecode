@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="DsmSuite.DsmViewer.View.UserControls.CellsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:customControls="clr-namespace:DsmSuite.DsmViewer.View.CustomControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="600"
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+             ScrollViewer.VerticalScrollBarVisibility="Disabled"
+             Loaded="OnViewLoaded">
+    <Grid Style="{StaticResource MatrixContainerStyle}">
+        <ItemsControl x:Name="Cells" ItemsSource="{Binding Dependencies}" Style="{StaticResource MatrixStyle}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ListView ItemsSource="{Binding}" Style="{StaticResource MatrixRowItemsStyle}">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Style="{StaticResource MatrixRowStyle}"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Style="{StaticResource MatrixCellStyle}" 
+                                           ToolTip="{Binding Description, Mode=OneTime}" 
+                                           Text="{Binding Weight, Mode=OneTime, Converter={StaticResource DependencyWeightConverter}}" 
+                                            MouseDown="OnCellMouseDown" 
+                                            MouseEnter="OnCellMouseEnter" 
+                                            MouseLeave="OnCellMouseLeave">
+                                    <TextBlock.Background>
+                                        <MultiBinding Converter="{StaticResource CellColorConverter}">
+                                            <Binding Path="Color" Mode="OneWay"/>
+                                            <Binding Path="IsSelected" Mode="OneWay" />
+                                            <Binding Path="IsHovered"  Mode="OneWay"/>
+                                            <Binding Path="Cyclic"  Mode="OneWay"/>
+                                        </MultiBinding>
+                                    </TextBlock.Background>
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Show relations" />
+                                            <MenuItem Header="Show relation consumers" />
+                                            <MenuItem Header="Show relation providers" />
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
+                                </TextBlock>
+                                <!--<customControls:RenderedCellView/>-->
+                            </DataTemplate>
+                        </ListView.ItemTemplate>                        
+                    </ListView>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

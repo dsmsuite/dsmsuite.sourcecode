@@ -1,0 +1,16 @@
+﻿<Application x:Class="DsmSuite.DsmViewer.View.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Windows/MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary x:Name="LightThemeDictionary" Source="Resources/LightTheme.xaml" />
+                <ResourceDictionary x:Name="ConvertersDictionary" Source="Resources/Converters.xaml" />
+                <ResourceDictionary x:Name="IconsDictionary" Source="Resources/Icons.xaml" />
+                <ResourceDictionary x:Name="ControlTemplates" Source="Resources/ControlTemplates.xaml" />
+                <ResourceDictionary x:Name="StyleDictionary" Source="Resources/Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

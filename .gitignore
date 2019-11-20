@@ -1,0 +1,7 @@
+bin/
+*.suo
+*.user
+*.exe
+*.msi
+obj/
+packages/

@@ -1,0 +1,14 @@
+﻿<Window x:Class="DsmSuite.DsmViewer.View.Windows.ProgressWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        Height="100" Width="600">
+    <StackPanel Orientation="Vertical">
+        <TextBlock Text="{Binding Text}" Margin="10,10,10,0"/>
+        <ProgressBar Value="{Binding ProgressValue}" Height="5" HorizontalAlignment="Stretch" Margin="10,10,10,0" Foreground="BlueViolet"/>
+        <TextBlock Text="{Binding ProgressText}" Margin="10,10,10,0"/>
+    </StackPanel>
+</Window>
