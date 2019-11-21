@@ -11,133 +11,133 @@
 
     <ComponentGroup Id="CppAnalyzerComponents" Directory="CPP_ANALYZER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Analyzer.Cpp.exe" Guid="7A2AAB67-FC9C-4BE1-AD30-F91C96EF06CC">
-        <File Id="DsmSuite.Analyzer.Cpp.exe" Source="..\DsmSuite.Analyzer.Cpp\bin\DsmSuite.Analyzer.Cpp.Exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Cpp.exe" Source="..\build\bin\DsmSuite.Analyzer.Cpp.Exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Data.Cpp.dll" Guid="CB822CC5-A318-4998-AF44-2251EF5456F7">
-        <File Id="DsmSuite.Analyzer.Data.Cpp.dll" Source="..\DsmSuite.Analyzer.Data\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Data.Cpp.dll" Source="..\build\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Util.Cpp.dll" Guid="38AC1CBA-8F80-40A3-A1EE-684A29974332">
-        <File Id="DsmSuite.Analyzer.Util.Cpp.dll" Source="..\DsmSuite.Analyzer.Util\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Util.Cpp.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="DotNetAalyzerComponents" Directory="DOTNET_ANALYZER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Analyzer.DotNet.exe" Guid="8F930FFA-CBEB-4E48-841D-CC3AE761C1E0">
-        <File Id="DsmSuite.Analyzer.DotNet.exe" Source="..\DsmSuite.Analyzer.DotNet\bin\DsmSuite.Analyzer.DotNet.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.DotNet.exe" Source="..\build\bin\DsmSuite.Analyzer.DotNet.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Data.DotNet.dll" Guid="08FB95B9-7649-4EE0-9A55-FB6327F1D7C4">
-        <File Id="DsmSuite.Analyzer.Data.DotNet.dll" Source="..\DsmSuite.Analyzer.Data\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Data.DotNet.dll" Source="..\build\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Util.DotNet.dll" Guid="977E042B-9680-42E9-99FE-91F14B240BA1">
-        <File Id="DsmSuite.Analyzer.Util.DotNet.dll" Source="..\DsmSuite.Analyzer.Util\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Util.DotNet.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="Mono.Cecil.dll" Guid="C8051805-428D-42AD-B300-2B4FD9CAF66D">
-        <File Id="Mono.Cecil.dll" Source="..\DsmSuite.Analyzer.DotNet\bin\Mono.Cecil.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="Mono.Cecil.dll" Source="..\build\bin\Mono.Cecil.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="Mono.Cecil.Mdb.dll" Guid="BFE45360-AA18-4CA8-8E64-74CD9913C1C2">
-        <File Id="Mono.Cecil.Mdb.dll" Source="..\DsmSuite.Analyzer.DotNet\bin\Mono.Cecil.Mdb.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="Mono.Cecil.Mdb.dll" Source="..\build\bin\Mono.Cecil.Mdb.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="Mono.Cecil.Pdb.dll" Guid="8615B673-B985-4172-A850-F97F8FB6E449">
-        <File Id="Mono.Cecil.Pdb.dll" Source="..\DsmSuite.Analyzer.DotNet\bin\Mono.Cecil.Pdb.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="Mono.Cecil.Pdb.dll" Source="..\build\bin\Mono.Cecil.Pdb.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="Mono.Cecil.Rocks.dll" Guid="9AF78FE1-8F9C-4446-9A76-8EFA16A73595">
-        <File Id="Mono.Cecil.Rocks.dll" Source="..\DsmSuite.Analyzer.DotNet\bin\Mono.Cecil.Rocks.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="Mono.Cecil.Rocks.dll" Source="..\build\bin\Mono.Cecil.Rocks.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="JavaAnalyzerComponents" Directory="JAVA_ANALYZER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Analyzer.Jdeps.exe" Guid="01EC8FED-31D0-45B4-B3FA-E864BCF54EA0">
-        <File Id="DsmSuite.Analyzer.Jdeps.exe" Source="..\DsmSuite.Analyzer.Jdeps\bin\DsmSuite.Analyzer.Jdeps.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Jdeps.exe" Source="..\build\bin\DsmSuite.Analyzer.Jdeps.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Data.Jdeps.dll" Guid="6D750515-B877-48F2-8C10-939D7720DAD1">
-        <File Id="DsmSuite.Analyzer.Data.Jdeps.dll" Source="..\DsmSuite.Analyzer.Data\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Data.Jdeps.dll" Source="..\build\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Util.Jdeps.dll" Guid="02EB4E11-FF0E-4006-9BDE-A323CF3BF1CE">
-        <File Id="DsmSuite.Analyzer.Util.Jdeps.dll" Source="..\DsmSuite.Analyzer.Util\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Util.Jdeps.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="UmlAnalyzerComponents" Directory="UML_ANALYZER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Analyzer.Uml.exe" Guid="841F3BC7-14A5-4D14-AB3D-2D9583D4BFC1">
-        <File Id="DsmSuite.Analyzer.Uml.exe" Source="..\DsmSuite.Analyzer.Uml\bin\DsmSuite.Analyzer.Uml.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Uml.exe" Source="..\build\bin\DsmSuite.Analyzer.Uml.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Data.Uml.dll" Guid="A0165030-8D67-4C86-9261-C24BFB11D828">
-        <File Id="DsmSuite.Analyzer.Data.Uml.dll" Source="..\DsmSuite.Analyzer.Data\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Data.Uml.dll" Source="..\build\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Util.Uml.dll" Guid="DC2DBE4B-3611-4FAF-A141-1B61F57952FB">
-        <File Id="DsmSuite.Analyzer.Util.Uml.dll" Source="..\DsmSuite.Analyzer.Util\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Util.Uml.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="Interop.EA.dll" Guid="EE1DDB3F-0A45-410D-AC5D-40C761E86CCE">
-        <File Id="Interop.EA.dll" Source="..\DsmSuite.Analyzer.Uml\libs\Interop.EA.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="Interop.EA.dll" Source="..\build\libs\Interop.EA.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="VisualStudioAnalyzerComponents" Directory="VISUALSTUDIO_ANALZYER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Analyzer.VisualStudio.exe" Guid="E1A40F74-72C6-42ED-8227-9B23B8F59069">
-        <File Id="DsmSuite.Analyzer.VisualStudio.exe" Source="..\DsmSuite.Analyzer.VisualStudio\bin\DsmSuite.Analyzer.VisualStudio.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.VisualStudio.exe" Source="..\build\bin\DsmSuite.Analyzer.VisualStudio.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Data.VisualStudio.dll" Guid="D1F4FA40-B75A-4CB8-A18A-20138863AE75">
-        <File Id="DsmSuite.Analyzer.Data.VisualStudio.dll" Source="..\DsmSuite.Analyzer.Data\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Data.VisualStudio.dll" Source="..\build\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Util.VisualStudio.dll" Guid="3E8F6209-4513-4DBE-A1C7-C46F90FD7DFF">
-        <File Id="DsmSuite.Analyzer.Util.VisualStudio.dll" Source="..\DsmSuite.Analyzer.Util\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Util.VisualStudio.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="Microsoft.Build.dll" Guid="9D8CCFF0-2F1D-4351-96B4-FE6E802885F5">
-        <File Id="Microsoft.Build.dll" Source="..\DsmSuite.Analyzer.VisualStudio\bin\Microsoft.Build.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="Microsoft.Build.dll" Source="..\build\bin\Microsoft.Build.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="Microsoft.Build.Framework.dll" Guid="DD0FB5F2-08AC-4212-A4EB-DA5F065B5A12">
-        <File Id="Microsoft.Build.Framework.dll" Source="..\DsmSuite.Analyzer.VisualStudio\bin\Microsoft.Build.Framework.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="Microsoft.Build.Framework.dll" Source="..\build\bin\Microsoft.Build.Framework.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="Microsoft.Build.Utilities.Core.dll" Guid="687EC26D-60B2-4726-9362-FA5C6F659A79">
-        <File Id="Microsoft.Build.Utilities.Core.dll" Source="..\DsmSuite.Analyzer.VisualStudio\bin\Microsoft.Build.Utilities.Core.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="Microsoft.Build.Utilities.Core.dll" Source="..\build\bin\Microsoft.Build.Utilities.Core.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="System.Collections.Immutable.dll" Guid="A8D1DB31-8ED7-463F-98DF-58B5A0EAA5A6">
-        <File Id="System.Collections.Immutable.dll" Source="..\DsmSuite.Analyzer.VisualStudio\bin\System.Collections.Immutable.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="System.Collections.Immutable.dll" Source="..\build\bin\System.Collections.Immutable.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="System.IO.Compression.dll" Guid="32B9D0D3-91BC-4252-A3FF-25E57279C725">
-        <File Id="System.IO.Compression.dll" Source="..\DsmSuite.Analyzer.VisualStudio\bin\System.IO.Compression.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="System.IO.Compression.dll" Source="..\build\bin\System.IO.Compression.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="System.Runtime.InteropServices.RuntimeInformation.dll" Guid="413EB58B-855A-4530-99FD-813691871FDF">
-        <File Id="System.Runtime.InteropServices.RuntimeInformation.dll" Source="..\DsmSuite.Analyzer.VisualStudio\bin\System.Runtime.InteropServices.RuntimeInformation.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="System.Runtime.InteropServices.RuntimeInformation.dll" Source="..\build\bin\System.Runtime.InteropServices.RuntimeInformation.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="System.Threading.Tasks.Dataflow.dll" Guid="AC9E4ED1-DF23-4EFE-ACB4-330D2A474635">
-        <File Id="System.Threading.Tasks.Dataflow.dll" Source="..\DsmSuite.Analyzer.VisualStudio\bin\System.Threading.Tasks.Dataflow.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="System.Threading.Tasks.Dataflow.dll" Source="..\build\bin\System.Threading.Tasks.Dataflow.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="TransformerComponents" Directory="TRANSFORMER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Transformer.exe" Guid="80ECF90C-DCB4-4EDA-99CD-EEA169C57CFD">
-        <File Id="DsmSuite.Transformer.exe" Source="..\DsmSuite.Transformer\bin\DsmSuite.Transformer.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Transformer.exe" Source="..\buildr\bin\DsmSuite.Transformer.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Data.Transformer.dll" Guid="C7F1C371-63DE-4ACA-9AB6-2CBD069B7115">
-        <File Id="DsmSuite.Analyzer.Data.Transformer.dll" Source="..\DsmSuite.Analyzer.Data\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Data.Transformer.dll" Source="..\build\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Util.Transformer.dll" Guid="D7C5AB42-78C1-45A2-8798-91D5CA109C29">
-        <File Id="DsmSuite.Analyzer.Util.Transformer.dll" Source="..\DsmSuite.Analyzer.Util\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Analyzer.Util.Transformer.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
    
     <ComponentGroup Id="DsmViewerComponents" Directory="VIEWER_INSTALL_FOLDER">
       <Component Id="DsmSuite.DsmViewer.View.exe" Guid="9E39FD85-9B8E-4B76-9366-13CF6AC732B3">
-        <File Id="DsmSuite.DsmViewer.View.exe" Source="..\DsmSuite.DsmViewer.View\bin\DsmSuite.DsmViewer.View.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.DsmViewer.View.exe" Source="..\build\bin\DsmSuite.DsmViewer.View.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.DsmViewer.ViewModel.dll" Guid="2E011513-1100-4610-A661-EE667AC06151">
-        <File Id="DsmSuite.DsmViewer.ViewModel.dll" Source="..\DsmSuite.DsmViewer.ViewModel\bin\DsmSuite.DsmViewer.ViewModel.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.DsmViewer.ViewModel.dll" Source="..\build\bin\DsmSuite.DsmViewer.ViewModel.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.DsmViewer.Application.dll" Guid="79D6350F-8069-41A7-9A40-F75D928FE985">
-        <File Id="DsmSuite.DsmViewer.Application.dll" Source="..\DsmSuite.DsmViewer.ViewModel\bin\DsmSuite.DsmViewer.Application.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.DsmViewer.Application.dll" Source="..\build\bin\DsmSuite.DsmViewer.Application.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.DsmViewer.Reporting.dll" Guid="91272EB7-BD46-40DE-A4D0-7BE1444D804A">
-        <File Id="DsmSuite.DsmViewer.Reporting.dll" Source="..\DsmSuite.DsmViewer.ViewModel\bin\DsmSuite.DsmViewer.Reporting.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.DsmViewer.Reporting.dll" Source="..\build\bin\DsmSuite.DsmViewer.Reporting.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.DsmViewer.Builder.exe" Guid="A655CDCD-C0C6-4651-B2D6-C6524DA0DE58">
-        <File Id="DsmSuite.DsmViewer.Builder.exe" Source="..\DsmSuite.DsmViewer.Builder\bin\DsmSuite.DsmViewer.Builder.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.DsmViewer.Builder.exe" Source="..\build\bin\DsmSuite.DsmViewer.Builder.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.DsmViewer.Model.dll" Guid="4F1F0718-89B7-4BF1-8AFD-97F6D62D553E">
-        <File Id="DsmSuite.DsmViewer.Model.dll" Source="..\DsmSuite.DsmViewer.Model\bin\DsmSuite.DsmViewer.Model.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.DsmViewer.Model.dll" Source="..\build\bin\DsmSuite.DsmViewer.Model.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.DsmViewer.Util.dll" Guid="A754691F-643C-4D3F-A1B1-87F079447FCF">
-        <File Id="DsmSuite.DsmViewer.Util.dll" Source="..\DsmSuite.DsmViewer.Util\bin\DsmSuite.DsmViewer.Util.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.DsmViewer.Util.dll" Source="..\build\bin\DsmSuite.DsmViewer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
     
