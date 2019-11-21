@@ -1,7 +1,14 @@
+Release/
+Debug/
+x86/
+x64/
 bin/
+obj/
 *.suo
 *.user
 *.exe
 *.msi
-obj/
+*.tlog
+*.lastbuildstate
+
 packages/
