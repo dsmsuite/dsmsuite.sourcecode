@@ -5,6 +5,8 @@ x64/
 bin/
 obj/
 *.suo
+*.obj
+*.pdb
 *.user
 *.exe
 *.msi
