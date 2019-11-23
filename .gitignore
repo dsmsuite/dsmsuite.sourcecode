@@ -1,15 +1,4 @@
-Release/
-Debug/
-x86/
-x64/
-bin/
-obj/
-IInterface1.h
-IInterface1_i.c
-IInterface1_p.c
-IInterface2.h
-IInterface2_i.c
-IInterface2_p.c
+build/
 *.suo
 *.tlb
 *.obj

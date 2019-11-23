@@ -2,13 +2,13 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="*" Name="DSM Suite" Language="1033" Version="$(var.LongAssyVersion)" Manufacturer="DsmSuite" UpgradeCode="C0C28C50-44C7-40DE-AA35-0F13437D7E19">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-
+    
     <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
 
     <MajorUpgrade Schedule="afterInstallInitialize"
                   DowngradeErrorMessage="A later version of the DSM suite C++ analyzer is already installed"
                   AllowSameVersionUpgrades="yes" />
-
+   
     <ComponentGroup Id="CppAnalyzerComponents" Directory="CPP_ANALYZER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Analyzer.Cpp.exe" Guid="7A2AAB67-FC9C-4BE1-AD30-F91C96EF06CC">
         <File Id="DsmSuite.Analyzer.Cpp.exe" Source="..\build\bin\DsmSuite.Analyzer.Cpp.Exe" KeyPath="yes" Checksum="yes"/>
@@ -165,6 +165,13 @@
         <RegistryValue Root="HKCU" Key="Software\Microsoft\MyApplicationName" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
+
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+    
+    <UI>
+      <UIRef Id="WixUI_FeatureTree"/>
+      <UIRef Id="WixUI_ErrorProgressText"/>
+    </UI>
 
     <Feature Id="CppAnalyzerFeature" Title="DSM Suite C++ Analyzer" Level="1">
       <ComponentRef Id="DsmSuite.Analyzer.Cpp.exe" />
