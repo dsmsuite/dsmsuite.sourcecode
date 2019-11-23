@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Fri Nov 22 12:26:36 2019
+/* at Sat Nov 23 10:50:36 2019
  */
 /* Compiler settings for DirIDL\IInterface1.idl:
     Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.00.0603 

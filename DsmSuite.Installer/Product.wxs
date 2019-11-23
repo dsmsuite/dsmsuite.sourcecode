@@ -67,9 +67,6 @@
       <Component Id="DsmSuite.Analyzer.Util.Uml.dll" Guid="DC2DBE4B-3611-4FAF-A141-1B61F57952FB">
         <File Id="DsmSuite.Analyzer.Util.Uml.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="Interop.EA.dll" Guid="EE1DDB3F-0A45-410D-AC5D-40C761E86CCE">
-        <File Id="Interop.EA.dll" Source="..\build\libs\Interop.EA.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="VisualStudioAnalyzerComponents" Directory="VISUALSTUDIO_ANALZYER_INSTALL_FOLDER">
@@ -107,7 +104,7 @@
 
     <ComponentGroup Id="TransformerComponents" Directory="TRANSFORMER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Transformer.exe" Guid="80ECF90C-DCB4-4EDA-99CD-EEA169C57CFD">
-        <File Id="DsmSuite.Transformer.exe" Source="..\buildr\bin\DsmSuite.Transformer.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="DsmSuite.Transformer.exe" Source="..\build\bin\DsmSuite.Transformer.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Data.Transformer.dll" Guid="C7F1C371-63DE-4ACA-9AB6-2CBD069B7115">
         <File Id="DsmSuite.Analyzer.Data.Transformer.dll" Source="..\build\bin\DsmSuite.Analyzer.Data.dll" KeyPath="yes" Checksum="yes"/>
@@ -116,7 +113,7 @@
         <File Id="DsmSuite.Analyzer.Util.Transformer.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
-   
+
     <ComponentGroup Id="DsmViewerComponents" Directory="VIEWER_INSTALL_FOLDER">
       <Component Id="DsmSuite.DsmViewer.View.exe" Guid="9E39FD85-9B8E-4B76-9366-13CF6AC732B3">
         <File Id="DsmSuite.DsmViewer.View.exe" Source="..\build\bin\DsmSuite.DsmViewer.View.exe" KeyPath="yes" Checksum="yes"/>
@@ -140,15 +137,17 @@
         <File Id="DsmSuite.DsmViewer.Util.dll" Source="..\build\bin\DsmSuite.DsmViewer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
-    
+
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="MAINFOLDER" Name="DsmSuite">
-          <Directory  Id="CPP_ANALYZER_INSTALL_FOLDER" Name="C++" />
-          <Directory  Id="DOTNET_ANALYZER_INSTALL_FOLDER" Name="C#" />
-          <Directory  Id="JAVA_ANALYZER_INSTALL_FOLDER" Name="Java" />
-          <Directory  Id="UML_ANALYZER_INSTALL_FOLDER" Name="UML" />
-          <Directory  Id="VISUALSTUDIO_ANALZYER_INSTALL_FOLDER" Name="VisualStudio" />
+          <Directory Id="ANALYZERS" Name="Analyzers">
+            <Directory  Id="CPP_ANALYZER_INSTALL_FOLDER" Name="C++" />
+            <Directory  Id="DOTNET_ANALYZER_INSTALL_FOLDER" Name="C#" />
+            <Directory  Id="JAVA_ANALYZER_INSTALL_FOLDER" Name="Java" />
+            <Directory  Id="UML_ANALYZER_INSTALL_FOLDER" Name="UML" />
+            <Directory  Id="VISUALSTUDIO_ANALZYER_INSTALL_FOLDER" Name="VisualStudio" />
+          </Directory>
           <Directory  Id="TRANSFORMER_INSTALL_FOLDER" Name="Transformer" />
           <Directory  Id="VIEWER_INSTALL_FOLDER" Name="Viewer" />
         </Directory>
@@ -166,7 +165,7 @@
         <RegistryValue Root="HKCU" Key="Software\Microsoft\MyApplicationName" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
-    
+
     <Feature Id="CppAnalyzerFeature" Title="DSM Suite C++ Analyzer" Level="1">
       <ComponentRef Id="DsmSuite.Analyzer.Cpp.exe" />
       <ComponentRef Id="DsmSuite.Analyzer.Data.Cpp.dll" />
@@ -193,7 +192,6 @@
       <ComponentRef Id="DsmSuite.Analyzer.Uml.exe" />
       <ComponentRef Id="DsmSuite.Analyzer.Data.Uml.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Util.Uml.dll" />
-      <ComponentRef Id="Interop.EA.dll" />
     </Feature>
 
     <Feature Id="VisualStudioAnalyzerFeature" Title="DSM Suite Visual Studio Analyzer" Level="1">

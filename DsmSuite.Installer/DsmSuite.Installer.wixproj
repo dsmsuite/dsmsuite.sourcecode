@@ -36,7 +36,7 @@
     <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <Target Name="BeforeBuild"> 
-    <GetAssemblyIdentity AssemblyFiles="$(SolutionDir)DsmSuite.Analyzer.Cpp\bin\DsmSuite.Analyzer.Cpp.exe"> 
+    <GetAssemblyIdentity AssemblyFiles="$(SolutionDir)build\bin\DsmSuite.DsmViewer.View.exe"> 
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersions" /> 
     </GetAssemblyIdentity> 
     <CreateProperty Value="%(AssemblyVersions.Version)"> 

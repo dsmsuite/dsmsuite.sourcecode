@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="..\PropertySheets\CommonProperties.csproj" />  
+  <Import Project="..\PropertySheets\DsmSuite.Common.props" />  
   <PropertyGroup>
     <ProjectGuid>{02E53D79-D1F8-4D2F-8568-15A8585B42F9}</ProjectGuid>
     <OutputType>Exe</OutputType>
