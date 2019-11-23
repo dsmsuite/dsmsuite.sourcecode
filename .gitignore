@@ -1,4 +1,6 @@
 build/
+packages/
+idloutput/
 *.suo
 *.tlb
 *.obj
@@ -10,5 +12,4 @@ build/
 *.opendb
 *.db
 *.lastbuildstate
-
-packages/
+*.bak

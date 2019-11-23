@@ -207,6 +207,14 @@
       <TypeLibraryName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MyTypeLibrary.tlb</TypeLibraryName>
       <TypeLibraryName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MyTypeLibrary.tlb</TypeLibraryName>
       <TypeLibraryName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MyTypeLibrary.tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename)_i.c</InterfaceIdentifierFileName>
+      <InterfaceIdentifierFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename)_i.c</InterfaceIdentifierFileName>
+      <InterfaceIdentifierFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename)_i.c</InterfaceIdentifierFileName>
+      <InterfaceIdentifierFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename)_i.c</InterfaceIdentifierFileName>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(FolderIdlOutput)</OutputDirectory>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(FolderIdlOutput)</OutputDirectory>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(FolderIdlOutput)</OutputDirectory>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(FolderIdlOutput)</OutputDirectory>
     </Midl>
     <Midl Include="DirIDL\IInterface2.idl">
       <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(FolderIdlOutput)</OutputDirectory>
