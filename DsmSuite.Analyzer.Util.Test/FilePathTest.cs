@@ -33,15 +33,6 @@ namespace DsmSuite.Analyzer.Util.Test
             Assert.AreEqual(@"C:\temp\TestFileCopy.txt", output);
         }
 
-        [TestMethod]
-        public void TestFilePathIsRelative3()
-        {
-            string input = @"..\TestFile.txt";
-            string path = @"C:\temp\TestDir";
-            string output = FilePath.ResolveFile(path, input);
-            Assert.AreEqual(Path.Combine(RootDirectory, "TestFile.txt"), output);
-        }
-
         public static string RootDirectory
         {
             get

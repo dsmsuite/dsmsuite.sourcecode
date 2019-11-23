@@ -134,9 +134,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             Assert.IsTrue(providerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirIDL\IInterface2.idl")));
             Assert.AreEqual(2, providerNames.Count);
 
-            Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IInterface1.h"))); // Using %(Filename).h setting
-            Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IInterface1_i.c"))); // Using empty setting
-            Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"MyTypeLibrary.tlb"))); // Using explicit setting
+            Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IdlOutput\IInterface1.h"))); // Using %(Filename).h setting
+            Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IdlOutput\IInterface1_i.c"))); // Using empty setting
+            Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IdlOutput\MyTypeLibrary.tlb"))); // Using explicit setting
 
             Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IdlOutput\IInterface2.h"))); // Using %(Filename).h setting
             Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IdlOutput\IInterface2_i.c"))); // Using empty setting

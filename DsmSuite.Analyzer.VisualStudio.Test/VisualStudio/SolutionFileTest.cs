@@ -13,29 +13,29 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
         public void TestSolutionNameWithGroupName()
         {
             string testDataDirectory = TestData.TestDataDirectory;
-            string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.Analyzers.sln"));
+            string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.sln"));
 
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             SolutionFile solutionFile = new SolutionFile("GroupName", solutionFilename, analyzerSettings);
-            Assert.AreEqual("GroupName.DsmSuite.Analyzers.sln", solutionFile.Name);
+            Assert.AreEqual("GroupName.DsmSuite.sln", solutionFile.Name);
         }
 
         [TestMethod]
         public void TestSolutionNameWithoutGroup()
         {
             string testDataDirectory = TestData.TestDataDirectory;
-            string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.Analyzers.sln"));
+            string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.sln"));
 
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             SolutionFile solutionFile = new SolutionFile(null, solutionFilename, analyzerSettings);
-            Assert.AreEqual("DsmSuite.Analyzers.sln", solutionFile.Name);
+            Assert.AreEqual("DsmSuite.sln", solutionFile.Name);
         }
 
         [TestMethod]
         public void TestVcxProjectFoundInCorrectFolder()
         {
             string testDataDirectory = TestData.TestDataDirectory;
-            string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.Analyzers.sln"));
+            string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.sln"));
 
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             SolutionFile solutionFile = new SolutionFile(null, solutionFilename, analyzerSettings);

@@ -16,7 +16,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
         {
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             analyzerSettings.ViewMode = ViewMode.LogicalView;
-            analyzerSettings.SolutionGroups[0].SolutionFilenames.Add(Path.Combine(TestData.SolutionDirectory, "DsmSuite.Analyzers.sln"));
+            analyzerSettings.SolutionGroups[0].SolutionFilenames.Add(Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln"));
             analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path=Path.Combine(TestData.TestDataDirectory, "DirExternal"), ResolveAs= "External" });
             analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
@@ -42,49 +42,49 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
                 }
             }
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA1.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA3.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA3.h"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderC.ClassC1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderC.ClassC1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderC.ClassC1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderC.ClassC1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderD.ClassD1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderD.ClassD1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderD.ClassD1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderD.ClassD1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderClones.Identical.ClassA1.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderClones.Identical.CopyClassA1.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderClones.NotIdentical.ClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderClones.Identical.ClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderClones.Identical.CopyClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderClones.NotIdentical.ClassA1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface1.idl"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface1_i.c"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.MyTypeLibrary.tlb"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface1.idl"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface1_i.c"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.MyTypeLibrary.tlb"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface2.idl"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface2.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface2_i.c"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.DsmSuite.Analyzer.VisualStudio.Test.Data.tlb"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface2.idl"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface2.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface2_i.c"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.DsmSuite.Analyzer.VisualStudio.Test.Data.tlb"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).targetver.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).targetver.h"));
 
             Assert.IsTrue(elementNames.Contains("External.External.h"));
 
-            HashSet<string> classA2ProviderNames = providerNames["DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.cpp"];
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA1.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderC.ClassC1.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderD.ClassD1.h"));
+            HashSet<string> classA2ProviderNames = providerNames["DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.cpp"];
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA1.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderC.ClassC1.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderD.ClassD1.h"));
 
             Assert.IsTrue(classA2ProviderNames.Contains("External.External.h"));
 
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzers.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA3.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA3.h"));
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
         {
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             analyzerSettings.ViewMode = ViewMode.PhysicalView;
-            analyzerSettings.SolutionGroups[0].SolutionFilenames.Add(Path.Combine(TestData.SolutionDirectory, "DsmSuite.Analyzers.sln"));
+            analyzerSettings.SolutionGroups[0].SolutionFilenames.Add(Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln"));
             analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path = Path.Combine(TestData.TestDataDirectory, "DirExternal"), ResolveAs = "External" });
             analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             analyzerSettings.RootDirectory = TestData.SolutionDirectory;
@@ -139,9 +139,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirClones.NotIdentical.ClassA1.cpp"));
 
             Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirIDL.IInterface1.idl"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IInterface1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IInterface1_i.c"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.MyTypeLibrary.tlb"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IdlOutput.IInterface1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IdlOutput.IInterface1_i.c"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IdlOutput.MyTypeLibrary.tlb"));
 
             Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirIDL.IInterface2.idl"));
             Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IdlOutput.IInterface2.h"));
