@@ -139,7 +139,7 @@
     </ComponentGroup>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
+      <Directory Id="ProgramFiles64Folder">
         <Directory Id="MAINFOLDER" Name="DsmSuite">
           <Directory Id="ANALYZERS" Name="Analyzers">
             <Directory  Id="CPP_ANALYZER_INSTALL_FOLDER" Name="C++" />
