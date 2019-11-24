@@ -143,7 +143,7 @@
         <Directory Id="MAINFOLDER" Name="DsmSuite">
           <Directory Id="ANALYZERS" Name="Analyzers">
             <Directory  Id="CPP_ANALYZER_INSTALL_FOLDER" Name="C++" />
-            <Directory  Id="DOTNET_ANALYZER_INSTALL_FOLDER" Name="C#" />
+            <Directory  Id="DOTNET_ANALYZER_INSTALL_FOLDER" Name="DotNet" />
             <Directory  Id="JAVA_ANALYZER_INSTALL_FOLDER" Name="Java" />
             <Directory  Id="UML_ANALYZER_INSTALL_FOLDER" Name="UML" />
             <Directory  Id="VISUALSTUDIO_ANALZYER_INSTALL_FOLDER" Name="VisualStudio" />
