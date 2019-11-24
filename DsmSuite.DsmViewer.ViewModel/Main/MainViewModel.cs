@@ -262,7 +262,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool MoveUpCanExecute(object parameter)
         {
-            return _application.HasChildren(SelectedProvider?.Element) && !_application.IsFirstChild(SelectedProvider?.Element);
+            IElement current = SelectedProvider?.Element;
+            IElement previous = current?.PreviousSibling;
+            return (current != null) && (previous != null);
         }
 
         private void MoveDownExecute(object parameter)
@@ -278,7 +280,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool MoveDownCanExecute(object parameter)
         {
-            return _application.HasChildren(SelectedProvider?.Element) && !_application.IsLastChild(SelectedProvider?.Element);
+            IElement current = SelectedProvider?.Element;
+            IElement next = current?.NextSibling;
+            return (current != null) && (next != null);
         }
 
         private void ZoomInExecute(object parameter)
