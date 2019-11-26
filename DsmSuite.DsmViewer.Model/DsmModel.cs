@@ -168,6 +168,11 @@ namespace DsmSuite.DsmViewer.Model
             return _dependencyModel.GetElementByFullname(fullname);
         }
 
+        public IEnumerable<IElement> GetElementsWithFullnameContainingText(string text)
+        {
+            return _dependencyModel.GetElementsWithFullnameContainingText(text);
+        }
+
         public int GetDependencyWeight(IElement consumer, IElement provider)
         {
             return _dependencyModel.GetDependencyWeight(consumer.Id, provider.Id);

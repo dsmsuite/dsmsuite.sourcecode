@@ -32,5 +32,7 @@ namespace DsmSuite.DsmViewer.Application
 
         int GetDependencyWeight(IElement consumer, IElement provider);
         bool IsCyclicDependency(IElement consumer, IElement provider);
+
+        IEnumerable<IElement> SearchExecute(string text);
     }
 }

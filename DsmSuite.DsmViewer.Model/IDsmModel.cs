@@ -26,6 +26,7 @@ namespace DsmSuite.DsmViewer.Model
 
         IElement GetElementById(int id);
         IElement GetElementByFullname(string fullname);
+        IEnumerable<IElement> GetElementsWithFullnameContainingText(string text);
 
         void RemoveElement(int id);
         void RestoreElement(int id);

@@ -206,6 +206,18 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         }
 
         /// <summary>
+        /// Get element by its fully qualified name. This name can change when editing the model.
+        /// </summary>
+        /// <param name="fullname">The fully qualified element name to be looked for</param>
+        /// <returns></returns>
+        public IEnumerable<IElement> GetElementsWithFullnameContainingText(string text)
+        {
+            return from element in _elementsById.Values
+                   where element.Fullname.Contains(text)
+                   select element;
+        }
+
+        /// <summary>
         /// The number of elements in the model (minus root element)
         /// </summary>
         public int ElementCount => _elementsById.Count;

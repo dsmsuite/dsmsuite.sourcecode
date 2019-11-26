@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using DsmSuite.DsmViewer.Application;
 using DsmSuite.DsmViewer.Util;
 using DsmSuite.DsmViewer.ViewModel.Lists;
+using System.Linq;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -40,6 +41,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private readonly IDsmModel _model;
         private string _modelFilename;
         private string _title;
+        private string _searchText;
+        private bool _found;
 
         private bool _showCycles;
         private bool _isModified;
@@ -74,11 +77,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             OverviewReportCommand = new RelayCommand<object>(OverviewReportExecute, OverviewReportCanExecute);
 
+            SearchCommand = new RelayCommand<object>(SearchExecute, SearchCanExecute);
+
             ModelFilename = "";
             Title = "DSM Viewer";
             ShowCycles = false;
             IsModified = false;
             IsLoaded = false;
+            SearchText = "";
 
             _progressViewModel = new ProgressViewModel();
         }
@@ -119,6 +125,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand ZoomOutCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
         public ICommand OverviewReportCommand { get; }
+        public ICommand SearchCommand { get; }
 
         public string ModelFilename
         {
@@ -148,6 +155,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             get { return _title; }
             set { _title = value; OnPropertyChanged(); }
+        }
+
+        public string SearchText
+        {
+            get { return _searchText; }
+            set { _searchText = value; OnPropertyChanged(); OnRunSearch(); }
         }
 
         public ProgressViewModel ProgressViewModel
@@ -339,6 +352,22 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private bool OverviewReportCanExecute(object parameter)
         {
             return true;
+        }
+
+        private void OnRunSearch()
+        {
+            IEnumerable<IElement> foundElements = _application.SearchExecute(SearchText);
+            _found = foundElements.Count() == 1;
+        }
+
+        private void SearchExecute(object parameter)
+        {
+
+        }
+
+        private bool SearchCanExecute(object parameter)
+        {
+            return _found;
         }
     }
 }

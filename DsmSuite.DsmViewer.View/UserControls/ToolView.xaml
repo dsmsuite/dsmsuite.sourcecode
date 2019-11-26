@@ -23,6 +23,9 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>
              <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show overview report" Command="{Binding OverviewReportCommand}" Content="{StaticResource ReportIcon}"/>
+            <Separator/>
+            <TextBox Width="100" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Search" Command="{Binding SearchCommand}" Content="{StaticResource ReportIcon}"/>            
         </ToolBar>
     </Grid>
 </UserControl>

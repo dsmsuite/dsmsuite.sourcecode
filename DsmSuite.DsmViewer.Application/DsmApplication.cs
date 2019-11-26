@@ -146,5 +146,10 @@ namespace DsmSuite.DsmViewer.Application
         {
             return _model.IsCyclicDependency(consumer, provider);
         }
+
+        public IEnumerable<IElement> SearchExecute(string text)
+        {
+            return _model.GetElementsWithFullnameContainingText(text);
+        }
     }
 }
