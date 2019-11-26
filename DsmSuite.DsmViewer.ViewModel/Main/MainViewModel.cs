@@ -42,7 +42,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _modelFilename;
         private string _title;
         private string _searchText;
-        private bool _found;
+        private IElement _foundElement;
 
         private bool _showCycles;
         private bool _isModified;
@@ -77,7 +77,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             OverviewReportCommand = new RelayCommand<object>(OverviewReportExecute, OverviewReportCanExecute);
 
-            SearchCommand = new RelayCommand<object>(SearchExecute, SearchCanExecute);
+            NavigateToCommand = new RelayCommand<object>(NavigateToExecute, NavigateToCanExecute);
 
             ModelFilename = "";
             Title = "DSM Viewer";
@@ -125,7 +125,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand ZoomOutCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
         public ICommand OverviewReportCommand { get; }
-        public ICommand SearchCommand { get; }
+        public ICommand NavigateToCommand { get; }
 
         public string ModelFilename
         {
@@ -186,7 +186,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 ActiveMatrix = new MatrixViewModel(this, _application, _application.RootElements);
             }
         }
-        
+
         private bool OpenFileCanExecute(object parameter)
         {
             string fileToOpen = parameter as string;
@@ -228,7 +228,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void PartitionExecute(object parameter)
         {
-            _application.Sort(SelectedProvider?.Element,"Partition");
+            _application.Sort(SelectedProvider?.Element, "Partition");
             ActiveMatrix.Reload();
         }
 
@@ -357,17 +357,54 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private void OnRunSearch()
         {
             IEnumerable<IElement> foundElements = _application.SearchExecute(SearchText);
-            _found = foundElements.Count() == 1;
+            if (foundElements.Count() == 1)
+            {
+                _foundElement = foundElements.FirstOrDefault();
+            }
+            else
+            {
+                _foundElement = null;
+            }
         }
 
-        private void SearchExecute(object parameter)
+        private void NavigateToExecute(object parameter)
         {
-
+            ExpandElement(_foundElement);
+            SelectElement(ActiveMatrix.Providers, _foundElement);
         }
 
-        private bool SearchCanExecute(object parameter)
+        private void ExpandElement(IElement element)
         {
-            return _found;
+            IElement current = element.Parent;
+            while (current != null)
+            {
+                current.IsExpanded = true;
+                current = current.Parent;
+            }
+            ActiveMatrix?.Reload();
+        }
+
+        private void SelectElement(IEnumerable<ElementTreeItemViewModel> providers, IElement element)
+        {
+            foreach (ElementTreeItemViewModel item in providers)
+            {
+                if (_foundElement.Id == item.Id)
+                {
+                    if (ActiveMatrix != null)
+                    {
+                        ActiveMatrix.SelectedProvider = item;
+                    }
+                }
+                else
+                {
+                    SelectElement(item.Children, element);
+                }
+            }
+        }
+
+        private bool NavigateToCanExecute(object parameter)
+        {
+            return _foundElement != null;
         }
     }
 }
