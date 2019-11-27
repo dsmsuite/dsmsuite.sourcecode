@@ -12,6 +12,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public string Content { get; set; }
     }
 
+    public enum SearchState
+    {
+        NoMatch,
+        OneMatch,
+        ManyMatches
+    }
+
     public interface IMainViewModel : INotifyPropertyChanged
     {
         void NotifyReportCreated(ReportViewModel report);

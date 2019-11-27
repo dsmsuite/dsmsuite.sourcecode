@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="300"
+             d:DesignHeight="30" d:DesignWidth="600"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              ScrollViewer.VerticalScrollBarVisibility="Disabled"
              Loaded="ToolView_OnLoaded" Background="{StaticResource BackgroundColor}">
@@ -24,7 +24,7 @@
              <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show overview report" Command="{Binding OverviewReportCommand}" Content="{StaticResource ReportIcon}"/>
             <Separator/>
-            <TextBox Width="100" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Width="300" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateConverter}}" />
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Navigate to" Command="{Binding NavigateToCommand}" Content="{StaticResource ReportIcon}"/>            
         </ToolBar>
     </Grid>

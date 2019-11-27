@@ -19,4 +19,5 @@
     <valueConverters:DependencyWeightConverter x:Key="DependencyWeightConverter" />
     <valueConverters:ExpandedRotationConverter x:Key="ExpandedRotationConverter" />
     <valueConverters:ExpandableIconConverter x:Key="ExpandableIconConverter" />
+    <valueConverters:SearchStateConverter x:Key="SearchStateConverter" />
 </ResourceDictionary>

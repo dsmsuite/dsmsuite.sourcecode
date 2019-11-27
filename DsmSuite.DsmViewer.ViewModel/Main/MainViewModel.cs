@@ -43,6 +43,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _title;
         private string _searchText;
         private IElement _foundElement;
+        private SearchState _searchState;
 
         private bool _showCycles;
         private bool _isModified;
@@ -161,6 +162,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             get { return _searchText; }
             set { _searchText = value; OnPropertyChanged(); OnRunSearch(); }
+        }
+
+        public SearchState SearchState
+        {
+            get { return _searchState; }
+            set { _searchState = value; OnPropertyChanged(); }
         }
 
         public ProgressViewModel ProgressViewModel
@@ -357,13 +364,25 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private void OnRunSearch()
         {
             IEnumerable<IElement> foundElements = _application.SearchExecute(SearchText);
-            if (foundElements.Count() == 1)
+            int count = foundElements.Count();
+            if (count > 1)
+            {
+                _foundElement = null;
+                SearchState = SearchState.ManyMatches;
+            }
+            else if (count == 1)
             {
                 _foundElement = foundElements.FirstOrDefault();
+                if (SearchText != _foundElement.Fullname)
+                {
+                    SearchText = _foundElement.Fullname;
+                }
+                SearchState = SearchState.OneMatch;
             }
             else
             {
                 _foundElement = null;
+                SearchState = SearchState.NoMatch;
             }
         }
 
