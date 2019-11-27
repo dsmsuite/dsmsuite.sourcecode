@@ -8,7 +8,7 @@
     <MajorUpgrade Schedule="afterInstallInitialize"
                   DowngradeErrorMessage="A later version of the DSM suite C++ analyzer is already installed"
                   AllowSameVersionUpgrades="yes" />
-   
+    
     <ComponentGroup Id="CppAnalyzerComponents" Directory="CPP_ANALYZER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Analyzer.Cpp.exe" Guid="7A2AAB67-FC9C-4BE1-AD30-F91C96EF06CC">
         <File Id="DsmSuite.Analyzer.Cpp.exe" Source="..\build\bin\DsmSuite.Analyzer.Cpp.Exe" KeyPath="yes" Checksum="yes"/>
@@ -152,16 +152,19 @@
           <Directory  Id="VIEWER_INSTALL_FOLDER" Name="Viewer" />
         </Directory>
       </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Dsm Suite"/>
+      </Directory>
     </Directory>
 
-    <DirectoryRef Id="VIEWER_INSTALL_FOLDER">
+    <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="633CDBBD-AA1E-4F46-9375-49984FFBC033">
         <Shortcut Id="ApplicationStartMenuShortcut"
-                  Name="DSM dependency viewer WPF"
-                  Description="Application to software dependencies in a matrix WPF"
+                  Name="DSM dependency viewer"
+                  Description="Application to software dependencies in a matrix"
                   Target="[#DsmSuite.DsmViewer.View.exe]"
-                  WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
-        <RemoveFolder Id="CleanUpShortCut" Directory="VIEWER_INSTALL_FOLDER" On="uninstall"/>
+                  WorkingDirectory="VIEWER_INSTALL_FOLDER"/>
+        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="Software\Microsoft\MyApplicationName" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
