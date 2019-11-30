@@ -1,69 +1,162 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.Common.Util.Test
 {
-    /// <summary>
-    /// Summary description for CompressedFileTest
-    /// </summary>
     [TestClass]
-    public class CompressedFileTest
+    public class CompressedFileTest : IProgress<int>
     {
-        public CompressedFileTest()
+        private List<string> _lines = new List<string>();
+        private int _progress;
+
+        [TestInitialize]
+        public void TestInitialize()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            _lines.Clear();
+            _progress = 0;
         }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
+        
+        [TestMethod]
+        public void TestFileDoesNotExist()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            CompressedFile file = new CompressedFile(NotExistingFilePath);
+            Assert.IsFalse(file.FileExists);
         }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void TestIsUncompressedFile()
         {
-            //
-            // TODO: Add test logic here
-            //
+            CompressedFile file = new CompressedFile(UncompressedFilePath);
+            Assert.IsTrue(file.FileExists);
+            Assert.IsFalse(file.IsCompressed);
+        }
+
+        [TestMethod]
+        public void TestIsCompressedFile()
+        {
+            CompressedFile file = new CompressedFile(CompressedFilePath);
+            Assert.IsTrue(file.FileExists);
+            Assert.IsTrue(file.IsCompressed);
+        }
+
+        [TestMethod]
+        public void TestReadUncompressedFile()
+        {
+            CompressedFile file = new CompressedFile(UncompressedFilePath);
+            Assert.IsTrue(file.FileExists);
+            file.ReadFile(ReadContent, this);
+            Assert.AreEqual(4, _progress);
+            Assert.AreEqual(4, _lines.Count);
+            Assert.AreEqual("line0", _lines[0]);
+            Assert.AreEqual("line1", _lines[1]);
+            Assert.AreEqual("line2", _lines[2]);
+            Assert.AreEqual("line3", _lines[3]);
+        }
+
+        [TestMethod]
+        public void TestReadCompressedFile()
+        {
+            CompressedFile file = new CompressedFile(CompressedFilePath);
+            Assert.IsTrue(file.FileExists);
+            file.ReadFile(ReadContent, this);
+            Assert.AreEqual(4, _progress);
+            Assert.AreEqual(4, _lines.Count);
+            Assert.AreEqual("line0", _lines[0]);
+            Assert.AreEqual("line1", _lines[1]);
+            Assert.AreEqual("line2", _lines[2]);
+            Assert.AreEqual("line3", _lines[3]);
+        }
+
+        [TestMethod]
+        public void TestWriteAndReadbackUncompressedFile()
+        {
+            string newPath = NewFilePath;
+            CompressedFile writtenFile = new CompressedFile(newPath);
+            Assert.IsFalse(writtenFile.FileExists);
+            writtenFile.WriteFile(WriteContent, this, false);
+            Assert.AreEqual(4, _progress);
+
+            _progress = 0;
+
+            CompressedFile readFile = new CompressedFile(newPath);
+            Assert.IsTrue(readFile.FileExists);
+            readFile.ReadFile(ReadContent, this);
+            Assert.AreEqual(4, _progress);
+            Assert.AreEqual(4, _lines.Count);
+            Assert.AreEqual("line0", _lines[0]);
+            Assert.AreEqual("line1", _lines[1]);
+            Assert.AreEqual("line2", _lines[2]);
+            Assert.AreEqual("line3", _lines[3]);
+        }
+
+        [TestMethod]
+        public void TestWriteAndReadbackCompressedFile()
+        {
+            string newPath = NewFilePath;
+            CompressedFile writtenFile = new CompressedFile(newPath);
+            Assert.IsFalse(writtenFile.FileExists);
+            writtenFile.WriteFile(WriteContent, this, true);
+            Assert.AreEqual(4, _progress);
+
+            _progress = 0;
+
+            CompressedFile readFile = new CompressedFile(newPath);
+            Assert.IsTrue(readFile.FileExists);
+            readFile.ReadFile(ReadContent, this);
+            Assert.AreEqual(4, _progress);
+            Assert.AreEqual(4, _lines.Count);
+            Assert.AreEqual("line0", _lines[0]);
+            Assert.AreEqual("line1", _lines[1]);
+            Assert.AreEqual("line2", _lines[2]);
+            Assert.AreEqual("line3", _lines[3]);
+        }
+
+        private void ReadContent(Stream stream, IProgress<int> progress)
+        {
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string line;
+                int lineCount = 0;
+                do
+                {
+                    line = reader.ReadLine();
+                    if (line != null)
+                    {
+                        _lines.Add(line);
+                        lineCount++;
+                        progress.Report(lineCount);
+                    }
+                } while (line != null);
+            }
+        }
+
+        private void WriteContent(Stream stream, IProgress<int> progress)
+        {
+            using (StreamWriter writer = new StreamWriter(stream))
+            {
+                for (int lineCount = 0; lineCount < 4; lineCount++)
+                {
+                    writer.WriteLine($"line{lineCount}");
+                    progress.Report(lineCount+1);
+                }
+            }
+        }
+
+        private static string NotExistingFilePath => @"C:\Temp\TestFile.txt";
+
+        private static string UncompressedFilePath => @"C:\Temp\TestFileCopy.txt";
+
+        private static string CompressedFilePath => @"C:\Temp\TestFileCopy.zip";
+
+        private static string NewFilePath => $@"C:\Temp\File{Guid.NewGuid().ToString()}.txt";
+
+        public void Report(int progress)
+        {
+            _progress = progress;
         }
     }
 }

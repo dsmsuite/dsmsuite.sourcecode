@@ -7,6 +7,7 @@ namespace DsmSuite.Common.Util
     public class CompressedFile
     {
         private readonly FileInfo _fileInfo;
+        private readonly bool _isCompressed;
         private const int ZipLeadBytes = 0x04034b50;
 
         public delegate void ReadContent(Stream stream, IProgress<int> progress);
@@ -15,11 +16,16 @@ namespace DsmSuite.Common.Util
         public CompressedFile(string filename)
         {
             _fileInfo = new FileInfo(filename);
+            _isCompressed = false;
+            if (_fileInfo.Exists)
+            {
+                _isCompressed = DetectZipLeadBytes();
+            }
         }
 
         public void ReadFile(ReadContent readContent, IProgress<int> progress)
         {
-            if (IsCompressedFile())
+            if (_isCompressed)
             {
                 using (ZipArchive archive = ZipFile.OpenRead(_fileInfo.FullName))
                 {
@@ -49,7 +55,7 @@ namespace DsmSuite.Common.Util
                 {
                     using (ZipArchive archive = new ZipArchive(fileStream, ZipArchiveMode.Create, false))
                     {
-                        ZipArchiveEntry entry = archive.CreateEntry(GetZipfileEntryName());
+                        ZipArchiveEntry entry = archive.CreateEntry(_fileInfo.Name);
                         using (Stream entryStream = entry.Open())
                         {
                             writeContent(entryStream, progress);
@@ -66,7 +72,11 @@ namespace DsmSuite.Common.Util
             }
         }
 
-        private bool IsCompressedFile()
+        public bool FileExists => _fileInfo.Exists;
+
+        public bool IsCompressed => _isCompressed;
+
+        private bool DetectZipLeadBytes()
         {
             bool isCompressedFile = false;
 
@@ -81,11 +91,6 @@ namespace DsmSuite.Common.Util
             }
 
             return isCompressedFile;
-        }
-
-        private string GetZipfileEntryName()
-        {
-            return _fileInfo.Name;
         }
     }
 }

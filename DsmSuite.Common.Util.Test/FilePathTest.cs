@@ -32,15 +32,5 @@ namespace DsmSuite.Common.Util.Test
             string output = FilePath.ResolveFile(path, input);
             Assert.AreEqual(@"C:\temp\TestFileCopy.txt", output);
         }
-
-        public static string RootDirectory
-        {
-            get
-            {
-                string testData = @"..\..\DsmSuite.Analyzer.Util.Test";
-                string pathExecutingAssembly = AppDomain.CurrentDomain.BaseDirectory;
-                return Path.GetFullPath(Path.Combine(pathExecutingAssembly, testData));
-            }
-        }
     }
 }
