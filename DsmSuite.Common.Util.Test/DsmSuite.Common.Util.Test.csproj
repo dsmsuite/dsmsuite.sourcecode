@@ -70,6 +70,9 @@
       <Name>DsmSuite.Common.Util</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="TestFile.zip" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
@@ -92,6 +95,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir c:\Temp\TestDir
-copy /Y $(ProjectDir)TestFile.txt c:\Temp\TestFileCopy.txt</PostBuildEvent>
+copy /Y $(ProjectDir)TestFile.txt c:\Temp\TestFileCopy.txt
+copy /Y $(ProjectDir)TestFile.zip c:\Temp\TestFileCopy.zip</PostBuildEvent>
   </PropertyGroup>
 </Project>
