@@ -19,6 +19,11 @@ namespace DsmSuite.DsmViewer.View.Windows
             InitializeComponent();
         }
 
+        public void OpenModel(string filename)
+        {
+            _mainViewModel.OpenFileCommand.Execute(filename);
+        }
+
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             DsmModel model = new DsmModel("Viewer", Assembly.GetExecutingAssembly());
@@ -27,9 +32,24 @@ namespace DsmSuite.DsmViewer.View.Windows
             _mainViewModel.ReportCreated += OnReportCreated;
             _mainViewModel.ElementsReportReady += OnElementsReportReady;
             _mainViewModel.RelationsReportReady += OnRelationsReportReady;
+            _mainViewModel.ProgressViewModel.BusyChanged += OnProgressViewModelBusyChanged;
+
             DataContext = _mainViewModel;
 
-            _mainViewModel.ProgressViewModel.BusyChanged += OnProgressViewModelBusyChanged;
+            OpenModelFile();
+        }
+
+        private void OpenModelFile()
+        {
+            App app = System.Windows.Application.Current as App;
+            if ((app != null) && (app.CommandLineArguments.Length == 1))
+            {
+                string filename = app.CommandLineArguments[0];
+                if (filename.EndsWith(".dsm"))
+                {
+                    _mainViewModel.OpenFileCommand.Execute(filename);
+                }
+            }
         }
 
         private void OnElementsReportReady(object sender, ViewModel.Lists.ElementListViewModel e)

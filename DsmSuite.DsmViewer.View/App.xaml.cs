@@ -14,9 +14,13 @@ namespace DsmSuite.DsmViewer.View
     {
         private readonly string settingFile = "ViewerSettings.xml";
 
+        public string[] CommandLineArguments { get; protected set; }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             Logger.LogAssemblyInfo(Assembly.GetExecutingAssembly());
+
+            CommandLineArguments = e.Args;
 
             FileInfo settingsFileInfo = new FileInfo(settingFile);
             if (settingsFileInfo.Exists)
