@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using DsmSuite.DsmViewer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.Builder
 {

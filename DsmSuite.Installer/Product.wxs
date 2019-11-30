@@ -133,8 +133,8 @@
       <Component Id="DsmSuite.DsmViewer.Model.dll" Guid="4F1F0718-89B7-4BF1-8AFD-97F6D62D553E">
         <File Id="DsmSuite.DsmViewer.Model.dll" Source="..\build\bin\DsmSuite.DsmViewer.Model.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="DsmSuite.DsmViewer.Util.dll" Guid="A754691F-643C-4D3F-A1B1-87F079447FCF">
-        <File Id="DsmSuite.DsmViewer.Util.dll" Source="..\build\bin\DsmSuite.DsmViewer.Util.dll" KeyPath="yes" Checksum="yes"/>
+      <Component Id="DsmSuite.Commom.Util.dll" Guid="A754691F-643C-4D3F-A1B1-87F079447FCF">
+        <File Id="DsmSuite.Commom.Util.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
 
@@ -230,7 +230,7 @@
       <ComponentRef Id="DsmSuite.DsmViewer.Reporting.dll" />
       <ComponentRef Id="DsmSuite.DsmViewer.Builder.exe" />
       <ComponentRef Id="DsmSuite.DsmViewer.Model.dll" />
-      <ComponentRef Id="DsmSuite.DsmViewer.Util.dll" />
+      <ComponentRef Id="DsmSuite.Commom.Util.dll" />
       <ComponentRef Id="ApplicationShortcut" />
     </Feature>
   </Product>

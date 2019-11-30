@@ -3,7 +3,6 @@ using System.IO;
 using System.Xml;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Files.Base;
-using DsmSuite.DsmViewer.Util;
 
 namespace DsmSuite.DsmViewer.Model.Files.Dsm
 {

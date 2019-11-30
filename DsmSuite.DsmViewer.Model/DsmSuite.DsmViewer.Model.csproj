@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="..\PropertySheets\DsmSuite.Common.props" />  
+  <Import Project="..\PropertySheets\DsmSuite.Common.props" />
   <PropertyGroup>
     <ProjectGuid>{AE2405C6-54CA-43B1-BCF0-36B7010C0F0E}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -48,12 +48,11 @@
     <Compile Include="Dependencies\Element.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DsmSuite.DsmViewer.Util\DsmSuite.DsmViewer.Util.csproj">
-      <Project>{7f3beab0-6c24-42da-8134-f09499c8d306}</Project>
-      <Name>DsmSuite.DsmViewer.Util</Name>
+    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
+      <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
+      <Name>DsmSuite.Common.Util</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

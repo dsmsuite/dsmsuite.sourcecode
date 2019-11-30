@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Windows;
-using DsmSuite.DsmViewer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.View
 {

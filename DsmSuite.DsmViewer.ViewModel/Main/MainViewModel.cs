@@ -8,9 +8,7 @@ using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Reporting;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
-using System.Windows.Threading;
 using DsmSuite.DsmViewer.Application;
-using DsmSuite.DsmViewer.Util;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 using System.Linq;
 

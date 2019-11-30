@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DsmSuite.DsmViewer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.Model.Dependencies
 {

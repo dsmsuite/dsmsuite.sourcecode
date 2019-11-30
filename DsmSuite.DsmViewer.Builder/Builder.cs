@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Files.Dsi;
-using DsmSuite.DsmViewer.Util;
 
 namespace DsmSuite.DsmViewer.Builder
 {

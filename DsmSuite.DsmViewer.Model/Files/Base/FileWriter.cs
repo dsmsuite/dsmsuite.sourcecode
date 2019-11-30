@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
-using DsmSuite.DsmViewer.Util;
 
 namespace DsmSuite.DsmViewer.Model.Files.Base
 {

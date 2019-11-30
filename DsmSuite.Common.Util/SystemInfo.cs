@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace DsmSuite.DsmViewer.Util
+namespace DsmSuite.Common.Util
 {
     public class SystemInfo
     {

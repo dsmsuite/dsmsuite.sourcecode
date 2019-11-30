@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
+using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Files.Base;
-using DsmSuite.DsmViewer.Util;
 
 namespace DsmSuite.DsmViewer.Model.Files.Dsi
 {

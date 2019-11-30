@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Algorithms;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Files;
 using DsmSuite.DsmViewer.Model.Files.Dsm;
-using DsmSuite.DsmViewer.Util;
 
 namespace DsmSuite.DsmViewer.Model
 {

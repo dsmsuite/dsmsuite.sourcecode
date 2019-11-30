@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace DsmSuite.DsmViewer.Util
+namespace DsmSuite.Common.Util
 {
     /// <summary>
     /// Provides logging to be used for diagnostic purposes
