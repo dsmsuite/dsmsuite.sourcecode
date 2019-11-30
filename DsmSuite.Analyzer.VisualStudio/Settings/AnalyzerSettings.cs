@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
-namespace DsmSuite.Analyzer.VisualStudio.Analysis
+namespace DsmSuite.Analyzer.VisualStudio.Settings
 {
     [Serializable]
     public class ExternalIncludeDirectory

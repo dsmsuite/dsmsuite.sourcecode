@@ -2,7 +2,8 @@
 using System.Reflection;
 using DsmSuite.Analyzer.Data;
 using DsmSuite.Analyzer.Util;
-using DsmSuite.Transformer.Transformation;
+using DsmSuite.Common.Util;
+using DsmSuite.Transformer.Settings;
 
 namespace DsmSuite.Transformer
 {
@@ -25,7 +26,10 @@ namespace DsmSuite.Transformer
                 else
                 {
                     TransformerSettings transformerSettings = TransformerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.LoggingEnabled = transformerSettings.LoggingEnabled;
+                    if (transformerSettings.LoggingEnabled)
+                    {
+                        Logger.EnableLogging(Assembly.GetExecutingAssembly());
+                    }
 
                     if (!File.Exists(transformerSettings.InputFilename))
                     {
@@ -42,7 +46,7 @@ namespace DsmSuite.Transformer
                 }
             }
 
-            Logger.Flush();
+            AnalyzerLogger.Flush();
         }
     }
 }

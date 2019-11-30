@@ -4,7 +4,6 @@ using System.Reflection;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Algorithms;
 using DsmSuite.DsmViewer.Model.Dependencies;
-using DsmSuite.DsmViewer.Model.Files;
 using DsmSuite.DsmViewer.Model.Files.Dsm;
 
 namespace DsmSuite.DsmViewer.Model

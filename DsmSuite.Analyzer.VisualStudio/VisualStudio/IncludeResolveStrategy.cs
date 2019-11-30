@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -20,25 +21,13 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             _systemIncludeDirectories = systemIncludeDirectories;
         }
 
-        public IReadOnlyCollection<string> ProjectIncludeDirectories
-        {
-            get { return _projectIncludeDirectories; }
-        }
+        public IReadOnlyCollection<string> ProjectIncludeDirectories => _projectIncludeDirectories;
 
-        public IReadOnlyCollection<string> InterfaceIncludeDirectories
-        {
-            get { return _interfaceIncludeDirectories; }
-        }
+        public IReadOnlyCollection<string> InterfaceIncludeDirectories => _interfaceIncludeDirectories;
 
-        public IReadOnlyCollection<string> ExternalIncludeDirectories
-        {
-            get { return _externalIncludeDirectories; }
-        }
+        public IReadOnlyCollection<string> ExternalIncludeDirectories => _externalIncludeDirectories;
 
-        public IReadOnlyCollection<string> SystemIncludeDirectories
-        {
-            get { return _systemIncludeDirectories; }
-        }
+        public IReadOnlyCollection<string> SystemIncludeDirectories => _systemIncludeDirectories;
 
         public string Resolve(string sourceFile, string relativeIncludeFilename)
         {
@@ -71,12 +60,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
             catch (Exception e)
             {
-                Logger.LogException(e, "include=" + relativeIncludeFilename);
+                Logger.LogException($"Resolve failed include={relativeIncludeFilename}", e);
             }
 
             if (resolvedIncludeFilename == null)
             {
-                Logger.LogErrorIncludeFileNotFound(relativeIncludeFilename, sourceFile);
+                AnalyzerLogger.LogErrorIncludeFileNotFound(relativeIncludeFilename, sourceFile);
             }
 
             return resolvedIncludeFilename;

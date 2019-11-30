@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
-using DsmSuite.Analyzer.VisualStudio.Analysis;
+using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.Test.Util;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -113,7 +113,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirIDL\IInterface1.idl")));
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirIDL\IInterface2.idl")));
 
-            Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"targetver.h")));
+            Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, "targetver.h")));
 
             Assert.AreEqual(25, projectFile.SourceFiles.Count); // 19 files plus 6 IDL generated files
         }

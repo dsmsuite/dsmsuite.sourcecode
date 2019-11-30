@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using DsmSuite.Analyzer.VisualStudio.Analysis;
+using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.Test.Util;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

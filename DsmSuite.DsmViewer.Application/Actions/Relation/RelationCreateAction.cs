@@ -1,7 +1,5 @@
-﻿using System;
-using DsmSuite.DsmViewer.Application.Actions.Base;
+﻿using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Model.Actions.Base;
-using Microsoft.SqlServer.Server;
 
 namespace DsmSuite.DsmViewer.Model.Actions.Relation
 {

@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 
-namespace DsmSuite.Analyzer.Data
+namespace DsmSuite.Common.Util
 {
-    class ModelFile
+    public class CompressedFile
     {
         private readonly FileInfo _fileInfo;
         private const int ZipLeadBytes = 0x04034b50;
 
-        public delegate void ReadContent(Stream stream);
-        public delegate void WriteContent(Stream stream);
+        public delegate void ReadContent(Stream stream, IProgress<int> progress);
+        public delegate void WriteContent(Stream stream, IProgress<int> progress);
 
-        public ModelFile(string filename)
+        public CompressedFile(string filename)
         {
             _fileInfo = new FileInfo(filename);
         }
 
-        public void ReadFile(ReadContent readContent)
+        public void ReadFile(ReadContent readContent, IProgress<int> progress)
         {
             if (IsCompressedFile())
             {
@@ -28,7 +27,7 @@ namespace DsmSuite.Analyzer.Data
                     {
                         using (Stream entryStream = archive.Entries[0].Open())
                         {
-                            readContent(entryStream);
+                            readContent(entryStream, progress);
                         }
                     }
                 }
@@ -37,12 +36,12 @@ namespace DsmSuite.Analyzer.Data
             {
                 using (FileStream stream = new FileStream(_fileInfo.FullName, FileMode.Open, FileAccess.Read))
                 {
-                    readContent(stream);
+                    readContent(stream, progress);
                 }
             }
         }
 
-        public void WriteFile(WriteContent writeContent, bool compressed)
+        public void WriteFile(WriteContent writeContent, IProgress<int> progress, bool compressed)
         {
             if (compressed)
             {
@@ -53,7 +52,7 @@ namespace DsmSuite.Analyzer.Data
                         ZipArchiveEntry entry = archive.CreateEntry(GetZipfileEntryName());
                         using (Stream entryStream = entry.Open())
                         {
-                            writeContent(entryStream);
+                            writeContent(entryStream, progress);
                         }
                     }
                 }
@@ -62,7 +61,7 @@ namespace DsmSuite.Analyzer.Data
             {
                 using (FileStream fileStream = new FileStream(_fileInfo.FullName, FileMode.Create))
                 {
-                    writeContent(fileStream);
+                    writeContent(fileStream, progress);
                 }
             }
         }

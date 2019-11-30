@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public class SourceFile
     {
-        private readonly string _projectFolder;
         private readonly FileInfo _sourceFileInfo;
         private readonly HashSet<string> _includes;
         private readonly string _id;
@@ -16,7 +15,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public SourceFile(string filename)
         {
-            _projectFolder = "";
+            ProjectFolder = "";
             _sourceFileInfo = new FileInfo(filename);
             _includes = new HashSet<string>();
             _id = DetermineId(_sourceFileInfo);
@@ -24,7 +23,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public SourceFile(FileInfo sourceFileInfo, string projectProjectFolder, IncludeResolveStrategy includeResolveStrategy)
         {
-            _projectFolder = projectProjectFolder;
+            ProjectFolder = projectProjectFolder;
             _sourceFileInfo = sourceFileInfo;
             _includes = new HashSet<string>();
             _id = DetermineId(sourceFileInfo);
@@ -37,7 +36,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public string FileType => (_sourceFileInfo.Extension.Length > 0) ? _sourceFileInfo.Extension.Substring(1) : "";
 
-        public string ProjectFolder => _projectFolder;
+        public string ProjectFolder { get; }
 
         public string Id => _id;
 

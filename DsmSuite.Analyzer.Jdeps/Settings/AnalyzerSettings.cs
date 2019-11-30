@@ -2,9 +2,9 @@
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
-namespace DsmSuite.Analyzer.Jdeps.Analysis
+namespace DsmSuite.Analyzer.Jdeps.Settings
 {
     /// <summary>
     /// Settings used during code analysis. Persisted in XML format using serialization.

@@ -76,7 +76,7 @@
     <Compile Include="ValueConverters\ExpandableIconConverter.cs" />
     <Compile Include="ValueConverters\SearchStateConverter.cs" />
     <Compile Include="ValueConverters\SolidColorBrushMultiplier.cs" />
-    <Compile Include="ViewerSettings.cs" />
+    <Compile Include="Settings\ViewerSettings.cs" />
     <Compile Include="Windows\ElementListView.xaml.cs">
       <DependentUpon>ElementListView.xaml</DependentUpon>
     </Compile>

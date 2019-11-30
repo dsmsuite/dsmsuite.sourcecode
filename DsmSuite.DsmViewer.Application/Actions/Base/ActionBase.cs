@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DsmSuite.DsmViewer.Model;
-using DsmSuite.DsmViewer.Model.Actions.Base;
+﻿using DsmSuite.DsmViewer.Model;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Base
 {

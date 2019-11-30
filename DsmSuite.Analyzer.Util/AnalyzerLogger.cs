@@ -3,87 +3,30 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Util
 {
     /// <summary>
     /// Provides logging to be used for diagnostic purposes
     /// </summary>
-    public static class Logger
+    public static class AnalyzerLogger
     {
-        private static readonly DirectoryInfo LogDirectory;
-
         private static readonly Dictionary<string, HashSet<string>> FilesNotFoundLogMessages;
         private static readonly Dictionary<string, HashSet<string>> PathsNotResolvedLogMessages;
         private static readonly Dictionary<string, HashSet<string>> IncludePathsNotFoundLogMessages;
         private static readonly Dictionary<string, HashSet<string>> IncludeFilesNotFoundLogMessages;
         private static readonly Dictionary<string, HashSet<string>> DataModelRelationNotResolvedLogMessages;
 
-        static Logger()
+        static AnalyzerLogger()
         {
-            DateTime now = DateTime.Now;
-            string timestamp = $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
-
-            string currentDirectory = Directory.GetCurrentDirectory();
-            LogDirectory = Directory.CreateDirectory(currentDirectory + @"\Log_" + timestamp + @"\");
-
             FilesNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
             PathsNotResolvedLogMessages = new Dictionary<string, HashSet<string>>();
             IncludePathsNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
             IncludeFilesNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
             DataModelRelationNotResolvedLogMessages = new Dictionary<string, HashSet<string>>();
         }
-
-        public static bool LoggingEnabled { set; private get; }
-
-        public static void LogUserMessage(string message,
-            [CallerFilePath] string file = "",
-            [CallerMemberName] string method = "",
-            [CallerLineNumber] int lineNumber = 0)
-        {
-            Console.WriteLine(message);
-            WriteLine(true, GetLogfile("userMessages.log"), FormatLine(file, method, lineNumber, "info", message));
-        }
-
-        public static void LogInfo(string message,
-                                   [CallerFilePath] string file = "",
-                                   [CallerMemberName] string method = "",
-                                   [CallerLineNumber] int lineNumber = 0)
-        {
-            WriteLine(LoggingEnabled, GetLogfile("infoMessages.log"), FormatLine(file, method, lineNumber, "info", message));
-        }
-
-        public static void LogWarning(string message,
-                                      [CallerFilePath] string file = "",
-                                      [CallerMemberName] string method = "",
-                                      [CallerLineNumber] int lineNumber = 0)
-        {
-            WriteLine(LoggingEnabled, GetLogfile("warningMessages.log"), FormatLine(file, method, lineNumber, "warning", message));
-        }
-
-        public static void LogError(string message,
-                            [CallerFilePath] string file = "",
-                            [CallerMemberName] string method = "",
-                            [CallerLineNumber] int lineNumber = 0)
-        {
-            WriteLine(LoggingEnabled, GetLogfile("errorMessages.log"), FormatLine(file, method, lineNumber, "error", message));
-        }
-
-        public static void LogException(Exception e, string additionalInfo,
-                                [CallerFilePath] string sourceFile = "",
-                                [CallerMemberName] string method = "",
-                                [CallerLineNumber] int lineNumber = 0)
-        {
-            WriteLine(LoggingEnabled, GetLogfile("exceptions.log"), FormatLine(sourceFile, method, lineNumber, "exception", e.Message + ":" + additionalInfo));
-            WriteLine(LoggingEnabled, GetLogfile("exceptions.log"), e.StackTrace);
-            WriteLine(LoggingEnabled, GetLogfile("exceptions.log"), "");
-        }
-
-        public static void LogLines(string filename, ICollection<string> lines)
-        {
-            File.WriteAllLines(LogDirectory.FullName + filename, lines);
-        }
-
+       
         public static void LogErrorFileNotFound(string filename, string context)
         {
             string key = filename;
@@ -134,18 +77,18 @@ namespace DsmSuite.Analyzer.Util
         {
             string logFile = GetLogfile("ambigiousIncludes.log");
             string message = "Include file ambiguous: " + includeFile + " in " + sourceFile;
-            WriteLine(LoggingEnabled, logFile, message);
+            WriteLine(logFile, message);
 
             foreach (Tuple<string, bool> candidate in candidates)
             {
                 string details = " resolved=" + candidate.Item2 + " file=" + candidate.Item1;
-                WriteLine(LoggingEnabled, logFile, details);
+                WriteLine(logFile, details);
             }
         }
 
         public static void LogTransformation(string actionName, string description)
         {
-            WriteLine(LoggingEnabled, GetLogfile("transformation.log"), actionName + ": " + description);
+            WriteLine(GetLogfile("transformation.log"), actionName + ": " + description);
         }
 
         public static void LogDataModelAction(string message,
@@ -153,7 +96,7 @@ namespace DsmSuite.Analyzer.Util
                     [CallerMemberName] string method = "",
                     [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine(LoggingEnabled, GetLogfile("dataModelActions.log"), FormatLine(file, method, lineNumber, "action", message));
+            WriteLine(GetLogfile("dataModelActions.log"), FormatLine(file, method, lineNumber, "action", message));
         }
 
         public static void LogDataModelRelationNotResolved(string consumerName, string providerName)
@@ -188,28 +131,28 @@ namespace DsmSuite.Analyzer.Util
 
             if (keys.Count > 0)
             {
-                WriteLine(LoggingEnabled, overviewFilename, title);
-                WriteLine(LoggingEnabled, detailsFilename, title);
+                WriteLine(overviewFilename, title);
+                WriteLine(detailsFilename, title);
 
-                WriteLine(LoggingEnabled, overviewFilename, "--------------------------------------------");
-                WriteLine(LoggingEnabled, detailsFilename, "---------------------------------------------");
+                WriteLine(overviewFilename, "--------------------------------------------");
+                WriteLine(detailsFilename, "---------------------------------------------");
             }
             
             foreach (string key in keys)
             {
                 int occurances = messages[key].Count;
                 totalOccurances += occurances;
-                WriteLine(LoggingEnabled, overviewFilename, $"{key} {occurances} occurances");
-                WriteLine(LoggingEnabled, detailsFilename, $"{key} {occurances} occurances");
+                WriteLine(overviewFilename, $"{key} {occurances} occurances");
+                WriteLine(detailsFilename, $"{key} {occurances} occurances");
                 foreach (string message in messages[key])
                 {
-                    WriteLine(LoggingEnabled, detailsFilename, "  " + message);
+                    WriteLine(detailsFilename, "  " + message);
                 }
             }
             if (keys.Count > 0)
             {
-                WriteLine(LoggingEnabled, overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");
-                WriteLine(LoggingEnabled, detailsFilename, $"{keys.Count} items found in {totalOccurances} occurances");
+                WriteLine(overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");
+                WriteLine(detailsFilename, $"{keys.Count} items found in {totalOccurances} occurances");
             }
         }
 
@@ -225,9 +168,9 @@ namespace DsmSuite.Analyzer.Util
             return parts[parts.Length - 1];
         }
 
-        private static void WriteLine(bool enabled, string filename, string line)
+        private static void WriteLine(string filename, string line)
         {
-            if (enabled)
+            if (Logger.LoggingEnabled)
             {
                 FileStream fs = new FileStream(filename, FileMode.Append, FileAccess.Write);
                 using (StreamWriter writetext = new StreamWriter(fs))
@@ -239,7 +182,7 @@ namespace DsmSuite.Analyzer.Util
 
         private static string GetLogfile(string relativeLogfile)
         {
-            return Path.GetFullPath(Path.Combine(LogDirectory.FullName, relativeLogfile));
+            return Path.GetFullPath(Path.Combine(Logger.LogDirectory.FullName, relativeLogfile));
         }
     }
 }

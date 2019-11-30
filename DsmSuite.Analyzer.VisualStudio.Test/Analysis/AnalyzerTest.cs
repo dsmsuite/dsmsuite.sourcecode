@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Data;
-using DsmSuite.Analyzer.VisualStudio.Analysis;
+using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.Test.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

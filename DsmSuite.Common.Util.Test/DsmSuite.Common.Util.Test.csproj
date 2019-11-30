@@ -55,8 +55,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="FilePathTest.cs" />
+    <Compile Include="StringExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestFile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
+      <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
+      <Name>DsmSuite.Common.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
@@ -78,4 +88,8 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir c:\Temp\TestDir
+copy /Y $(ProjectDir)TestFile.txt c:\Temp\TestFileCopy.txt</PostBuildEvent>
+  </PropertyGroup>
 </Project>

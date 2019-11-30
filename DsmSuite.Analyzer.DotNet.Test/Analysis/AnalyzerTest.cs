@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using DsmSuite.Analyzer.Data;
-using DsmSuite.Analyzer.DotNet.Analysis;
+using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.DotNet.Test.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

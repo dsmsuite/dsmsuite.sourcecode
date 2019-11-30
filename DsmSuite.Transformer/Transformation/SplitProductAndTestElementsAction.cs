@@ -1,8 +1,9 @@
 ﻿using System;
 using DsmSuite.Analyzer.Data;
-using System.Collections.Generic;
 using System.Linq;
 using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
+using DsmSuite.Transformer.Settings;
 
 namespace DsmSuite.Transformer.Transformation
 {
@@ -52,7 +53,7 @@ namespace DsmSuite.Transformer.Transformation
                 _model.RenameElement(element, newElementName);
 
                 string description = elementName + "->" + newElementName;
-                Logger.LogTransformation(ActionName, description);
+                AnalyzerLogger.LogTransformation(ActionName, description);
             }
         }
     }

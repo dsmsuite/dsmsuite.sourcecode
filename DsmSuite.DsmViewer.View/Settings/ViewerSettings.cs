@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DsmSuite.DsmViewer.View
+namespace DsmSuite.DsmViewer.View.Settings
 {
     /// <summary>
     /// Settings used by dsm builder. Persisted in XML format using serialization.

@@ -9,7 +9,7 @@ namespace DsmSuite.Analyzer.DotNet.Test.Util
         {
             get
             {
-                string testData = @"";
+                string testData = "";
                 string pathExecutingAssembly = AppDomain.CurrentDomain.BaseDirectory;
                 return Path.GetFullPath(Path.Combine(pathExecutingAssembly, testData));
             }

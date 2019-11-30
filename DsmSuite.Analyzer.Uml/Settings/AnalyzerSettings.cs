@@ -1,39 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
-namespace DsmSuite.Analyzer.DotNet.Analysis
+namespace DsmSuite.Analyzer.Uml.Settings
 {
     /// <summary>
-    /// Settings used during code analysis. Persisted in XML format using serialization.
+    /// Settings used during analysis. Persisted in XML format using serialization.
     /// </summary>
     [Serializable]
     public class AnalyzerSettings
     {
         private bool _loggingEnabled;
-        private string _assemblyDirectory;
-        private List<string> _externalNames;
+        private string _inputFilename;
         private string _outputFilename;
         private bool _compressOutputFile;
 
         public static AnalyzerSettings CreateDefault()
         {
-            AnalyzerSettings analyzerSettings = new AnalyzerSettings
+            AnalyzerSettings umlAnalyzerSettings = new AnalyzerSettings
             {
                 LoggingEnabled = true,
-                AssemblyDirectory = "",
-                ExternalNames = new List<string>(),
+                InputFilename = "Model.eap",
                 OutputFilename = "Output.dsi",
                 CompressOutputFile = true
             };
 
-            analyzerSettings.ExternalNames.Add("System.");
-            analyzerSettings.ExternalNames.Add("Microsoft.");
-            analyzerSettings.ExternalNames.Add("Interop/");
-            return analyzerSettings;
+            return umlAnalyzerSettings;
         }
 
         public bool LoggingEnabled
@@ -42,16 +36,10 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             set { _loggingEnabled = value; }
         }
 
-        public string AssemblyDirectory
+        public string InputFilename
         {
-            get { return _assemblyDirectory; }
-            set { _assemblyDirectory = value; }
-        }
-
-        public List<string> ExternalNames
-        {
-            get { return _externalNames; }
-            set { _externalNames = value; }
+            get { return _inputFilename; }
+            set { _inputFilename = value; }
         }
 
         public string OutputFilename
@@ -93,7 +81,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
         private void ResolvePaths(string settingFilePath)
         {
-            AssemblyDirectory = FilePath.ResolveFile(settingFilePath, AssemblyDirectory);
+            InputFilename = FilePath.ResolveFile(settingFilePath, InputFilename);
             OutputFilename = FilePath.ResolveFile(settingFilePath, OutputFilename);
         }
     }

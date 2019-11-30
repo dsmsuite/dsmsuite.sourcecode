@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
+using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Cpp.Sources;
 using DsmSuite.Analyzer.Data;
 using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Cpp.Analysis
 {
@@ -31,14 +33,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             RegisterSourceFiles();
             RegisterDirectIncludeRelations();
 
-            Process currentProcess = Process.GetCurrentProcess();
-            const long million = 1000000;
-            long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
-            long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
-            long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
-            Logger.LogUserMessage($" peak physical memory usage {peakWorkingSetMb:0.000}MB");
-            Logger.LogUserMessage($" peak paged memory usage    {peakPagedMemMb:0.000}MB");
-            Logger.LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
+            Logger.LogResourceUsage();
 
             stopWatch.Stop();
             Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
@@ -96,7 +91,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             }
             else
             {
-                Logger.LogErrorFileNotFound(sourceFile.Name, "source directory");
+                AnalyzerLogger.LogErrorFileNotFound(sourceFile.Name, "source directory");
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace DsmSuite.Analyzer.Util
+namespace DsmSuite.Common.Util
 {
     public static class FilePath
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -10,7 +11,7 @@ namespace DsmSuite.Common.Util
     /// </summary>
     public class Logger
     {
-        private static readonly DirectoryInfo LogDirectory;
+        public static DirectoryInfo LogDirectory { get; private set; }
 
         static Logger()
         {
@@ -19,7 +20,16 @@ namespace DsmSuite.Common.Util
             LogDirectory = Directory.CreateDirectory(@"C:\Temp\DsmSuiteTracing" + @"\Log_" + timestamp + @"\");
         }
 
-        public static bool LoggingEnabled { set; get; }
+        public static void EnableLogging(Assembly assembly)
+        {
+            LoggingEnabled = true;
+            DateTime now = DateTime.Now;
+            string timestamp = $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
+            string assemblyName = assembly.GetName().Name;
+            LogDirectory = Directory.CreateDirectory($@"C:\Temp\DsmSuiteLogging\{assemblyName}_{timestamp}\");
+        }
+
+        public static bool LoggingEnabled { get; private set; }
 
         public static void LogAssemblyInfo(Assembly assembly)
         {
@@ -30,38 +40,56 @@ namespace DsmSuite.Common.Util
         }
 
         public static void LogUserMessage(string message,
-            [CallerFilePath] string file = "",
+            [CallerFilePath] string sourceFile = "",
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
             Console.WriteLine(message);
-            WriteLine(true, GetLogfile("userMessages.log"), FormatLine(file, method, lineNumber, "info", message));
+            WriteLine(true, GetLogfile("userMessages.log"), FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
         public static void LogInfo(string message,
-                                   [CallerFilePath] string file = "",
-                                   [CallerMemberName] string method = "",
-                                   [CallerLineNumber] int lineNumber = 0)
+            [CallerFilePath] string sourceFile = "",
+            [CallerMemberName] string method = "",
+            [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine(LoggingEnabled, GetLogfile("infoMessages.log"), FormatLine(file, method, lineNumber, "info", message));
+            WriteLine(LoggingEnabled, GetLogfile("infoMessages.log"),
+                FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
         public static void LogError(string message,
-                                    [CallerFilePath] string file = "",
-                                    [CallerMemberName] string method = "",
-                                    [CallerLineNumber] int lineNumber = 0)
+            [CallerFilePath] string sourceFile = "",
+            [CallerMemberName] string method = "",
+            [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine(LoggingEnabled, GetLogfile("errorMessages.log"), FormatLine(file, method, lineNumber, "error", message));
+            WriteLine(LoggingEnabled, GetLogfile("errorMessages.log"),
+                FormatLine(sourceFile, method, lineNumber, "error", message));
         }
 
-        public static void LogException(Exception e,
-                                        [CallerFilePath] string sourceFile = "",
-                                        [CallerMemberName] string method = "",
-                                        [CallerLineNumber] int lineNumber = 0)
+        public static void LogException(string message, Exception e,
+            [CallerFilePath] string sourceFile = "",
+            [CallerMemberName] string method = "",
+            [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine(LoggingEnabled, GetLogfile("exceptions.log"), FormatLine(sourceFile, method, lineNumber, "exception", e.Message));
+            WriteLine(LoggingEnabled, GetLogfile("errorMessages.log"),
+                FormatLine(sourceFile, method, lineNumber, "error", message));
+
+            WriteLine(LoggingEnabled, GetLogfile("exceptions.log"),
+                FormatLine(sourceFile, method, lineNumber, message, e.Message));
             WriteLine(LoggingEnabled, GetLogfile("exceptions.log"), e.StackTrace);
             WriteLine(LoggingEnabled, GetLogfile("exceptions.log"), "");
+        }
+
+        public static void LogResourceUsage()
+        {
+            Process currentProcess = Process.GetCurrentProcess();
+            const long million = 1000000;
+            long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
+            long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
+            long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
+            LogUserMessage($" peak physical memory usage {peakWorkingSetMb:0.000}MB");
+            LogUserMessage($" peak paged memory usage    {peakPagedMemMb:0.000}MB");
+            LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
         }
 
         private static string FormatLine(string sourceFile, string method, int lineNumber, string catagory, string text)

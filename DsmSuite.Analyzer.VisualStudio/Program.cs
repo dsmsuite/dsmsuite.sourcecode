@@ -2,7 +2,8 @@
 using System.Reflection;
 using DsmSuite.Analyzer.Data;
 using DsmSuite.Analyzer.Util;
-using DsmSuite.Analyzer.VisualStudio.Analysis;
+using DsmSuite.Analyzer.VisualStudio.Settings;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.VisualStudio
 {
@@ -28,7 +29,10 @@ namespace DsmSuite.Analyzer.VisualStudio
                 else
                 {
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.LoggingEnabled = analyzerSettings.LoggingEnabled;
+                    if (analyzerSettings.LoggingEnabled)
+                    {
+                        Logger.EnableLogging(Assembly.GetExecutingAssembly());
+                    }
 
                     bool allFound = true;
                     foreach (SolutionGroup solutionGroup in analyzerSettings.SolutionGroups)
@@ -53,7 +57,7 @@ namespace DsmSuite.Analyzer.VisualStudio
                 }
             }
 
-            Logger.Flush();
+            AnalyzerLogger.Flush();
         }
     }
 }

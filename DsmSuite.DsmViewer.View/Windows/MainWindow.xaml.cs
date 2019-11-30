@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows;
 using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.ViewModel.Main;

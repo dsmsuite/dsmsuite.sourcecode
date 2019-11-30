@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace DsmSuite.Analyzer.Util
+namespace DsmSuite.Common.Util
 {
     public static class StringExtensions
     {

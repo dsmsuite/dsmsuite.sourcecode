@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using DsmSuite.Analyzer.Data;
-using DsmSuite.Analyzer.Util;
-using EA;
+using DsmSuite.Analyzer.Uml.Settings;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Uml.Analysis
 {
@@ -49,17 +49,10 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             }
             catch (Exception e)
             {
-                Logger.LogException(e, "reading EA model failed");
+                Logger.LogException($"Reading EA model failed file={_analyzerSettings.InputFilename}", e);
             }
 
-            Process currentProcess = Process.GetCurrentProcess();
-            const long million = 1000000;
-            long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
-            long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
-            long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
-            Logger.LogUserMessage($" peak physical memory usage {peakWorkingSetMb:0.000}MB");
-            Logger.LogUserMessage($" peak paged memory usage    {peakPagedMemMb:0.000}MB");
-            Logger.LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
+            Logger.LogResourceUsage();
 
             stopWatch.Stop();
             Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
@@ -142,7 +135,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             }
         }
 
-        private void RegisterRelation(Connector connector, string consumerName, string providerName)
+        private void RegisterRelation(EA.Connector connector, string consumerName, string providerName)
         {
             _model.AddRelation(consumerName, providerName, connector.Type, 1, "model");
         }

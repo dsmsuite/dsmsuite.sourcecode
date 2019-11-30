@@ -1,24 +1,14 @@
-﻿
-using System.Runtime.InteropServices;
-using Microsoft.SqlServer.Server;
-
-namespace DsmSuite.Transformer.Transformation
+﻿namespace DsmSuite.Transformer.Transformation
 {
     public abstract class Action
     {
-        private string _name;
-        private bool _enabled;
-
-        public Action(string name, bool enabled)
+        protected Action(string name, bool enabled)
         {
-            _name = name;
-            _enabled = enabled;
+            Name = name;
+            IsEnabled = enabled;
         }
 
-        public bool IsEnabled
-        {
-            get { return _enabled; }
-        }
+        public bool IsEnabled { get; }
 
         public void Execute()
         {
@@ -30,9 +20,6 @@ namespace DsmSuite.Transformer.Transformation
 
         protected abstract void ExecuteImpl();
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name { get; }
     }
 }

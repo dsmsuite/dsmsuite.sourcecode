@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using DsmSuite.Analyzer.Util;
-using DsmSuite.Analyzer.VisualStudio.Analysis;
+using DsmSuite.Analyzer.VisualStudio.Settings;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -185,12 +186,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
                 else
                 {
-                    Logger.LogErrorFileNotFound(absoluteProjectFilename, _solutionFileInfo.FullName);
+                    AnalyzerLogger.LogErrorFileNotFound(absoluteProjectFilename, _solutionFileInfo.FullName);
                 }
             }
             else
             {
-                Logger.LogErrorPathNotResolved(relativeProjectFilename, _solutionFileInfo.FullName);
+                AnalyzerLogger.LogErrorPathNotResolved(relativeProjectFilename, _solutionFileInfo.FullName);
             }
         }
 
@@ -206,7 +207,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
             catch (Exception e)
             {
-                Logger.LogException(e, "solution=" + _solutionFileInfo.FullName);
+                Logger.LogException($"Resolve path failed solution={_solutionFileInfo.FullName}", e);
                 return null;
             }
         }

@@ -1,8 +1,8 @@
-﻿using DsmSuite.Analyzer.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -28,7 +28,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
                 catch(Exception e)
                 {
-                    Logger.LogException(e, "Can not load filter file=" + filterFilePath);
+                    Logger.LogException($"Load filter failed file={filterFilePath}", e);
                 }
             }
         }

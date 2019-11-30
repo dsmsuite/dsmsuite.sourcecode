@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using DsmSuite.Analyzer.VisualStudio.Analysis;
+using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.Test.Util;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -70,16 +70,22 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string testDataDirectory = TestData.TestDataDirectory;
             Assert.IsNotNull(testDataDirectory);
 
-            List<string> projectIncludeDirectories = new List<string>();
-            projectIncludeDirectories.Add(Path.Combine(testDataDirectory, "DirA"));
-            projectIncludeDirectories.Add(Path.Combine(testDataDirectory, "DirB"));
+            List<string> projectIncludeDirectories = new List<string>
+            {
+                Path.Combine(testDataDirectory, "DirA"),
+                Path.Combine(testDataDirectory, "DirB")
+            };
 
-            List<string> interfaceIncludeDirectories = new List<string>();
-            interfaceIncludeDirectories.Add(Path.Combine(testDataDirectory, "DirInterfaces"));
+            List<string> interfaceIncludeDirectories = new List<string>
+            {
+                Path.Combine(testDataDirectory, "DirInterfaces")
+            };
 
-            List<string> externalIncludeDirectories = new List<string>();
-            externalIncludeDirectories.Add(Path.Combine(testDataDirectory, "DirExternal"));
-            
+            List<string> externalIncludeDirectories = new List<string>
+            {
+                Path.Combine(testDataDirectory, "DirExternal")
+            };
+
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             List<string> systemIncludeDirectories = analyzerSettings.SystemIncludeDirectories;
             return new IncludeResolveStrategy(projectIncludeDirectories, interfaceIncludeDirectories, externalIncludeDirectories, systemIncludeDirectories);

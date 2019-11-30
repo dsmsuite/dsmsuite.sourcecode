@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DsmSuite.Analyzer.Data;
+using DsmSuite.Transformer.Settings;
 using DsmSuite.Transformer.Transformation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -25,13 +26,16 @@ namespace DsmSuite.Transformer.Test.Transformation
             IElement element4Before = dataModel.FindElement("element4Name");
             Assert.IsNull(element4Before);
 
-            MoveElementsSettings moveElementsSettings = new MoveElementsSettings();
-            moveElementsSettings.Enabled = true;
-            moveElementsSettings.Rules = new List<MoveElementRule>
+            MoveElementsSettings moveElementsSettings = new MoveElementsSettings
             {
-                new MoveElementRule() {From = "element1Name", To = "element3Name"},
-                new MoveElementRule() {From = "ELEMENT2NAME", To = "element4Name"}
+                Enabled = true,
+                Rules = new List<MoveElementRule>
+                {
+                    new MoveElementRule() {From = "element1Name", To = "element3Name"},
+                    new MoveElementRule() {From = "ELEMENT2NAME", To = "element4Name"}
+                }
             };
+
             MoveElementsAction transformation = new MoveElementsAction(dataModel, moveElementsSettings);
             transformation.Execute();
 

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text.RegularExpressions;
 using DsmSuite.Analyzer.Data;
 using DsmSuite.Analyzer.Util;
+using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.VisualStudio.Analysis
 {
@@ -41,14 +42,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             RegisterDirectIncludeRelations();
             RegisterGeneratedFileRelations();
 
-            Process currentProcess = Process.GetCurrentProcess();
-            const long million = 1000000;
-            long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
-            long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
-            long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
-            Logger.LogUserMessage($" peak physical memory usage {peakWorkingSetMb:0.000}MB");
-            Logger.LogUserMessage($" peak paged memory usage    {peakPagedMemMb:0.000}MB");
-            Logger.LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
+            Logger.LogResourceUsage();
 
             stopWatch.Stop();
             Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
@@ -349,7 +343,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
             else
             {
-                Logger.LogErrorFileNotFound(sourceFile.Name, visualStudioProject.ProjectName);
+                AnalyzerLogger.LogErrorFileNotFound(sourceFile.Name, visualStudioProject.ProjectName);
             }
         }
 
@@ -424,13 +418,10 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             string name = "";
 
-            if (solutionFile != null)
+            if (!string.IsNullOrEmpty(solutionFile?.Name))
             {
-                if (!string.IsNullOrEmpty(solutionFile.Name))
-                {
-                    name += solutionFile.Name;
-                    name += ".";
-                }
+                name += solutionFile.Name;
+                name += ".";
             }
 
             if (visualStudioProject != null)

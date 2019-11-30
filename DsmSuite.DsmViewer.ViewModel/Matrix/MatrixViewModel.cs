@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.Application;
 using DsmSuite.DsmViewer.ViewModel.Lists;

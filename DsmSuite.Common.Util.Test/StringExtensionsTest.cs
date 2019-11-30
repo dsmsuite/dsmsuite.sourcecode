@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.Analyzer.Util.Test
+namespace DsmSuite.Common.Util.Test
 {
     [TestClass]
     public class StringExtensionsTest

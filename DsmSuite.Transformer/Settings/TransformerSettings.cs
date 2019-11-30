@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
-namespace DsmSuite.Transformer.Transformation
+namespace DsmSuite.Transformer.Settings
 {
     [Serializable]
     public class AddTransitiveRelationsSettings
@@ -88,14 +88,15 @@ namespace DsmSuite.Transformer.Transformation
                 CompressOutputFile = true
             };
 
-            transformerSettings.MoveElementsSettings.Rules = new List<MoveElementRule>();
-            transformerSettings.MoveElementsSettings.Rules.Add(new MoveElementRule() { From = "Header Files.", To = "Source Files." });
+            transformerSettings.MoveElementsSettings.Rules = new List<MoveElementRule>
+            {
+                new MoveElementRule() {From = "Header Files.", To = "Source Files."}
+            };
 
             transformerSettings.SplitProductAndTestElementsSettings.ProductElementIdentifier = "Src";
             transformerSettings.SplitProductAndTestElementsSettings.TestElementIdentifier = "Test";
 
-            transformerSettings.IncludeFilterSettings.Names = new List<string>();
-            transformerSettings.IncludeFilterSettings.Names.Add("SomeName");
+            transformerSettings.IncludeFilterSettings.Names = new List<string> {"SomeName"};
 
             return transformerSettings;
         }

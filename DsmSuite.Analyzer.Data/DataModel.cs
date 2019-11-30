@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
+using AnalyzerLogger = DsmSuite.Analyzer.Util.AnalyzerLogger;
 
 namespace DsmSuite.Analyzer.Data
 {
@@ -17,8 +19,8 @@ namespace DsmSuite.Analyzer.Data
         private readonly string _processStep;
         private readonly Dictionary<string, IElement> _elementsByCaseInsensitiveName;
         private int _relationCount;
-        private Dictionary<string, int> _elementTypeCount;
-        private Dictionary<string, int> _relationTypeCount;
+        private readonly Dictionary<string, int> _elementTypeCount;
+        private readonly Dictionary<string, int> _relationTypeCount;
 
         public DataModel(string processStep, Assembly executingAssembly)
         {
@@ -73,13 +75,13 @@ namespace DsmSuite.Analyzer.Data
 
         public void Load(string dsiFilename)
         {
-            Logger.LogDataModelAction("Load data model file=" + dsiFilename);
+            AnalyzerLogger.LogDataModelAction("Load data model file=" + dsiFilename);
 
-            ModelFile modelFile = new ModelFile(dsiFilename);
-            modelFile.ReadFile(ReadDsiXml);
+            CompressedFile modelFile = new CompressedFile(dsiFilename);
+            modelFile.ReadFile(ReadDsiXml, null);
         }
 
-        private void ReadDsiXml(Stream stream)
+        private void ReadDsiXml(Stream stream, IProgress<int> progress)
         {
             Dictionary<int, IElement> elementsById = new Dictionary<int, IElement>();
 
@@ -152,7 +154,7 @@ namespace DsmSuite.Analyzer.Data
 
         public void Save(string dsiFilename, bool compressFile)
         {
-            Logger.LogDataModelAction("Save data model file=" + dsiFilename);
+            AnalyzerLogger.LogDataModelAction("Save data model file=" + dsiFilename);
 
             foreach (string type in GetElementTypes())
             {
@@ -168,11 +170,11 @@ namespace DsmSuite.Analyzer.Data
             AddMetaData("Total relations resolved", $"{ResolvedRelationCount} (confidence={ResolvedRelationPercentage:0.000} %)");
 
             _metaData.Add(new KeyValuePair<string, List<KeyValuePair<string, string>>>(_processStep, _processStepMetaData));
-            ModelFile modelFile = new ModelFile(dsiFilename);
-            modelFile.WriteFile(WriteDsiXml, compressFile);
+            CompressedFile modelFile = new CompressedFile(dsiFilename);
+            modelFile.WriteFile(WriteDsiXml, null, compressFile);
         }
 
-        private void WriteDsiXml(Stream stream)
+        private void WriteDsiXml(Stream stream, IProgress<int> progress)
         {
             XmlWriterSettings settings = new XmlWriterSettings
             {
@@ -237,7 +239,7 @@ namespace DsmSuite.Analyzer.Data
 
         public IElement AddElement(string name, string type, string source)
         {
-            Logger.LogDataModelAction("Add element to data model name=" + name + " type=" + type + " source=" + source);
+            AnalyzerLogger.LogDataModelAction("Add element to data model name=" + name + " type=" + type + " source=" + source);
 
             string key = name.ToLower();
             if (!_elementsByCaseInsensitiveName.ContainsKey(key))
@@ -297,7 +299,7 @@ namespace DsmSuite.Analyzer.Data
 
         public void RenameElement(IElement element, string newName)
         {
-            Logger.LogDataModelAction("Rename element in data model from name=" + element.Name + " to name=" + newName);
+            AnalyzerLogger.LogDataModelAction("Rename element in data model from name=" + element.Name + " to name=" + newName);
             Element e = element as Element;
             if (e != null)
             {
@@ -311,7 +313,7 @@ namespace DsmSuite.Analyzer.Data
 
         public IRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
         {
-            Logger.LogDataModelAction("Add relation " + type + " from consumer=" + consumerName + " to provider=" + providerName + " in " + context);
+            AnalyzerLogger.LogDataModelAction("Add relation " + type + " from consumer=" + consumerName + " to provider=" + providerName + " in " + context);
             _relationCount++;
 
             Element consumer = FindElement(consumerName) as Element;
@@ -325,7 +327,7 @@ namespace DsmSuite.Analyzer.Data
             }
             else
             {
-                Logger.LogDataModelRelationNotResolved(consumerName, providerName);
+                AnalyzerLogger.LogDataModelRelationNotResolved(consumerName, providerName);
             }
 
             return relation;
@@ -342,9 +344,9 @@ namespace DsmSuite.Analyzer.Data
 
         public void SkipRelation(string consumerName, string providerName, string type, string context)
         {
-            Logger.LogDataModelAction("Skip relation " + type + " from consumer=" + consumerName + " to provider=" + providerName + " in " + context);
+            AnalyzerLogger.LogDataModelAction("Skip relation " + type + " from consumer=" + consumerName + " to provider=" + providerName + " in " + context);
 
-            Logger.LogDataModelRelationNotResolved(consumerName, providerName);
+            AnalyzerLogger.LogDataModelRelationNotResolved(consumerName, providerName);
             _relationCount++;
         }
 
@@ -377,10 +379,7 @@ namespace DsmSuite.Analyzer.Data
             return doesRelationExist;
         }
 
-        public int TotalRelationCount
-        {
-            get { return _relationCount; }
-        }
+        public int TotalRelationCount => _relationCount;
 
         public int ResolvedRelationCount
         {

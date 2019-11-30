@@ -2,30 +2,29 @@
 using System.Collections.Generic;
 using System.IO;
 using DsmSuite.Analyzer.Util;
-using DsmSuite.Analyzer.VisualStudio.Analysis;
+using DsmSuite.Analyzer.VisualStudio.Settings;
+using DsmSuite.Common.Util;
 using Microsoft.Build.Evaluation;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public class ProjectFile
     {
-        private readonly string _solutionFolder;
         private readonly FileInfo _projectFileInfo;
         private readonly string _solutionDir;
         private readonly HashSet<SourceFile> _sourceFiles = new HashSet<SourceFile>();
         private readonly List<string> _includeDirectories = new List<string>();
         private readonly FilterFile _filterFile;
         private readonly AnalyzerSettings _analyzerSettings;
-        private readonly string _projectName;
         private readonly List<GeneratedFileRelation> _generatedFileRelations = new List<GeneratedFileRelation>();
         private IncludeResolveStrategy _includeResolveStrategy;
 
 
         public ProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings)
         {
-            _solutionFolder = solutionFolder;
+            SolutionFolder = solutionFolder;
             _projectFileInfo = new FileInfo(projectPath);
-            _projectName = _projectFileInfo.Name;
+            ProjectName = _projectFileInfo.Name;
             _solutionDir = solutionDir;
             _analyzerSettings = analyzerSettings;
             _filterFile = new FilterFile(_projectFileInfo.FullName + ".filters");
@@ -34,9 +33,9 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public string TargetExtension { get; private set; }
 
-        public string SolutionFolder => _solutionFolder;
+        public string SolutionFolder { get; }
 
-        public string ProjectName => _projectName;
+        public string ProjectName { get; }
 
         public HashSet<SourceFile> SourceFiles => _sourceFiles;
 
@@ -83,6 +82,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                                 TargetExtension = "dll";
                                 break;
                             default:
+                                TargetExtension = "?";
                                 break;
                         }
                     }
@@ -121,7 +121,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     }
                     catch (Exception e)
                     {
-                        Logger.LogException(e, "project=" + _projectFileInfo.FullName + " file=" + projectItem.EvaluatedInclude);
+                        Logger.LogException($"Analysis failed project={_projectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
                     }
                 }
 
@@ -137,7 +137,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
             catch (Exception e)
             {
-                Logger.LogException(e, "project=" + _projectFileInfo.FullName);
+                Logger.LogException($"Exception while closing project={_projectFileInfo.FullName}", e);
             }
         }
 
@@ -162,7 +162,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
             catch (Exception e)
             {
-                Logger.LogException(e, "project=" + _projectFileInfo.FullName);
+                Logger.LogException($"Open project failed project={_projectFileInfo.FullName}", e);
             }
             return project;
         }
@@ -183,12 +183,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
                 else
                 {
-                    Logger.LogErrorFileNotFound(fileInfo.FullName, _projectFileInfo.Name);
+                    AnalyzerLogger.LogErrorFileNotFound(fileInfo.FullName, _projectFileInfo.Name);
                 }
             }
             catch (Exception e)
             {
-                Logger.LogException(e, "project=" + _projectFileInfo.FullName + " file=" + projectItem.EvaluatedInclude);
+                Logger.LogException($"Add IDL failed project={_projectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
             }
         }
 
@@ -204,12 +204,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
                 else
                 {
-                    Logger.LogErrorFileNotFound(fileInfo.FullName, _projectFileInfo.Name);
+                    AnalyzerLogger.LogErrorFileNotFound(fileInfo.FullName, _projectFileInfo.Name);
                 }
             }
             catch (Exception e)
             {
-                Logger.LogException(e, "project=" + _projectFileInfo.FullName + " file=" + projectItem.EvaluatedInclude);
+                Logger.LogException($"Add source file failed project={_projectFileInfo.FullName} file={projectItem.EvaluatedInclude}" , e);
             }
         }
 
@@ -225,12 +225,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
                 else
                 {
-                    Logger.LogErrorFileNotFound(fileInfo.FullName, _projectFileInfo.Name);
+                    AnalyzerLogger.LogErrorFileNotFound(fileInfo.FullName, _projectFileInfo.Name);
                 }
             }
             catch (Exception e)
             {
-                Logger.LogException(e, "project=" + _projectFileInfo.FullName + " file=" + projectItem.EvaluatedInclude);
+                Logger.LogException($"Add  header file failed project={_projectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
             }
         }
 
@@ -335,15 +335,18 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                         }
                         else
                         {
-                            outputDir = Path.GetFullPath(Path.Combine(_projectFileInfo.DirectoryName, metaData.EvaluatedValue));
-                            if (Directory.Exists(outputDir))
+                            if (_projectFileInfo != null)
                             {
-                                outputDirectory = outputDir;
+                                outputDir = Path.GetFullPath(Path.Combine(_projectFileInfo.DirectoryName, metaData.EvaluatedValue));
+                                if (Directory.Exists(outputDir))
+                                {
+                                    outputDirectory = outputDir;
+                                }
                             }
                         }
 
                     }
-                };
+                }
             }
             return outputDirectory;
         }
@@ -360,7 +363,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     {
                         headerFileName = metaData.EvaluatedValue.Replace("%(Filename)", filename);
                     }
-                };
+                }
             }
             return headerFileName;
         }
@@ -377,7 +380,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     {
                         interfaceIdentifierFileName = metaData.EvaluatedValue.Replace("%(Filename)", filename);
                     }
-                };
+                }
             }
             return interfaceIdentifierFileName;
         }
@@ -394,7 +397,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     {
                         typeLibraryFilename = metaData.EvaluatedValue.Replace("%(Filename)", filename);
                     }
-                };
+                }
             }
             return typeLibraryFilename;
         }
@@ -442,13 +445,13 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                                         }
                                         else
                                         {
-                                            Logger.LogErrorIncludePathNotFound(resolvedIncludeDirectory, evaluatedProject.FullPath);
+                                            AnalyzerLogger.LogErrorIncludePathNotFound(resolvedIncludeDirectory, evaluatedProject.FullPath);
                                         }
                                     }
                                 }
                                 catch (Exception)
                                 {
-                                    Logger.LogErrorPathNotResolved(includeDirectory, evaluatedProject.FullPath);
+                                    AnalyzerLogger.LogErrorPathNotResolved(includeDirectory, evaluatedProject.FullPath);
                                 }
                             }
                         }
@@ -465,7 +468,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
                 else
                 {
-                    Logger.LogErrorIncludePathNotFound(externalIncludeDirectory.Path, evaluatedProject.FullPath);
+                    AnalyzerLogger.LogErrorIncludePathNotFound(externalIncludeDirectory.Path, evaluatedProject.FullPath);
                 }
             }
 
@@ -478,7 +481,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
                 else
                 {
-                    Logger.LogErrorIncludePathNotFound(interfaceIncludeDirectory, evaluatedProject.FullPath);
+                    AnalyzerLogger.LogErrorIncludePathNotFound(interfaceIncludeDirectory, evaluatedProject.FullPath);
                 }
             }
 

@@ -32,14 +32,7 @@ namespace DsmSuite.DsmViewer.Builder
             _model.AssignElementOrder();
             _model.SaveModel(_builderSettings.OutputFilename, _builderSettings.CompressOutputFile, null);
 
-            Process currentProcess = Process.GetCurrentProcess();
-            const long million = 1000000;
-            long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
-            long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
-            long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
-            Logger.LogUserMessage($" peak physical memory usage {peakWorkingSetMb:0.000}MB");
-            Logger.LogUserMessage($" peak paged memory usage    {peakPagedMemMb:0.000}MB");
-            Logger.LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
+            Logger.LogResourceUsage();
 
             stopWatch.Stop();
             Logger.LogUserMessage($" total elapsed time = {stopWatch.Elapsed}");

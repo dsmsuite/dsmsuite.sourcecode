@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using DsmSuite.Analyzer.Data;
-using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
+using DsmSuite.Transformer.Settings;
 
 namespace DsmSuite.Transformer.Transformation
 {
@@ -18,15 +19,17 @@ namespace DsmSuite.Transformer.Transformation
 
         public void Transform()
         {
-            List<Action> actions = new List<Action>();
+            List<Action> actions = new List<Action>
+            {
+                new IncludeFilterAction(_model, _transformerSettings.IncludeFilterSettings),
+                new PreFixSingleRootAction(_model, _transformerSettings.PreFixSingleRootSettings.Enabled),
+                new MoveHeaderElementsAction(_model, _transformerSettings.MoveHeaderElementsSettings.Enabled),
+                new MoveElementsAction(_model, _transformerSettings.MoveElementsSettings),
+                new AddTransitiveRelationsAction(_model, _transformerSettings.AddTransitiveRelationsSettings.Enabled),
+                new SplitProductAndTestElementsAction(_model, _transformerSettings.SplitProductAndTestElementsSettings)
+            };
 
-            actions.Add(new IncludeFilterAction(_model, _transformerSettings.IncludeFilterSettings));
-            actions.Add(new PreFixSingleRootAction(_model, _transformerSettings.PreFixSingleRootSettings.Enabled));
-            actions.Add(new MoveHeaderElementsAction(_model, _transformerSettings.MoveHeaderElementsSettings.Enabled));
-            actions.Add(new MoveElementsAction(_model, _transformerSettings.MoveElementsSettings));
-            actions.Add(new AddTransitiveRelationsAction(_model, _transformerSettings.AddTransitiveRelationsSettings.Enabled));
-            actions.Add(new SplitProductAndTestElementsAction(_model, _transformerSettings.SplitProductAndTestElementsSettings));
-            
+
             foreach (Action action in actions)
             {
                 _model.AddMetaData(action.Name, action.IsEnabled ? "Enabled" : "Disabled");
@@ -40,14 +43,7 @@ namespace DsmSuite.Transformer.Transformation
                 Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
             }
 
-            Process currentProcess = Process.GetCurrentProcess();
-            const long million = 1000000;
-            long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
-            long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
-            long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
-            Logger.LogUserMessage($" peak physical memory usage {peakWorkingSetMb:0.000}MB");
-            Logger.LogUserMessage($" peak paged memory usage    {peakPagedMemMb:0.000}MB");
-            Logger.LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
+            Logger.LogResourceUsage();
         }
     }
 }

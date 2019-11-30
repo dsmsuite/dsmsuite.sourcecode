@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
-using DsmSuite.Analyzer.VisualStudio.Analysis;
+using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.Test.Util;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -89,13 +89,17 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
         {
             string testDataDirectory = TestData.TestDataDirectory;
             FileInfo fileInfo1 = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA2.cpp"));
-            List<string> projectIncludes = new List<string>();
-            projectIncludes.Add(Path.Combine(testDataDirectory, "DirA"));
-            projectIncludes.Add(Path.Combine(testDataDirectory, "DirB"));
-            projectIncludes.Add(Path.Combine(testDataDirectory, "DirC"));
-            projectIncludes.Add(Path.Combine(testDataDirectory, "DirD"));
-            List<string> interfaceIncludes = new List<string>();
-            interfaceIncludes.Add(Path.Combine(testDataDirectory, "DirInterfaces"));
+            List<string> projectIncludes = new List<string>
+            {
+                Path.Combine(testDataDirectory, "DirA"),
+                Path.Combine(testDataDirectory, "DirB"),
+                Path.Combine(testDataDirectory, "DirC"),
+                Path.Combine(testDataDirectory, "DirD")
+            };
+            List<string> interfaceIncludes = new List<string>
+            {
+                Path.Combine(testDataDirectory, "DirInterfaces")
+            };
             List<string> externalIncludes = new List<string>();
             projectIncludes.Add(Path.Combine(testDataDirectory, "DirExternal"));
             List<string> systemIncludes = AnalyzerSettings.CreateDefault().SystemIncludeDirectories;

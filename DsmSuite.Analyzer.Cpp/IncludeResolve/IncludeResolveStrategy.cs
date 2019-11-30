@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Cpp.IncludeResolve
 {
@@ -62,7 +63,7 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
             }
             catch (Exception e)
             {
-                Util.Logger.LogException(e, "include=" + relativeIncludeFilename);
+                Logger.LogException($"Get candidates failed include={relativeIncludeFilename}", e);
             }
 
             return candidates;
@@ -77,7 +78,7 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
                 candidateInfo.Add(new Tuple<string, bool>(candidate.Filename, candidate.Resolved));
             }
 
-            Util.Logger.LogErrorIncludeFileAmbigious(sourceFilename, relativeIncludeFilename, candidateInfo);
+            Util.AnalyzerLogger.LogErrorIncludeFileAmbigious(sourceFilename, relativeIncludeFilename, candidateInfo);
         }
     }
 }

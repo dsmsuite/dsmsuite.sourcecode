@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Data;
-using DsmSuite.Analyzer.DotNet.Analysis;
+using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.DotNet
 {
@@ -25,7 +26,10 @@ namespace DsmSuite.Analyzer.DotNet
                 else
                 {
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.LoggingEnabled = analyzerSettings.LoggingEnabled;
+                    if (analyzerSettings.LoggingEnabled)
+                    {
+                        Logger.EnableLogging(Assembly.GetExecutingAssembly());
+                    }
 
                     if (!Directory.Exists(analyzerSettings.AssemblyDirectory))
                     {
@@ -41,7 +45,7 @@ namespace DsmSuite.Analyzer.DotNet
                 }
             }
 
-            Logger.Flush();
+            AnalyzerLogger.Flush();
         }
     }
 }

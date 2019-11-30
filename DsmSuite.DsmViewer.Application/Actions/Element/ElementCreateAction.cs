@@ -1,5 +1,4 @@
-﻿using System;
-using DsmSuite.DsmViewer.Application.Actions.Base;
+﻿using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Model.Actions.Base;
 
 namespace DsmSuite.DsmViewer.Model.Actions.Element

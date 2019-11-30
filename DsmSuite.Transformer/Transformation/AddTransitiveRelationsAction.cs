@@ -97,7 +97,7 @@ namespace DsmSuite.Transformer.Transformation
                 _model.AddRelation(consumer.Name, provider.Name, type, 1, "transformer");
 
                 string description = "consumer=" + consumer.Name + " provider=" + provider.Name;
-                Logger.LogTransformation(ActionName, description);
+                AnalyzerLogger.LogTransformation(ActionName, description);
             }
         }
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
-namespace DsmSuite.Analyzer.Cpp.Analysis
+namespace DsmSuite.Analyzer.Cpp.Settings
 {
     /// <summary>
     /// Because this analyzer does not uses include paths, included files can be ambiguous. This enum defines how to resolve this.

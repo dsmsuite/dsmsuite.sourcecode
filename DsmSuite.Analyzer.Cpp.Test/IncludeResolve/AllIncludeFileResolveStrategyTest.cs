@@ -17,9 +17,9 @@ namespace DsmSuite.Analyzer.Cpp.Test.IncludeResolve
 
             List<string> includePaths = new List<string>
             {
-                Path.Combine(TestData.RootDirectory, @"PackageA1"),
-                Path.Combine(TestData.RootDirectory, @"PackageA2"),
-                Path.Combine(TestData.RootDirectory, @"PackageA3")
+                Path.Combine(TestData.RootDirectory, "PackageA1"),
+                Path.Combine(TestData.RootDirectory, "PackageA2"),
+                Path.Combine(TestData.RootDirectory, "PackageA3")
             };
             IIncludeResolveStrategy includeResolveStrategy = new AllIncludeFileResolveStrategy(includePaths);
             IList<string> includes = includeResolveStrategy.Resolve(implementationFile, headerFile);

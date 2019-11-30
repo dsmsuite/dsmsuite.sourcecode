@@ -1,9 +1,8 @@
 ﻿using System.Reflection;
-using DsmSuite.DsmViewer.Builder;
 using DsmSuite.DsmViewer.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmBuilder.Test
+namespace DsmSuite.DsmViewer.Builder.Test
 {
     [TestClass]
     public class BuildIntegrationTest

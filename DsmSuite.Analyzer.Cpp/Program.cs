@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Reflection;
-using DsmSuite.Analyzer.Cpp.Analysis;
+using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Data;
 using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Cpp
 {
@@ -26,7 +27,10 @@ namespace DsmSuite.Analyzer.Cpp
                 else
                 {
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.LoggingEnabled = analyzerSettings.LoggingEnabled;
+                    if (analyzerSettings.LoggingEnabled)
+                    {
+                        Logger.EnableLogging(Assembly.GetExecutingAssembly());
+                    }
 
                     DataModel model = new DataModel("Analyzer", Assembly.GetExecutingAssembly());
                     Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
@@ -35,7 +39,7 @@ namespace DsmSuite.Analyzer.Cpp
                 }
             }
 
-            Logger.Flush();
+            AnalyzerLogger.Flush();
         }
     }
 }

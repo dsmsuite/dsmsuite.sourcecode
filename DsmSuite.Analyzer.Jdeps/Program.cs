@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Data;
-using DsmSuite.Analyzer.Jdeps.Analysis;
+using DsmSuite.Analyzer.Jdeps.Settings;
 using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Jdeps
 {
@@ -25,7 +26,10 @@ namespace DsmSuite.Analyzer.Jdeps
                 else
                 {
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.LoggingEnabled = analyzerSettings.LoggingEnabled;
+                    if (analyzerSettings.LoggingEnabled)
+                    {
+                        Logger.EnableLogging(Assembly.GetExecutingAssembly());
+                    }
 
                     if (!File.Exists(analyzerSettings.InputFilename))
                     {
@@ -41,7 +45,7 @@ namespace DsmSuite.Analyzer.Jdeps
                 }
             }
 
-            Logger.Flush();
+            AnalyzerLogger.Flush();
         }
     }
 }

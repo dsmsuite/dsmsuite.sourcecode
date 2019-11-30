@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
 using DsmSuite.DsmViewer.Model.Dependencies;
-using DsmSuite.DsmViewer.Model.Files;
 using DsmSuite.DsmViewer.Model.Files.Dsm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

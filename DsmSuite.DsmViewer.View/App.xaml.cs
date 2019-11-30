@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.View.Settings;
 
 namespace DsmSuite.DsmViewer.View
 {
@@ -21,7 +22,10 @@ namespace DsmSuite.DsmViewer.View
             if (settingsFileInfo.Exists)
             {
                 ViewerSettings viewerSettings = ViewerSettings.ReadFromFile(settingsFileInfo.FullName);
-                Logger.LoggingEnabled = viewerSettings.LoggingEnabled;
+                if (viewerSettings.LoggingEnabled)
+                {
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly());
+                }
             }
             
             PresentationTraceSources.Refresh();
@@ -32,14 +36,7 @@ namespace DsmSuite.DsmViewer.View
 
         protected override void OnExit(ExitEventArgs e)
         {
-            Process currentProcess = Process.GetCurrentProcess();
-            const long million = 1000000;
-            long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
-            long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
-            long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
-            Logger.LogUserMessage($" peak physical memory usage {peakWorkingSetMb:0.000}MB");
-            Logger.LogUserMessage($" peak paged memory usage    {peakPagedMemMb:0.000}MB");
-            Logger.LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
+            Logger.LogResourceUsage();
 
             base.OnExit(e);
         }

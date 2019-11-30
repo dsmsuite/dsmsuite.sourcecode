@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using DsmSuite.Analyzer.Cpp.Analysis;
+using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Cpp.Sources;
 using DsmSuite.Analyzer.Cpp.Test.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
