@@ -7,36 +7,16 @@ namespace DsmSuite.Analyzer.Model.Data
     /// </summary>
     public class Element : IElement
     {
-        public Element(int elementId, string name, string type, string soure){
-            ElementId = elementId;
+        public Element(int id, string name, string type, string source){
+            Id = id;
             Name = name;
             Type = type;
-            Source = soure;
+            Source = source;
         }
 
-        public int ElementId { get; }
-
+        public int Id { get; }
         public string Name { get; set;}
-
         public string Type { get; }
         public string Source { get; }
-
-        public override int GetHashCode()
-        {
-            return ElementId;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((Element)obj);
-        }
-
-        private bool Equals(Element other)
-        {
-            return string.Equals(Name, other.Name);
-        }
     }
 }

@@ -48,16 +48,23 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DataModelTest.cs" />
+    <Compile Include="Core\DataModelTest.cs" />
+    <Compile Include="Data\ElementTest.cs" />
+    <Compile Include="Data\MetaDataItemTest.cs" />
+    <Compile Include="Data\RelationTest.cs" />
+    <Compile Include="Persistency\DsiModelFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Test.dsi" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">

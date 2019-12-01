@@ -12,7 +12,7 @@ namespace DsmSuite.Analyzer.Model.Core
     /// <summary>
     /// The data model maintains data item and allows persisting them to a file.
     /// </summary>
-    public class DataModel : IDataModel
+    public class DataModel : IDataModel, IDsiModelFileCallback
     {
         private readonly List<string> _metaDataGroupNames;
         private readonly Dictionary<string, List<IMetaDataItem>> _metaDataGroups;
@@ -99,7 +99,7 @@ namespace DsmSuite.Analyzer.Model.Core
         public void ImportElement(IElement element)
         {
             _elementsByName[element.Name] = element;
-            _elementsById[element.ElementId] = element;
+            _elementsById[element.Id] = element;
             IncrementElementTypeCount(element.Type);
         }
         
@@ -127,7 +127,7 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             string key = element.Name.ToLower();
             _elementsByName.Remove(key);
-            _elementsById.Remove(element.ElementId);
+            _elementsById.Remove(element.Id);
         }
 
         public void RenameElement(IElement element, string newName)
@@ -195,7 +195,7 @@ namespace DsmSuite.Analyzer.Model.Core
             AnalyzerLogger.LogDataModelAction("Add relation " + type + " from consumer=" + consumerName + " to provider=" + providerName + " in " + context);
             _relationCount++;
 
-            Element consumer = FindElement(consumerName) as Element;
+            IElement consumer = FindElement(consumerName);
             IElement provider = FindElement(providerName);
             IRelation relation = null;
 
@@ -203,12 +203,12 @@ namespace DsmSuite.Analyzer.Model.Core
             {
                 IncrementRelationTypeCount(type);
 
-                relation = new Relation(provider.ElementId, consumer.ElementId, type, weight);
-                if (!_relationsByConsumerId.ContainsKey(consumer.ElementId))
+                relation = new Relation(consumer.Id, provider.Id, type, weight);
+                if (!_relationsByConsumerId.ContainsKey(consumer.Id))
                 {
-                    _relationsByConsumerId[consumer.ElementId] = new List<IRelation>();
+                    _relationsByConsumerId[consumer.Id] = new List<IRelation>();
                 }
-                _relationsByConsumerId[consumer.ElementId].Add(relation);
+                _relationsByConsumerId[consumer.Id].Add(relation);
             }
             else
             {
@@ -245,9 +245,9 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public ICollection<IRelation> GetProviderRelations(IElement consumer)
         {
-            if (_relationsByConsumerId.ContainsKey(consumer.ElementId))
+            if (_relationsByConsumerId.ContainsKey(consumer.Id))
             {
-                return _relationsByConsumerId[consumer.ElementId];
+                return _relationsByConsumerId[consumer.Id];
             }
             else
             {
@@ -269,11 +269,11 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             bool doesRelationExist = false;
 
-            if (_relationsByConsumerId.ContainsKey(consumer.ElementId))
+            if (_relationsByConsumerId.ContainsKey(consumer.Id))
             {
-                foreach (IRelation relation in _relationsByConsumerId[consumer.ElementId])
+                foreach (IRelation relation in _relationsByConsumerId[consumer.Id])
                 {
-                    if (relation.ProviderId == provider.ElementId)
+                    if (relation.ProviderId == provider.Id)
                     {
                         doesRelationExist = true;
                     }
@@ -293,9 +293,9 @@ namespace DsmSuite.Analyzer.Model.Core
 
                 foreach (IElement element in _elementsByName.Values)
                 {
-                    if (_relationsByConsumerId.ContainsKey(element.ElementId))
+                    if (_relationsByConsumerId.ContainsKey(element.Id))
                     {
-                        count += _relationsByConsumerId[element.ElementId].Count;
+                        count += _relationsByConsumerId[element.Id].Count;
                     }
                 }
                 return count;
@@ -327,16 +327,16 @@ namespace DsmSuite.Analyzer.Model.Core
 
             foreach (IElement element in elements)
             {
-                if (_relationsByConsumerId.ContainsKey(element.ElementId))
+                if (_relationsByConsumerId.ContainsKey(element.Id))
                 {
-                    IRelation[] relations = _relationsByConsumerId[element.ElementId].ToArray();
+                    IRelation[] relations = _relationsByConsumerId[element.Id].ToArray();
 
                     foreach (IRelation relation in relations)
                     {
                         if (!_elementsById.ContainsKey(relation.ConsumerId) ||
                             !_elementsById.ContainsKey(relation.ProviderId))
                         {
-                            _relationsByConsumerId[element.ElementId].Remove(relation);
+                            _relationsByConsumerId[element.Id].Remove(relation);
                         }
                     }
                 }

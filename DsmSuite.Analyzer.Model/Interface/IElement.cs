@@ -2,7 +2,7 @@
 {
     public interface IElement
     {
-        int ElementId { get; }
+        int Id { get; }
         string Name { get; }
         string Type { get; }
         string Source { get; }

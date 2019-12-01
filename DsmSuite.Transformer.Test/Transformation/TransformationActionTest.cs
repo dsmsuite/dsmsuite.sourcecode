@@ -50,13 +50,13 @@ namespace DsmSuite.Transformer.Test.Transformation
             Assert.IsNull(element4After);
 
             // Element1 renamed
-            Assert.AreEqual(element1Before.ElementId, element3After.ElementId);
+            Assert.AreEqual(element1Before.Id, element3After.Id);
             Assert.AreEqual("element3Name", element3After.Name);
             Assert.AreEqual(element1Before.Type, element3After.Type);
             Assert.AreEqual(element1Before.Source, element3After.Source);
 
             // Element2 not renamed because replace is case sensitive
-            Assert.AreEqual(element2Before.ElementId, element2After.ElementId);
+            Assert.AreEqual(element2Before.Id, element2After.Id);
             Assert.AreEqual(element2Before.Name, element2After.Name);
             Assert.AreEqual(element2Before.Type, element2After.Type);
             Assert.AreEqual(element2Before.Source, element2After.Source);

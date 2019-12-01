@@ -2,7 +2,7 @@
 
 namespace DsmSuite.Analyzer.Model.Data
 {
-    class MetaDataItem : IMetaDataItem
+    public class MetaDataItem : IMetaDataItem
     {
         public MetaDataItem(string name, string value)
         {
@@ -11,7 +11,6 @@ namespace DsmSuite.Analyzer.Model.Data
         }
 
         public string Name { get; set; }
-
         public string Value { get; }
     }
 }

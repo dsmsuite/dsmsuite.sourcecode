@@ -31,12 +31,12 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private const string RelationWeightXmlAttributeName = "weight";
 
         private readonly string _filename;
-        private readonly IDataModel _dataModel;
+        private readonly IDsiModelFileCallback _callback;
 
-        public DsiModelFile(string filename, IDataModel dataModel)
+        public DsiModelFile(string filename, IDsiModelFileCallback callback)
         {
             _filename = filename;
-            _dataModel = dataModel;
+            _callback = callback;
         }
 
         public void Save(bool compressed, IProgress<int> progress)
@@ -95,12 +95,12 @@ namespace DsmSuite.Analyzer.Model.Persistency
         
         private void WriteMetaData(XmlWriter writer)
         {
-            foreach (string groupName in _dataModel.GetMetaDataGroups())
+            foreach (string groupName in _callback.GetMetaDataGroups())
             {
                 writer.WriteStartElement(MetaDataGroupXmlNodeName);
                 writer.WriteAttributeString(MetaDataGroupNameXmlAttributeName, groupName);
 
-                foreach (IMetaDataItem metaDataItem in _dataModel.GetMetaDataGroupItems(groupName))
+                foreach (IMetaDataItem metaDataItem in _callback.GetMetaDataGroupItems(groupName))
                 {
                     writer.WriteStartElement(MetaDataXmlNodeName);
                     writer.WriteAttributeString(MetaDataItemNameXmlAttributeName, metaDataItem.Name);
@@ -126,7 +126,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
                         if ((name != null) && (value != null))
                         {
                             MetaDataItem metaDataItem = new MetaDataItem(name, value);
-                            _dataModel.ImportMetaDataItem(groupName, metaDataItem);
+                            _callback.ImportMetaDataItem(groupName, metaDataItem);
                         }
                     }
                 }
@@ -136,10 +136,10 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private void WriteElements(XmlWriter writer)
         {
             writer.WriteStartElement(ElementGroupXmlNodeName);
-            foreach (IElement element in _dataModel.GetElements())
+            foreach (IElement element in _callback.GetElements())
             {
                 writer.WriteStartElement(ElementXmlNodeName);
-                writer.WriteAttributeString(ElementIdXmlAttributeName, element.ElementId.ToString());
+                writer.WriteAttributeString(ElementIdXmlAttributeName, element.Id.ToString());
                 writer.WriteAttributeString(ElementNameXmlAttributeName, element.Name);
                 writer.WriteAttributeString(ElementTypeXmlAttributeName, element.Type);
                 writer.WriteAttributeString(ElementSourceXmlAttributeName, element.Source);
@@ -158,14 +158,14 @@ namespace DsmSuite.Analyzer.Model.Persistency
                 string type = xReader.GetAttribute(ElementTypeXmlAttributeName);
                 string source = xReader.GetAttribute(ElementSourceXmlAttributeName);
                 Element element = new Element(id, name, type, source);
-                _dataModel.ImportElement(element);
+                _callback.ImportElement(element);
             }
         }
 
         private void WriteRelations(XmlWriter writer)
         {
             writer.WriteStartElement(RelationGroupXmlNodeName);
-            foreach (IRelation relation in _dataModel.GetRelations())
+            foreach (IRelation relation in _callback.GetRelations())
             {
                 writer.WriteStartElement(RelationXmlNodeName);
                 writer.WriteAttributeString(RelationConsumerIdXmlAttributeName, relation.ConsumerId.ToString());
@@ -188,8 +188,8 @@ namespace DsmSuite.Analyzer.Model.Persistency
                 string type = xReader.GetAttribute(RelationTypeXmlAttributeName);
                 int weight;
                 int.TryParse(xReader.GetAttribute(RelationWeightXmlAttributeName), out weight);
-                Relation relation = new Relation(providerId, consumerId, type, weight);
-                _dataModel.ImportRelation(relation);
+                Relation relation = new Relation(consumerId, providerId, type, weight);
+                _callback.ImportRelation(relation);
             }
         }
     }

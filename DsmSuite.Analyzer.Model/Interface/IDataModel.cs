@@ -10,12 +10,10 @@ namespace DsmSuite.Analyzer.Model.Interface
         void Load(string dsiFilename);
         void Save(string dsiFilename, bool compressFile);
 
-        void ImportMetaDataItem(string groupName, IMetaDataItem metaDataItem);
         void AddMetaData(string itemName, string itemValue);
         IEnumerable<string> GetMetaDataGroups();
         IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
 
-        void ImportElement(IElement element);
         IElement AddElement(string name, string type, string source);
         void RemoveElement(IElement element);
         void RenameElement(IElement element, string newName);
@@ -28,7 +26,6 @@ namespace DsmSuite.Analyzer.Model.Interface
         ICollection<string> GetElementTypes();
         int GetElementTypeCount(string type);
 
-        void ImportRelation(IRelation relation);
         IRelation AddRelation(string consumerName, string providerName, string type, int weight, string context);
         void SkipRelation(string consumerName, string providerName, string type, string context);
         ICollection<IRelation> GetProviderRelations(IElement consumer);
