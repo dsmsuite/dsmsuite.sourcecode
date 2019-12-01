@@ -6,8 +6,7 @@ namespace DsmSuite.Common.Util
 {
     public class CompressedFile
     {
-        private readonly FileInfo _fileInfo;
-        private readonly bool _isCompressed;
+        private readonly string _filename;
         private const int ZipLeadBytes = 0x04034b50;
 
         public delegate void ReadContent(Stream stream, IProgress<int> progress);
@@ -15,47 +14,47 @@ namespace DsmSuite.Common.Util
 
         public CompressedFile(string filename)
         {
-            _fileInfo = new FileInfo(filename);
-            _isCompressed = false;
-            if (_fileInfo.Exists)
-            {
-                _isCompressed = DetectZipLeadBytes();
-            }
+            _filename = filename;
         }
 
         public void ReadFile(ReadContent readContent, IProgress<int> progress)
         {
-            if (_isCompressed)
+            FileInfo fileInfo = new FileInfo(_filename);
+            if (fileInfo.Exists)
             {
-                using (ZipArchive archive = ZipFile.OpenRead(_fileInfo.FullName))
+                if (IsCompressed)
                 {
-                    if (archive.Entries.Count == 1)
+                    using (ZipArchive archive = ZipFile.OpenRead(fileInfo.FullName))
                     {
-                        using (Stream entryStream = archive.Entries[0].Open())
+                        if (archive.Entries.Count == 1)
                         {
-                            readContent(entryStream, progress);
+                            using (Stream entryStream = archive.Entries[0].Open())
+                            {
+                                readContent(entryStream, progress);
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                using (FileStream stream = new FileStream(_fileInfo.FullName, FileMode.Open, FileAccess.Read))
+                else
                 {
-                    readContent(stream, progress);
+                    using (FileStream stream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
+                    {
+                        readContent(stream, progress);
+                    }
                 }
             }
         }
 
         public void WriteFile(WriteContent writeContent, IProgress<int> progress, bool compressed)
         {
+            FileInfo fileInfo = new FileInfo(_filename);
             if (compressed)
             {
-                using (FileStream fileStream = new FileStream(_fileInfo.FullName, FileMode.Create))
+                using (FileStream fileStream = new FileStream(fileInfo.FullName, FileMode.Create))
                 {
                     using (ZipArchive archive = new ZipArchive(fileStream, ZipArchiveMode.Create, false))
                     {
-                        ZipArchiveEntry entry = archive.CreateEntry(_fileInfo.Name);
+                        ZipArchiveEntry entry = archive.CreateEntry(fileInfo.Name);
                         using (Stream entryStream = entry.Open())
                         {
                             writeContent(entryStream, progress);
@@ -65,32 +64,45 @@ namespace DsmSuite.Common.Util
             }
             else
             {
-                using (FileStream fileStream = new FileStream(_fileInfo.FullName, FileMode.Create))
+                using (FileStream fileStream = new FileStream(fileInfo.FullName, FileMode.Create))
                 {
                     writeContent(fileStream, progress);
                 }
             }
         }
 
-        public bool FileExists => _fileInfo.Exists;
-
-        public bool IsCompressed => _isCompressed;
-
-        private bool DetectZipLeadBytes()
+        public bool FileExists
         {
-            bool isCompressedFile = false;
-
-            using (FileStream stream = new FileStream(_fileInfo.FullName, FileMode.Open, FileAccess.Read))
+            get
             {
-                byte[] bytes = new byte[4];
-                stream.Read(bytes, 0, 4);
-                if (BitConverter.ToInt32(bytes, 0) == ZipLeadBytes)
-                {
-                    isCompressedFile = true;
-                }
+                FileInfo fileInfo = new FileInfo(_filename);
+                return fileInfo.Exists;
             }
+        }
 
-            return isCompressedFile;
+        public bool IsCompressed
+        {
+            get
+            {
+                bool isCompressedFile = false;
+
+                FileInfo fileInfo = new FileInfo(_filename);
+
+                if (fileInfo.Exists)
+                {
+                    using (FileStream stream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
+                    {
+                        byte[] bytes = new byte[4];
+                        stream.Read(bytes, 0, 4);
+                        if (BitConverter.ToInt32(bytes, 0) == ZipLeadBytes)
+                        {
+                            isCompressedFile = true;
+                        }
+                    }
+                }
+
+                return isCompressedFile;
+            }
         }
     }
 }

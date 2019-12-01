@@ -78,6 +78,7 @@ namespace DsmSuite.Common.Util.Test
             CompressedFile writtenFile = new CompressedFile(newPath);
             Assert.IsFalse(writtenFile.FileExists);
             writtenFile.WriteFile(WriteContent, this, false);
+            Assert.IsTrue(writtenFile.FileExists);
             Assert.AreEqual(4, _progress);
 
             _progress = 0;
@@ -100,6 +101,7 @@ namespace DsmSuite.Common.Util.Test
             CompressedFile writtenFile = new CompressedFile(newPath);
             Assert.IsFalse(writtenFile.FileExists);
             writtenFile.WriteFile(WriteContent, this, true);
+            Assert.IsTrue(writtenFile.FileExists);
             Assert.AreEqual(4, _progress);
 
             _progress = 0;
