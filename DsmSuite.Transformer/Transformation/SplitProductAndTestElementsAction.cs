@@ -24,7 +24,7 @@ namespace DsmSuite.Transformer.Transformation
         {
             int transformedElements = 0;
 
-            IElement[] clonedElements = _model.Elements.ToArray(); // Because elements in collection change during iteration
+            IElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
             foreach (IElement element in clonedElements)
             {
                 SplitProductAndTestElement(element);

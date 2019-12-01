@@ -15,14 +15,14 @@ namespace DsmSuite.Analyzer.Model.Test
         {
             DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
 
-            Assert.AreEqual(0, dataModel.Elements.Count);
+            Assert.AreEqual(0, dataModel.TotalElementCount);
             IElement element1 = dataModel.AddElement("element1Name", "class", "element1Source");
             Assert.IsNotNull(element1);
             Assert.AreEqual(0, element1.ElementId);
             Assert.AreEqual("element1Name", element1.Name);
             Assert.AreEqual("class", element1.Type);
             Assert.AreEqual("element1Source", element1.Source);
-            Assert.AreEqual(1, dataModel.Elements.Count);
+            Assert.AreEqual(1, dataModel.TotalElementCount);
 
             IElement element2 = dataModel.AddElement("element2Name", "struct", "element2Source");
             Assert.IsNotNull(element2);
@@ -30,7 +30,7 @@ namespace DsmSuite.Analyzer.Model.Test
             Assert.AreEqual("element2Name", element2.Name);
             Assert.AreEqual("struct", element2.Type);
             Assert.AreEqual("element2Source", element2.Source);
-            Assert.AreEqual(2, dataModel.Elements.Count);
+            Assert.AreEqual(2, dataModel.TotalElementCount);
         }
 
         [TestMethod]
@@ -38,14 +38,14 @@ namespace DsmSuite.Analyzer.Model.Test
         {
             DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
 
-            Assert.AreEqual(0, dataModel.Elements.Count);
+            Assert.AreEqual(0, dataModel.TotalElementCount);
             IElement element1 = dataModel.AddElement("elementName", "class", "elementSourceA");
             Assert.IsNotNull(element1);
-            Assert.AreEqual(1, dataModel.Elements.Count);
+            Assert.AreEqual(1, dataModel.TotalElementCount);
 
             IElement element2 = dataModel.AddElement("elementName", "enum", "elementSourceB");
             Assert.IsNull(element2);
-            Assert.AreEqual(1, dataModel.Elements.Count);
+            Assert.AreEqual(1, dataModel.TotalElementCount);
         }
 
         [TestMethod]
@@ -211,10 +211,10 @@ namespace DsmSuite.Analyzer.Model.Test
             DataModel dataModel2 = new DataModel("Test", Assembly.GetExecutingAssembly());
             dataModel2.Load(filename);
 
-            Assert.AreEqual(dataModel1.Elements.Count, dataModel2.Elements.Count);
-            List<IElement> dataModel1Elements = dataModel1.Elements.ToList();
-            List<IElement> dataModel2Elements = dataModel2.Elements.ToList();
-            for (int elementIndex = 0; elementIndex < dataModel1.Elements.Count; elementIndex++)
+            Assert.AreEqual(dataModel1.TotalElementCount, dataModel2.TotalElementCount);
+            List<IElement> dataModel1Elements = dataModel1.GetElements().ToList();
+            List<IElement> dataModel2Elements = dataModel2.GetElements().ToList();
+            for (int elementIndex = 0; elementIndex < dataModel1.TotalElementCount; elementIndex++)
             {
                 Assert.AreEqual(dataModel1Elements[elementIndex].ElementId, dataModel2Elements[elementIndex].ElementId);
                 Assert.AreEqual(dataModel1Elements[elementIndex].Name, dataModel2Elements[elementIndex].Name);

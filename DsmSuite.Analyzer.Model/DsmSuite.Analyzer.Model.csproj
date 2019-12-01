@@ -26,15 +26,12 @@
   <ItemGroup>
     <Compile Include="Interface\IMetaDataItem.cs" />
     <Compile Include="Data\MetaDataItem.cs" />
-    <Compile Include="Persistency\DsiModelFileReader.cs" />
+    <Compile Include="Persistency\DsiModelFile.cs" />
     <Compile Include="Data\Element.cs" />
     <Compile Include="Interface\IDataModel.cs" />
     <Compile Include="Core\DataModel.cs" />
-    <Compile Include="Persistency\DsiModelFileWritter.cs" />
-    <Compile Include="Persistency\IDsiModelFileReaderCallback.cs" />
     <Compile Include="Interface\IElement.cs" />
     <Compile Include="Interface\IRelation.cs" />
-    <Compile Include="Persistency\IDsiModelFileWritterCallback.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\Relation.cs" />
   </ItemGroup>

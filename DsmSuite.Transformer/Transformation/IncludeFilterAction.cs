@@ -23,7 +23,7 @@ namespace DsmSuite.Transformer.Transformation
         protected override void ExecuteImpl()
         {
             int transformedElements = 0;
-            IElement[] clonedElements = _model.Elements.ToArray(); // Because elements in collection change during iteration
+            IElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
             foreach (IElement element in clonedElements)
             {
                 IncludeElement(element);

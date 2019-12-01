@@ -26,7 +26,7 @@ namespace DsmSuite.Transformer.Transformation
             FindDirectProviders();
 
             int transformedElements = 0;
-            foreach (IElement consumer in _model.Elements)
+            foreach (IElement consumer in _model.GetElements())
             {
                 AddTransitiveRelations(consumer);
 
@@ -46,7 +46,7 @@ namespace DsmSuite.Transformer.Transformation
 
         private void FindDirectProviders()
         {
-            foreach (IElement element in _model.Elements)
+            foreach (IElement element in _model.GetElements())
             {
                 string key = element.Name;
 

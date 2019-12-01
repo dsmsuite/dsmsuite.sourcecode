@@ -28,7 +28,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             Assert.IsTrue(dataModel.TotalElementCount > 0);
             HashSet<string> elementNames = new HashSet<string>();
             Dictionary<string, HashSet<string>> providerNames = new Dictionary<string, HashSet<string>>();
-            foreach (IElement element in dataModel.Elements)
+            foreach (IElement element in dataModel.GetElements())
             {
                 elementNames.Add(element.Name);
 
@@ -106,7 +106,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
 
             HashSet<string> elementNames = new HashSet<string>();
             Dictionary<string, HashSet<string>> providerNames = new Dictionary<string, HashSet<string>>();
-            foreach (IElement element in dataModel.Elements)
+            foreach (IElement element in dataModel.GetElements())
             {
                 elementNames.Add(element.Name);
 
