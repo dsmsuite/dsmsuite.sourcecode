@@ -35,6 +35,9 @@
     <Compile Include="Files\Dsm\DsmModelFileWriter.cs" />
     <Compile Include="Dependencies\HierarchicalName.cs" />
     <Compile Include="Files\Dsm\DsmModelFileReader.cs" />
+    <Compile Include="IMetaDataItem.cs" />
+    <Compile Include="Persistency\DsmModelFile.cs" />
+    <Compile Include="Persistency\IDsmModelFileCallback.cs" />
     <Compile Include="ProgressInfo.cs" />
     <Compile Include="Files\Base\FileReader.cs" />
     <Compile Include="Files\Base\FileWriter.cs" />
