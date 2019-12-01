@@ -1,17 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="urn:dsi-schema" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+﻿<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
   <xs:element name="system">
     <xs:complexType>
       <xs:sequence>
+        <xs:element name="metadatagroup">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="metadata" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string"></xs:attribute>
+                  <xs:attribute name="value" type="xs:int"></xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"></xs:attribute>
+          </xs:complexType>
+        </xs:element>
         <xs:element name="elements">
           <xs:complexType>
             <xs:sequence>
-              <xs:element minOccurs="0" maxOccurs="unbounded" name="element">
+              <xs:element name="element" maxOccurs="unbounded">
                 <xs:complexType>
-                  <xs:attribute name="id"       type="xs:integer" use="required" />
-                  <xs:attribute name="name"     type="xs:string"  use="required" />
-                  <xs:attribute name="type"     type="xs:string"  use="optional" />		  
-                  <xs:attribute name="source"   type="xs:string"  use="optional" />
+                  <xs:attribute name="id" type="xs:int"></xs:attribute>
+                  <xs:attribute name="name" type="xs:string"></xs:attribute>
+                  <xs:attribute name="type" type="xs:string"></xs:attribute>
+                  <xs:attribute name="source" type="xs:string"></xs:attribute>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
@@ -20,18 +32,19 @@
         <xs:element name="relations">
           <xs:complexType>
             <xs:sequence>
-              <xs:element minOccurs="0" maxOccurs="unbounded" name="relation">
+              <xs:element name="relation" maxOccurs="unbounded">
                 <xs:complexType>
-                  <xs:attribute name="providerId" type="xs:integer" use="required" />
-                  <xs:attribute name="consumerId" type="xs:integer" use="required" />
-                  <xs:attribute name="type"       type="xs:string"  use="optional" />
-				  <xs:attribute name="weight"     type="xs:integer" use="required" />
+                  <xs:attribute name="consumerId" type="xs:int"></xs:attribute>
+                  <xs:attribute name="providerId" type="xs:int"></xs:attribute>
+                  <xs:attribute name="type" type="xs:string"></xs:attribute>
+                  <xs:attribute name="weight" type="xs:int"></xs:attribute>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
       </xs:sequence>
+      <xs:attribute name="xmlns" type="xs:string"></xs:attribute>
     </xs:complexType>
   </xs:element>
 </xs:schema>
