@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Analyzer.Model.Interface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.Analyzer.Data.Test
+namespace DsmSuite.Analyzer.Model.Test
 {
     [TestClass]
     public class DataModelTest
@@ -96,8 +98,8 @@ namespace DsmSuite.Analyzer.Data.Test
             int relation1Weight = 3;
             IRelation relation1 = dataModel.AddRelation(consumer.Name, provider1.Name, relation1Type, relation1Weight, "context");
             Assert.IsNotNull(relation1);
-            Assert.AreEqual(consumer.ElementId, relation1.Consumer.ElementId);
-            Assert.AreEqual(provider1.ElementId, relation1.Provider.ElementId);
+            Assert.AreEqual(consumer.ElementId, relation1.ConsumerId);
+            Assert.AreEqual(provider1.ElementId, relation1.ProviderId);
             Assert.AreEqual(relation1Type, relation1.Type);
             Assert.AreEqual(relation1Weight, relation1.Weight);
 
@@ -105,20 +107,20 @@ namespace DsmSuite.Analyzer.Data.Test
             int relation2Weight = 4;
             IRelation relation2 = dataModel.AddRelation(consumer.Name, provider2.Name, relation2Type, relation2Weight, "context");
             Assert.IsNotNull(relation2);
-            Assert.AreEqual(consumer.ElementId, relation2.Consumer.ElementId);
-            Assert.AreEqual(provider2.ElementId, relation2.Provider.ElementId);
+            Assert.AreEqual(consumer.ElementId, relation2.ConsumerId);
+            Assert.AreEqual(provider2.ElementId, relation2.ProviderId);
             Assert.AreEqual(relation2Type, relation2.Type);
             Assert.AreEqual(relation2Weight, relation2.Weight);
 
             Assert.AreEqual(2, dataModel.GetProviderRelations(consumer).Count);
 
-            dataModel.RemoveElement(provider2.Name);
+            dataModel.RemoveElement(provider2);
             dataModel.Cleanup();
 
             Assert.AreEqual(1, dataModel.GetProviderRelations(consumer).Count);
             IRelation[] relationsRetrieved = dataModel.GetProviderRelations(consumer).ToArray();
-            Assert.AreEqual(consumer.ElementId, relationsRetrieved[0].Consumer.ElementId);
-            Assert.AreEqual(provider1.ElementId, relationsRetrieved[0].Provider.ElementId);
+            Assert.AreEqual(consumer.ElementId, relationsRetrieved[0].ConsumerId);
+            Assert.AreEqual(provider1.ElementId, relationsRetrieved[0].ProviderId);
             Assert.AreEqual(relation1Type, relationsRetrieved[0].Type);
             Assert.AreEqual(relation1Weight, relationsRetrieved[0].Weight);
         }
@@ -168,8 +170,8 @@ namespace DsmSuite.Analyzer.Data.Test
             int relation1Weight = 3;
             IRelation relation1 = dataModel.AddRelation(consumer.Name, provider1.Name, relation1Type, relation1Weight, "context");
             Assert.IsNotNull(relation1);
-            Assert.AreEqual(consumer.ElementId, relation1.Consumer.ElementId);
-            Assert.AreEqual(provider1.ElementId, relation1.Provider.ElementId);
+            Assert.AreEqual(consumer.ElementId, relation1.ConsumerId);
+            Assert.AreEqual(provider1.ElementId, relation1.ProviderId);
             Assert.AreEqual(relation1Type, relation1.Type);
             Assert.AreEqual(relation1Weight, relation1.Weight);
 
@@ -179,8 +181,8 @@ namespace DsmSuite.Analyzer.Data.Test
             int relation2Weight = 4;
             IRelation relation2 = dataModel.AddRelation(consumer.Name, provider2.Name, relation2Type, relation2Weight, "context");
             Assert.IsNotNull(relation2);
-            Assert.AreEqual(consumer.ElementId, relation2.Consumer.ElementId);
-            Assert.AreEqual(provider2.ElementId, relation2.Provider.ElementId);
+            Assert.AreEqual(consumer.ElementId, relation2.ConsumerId);
+            Assert.AreEqual(provider2.ElementId, relation2.ProviderId);
             Assert.AreEqual(relation2Type, relation2.Type);
             Assert.AreEqual(relation2Weight, relation2.Weight);
 
@@ -226,8 +228,8 @@ namespace DsmSuite.Analyzer.Data.Test
                 for (int relationIndex = 0; relationIndex < dataModel1.GetProviderRelations(dataModel1Elements[elementIndex]).Count;
                     relationIndex++)
                 {
-                    Assert.AreEqual(dataModel1Relations[relationIndex].Consumer.ElementId, dataModel2Relations[relationIndex].Consumer.ElementId);
-                    Assert.AreEqual(dataModel1Relations[relationIndex].Provider.ElementId, dataModel2Relations[relationIndex].Provider.ElementId);
+                    Assert.AreEqual(dataModel1Relations[relationIndex].ConsumerId, dataModel2Relations[relationIndex].ConsumerId);
+                    Assert.AreEqual(dataModel1Relations[relationIndex].ProviderId, dataModel2Relations[relationIndex].ProviderId);
                     Assert.AreEqual(dataModel1Relations[relationIndex].Type, dataModel2Relations[relationIndex].Type);
                     Assert.AreEqual(dataModel1Relations[relationIndex].Weight, dataModel2Relations[relationIndex].Weight);
                 }

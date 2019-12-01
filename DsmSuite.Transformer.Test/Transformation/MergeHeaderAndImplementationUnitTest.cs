@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
-using DsmSuite.Analyzer.Data;
+using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Transformer.Transformation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

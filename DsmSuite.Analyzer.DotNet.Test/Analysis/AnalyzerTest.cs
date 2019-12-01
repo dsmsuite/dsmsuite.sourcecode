@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using DsmSuite.Analyzer.Data;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.DotNet.Test.Util;
+using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Analyzer.Model.Interface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.Analyzer.DotNet.Test.Analysis

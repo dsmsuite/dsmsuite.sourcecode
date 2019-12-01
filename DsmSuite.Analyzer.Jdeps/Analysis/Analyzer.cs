@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using DsmSuite.Analyzer.Data;
 using DsmSuite.Analyzer.Jdeps.Settings;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Jdeps.Analysis

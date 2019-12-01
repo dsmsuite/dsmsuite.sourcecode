@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using DsmSuite.Analyzer.Data;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Transformer.Settings;
 
 namespace DsmSuite.Transformer.Transformation
@@ -41,7 +41,7 @@ namespace DsmSuite.Transformer.Transformation
         {
             if (!ShouldElementBeIncluded(element))
             {
-                _model.RemoveElement(element.Name);
+                _model.RemoveElement(element);
             }
         }
 

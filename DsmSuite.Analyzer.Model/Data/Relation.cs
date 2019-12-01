@@ -1,30 +1,30 @@
+using DsmSuite.Analyzer.Model.Interface;
 
-namespace DsmSuite.Analyzer.Data
+namespace DsmSuite.Analyzer.Model.Data
 {
     /// <summary>
     /// Represents a relation of a specific type between two elements
     /// </summary>
     public class Relation : IRelation
     {
-        public Relation(IElement provider, IElement consumer, string type, int weight)
+        public Relation(int providerId, int consumerId, string type, int weight)
         {
-            Consumer = consumer;
-            Provider = provider;
+            ConsumerId = consumerId;
+            ProviderId = providerId;
             Type = type;
             Weight = weight;
         }
 
-        public IElement Consumer { get; }
-        public IElement Provider { get; }
+        public int ConsumerId { get; }
+        public int ProviderId { get; }
         public string Type { get; }
         public int Weight { get; }
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                var hashCode = Consumer?.GetHashCode() ?? 0;
-                hashCode = (hashCode * 397) ^ (Provider?.GetHashCode() ?? 0);
+            unchecked{
+                var hashCode = ConsumerId.GetHashCode();
+                hashCode = (hashCode * 397) ^ ProviderId.GetHashCode();
                 hashCode = (hashCode * 397) ^ (Type?.GetHashCode() ?? 0);
                 return hashCode;
             }
@@ -40,7 +40,7 @@ namespace DsmSuite.Analyzer.Data
 
         private bool Equals(Relation other)
         {
-            return Equals(Consumer, other.Consumer) && Equals(Provider, other.Provider) && string.Equals(Type, other.Type);
+            return Equals(ConsumerId, other.ConsumerId) && Equals(ProviderId, other.ProviderId) && string.Equals(Type, other.Type);
         }
     }
 }

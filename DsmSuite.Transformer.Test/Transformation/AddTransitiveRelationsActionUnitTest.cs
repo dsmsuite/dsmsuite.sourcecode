@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
-using DsmSuite.Analyzer.Data;
+using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Transformer.Transformation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -29,34 +30,34 @@ namespace DsmSuite.Transformer.Test.Transformation
             dataModel.AddRelation(element3.Name, element4.Name, "", 1, "context");
             dataModel.AddRelation(element4.Name, element5.Name, "", 1, "context");
 
-            Assert.AreEqual(1, element1.Providers.Count);
+            Assert.AreEqual(1, dataModel.GetProviderRelations(element1).Count);
             Assert.IsTrue(dataModel.DoesRelationExist(element1, element2));
-            Assert.AreEqual(1, element2.Providers.Count);
+            Assert.AreEqual(1, dataModel.GetProviderRelations(element2).Count);
             Assert.IsTrue(dataModel.DoesRelationExist(element2, element3));
-            Assert.AreEqual(1, element3.Providers.Count);
+            Assert.AreEqual(1, dataModel.GetProviderRelations(element3).Count);
             Assert.IsTrue(dataModel.DoesRelationExist(element3, element4));
-            Assert.AreEqual(1, element4.Providers.Count);
+            Assert.AreEqual(1, dataModel.GetProviderRelations(element4).Count);
             Assert.IsTrue(dataModel.DoesRelationExist(element4, element5));
-            Assert.AreEqual(0, element5.Providers.Count);
+            Assert.AreEqual(0, dataModel.GetProviderRelations(element5).Count);
 
             AddTransitiveRelationsAction transformation = new AddTransitiveRelationsAction(dataModel, true);
             transformation.Execute();
 
-            Assert.AreEqual(4, element1.Providers.Count);
+            Assert.AreEqual(4, dataModel.GetProviderRelations(element1).Count);
             Assert.IsTrue(dataModel.DoesRelationExist(element1, element2));
             Assert.IsTrue(dataModel.DoesRelationExist(element1, element3));
             Assert.IsTrue(dataModel.DoesRelationExist(element1, element4));
             Assert.IsTrue(dataModel.DoesRelationExist(element1, element5));
-            Assert.AreEqual(3, element2.Providers.Count);
+            Assert.AreEqual(3, dataModel.GetProviderRelations(element2).Count);
             Assert.IsTrue(dataModel.DoesRelationExist(element2, element3));
             Assert.IsTrue(dataModel.DoesRelationExist(element2, element4));
             Assert.IsTrue(dataModel.DoesRelationExist(element2, element5));
-            Assert.AreEqual(2, element3.Providers.Count);
+            Assert.AreEqual(2, dataModel.GetProviderRelations(element3).Count);
             Assert.IsTrue(dataModel.DoesRelationExist(element3, element4));
             Assert.IsTrue(dataModel.DoesRelationExist(element3, element5));
-            Assert.AreEqual(1, element4.Providers.Count);
+            Assert.AreEqual(1, dataModel.GetProviderRelations(element4).Count);
             Assert.IsTrue(dataModel.DoesRelationExist(element4, element5));
-            Assert.AreEqual(0, element5.Providers.Count);
+            Assert.AreEqual(0, dataModel.GetProviderRelations(element5).Count);
         }
     }
 }

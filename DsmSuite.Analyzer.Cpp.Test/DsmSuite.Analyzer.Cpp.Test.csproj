@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="..\PropertySheets\DsmSuite.Common.props" />  
+  <Import Project="..\PropertySheets\DsmSuite.Common.props" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
@@ -72,9 +72,9 @@
       <Project>{ea1cd197-fa51-4d2f-a9cf-ee3fa2d8c9e6}</Project>
       <Name>DsmSuite.Analyzer.Cpp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.Analyzer.Data\DsmSuite.Analyzer.Data.csproj">
+    <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
       <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
-      <Name>DsmSuite.Analyzer.Data</Name>
+      <Name>DsmSuite.Analyzer.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

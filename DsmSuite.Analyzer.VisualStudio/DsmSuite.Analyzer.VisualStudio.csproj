@@ -75,9 +75,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DsmSuite.Analyzer.Data\DsmSuite.Analyzer.Data.csproj">
+    <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
       <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
-      <Name>DsmSuite.Analyzer.Data</Name>
+      <Name>DsmSuite.Analyzer.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\DsmSuite.Analyzer.Util\DsmSuite.Analyzer.Util.csproj">
       <Project>{b73fdffb-08d3-4573-a682-825c1a79fc54}</Project>

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.Common.Util.Test
@@ -10,7 +8,7 @@ namespace DsmSuite.Common.Util.Test
     [TestClass]
     public class CompressedFileTest : IProgress<int>
     {
-        private List<string> _lines = new List<string>();
+        private readonly List<string> _lines = new List<string>();
         private int _progress;
 
         [TestInitialize]

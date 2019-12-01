@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using DsmSuite.Analyzer.Data;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Util;
 
 namespace DsmSuite.Transformer.Transformation
@@ -33,14 +33,17 @@ namespace DsmSuite.Transformer.Transformation
 
         private void MoveHeaderElement(IElement element)
         {
-            foreach (IRelation relation in element.Providers)
+            foreach (IRelation relation in _model.GetProviderRelations(element))
             {
+                IElement consumer = _model.FindElement(relation.ConsumerId);
+                IElement provider = _model.FindElement(relation.ProviderId);
+
                 // Usual case where implementation file includes header file
-                if (IsImplementation(relation.Consumer) &&
-                    IsHeader(relation.Provider) &&
-                    (GetName(relation.Consumer) == GetName(relation.Provider)))
+                if (IsImplementation(consumer) &&
+                    IsHeader(provider) &&
+                    (GetName(consumer) == GetName(provider)))
                 {
-                    MergeHeaderAndImplementation(relation.Consumer, relation.Provider);
+                    MergeHeaderAndImplementation(consumer, provider);
                 }
             }
         }

@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="..\PropertySheets\DsmSuite.Common.props" />  
+  <Import Project="..\PropertySheets\DsmSuite.Common.props" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <ProjectGuid>{C123D876-A195-4220-B3F1-3C3E85720D3F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DsmSuite.Analyzer.Data.Test</RootNamespace>
-    <AssemblyName>DsmSuite.Analyzer.Data.Test</AssemblyName>
+    <RootNamespace>DsmSuite.Analyzer.Model.Test</RootNamespace>
+    <AssemblyName>DsmSuite.Analyzer.Model.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -60,9 +60,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DsmSuite.Analyzer.Data\DsmSuite.Analyzer.Data.csproj">
+    <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
       <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
-      <Name>DsmSuite.Analyzer.Data</Name>
+      <Name>DsmSuite.Analyzer.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

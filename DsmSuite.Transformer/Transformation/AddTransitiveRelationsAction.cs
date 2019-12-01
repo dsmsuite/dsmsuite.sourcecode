@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DsmSuite.Analyzer.Data;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Util;
 
 namespace DsmSuite.Transformer.Transformation
@@ -54,7 +54,8 @@ namespace DsmSuite.Transformer.Transformation
 
                 foreach (IRelation providerRelation in _model.GetProviderRelations(element))
                 {
-                    _directProviders[key].Add(providerRelation.Provider);
+                    IElement provider = _model.FindElement(providerRelation.ProviderId);
+                    _directProviders[key].Add(provider);
                 }
             }
         }

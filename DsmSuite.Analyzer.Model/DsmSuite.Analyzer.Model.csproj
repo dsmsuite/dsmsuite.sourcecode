@@ -8,8 +8,8 @@
     <ProjectGuid>{7106D2F0-804E-4F73-950C-266FFC096A87}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DsmSuite.Analyzer.Data</RootNamespace>
-    <AssemblyName>DsmSuite.Analyzer.Data</AssemblyName>
+    <RootNamespace>DsmSuite.Analyzer.Model</RootNamespace>
+    <AssemblyName>DsmSuite.Analyzer.Model</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -24,13 +24,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Element.cs" />
-    <Compile Include="IDataModel.cs" />
-    <Compile Include="DataModel.cs" />
-    <Compile Include="IElement.cs" />
-    <Compile Include="IRelation.cs" />
+    <Compile Include="Interface\IMetaDataItem.cs" />
+    <Compile Include="Data\MetaDataItem.cs" />
+    <Compile Include="Persistency\DsiModelFileReader.cs" />
+    <Compile Include="Data\Element.cs" />
+    <Compile Include="Interface\IDataModel.cs" />
+    <Compile Include="Core\DataModel.cs" />
+    <Compile Include="Persistency\DsiModelFileWritter.cs" />
+    <Compile Include="Persistency\IDsiModelFileReaderCallback.cs" />
+    <Compile Include="Interface\IElement.cs" />
+    <Compile Include="Interface\IRelation.cs" />
+    <Compile Include="Persistency\IDsiModelFileWritterCallback.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Relation.cs" />
+    <Compile Include="Data\Relation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DsmSuite.Analyzer.Util\DsmSuite.Analyzer.Util.csproj">

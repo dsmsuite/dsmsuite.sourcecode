@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using DsmSuite.Analyzer.Model.Data;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 using AnalyzerLogger = DsmSuite.Analyzer.Util.AnalyzerLogger;
 
-namespace DsmSuite.Analyzer.Data
+namespace DsmSuite.Analyzer.Model.Core
 {
     /// <summary>
     /// The data model maintains data item and allows persisting them to a file.
@@ -18,6 +20,8 @@ namespace DsmSuite.Analyzer.Data
         private readonly List<KeyValuePair<string, string>> _processStepMetaData;
         private readonly string _processStep;
         private readonly Dictionary<string, IElement> _elementsByCaseInsensitiveName;
+        private readonly Dictionary<int, IElement> _elementsById;
+        private readonly Dictionary<int, List<IRelation>> _relations;
         private int _relationCount;
         private readonly Dictionary<string, int> _elementTypeCount;
         private readonly Dictionary<string, int> _relationTypeCount;
@@ -25,11 +29,13 @@ namespace DsmSuite.Analyzer.Data
         public DataModel(string processStep, Assembly executingAssembly)
         {
             _elementsByCaseInsensitiveName = new Dictionary<string, IElement>();
+            _elementsById = new Dictionary<int, IElement>();
             _metaData = new List<KeyValuePair<string, List<KeyValuePair<string, string>>>>();
             _processStepMetaData = new List<KeyValuePair<string, string>>();
             _processStep = processStep;
             _elementTypeCount = new Dictionary<string, int>();
             _relationTypeCount = new Dictionary<string, int>();
+            _relations = new Dictionary<int, List<IRelation>>();
             AddMetaData("Executable", SystemInfo.GetExecutableInfo(executingAssembly));
         }
 
@@ -217,14 +223,14 @@ namespace DsmSuite.Analyzer.Data
                     writer.WriteStartElement("relations");
                     foreach (IElement element in _elementsByCaseInsensitiveName.Values)
                     {
-                        foreach (IRelation relation in element.Providers)
+                        if (_relations.ContainsKey(element.ElementId))
                         {
-                            if ((relation.Provider != null) && (relation.Consumer != null) && (relation.Type != null))
+                            foreach (IRelation relation in _relations[element.ElementId])
                             {
                                 writer.WriteStartElement("relation");
 
-                                writer.WriteAttributeString("consumerId", relation.Consumer.ElementId.ToString());
-                                writer.WriteAttributeString("providerId", relation.Provider.ElementId.ToString());
+                                writer.WriteAttributeString("consumerId", relation.ConsumerId.ToString());
+                                writer.WriteAttributeString("providerId", relation.ProviderId.ToString());
                                 writer.WriteAttributeString("type", relation.Type);
                                 writer.WriteAttributeString("weight", relation.Weight.ToString());
                                 writer.WriteEndElement();
@@ -245,8 +251,10 @@ namespace DsmSuite.Analyzer.Data
             if (!_elementsByCaseInsensitiveName.ContainsKey(key))
             {
                 IncrementElementTypeCount(type);
-                Element element = new Element(_elementsByCaseInsensitiveName.Count, name, type, source);
+                int id = _elementsByCaseInsensitiveName.Count;
+                Element element = new Element(id, name, type, source);
                 _elementsByCaseInsensitiveName[key] = element;
+                _elementsById[id] = element;
                 return element;
             }
             else
@@ -264,10 +272,11 @@ namespace DsmSuite.Analyzer.Data
             _elementTypeCount[type]++;
         }
 
-        public void RemoveElement(string name)
+        public void RemoveElement(IElement element)
         {
-            string key = name.ToLower();
+            string key = element.Name.ToLower();
             _elementsByCaseInsensitiveName.Remove(key);
+            _elementsById.Remove(element.ElementId);
         }
 
         /// <summary>
@@ -281,17 +290,17 @@ namespace DsmSuite.Analyzer.Data
 
             foreach (IElement element in elements)
             {
-                IRelation[] relations = element.Providers.ToArray();
-
-                foreach (IRelation relation in relations)
+                if (_relations.ContainsKey(element.ElementId))
                 {
-                    string consumerKey = relation.Consumer.Name.ToLower();
-                    string providerKey = relation.Provider.Name.ToLower();
+                    IRelation[] relations = _relations[element.ElementId].ToArray();
 
-                    if (!_elementsByCaseInsensitiveName.ContainsKey(consumerKey) ||
-                        !_elementsByCaseInsensitiveName.ContainsKey(providerKey))
+                    foreach (IRelation relation in relations)
                     {
-                        element.Providers.Remove(relation);
+                        if (!_elementsById.ContainsKey(relation.ConsumerId) ||
+                            !_elementsById.ContainsKey(relation.ProviderId))
+                        {
+                            _relations[element.ElementId].Remove(relation);
+                        }
                     }
                 }
             }
@@ -323,7 +332,14 @@ namespace DsmSuite.Analyzer.Data
             if (consumer != null && provider != null)
             {
                 IncrementRelationTypeCount(type);
-                relation = consumer.AddRelation(provider, type, weight);
+
+                relation = new Relation(provider.ElementId, consumer.ElementId, type, weight);
+                if (!_relations.ContainsKey(consumer.ElementId))
+                {
+                    _relations[consumer.ElementId] = new List<IRelation>();
+                }
+
+                _relations[consumer.ElementId].Add(relation);
             }
             else
             {
@@ -360,22 +376,38 @@ namespace DsmSuite.Analyzer.Data
             return _elementsByCaseInsensitiveName.ContainsKey(key) ? _elementsByCaseInsensitiveName[key] : null;
         }
 
+        public IElement FindElement(int id)
+        {
+            return _elementsById.ContainsKey(id) ? _elementsById[id] : null;
+        }
+
         public ICollection<IRelation> GetProviderRelations(IElement consumer)
         {
-            return consumer.Providers;
+            if (_relations.ContainsKey(consumer.ElementId))
+            {
+                return _relations[consumer.ElementId];
+            }
+            else
+            {
+                return new List<IRelation>();
+            }
         }
 
         public bool DoesRelationExist(IElement consumer, IElement provider)
         {
             bool doesRelationExist = false;
 
-            foreach (IRelation relation in consumer.Providers)
+            if (_relations.ContainsKey(consumer.ElementId))
             {
-                if (relation.Provider.ElementId == provider.ElementId)
+                foreach (IRelation relation in _relations[consumer.ElementId])
                 {
-                    doesRelationExist = true;
+                    if (relation.ProviderId == provider.ElementId)
+                    {
+                        doesRelationExist = true;
+                    }
                 }
             }
+
             return doesRelationExist;
         }
 
@@ -389,7 +421,10 @@ namespace DsmSuite.Analyzer.Data
 
                 foreach (IElement element in _elementsByCaseInsensitiveName.Values)
                 {
-                    count += element.Providers.Count;
+                    if (_relations.ContainsKey(element.ElementId))
+                    {
+                        count += _relations[element.ElementId].Count;
+                    }
                 }
                 return count;
             }

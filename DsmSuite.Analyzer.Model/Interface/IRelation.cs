@@ -1,10 +1,10 @@
 ﻿
-namespace DsmSuite.Analyzer.Data
+namespace DsmSuite.Analyzer.Model.Interface
 {
     public interface IRelation
     {
-        IElement Consumer { get; }
-        IElement Provider { get; }
+        int ConsumerId{ get; }
+        int ProviderId { get; }
         string Type { get; }
         int Weight { get; }
     }

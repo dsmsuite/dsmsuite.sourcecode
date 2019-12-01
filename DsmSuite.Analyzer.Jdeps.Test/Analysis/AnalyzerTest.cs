@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
-using DsmSuite.Analyzer.Data;
 using DsmSuite.Analyzer.Jdeps.Settings;
+using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Analyzer.Model.Interface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.Analyzer.Jdeps.Test.Analysis

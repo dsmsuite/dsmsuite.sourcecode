@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DsmSuite.Analyzer.Data
+namespace DsmSuite.Analyzer.Model.Interface
 {
     /// <summary>
     /// Interface to the data model. An interface has been introduced to improve testability.
@@ -18,8 +18,9 @@ namespace DsmSuite.Analyzer.Data
         void Save(string dsiFilename, bool compressFile);
 
         IElement AddElement(string name, string type, string source);
-        void RemoveElement(string name);
+        void RemoveElement(IElement element);
         void RenameElement(IElement element, string newName);
+        IElement FindElement(int id);
         IElement FindElement(string name);
         ICollection<IElement> Elements { get; }
         int TotalElementCount { get; }

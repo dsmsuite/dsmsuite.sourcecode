@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.Common.Util.Test
 {

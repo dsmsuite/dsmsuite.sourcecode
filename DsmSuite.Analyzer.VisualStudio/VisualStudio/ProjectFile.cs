@@ -335,7 +335,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                         }
                         else
                         {
-                            if (_projectFileInfo != null)
+                            if (_projectFileInfo?.DirectoryName != null)
                             {
                                 outputDir = Path.GetFullPath(Path.Combine(_projectFileInfo.DirectoryName, metaData.EvaluatedValue));
                                 if (Directory.Exists(outputDir))

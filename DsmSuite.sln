@@ -18,9 +18,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{7C72B1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.Util.Test", "DsmSuite.Analyzer.Util.Test\DsmSuite.Analyzer.Util.Test.csproj", "{8D8C3B32-B144-4104-BC0A-18794BC4279C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.Data", "DsmSuite.Analyzer.Data\DsmSuite.Analyzer.Data.csproj", "{7106D2F0-804E-4F73-950C-266FFC096A87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.Model", "DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj", "{7106D2F0-804E-4F73-950C-266FFC096A87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.Data.Test", "DsmSuite.Analyzer.Data.Test\DsmSuite.Analyzer.Data.Test.csproj", "{C123D876-A195-4220-B3F1-3C3E85720D3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.Model.Test", "DsmSuite.Analyzer.Model.Test\DsmSuite.Analyzer.Model.Test.csproj", "{C123D876-A195-4220-B3F1-3C3E85720D3F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.Uml", "DsmSuite.Analyzer.Uml\DsmSuite.Analyzer.Uml.csproj", "{20C7D1B2-F006-431A-99CD-AF4BB3A2DD69}"
 EndProject
@@ -73,7 +73,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewModel", "ViewModel", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{691DAC55-DFC6-48BA-8E5F-F19266316F08}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{F193BB64-603D-4A3F-8BC0-2B8FE218F280}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{F193BB64-603D-4A3F-8BC0-2B8FE218F280}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.DsmViewer.Application", "DsmSuite.DsmViewer.Application\DsmSuite.DsmViewer.Application.csproj", "{F864BD74-A7E3-4349-BE07-F0725A2EA589}"
 EndProject
@@ -135,7 +135,7 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "DsmSuite.Installer", "DsmSu
 		{B73FDFFB-08D3-4573-A682-825C1A79FC54} = {B73FDFFB-08D3-4573-A682-825C1A79FC54}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{BA392E57-9DFC-44F8-B891-A0802A88D22B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{BA392E57-9DFC-44F8-B891-A0802A88D22B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{B65914AE-2560-4A02-9C56-8D03D82B64FA}"
 EndProject

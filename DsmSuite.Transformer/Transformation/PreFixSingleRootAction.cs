@@ -1,6 +1,6 @@
-﻿using DsmSuite.Analyzer.Data;
-using System;
+﻿using System;
 using System.Linq;
+using DsmSuite.Analyzer.Model.Interface;
 
 namespace DsmSuite.Transformer.Transformation
 {

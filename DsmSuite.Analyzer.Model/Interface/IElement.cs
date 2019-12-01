@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DsmSuite.Analyzer.Data
+﻿namespace DsmSuite.Analyzer.Model.Interface
 {
     public interface IElement
     {
@@ -8,6 +6,6 @@ namespace DsmSuite.Analyzer.Data
         string Name { get; }
         string Type { get; }
         string Source { get; }
-        ICollection<IRelation> Providers { get; }
+        //ICollection<IRelation> Providers { get; }
     }
 }

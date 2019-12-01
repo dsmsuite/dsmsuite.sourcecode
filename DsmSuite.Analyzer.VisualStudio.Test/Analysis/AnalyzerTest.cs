@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using DsmSuite.Analyzer.Data;
+using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.Test.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,14 +32,15 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             {
                 elementNames.Add(element.Name);
 
-                foreach (IRelation relation in element.Providers)
+                foreach (IRelation relation in dataModel.GetProviderRelations(element))
                 {
                     if (!providerNames.ContainsKey(element.Name))
                     {
                         providerNames[element.Name] = new HashSet<string>();
                     }
 
-                    providerNames[element.Name].Add(relation.Provider.Name);
+                    IElement provider = dataModel.FindElement(relation.ProviderId);
+                    providerNames[element.Name].Add(provider.Name);
                 }
             }
 
@@ -108,14 +110,15 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             {
                 elementNames.Add(element.Name);
 
-                foreach (IRelation relation in element.Providers)
+                foreach (IRelation relation in dataModel.GetProviderRelations(element))
                 {
                     if (!providerNames.ContainsKey(element.Name))
                     {
                         providerNames[element.Name] = new HashSet<string>();
                     }
 
-                    providerNames[element.Name].Add(relation.Provider.Name);
+                    IElement provider = dataModel.FindElement(relation.ProviderId);
+                    providerNames[element.Name].Add(provider.Name);
                 }
             }
 

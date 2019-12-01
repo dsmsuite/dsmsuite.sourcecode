@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using DsmSuite.Analyzer.Data;
 using DsmSuite.Analyzer.DotNet.Settings;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 using Mono.Cecil;
 

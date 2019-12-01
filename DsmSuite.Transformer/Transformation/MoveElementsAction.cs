@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DsmSuite.Analyzer.Data;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 using DsmSuite.Transformer.Settings;

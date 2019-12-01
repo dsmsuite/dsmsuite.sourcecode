@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using DsmSuite.Analyzer.Data;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Uml.Settings;
 using DsmSuite.Common.Util;
 

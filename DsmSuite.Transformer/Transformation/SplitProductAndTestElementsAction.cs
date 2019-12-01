@@ -1,6 +1,6 @@
 ﻿using System;
-using DsmSuite.Analyzer.Data;
 using System.Linq;
+using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 using DsmSuite.Transformer.Settings;
