@@ -1,7 +1,7 @@
 ﻿using DsmSuite.DsmViewer.Model.Dependencies;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer.Model.Test.Dependencies
+namespace DsmSuite.DsmViewer.Model.Test.Data
 {
     /// <summary>
     /// Summary description for MetaDataTest

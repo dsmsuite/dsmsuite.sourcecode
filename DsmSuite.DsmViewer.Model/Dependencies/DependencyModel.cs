@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.Model.Data;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Dependencies
 {
@@ -14,17 +16,17 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// Elements by id. The id is assigned once based and is never changed when editing the model.
         /// It can there for be used to track changes to the model.
         /// </summary>
-        private readonly Dictionary<int /*id*/, Element> _elementsById = new Dictionary<int, Element>();
+        private readonly Dictionary<int /*id*/, DsmElement> _elementsById = new Dictionary<int, DsmElement>();
 
         /// <summary>
         /// Element relations sorted by provider first and consumer second.
         /// </summary>
-        private readonly Dictionary<int /*providerId*/, Dictionary<int /*consumerId*/, Relation>> _relationsByProvider = new Dictionary<int, Dictionary<int, Relation>>();
+        private readonly Dictionary<int /*providerId*/, Dictionary<int /*consumerId*/, DsmRelation>> _relationsByProvider = new Dictionary<int, Dictionary<int, DsmRelation>>();
 
         /// <summary>
         /// Element relations sorted by consumer first and provider second.
         /// </summary>
-        private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, Relation>> _relationsByConsumer = new Dictionary<int, Dictionary<int, Relation>>();
+        private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, DsmRelation>> _relationsByConsumer = new Dictionary<int, Dictionary<int, DsmRelation>>();
 
         /// <summary>
         /// Dependency weight between consumer and provider. This weight is calculated based on the weights on the selected elements and its children.
@@ -34,7 +36,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// <summary>
         /// The root elements
         /// </summary>
-        private readonly IList<IElement> _rootElements;
+        private readonly IList<IDsmElement> _rootElements;
 
         private int _systemCycleCount = 0;
         private int _directRelationCount = 0;
@@ -52,11 +54,11 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// <summary>
         /// The root elements hierarchy.
         /// </summary>
-        public IList<IElement> RootElements => _rootElements;
+        public IList<IDsmElement> RootElements => _rootElements;
 
         public DependencyModel()
         {
-            _rootElements = new List<IElement>();
+            _rootElements = new List<IDsmElement>();
         }
 
         public void Clear()
@@ -76,7 +78,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// <param name="type">The type of element</param>
         /// <param name="parentId">The element id of the parent</param>
         /// <returns></returns>
-        public IElement CreateElement(string name, string type, int? parentId)
+        public IDsmElement CreateElement(string name, string type, int? parentId)
         {
             string fullname = name;
             if (parentId.HasValue)
@@ -105,15 +107,15 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// <param name="parentId">The element id of the parent</param>
         /// <returns></returns>
 
-        public IElement AddElement(int id, string name, string type, int order, bool expanded, int? parentId)
+        public IDsmElement AddElement(int id, string name, string type, int order, bool expanded, int? parentId)
         {
-            Element element = null;
+            DsmElement element = null;
 
             if (parentId.HasValue)
             {
                 if (_elementsById.ContainsKey(parentId.Value))
                 {
-                    element = new Element(id, name, type) {Order = order, IsExpanded = expanded};
+                    element = new DsmElement(id, name, type) {Order = order, IsExpanded = expanded};
 
                     if (_elementsById.ContainsKey(parentId.Value))
                     {
@@ -129,7 +131,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             }
             else
             {
-                element = new Element(id, name, type) { Order = order, IsExpanded = expanded };
+                element = new DsmElement(id, name, type) { Order = order, IsExpanded = expanded };
                 _rootElements.Add(element);
                 RegisterElement(element);
             }
@@ -145,10 +147,10 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         {
             if (_elementsById.ContainsKey(id))
             {
-                Element element = _elementsById[id];
+                DsmElement element = _elementsById[id];
                 UnregisterElement(element);
 
-                foreach (IElement child in element.Children)
+                foreach (IDsmElement child in element.Children)
                 {
                     RemoveElement(child.Id);
                 }
@@ -160,13 +162,13 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             throw new NotImplementedException();
         }
 
-        public bool Swap(IElement element1, IElement element2)
+        public bool Swap(IDsmElement element1, IDsmElement element2)
         {
             bool swapped = false;
 
             if (element1.Parent == element2.Parent)
             {
-                Element parent = element1.Parent as Element;
+                DsmElement parent = element1.Parent as DsmElement;
                 if (parent != null)
                 {
                     if (parent.Swap(element1, element2))
@@ -186,7 +188,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// </summary>
         /// <param name="id">The element id to be looked for</param>
         /// <returns>The found element or null</returns>
-        public Element GetElementById(int id)
+        public DsmElement GetElementById(int id)
         {
             return _elementsById.ContainsKey(id) ? _elementsById[id] : null;
         }
@@ -196,9 +198,9 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// </summary>
         /// <param name="fullname">The fully qualified element name to be looked for</param>
         /// <returns></returns>
-        public Element GetElementByFullname(string fullname)
+        public DsmElement GetElementByFullname(string fullname)
         {
-            IEnumerable<Element> elementWithName = from element in _elementsById.Values
+            IEnumerable<DsmElement> elementWithName = from element in _elementsById.Values
                                                    where element.Fullname == fullname
                                                    select element;
 
@@ -210,7 +212,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// </summary>
         /// <param name="fullname">The fully qualified element name to be looked for</param>
         /// <returns></returns>
-        public IEnumerable<IElement> GetElementsWithFullnameContainingText(string text)
+        public IEnumerable<IDsmElement> GetElementsWithFullnameContainingText(string text)
         {
             return from element in _elementsById.Values
                    where element.Fullname.Contains(text)
@@ -234,7 +236,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         {
             if (consumerId != providerId)
             {
-                Relation relation = new Relation(consumerId, providerId, type, weight);
+                DsmRelation relation = new DsmRelation(consumerId, providerId, type, weight);
                 RegisterRelation(relation);
             }
         }
@@ -253,7 +255,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// Remove the relation from the model.
         /// </summary>
         /// <param name="relation">The relation to be removed</param>
-        public void RemoveRelation(Relation relation)
+        public void RemoveRelation(DsmRelation relation)
         {
             UnregisterRelation(relation);
         }
@@ -261,12 +263,12 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// <summary>
         /// Get all relations in the model.
         /// </summary>
-        public ICollection<Relation> Relations
+        public ICollection<DsmRelation> Relations
         {
             get
             {
-                List<Relation> relations = new List<Relation>();
-                foreach (Dictionary<int, Relation> value in _relationsByProvider.Values)
+                List<DsmRelation> relations = new List<DsmRelation>();
+                foreach (Dictionary<int, DsmRelation> value in _relationsByProvider.Values)
                 {
                     relations.AddRange(value.Values);
                 }
@@ -281,9 +283,9 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
 
         public int RelationDensity => 0;
 
-        public IList<Relation> FindRelations(IElement consumer, IElement provider)
+        public IList<DsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
-            IList<Relation> relations = new List<Relation>();
+            IList<DsmRelation> relations = new List<DsmRelation>();
             List<int> consumerIds = GetIdsOfElementAndItsChidren(consumer);
             List<int> providerIds = GetIdsOfElementAndItsChidren(provider);
             foreach (int consumerId in consumerIds)
@@ -299,9 +301,9 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             return relations;
         }
 
-        public IList<Relation> FindElementConsumerRelations(IElement element)
+        public IList<DsmRelation> FindElementConsumerRelations(IDsmElement element)
         {
-            List<Relation> relations = new List<Relation>();
+            List<DsmRelation> relations = new List<DsmRelation>();
             List<int> providerIds = GetIdsOfElementAndItsChidren(element);
             foreach (int providerId in providerIds)
             {
@@ -313,9 +315,9 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             return relations;
         }
 
-        public IList<Relation> FindElementProviderRelations(IElement element)
+        public IList<DsmRelation> FindElementProviderRelations(IDsmElement element)
         {
-            List<Relation> relations = new List<Relation>();
+            List<DsmRelation> relations = new List<DsmRelation>();
             List<int> consumerIds = GetIdsOfElementAndItsChidren(element);
             foreach (int consumerId in consumerIds)
             {
@@ -327,12 +329,12 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             return relations;
         }
 
-        public IList<Element> FindElementProviders(IElement element)
+        public IList<DsmElement> FindElementProviders(IDsmElement element)
         {
-            HashSet<Element> providers = new HashSet<Element>();
-            foreach (Relation relation in FindElementProviderRelations(element))
+            HashSet<DsmElement> providers = new HashSet<DsmElement>();
+            foreach (DsmRelation relation in FindElementProviderRelations(element))
             {
-                Element provider = GetElementById(relation.ProviderId);
+                DsmElement provider = GetElementById(relation.ProviderId);
                 if (provider != null)
                 {
                     providers.Add(provider);
@@ -341,12 +343,12 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             return providers.ToList();
         }
 
-        public IList<Element> FindElementConsumers(IElement element)
+        public IList<DsmElement> FindElementConsumers(IDsmElement element)
         {
-            HashSet<Element> consumers = new HashSet<Element>();
-            foreach (Relation relation in FindElementConsumerRelations(element))
+            HashSet<DsmElement> consumers = new HashSet<DsmElement>();
+            foreach (DsmRelation relation in FindElementConsumerRelations(element))
             {
-                Element consumer = GetElementById(relation.ConsumerId);
+                DsmElement consumer = GetElementById(relation.ConsumerId);
                 if (consumer != null)
                 {
                     consumers.Add(consumer);
@@ -358,9 +360,9 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         public void AssignElementOrder()
         {
             int order = 1;
-            foreach (IElement root in _rootElements)
+            foreach (IDsmElement root in _rootElements)
             {
-                Element rootElement = root as Element;
+                DsmElement rootElement = root as DsmElement;
                 if (rootElement != null)
                 {
                     AssignElementOrder(rootElement, ref order);
@@ -418,14 +420,14 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             }
         }
 
-        private void AssignElementOrder(Element element, ref int order)
+        private void AssignElementOrder(DsmElement element, ref int order)
         {
             element.Order = order;
             order++;
 
-            foreach (IElement child in element.Children)
+            foreach (IDsmElement child in element.Children)
             {
-                Element childElement = child as Element;
+                DsmElement childElement = child as DsmElement;
                 if (childElement != null)
                 {
                     AssignElementOrder(childElement, ref order);
@@ -433,17 +435,17 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             }
         }
 
-        private void UpdateWeights(Relation relation, ModifyWeight modifyWeight)
+        private void UpdateWeights(DsmRelation relation, ModifyWeight modifyWeight)
         {
             int consumerId = relation.ConsumerId;
             int providerId = relation.ProviderId;
 
             if (_elementsById.ContainsKey(consumerId))
             {
-                IElement currentConsumer = _elementsById[consumerId];
+                IDsmElement currentConsumer = _elementsById[consumerId];
                 while (currentConsumer != null)
                 {
-                    IElement currentProvider = _elementsById[providerId];
+                    IDsmElement currentProvider = _elementsById[providerId];
                     while (currentProvider != null)
                     {
                         modifyWeight(currentConsumer.Id, currentProvider.Id, relation.Weight);
@@ -502,29 +504,29 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             }
         }
 
-        private List<int> GetIdsOfElementAndItsChidren(IElement element)
+        private List<int> GetIdsOfElementAndItsChidren(IDsmElement element)
         {
             List<int> ids = new List<int>();
             GetIdsOfElementAndItsChidren(element, ids);
             return ids;
         }
 
-        private void GetIdsOfElementAndItsChidren(IElement element, List<int> ids)
+        private void GetIdsOfElementAndItsChidren(IDsmElement element, List<int> ids)
         {
             ids.Add(element.Id);
 
-            foreach (IElement child in element.Children)
+            foreach (IDsmElement child in element.Children)
             {
                 GetIdsOfElementAndItsChidren(child, ids);
             }
         }
 
-        private void RegisterElement(Element element)
+        private void RegisterElement(DsmElement element)
         {
             _elementsById[element.Id] = element;
         }
 
-        private void UnregisterElement(IElement element)
+        private void UnregisterElement(IDsmElement element)
         {
             UnregisterProviderRelations(element);
             UnregisterConsumerRelations(element);
@@ -532,24 +534,24 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             _elementsById.Remove(element.Id);
         }
 
-        private void RegisterRelation(Relation relation)
+        private void RegisterRelation(DsmRelation relation)
         {
             if (!_relationsByProvider.ContainsKey(relation.ProviderId))
             {
-                _relationsByProvider[relation.ProviderId] = new Dictionary<int, Relation>();
+                _relationsByProvider[relation.ProviderId] = new Dictionary<int, DsmRelation>();
             }
             _relationsByProvider[relation.ProviderId][relation.ConsumerId] = relation;
 
             if (!_relationsByConsumer.ContainsKey(relation.ConsumerId))
             {
-                _relationsByConsumer[relation.ConsumerId] = new Dictionary<int, Relation>();
+                _relationsByConsumer[relation.ConsumerId] = new Dictionary<int, DsmRelation>();
             }
             _relationsByConsumer[relation.ConsumerId][relation.ProviderId] = relation;
 
             UpdateWeights(relation, AddWeight);
         }
 
-        private void UnregisterRelation(Relation relation)
+        private void UnregisterRelation(DsmRelation relation)
         {
             if (!_relationsByProvider.ContainsKey(relation.ProviderId))
             {
@@ -564,14 +566,14 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             UpdateWeights(relation, RemoveWeight);
         }
 
-        private void UnregisterConsumerRelations(IElement element)
+        private void UnregisterConsumerRelations(IDsmElement element)
         {
             if (_relationsByConsumer.ContainsKey(element.Id))
             {
                 _relationsByConsumer.Remove(element.Id);
             }
 
-            foreach (Dictionary<int, Relation> consumerRelations in _relationsByConsumer.Values)
+            foreach (Dictionary<int, DsmRelation> consumerRelations in _relationsByConsumer.Values)
             {
                 if (consumerRelations.ContainsKey(element.Id))
                 {
@@ -580,14 +582,14 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             }
         }
 
-        private void UnregisterProviderRelations(IElement element)
+        private void UnregisterProviderRelations(IDsmElement element)
         {
             if (_relationsByProvider.ContainsKey(element.Id))
             {
                 _relationsByProvider.Remove(element.Id);
             }
 
-            foreach (Dictionary<int, Relation> providerRelations in _relationsByProvider.Values)
+            foreach (Dictionary<int, DsmRelation> providerRelations in _relationsByProvider.Values)
             {
                 if (providerRelations.ContainsKey(element.Id))
                 {

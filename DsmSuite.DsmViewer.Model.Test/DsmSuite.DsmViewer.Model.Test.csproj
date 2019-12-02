@@ -54,12 +54,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Dependencies\DependencyModelTest.cs" />
-    <Compile Include="Dependencies\ElementTest.cs" />
+    <Compile Include="Data\DsmElementTest.cs" />
     <Compile Include="Dependencies\HierarchicalNameTest.cs" />
-    <Compile Include="Dependencies\RelationTest.cs" />
+    <Compile Include="Data\DsmRelationTest.cs" />
     <Compile Include="Dependencies\TypeRegistrationTest.cs" />
     <Compile Include="Files\DsmModelFileTest.cs" />
-    <Compile Include="Dependencies\MetaDataTest.cs" />
+    <Compile Include="Data\DsmMetaDataItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Algorithm\" />
+    <Folder Include="Persistency\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Files\Uncompressed.dsm">

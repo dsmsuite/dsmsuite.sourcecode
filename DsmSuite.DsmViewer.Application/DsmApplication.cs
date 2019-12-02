@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Model;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application
 {
@@ -30,14 +31,14 @@ namespace DsmSuite.DsmViewer.Application
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));
         }
 
-        public IList<IElement> RootElements => _model.RootElements;
+        public IList<IDsmElement> RootElements => _model.RootElements;
 
         public IDsmModel Model
         {
             get { return _model; }
         }
 
-        public IEnumerable<IElement> GetElementProvidedElements(IElement element)
+        public IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element)
         {
             var relations = _model.FindProviderRelations(element)
                 .OrderBy(x => x.Provider.Fullname)
@@ -50,7 +51,7 @@ namespace DsmSuite.DsmViewer.Application
             return elements;
         }
 
-        public IEnumerable<IElement> GetElementProviders(IElement element)
+        public IEnumerable<IDsmElement> GetElementProviders(IDsmElement element)
         {
             var relations = _model.FindConsumerRelations(element)
                 .OrderBy(x => x.Provider.Fullname)
@@ -63,7 +64,7 @@ namespace DsmSuite.DsmViewer.Application
             return elements;
         }
 
-        public IEnumerable<IRelation> FindRelations(IElement consumer, IElement provider)
+        public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
             var relations = _model.FindRelations(consumer, provider)
                 .OrderBy(x => x.Provider.Fullname)
@@ -72,7 +73,7 @@ namespace DsmSuite.DsmViewer.Application
             return relations;
         }
 
-        public IEnumerable<IElement> GetRelationProviders(IElement consumer, IElement provider)
+        public IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider)
         {
             var relations = _model.FindRelations(consumer, provider)
                 .OrderBy(x => x.Provider.Fullname)
@@ -85,7 +86,7 @@ namespace DsmSuite.DsmViewer.Application
             return elements;
         }
 
-        public IEnumerable<IElement> GetRelationConsumers(IElement consumer, IElement provider)
+        public IEnumerable<IDsmElement> GetRelationConsumers(IDsmElement consumer, IDsmElement provider)
         {
             var relations = _model.FindRelations(consumer, provider)
                 .OrderBy(x => x.Consumer.Fullname)
@@ -98,22 +99,22 @@ namespace DsmSuite.DsmViewer.Application
             return elements;
         }
 
-        public bool IsFirstChild(IElement element)
+        public bool IsFirstChild(IDsmElement element)
         {
             return element?.PreviousSibling == null;
        }
 
-        public bool IsLastChild(IElement element)
+        public bool IsLastChild(IDsmElement element)
         {
             return element?.NextSibling == null;
         }
 
-        public bool HasChildren(IElement element)
+        public bool HasChildren(IDsmElement element)
         {
             return element?.Children.Count > 0;
         }
 
-        public void Sort(IElement element, string algorithm)
+        public void Sort(IDsmElement element, string algorithm)
         {
             _model.Partition(element);
         }
@@ -123,7 +124,7 @@ namespace DsmSuite.DsmViewer.Application
             return new List<string> {"Partition"};
         }
 
-        public IEnumerable<IElement> GetElementConsumers(IElement element)
+        public IEnumerable<IDsmElement> GetElementConsumers(IDsmElement element)
         {
             var relations = _model.FindProviderRelations(element)
                 .OrderBy(x => x.Consumer.Fullname)
@@ -136,17 +137,17 @@ namespace DsmSuite.DsmViewer.Application
             return elements;
         }
 
-        public int GetDependencyWeight(IElement consumer, IElement provider)
+        public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
             return _model.GetDependencyWeight(consumer, provider);
         }
 
-        public bool IsCyclicDependency(IElement consumer, IElement provider)
+        public bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider)
         {
             return _model.IsCyclicDependency(consumer, provider);
         }
 
-        public IEnumerable<IElement> SearchExecute(string text)
+        public IEnumerable<IDsmElement> SearchExecute(string text)
         {
             return _model.GetElementsWithFullnameContainingText(text);
         }

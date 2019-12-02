@@ -4,6 +4,7 @@ using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Files.Dsi;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Builder
 {
@@ -11,7 +12,7 @@ namespace DsmSuite.DsmViewer.Builder
     {
         private readonly BuilderSettings _builderSettings;
         private readonly IDsmModel _model;
-        private readonly Dictionary<int, IElement> _elementsById = new Dictionary<int, IElement>();
+        private readonly Dictionary<int, IDsmElement> _elementsById = new Dictionary<int, IDsmElement>();
 
         public Builder(IDsmModel model, BuilderSettings builderSettings)
         {
@@ -45,7 +46,7 @@ namespace DsmSuite.DsmViewer.Builder
 
         public void FoundElement(int id, string fullname, string type)
         {
-            IElement parent = null;
+            IDsmElement parent = null;
             HierarchicalName elementName = new HierarchicalName();
             foreach (string name in new HierarchicalName(fullname).Elements)
             {
@@ -55,7 +56,7 @@ namespace DsmSuite.DsmViewer.Builder
                 string elementType = isElementLeaf ? type : "";
 
                 int? parentId = parent?.Id;
-                IElement element = _model.CreateElement(name, elementType, parentId);
+                IDsmElement element = _model.CreateElement(name, elementType, parentId);
                 parent = element;
 
                 if (isElementLeaf)
@@ -69,8 +70,8 @@ namespace DsmSuite.DsmViewer.Builder
         {
             if (_elementsById.ContainsKey(consumerId) && _elementsById.ContainsKey(providerId))
             {
-                IElement consumer = _elementsById[consumerId];
-                IElement provider = _elementsById[providerId];
+                IDsmElement consumer = _elementsById[consumerId];
+                IDsmElement provider = _elementsById[providerId];
                 _model.AddRelation(consumer.Id, provider.Id, type, weight);
             }
             else

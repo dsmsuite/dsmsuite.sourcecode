@@ -55,10 +55,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Core\DataModelTest.cs" />
-    <Compile Include="Data\ElementTest.cs" />
-    <Compile Include="Data\MetaDataItemTest.cs" />
-    <Compile Include="Data\RelationTest.cs" />
+    <Compile Include="Core\DsiDataModelTest.cs" />
+    <Compile Include="Data\DsiElementTest.cs" />
+    <Compile Include="Data\DsiMetaDataItemTest.cs" />
+    <Compile Include="Data\DsiRelationTest.cs" />
     <Compile Include="Persistency\DsiModelFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

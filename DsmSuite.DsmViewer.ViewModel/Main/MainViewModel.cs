@@ -9,6 +9,7 @@ using DsmSuite.DsmViewer.ViewModel.Matrix;
 using DsmSuite.DsmViewer.Application;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 using System.Linq;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -38,7 +39,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _modelFilename;
         private string _title;
         private string _searchText;
-        private IElement _foundElement;
+        private IDsmElement _foundElement;
         private SearchState _searchState;
 
         private bool _showCycles;
@@ -242,7 +243,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ElementDetailMatrixExecute(object parameter)
         {
-            List<IElement> selectedElements = new List<IElement>();
+            List<IDsmElement> selectedElements = new List<IDsmElement>();
             selectedElements.Add(SelectedProvider?.Element);
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
@@ -254,7 +255,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void RelationDetailMatrixExecute(object parameter)
         {
-            List<IElement> selectedElements = new List<IElement>();
+            List<IDsmElement> selectedElements = new List<IDsmElement>();
             selectedElements.Add(SelectedProvider?.Element);
             selectedElements.Add(SelectedConsumer?.Element);
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
@@ -267,8 +268,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void MoveUpExecute(object parameter)
         {
-            IElement current = SelectedProvider?.Element;
-            IElement previous = current?.PreviousSibling;
+            IDsmElement current = SelectedProvider?.Element;
+            IDsmElement previous = current?.PreviousSibling;
             if ((current != null) && (previous != null))
             {
                 _model.Swap(current, previous);
@@ -278,15 +279,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool MoveUpCanExecute(object parameter)
         {
-            IElement current = SelectedProvider?.Element;
-            IElement previous = current?.PreviousSibling;
+            IDsmElement current = SelectedProvider?.Element;
+            IDsmElement previous = current?.PreviousSibling;
             return (current != null) && (previous != null);
         }
 
         private void MoveDownExecute(object parameter)
         {
-            IElement current = SelectedProvider?.Element;
-            IElement next = current?.NextSibling;
+            IDsmElement current = SelectedProvider?.Element;
+            IDsmElement next = current?.NextSibling;
             if ((current != null) && (next != null))
             {
                 _model.Swap(current, next);
@@ -296,8 +297,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool MoveDownCanExecute(object parameter)
         {
-            IElement current = SelectedProvider?.Element;
-            IElement next = current?.NextSibling;
+            IDsmElement current = SelectedProvider?.Element;
+            IDsmElement next = current?.NextSibling;
             return (current != null) && (next != null);
         }
 
@@ -359,7 +360,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OnRunSearch()
         {
-            IEnumerable<IElement> foundElements = _application.SearchExecute(SearchText);
+            IEnumerable<IDsmElement> foundElements = _application.SearchExecute(SearchText);
             int count = foundElements.Count();
             if (count > 1)
             {
@@ -388,9 +389,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             SelectElement(ActiveMatrix.Providers, _foundElement);
         }
 
-        private void ExpandElement(IElement element)
+        private void ExpandElement(IDsmElement element)
         {
-            IElement current = element.Parent;
+            IDsmElement current = element.Parent;
             while (current != null)
             {
                 current.IsExpanded = true;
@@ -399,7 +400,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ActiveMatrix?.Reload();
         }
 
-        private void SelectElement(IEnumerable<ElementTreeItemViewModel> providers, IElement element)
+        private void SelectElement(IEnumerable<ElementTreeItemViewModel> providers, IDsmElement element)
         {
             foreach (ElementTreeItemViewModel item in providers)
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Model;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application
 {
@@ -13,23 +14,23 @@ namespace DsmSuite.DsmViewer.Application
         Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress);
         Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress);
 
-        IList<IElement> RootElements { get; }
-        IEnumerable<IElement> GetElementProvidedElements(IElement element);
-        IEnumerable<IElement> GetElementProviders(IElement element);
-        IEnumerable<IRelation> FindRelations(IElement consumer, IElement provider);
-        IEnumerable<IElement> GetRelationProviders(IElement consumer, IElement provider);
-        IEnumerable<IElement> GetElementConsumers(IElement element);
-        IEnumerable<IElement> GetRelationConsumers(IElement consumer, IElement provider);
+        IList<IDsmElement> RootElements { get; }
+        IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element);
+        IEnumerable<IDsmElement> GetElementProviders(IDsmElement element);
+        IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
+        IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider);
+        IEnumerable<IDsmElement> GetElementConsumers(IDsmElement element);
+        IEnumerable<IDsmElement> GetRelationConsumers(IDsmElement consumer, IDsmElement provider);
 
-        bool IsFirstChild(IElement element);
-        bool IsLastChild(IElement element);
-        bool HasChildren(IElement element);
-        void Sort(IElement element, string algorithm);
+        bool IsFirstChild(IDsmElement element);
+        bool IsLastChild(IDsmElement element);
+        bool HasChildren(IDsmElement element);
+        void Sort(IDsmElement element, string algorithm);
         IEnumerable<string> GetSupportedSortAlgorithms();
 
-        int GetDependencyWeight(IElement consumer, IElement provider);
-        bool IsCyclicDependency(IElement consumer, IElement provider);
+        int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
+        bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
 
-        IEnumerable<IElement> SearchExecute(string text);
+        IEnumerable<IDsmElement> SearchExecute(string text);
     }
 }

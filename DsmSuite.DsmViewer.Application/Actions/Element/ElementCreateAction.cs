@@ -1,5 +1,6 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Model.Actions.Base;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Actions.Element
 {
@@ -19,7 +20,7 @@ namespace DsmSuite.DsmViewer.Model.Actions.Element
 
         public void Do()
         {
-            IElement element = Model.CreateElement(_name, _type, _parentId);
+            IDsmElement element = Model.CreateElement(_name, _type, _parentId);
             _elementId = element.Id;
         }
 

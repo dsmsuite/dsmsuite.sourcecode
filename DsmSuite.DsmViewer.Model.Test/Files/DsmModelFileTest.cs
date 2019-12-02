@@ -2,6 +2,7 @@
 using System.Linq;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Files.Dsm;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.DsmViewer.Model.Test.Files
@@ -95,15 +96,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Files
 
         private void CreateMatrix(DependencyModel dependencyModel)
         {
-            IElement a = dependencyModel.AddElement(11, "a", "", 1, true, null);
-            IElement a1 = dependencyModel.AddElement(12, "a1", "eta", 2, false, a.Id);
-            IElement a2 = dependencyModel.AddElement(13, "a2", "eta", 3, false, a.Id);
-            IElement b = dependencyModel.AddElement(14, "b", "", 4, false, null);
-            IElement b1 = dependencyModel.AddElement(15, "b1", "etb", 5, false, b.Id);
-            IElement b2 = dependencyModel.AddElement(16, "b2", "etb", 6, false, b.Id);
-            IElement c = dependencyModel.AddElement(17, "c", "", 7, false, null);
-            IElement c1 = dependencyModel.AddElement(18, "c1", "etc", 8, false, c.Id);
-            IElement c2 = dependencyModel.AddElement(19, "c2", "etc", 9, false, c.Id);
+            IDsmElement a = dependencyModel.AddElement(11, "a", "", 1, true, null);
+            IDsmElement a1 = dependencyModel.AddElement(12, "a1", "eta", 2, false, a.Id);
+            IDsmElement a2 = dependencyModel.AddElement(13, "a2", "eta", 3, false, a.Id);
+            IDsmElement b = dependencyModel.AddElement(14, "b", "", 4, false, null);
+            IDsmElement b1 = dependencyModel.AddElement(15, "b1", "etb", 5, false, b.Id);
+            IDsmElement b2 = dependencyModel.AddElement(16, "b2", "etb", 6, false, b.Id);
+            IDsmElement c = dependencyModel.AddElement(17, "c", "", 7, false, null);
+            IDsmElement c1 = dependencyModel.AddElement(18, "c1", "etc", 8, false, c.Id);
+            IDsmElement c2 = dependencyModel.AddElement(19, "c2", "etc", 9, false, c.Id);
 
             dependencyModel.AssignElementOrder();
 
@@ -119,63 +120,63 @@ namespace DsmSuite.DsmViewer.Model.Test.Files
 
         private void CheckModel(DependencyModel dependencyModel, string message)
         {
-            IElement a = dependencyModel.GetElementByFullname("a");
+            IDsmElement a = dependencyModel.GetElementByFullname("a");
             Assert.AreEqual(11, a.Id, message);
             Assert.AreEqual(1, a.Order, message);
             Assert.AreEqual("", a.Type, message);
             Assert.AreEqual("a", a.Name, message);
             Assert.AreEqual("a", a.Fullname, message);
 
-            IElement a1 = dependencyModel.GetElementByFullname("a.a1");
+            IDsmElement a1 = dependencyModel.GetElementByFullname("a.a1");
             Assert.AreEqual(12, a1.Id, message);
             Assert.AreEqual(2, a1.Order, message);
             Assert.AreEqual("eta", a1.Type, message);
             Assert.AreEqual("a1", a1.Name, message);
             Assert.AreEqual("a.a1", a1.Fullname, message);
 
-            IElement a2 = dependencyModel.GetElementByFullname("a.a2");
+            IDsmElement a2 = dependencyModel.GetElementByFullname("a.a2");
             Assert.AreEqual(13, a2.Id, message);
             Assert.AreEqual(3, a2.Order, message);
             Assert.AreEqual("eta", a2.Type, message);
             Assert.AreEqual("a2", a2.Name, message);
             Assert.AreEqual("a.a2", a2.Fullname, message);
 
-            IElement b = dependencyModel.GetElementByFullname("b");
+            IDsmElement b = dependencyModel.GetElementByFullname("b");
             Assert.AreEqual(14, b.Id, message);
             Assert.AreEqual(4, b.Order, message);
             Assert.AreEqual("", b.Type, message);
             Assert.AreEqual("b", b.Name, message);
             Assert.AreEqual("b", b.Fullname, message);
 
-            IElement b1 = dependencyModel.GetElementByFullname("b.b1");
+            IDsmElement b1 = dependencyModel.GetElementByFullname("b.b1");
             Assert.AreEqual(15, b1.Id, message);
             Assert.AreEqual(5, b1.Order, message);
             Assert.AreEqual("etb", b1.Type, message);
             Assert.AreEqual("b1", b1.Name, message);
             Assert.AreEqual("b.b1", b1.Fullname, message);
 
-            IElement b2 = dependencyModel.GetElementByFullname("b.b2");
+            IDsmElement b2 = dependencyModel.GetElementByFullname("b.b2");
             Assert.AreEqual(16, b2.Id, message);
             Assert.AreEqual(6, b2.Order, message);
             Assert.AreEqual("etb", b2.Type, message);
             Assert.AreEqual("b2", b2.Name, message);
             Assert.AreEqual("b.b2", b2.Fullname, message);
 
-            IElement c = dependencyModel.GetElementByFullname("c");
+            IDsmElement c = dependencyModel.GetElementByFullname("c");
             Assert.AreEqual(17, c.Id, message);
             Assert.AreEqual(7, c.Order, message);
             Assert.AreEqual("", c.Type, message);
             Assert.AreEqual("c", c.Name, message);
             Assert.AreEqual("c", c.Fullname, message);
 
-            IElement c1 = dependencyModel.GetElementByFullname("c.c1");
+            IDsmElement c1 = dependencyModel.GetElementByFullname("c.c1");
             Assert.AreEqual(18, c1.Id, message);
             Assert.AreEqual(8, c1.Order, message);
             Assert.AreEqual("etc", c1.Type, message);
             Assert.AreEqual("c1", c1.Name, message);
             Assert.AreEqual("c.c1", c1.Fullname, message);
 
-            IElement c2 = dependencyModel.GetElementByFullname("c.c2");
+            IDsmElement c2 = dependencyModel.GetElementByFullname("c.c2");
             Assert.AreEqual(19, c2.Id, message);
             Assert.AreEqual(9, c2.Order, message);
             Assert.AreEqual("etc", c2.Type, message);

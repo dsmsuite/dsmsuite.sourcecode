@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Dependencies;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.DsmViewer.Model.Test.Dependencies
@@ -32,15 +34,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
     public class DependencyModelTest
     {
         private DependencyModel _dependencyModel;
-        private IElement _a;
-        private IElement _a1;
-        private IElement _a2;
-        private IElement _b;
-        private IElement _b1;
-        private IElement _b2;
-        private IElement _c;
-        private IElement _c1;
-        private IElement _c2;
+        private IDsmElement _a;
+        private IDsmElement _a1;
+        private IDsmElement _a2;
+        private IDsmElement _b;
+        private IDsmElement _b1;
+        private IDsmElement _b2;
+        private IDsmElement _c;
+        private IDsmElement _c1;
+        private IDsmElement _c2;
 
         [TestInitialize()]
         public void MyTestInitialize()
@@ -325,7 +327,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateMatrix();
 
-            IList<Relation> relations = _dependencyModel.FindRelations(_a, _b).OrderBy(x => x.Weight).ToList();
+            IList<DsmRelation> relations = _dependencyModel.FindRelations(_a, _b).OrderBy(x => x.Weight).ToList();
 
             _dependencyModel.RemoveRelation(relations[0]);
             Assert.AreEqual(1230, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
@@ -362,9 +364,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateMatrix();
 
-            IList<Relation> relations = _dependencyModel.FindRelations(_a, _b).OrderBy(x => x.Weight).ToList();
+            IList<DsmRelation> relations = _dependencyModel.FindRelations(_a, _b).OrderBy(x => x.Weight).ToList();
 
-            foreach (Relation relation in relations)
+            foreach (DsmRelation relation in relations)
             {
                 string consumer = _dependencyModel.GetElementById(relation.ConsumerId).Fullname;
                 string provider = _dependencyModel.GetElementById(relation.ProviderId).Fullname;
@@ -394,7 +396,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateMatrix();
 
-            IList<Relation> relations = _dependencyModel.FindRelations(_b, _b).OrderBy(x => x.Weight).ToList();
+            IList<DsmRelation> relations = _dependencyModel.FindRelations(_b, _b).OrderBy(x => x.Weight).ToList();
             Assert.AreEqual(0, relations.Count);
         }
 
@@ -404,8 +406,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateMatrix();
 
-            IList<Relation> relations = _dependencyModel.FindElementConsumerRelations(_b).OrderBy(x => x.Weight).ToList();
-            foreach (Relation relation in relations)
+            IList<DsmRelation> relations = _dependencyModel.FindElementConsumerRelations(_b).OrderBy(x => x.Weight).ToList();
+            foreach (DsmRelation relation in relations)
             {
                 string consumer = _dependencyModel.GetElementById(relation.ConsumerId).Fullname;
                 string provider = _dependencyModel.GetElementById(relation.ProviderId).Fullname;
@@ -436,7 +438,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateMatrix();
 
-            IList<Relation> relations = _dependencyModel.FindElementProviderRelations(_a).OrderBy(x => x.Weight).ToList();
+            IList<DsmRelation> relations = _dependencyModel.FindElementProviderRelations(_a).OrderBy(x => x.Weight).ToList();
             Assert.AreEqual(5, relations.Count);
 
             Assert.AreEqual(4, relations[0].Weight);
@@ -465,7 +467,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateMatrix();
 
-            IList<Element> elements = _dependencyModel.FindElementConsumers(_b).OrderBy(x => x.Fullname).ToList();
+            IList<DsmElement> elements = _dependencyModel.FindElementConsumers(_b).OrderBy(x => x.Fullname).ToList();
 
             Assert.AreEqual(2, elements.Count);
             Assert.AreEqual(_a1, elements[0]);
@@ -477,7 +479,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateMatrix();
 
-            IList<Element> elements = _dependencyModel.FindElementProviders(_a).OrderBy(x => x.Fullname).ToList();
+            IList<DsmElement> elements = _dependencyModel.FindElementProviders(_a).OrderBy(x => x.Fullname).ToList();
 
             Assert.AreEqual(3, elements.Count);
             Assert.AreEqual(_b1, elements[0]);

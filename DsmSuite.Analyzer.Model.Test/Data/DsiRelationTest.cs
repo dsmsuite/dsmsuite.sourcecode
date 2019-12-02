@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DsmSuite.Analyzer.Model.Test.Data
 {
     [TestClass]
-    public class RelationTest
+    public class DsiRelationTest
     {
         [TestMethod]
         public void TestRelationConstructor()

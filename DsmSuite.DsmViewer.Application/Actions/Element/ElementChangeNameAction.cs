@@ -1,5 +1,6 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Model.Actions.Base;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Actions.Element
 {
@@ -18,7 +19,7 @@ namespace DsmSuite.DsmViewer.Model.Actions.Element
 
         public void Do()
         {
-            IElement element = Model.GetElementById(_elementId);
+            IDsmElement element = Model.GetElementById(_elementId);
             if (element.Name == _oldName)
             {
                 element.Name = _newName;
@@ -27,7 +28,7 @@ namespace DsmSuite.DsmViewer.Model.Actions.Element
 
         public void Undo()
         {
-            IElement element = Model.GetElementById(_elementId);
+            IDsmElement element = Model.GetElementById(_elementId);
             if (element.Name == _newName)
             {
                 element.Name = _oldName;

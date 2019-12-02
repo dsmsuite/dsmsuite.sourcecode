@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DsmSuite.DsmViewer.Model
+namespace DsmSuite.DsmViewer.Model.Interfaces
 {
-    public interface IElement : IComparable
+    public interface IDsmElement : IComparable
     {
         /// <summary>
         /// Unique and non-modifiable Number identifying the element.
@@ -38,32 +38,32 @@ namespace DsmSuite.DsmViewer.Model
         /// <summary>
         /// Children of the element.
         /// </summary>
-        IList<IElement> Children { get; }
+        IList<IDsmElement> Children { get; }
 
         /// <summary>
         /// Parent of the element.
         /// </summary>
-        IElement Parent { get; }
+        IDsmElement Parent { get; }
 
         /// <summary>
         /// Get the previous element with the same parent.
         /// </summary>
-        IElement PreviousSibling { get; }
+        IDsmElement PreviousSibling { get; }
 
         /// <summary>
         /// Get the next element with the same parent.
         /// </summary>
-        IElement NextSibling { get; }
+        IDsmElement NextSibling { get; }
 
         /// <summary>
         /// Get the first child.
         /// </summary>
-        IElement FirstChild { get; }
+        IDsmElement FirstChild { get; }
 
         /// <summary>
         /// Get the last child.
         /// </summary>
-        IElement LastChild { get; }
+        IDsmElement LastChild { get; }
 
         int Depth { get; }
 

@@ -1,18 +1,20 @@
 ﻿using System.Collections.Generic;
+using DsmSuite.DsmViewer.Model.Dependencies;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Model.Dependencies
+namespace DsmSuite.DsmViewer.Model.Data
 {
     /// <summary>
     /// Represent an element in the dsm hierarchy.
     /// </summary>
-    public class Element : IElement
+    public class DsmElement : IDsmElement
     {
         private readonly char _typeId;
-        private readonly List<IElement> _children = new List<IElement>();
-        private Element _parent;
+        private readonly List<IDsmElement> _children = new List<IDsmElement>();
+        private DsmElement _parent;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
 
-        public Element(int id, string name, string type)
+        public DsmElement(int id, string name, string type)
         {
             Id = id;
             Name = name;
@@ -48,7 +50,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             get
             {
                 string fullname = Name;
-                IElement parent = Parent;
+                IDsmElement parent = Parent;
                 while (parent != null)
                 {
                     if (parent.Name.Length > 0)
@@ -65,7 +67,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             get
             {
                 int depth = 0;
-                IElement parent = Parent;
+                IDsmElement parent = Parent;
                 while (parent != null)
                 {
                     depth++;
@@ -80,7 +82,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// </summary>
         public bool IsExpanded { get; set; }
 
-        public bool Swap(IElement element1, IElement element2)
+        public bool Swap(IDsmElement element1, IDsmElement element2)
         {
             bool swapped = false;
 
@@ -101,11 +103,11 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// <summary>
         /// Get the previous element with the same parent.
         /// </summary>
-        public IElement PreviousSibling
+        public IDsmElement PreviousSibling
         {
             get
             {
-                IElement previousSibling = null;
+                IDsmElement previousSibling = null;
                 if (_parent != null)
                 {
                     int index = _parent._children.IndexOf(this);
@@ -122,11 +124,11 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// <summary>
         /// Get the next element with the same parent.
         /// </summary>
-        public IElement NextSibling
+        public IDsmElement NextSibling
         {
             get
             {
-                IElement nextSibling = null;
+                IDsmElement nextSibling = null;
                 if (_parent != null)
                 {
                     int index = _parent._children.IndexOf(this);
@@ -143,22 +145,22 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// <summary>
         /// Get the first child.
         /// </summary>
-        public IElement FirstChild => _children.Count > 0 ? _children[0] : null;
+        public IDsmElement FirstChild => _children.Count > 0 ? _children[0] : null;
 
         /// <summary>
         /// Get the last child.
         /// </summary>
-        public IElement LastChild => _children.Count > 0 ? _children[_children.Count-1] : null;
+        public IDsmElement LastChild => _children.Count > 0 ? _children[_children.Count-1] : null;
 
         /// <summary>
         /// Children of the element.
         /// </summary>
-        public IList<IElement> Children => _children;
+        public IList<IDsmElement> Children => _children;
 
         /// <summary>
         /// Parent of the element.
         /// </summary>
-        public IElement Parent => _parent;
+        public IDsmElement Parent => _parent;
 
         /// <summary>
         /// Has the element any children.
@@ -169,10 +171,10 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// Add a child to the element.
         /// </summary>
         /// <param name="child">The child to be added</param>
-        public void AddChild(IElement child)
+        public void AddChild(IDsmElement child)
         {
             Children.Add(child);
-            Element c = child as Element;
+            DsmElement c = child as DsmElement;
             if (c != null)
             {
                 c._parent = this;
@@ -183,10 +185,10 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// Remove a child from the element.
         /// </summary>
         /// <param name="child">The child to be added</param>
-        public void RemoveChild(IElement child)
+        public void RemoveChild(IDsmElement child)
         {
             Children.Remove(child);
-            Element c = child as Element;
+            DsmElement c = child as DsmElement;
             if (c != null)
             {
                 c._parent = null;
@@ -195,7 +197,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
 
         public int CompareTo(object obj)
         {
-            Element element = obj as Element;
+            DsmElement element = obj as DsmElement;
             return Id.CompareTo(element?.Id);
         }
     }

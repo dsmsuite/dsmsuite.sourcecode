@@ -1,11 +1,12 @@
 ﻿using DsmSuite.DsmViewer.Model;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class ElementListItemViewModel : ViewModelBase
     {
-        public ElementListItemViewModel(int index, IElement element)
+        public ElementListItemViewModel(int index, IDsmElement element)
         {
             Index = index;
             ElementName = element.Fullname;

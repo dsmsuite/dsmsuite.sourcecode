@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
+using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Files.Base;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Files.Dsm
 {
@@ -49,14 +51,14 @@ namespace DsmSuite.DsmViewer.Model.Files.Dsm
                     }
                     
                     writer.WriteStartElement("elements");
-                    foreach (IElement child in _dependencyModel.RootElements)
+                    foreach (IDsmElement child in _dependencyModel.RootElements)
                     {
                         WriteElementData(writer, child, progress);
                     }
                     writer.WriteEndElement();
 
                     writer.WriteStartElement("relations");
-                    foreach (Relation relation in _dependencyModel.Relations)
+                    foreach (DsmRelation relation in _dependencyModel.Relations)
                     {
                         WriteRelationData(writer, relation, progress);
                     }
@@ -83,7 +85,7 @@ namespace DsmSuite.DsmViewer.Model.Files.Dsm
             writer.WriteEndElement();
         }
 
-        private void WriteElementData(XmlWriter writer, IElement element, IProgress<ProgressInfo> progress)
+        private void WriteElementData(XmlWriter writer, IDsmElement element, IProgress<ProgressInfo> progress)
         {
             writer.WriteStartElement("element");
             writer.WriteAttributeString("id", element.Id.ToString());
@@ -100,13 +102,13 @@ namespace DsmSuite.DsmViewer.Model.Files.Dsm
             _writtenItemCount++;
             UpdateProgress(progress);
 
-            foreach (IElement child in element.Children)
+            foreach (IDsmElement child in element.Children)
             {
                 WriteElementData(writer, child, progress);
             }
         }
 
-        private void WriteRelationData(XmlWriter writer, Relation relation, IProgress<ProgressInfo> progress)
+        private void WriteRelationData(XmlWriter writer, DsmRelation relation, IProgress<ProgressInfo> progress)
         {
             _writtenItemCount++;
             UpdateProgress(progress);

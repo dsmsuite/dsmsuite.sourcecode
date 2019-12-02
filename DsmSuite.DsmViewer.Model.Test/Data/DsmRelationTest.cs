@@ -1,7 +1,7 @@
-﻿using DsmSuite.DsmViewer.Model.Dependencies;
+﻿using DsmSuite.DsmViewer.Model.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer.Model.Test.Dependencies
+namespace DsmSuite.DsmViewer.Model.Test.Data
 {
     [TestClass]
     public class RelationTest
@@ -13,7 +13,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
             int providerId = 2;
             string relationType = "include";
             int weight = 3;
-            Relation relation = new Relation(consumerId, providerId, relationType, weight);
+            DsmRelation relation = new DsmRelation(consumerId, providerId, relationType, weight);
             Assert.AreEqual(consumerId, relation.ConsumerId);
             Assert.AreEqual(providerId, relation.ProviderId);
             Assert.AreEqual(relationType, relation.Type);

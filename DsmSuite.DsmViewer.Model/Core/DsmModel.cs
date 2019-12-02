@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Algorithms;
+using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Files.Dsm;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Model
+namespace DsmSuite.DsmViewer.Model.Core
 {
     public class DsmModel : IDsmModel
     {
@@ -17,9 +19,9 @@ namespace DsmSuite.DsmViewer.Model
 
         public event EventHandler<bool> Modified;
 
-        public class RelationInternal : IRelation
+        public class RelationInternal : IDsmRelation
         {
-            public RelationInternal(DependencyModel dependencyModel, Relation relation)
+            public RelationInternal(DependencyModel dependencyModel, DsmRelation relation)
             {
                 Consumer = dependencyModel.GetElementById(relation.ConsumerId);
                 Provider = dependencyModel.GetElementById(relation.ProviderId);
@@ -27,10 +29,10 @@ namespace DsmSuite.DsmViewer.Model
                 Weight = relation.Weight;
             }
 
-            public IElement Consumer { get; }
+            public IDsmElement Consumer { get; }
 
 
-            public IElement Provider { get; }
+            public IDsmElement Provider { get; }
 
 
             public string Type { get; }
@@ -99,7 +101,7 @@ namespace DsmSuite.DsmViewer.Model
             ModelFilename = dsmFilename;
         }
 
-        public IList<IElement> RootElements => _dependencyModel.RootElements;
+        public IList<IDsmElement> RootElements => _dependencyModel.RootElements;
 
         /// <summary>
         /// Create element in selected parent. The element id will be assigned based on the fullname
@@ -109,7 +111,7 @@ namespace DsmSuite.DsmViewer.Model
         /// <param name="type">The type of element</param>
         /// <param name="parentId">The element id of the parent</param>
         /// <returns></returns>
-        public IElement CreateElement(string name, string type, int? parentId)
+        public IDsmElement CreateElement(string name, string type, int? parentId)
         {
             return _dependencyModel.CreateElement(name, type, parentId);
         }
@@ -157,82 +159,82 @@ namespace DsmSuite.DsmViewer.Model
             _metaData.AddMetaData(group, name, value);
         }
 
-        public IElement GetElementById(int id)
+        public IDsmElement GetElementById(int id)
         {
             return _dependencyModel.GetElementById(id);
         }
 
-        public IElement GetElementByFullname(string fullname)
+        public IDsmElement GetElementByFullname(string fullname)
         {
             return _dependencyModel.GetElementByFullname(fullname);
         }
 
-        public IEnumerable<IElement> GetElementsWithFullnameContainingText(string text)
+        public IEnumerable<IDsmElement> GetElementsWithFullnameContainingText(string text)
         {
             return _dependencyModel.GetElementsWithFullnameContainingText(text);
         }
 
-        public int GetDependencyWeight(IElement consumer, IElement provider)
+        public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
             return _dependencyModel.GetDependencyWeight(consumer.Id, provider.Id);
         }
 
-        public bool IsCyclicDependency(IElement consumer, IElement provider)
+        public bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider)
         {
             return _dependencyModel.IsCyclicDependency(consumer.Id, provider.Id);
         }
 
-        public IList<IRelation> FindRelations(IElement consumer, IElement provider)
+        public IList<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
             return Convert(_dependencyModel.FindRelations(consumer, provider));
         }
 
-        public IList<IRelation> FindProviderRelations(IElement element)
+        public IList<IDsmRelation> FindProviderRelations(IDsmElement element)
         {
             return Convert(_dependencyModel.FindElementConsumerRelations(element));
         }
 
-        public IList<IRelation> FindConsumerRelations(IElement element)
+        public IList<IDsmRelation> FindConsumerRelations(IDsmElement element)
         {
             return Convert(_dependencyModel.FindElementProviderRelations(element));
         }
 
-        public IList<IElement> FindProviders(IElement element)
+        public IList<IDsmElement> FindProviders(IDsmElement element)
         {
             return Convert(_dependencyModel.FindElementProviders(element));
         }
 
-        public IList<IElement> FindConsumers(IElement element)
+        public IList<IDsmElement> FindConsumers(IDsmElement element)
         {
             return Convert(_dependencyModel.FindElementConsumers(element));
         }
 
-        private IList<IRelation> Convert(ICollection<Relation> relations)
+        private IList<IDsmRelation> Convert(ICollection<DsmRelation> relations)
         {
-            List<IRelation> result = new List<IRelation>();
-            foreach (Relation relation in relations)
+            List<IDsmRelation> result = new List<IDsmRelation>();
+            foreach (DsmRelation relation in relations)
             {
                 result.Add(Convert(relation));
             }
             return result;
         }
 
-        private IRelation Convert(Relation relation)
+        private IDsmRelation Convert(DsmRelation relation)
         {
             return new RelationInternal(_dependencyModel, relation);
         }
 
-        private IList<IElement> Convert(ICollection<Element> elements)
+        private IList<IDsmElement> Convert(ICollection<DsmElement> elements)
         {
-            List<IElement> result = new List<IElement>();
-            foreach (Element element in elements)
+            List<IDsmElement> result = new List<IDsmElement>();
+            foreach (DsmElement element in elements)
             {
                 result.Add(element);
             }
             return result;
         }
 
-        public void Partition(IElement element)
+        public void Partition(IDsmElement element)
         {
             Partitioner partitioner = new Partitioner(element, this);
             partitioner.Partition();
@@ -240,9 +242,9 @@ namespace DsmSuite.DsmViewer.Model
             IsModified = true;
         }
 
-        public IElement NextSibling(IElement element)
+        public IDsmElement NextSibling(IDsmElement element)
         {
-            IElement next = null;
+            IDsmElement next = null;
             if (element != null)
             {
                 next = element.NextSibling;
@@ -250,9 +252,9 @@ namespace DsmSuite.DsmViewer.Model
             return next;
         }
 
-        public IElement PreviousSibling(IElement element)
+        public IDsmElement PreviousSibling(IDsmElement element)
         {
-            IElement previous = null;
+            IDsmElement previous = null;
             if (element != null)
             {
                 previous = element.PreviousSibling;
@@ -260,7 +262,7 @@ namespace DsmSuite.DsmViewer.Model
             return previous;
         }
 
-        public bool Swap(IElement first, IElement second)
+        public bool Swap(IDsmElement first, IDsmElement second)
         {
             bool ok = false;
             if (_dependencyModel.Swap(first, second))

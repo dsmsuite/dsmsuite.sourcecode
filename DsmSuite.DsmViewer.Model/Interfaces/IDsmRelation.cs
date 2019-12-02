@@ -1,16 +1,16 @@
-﻿namespace DsmSuite.DsmViewer.Model
+﻿namespace DsmSuite.DsmViewer.Model.Interfaces
 {
-    public interface IRelation
+    public interface IDsmRelation
     {
         /// <summary>
         /// The consumer element.
         /// </summary>
-        IElement Consumer { get; }
+        IDsmElement Consumer { get; }
 
         /// <summary>
         /// The provider element.
         /// </summary>
-        IElement Provider { get; }
+        IDsmElement Provider { get; }
 
         /// <summary>
         /// Type of relation.

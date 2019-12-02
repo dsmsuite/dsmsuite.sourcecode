@@ -1,14 +1,16 @@
-﻿namespace DsmSuite.DsmViewer.Model.Dependencies
+﻿using DsmSuite.DsmViewer.Model.Dependencies;
+
+namespace DsmSuite.DsmViewer.Model.Data
 {
     /// <summary>
     /// Relation between two elements.
     /// </summary>
-    public class Relation
+    public class DsmRelation
     {
         private readonly char _typeId;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
 
-        public Relation(int consumerId, int providerId, string type, int weight)
+        public DsmRelation(int consumerId, int providerId, string type, int weight)
         {
             ConsumerId = consumerId;
             ProviderId = providerId;

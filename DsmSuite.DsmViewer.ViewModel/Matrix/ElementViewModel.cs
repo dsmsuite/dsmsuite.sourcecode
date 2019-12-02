@@ -1,5 +1,6 @@
 ﻿using System;
 using DsmSuite.DsmViewer.Model;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
@@ -12,13 +13,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
     public class ElementViewModel : ViewModelBase
     {
-        private readonly IElement _element;
+        private readonly IDsmElement _element;
         private readonly ElementRole _role;
         private int _color;
         private bool _isSelected;
         private bool _isHovered;
 
-        public ElementViewModel(MatrixViewModel matrixViewModel, IElement element, ElementRole role, int depth)
+        public ElementViewModel(MatrixViewModel matrixViewModel, IDsmElement element, ElementRole role, int depth)
         {
             _element = element;
             _role = role;
@@ -51,7 +52,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public string Fullname => _element.Fullname;
         public int Depth { get; }
         public string Description => $"[{_element.Order}] {_element.Fullname}";
-        public IElement Element => _element;
+        public IDsmElement Element => _element;
 
         public ElementRole Role => _role;
 

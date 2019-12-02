@@ -1,7 +1,7 @@
-﻿using DsmSuite.DsmViewer.Model.Dependencies;
+﻿using DsmSuite.DsmViewer.Model.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer.Model.Test.Dependencies
+namespace DsmSuite.DsmViewer.Model.Test.Data
 {
     [TestClass]
     public class ElementTest
@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
             int elementId = 1;
             string elementName = "name1";
             string elementType = "file";
-            Element element = new Element(elementId, elementName, elementType);
+            DsmElement element = new DsmElement(elementId, elementName, elementType);
             Assert.AreEqual(elementId, element.Id);
             Assert.AreEqual(elementName, element.Name);
             Assert.AreEqual(elementType, element.Type);
@@ -25,13 +25,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             int parentId = 1;
             string parentName = "parent";
-            Element parent = new Element(parentId, parentName, "");
+            DsmElement parent = new DsmElement(parentId, parentName, "");
             Assert.AreEqual(null, parent.Parent);
             Assert.AreEqual(0, parent.Children.Count);
 
             int child1Id = 10;
             string child1Name = "child1";
-            Element child1 = new Element(child1Id, child1Name, "");
+            DsmElement child1 = new DsmElement(child1Id, child1Name, "");
             Assert.AreEqual(null, child1.Parent);
             Assert.AreEqual(null, child1.FirstChild);
             Assert.AreEqual(null, child1.PreviousSibling);
@@ -49,7 +49,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
 
             int child2Id = 100;
             string child2Name = "child2";
-            Element child2 = new Element(child2Id, child2Name, "");
+            DsmElement child2 = new DsmElement(child2Id, child2Name, "");
             Assert.AreEqual(null, child2.Parent);
             Assert.AreEqual(null, child2.FirstChild);
             Assert.AreEqual(null, child2.PreviousSibling);
@@ -70,7 +70,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
 
             int child3Id = 1000;
             string child3Name = "child3";
-            Element child3 = new Element(child3Id, child3Name, "");
+            DsmElement child3 = new DsmElement(child3Id, child3Name, "");
             Assert.AreEqual(null, child3.Parent);
             Assert.AreEqual(null, child3.Parent);
             Assert.AreEqual(null, child3.FirstChild);
@@ -116,21 +116,21 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             int parentId = 1;
             string parentName = "parent";
-            Element parent = new Element(parentId, parentName, "");
+            DsmElement parent = new DsmElement(parentId, parentName, "");
 
             int child1Id = 10;
             string child1Name = "child1";
-            Element child1 = new Element(child1Id, child1Name, "");
+            DsmElement child1 = new DsmElement(child1Id, child1Name, "");
             parent.AddChild(child1);
 
             int child2Id = 100;
             string child2Name = "child2";
-            Element child2 = new Element(child2Id, child2Name, "");
+            DsmElement child2 = new DsmElement(child2Id, child2Name, "");
             parent.AddChild(child2);
 
             int child3Id = 1000;
             string child3Name = "child3";
-            Element child3 = new Element(child3Id, child3Name, "");
+            DsmElement child3 = new DsmElement(child3Id, child3Name, "");
             parent.AddChild(child3);
 
             Assert.AreEqual(3, parent.Children.Count);

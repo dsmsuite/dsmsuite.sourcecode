@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Dependencies;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Algorithms
 {
     internal class Partitioner
     {
-        private readonly Element _element;
+        private readonly DsmElement _element;
         private readonly IDsmModel _model;
 
-        public Partitioner(IElement element, IDsmModel model)
+        public Partitioner(IDsmElement element, IDsmModel model)
         {
-            _element = element as Element;
+            _element = element as DsmElement;
             Debug.Assert(_element != null);
 
             _model = model;
@@ -23,7 +25,7 @@ namespace DsmSuite.DsmViewer.Model.Algorithms
             PartitionGroup(_element.Children);
         }
 
-        void PartitionGroup(IList<IElement> nodes)
+        void PartitionGroup(IList<IDsmElement> nodes)
         {
             if (nodes.Count > 1)
             {
@@ -37,19 +39,19 @@ namespace DsmSuite.DsmViewer.Model.Algorithms
             }
         }
 
-        SquareMatrix BuildPartitionMatrix(IList<IElement> nodes)
+        SquareMatrix BuildPartitionMatrix(IList<IDsmElement> nodes)
         {
             SquareMatrix matrix = new SquareMatrix(nodes.Count);
 
             for (int i = 0; i < nodes.Count; i++)
             {
-                IElement provider = nodes[i];
+                IDsmElement provider = nodes[i];
 
                 for (int j = 0; j < nodes.Count; j++)
                 {
                     if (j != i)
                     {
-                        IElement consumer = nodes[j];
+                        IDsmElement consumer = nodes[j];
 
                         int weight = _model.GetDependencyWeight(consumer, provider);
 
@@ -61,11 +63,11 @@ namespace DsmSuite.DsmViewer.Model.Algorithms
             return matrix;
         }
 
-        void ReorderNodes(IList<IElement> nodes, Vector permutationVector)
+        void ReorderNodes(IList<IDsmElement> nodes, Vector permutationVector)
         {
-            List<IElement> elements = new List<IElement>(nodes); // Clone before modify list
+            List<IDsmElement> elements = new List<IDsmElement>(nodes); // Clone before modify list
 
-            foreach (IElement node in elements)
+            foreach (IDsmElement node in elements)
             {
                 Debug.Assert(node.Parent == _element);
                 _element.RemoveChild(node);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.Model;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
@@ -8,7 +9,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
     {
         private readonly MatrixViewModel _matrixViewModel;
 
-        public ElementTreeItemViewModel(MatrixViewModel matrixViewModel, IElement element, ElementRole role, int depth) :
+        public ElementTreeItemViewModel(MatrixViewModel matrixViewModel, IDsmElement element, ElementRole role, int depth) :
             base(matrixViewModel, element, role, depth)
         {
             _matrixViewModel = matrixViewModel;
@@ -72,7 +73,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             if (Element.IsExpanded)
             {
-                foreach (IElement child in Element.Children)
+                foreach (IDsmElement child in Element.Children)
                 {
                     Children.Add(new ElementTreeItemViewModel(_matrixViewModel, child, Role, Depth + 1));
                 }

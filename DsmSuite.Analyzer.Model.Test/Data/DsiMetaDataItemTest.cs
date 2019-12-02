@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DsmSuite.Analyzer.Model.Test.Data
 {
     [TestClass]
-    public class MetaDataItemTest
+    public class DsiMetaDataItemTest
     {
         [TestMethod]
         public void TestMetaDataItemConstructor()

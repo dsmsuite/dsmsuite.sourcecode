@@ -3,6 +3,7 @@ using System.Windows;
 using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.ViewModel.Main;
 using DsmSuite.DsmViewer.Application;
+using DsmSuite.DsmViewer.Model.Core;
 
 namespace DsmSuite.DsmViewer.View.Windows
 {
