@@ -6,7 +6,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListItemViewModel : ViewModelBase
     {
-        public RelationListItemViewModel(int index, IDsmRelation relation)
+        public RelationListItemViewModel(int index, IDsmResolvedRelation relation)
         {
             Index = index;
             ConsumerName = relation.Consumer.Fullname;

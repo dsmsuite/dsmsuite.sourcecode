@@ -5,12 +5,12 @@
         /// <summary>
         /// The consumer element.
         /// </summary>
-        IDsmElement Consumer { get; }
+        int ConsumerId { get; }
 
         /// <summary>
         /// The provider element.
         /// </summary>
-        IDsmElement Provider { get; }
+        int ProviderId { get; }
 
         /// <summary>
         /// Type of relation.

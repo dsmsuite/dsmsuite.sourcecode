@@ -3,6 +3,7 @@ using System.IO;
 using System.Xml;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Files.Base;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Files.Dsi
 {
@@ -23,7 +24,7 @@ namespace DsmSuite.DsmViewer.Model.Files.Dsi
             _callback = callback;
         }
 
-        protected override void ReadContent(Stream stream, IProgress<ProgressInfo> progress)
+        protected override void ReadContent(Stream stream, IProgress<DsmProgressInfo> progress)
         {
             using (XmlReader xReader = XmlReader.Create(stream))
             {

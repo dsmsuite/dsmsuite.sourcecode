@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Files.Base
 {
@@ -9,14 +10,14 @@ namespace DsmSuite.DsmViewer.Model.Files.Base
         private readonly FileInfo _fileInfo;
         private const int ZipLeadBytes = 0x04034b50;
 
-        protected abstract void ReadContent(Stream stream, IProgress<ProgressInfo> progress);
+        protected abstract void ReadContent(Stream stream, IProgress<DsmProgressInfo> progress);
 
         protected FileReader(string filename)
         {
             _fileInfo = new FileInfo(filename);
         }
 
-        public void ReadFile(IProgress<ProgressInfo> progress)
+        public void ReadFile(IProgress<DsmProgressInfo> progress)
         {
             if (IsCompressedFile())
             {

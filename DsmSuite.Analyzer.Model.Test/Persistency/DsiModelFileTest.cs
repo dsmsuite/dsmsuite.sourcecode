@@ -99,24 +99,31 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             Assert.IsTrue(File.ReadAllBytes(outputFilename).SequenceEqual(File.ReadAllBytes(TestFile)));
         }
 
-        public void ImportMetaDataItem(string groupName, IDsiMetaDataItem metaDataItem)
+        public IDsiMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
         {
             if (!_metaData.ContainsKey(groupName))
             {
                 _metaData[groupName] = new List<IDsiMetaDataItem>();
             }
-            _metaData[groupName].Add(metaDataItem);
+
+            DsiMetaDataItem dsiMetaDataItem = new DsiMetaDataItem(name, value);
+            _metaData[groupName].Add(dsiMetaDataItem);
+            return dsiMetaDataItem;
         }
 
 
-        public void ImportElement(IDsiElement element)
+        public IDsiElement ImportElement(int id, string name, string type, string source)
         {
+            DsiElement element = new DsiElement(id, name, type, source);
             _elements.Add(element);
+            return element;
         }
 
-        public void ImportRelation(IDsiRelation relation)
+        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight)
         {
+            DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight);
             _relations.Add(relation);
+            return relation;
         }
 
         public IEnumerable<string> GetMetaDataGroups()

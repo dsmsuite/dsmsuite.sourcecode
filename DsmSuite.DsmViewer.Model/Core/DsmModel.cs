@@ -7,6 +7,7 @@ using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Files.Dsm;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
@@ -18,28 +19,6 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly DependencyModel _dependencyModel;
 
         public event EventHandler<bool> Modified;
-
-        public class RelationInternal : IDsmRelation
-        {
-            public RelationInternal(DependencyModel dependencyModel, DsmRelation relation)
-            {
-                Consumer = dependencyModel.GetElementById(relation.ConsumerId);
-                Provider = dependencyModel.GetElementById(relation.ProviderId);
-                Type = relation.Type;
-                Weight = relation.Weight;
-            }
-
-            public IDsmElement Consumer { get; }
-
-
-            public IDsmElement Provider { get; }
-
-
-            public string Type { get; }
-
-
-            public int Weight { get; }
-        }
 
         public DsmModel(string processStep, Assembly executingAssembly)
         {
@@ -76,7 +55,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _metaData.Clear();
         }
 
-        public void LoadModel(string dsmFilename, IProgress<ProgressInfo> progress)
+        public void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress)
         {
             Clear();
             DsmModelFileReader dsmModelFile = new DsmModelFileReader(dsmFilename, _dependencyModel, _metaData);
@@ -85,7 +64,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             ModelFilename = dsmFilename;
         }
 
-        public void SaveModel(string dsmFilename, bool compressFile, IProgress<ProgressInfo> progress)
+        public void SaveModel(string dsmFilename, bool compressFile, IProgress<DsmProgressInfo> progress)
         {
             if (_processStep != null)
             {
@@ -186,52 +165,37 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IList<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
-            return Convert(_dependencyModel.FindRelations(consumer, provider));
+            return _dependencyModel.FindRelations(consumer, provider);
         }
 
         public IList<IDsmRelation> FindProviderRelations(IDsmElement element)
         {
-            return Convert(_dependencyModel.FindElementConsumerRelations(element));
+            return _dependencyModel.FindElementConsumerRelations(element);
         }
 
         public IList<IDsmRelation> FindConsumerRelations(IDsmElement element)
         {
-            return Convert(_dependencyModel.FindElementProviderRelations(element));
+            return _dependencyModel.FindElementProviderRelations(element);
+        }
+
+        public IList<IDsmResolvedRelation> ResolveRelations(IList<IDsmRelation> relations)
+        {
+            List<IDsmResolvedRelation> resolvedRelations = new List<IDsmResolvedRelation>();
+            foreach (IDsmRelation relation in relations)
+            {
+                resolvedRelations.Add(new DsmResolvedRelation(_dependencyModel, relation));
+            }
+            return resolvedRelations;
         }
 
         public IList<IDsmElement> FindProviders(IDsmElement element)
         {
-            return Convert(_dependencyModel.FindElementProviders(element));
+            return _dependencyModel.FindElementProviders(element);
         }
 
         public IList<IDsmElement> FindConsumers(IDsmElement element)
         {
-            return Convert(_dependencyModel.FindElementConsumers(element));
-        }
-
-        private IList<IDsmRelation> Convert(ICollection<DsmRelation> relations)
-        {
-            List<IDsmRelation> result = new List<IDsmRelation>();
-            foreach (DsmRelation relation in relations)
-            {
-                result.Add(Convert(relation));
-            }
-            return result;
-        }
-
-        private IDsmRelation Convert(DsmRelation relation)
-        {
-            return new RelationInternal(_dependencyModel, relation);
-        }
-
-        private IList<IDsmElement> Convert(ICollection<DsmElement> elements)
-        {
-            List<IDsmElement> result = new List<IDsmElement>();
-            foreach (DsmElement element in elements)
-            {
-                result.Add(element);
-            }
-            return result;
+            return _dependencyModel.FindElementConsumers(element);
         }
 
         public void Partition(IDsmElement element)

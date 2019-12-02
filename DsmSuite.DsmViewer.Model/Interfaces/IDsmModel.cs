@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Interfaces
 {
@@ -11,8 +12,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         bool IsCompressed { get; }
 
         void Clear();
-        void LoadModel(string dsmFilename, IProgress<ProgressInfo> progress);
-        void SaveModel(string dsmFilename, bool compressFile, IProgress<ProgressInfo> progress);
+        void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress);
+        void SaveModel(string dsmFilename, bool compressFile, IProgress<DsmProgressInfo> progress);
 
         IDsmElement CreateElement(string name, string type, int? parentId);
         void AddRelation(int consumerId, int providerId, string type, int weight);
@@ -36,6 +37,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IList<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
         IList<IDsmRelation> FindProviderRelations(IDsmElement element);
         IList<IDsmRelation> FindConsumerRelations(IDsmElement element);
+
+        IList<IDsmResolvedRelation> ResolveRelations(IList<IDsmRelation> relations);
 
         IList<IDsmElement> FindProviders(IDsmElement element);
         IList<IDsmElement> FindConsumers(IDsmElement element);

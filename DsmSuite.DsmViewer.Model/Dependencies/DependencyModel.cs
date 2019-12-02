@@ -85,7 +85,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             {
                 if (_elementsById.ContainsKey(parentId.Value))
                 {
-                    HierarchicalName elementName =  new HierarchicalName(_elementsById[parentId.Value].Fullname);
+                    HierarchicalName elementName = new HierarchicalName(_elementsById[parentId.Value].Fullname);
                     elementName.Add(name);
                     fullname = elementName.FullName;
                 }
@@ -115,7 +115,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             {
                 if (_elementsById.ContainsKey(parentId.Value))
                 {
-                    element = new DsmElement(id, name, type) {Order = order, IsExpanded = expanded};
+                    element = new DsmElement(id, name, type) { Order = order, IsExpanded = expanded };
 
                     if (_elementsById.ContainsKey(parentId.Value))
                     {
@@ -201,8 +201,8 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         public DsmElement GetElementByFullname(string fullname)
         {
             IEnumerable<DsmElement> elementWithName = from element in _elementsById.Values
-                                                   where element.Fullname == fullname
-                                                   select element;
+                                                      where element.Fullname == fullname
+                                                      select element;
 
             return elementWithName.FirstOrDefault();
         }
@@ -243,7 +243,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
 
         public void RemoveRelation(int consumerId, int providerId, string type, int weight)
         {
-           throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void UnremoveRelation(int consumerId, int providerId, string type, int weight)
@@ -255,7 +255,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
         /// Remove the relation from the model.
         /// </summary>
         /// <param name="relation">The relation to be removed</param>
-        public void RemoveRelation(DsmRelation relation)
+        public void RemoveRelation(IDsmRelation relation)
         {
             UnregisterRelation(relation);
         }
@@ -283,9 +283,9 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
 
         public int RelationDensity => 0;
 
-        public IList<DsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
+        public IList<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
-            IList<DsmRelation> relations = new List<DsmRelation>();
+            IList<IDsmRelation> relations = new List<IDsmRelation>();
             List<int> consumerIds = GetIdsOfElementAndItsChidren(consumer);
             List<int> providerIds = GetIdsOfElementAndItsChidren(provider);
             foreach (int consumerId in consumerIds)
@@ -301,40 +301,40 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             return relations;
         }
 
-        public IList<DsmRelation> FindElementConsumerRelations(IDsmElement element)
+        public IList<IDsmRelation> FindElementConsumerRelations(IDsmElement element)
         {
-            List<DsmRelation> relations = new List<DsmRelation>();
+            List<IDsmRelation> relations = new List<IDsmRelation>();
             List<int> providerIds = GetIdsOfElementAndItsChidren(element);
             foreach (int providerId in providerIds)
             {
                 if (_relationsByProvider.ContainsKey(providerId))
                 {
-                    relations.AddRange(_relationsByProvider[providerId].Values.ToList());
+                    relations.AddRange(_relationsByProvider[providerId].Values);
                 }
             }
             return relations;
         }
 
-        public IList<DsmRelation> FindElementProviderRelations(IDsmElement element)
+        public IList<IDsmRelation> FindElementProviderRelations(IDsmElement element)
         {
-            List<DsmRelation> relations = new List<DsmRelation>();
+            List<IDsmRelation> relations = new List<IDsmRelation>();
             List<int> consumerIds = GetIdsOfElementAndItsChidren(element);
             foreach (int consumerId in consumerIds)
             {
                 if (_relationsByConsumer.ContainsKey(consumerId))
                 {
-                    relations.AddRange(_relationsByConsumer[consumerId].Values.ToList());
+                    relations.AddRange(_relationsByConsumer[consumerId].Values);
                 }
             }
             return relations;
         }
 
-        public IList<DsmElement> FindElementProviders(IDsmElement element)
+        public IList<IDsmElement> FindElementProviders(IDsmElement element)
         {
-            HashSet<DsmElement> providers = new HashSet<DsmElement>();
-            foreach (DsmRelation relation in FindElementProviderRelations(element))
+            HashSet<IDsmElement> providers = new HashSet<IDsmElement>();
+            foreach (IDsmRelation relation in FindElementProviderRelations(element))
             {
-                DsmElement provider = GetElementById(relation.ProviderId);
+                IDsmElement provider = GetElementById(relation.ProviderId);
                 if (provider != null)
                 {
                     providers.Add(provider);
@@ -343,12 +343,12 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             return providers.ToList();
         }
 
-        public IList<DsmElement> FindElementConsumers(IDsmElement element)
+        public IList<IDsmElement> FindElementConsumers(IDsmElement element)
         {
-            HashSet<DsmElement> consumers = new HashSet<DsmElement>();
-            foreach (DsmRelation relation in FindElementConsumerRelations(element))
+            HashSet<IDsmElement> consumers = new HashSet<IDsmElement>();
+            foreach (IDsmRelation relation in FindElementConsumerRelations(element))
             {
-                DsmElement consumer = GetElementById(relation.ConsumerId);
+                IDsmElement consumer = GetElementById(relation.ConsumerId);
                 if (consumer != null)
                 {
                     consumers.Add(consumer);
@@ -435,7 +435,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             }
         }
 
-        private void UpdateWeights(DsmRelation relation, ModifyWeight modifyWeight)
+        private void UpdateWeights(IDsmRelation relation, ModifyWeight modifyWeight)
         {
             int consumerId = relation.ConsumerId;
             int providerId = relation.ProviderId;
@@ -551,7 +551,7 @@ namespace DsmSuite.DsmViewer.Model.Dependencies
             UpdateWeights(relation, AddWeight);
         }
 
-        private void UnregisterRelation(DsmRelation relation)
+        private void UnregisterRelation(IDsmRelation relation)
         {
             if (!_relationsByProvider.ContainsKey(relation.ProviderId))
             {

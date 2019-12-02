@@ -1,11 +1,12 @@
 ﻿using DsmSuite.DsmViewer.Model.Dependencies;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Data
 {
     /// <summary>
     /// Relation between two elements.
     /// </summary>
-    public class DsmRelation
+    public class DsmRelation : IDsmRelation
     {
         private readonly char _typeId;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();

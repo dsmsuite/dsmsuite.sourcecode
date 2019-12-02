@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Files.Base
 {
@@ -9,14 +10,14 @@ namespace DsmSuite.DsmViewer.Model.Files.Base
         private readonly FileInfo _fileInfo;
         private bool _compressed;
 
-        protected abstract void WriteContent(Stream stream, IProgress<ProgressInfo> progress);
+        protected abstract void WriteContent(Stream stream, IProgress<DsmProgressInfo> progress);
 
         protected FileWriter(string filename)
         {
             _fileInfo = new FileInfo(filename);
         }
 
-        public void WriteFile(bool compressed, IProgress<ProgressInfo> progress)
+        public void WriteFile(bool compressed, IProgress<DsmProgressInfo> progress)
         {
             _compressed = compressed;
             if (_compressed)

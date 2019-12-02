@@ -3,6 +3,7 @@ using System.IO;
 using System.Xml;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Files.Base;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Files.Dsm
 {
@@ -22,7 +23,7 @@ namespace DsmSuite.DsmViewer.Model.Files.Dsm
             _metaData = metaData;
         }
 
-        protected override void ReadContent(Stream stream, IProgress<ProgressInfo> progress)
+        protected override void ReadContent(Stream stream, IProgress<DsmProgressInfo> progress)
         {
             using (XmlReader xReader = XmlReader.Create(stream))
             {
@@ -92,7 +93,7 @@ namespace DsmSuite.DsmViewer.Model.Files.Dsm
             }
         }
 
-        private void ReadElement(XmlReader xReader, IProgress<ProgressInfo> progress)
+        private void ReadElement(XmlReader xReader, IProgress<DsmProgressInfo> progress)
         {
             int? id = ParseInt(xReader.GetAttribute("id"));
             int? order = ParseInt(xReader.GetAttribute("order"));
@@ -110,7 +111,7 @@ namespace DsmSuite.DsmViewer.Model.Files.Dsm
             UpdateProgress(progress);
         }
 
-        private void ReadRelation(XmlReader xReader, IProgress<ProgressInfo> progress)
+        private void ReadRelation(XmlReader xReader, IProgress<DsmProgressInfo> progress)
         {
             int? consumerId = ParseInt(xReader.GetAttribute("from"));
             int? providerId = ParseInt(xReader.GetAttribute("to"));
@@ -128,7 +129,7 @@ namespace DsmSuite.DsmViewer.Model.Files.Dsm
             UpdateProgress(progress);
         }
 
-        private void UpdateProgress(IProgress<ProgressInfo> progress)
+        private void UpdateProgress(IProgress<DsmProgressInfo> progress)
         {
             if (progress != null)
             {
@@ -142,7 +143,7 @@ namespace DsmSuite.DsmViewer.Model.Files.Dsm
                 {
                     _readItemProgress = readItemProgress;
 
-                    ProgressInfo progressInfoInfo = new ProgressInfo
+                    DsmProgressInfo progressInfoInfo = new DsmProgressInfo
                     {
                         ElementCount = _totalElementCount,
                         RelationCount = _totalRelationCount,

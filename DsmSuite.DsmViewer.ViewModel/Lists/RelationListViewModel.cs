@@ -7,14 +7,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListViewModel : ViewModelBase
     {
-        public RelationListViewModel(string title, IEnumerable<IDsmRelation> relations)
+        public RelationListViewModel(string title, IEnumerable<IDsmResolvedRelation> relations)
         {
             Title = title;
 
             var relationViewModels = new List<RelationListItemViewModel>();
 
             int index = 1;
-            foreach (IDsmRelation relation in relations)
+            foreach (IDsmResolvedRelation relation in relations)
             {
                 relationViewModels.Add(new RelationListItemViewModel(index, relation));
                 index++;

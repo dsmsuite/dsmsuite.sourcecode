@@ -1,6 +1,6 @@
-﻿namespace DsmSuite.DsmViewer.Model
+﻿namespace DsmSuite.DsmViewer.Model.Persistency
 {
-    public class ProgressInfo
+    public class DsmProgressInfo
     {
         public int ElementCount;
         public int RelationCount;

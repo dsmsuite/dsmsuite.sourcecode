@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Application
 {
@@ -10,14 +11,14 @@ namespace DsmSuite.DsmViewer.Application
     {
         IDsmModel Model { get; }
 
-        Task ImportModel(string dsiFilename, string dsmFilename, bool overwrite, Progress<ProgressInfo> progress);
-        Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress);
-        Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress);
+        Task ImportModel(string dsiFilename, string dsmFilename, bool overwrite, Progress<DsmProgressInfo> progress);
+        Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress);
+        Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress);
 
         IList<IDsmElement> RootElements { get; }
         IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element);
         IEnumerable<IDsmElement> GetElementProviders(IDsmElement element);
-        IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
+        IEnumerable<IDsmResolvedRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
         IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider);
         IEnumerable<IDsmElement> GetElementConsumers(IDsmElement element);
         IEnumerable<IDsmElement> GetRelationConsumers(IDsmElement consumer, IDsmElement provider);

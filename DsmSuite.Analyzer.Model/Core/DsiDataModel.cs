@@ -79,11 +79,13 @@ namespace DsmSuite.Analyzer.Model.Core
             GetMetaDataGroupItemList(_processStep).Add(new DsiMetaDataItem(itemName, itemValue));
         }
 
-        public void ImportMetaDataItem(string groupName, IDsiMetaDataItem metaDataItem)
+        public IDsiMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
         {
-            Logger.LogUserMessage($"Metadata: groupName={groupName} name={metaDataItem.Name} value={metaDataItem.Value}");
+            Logger.LogUserMessage($"Metadata: groupName={groupName} name={name} value={value}");
 
-            GetMetaDataGroupItemList(groupName).Add(metaDataItem);
+            DsiMetaDataItem dsiMetaDataItem =new DsiMetaDataItem(name, value);
+            GetMetaDataGroupItemList(groupName).Add(dsiMetaDataItem);
+            return dsiMetaDataItem;
         }
 
         public IEnumerable<string> GetMetaDataGroups()
@@ -96,11 +98,13 @@ namespace DsmSuite.Analyzer.Model.Core
             return GetMetaDataGroupItemList(groupName);
         }
         
-        public void ImportElement(IDsiElement element)
+        public IDsiElement ImportElement(int id, string name, string type, string source)
         {
+            DsiElement element = new DsiElement(id, name, type, source);
             _elementsByName[element.Name] = element;
             _elementsById[element.Id] = element;
             IncrementElementTypeCount(element.Type);
+            return element;
         }
         
         public IDsiElement AddElement(string name, string type, string source)
@@ -179,15 +183,17 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public int TotalElementCount => _elementsByName.Values.Count;
         
-        public void ImportRelation(IDsiRelation relation)
+        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight)
         {
-            IncrementRelationTypeCount(relation.Type);
+            IncrementRelationTypeCount(type);
 
-            if (!_relationsByConsumerId.ContainsKey(relation.ConsumerId))
+            if (!_relationsByConsumerId.ContainsKey(consumerId))
             {
-                _relationsByConsumerId[relation.ConsumerId] = new List<IDsiRelation>();
+                _relationsByConsumerId[consumerId] = new List<IDsiRelation>();
             }
+            DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight);
             _relationsByConsumerId[relation.ConsumerId].Add(relation);
+            return relation;
         }
 
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)

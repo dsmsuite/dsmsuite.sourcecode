@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Application
 {
@@ -16,17 +17,17 @@ namespace DsmSuite.DsmViewer.Application
             _model = model;
         }
 
-        public async Task ImportModel(string dsiFilename, string dsmFilename, bool overwrite, Progress<ProgressInfo> progress)
+        public async Task ImportModel(string dsiFilename, string dsmFilename, bool overwrite, Progress<DsmProgressInfo> progress)
         {
             throw new NotImplementedException();
         }
 
-        public async Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress)
+        public async Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
             await Task.Run(() => _model.LoadModel(dsmFilename, progress));
         }
 
-        public async Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress)
+        public async Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));
         }
@@ -40,7 +41,7 @@ namespace DsmSuite.DsmViewer.Application
 
         public IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element)
         {
-            var relations = _model.FindProviderRelations(element)
+            var relations = _model.ResolveRelations(_model.FindProviderRelations(element))
                 .OrderBy(x => x.Provider.Fullname)
                 .GroupBy(x => x.Provider.Fullname)
                 .Select(x => x.FirstOrDefault())
@@ -53,7 +54,7 @@ namespace DsmSuite.DsmViewer.Application
 
         public IEnumerable<IDsmElement> GetElementProviders(IDsmElement element)
         {
-            var relations = _model.FindConsumerRelations(element)
+            var relations = _model.ResolveRelations(_model.FindConsumerRelations(element))
                 .OrderBy(x => x.Provider.Fullname)
                 .GroupBy(x => x.Provider.Fullname)
                 .Select(x => x.FirstOrDefault())
@@ -64,9 +65,9 @@ namespace DsmSuite.DsmViewer.Application
             return elements;
         }
 
-        public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
+        public IEnumerable<IDsmResolvedRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
-            var relations = _model.FindRelations(consumer, provider)
+            var relations = _model.ResolveRelations(_model.FindRelations(consumer, provider))
                 .OrderBy(x => x.Provider.Fullname)
                 .ThenBy(x => x.Consumer.Fullname)
                 .ToList();
@@ -75,7 +76,7 @@ namespace DsmSuite.DsmViewer.Application
 
         public IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider)
         {
-            var relations = _model.FindRelations(consumer, provider)
+            var relations = _model.ResolveRelations(_model.FindRelations(consumer, provider))
                 .OrderBy(x => x.Provider.Fullname)
                 .GroupBy(x => x.Provider.Fullname)
                 .Select(x => x.FirstOrDefault())
@@ -88,7 +89,7 @@ namespace DsmSuite.DsmViewer.Application
 
         public IEnumerable<IDsmElement> GetRelationConsumers(IDsmElement consumer, IDsmElement provider)
         {
-            var relations = _model.FindRelations(consumer, provider)
+            var relations = _model.ResolveRelations(_model.FindRelations(consumer, provider))
                 .OrderBy(x => x.Consumer.Fullname)
                 .GroupBy(x => x.Consumer.Fullname)
                 .Select(x => x.FirstOrDefault())
@@ -126,7 +127,7 @@ namespace DsmSuite.DsmViewer.Application
 
         public IEnumerable<IDsmElement> GetElementConsumers(IDsmElement element)
         {
-            var relations = _model.FindProviderRelations(element)
+            var relations = _model.ResolveRelations(_model.FindProviderRelations(element))
                 .OrderBy(x => x.Consumer.Fullname)
                 .GroupBy(x => x.Consumer.Fullname)
                 .Select(x => x.FirstOrDefault())

@@ -9,13 +9,13 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 {
     public interface IDsmModelFileCallback
     {
-        void ImportMetaDataItem(string groupName, IDsmMetaDataItem metaDataItem);
-        void ImportElement(IDsmElement element);
-        void ImportRelation(IDsmRelation relation);
+        IDsmMetaDataItem ImportMetaDataItem(string groupName, string name, string value);
+        IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId);
+        IDsmRelation ImportRelation(int consumerId, int providerId, string type, int weight);
 
-        IEnumerable<string> GetMetaDataGroups();
-        IEnumerable<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
-        IEnumerable<IDsmElement> GetElements();
-        IEnumerable<IDsmRelation> GetRelations();
+        IList<string> GetMetaDataGroups();
+        IList<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
+        IList<IDsmElement> GetElements();
+        IList<IDsmRelation> GetRelations();
     }
 }
