@@ -10,7 +10,7 @@ namespace DsmSuite.Analyzer.Model.Test.Data
         [TestMethod]
         public void TestMetaDataItemConstructor()
         {
-            IMetaDataItem item = new MetaDataItem("name", "value");
+            IDsiMetaDataItem item = new DsiMetaDataItem("name", "value");
             Assert.AreEqual("name", item.Name);
             Assert.AreEqual("value", item.Value);
         }

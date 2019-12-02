@@ -5,32 +5,32 @@ namespace DsmSuite.Analyzer.Model.Interface
     /// <summary>
     /// Interface to the data model. An interface has been introduced to improve testability.
     /// </summary>
-    public interface IDataModel
+    public interface IDsiDataModel
     {
         void Load(string dsiFilename);
         void Save(string dsiFilename, bool compressFile);
 
         void AddMetaData(string itemName, string itemValue);
         IEnumerable<string> GetMetaDataGroups();
-        IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
+        IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string groupName);
 
-        IElement AddElement(string name, string type, string source);
-        void RemoveElement(IElement element);
-        void RenameElement(IElement element, string newName);
-        IElement FindElement(int id);
-        IElement FindElement(string name);
-        IEnumerable<IElement> GetElements();
+        IDsiElement AddElement(string name, string type, string source);
+        void RemoveElement(IDsiElement element);
+        void RenameElement(IDsiElement element, string newName);
+        IDsiElement FindElement(int id);
+        IDsiElement FindElement(string name);
+        IEnumerable<IDsiElement> GetElements();
         int TotalElementCount { get; }
         double ResolvedRelationPercentage { get; }
         
         ICollection<string> GetElementTypes();
         int GetElementTypeCount(string type);
 
-        IRelation AddRelation(string consumerName, string providerName, string type, int weight, string context);
+        IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context);
         void SkipRelation(string consumerName, string providerName, string type, string context);
-        ICollection<IRelation> GetProviderRelations(IElement consumer);
-        IEnumerable<IRelation> GetRelations();
-        bool DoesRelationExist(IElement consumer, IElement provider);
+        ICollection<IDsiRelation> GetProviderRelations(IDsiElement consumer);
+        IEnumerable<IDsiRelation> GetRelations();
+        bool DoesRelationExist(IDsiElement consumer, IDsiElement provider);
         int TotalRelationCount { get; }
         int ResolvedRelationCount { get; }
 

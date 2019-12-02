@@ -10,10 +10,10 @@ namespace DsmSuite.Transformer.Transformation
     class SplitProductAndTestElementsAction : Action
     {
         private const string ActionName = "Split test and product code in two separate linked hierarchies";
-        private readonly IDataModel _model;
+        private readonly IDsiDataModel _model;
         private readonly SplitProductAndTestElementsSettings _splitProductAndTestElementsSettings;
 
-        public SplitProductAndTestElementsAction(IDataModel model, SplitProductAndTestElementsSettings splitProductAndTestElementsSettings) :
+        public SplitProductAndTestElementsAction(IDsiDataModel model, SplitProductAndTestElementsSettings splitProductAndTestElementsSettings) :
             base(ActionName, splitProductAndTestElementsSettings.Enabled)
         {
             _model = model;
@@ -24,8 +24,8 @@ namespace DsmSuite.Transformer.Transformation
         {
             int transformedElements = 0;
 
-            IElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
-            foreach (IElement element in clonedElements)
+            IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
+            foreach (IDsiElement element in clonedElements)
             {
                 SplitProductAndTestElement(element);
 
@@ -35,13 +35,13 @@ namespace DsmSuite.Transformer.Transformation
             Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
-        private void SplitProductAndTestElement(IElement element)
+        private void SplitProductAndTestElement(IDsiElement element)
         {
             Move(element, _splitProductAndTestElementsSettings.ProductElementIdentifier);
             Move(element, _splitProductAndTestElementsSettings.TestElementIdentifier);
         }
 
-        private void Move(IElement element, string identifier)
+        private void Move(IDsiElement element, string identifier)
         {
             string from = "." + identifier + ".";
             string to = ".";

@@ -8,17 +8,17 @@ namespace DsmSuite.Transformer.Transformation
     public class AddTransitiveRelationsAction : Action
     {
         private const string ActionName = "Add transitive relations between elements";
-        private readonly IDataModel _model;
-        private readonly Dictionary<string, HashSet<IElement>> _directProviders;
-        private readonly Dictionary<string, HashSet<IElement>> _transitiveProviders;
+        private readonly IDsiDataModel _model;
+        private readonly Dictionary<string, HashSet<IDsiElement>> _directProviders;
+        private readonly Dictionary<string, HashSet<IDsiElement>> _transitiveProviders;
 
-        public AddTransitiveRelationsAction(IDataModel model, bool enabled) :
+        public AddTransitiveRelationsAction(IDsiDataModel model, bool enabled) :
            base(ActionName, enabled)
         {
             _model = model;
 
-            _directProviders = new Dictionary<string, HashSet<IElement>>();
-            _transitiveProviders = new Dictionary<string, HashSet<IElement>>();
+            _directProviders = new Dictionary<string, HashSet<IDsiElement>>();
+            _transitiveProviders = new Dictionary<string, HashSet<IDsiElement>>();
         }
 
         protected override void ExecuteImpl()
@@ -26,7 +26,7 @@ namespace DsmSuite.Transformer.Transformation
             FindDirectProviders();
 
             int transformedElements = 0;
-            foreach (IElement consumer in _model.GetElements())
+            foreach (IDsiElement consumer in _model.GetElements())
             {
                 AddTransitiveRelations(consumer);
 
@@ -36,9 +36,9 @@ namespace DsmSuite.Transformer.Transformation
             Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
-        private void AddTransitiveRelations(IElement consumer)
+        private void AddTransitiveRelations(IDsiElement consumer)
         {
-            foreach (IElement provider in GetProviders(consumer))
+            foreach (IDsiElement provider in GetProviders(consumer))
             {
                 FindTransitiveProviders(consumer, provider);
             }
@@ -46,23 +46,23 @@ namespace DsmSuite.Transformer.Transformation
 
         private void FindDirectProviders()
         {
-            foreach (IElement element in _model.GetElements())
+            foreach (IDsiElement element in _model.GetElements())
             {
                 string key = element.Name;
 
-                _directProviders[key] = new HashSet<IElement>();
+                _directProviders[key] = new HashSet<IDsiElement>();
 
-                foreach (IRelation providerRelation in _model.GetProviderRelations(element))
+                foreach (IDsiRelation providerRelation in _model.GetProviderRelations(element))
                 {
-                    IElement provider = _model.FindElement(providerRelation.ProviderId);
+                    IDsiElement provider = _model.FindElement(providerRelation.ProviderId);
                     _directProviders[key].Add(provider);
                 }
             }
         }
 
-        private ICollection<IElement> GetProviders(IElement consumer)
+        private ICollection<IDsiElement> GetProviders(IDsiElement consumer)
         {
-            ICollection<IElement> providers = new List<IElement>();
+            ICollection<IDsiElement> providers = new List<IDsiElement>();
             if (_directProviders.ContainsKey(consumer.Name))
             {
                 providers = _directProviders[consumer.Name];
@@ -70,14 +70,14 @@ namespace DsmSuite.Transformer.Transformation
             return providers;
         }
 
-        private void FindTransitiveProviders(IElement consumer, IElement currentProvider)
+        private void FindTransitiveProviders(IDsiElement consumer, IDsiElement currentProvider)
         {
-            foreach (IElement transitiveProvider in GetProviders(currentProvider))
+            foreach (IDsiElement transitiveProvider in GetProviders(currentProvider))
             {
                 string key = consumer.Name;
                 if (!_transitiveProviders.ContainsKey(consumer.Name))
                 {
-                    _transitiveProviders[key] = new HashSet<IElement>();
+                    _transitiveProviders[key] = new HashSet<IDsiElement>();
                 }
 
                 if (!_transitiveProviders[key].Contains(transitiveProvider))
@@ -90,7 +90,7 @@ namespace DsmSuite.Transformer.Transformation
             }
         }
 
-        private void RegisterRelation(IElement consumer, IElement provider)
+        private void RegisterRelation(IDsiElement consumer, IDsiElement provider)
         {
             if (consumer != null && provider != null)
             {

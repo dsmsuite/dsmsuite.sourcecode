@@ -7,9 +7,9 @@ namespace DsmSuite.Transformer.Transformation
     public class PreFixSingleRootAction : Action
     {
         private const string ActionName = "Prefix all elements with root";
-        private readonly IDataModel _model;
+        private readonly IDsiDataModel _model;
 
-        public PreFixSingleRootAction(IDataModel model, bool enabled) :
+        public PreFixSingleRootAction(IDsiDataModel model, bool enabled) :
             base(ActionName, enabled)
         {
             _model = model;
@@ -19,8 +19,8 @@ namespace DsmSuite.Transformer.Transformation
         {
             int transformedElements = 0;
 
-            IElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
-            foreach (IElement element in clonedElements)
+            IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
+            foreach (IDsiElement element in clonedElements)
             {
                 PrefixElement(element);
 
@@ -29,7 +29,7 @@ namespace DsmSuite.Transformer.Transformation
             }
         }
 
-        private void PrefixElement(IElement element)
+        private void PrefixElement(IDsiElement element)
         {
             string newElementName = "Root." + element.Name;
             _model.RenameElement(element, newElementName);

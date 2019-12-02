@@ -13,10 +13,10 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void AddingNewElementIncreasesElementCount()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             Assert.AreEqual(0, dataModel.TotalElementCount);
-            IElement element1 = dataModel.AddElement("element1Name", "class", "element1Source");
+            IDsiElement element1 = dataModel.AddElement("element1Name", "class", "element1Source");
             Assert.IsNotNull(element1);
             Assert.AreEqual(0, element1.Id);
             Assert.AreEqual("element1Name", element1.Name);
@@ -24,7 +24,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             Assert.AreEqual("element1Source", element1.Source);
             Assert.AreEqual(1, dataModel.TotalElementCount);
 
-            IElement element2 = dataModel.AddElement("element2Name", "struct", "element2Source");
+            IDsiElement element2 = dataModel.AddElement("element2Name", "struct", "element2Source");
             Assert.IsNotNull(element2);
             Assert.AreEqual(1, element2.Id);
             Assert.AreEqual("element2Name", element2.Name);
@@ -36,14 +36,14 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void AddingExistingElementDoesNotIncreaseElementCount()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             Assert.AreEqual(0, dataModel.TotalElementCount);
-            IElement element1 = dataModel.AddElement("elementName", "class", "elementSourceA");
+            IDsiElement element1 = dataModel.AddElement("elementName", "class", "elementSourceA");
             Assert.IsNotNull(element1);
             Assert.AreEqual(1, dataModel.TotalElementCount);
 
-            IElement element2 = dataModel.AddElement("elementName", "enum", "elementSourceB");
+            IDsiElement element2 = dataModel.AddElement("elementName", "enum", "elementSourceB");
             Assert.IsNull(element2);
             Assert.AreEqual(1, dataModel.TotalElementCount);
         }
@@ -51,52 +51,52 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void ElementCanBeFoundByName()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             dataModel.AddElement("element1Name", "class", "element1Source");
             dataModel.AddElement("element2Name", "class", "element2Source");
             dataModel.AddElement("element3Name", "struct", "element3Source");
 
-            IElement element1 = dataModel.FindElement("element1Name");
+            IDsiElement element1 = dataModel.FindElement("element1Name");
             Assert.IsNotNull(element1);
             Assert.AreEqual(0, element1.Id);
             Assert.AreEqual("element1Name", element1.Name);
             Assert.AreEqual("class", element1.Type);
             Assert.AreEqual("element1Source", element1.Source);
 
-            IElement element2 = dataModel.FindElement("element2Name");
+            IDsiElement element2 = dataModel.FindElement("element2Name");
             Assert.IsNotNull(element2);
             Assert.AreEqual(1, element2.Id);
             Assert.AreEqual("element2Name", element2.Name);
             Assert.AreEqual("class", element2.Type);
             Assert.AreEqual("element2Source", element2.Source);
 
-            IElement element3 = dataModel.FindElement("element3Name");
+            IDsiElement element3 = dataModel.FindElement("element3Name");
             Assert.IsNotNull(element3);
             Assert.AreEqual(2, element3.Id);
             Assert.AreEqual("element3Name", element3.Name);
             Assert.AreEqual("struct", element3.Type);
             Assert.AreEqual("element3Source", element3.Source);
 
-            IElement element4 = dataModel.FindElement("element4Name");
+            IDsiElement element4 = dataModel.FindElement("element4Name");
             Assert.IsNull(element4);
         }
 
         [TestMethod]
         public void ElementCanBeRemoved()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
-            IElement consumer = dataModel.AddElement("consumerName", "class", "consumerSource");
+            IDsiElement consumer = dataModel.AddElement("consumerName", "class", "consumerSource");
             Assert.IsNotNull(consumer);
-            IElement provider1 = dataModel.AddElement("provider1Name", "class", "provider1Source");
+            IDsiElement provider1 = dataModel.AddElement("provider1Name", "class", "provider1Source");
             Assert.IsNotNull(provider1);
-            IElement provider2 = dataModel.AddElement("provider2Name", "class", "provider2Source");
+            IDsiElement provider2 = dataModel.AddElement("provider2Name", "class", "provider2Source");
             Assert.IsNotNull(provider2);
 
             string relation1Type = "relationType1";
             int relation1Weight = 3;
-            IRelation relation1 = dataModel.AddRelation(consumer.Name, provider1.Name, relation1Type, relation1Weight, "context");
+            IDsiRelation relation1 = dataModel.AddRelation(consumer.Name, provider1.Name, relation1Type, relation1Weight, "context");
             Assert.IsNotNull(relation1);
             Assert.AreEqual(consumer.Id, relation1.ConsumerId);
             Assert.AreEqual(provider1.Id, relation1.ProviderId);
@@ -105,7 +105,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
 
             string relation2Type = "relationType2";
             int relation2Weight = 4;
-            IRelation relation2 = dataModel.AddRelation(consumer.Name, provider2.Name, relation2Type, relation2Weight, "context");
+            IDsiRelation relation2 = dataModel.AddRelation(consumer.Name, provider2.Name, relation2Type, relation2Weight, "context");
             Assert.IsNotNull(relation2);
             Assert.AreEqual(consumer.Id, relation2.ConsumerId);
             Assert.AreEqual(provider2.Id, relation2.ProviderId);
@@ -118,7 +118,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             dataModel.Cleanup();
 
             Assert.AreEqual(1, dataModel.GetProviderRelations(consumer).Count);
-            IRelation[] relationsRetrieved = dataModel.GetProviderRelations(consumer).ToArray();
+            IDsiRelation[] relationsRetrieved = dataModel.GetProviderRelations(consumer).ToArray();
             Assert.AreEqual(consumer.Id, relationsRetrieved[0].ConsumerId);
             Assert.AreEqual(provider1.Id, relationsRetrieved[0].ProviderId);
             Assert.AreEqual(relation1Type, relationsRetrieved[0].Type);
@@ -128,13 +128,13 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void RenamedElementCanBeFoundByName()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             dataModel.AddElement("element1Name", "class", "element1Source");
             dataModel.AddElement("element2Name", "enum", "element2Source");
             dataModel.AddElement("element3Name", "struct", "element3Source");
 
-            IElement element2 = dataModel.FindElement("element2Name");
+            IDsiElement element2 = dataModel.FindElement("element2Name");
             Assert.IsNotNull(element2);
             Assert.AreEqual(1, element2.Id);
             Assert.AreEqual("element2Name", element2.Name);
@@ -143,32 +143,32 @@ namespace DsmSuite.Analyzer.Model.Test.Core
 
             dataModel.RenameElement(element2, "element2NewName");
 
-            IElement renamedElement2 = dataModel.FindElement("element2NewName");
+            IDsiElement renamedElement2 = dataModel.FindElement("element2NewName");
             Assert.IsNotNull(renamedElement2);
             Assert.AreEqual(1, renamedElement2.Id);
             Assert.AreEqual("element2NewName", renamedElement2.Name);
             Assert.AreEqual("enum", renamedElement2.Type);
             Assert.AreEqual("element2Source", renamedElement2.Source);
 
-            IElement originalElement2 = dataModel.FindElement("elementName");
+            IDsiElement originalElement2 = dataModel.FindElement("elementName");
             Assert.IsNull(originalElement2);
         }
 
         [TestMethod]
         public void AddingAreRelationAddsItToTheConsumerElementAsProviderRelation()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
-            IElement consumer = dataModel.AddElement("consumerName", "class", "consumerSource");
+            IDsiElement consumer = dataModel.AddElement("consumerName", "class", "consumerSource");
             Assert.IsNotNull(consumer);
-            IElement provider1 = dataModel.AddElement("provider1Name", "class", "provider1Source");
+            IDsiElement provider1 = dataModel.AddElement("provider1Name", "class", "provider1Source");
             Assert.IsNotNull(provider1);
-            IElement provider2 = dataModel.AddElement("provider2Name", "class", "provider2Source");
+            IDsiElement provider2 = dataModel.AddElement("provider2Name", "class", "provider2Source");
             Assert.IsNotNull(provider2);
 
             string relation1Type = "relationType1";
             int relation1Weight = 3;
-            IRelation relation1 = dataModel.AddRelation(consumer.Name, provider1.Name, relation1Type, relation1Weight, "context");
+            IDsiRelation relation1 = dataModel.AddRelation(consumer.Name, provider1.Name, relation1Type, relation1Weight, "context");
             Assert.IsNotNull(relation1);
             Assert.AreEqual(consumer.Id, relation1.ConsumerId);
             Assert.AreEqual(provider1.Id, relation1.ProviderId);
@@ -179,7 +179,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
 
             string relation2Type = "relationType2";
             int relation2Weight = 4;
-            IRelation relation2 = dataModel.AddRelation(consumer.Name, provider2.Name, relation2Type, relation2Weight, "context");
+            IDsiRelation relation2 = dataModel.AddRelation(consumer.Name, provider2.Name, relation2Type, relation2Weight, "context");
             Assert.IsNotNull(relation2);
             Assert.AreEqual(consumer.Id, relation2.ConsumerId);
             Assert.AreEqual(provider2.Id, relation2.ProviderId);
@@ -194,13 +194,13 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         {
             string filename = "temp.dsi";
 
-            DataModel dataModel1 = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel1 = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
-            IElement consumer = dataModel1.AddElement("consumerName", "class", "consumerSource");
+            IDsiElement consumer = dataModel1.AddElement("consumerName", "class", "consumerSource");
             Assert.IsNotNull(consumer);
-            IElement provider1 = dataModel1.AddElement("provider1Name", "class", "provider1Source");
+            IDsiElement provider1 = dataModel1.AddElement("provider1Name", "class", "provider1Source");
             Assert.IsNotNull(provider1);
-            IElement provider2 = dataModel1.AddElement("provider2Name", "class", "provider2Source");
+            IDsiElement provider2 = dataModel1.AddElement("provider2Name", "class", "provider2Source");
             Assert.IsNotNull(provider2);
 
             dataModel1.AddRelation(consumer.Name, provider1.Name, "relationType2", 2, "context");
@@ -208,12 +208,12 @@ namespace DsmSuite.Analyzer.Model.Test.Core
 
             dataModel1.Save(filename, false);
 
-            DataModel dataModel2 = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel2 = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
             dataModel2.Load(filename);
 
             Assert.AreEqual(dataModel1.TotalElementCount, dataModel2.TotalElementCount);
-            List<IElement> dataModel1Elements = dataModel1.GetElements().ToList();
-            List<IElement> dataModel2Elements = dataModel2.GetElements().ToList();
+            List<IDsiElement> dataModel1Elements = dataModel1.GetElements().ToList();
+            List<IDsiElement> dataModel2Elements = dataModel2.GetElements().ToList();
             for (int elementIndex = 0; elementIndex < dataModel1.TotalElementCount; elementIndex++)
             {
                 Assert.AreEqual(dataModel1Elements[elementIndex].Id, dataModel2Elements[elementIndex].Id);
@@ -222,8 +222,8 @@ namespace DsmSuite.Analyzer.Model.Test.Core
                 Assert.AreEqual(dataModel1Elements[elementIndex].Source, dataModel2Elements[elementIndex].Source);
                 Assert.AreEqual(dataModel1.GetProviderRelations(dataModel1Elements[elementIndex]).Count, dataModel2.GetProviderRelations(dataModel1Elements[elementIndex]).Count);
 
-                List<IRelation> dataModel1Relations = dataModel1.GetProviderRelations(dataModel1Elements[elementIndex]).ToList();
-                List<IRelation> dataModel2Relations = dataModel2.GetProviderRelations(dataModel2Elements[elementIndex]).ToList();
+                List<IDsiRelation> dataModel1Relations = dataModel1.GetProviderRelations(dataModel1Elements[elementIndex]).ToList();
+                List<IDsiRelation> dataModel2Relations = dataModel2.GetProviderRelations(dataModel2Elements[elementIndex]).ToList();
 
                 for (int relationIndex = 0; relationIndex < dataModel1.GetProviderRelations(dataModel1Elements[elementIndex]).Count;
                     relationIndex++)

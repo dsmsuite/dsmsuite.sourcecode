@@ -21,89 +21,89 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
                 ExternalNames = new List<string>()
             };
 
-            IDataModel model = new DataModel("Test", Assembly.GetExecutingAssembly());
+            IDsiDataModel model = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
             DotNet.Analysis.Analyzer analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings);
             analyzer.Analyze();
 
             // Main elements
-            IElement elementMainClient = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainClient");
+            IDsiElement elementMainClient = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainClient");
             Assert.IsNotNull(elementMainClient);
 
-            IElement elementMainType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType");
+            IDsiElement elementMainType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType");
             Assert.IsNotNull(elementMainType);
 
-            IElement elementMainTypeMyDelegate = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType/MyDelegate");
+            IDsiElement elementMainTypeMyDelegate = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType/MyDelegate");
             Assert.IsNotNull(elementMainTypeMyDelegate);
 
-            IElement elementMainTypeAnonymous = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType/<>c");
+            IDsiElement elementMainTypeAnonymous = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType/<>c");
             Assert.IsNotNull(elementMainTypeAnonymous);
 
-            IElement elementInterfaceA = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.InterfaceA");
+            IDsiElement elementInterfaceA = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.InterfaceA");
             Assert.IsNotNull(elementInterfaceA);
 
-            IElement elementBaseType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.BaseType");
+            IDsiElement elementBaseType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.BaseType");
             Assert.IsNotNull(elementBaseType);
 
-            IElement elementNestedType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType/NestedType");
+            IDsiElement elementNestedType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType/NestedType");
             Assert.IsNotNull(elementNestedType);
 
             // Fields
-            IElement elementFieldType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.FieldType");
+            IDsiElement elementFieldType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.FieldType");
             Assert.IsNotNull(elementFieldType);
 
-            IElement elementGenericFieldType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericFieldType`1");
+            IDsiElement elementGenericFieldType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericFieldType`1");
             Assert.IsNotNull(elementGenericFieldType);
 
-            IElement elementGenericFieldTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericFieldTypeParameter");
+            IDsiElement elementGenericFieldTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericFieldTypeParameter");
             Assert.IsNotNull(elementGenericFieldTypeParameter);
 
             // Properties
-            IElement elementPropertyType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.PropertyType");
+            IDsiElement elementPropertyType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.PropertyType");
             Assert.IsNotNull(elementPropertyType);
 
-            IElement elementPropertyEnum = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.PropertyEnum");
+            IDsiElement elementPropertyEnum = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.PropertyEnum");
             Assert.IsNotNull(elementPropertyEnum);
 
-            IElement elementGenericPropertyType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericPropertyType`1");
+            IDsiElement elementGenericPropertyType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericPropertyType`1");
             Assert.IsNotNull(elementGenericPropertyType);
 
-            IElement elementGenericPropertyTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericPropertyTypeParameter");
+            IDsiElement elementGenericPropertyTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericPropertyTypeParameter");
             Assert.IsNotNull(elementGenericPropertyTypeParameter);
 
             // Method variables
-            IElement elementMethodVariableType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MethodVariableType");
+            IDsiElement elementMethodVariableType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MethodVariableType");
             Assert.IsNotNull(elementMethodVariableType);
 
             // Parameters
-            IElement elementParameterEnum = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ParameterEnum");
+            IDsiElement elementParameterEnum = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ParameterEnum");
             Assert.IsNotNull(elementParameterEnum);
 
-            IElement elementParameterType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ParameterType");
+            IDsiElement elementParameterType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ParameterType");
             Assert.IsNotNull(elementParameterType);
 
-            IElement elementGenericParameterType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterType`1");
+            IDsiElement elementGenericParameterType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterType`1");
             Assert.IsNotNull(elementGenericParameterType);
 
-            IElement elementGenericParameterTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterTypeParameter"); 
+            IDsiElement elementGenericParameterTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterTypeParameter"); 
             Assert.IsNotNull(elementGenericParameterTypeParameter);
 
             // Return types
-            IElement elementReturnType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ReturnType"); 
+            IDsiElement elementReturnType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ReturnType"); 
             Assert.IsNotNull(elementReturnType);
 
-            IElement elementReturnEnum = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ReturnEnum"); 
+            IDsiElement elementReturnEnum = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ReturnEnum"); 
             Assert.IsNotNull(elementReturnEnum);
 
-            IElement elementGenericReturnType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnType`1"); 
+            IDsiElement elementGenericReturnType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnType`1"); 
             Assert.IsNotNull(elementGenericReturnType);
 
-            IElement elementGenericReturnTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnTypeParameter"); 
+            IDsiElement elementGenericReturnTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnTypeParameter"); 
             Assert.IsNotNull(elementGenericReturnTypeParameter);
 
-            IElement elementDelegateGenericParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.DelegateGenericParameter");
+            IDsiElement elementDelegateGenericParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.DelegateGenericParameter");
             Assert.IsNotNull(elementDelegateGenericParameter);
 
-            IElement elementEventsArgsGenericParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.EventsArgsGenericParameter"); 
+            IDsiElement elementEventsArgsGenericParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.EventsArgsGenericParameter"); 
             Assert.IsNotNull(elementEventsArgsGenericParameter);
 
             // Main relations

@@ -8,9 +8,9 @@ namespace DsmSuite.Transformer.Transformation
     public class MoveHeaderElementsAction : Action
     {
         private const string ActionName = "Move C/C++ header file element near to implementation file element";
-        private readonly IDataModel _model;
+        private readonly IDsiDataModel _model;
 
-        public MoveHeaderElementsAction(IDataModel model, bool enabled) :
+        public MoveHeaderElementsAction(IDsiDataModel model, bool enabled) :
             base(ActionName, enabled)
         {
             _model = model;
@@ -20,8 +20,8 @@ namespace DsmSuite.Transformer.Transformation
         {
             int transformedElements = 0;
 
-            IElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
-            foreach (IElement element in clonedElements)
+            IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
+            foreach (IDsiElement element in clonedElements)
             {
                 MoveHeaderElement(element);
 
@@ -31,12 +31,12 @@ namespace DsmSuite.Transformer.Transformation
             Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
-        private void MoveHeaderElement(IElement element)
+        private void MoveHeaderElement(IDsiElement element)
         {
-            foreach (IRelation relation in _model.GetProviderRelations(element))
+            foreach (IDsiRelation relation in _model.GetProviderRelations(element))
             {
-                IElement consumer = _model.FindElement(relation.ConsumerId);
-                IElement provider = _model.FindElement(relation.ProviderId);
+                IDsiElement consumer = _model.FindElement(relation.ConsumerId);
+                IDsiElement provider = _model.FindElement(relation.ProviderId);
 
                 // Usual case where implementation file includes header file
                 if (IsImplementation(consumer) &&
@@ -48,7 +48,7 @@ namespace DsmSuite.Transformer.Transformation
             }
         }
 
-        private void MergeHeaderAndImplementation(IElement consumer, IElement provider)
+        private void MergeHeaderAndImplementation(IDsiElement consumer, IDsiElement provider)
         {
             string consumerName = consumer.Name;
             string providerName = provider.Name;
@@ -63,29 +63,29 @@ namespace DsmSuite.Transformer.Transformation
             AnalyzerLogger.LogTransformation(ActionName, description);
         }
 
-        private bool IsHeader(IElement element)
+        private bool IsHeader(IDsiElement element)
         {
             return (GetExtension(element) == "hpp") || (GetExtension(element) == "h");
         }
 
-        private bool IsImplementation(IElement element)
+        private bool IsImplementation(IDsiElement element)
         {
             return (GetExtension(element) == "cpp") || (GetExtension(element) == "c");
         }
 
-        private string GetExtension(IElement element)
+        private string GetExtension(IDsiElement element)
         {
             string[] words = element.Name.Split('.');
             return words[words.Length - 1];
         }
 
-        private string GetName(IElement element)
+        private string GetName(IDsiElement element)
         {
             string[] words = element.Name.Split('.');
             return words[words.Length - 2];
         }
 
-        private string GetNamespace(IElement element)
+        private string GetNamespace(IDsiElement element)
         {
             return element.Name.Substring(0, element.Name.Length - GetName(element).Length - GetExtension(element).Length - 2);
         }

@@ -18,25 +18,25 @@ namespace DsmSuite.Analyzer.Jdeps.Test.Analysis
                 InputFilename = "example.dot",
             };
 
-            IDataModel model = new DataModel("Test", Assembly.GetExecutingAssembly());
+            IDsiDataModel model = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
             Jdeps.Analysis.Analyzer analyzer = new Jdeps.Analysis.Analyzer(model, analyzerSettings);
             analyzer.Analyze();
 
             Assert.AreEqual(5, model.TotalElementCount);
 
-            IElement elementJavaxCryptoCipher = model.FindElement("javax.crypto.Cipher");
+            IDsiElement elementJavaxCryptoCipher = model.FindElement("javax.crypto.Cipher");
             Assert.IsNotNull(elementJavaxCryptoCipher);
 
-            IElement elementJavaxCryptoCipherTransform = model.FindElement("javax.crypto.Cipher.Transform");
+            IDsiElement elementJavaxCryptoCipherTransform = model.FindElement("javax.crypto.Cipher.Transform");
             Assert.IsNotNull(elementJavaxCryptoCipherTransform);
 
-            IElement elementJavaxCryptoSpecRcsParameterSpec = model.FindElement("javax.crypto.spec.RC5ParameterSpec");
+            IDsiElement elementJavaxCryptoSpecRcsParameterSpec = model.FindElement("javax.crypto.spec.RC5ParameterSpec");
             Assert.IsNotNull(elementJavaxCryptoSpecRcsParameterSpec);
 
-            IElement elementSunSecurityJcaGetInstance = model.FindElement("sun.security.jca.GetInstance");
+            IDsiElement elementSunSecurityJcaGetInstance = model.FindElement("sun.security.jca.GetInstance");
             Assert.IsNotNull(elementSunSecurityJcaGetInstance);
 
-            IElement elementJavaLangCharSequence = model.FindElement("java.lang.CharSequence");
+            IDsiElement elementJavaLangCharSequence = model.FindElement("java.lang.CharSequence");
             Assert.IsNotNull(elementJavaLangCharSequence);
 
             Assert.AreEqual(3, model.ResolvedRelationCount);

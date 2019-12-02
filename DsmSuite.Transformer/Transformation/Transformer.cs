@@ -8,10 +8,10 @@ namespace DsmSuite.Transformer.Transformation
 {
     public class Transformer
     {
-        private readonly IDataModel _model;
+        private readonly IDsiDataModel _model;
         private readonly TransformerSettings _transformerSettings;
 
-        public Transformer(IDataModel model, TransformerSettings transformerSettings)
+        public Transformer(IDsiDataModel model, TransformerSettings transformerSettings)
         {
             _model = model;
             _transformerSettings = transformerSettings;

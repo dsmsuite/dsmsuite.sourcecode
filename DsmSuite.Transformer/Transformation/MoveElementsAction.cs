@@ -13,10 +13,10 @@ namespace DsmSuite.Transformer.Transformation
     public class MoveElementsAction : Action
     {
         private const string ActionName = "Move elements according specified rules";
-        private readonly IDataModel _model;
+        private readonly IDsiDataModel _model;
         private readonly List<MoveElementRule> _transformationRules;
 
-        public MoveElementsAction(IDataModel model, MoveElementsSettings moveElementsSettings) :
+        public MoveElementsAction(IDsiDataModel model, MoveElementsSettings moveElementsSettings) :
             base(ActionName, moveElementsSettings.Enabled)
         {
             _model = model;
@@ -27,8 +27,8 @@ namespace DsmSuite.Transformer.Transformation
         {
             int transformedElements = 0;
 
-            IElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
-            foreach (IElement element in clonedElements)
+            IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
+            foreach (IDsiElement element in clonedElements)
             {
                 MoveElement(element);
 
@@ -38,7 +38,7 @@ namespace DsmSuite.Transformer.Transformation
             Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
-        private void MoveElement(IElement element)
+        private void MoveElement(IDsiElement element)
         {
             foreach (MoveElementRule rule in _transformationRules)
             {

@@ -5,9 +5,9 @@ namespace DsmSuite.Analyzer.Model.Data
     /// <summary>
     /// Represents a relation of a specific type between two elements
     /// </summary>
-    public class Relation : IRelation
+    public class DsiRelation : IDsiRelation
     {
-        public Relation(int consumerId, int providerId, string type, int weight)
+        public DsiRelation(int consumerId, int providerId, string type, int weight)
         {
             ConsumerId = consumerId;
             ProviderId = providerId;

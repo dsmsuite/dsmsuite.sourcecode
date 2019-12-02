@@ -11,10 +11,10 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
     /// </summary>
     public class Analyzer
     {
-        private readonly IDataModel _model;
+        private readonly IDsiDataModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
 
-        public Analyzer(IDataModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiDataModel model, AnalyzerSettings analyzerSettings)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;

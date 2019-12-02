@@ -10,7 +10,7 @@ namespace DsmSuite.Analyzer.Model.Test.Data
         [TestMethod]
         public void TestRelationConstructor()
         {
-            IRelation relation = new Relation(1, 2, "type", 3);
+            IDsiRelation relation = new DsiRelation(1, 2, "type", 3);
             Assert.AreEqual(1, relation.ConsumerId);
             Assert.AreEqual(2, relation.ProviderId);
             Assert.AreEqual("type", relation.Type);

@@ -100,7 +100,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
                 writer.WriteStartElement(MetaDataGroupXmlNodeName);
                 writer.WriteAttributeString(MetaDataGroupNameXmlAttributeName, groupName);
 
-                foreach (IMetaDataItem metaDataItem in _callback.GetMetaDataGroupItems(groupName))
+                foreach (IDsiMetaDataItem metaDataItem in _callback.GetMetaDataGroupItems(groupName))
                 {
                     writer.WriteStartElement(MetaDataXmlNodeName);
                     writer.WriteAttributeString(MetaDataItemNameXmlAttributeName, metaDataItem.Name);
@@ -125,7 +125,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
                         string value = xMetaDataReader.GetAttribute(MetaDataItemValueXmlAttributeName);
                         if ((name != null) && (value != null))
                         {
-                            MetaDataItem metaDataItem = new MetaDataItem(name, value);
+                            DsiMetaDataItem metaDataItem = new DsiMetaDataItem(name, value);
                             _callback.ImportMetaDataItem(groupName, metaDataItem);
                         }
                     }
@@ -136,7 +136,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private void WriteElements(XmlWriter writer)
         {
             writer.WriteStartElement(ElementGroupXmlNodeName);
-            foreach (IElement element in _callback.GetElements())
+            foreach (IDsiElement element in _callback.GetElements())
             {
                 writer.WriteStartElement(ElementXmlNodeName);
                 writer.WriteAttributeString(ElementIdXmlAttributeName, element.Id.ToString());
@@ -157,7 +157,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
                 string name = xReader.GetAttribute(ElementNameXmlAttributeName);
                 string type = xReader.GetAttribute(ElementTypeXmlAttributeName);
                 string source = xReader.GetAttribute(ElementSourceXmlAttributeName);
-                Element element = new Element(id, name, type, source);
+                DsiElement element = new DsiElement(id, name, type, source);
                 _callback.ImportElement(element);
             }
         }
@@ -165,7 +165,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private void WriteRelations(XmlWriter writer)
         {
             writer.WriteStartElement(RelationGroupXmlNodeName);
-            foreach (IRelation relation in _callback.GetRelations())
+            foreach (IDsiRelation relation in _callback.GetRelations())
             {
                 writer.WriteStartElement(RelationXmlNodeName);
                 writer.WriteAttributeString(RelationConsumerIdXmlAttributeName, relation.ConsumerId.ToString());
@@ -188,7 +188,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
                 string type = xReader.GetAttribute(RelationTypeXmlAttributeName);
                 int weight;
                 int.TryParse(xReader.GetAttribute(RelationWeightXmlAttributeName), out weight);
-                Relation relation = new Relation(consumerId, providerId, type, weight);
+                DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight);
                 _callback.ImportRelation(relation);
             }
         }

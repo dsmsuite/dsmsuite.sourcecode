@@ -14,13 +14,13 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
     /// </summary>
     public class Analyzer
     {
-        private readonly IDataModel _model;
+        private readonly IDsiDataModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
         private readonly Dictionary<string, FileInfo> _typeAssemblyInfoList = new Dictionary<string, FileInfo>();
         private readonly List<FileInfo> _assemblyFileInfos = new List<FileInfo>();
 
-        public Analyzer(IDataModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiDataModel model, AnalyzerSettings analyzerSettings)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;

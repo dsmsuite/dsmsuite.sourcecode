@@ -10,7 +10,7 @@ namespace DsmSuite.Analyzer.Model.Test.Data
         [TestMethod]
         public void TestElementConstructor()
         {
-            IElement element = new Element(1, "name", "type", "source");
+            IDsiElement element = new DsiElement(1, "name", "type", "source");
             Assert.AreEqual(1, element.Id);
             Assert.AreEqual("name", element.Name);
             Assert.AreEqual("type", element.Type);

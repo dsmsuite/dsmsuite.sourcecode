@@ -12,9 +12,9 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
     [TestClass]
     public class DsiModelFileTest : IDsiModelFileCallback
     {
-        private readonly List<IElement> _elements = new List<IElement>();
-        private readonly List<IRelation> _relations = new List<IRelation>();
-        private readonly Dictionary<string, List<IMetaDataItem>> _metaData = new Dictionary<string, List<IMetaDataItem>>();
+        private readonly List<IDsiElement> _elements = new List<IDsiElement>();
+        private readonly List<IDsiRelation> _relations = new List<IDsiRelation>();
+        private readonly Dictionary<string, List<IDsiMetaDataItem>> _metaData = new Dictionary<string, List<IDsiMetaDataItem>>();
 
         [TestInitialize]
         public void TestInitialize()
@@ -73,24 +73,24 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
         [TestMethod]
         public void TestSaveAndLoadDsiModeiFile()
         {
-            _metaData["group1"] = new List<IMetaDataItem>
+            _metaData["group1"] = new List<IDsiMetaDataItem>
             {
-                new MetaDataItem("item1", "value1"),
-                new MetaDataItem("item2", "value2")
+                new DsiMetaDataItem("item1", "value1"),
+                new DsiMetaDataItem("item2", "value2")
             };
 
-            _metaData["group2"] = new List<IMetaDataItem>
+            _metaData["group2"] = new List<IDsiMetaDataItem>
             {
-                new MetaDataItem("item3", "value3"),
-                new MetaDataItem("item4", "value4")
+                new DsiMetaDataItem("item3", "value3"),
+                new DsiMetaDataItem("item4", "value4")
             };
 
-            _elements.Add(new Element(1, "a.a1", "elementtype1", "source1"));
-            _elements.Add(new Element(2, "a.a2", "elementtype2", "source2"));
-            _elements.Add(new Element(3, "b.b1", "elementtype3", "source3"));
+            _elements.Add(new DsiElement(1, "a.a1", "elementtype1", "source1"));
+            _elements.Add(new DsiElement(2, "a.a2", "elementtype2", "source2"));
+            _elements.Add(new DsiElement(3, "b.b1", "elementtype3", "source3"));
 
-            _relations.Add(new Relation(1, 2, "relationtype1", 100));
-            _relations.Add(new Relation(2, 3, "relationtype2", 200));
+            _relations.Add(new DsiRelation(1, 2, "relationtype1", 100));
+            _relations.Add(new DsiRelation(2, 3, "relationtype2", 200));
 
             string outputFilename = "Output.dsi";
             DsiModelFile modelFile = new DsiModelFile(outputFilename, this);
@@ -99,22 +99,22 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             Assert.IsTrue(File.ReadAllBytes(outputFilename).SequenceEqual(File.ReadAllBytes(TestFile)));
         }
 
-        public void ImportMetaDataItem(string groupName, IMetaDataItem metaDataItem)
+        public void ImportMetaDataItem(string groupName, IDsiMetaDataItem metaDataItem)
         {
             if (!_metaData.ContainsKey(groupName))
             {
-                _metaData[groupName] = new List<IMetaDataItem>();
+                _metaData[groupName] = new List<IDsiMetaDataItem>();
             }
             _metaData[groupName].Add(metaDataItem);
         }
 
 
-        public void ImportElement(IElement element)
+        public void ImportElement(IDsiElement element)
         {
             _elements.Add(element);
         }
 
-        public void ImportRelation(IRelation relation)
+        public void ImportRelation(IDsiRelation relation)
         {
             _relations.Add(relation);
         }
@@ -124,7 +124,7 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             return _metaData.Keys;
         }
 
-        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName)
+        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string groupName)
         {
             if (_metaData.ContainsKey(groupName))
             {
@@ -132,16 +132,16 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             }
             else
             {
-                return new List<IMetaDataItem>();
+                return new List<IDsiMetaDataItem>();
             }
         }
 
-        public IEnumerable<IElement> GetElements()
+        public IEnumerable<IDsiElement> GetElements()
         {
             return _elements;
         }
 
-        public IEnumerable<IRelation> GetRelations()
+        public IEnumerable<IDsiRelation> GetRelations()
         {
             return _relations;
         }

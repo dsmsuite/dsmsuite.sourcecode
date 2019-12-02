@@ -2,9 +2,9 @@
 
 namespace DsmSuite.Analyzer.Model.Data
 {
-    public class MetaDataItem : IMetaDataItem
+    public class DsiMetaDataItem : IDsiMetaDataItem
     {
-        public MetaDataItem(string name, string value)
+        public DsiMetaDataItem(string name, string value)
         {
             Name = name;
             Value = value;

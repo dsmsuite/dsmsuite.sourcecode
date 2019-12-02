@@ -1,7 +1,7 @@
 ﻿
 namespace DsmSuite.Analyzer.Model.Interface
 {
-    public interface IRelation
+    public interface IDsiRelation
     {
         int ConsumerId{ get; }
         int ProviderId { get; }

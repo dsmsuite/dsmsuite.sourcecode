@@ -5,13 +5,13 @@ namespace DsmSuite.Analyzer.Model.Persistency
 {
     public interface IDsiModelFileCallback
     {
-        void ImportMetaDataItem(string groupName, IMetaDataItem metaDataItem);
-        void ImportElement(IElement element);
-        void ImportRelation(IRelation relation);
+        void ImportMetaDataItem(string groupName, IDsiMetaDataItem metaDataItem);
+        void ImportElement(IDsiElement element);
+        void ImportRelation(IDsiRelation relation);
 
         IEnumerable<string> GetMetaDataGroups();
-        IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
-        IEnumerable<IElement> GetElements();
-        IEnumerable<IRelation> GetRelations();
+        IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string groupName);
+        IEnumerable<IDsiElement> GetElements();
+        IEnumerable<IDsiRelation> GetRelations();
     }
 }

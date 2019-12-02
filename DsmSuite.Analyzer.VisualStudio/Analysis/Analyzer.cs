@@ -11,13 +11,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 {
     public class Analyzer
     {
-        private readonly IDataModel _model;
+        private readonly IDsiDataModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly List<SolutionFile> _solutionFiles = new List<SolutionFile>();
         private readonly Dictionary<string, FileInfo> _sourcesFilesById = new Dictionary<string, FileInfo>();
         private readonly Dictionary<string, string> _interfaceFilesByPath = new Dictionary<string, string>();
 
-        public Analyzer(IDataModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiDataModel model, AnalyzerSettings analyzerSettings)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;

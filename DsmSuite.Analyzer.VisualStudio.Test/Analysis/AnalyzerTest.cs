@@ -20,7 +20,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             analyzerSettings.SolutionGroups[0].SolutionFilenames.Add(Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln"));
             analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path=Path.Combine(TestData.TestDataDirectory, "DirExternal"), ResolveAs= "External" });
             analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings);
             analyzer.Analyze();
@@ -28,18 +28,18 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             Assert.IsTrue(dataModel.TotalElementCount > 0);
             HashSet<string> elementNames = new HashSet<string>();
             Dictionary<string, HashSet<string>> providerNames = new Dictionary<string, HashSet<string>>();
-            foreach (IElement element in dataModel.GetElements())
+            foreach (IDsiElement element in dataModel.GetElements())
             {
                 elementNames.Add(element.Name);
 
-                foreach (IRelation relation in dataModel.GetProviderRelations(element))
+                foreach (IDsiRelation relation in dataModel.GetProviderRelations(element))
                 {
                     if (!providerNames.ContainsKey(element.Name))
                     {
                         providerNames[element.Name] = new HashSet<string>();
                     }
 
-                    IElement provider = dataModel.FindElement(relation.ProviderId);
+                    IDsiElement provider = dataModel.FindElement(relation.ProviderId);
                     providerNames[element.Name].Add(provider.Name);
                 }
             }
@@ -99,25 +99,25 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             analyzerSettings.RootDirectory = TestData.SolutionDirectory;
 
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings);
             analyzer.Analyze();
 
             HashSet<string> elementNames = new HashSet<string>();
             Dictionary<string, HashSet<string>> providerNames = new Dictionary<string, HashSet<string>>();
-            foreach (IElement element in dataModel.GetElements())
+            foreach (IDsiElement element in dataModel.GetElements())
             {
                 elementNames.Add(element.Name);
 
-                foreach (IRelation relation in dataModel.GetProviderRelations(element))
+                foreach (IDsiRelation relation in dataModel.GetProviderRelations(element))
                 {
                     if (!providerNames.ContainsKey(element.Name))
                     {
                         providerNames[element.Name] = new HashSet<string>();
                     }
 
-                    IElement provider = dataModel.FindElement(relation.ProviderId);
+                    IDsiElement provider = dataModel.FindElement(relation.ProviderId);
                     providerNames[element.Name].Add(provider.Name);
                 }
             }

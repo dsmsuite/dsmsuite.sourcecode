@@ -12,32 +12,32 @@ namespace DsmSuite.Analyzer.Model.Core
     /// <summary>
     /// The data model maintains data item and allows persisting them to a file.
     /// </summary>
-    public class DataModel : IDataModel, IDsiModelFileCallback
+    public class DsiDataModel : IDsiDataModel, IDsiModelFileCallback
     {
         private readonly List<string> _metaDataGroupNames;
-        private readonly Dictionary<string, List<IMetaDataItem>> _metaDataGroups;
+        private readonly Dictionary<string, List<IDsiMetaDataItem>> _metaDataGroups;
         private readonly string _processStep;
 
-        private readonly Dictionary<string, IElement> _elementsByName;
-        private readonly Dictionary<int, IElement> _elementsById;
+        private readonly Dictionary<string, IDsiElement> _elementsByName;
+        private readonly Dictionary<int, IDsiElement> _elementsById;
         private readonly Dictionary<string, int> _elementTypeCount;
 
-        private readonly Dictionary<int, List<IRelation>> _relationsByConsumerId;
+        private readonly Dictionary<int, List<IDsiRelation>> _relationsByConsumerId;
         private readonly Dictionary<string, int> _relationTypeCount;
         private int _relationCount;
 
-        public DataModel(string processStep, Assembly executingAssembly)
+        public DsiDataModel(string processStep, Assembly executingAssembly)
         {
             _processStep = processStep;
 
             _metaDataGroupNames = new List<string>();
-            _metaDataGroups = new Dictionary<string, List<IMetaDataItem>>();
+            _metaDataGroups = new Dictionary<string, List<IDsiMetaDataItem>>();
 
-            _elementsByName = new Dictionary<string, IElement>();
-            _elementsById = new Dictionary<int, IElement>();
+            _elementsByName = new Dictionary<string, IDsiElement>();
+            _elementsById = new Dictionary<int, IDsiElement>();
             _elementTypeCount = new Dictionary<string, int>();
 
-            _relationsByConsumerId = new Dictionary<int, List<IRelation>>();
+            _relationsByConsumerId = new Dictionary<int, List<IDsiRelation>>();
             _relationTypeCount = new Dictionary<string, int>();
 
             AddMetaData("Executable", SystemInfo.GetExecutableInfo(executingAssembly));
@@ -76,10 +76,10 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             Logger.LogUserMessage($"Metadata: processStep={_processStep} name={itemName} value={itemValue}");
 
-            GetMetaDataGroupItemList(_processStep).Add(new MetaDataItem(itemName, itemValue));
+            GetMetaDataGroupItemList(_processStep).Add(new DsiMetaDataItem(itemName, itemValue));
         }
 
-        public void ImportMetaDataItem(string groupName, IMetaDataItem metaDataItem)
+        public void ImportMetaDataItem(string groupName, IDsiMetaDataItem metaDataItem)
         {
             Logger.LogUserMessage($"Metadata: groupName={groupName} name={metaDataItem.Name} value={metaDataItem.Value}");
 
@@ -91,19 +91,19 @@ namespace DsmSuite.Analyzer.Model.Core
             return _metaDataGroupNames;
         }
 
-        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName)
+        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string groupName)
         {
             return GetMetaDataGroupItemList(groupName);
         }
         
-        public void ImportElement(IElement element)
+        public void ImportElement(IDsiElement element)
         {
             _elementsByName[element.Name] = element;
             _elementsById[element.Id] = element;
             IncrementElementTypeCount(element.Type);
         }
         
-        public IElement AddElement(string name, string type, string source)
+        public IDsiElement AddElement(string name, string type, string source)
         {
             AnalyzerLogger.LogDataModelAction("Add element to data model name=" + name + " type=" + type + " source=" + source);
 
@@ -112,7 +112,7 @@ namespace DsmSuite.Analyzer.Model.Core
             {
                 IncrementElementTypeCount(type);
                 int id = _elementsByName.Count;
-                Element element = new Element(id, name, type, source);
+                DsiElement element = new DsiElement(id, name, type, source);
                 _elementsByName[key] = element;
                 _elementsById[id] = element;
                 return element;
@@ -123,17 +123,17 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
         
-        public void RemoveElement(IElement element)
+        public void RemoveElement(IDsiElement element)
         {
             string key = element.Name.ToLower();
             _elementsByName.Remove(key);
             _elementsById.Remove(element.Id);
         }
 
-        public void RenameElement(IElement element, string newName)
+        public void RenameElement(IDsiElement element, string newName)
         {
             AnalyzerLogger.LogDataModelAction("Rename element in data model from name=" + element.Name + " to name=" + newName);
-            Element e = element as Element;
+            DsiElement e = element as DsiElement;
             if (e != null)
             {
                 string oldKey = e.Name.ToLower();
@@ -144,18 +144,18 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
 
-        public IElement FindElement(string name)
+        public IDsiElement FindElement(string name)
         {
             string key = name.ToLower();
             return _elementsByName.ContainsKey(key) ? _elementsByName[key] : null;
         }
 
-        public IElement FindElement(int id)
+        public IDsiElement FindElement(int id)
         {
             return _elementsById.ContainsKey(id) ? _elementsById[id] : null;
         }
 
-        public IEnumerable<IElement> GetElements()
+        public IEnumerable<IDsiElement> GetElements()
         {
             return _elementsById.Values;
         }
@@ -179,34 +179,34 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public int TotalElementCount => _elementsByName.Values.Count;
         
-        public void ImportRelation(IRelation relation)
+        public void ImportRelation(IDsiRelation relation)
         {
             IncrementRelationTypeCount(relation.Type);
 
             if (!_relationsByConsumerId.ContainsKey(relation.ConsumerId))
             {
-                _relationsByConsumerId[relation.ConsumerId] = new List<IRelation>();
+                _relationsByConsumerId[relation.ConsumerId] = new List<IDsiRelation>();
             }
             _relationsByConsumerId[relation.ConsumerId].Add(relation);
         }
 
-        public IRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
+        public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
         {
             AnalyzerLogger.LogDataModelAction("Add relation " + type + " from consumer=" + consumerName + " to provider=" + providerName + " in " + context);
             _relationCount++;
 
-            IElement consumer = FindElement(consumerName);
-            IElement provider = FindElement(providerName);
-            IRelation relation = null;
+            IDsiElement consumer = FindElement(consumerName);
+            IDsiElement provider = FindElement(providerName);
+            IDsiRelation relation = null;
 
             if (consumer != null && provider != null)
             {
                 IncrementRelationTypeCount(type);
 
-                relation = new Relation(consumer.Id, provider.Id, type, weight);
+                relation = new DsiRelation(consumer.Id, provider.Id, type, weight);
                 if (!_relationsByConsumerId.ContainsKey(consumer.Id))
                 {
-                    _relationsByConsumerId[consumer.Id] = new List<IRelation>();
+                    _relationsByConsumerId[consumer.Id] = new List<IDsiRelation>();
                 }
                 _relationsByConsumerId[consumer.Id].Add(relation);
             }
@@ -243,7 +243,7 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
         
-        public ICollection<IRelation> GetProviderRelations(IElement consumer)
+        public ICollection<IDsiRelation> GetProviderRelations(IDsiElement consumer)
         {
             if (_relationsByConsumerId.ContainsKey(consumer.Id))
             {
@@ -251,27 +251,27 @@ namespace DsmSuite.Analyzer.Model.Core
             }
             else
             {
-                return new List<IRelation>();
+                return new List<IDsiRelation>();
             }
         }
 
-        public IEnumerable<IRelation> GetRelations()
+        public IEnumerable<IDsiRelation> GetRelations()
         {
-            List<IRelation> relations = new List<IRelation>();
-            foreach (List<IRelation> consumerRelations in _relationsByConsumerId.Values)
+            List<IDsiRelation> relations = new List<IDsiRelation>();
+            foreach (List<IDsiRelation> consumerRelations in _relationsByConsumerId.Values)
             {
                 relations.AddRange(consumerRelations);
             }
             return relations;
         }
 
-        public bool DoesRelationExist(IElement consumer, IElement provider)
+        public bool DoesRelationExist(IDsiElement consumer, IDsiElement provider)
         {
             bool doesRelationExist = false;
 
             if (_relationsByConsumerId.ContainsKey(consumer.Id))
             {
-                foreach (IRelation relation in _relationsByConsumerId[consumer.Id])
+                foreach (IDsiRelation relation in _relationsByConsumerId[consumer.Id])
                 {
                     if (relation.ProviderId == provider.Id)
                     {
@@ -291,7 +291,7 @@ namespace DsmSuite.Analyzer.Model.Core
             {
                 int count = 0;
 
-                foreach (IElement element in _elementsByName.Values)
+                foreach (IDsiElement element in _elementsByName.Values)
                 {
                     if (_relationsByConsumerId.ContainsKey(element.Id))
                     {
@@ -323,15 +323,15 @@ namespace DsmSuite.Analyzer.Model.Core
         /// </summary>
         public void Cleanup()
         {
-            IElement[] elements = _elementsByName.Values.ToArray();
+            IDsiElement[] elements = _elementsByName.Values.ToArray();
 
-            foreach (IElement element in elements)
+            foreach (IDsiElement element in elements)
             {
                 if (_relationsByConsumerId.ContainsKey(element.Id))
                 {
-                    IRelation[] relations = _relationsByConsumerId[element.Id].ToArray();
+                    IDsiRelation[] relations = _relationsByConsumerId[element.Id].ToArray();
 
-                    foreach (IRelation relation in relations)
+                    foreach (IDsiRelation relation in relations)
                     {
                         if (!_elementsById.ContainsKey(relation.ConsumerId) ||
                             !_elementsById.ContainsKey(relation.ProviderId))
@@ -343,12 +343,12 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
 
-        private IList<IMetaDataItem> GetMetaDataGroupItemList(string groupName)
+        private IList<IDsiMetaDataItem> GetMetaDataGroupItemList(string groupName)
         {
             if (!_metaDataGroups.ContainsKey(groupName))
             {
                 _metaDataGroupNames.Add(groupName);
-                _metaDataGroups[groupName] = new List<IMetaDataItem>();
+                _metaDataGroups[groupName] = new List<IDsiMetaDataItem>();
             }
 
             return _metaDataGroups[groupName];
