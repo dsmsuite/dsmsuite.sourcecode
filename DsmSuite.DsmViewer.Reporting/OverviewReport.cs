@@ -16,14 +16,14 @@ namespace DsmSuite.DsmViewer.Reporting
             AddHeader(1, "Overview");
             AddHeader(2, "Meta data");
 
-            foreach (string group in Model.GetGroups())
+            foreach (string group in Model.GetMetaDataGroups())
             {
                 AddHeader(3, group);
 
                 XmlNode tbody = CreateTable();
-                foreach (string name in Model.GetNames(group))
+                foreach (IDsmMetaDataItem item in Model.GetMetaDataGroupItems(group))
                 {
-                    string[] cells = { name, ": " + Model.GetValue(group, name) };
+                    string[] cells = { item.Name, ": " , item.Value };
                     AddTableRow(tbody, cells);
                 }
             }

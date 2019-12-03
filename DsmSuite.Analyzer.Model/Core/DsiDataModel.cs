@@ -14,9 +14,10 @@ namespace DsmSuite.Analyzer.Model.Core
     /// </summary>
     public class DsiDataModel : IDsiDataModel, IDsiModelFileCallback
     {
+        private readonly string _processStep;
+
         private readonly List<string> _metaDataGroupNames;
         private readonly Dictionary<string, List<IDsiMetaDataItem>> _metaDataGroups;
-        private readonly string _processStep;
 
         private readonly Dictionary<string, IDsiElement> _elementsByName;
         private readonly Dictionary<int, IDsiElement> _elementsById;
@@ -72,20 +73,21 @@ namespace DsmSuite.Analyzer.Model.Core
             modelFile.Save(compressFile, null);
         }
 
-        public void AddMetaData(string itemName, string itemValue)
+        public void AddMetaData(string name, string value)
         {
-            Logger.LogUserMessage($"Metadata: processStep={_processStep} name={itemName} value={itemValue}");
+            Logger.LogUserMessage($"Metadata: processStep={_processStep} name={name} value={value}");
 
-            GetMetaDataGroupItemList(_processStep).Add(new DsiMetaDataItem(itemName, itemValue));
+            DsiMetaDataItem metaDataItem = new DsiMetaDataItem(name, value);
+            GetMetaDataGroupItemList(_processStep).Add(metaDataItem);
         }
 
         public IDsiMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
         {
             Logger.LogUserMessage($"Metadata: groupName={groupName} name={name} value={value}");
 
-            DsiMetaDataItem dsiMetaDataItem =new DsiMetaDataItem(name, value);
-            GetMetaDataGroupItemList(groupName).Add(dsiMetaDataItem);
-            return dsiMetaDataItem;
+            DsiMetaDataItem metaDataItem =new DsiMetaDataItem(name, value);
+            GetMetaDataGroupItemList(groupName).Add(metaDataItem);
+            return metaDataItem;
         }
 
         public IEnumerable<string> GetMetaDataGroups()

@@ -92,14 +92,14 @@ namespace DsmSuite.DsmViewer.Builder.Test
 
             Assert.AreEqual(9, model.ElementCount);
 
-            Assert.AreEqual(1000, model.GetDependencyWeight(a1, b1));
-            Assert.AreEqual(200, model.GetDependencyWeight(a2, b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(a1, b2));
-            Assert.AreEqual(4, model.GetDependencyWeight(a2, b2));
-            Assert.AreEqual(5, model.GetDependencyWeight(a1, c2));
-            Assert.AreEqual(1, model.GetDependencyWeight(b2, a1));
-            Assert.AreEqual(2, model.GetDependencyWeight(b2, a2));
-            Assert.AreEqual(4, model.GetDependencyWeight(c1, a2));
+            Assert.AreEqual(1000, model.GetDependencyWeight(a1.Id, b1.Id));
+            Assert.AreEqual(200, model.GetDependencyWeight(a2.Id, b1.Id));
+            Assert.AreEqual(30, model.GetDependencyWeight(a1.Id, b2.Id));
+            Assert.AreEqual(4, model.GetDependencyWeight(a2.Id, b2.Id));
+            Assert.AreEqual(5, model.GetDependencyWeight(a1.Id, c2.Id));
+            Assert.AreEqual(1, model.GetDependencyWeight(b2.Id, a1.Id));
+            Assert.AreEqual(2, model.GetDependencyWeight(b2.Id, a2.Id));
+            Assert.AreEqual(4, model.GetDependencyWeight(c1.Id, a2.Id));
         }
     }
 }

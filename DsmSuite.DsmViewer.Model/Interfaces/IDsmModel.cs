@@ -15,12 +15,17 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress);
         void SaveModel(string dsmFilename, bool compressFile, IProgress<DsmProgressInfo> progress);
 
+        void AddMetaData(string group, string name, string value);
+        void AddMetaData(string itemName, string itemValue);
+        IList<string> GetMetaDataGroups();
+        IList<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
+
         IDsmElement CreateElement(string name, string type, int? parentId);
         void AddRelation(int consumerId, int providerId, string type, int weight);
         void RemoveRelation(int consumerId, int providerId, string type, int weight);
         void UnremoveRelation(int consumerId, int providerId, string type, int weight);
         int ElementCount { get; }
-        void AddMetaData(string group, string name, string value);
+
         void AssignElementOrder();
         IList<IDsmElement> RootElements { get; }
 
@@ -31,8 +36,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void RemoveElement(int id);
         void RestoreElement(int id);
 
-        int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
-        bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
+        int GetDependencyWeight(int consumerId, int providerId);
+        bool IsCyclicDependency(int consumerId, int providerId);
 
         IList<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
         IList<IDsmRelation> FindProviderRelations(IDsmElement element);
@@ -47,9 +52,5 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmElement NextSibling(IDsmElement element);
         IDsmElement PreviousSibling(IDsmElement element);
         bool Swap(IDsmElement fisrt, IDsmElement second);
-
-        IList<string> GetGroups();
-        IList<string> GetNames(string group);
-        string GetValue(string group, string name);
     }
 }

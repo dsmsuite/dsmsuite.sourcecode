@@ -1,4 +1,5 @@
-﻿using DsmSuite.DsmViewer.Model.Dependencies;
+﻿using System.Collections.Generic;
+using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Data
@@ -6,10 +7,10 @@ namespace DsmSuite.DsmViewer.Model.Data
 
     public class DsmResolvedRelation : IDsmResolvedRelation
     {
-        public DsmResolvedRelation(DependencyModel dependencyModel, IDsmRelation relation)
+        public DsmResolvedRelation(Dictionary<int, DsmElement> elementsById, IDsmRelation relation)
         {
-            Consumer = dependencyModel.GetElementById(relation.ConsumerId);
-            Provider = dependencyModel.GetElementById(relation.ProviderId);
+            Consumer = elementsById.ContainsKey(relation.ConsumerId) ? elementsById[relation.ConsumerId] : null;
+            Provider = elementsById.ContainsKey(relation.ProviderId) ? elementsById[relation.ProviderId] : null;
             Type = relation.Type;
             Weight = relation.Weight;
         }

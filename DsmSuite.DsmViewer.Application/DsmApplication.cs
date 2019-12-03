@@ -144,12 +144,12 @@ namespace DsmSuite.DsmViewer.Application
 
         public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
-            return _model.GetDependencyWeight(consumer, provider);
+            return _model.GetDependencyWeight(consumer.Id, provider.Id);
         }
 
         public bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider)
         {
-            return _model.IsCyclicDependency(consumer, provider);
+            return _model.IsCyclicDependency(consumer.Id, provider.Id);
         }
 
         public IEnumerable<IDsmElement> SearchExecute(string text)

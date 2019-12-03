@@ -1,34 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using DsmSuite.Analyzer.Model.Data;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Dependencies;
-using DsmSuite.DsmViewer.Model.Files.Dsm;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
-    public class DsmModel : IDsmModel
+    public class DsmModel : IDsmModel, IDsmModelFileCallback
     {
         private readonly string _processStep;
         private bool _isModified;
-        private readonly MetaData _metaData;
-        private readonly DependencyModel _dependencyModel;
+
+        private readonly List<string> _metaDataGroupNames;
+        private readonly Dictionary<string, List<IDsmMetaDataItem>> _metaDataGroups;
+
+        private readonly Dictionary<int /*id*/, DsmElement> _elementsById;
+
+        private readonly Dictionary<int /*providerId*/, Dictionary<int /*consumerId*/, DsmRelation>> _relationsByProvider;
+        private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, DsmRelation>> _relationsByConsumer;
+
+        private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, int /*weight*/>> _weights;
+
+        private readonly IList<IDsmElement> _rootElements;
 
         public event EventHandler<bool> Modified;
 
         public DsmModel(string processStep, Assembly executingAssembly)
         {
             _processStep = processStep;
-            _metaData = new MetaData();
-            _dependencyModel = new DependencyModel();
 
-            if (processStep != null)
+            _metaDataGroupNames = new List<string>();
+            _metaDataGroups = new Dictionary<string, List<IDsmMetaDataItem>>();
+
+            _elementsById = new Dictionary<int, DsmElement>();
+
+            _relationsByProvider = new Dictionary<int, Dictionary<int, DsmRelation>>();
+            _relationsByConsumer = new Dictionary<int, Dictionary<int, DsmRelation>>();
+
+            _weights = new Dictionary<int, Dictionary<int, int>>();
+
+            _rootElements = new List<IDsmElement>();
+
+            AddMetaData("Executable", SystemInfo.GetExecutableInfo(executingAssembly));
+        }
+
+        public void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress)
+        {
+            Clear();
+            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, this);
+            dsmModelFile.Load(progress);
+            IsCompressed = dsmModelFile.IsCompressedFile();
+            ModelFilename = dsmFilename;
+        }
+
+        public void SaveModel(string dsmFilename, bool compressFile, IProgress<DsmProgressInfo> progress)
+        {
+            if (_processStep != null)
             {
-                _metaData.AddMetaData(processStep, "Executable", SystemInfo.GetExecutableInfo(executingAssembly));
+                AddMetaData("Total elements found", $"{ElementCount}");
             }
+
+            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, this);
+            dsmModelFile.Save(compressFile, progress);
+            IsModified = false;
+            ModelFilename = dsmFilename;
         }
 
         public string ModelFilename { get; private set; }
@@ -50,131 +90,230 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void Clear()
         {
-            _dependencyModel.Clear();
-            _metaData.Clear();
+            _metaDataGroupNames.Clear();
+            _metaDataGroups.Clear();
+
+            _elementsById.Clear();
+
+            _relationsByProvider.Clear();
+            _relationsByConsumer.Clear();
+
+            _weights.Clear();
+
+            _rootElements.Clear();
         }
 
-        public void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress)
+        public void AddMetaData(string name, string value)
         {
-            Clear();
-            DsmModelFileReader dsmModelFile = new DsmModelFileReader(dsmFilename, _dependencyModel, _metaData);
-            dsmModelFile.ReadFile(progress);
-            IsCompressed = dsmModelFile.IsCompressedFile();
-            ModelFilename = dsmFilename;
+            AddMetaData(_processStep, name, value);
         }
 
-        public void SaveModel(string dsmFilename, bool compressFile, IProgress<DsmProgressInfo> progress)
+        public void AddMetaData(string group, string name, string value)
         {
-            if (_processStep != null)
-            {
-                _metaData.AddMetaData(_processStep, "Total elements found", $"{_dependencyModel.ElementCount}");
-                _metaData.AddMetaData(_processStep, "Total relations found", $"{_dependencyModel.RelationCount} (density={_dependencyModel.RelationDensity:0.000} %)");
-                _metaData.AddMetaData(_processStep, "System cycles found", $"{_dependencyModel.SystemCycalityCount} (cycality={_dependencyModel.SystemCycalityPercentage:0.000} %)");
-                _metaData.AddMetaData(_processStep, "Hierarchical cycles found", $"{_dependencyModel.HierarchicalCycalityCount} (cycality={_dependencyModel.HierarchicalCycalityPercentage:0.000} %)");
-            }
+            Logger.LogUserMessage($"Metadata: processStep={@group} name={name} value={value}");
 
-            DsmModelFileWriter dsmModelFile = new DsmModelFileWriter(dsmFilename, _dependencyModel, _metaData);
-            dsmModelFile.WriteFile(compressFile, progress);
-            IsModified = false;
-            ModelFilename = dsmFilename;
+            DsmMetaDataItem metaDataItem = new DsmMetaDataItem(name, value);
+            GetMetaDataGroupItemList(@group).Add(metaDataItem);
         }
 
-        public IList<IDsmElement> RootElements => _dependencyModel.RootElements;
+        public IDsmMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
+        {
+            Logger.LogUserMessage($"Metadata: groupName={groupName} name={name} value={value}");
 
-        /// <summary>
-        /// Create element in selected parent. The element id will be assigned based on the fullname
-        /// of the element.
-        /// </summary>
-        /// <param name="name">The name of the element</param>
-        /// <param name="type">The type of element</param>
-        /// <param name="parentId">The element id of the parent</param>
-        /// <returns></returns>
+            DsmMetaDataItem metaDataItem = new DsmMetaDataItem(name, value);
+            GetMetaDataGroupItemList(groupName).Add(metaDataItem);
+            return metaDataItem;
+        }
+
+        public IList<string> GetMetaDataGroups()
+        {
+            return _metaDataGroupNames;
+        }
+
+        public IList<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName)
+        {
+            return GetMetaDataGroupItemList(groupName);
+        }
+        
+        public IList<IDsmElement> RootElements => _rootElements;
+
+        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
+        {
+            return AddElement(id, name, type, order, expanded, parentId);
+        }
+
         public IDsmElement CreateElement(string name, string type, int? parentId)
         {
-            return _dependencyModel.CreateElement(name, type, parentId);
-        }
+            string fullname = name;
+            if (parentId.HasValue)
+            {
+                if (_elementsById.ContainsKey(parentId.Value))
+                {
+                    HierarchicalName elementName = new HierarchicalName(_elementsById[parentId.Value].Fullname);
+                    elementName.Add(name);
+                    fullname = elementName.FullName;
+                }
+            }
 
+            int elementId = fullname.GetHashCode();
+
+            return GetElementById(elementId) ?? AddElement(elementId, name, type, 0, false, parentId);
+        }
+        
+        /// <summary>
+        /// Remove the element and its children from the model.
+        /// </summary>
+        /// <param name="id"></param>
         public void RemoveElement(int id)
         {
-            _dependencyModel.RemoveElement(id);
+            if (_elementsById.ContainsKey(id))
+            {
+                DsmElement element = _elementsById[id];
+                UnregisterElement(element);
+
+                foreach (IDsmElement child in element.Children)
+                {
+                    RemoveElement(child.Id);
+                }
+            }
         }
 
         public void RestoreElement(int id)
         {
-            _dependencyModel.RestoreElement(id);
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Add a relation  between two elements.
-        /// </summary>
-        /// <param name="consumerId">The consumer</param>
-        /// <param name="providerId">The provider</param>
-        /// <param name="type">The type of relation</param>
-        /// <param name="weight">The weight or strength of the relation</param>
-        public void AddRelation(int consumerId, int providerId, string type, int weight)
+        public IList<IDsmElement> GetElements()
         {
-            _dependencyModel.AddRelation(consumerId, providerId, type, weight);
-        }
-
-        public void RemoveRelation(int consumerId, int providerId, string type, int weight)
-        {
-            _dependencyModel.RemoveRelation(consumerId, providerId, type, weight);
-        }
-
-        public void UnremoveRelation(int consumerId, int providerId, string type, int weight)
-        {
-            _dependencyModel.UnremoveRelation(consumerId, providerId, type, weight);
+            return null; // Hierarchy ?
         }
 
         public void AssignElementOrder()
         {
-            _dependencyModel.AssignElementOrder();
+            int order = 1;
+            foreach (IDsmElement root in _rootElements)
+            {
+                DsmElement rootElement = root as DsmElement;
+                if (rootElement != null)
+                {
+                    AssignElementOrder(rootElement, ref order);
+                }
+            }
         }
 
-        public int ElementCount => _dependencyModel.ElementCount;
-        public void AddMetaData(string group, string name, string value)
-        {
-            _metaData.AddMetaData(group, name, value);
-        }
+        public int ElementCount => _elementsById.Count;
 
         public IDsmElement GetElementById(int id)
         {
-            return _dependencyModel.GetElementById(id);
+            return _elementsById.ContainsKey(id) ? _elementsById[id] : null;
         }
 
         public IDsmElement GetElementByFullname(string fullname)
         {
-            return _dependencyModel.GetElementByFullname(fullname);
+            IEnumerable<DsmElement> elementWithName = from element in _elementsById.Values
+                                                      where element.Fullname == fullname
+                                                      select element;
+
+            return elementWithName.FirstOrDefault();
         }
 
         public IEnumerable<IDsmElement> GetElementsWithFullnameContainingText(string text)
         {
-            return _dependencyModel.GetElementsWithFullnameContainingText(text);
+            return from element in _elementsById.Values
+                   where element.Fullname.Contains(text)
+                   select element;
         }
 
-        public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
+        public IDsmRelation ImportRelation(int consumerId, int providerId, string type, int weight)
         {
-            return _dependencyModel.GetDependencyWeight(consumer.Id, provider.Id);
+            DsmRelation relation = null;
+            if (consumerId != providerId)
+            {
+                relation = new DsmRelation(consumerId, providerId, type, weight);
+                RegisterRelation(relation);
+            }
+            return relation;
         }
 
-        public bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider)
+        public void AddRelation(int consumerId, int providerId, string type, int weight)
         {
-            return _dependencyModel.IsCyclicDependency(consumer.Id, provider.Id);
+            if (consumerId != providerId)
+            {
+                DsmRelation relation = new DsmRelation(consumerId, providerId, type, weight);
+                RegisterRelation(relation);
+            }
+        }
+
+        public void RemoveRelation(int consumerId, int providerId, string type, int weight)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnremoveRelation(int consumerId, int providerId, string type, int weight)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public int GetDependencyWeight(int consumerId, int providerId)
+        {
+            int weight = 0;
+            if ((consumerId != providerId) && _weights.ContainsKey(consumerId) && _weights[consumerId].ContainsKey(providerId))
+            {
+                weight = _weights[consumerId][providerId];
+            }
+            return weight;
+        }
+
+        public bool IsCyclicDependency(int consumerId, int providerId)
+        {
+            return (GetDependencyWeight(consumerId, providerId) > 0) &&
+                   (GetDependencyWeight(providerId, consumerId) > 0);
         }
 
         public IList<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
-            return _dependencyModel.FindRelations(consumer, provider);
+            IList<IDsmRelation> relations = new List<IDsmRelation>();
+            List<int> consumerIds = GetIdsOfElementAndItsChidren(consumer);
+            List<int> providerIds = GetIdsOfElementAndItsChidren(provider);
+            foreach (int consumerId in consumerIds)
+            {
+                foreach (int providerId in providerIds)
+                {
+                    if (_relationsByConsumer.ContainsKey(consumerId) && _relationsByConsumer[consumerId].ContainsKey(providerId))
+                    {
+                        relations.Add(_relationsByConsumer[consumerId][providerId]);
+                    }
+                }
+            }
+            return relations;
         }
 
         public IList<IDsmRelation> FindProviderRelations(IDsmElement element)
         {
-            return _dependencyModel.FindElementConsumerRelations(element);
+            List<IDsmRelation> relations = new List<IDsmRelation>();
+            List<int> providerIds = GetIdsOfElementAndItsChidren(element);
+            foreach (int providerId in providerIds)
+            {
+                if (_relationsByProvider.ContainsKey(providerId))
+                {
+                    relations.AddRange(_relationsByProvider[providerId].Values);
+                }
+            }
+            return relations;
         }
 
         public IList<IDsmRelation> FindConsumerRelations(IDsmElement element)
         {
-            return _dependencyModel.FindElementProviderRelations(element);
+            List<IDsmRelation> relations = new List<IDsmRelation>();
+            List<int> consumerIds = GetIdsOfElementAndItsChidren(element);
+            foreach (int consumerId in consumerIds)
+            {
+                if (_relationsByConsumer.ContainsKey(consumerId))
+                {
+                    relations.AddRange(_relationsByConsumer[consumerId].Values);
+                }
+            }
+            return relations;
         }
 
         public IList<IDsmResolvedRelation> ResolveRelations(IList<IDsmRelation> relations)
@@ -182,19 +321,38 @@ namespace DsmSuite.DsmViewer.Model.Core
             List<IDsmResolvedRelation> resolvedRelations = new List<IDsmResolvedRelation>();
             foreach (IDsmRelation relation in relations)
             {
-                resolvedRelations.Add(new DsmResolvedRelation(_dependencyModel, relation));
+                resolvedRelations.Add(new DsmResolvedRelation(_elementsById, relation));
             }
             return resolvedRelations;
         }
 
         public IList<IDsmElement> FindProviders(IDsmElement element)
         {
-            return _dependencyModel.FindElementProviders(element);
+            HashSet<IDsmElement> providers = new HashSet<IDsmElement>();
+            foreach (IDsmRelation relation in FindConsumerRelations(element))
+            {
+                IDsmElement provider = GetElementById(relation.ProviderId);
+                if (provider != null)
+                {
+                    providers.Add(provider);
+                }
+            }
+            return providers.ToList();
+
         }
 
         public IList<IDsmElement> FindConsumers(IDsmElement element)
         {
-            return _dependencyModel.FindElementConsumers(element);
+            HashSet<IDsmElement> consumers = new HashSet<IDsmElement>();
+            foreach (IDsmRelation relation in FindProviderRelations(element))
+            {
+                IDsmElement consumer = GetElementById(relation.ConsumerId);
+                if (consumer != null)
+                {
+                    consumers.Add(consumer);
+                }
+            }
+            return consumers.ToList();
         }
 
         public void ReorderChildren(IDsmElement element, Vector permutationVector)
@@ -218,6 +376,27 @@ namespace DsmSuite.DsmViewer.Model.Core
             IsModified = true;
         }
 
+        public bool Swap(IDsmElement element1, IDsmElement element2)
+        {
+            bool swapped = false;
+
+            if (element1.Parent == element2.Parent)
+            {
+                DsmElement parent = element1.Parent as DsmElement;
+                if (parent != null)
+                {
+                    if (parent.Swap(element1, element2))
+                    {
+                        swapped = true;
+                    }
+                }
+            }
+
+            AssignElementOrder();
+
+            return swapped;
+        }
+
         public IDsmElement NextSibling(IDsmElement element)
         {
             IDsmElement next = null;
@@ -238,31 +417,257 @@ namespace DsmSuite.DsmViewer.Model.Core
             return previous;
         }
 
-        public bool Swap(IDsmElement first, IDsmElement second)
+
+
+        private List<int> GetIdsOfElementAndItsChidren(IDsmElement element)
         {
-            bool ok = false;
-            if (_dependencyModel.Swap(first, second))
+            List<int> ids = new List<int>();
+            GetIdsOfElementAndItsChidren(element, ids);
+            return ids;
+        }
+
+        private void GetIdsOfElementAndItsChidren(IDsmElement element, List<int> ids)
+        {
+            ids.Add(element.Id);
+
+            foreach (IDsmElement child in element.Children)
             {
-                ok = true;
-                IsModified = true;
+                GetIdsOfElementAndItsChidren(child, ids);
+            }
+        }
+
+
+
+        public IList<IDsmRelation> GetRelations()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RegisterElement(DsmElement element)
+        {
+            _elementsById[element.Id] = element;
+        }
+
+        private void UnregisterElement(IDsmElement element)
+        {
+            UnregisterProviderRelations(element);
+            UnregisterConsumerRelations(element);
+
+            _elementsById.Remove(element.Id);
+        }
+
+        /// <summary>
+        /// Adds element to selected parent.
+        /// </summary>
+        /// <param name="id">The element id of the element</param>
+        /// <param name="name">The name of the element</param>
+        /// <param name="type">The type of element</param>
+        /// <param name="order">The order of the element in the hierarchy</param>
+        /// <param name="expanded">The element is expanded in the viewer</param>
+        /// <param name="parentId">The element id of the parent</param>
+        /// <returns></returns>
+
+        private IDsmElement AddElement(int id, string name, string type, int order, bool expanded, int? parentId)
+        {
+            DsmElement element = null;
+
+            if (parentId.HasValue)
+            {
+                if (_elementsById.ContainsKey(parentId.Value))
+                {
+                    element = new DsmElement(id, name, type) { Order = order, IsExpanded = expanded };
+
+                    if (_elementsById.ContainsKey(parentId.Value))
+                    {
+                        _elementsById[parentId.Value].AddChild(element);
+                        RegisterElement(element);
+                    }
+                    else
+                    {
+                        Logger.LogError($"Parent not found id={id}");
+                    }
+
+                }
+            }
+            else
+            {
+                element = new DsmElement(id, name, type) { Order = order, IsExpanded = expanded };
+                _rootElements.Add(element);
+                RegisterElement(element);
             }
 
-            return ok;
+            return element;
         }
 
-        public IList<string> GetGroups()
+
+
+        private void RegisterRelation(DsmRelation relation)
         {
-            return _metaData.GetGroups();
+            if (!_relationsByProvider.ContainsKey(relation.ProviderId))
+            {
+                _relationsByProvider[relation.ProviderId] = new Dictionary<int, DsmRelation>();
+            }
+            _relationsByProvider[relation.ProviderId][relation.ConsumerId] = relation;
+
+            if (!_relationsByConsumer.ContainsKey(relation.ConsumerId))
+            {
+                _relationsByConsumer[relation.ConsumerId] = new Dictionary<int, DsmRelation>();
+            }
+            _relationsByConsumer[relation.ConsumerId][relation.ProviderId] = relation;
+
+            UpdateWeights(relation, AddWeight);
         }
 
-        public IList<string> GetNames(string group)
+        private void UnregisterRelation(IDsmRelation relation)
         {
-            return _metaData.GetNames(group);
+            if (!_relationsByProvider.ContainsKey(relation.ProviderId))
+            {
+                _relationsByProvider[relation.ProviderId].Remove(relation.ConsumerId);
+            }
+
+            if (!_relationsByConsumer.ContainsKey(relation.ConsumerId))
+            {
+                _relationsByConsumer[relation.ConsumerId].Remove(relation.ProviderId);
+            }
+
+            UpdateWeights(relation, RemoveWeight);
         }
 
-        public string GetValue(string group, string name)
+        /// <summary>
+        /// Delegate used to add or subtract dependency weights.
+        /// </summary>
+        /// <param name="consumerId"></param>
+        /// <param name="providerId"></param>
+        /// <param name="weight"></param>
+        private delegate void ModifyWeight(int consumerId, int providerId, int weight);
+
+        private void UpdateWeights(IDsmRelation relation, ModifyWeight modifyWeight)
         {
-            return _metaData.GetValue(group, name);
+            int consumerId = relation.ConsumerId;
+            int providerId = relation.ProviderId;
+
+            if (_elementsById.ContainsKey(consumerId))
+            {
+                IDsmElement currentConsumer = _elementsById[consumerId];
+                while (currentConsumer != null)
+                {
+                    IDsmElement currentProvider = _elementsById[providerId];
+                    while (currentProvider != null)
+                    {
+                        modifyWeight(currentConsumer.Id, currentProvider.Id, relation.Weight);
+                        currentProvider = currentProvider.Parent;
+                    }
+                    currentConsumer = currentConsumer.Parent;
+                }
+            }
+        }
+
+
+        private void AddWeight(int consumerId, int providerId, int weight)
+        {
+            if (!_weights.ContainsKey(consumerId))
+            {
+                _weights[consumerId] = new Dictionary<int, int>();
+            }
+
+            int oldWeight = 0;
+            if (_weights[consumerId].ContainsKey(providerId))
+            {
+                oldWeight = _weights[consumerId][providerId];
+            }
+            int newWeight = oldWeight + weight;
+            _weights[consumerId][providerId] = newWeight;
+        }
+
+        private void RemoveWeight(int consumerId, int providerId, int weight)
+        {
+            if (_weights.ContainsKey(consumerId) && _weights[consumerId].ContainsKey(providerId))
+            {
+                int currentWeight = _weights[consumerId][providerId];
+
+                if (currentWeight >= weight)
+                {
+                    _weights[consumerId][providerId] -= weight;
+                }
+                else
+                {
+                    Logger.LogError($"Weight defined between consumerId={consumerId} and providerId={providerId} too low currentWeight={currentWeight} weight={weight}");
+                }
+
+                if (_weights[consumerId][providerId] == 0)
+                {
+                    _weights[consumerId].Remove(providerId);
+
+                    if (_weights[consumerId].Count == 0)
+                    {
+                        _weights.Remove(consumerId);
+                    }
+                }
+            }
+            else
+            {
+                Logger.LogError($"No weight defined between consumerId={consumerId} and providerId={providerId}");
+            }
+        }
+
+        private void UnregisterConsumerRelations(IDsmElement element)
+        {
+            if (_relationsByConsumer.ContainsKey(element.Id))
+            {
+                _relationsByConsumer.Remove(element.Id);
+            }
+
+            foreach (Dictionary<int, DsmRelation> consumerRelations in _relationsByConsumer.Values)
+            {
+                if (consumerRelations.ContainsKey(element.Id))
+                {
+                    consumerRelations.Remove(element.Id);
+                }
+            }
+        }
+
+        private void UnregisterProviderRelations(IDsmElement element)
+        {
+            if (_relationsByProvider.ContainsKey(element.Id))
+            {
+                _relationsByProvider.Remove(element.Id);
+            }
+
+            foreach (Dictionary<int, DsmRelation> providerRelations in _relationsByProvider.Values)
+            {
+                if (providerRelations.ContainsKey(element.Id))
+                {
+                    providerRelations.Remove(element.Id);
+                }
+            }
+        }
+
+        private void AssignElementOrder(DsmElement element, ref int order)
+        {
+            element.Order = order;
+            order++;
+
+            foreach (IDsmElement child in element.Children)
+            {
+                DsmElement childElement = child as DsmElement;
+                if (childElement != null)
+                {
+                    AssignElementOrder(childElement, ref order);
+                }
+            }
+
+
+        }
+
+        private IList<IDsmMetaDataItem> GetMetaDataGroupItemList(string groupName)
+        {
+            if (!_metaDataGroups.ContainsKey(groupName))
+            {
+                _metaDataGroupNames.Add(groupName);
+                _metaDataGroups[groupName] = new List<IDsmMetaDataItem>();
+            }
+
+            return _metaDataGroups[groupName];
         }
     }
 }

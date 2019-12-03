@@ -45,7 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
                     {
                         IDsmElement consumer = nodes[j];
 
-                        int weight = _model.GetDependencyWeight(consumer, provider);
+                        int weight = _model.GetDependencyWeight(consumer.Id, provider.Id);
 
                         matrix.Set(i, j, weight > 0 ? 1 : 0);
                     }

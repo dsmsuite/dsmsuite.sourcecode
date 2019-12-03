@@ -63,6 +63,12 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             modelFile.ReadFile(ReadDsmXml, progress);
         }
 
+        public bool IsCompressedFile()
+        {
+            CompressedFile<DsmProgressInfo> modelFile = new CompressedFile<DsmProgressInfo>(_filename);
+            return modelFile.IsCompressed;
+        }
+
         private void WriteDsmXml(Stream stream, IProgress<DsmProgressInfo> progress)
         {
             XmlWriterSettings settings = new XmlWriterSettings

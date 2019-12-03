@@ -53,13 +53,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Dependencies\DependencyModelTest.cs" />
+    <Compile Include="Core\DependencyModelTest.cs" />
     <Compile Include="Data\DsmElementTest.cs" />
-    <Compile Include="Dependencies\HierarchicalNameTest.cs" />
+    <Compile Include="Core\HierarchicalNameTest.cs" />
     <Compile Include="Data\DsmRelationTest.cs" />
-    <Compile Include="Dependencies\TypeRegistrationTest.cs" />
+    <Compile Include="Core\TypeRegistrationTest.cs" />
     <Compile Include="Files\DsmModelFileTest.cs" />
     <Compile Include="Data\DsmMetaDataItemTest.cs" />
+    <Compile Include="Persistency\DsmModelFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,9 +69,7 @@
       <Name>DsmSuite.DsmViewer.Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Persistency\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Files\Uncompressed.dsm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
