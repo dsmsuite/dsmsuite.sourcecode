@@ -101,7 +101,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     switch (xReader.NodeType)
                     {
                         case XmlNodeType.Element:
-
                             ReadModelAttributes(xReader);
                             ReadMetaData(xReader);
                             ReadElements(xReader, progress);
@@ -118,10 +117,10 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
         private void WriteModelAttributes(XmlWriter writer)
         {
-            _totalElementCount = _callback.GetElements().Count;
+            _totalElementCount = _callback.GetElementCount();
             writer.WriteAttributeString(ModelelementCountXmlAttribute, _totalElementCount.ToString());
 
-            _totalRelationCount = _callback.GetRelations().Count;
+            _totalRelationCount = _callback.GetRelationCount();
             writer.WriteAttributeString(ModelrelationCountXmlAttribute, _totalRelationCount.ToString());
 
             _totalItemCount = _totalElementCount + _totalRelationCount;
@@ -186,7 +185,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private void WriteElements(XmlWriter writer, IProgress<DsmProgressInfo> progress)
         {
             writer.WriteStartElement(ElementGroupXmlNode);
-            foreach (IDsmElement child in _callback.GetElements())
+            foreach (IDsmElement child in _callback.GetRootElements())
             {
                 WriteElementData(writer, child, progress);
             }

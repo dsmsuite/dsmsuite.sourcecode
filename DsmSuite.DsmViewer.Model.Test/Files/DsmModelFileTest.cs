@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
 using DsmSuite.DsmViewer.Model.Dependencies;
-using DsmSuite.DsmViewer.Model.Files.Dsm;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.Model.Persistency;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.DsmViewer.Model.Test.Files
@@ -39,20 +39,20 @@ namespace DsmSuite.DsmViewer.Model.Test.Files
         }
 
         [TestMethod]
-        public void TestReadModelUncompressed()
+        public void TestLoadModelUncompressed()
         {
             string filename = "Files/Uncompressed.dsm";
 
             DependencyModel readModel = new DependencyModel();
             MetaData readMetaData = new MetaData();
-            DsmModelFileReader readModelFile = new DsmModelFileReader(filename, readModel, readMetaData);
-            readModelFile.ReadFile(null);
+            DsmModelFile readModelFile = new DsmModelFile(filename, readModel, readMetaData);
+            readModelFile.Load(null);
             Assert.IsFalse(readModelFile.IsCompressedFile());
             CheckModel(readModel, "On read model");
         }
 
         [TestMethod]
-        public void TestWriteModelUncompressed()
+        public void TestSaveModelUncompressed()
         {
             string actual = "Output.dsm";
             string expected = "Files/Uncompressed.dsm";
@@ -63,8 +63,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Files
 
             MetaData writtenMetaData = new MetaData();
 
-            DsmModelFileWriter writtenModelFile = new DsmModelFileWriter(actual, writtenModel, writtenMetaData);
-            writtenModelFile.WriteFile(false, null);
+            DsmModelFile writtenModelFile = new DsmModelFile(actual, writtenModel, writtenMetaData);
+            writtenModelFile.Save(false, null);
             Assert.IsFalse(writtenModelFile.IsCompressedFile());
             Assert.AreEqual(9, writtenModel.ElementCount);
 
@@ -72,7 +72,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Files
         }
 
         [TestMethod]
-        public void TestWriteAndReadBackModelCompressed()
+        public void TestSaveAndLoadBackModelCompressed()
         {
             string filename = "Compressed.dsm";
 
@@ -82,14 +82,14 @@ namespace DsmSuite.DsmViewer.Model.Test.Files
 
             MetaData writtenMetaData = new MetaData();
 
-            DsmModelFileWriter writtenModelFile = new DsmModelFileWriter(filename, writtenModel, writtenMetaData);
-            writtenModelFile.WriteFile(true, null);
+            DsmModelFile writtenModelFile = new DsmModelFile(filename, writtenModel, writtenMetaData);
+            writtenModelFile.Save(true, null);
             Assert.IsTrue(writtenModelFile.IsCompressedFile());
 
             DependencyModel readModel = new DependencyModel();
             MetaData readMetaData = new MetaData();
-            DsmModelFileReader readModelFile = new DsmModelFileReader(filename, readModel, readMetaData);
-            readModelFile.ReadFile(null);
+            DsmModelFile readModelFile = new DsmModelFile(filename, readModel, readMetaData);
+            readModelFile.Load(null);
             Assert.IsTrue(readModelFile.IsCompressedFile());
             CheckModel(readModel, "On read model");
         }

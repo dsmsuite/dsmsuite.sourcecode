@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using DsmSuite.Analyzer.Model.Data;
+using DsmSuite.Analyzer.Model.Interface;
+using DsmSuite.Analyzer.Model.Persistency;
 using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Dependencies;
-using DsmSuite.DsmViewer.Model.Files.Dsi;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Builder
 {
-    public class Builder : IDsiModelFileReaderCallback
+    public class Builder : IDsiModelFileCallback
     {
         private readonly BuilderSettings _builderSettings;
         private readonly IDsmModel _model;
@@ -28,8 +29,8 @@ namespace DsmSuite.DsmViewer.Builder
 
             _model.Clear();
 
-            DsiModelFileReader dsiModelFile = new DsiModelFileReader(_builderSettings.InputFilename, this);
-            dsiModelFile.ReadFile(null);
+            DsiModelFile dsiModelFile = new DsiModelFile(_builderSettings.InputFilename, this);
+            dsiModelFile.Load(null);
             _model.AssignElementOrder();
             _model.SaveModel(_builderSettings.OutputFilename, _builderSettings.CompressOutputFile, null);
 
@@ -46,17 +47,34 @@ namespace DsmSuite.DsmViewer.Builder
 
         public void FoundElement(int id, string fullname, string type)
         {
+
+        }
+
+        public void FoundRelation(int consumerId, int providerId, string type, int weight)
+        {
+
+        }
+
+        public IDsiMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
+        {
+            DsiMetaDataItem metatDataItem = new DsiMetaDataItem(name, value);
+            _model.AddMetaData(groupName, name, value);
+            return metatDataItem;
+        }
+
+        public IDsiElement ImportElement(int id, string name, string type, string source)
+        {
             IDsmElement parent = null;
             HierarchicalName elementName = new HierarchicalName();
-            foreach (string name in new HierarchicalName(fullname).Elements)
+            foreach (string namePart in new HierarchicalName(name).Elements)
             {
-                elementName.Add(name);
+                elementName.Add(namePart);
 
-                bool isElementLeaf = (fullname == elementName.FullName);
+                bool isElementLeaf = (namePart == elementName.FullName);
                 string elementType = isElementLeaf ? type : "";
 
                 int? parentId = parent?.Id;
-                IDsmElement element = _model.CreateElement(name, elementType, parentId);
+                IDsmElement element = _model.CreateElement(namePart, elementType, parentId);
                 parent = element;
 
                 if (isElementLeaf)
@@ -64,9 +82,10 @@ namespace DsmSuite.DsmViewer.Builder
                     _elementsById[id] = element;
                 }
             }
+            return null;
         }
 
-        public void FoundRelation(int consumerId, int providerId, string type, int weight)
+        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight)
         {
             if (_elementsById.ContainsKey(consumerId) && _elementsById.ContainsKey(providerId))
             {
@@ -78,6 +97,27 @@ namespace DsmSuite.DsmViewer.Builder
             {
                 Logger.LogError($"Could not find consumer or provider of relation consumer={consumerId} provider={providerId}");
             }
+            return null;
+        }
+
+        public IEnumerable<string> GetMetaDataGroups()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string groupName)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<IDsiElement> GetElements()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<IDsiRelation> GetRelations()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

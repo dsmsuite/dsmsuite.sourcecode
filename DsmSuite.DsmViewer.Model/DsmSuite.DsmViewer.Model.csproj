@@ -29,17 +29,12 @@
     <Compile Include="Data\DsmResolvedRelation.cs" />
     <Compile Include="Core\DependencyModel.cs" />
     <Compile Include="Core\DsmModel.cs" />
-    <Compile Include="Files\Dsi\DsiModelFileReader.cs" />
-    <Compile Include="Files\Dsm\DsmModelFileWriter.cs" />
     <Compile Include="Core\HierarchicalName.cs" />
-    <Compile Include="Files\Dsm\DsmModelFileReader.cs" />
     <Compile Include="Interfaces\IDsmMetaDataItem.cs" />
     <Compile Include="Interfaces\IDsmResolvedRelation.cs" />
     <Compile Include="Persistency\DsmModelFile.cs" />
     <Compile Include="Persistency\IDsmModelFileCallback.cs" />
     <Compile Include="Persistency\DsmProgressInfo.cs" />
-    <Compile Include="Files\Base\FileReader.cs" />
-    <Compile Include="Files\Base\FileWriter.cs" />
     <Compile Include="Interfaces\IDsmModel.cs" />
     <Compile Include="Interfaces\IDsmElement.cs" />
     <Compile Include="Interfaces\IDsmRelation.cs" />

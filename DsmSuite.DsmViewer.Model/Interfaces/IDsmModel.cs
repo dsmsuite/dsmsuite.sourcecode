@@ -15,8 +15,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress);
         void SaveModel(string dsmFilename, bool compressFile, IProgress<DsmProgressInfo> progress);
 
-        void AddMetaData(string group, string name, string value);
-        void AddMetaData(string itemName, string itemValue);
+        IDsmMetaDataItem AddMetaData(string group, string name, string value);
+        IDsmMetaDataItem AddMetaData(string itemName, string itemValue);
         IList<string> GetMetaDataGroups();
         IList<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
 

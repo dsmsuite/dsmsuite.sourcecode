@@ -103,17 +103,18 @@ namespace DsmSuite.DsmViewer.Model.Core
             _rootElements.Clear();
         }
 
-        public void AddMetaData(string name, string value)
+        public IDsmMetaDataItem AddMetaData(string name, string value)
         {
-            AddMetaData(_processStep, name, value);
+            return AddMetaData(_processStep, name, value);
         }
 
-        public void AddMetaData(string group, string name, string value)
+        public IDsmMetaDataItem AddMetaData(string group, string name, string value)
         {
             Logger.LogUserMessage($"Metadata: processStep={@group} name={name} value={value}");
 
             DsmMetaDataItem metaDataItem = new DsmMetaDataItem(name, value);
             GetMetaDataGroupItemList(@group).Add(metaDataItem);
+            return metaDataItem;
         }
 
         public IDsmMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
@@ -134,7 +135,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             return GetMetaDataGroupItemList(groupName);
         }
-        
+
         public IList<IDsmElement> RootElements => _rootElements;
 
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
@@ -159,7 +160,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             return GetElementById(elementId) ?? AddElement(elementId, name, type, 0, false, parentId);
         }
-        
+
         /// <summary>
         /// Remove the element and its children from the model.
         /// </summary>
@@ -183,9 +184,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             throw new NotImplementedException();
         }
 
-        public IList<IDsmElement> GetElements()
+        public IList<IDsmElement> GetRootElements()
         {
-            return null; // Hierarchy ?
+            return _rootElements;
+        }
+
+        public int GetElementCount()
+        {
+            return _elementsById.Count;
         }
 
         public void AssignElementOrder()
@@ -253,7 +259,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             throw new NotImplementedException();
         }
-        
+
         public int GetDependencyWeight(int consumerId, int providerId)
         {
             int weight = 0;
@@ -314,6 +320,26 @@ namespace DsmSuite.DsmViewer.Model.Core
                 }
             }
             return relations;
+        }
+
+        public IList<IDsmRelation> GetRelations()
+        {
+            List<IDsmRelation> relations = new List<IDsmRelation>();
+            foreach (Dictionary<int, DsmRelation> consumerRelations in _relationsByConsumer.Values)
+            {
+                relations.AddRange(consumerRelations.Values);
+            }
+            return relations;
+        }
+
+        public int GetRelationCount()
+        {
+            int relationCount = 0;
+            foreach (Dictionary<int, DsmRelation> consumerRelations in _relationsByConsumer.Values)
+            {
+                relationCount += consumerRelations.Count;
+            }
+            return relationCount;
         }
 
         public IList<IDsmResolvedRelation> ResolveRelations(IList<IDsmRelation> relations)
@@ -438,10 +464,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
 
 
-        public IList<IDsmRelation> GetRelations()
-        {
-            throw new NotImplementedException();
-        }
+
 
         private void RegisterElement(DsmElement element)
         {

@@ -15,7 +15,9 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
         IList<string> GetMetaDataGroups();
         IList<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
-        IList<IDsmElement> GetElements();
+        IList<IDsmElement> GetRootElements();
+        int GetElementCount();
         IList<IDsmRelation> GetRelations();
+        int GetRelationCount();
     }
 }
