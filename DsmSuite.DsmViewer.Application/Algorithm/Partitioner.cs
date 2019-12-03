@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
@@ -53,22 +52,6 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             }
 
             return matrix;
-        }
-
-        void ReorderNodes(IList<IDsmElement> nodes, Vector permutationVector)
-        {
-            List<IDsmElement> elements = new List<IDsmElement>(nodes); // Clone before modify list
-
-            foreach (IDsmElement node in elements)
-            {
-                Debug.Assert(node.Parent == _element);
-                _element.RemoveChild(node);
-            }
-
-            for (int i = 0; i < permutationVector.Size; i++)
-            {
-                _element.AddChild(elements[permutationVector.Get(i)]);
-            }
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Application
 {

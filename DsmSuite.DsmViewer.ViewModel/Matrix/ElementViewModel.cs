@@ -1,5 +1,4 @@
 ﻿using System;
-using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 

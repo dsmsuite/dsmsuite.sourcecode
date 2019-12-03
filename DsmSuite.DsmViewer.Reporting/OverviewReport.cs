@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Xml;
-using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Reporting

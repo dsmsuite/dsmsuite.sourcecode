@@ -1,14 +1,14 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Model.Actions.Relation
+namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
     public class RelationDeleteAction : ActionBase
     {
-        private int _consumerId;
-        private int _providerId;
-        private string _type;
-        private int _weight;
+        private readonly int _consumerId;
+        private readonly int _providerId;
+        private readonly string _type;
+        private readonly int _weight;
 
         public RelationDeleteAction(IDsmModel model, int consumerId, int providerId, string type, int weight) : base(model)
         {

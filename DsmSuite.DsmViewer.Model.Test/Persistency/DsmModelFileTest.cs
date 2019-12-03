@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Castle.Components.DictionaryAdapter;
 using DsmSuite.DsmViewer.Model.Data;
-using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Model.Persistency;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer.Model.Test.Files
+namespace DsmSuite.DsmViewer.Model.Test.Persistency
 {
     /// <summary>
     /// Dependency matrix used for tests:
@@ -36,8 +33,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Files
     [TestClass]
     public class DsmModelFileTest : IDsmModelFileCallback
     {
-        private List<DsmElement> _rootElements = new List<DsmElement>();
-        private List<DsmRelation> _relations = new List<DsmRelation>();
+        private readonly List<DsmElement> _rootElements = new List<DsmElement>();
+        private readonly List<DsmRelation> _relations = new List<DsmRelation>();
 
         [TestInitialize()]
         public void MyTestInitialize()

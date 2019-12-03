@@ -1,6 +1,5 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using DsmSuite.DsmViewer.Model.Dependencies;
+﻿using System.Collections.Generic;
+using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Data

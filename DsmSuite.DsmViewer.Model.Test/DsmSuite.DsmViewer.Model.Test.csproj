@@ -57,7 +57,7 @@
     <Compile Include="Data\DsmElementTest.cs" />
     <Compile Include="Core\HierarchicalNameTest.cs" />
     <Compile Include="Data\DsmRelationTest.cs" />
-    <Compile Include="Core\TypeRegistrationTest.cs" />
+    <Compile Include="Data\TypeRegistrationTest.cs" />
     <Compile Include="Persistency\DsmModelFileTest.cs" />
     <Compile Include="Data\DsmMetaDataItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

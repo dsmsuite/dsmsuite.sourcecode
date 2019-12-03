@@ -13,10 +13,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private int _progressValue;
         private string _progressText;
 
-        public ProgressViewModel()
-        {
-        }
-
         public void Update(int elementCount,
                            int relationCount,
                            int progress)

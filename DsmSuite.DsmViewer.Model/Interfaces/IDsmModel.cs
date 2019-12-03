@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Interfaces
 {

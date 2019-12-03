@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DsmSuite.Analyzer.Model.Data;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Data;
-using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Model.Persistency;
 
@@ -110,10 +108,10 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmMetaDataItem AddMetaData(string group, string name, string value)
         {
-            Logger.LogUserMessage($"Metadata: processStep={@group} name={name} value={value}");
+            Logger.LogUserMessage($"Metadata: processStep={group} name={name} value={value}");
 
             DsmMetaDataItem metaDataItem = new DsmMetaDataItem(name, value);
-            GetMetaDataGroupItemList(@group).Add(metaDataItem);
+            GetMetaDataGroupItemList(group).Add(metaDataItem);
             return metaDataItem;
         }
 

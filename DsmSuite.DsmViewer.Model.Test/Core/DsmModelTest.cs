@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DsmSuite.DsmViewer.Model.Core;
-using DsmSuite.DsmViewer.Model.Data;
-using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer.Model.Test.Dependencies
+namespace DsmSuite.DsmViewer.Model.Test.Core
 {
     /// <summary>
     /// Dependency matrix used for tests:

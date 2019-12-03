@@ -1,14 +1,13 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
-using DsmSuite.DsmViewer.Model.Actions.Base;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Model.Actions.Element
+namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementChangeNameAction : ActionBase, IAction
     {
-        private int _elementId;
-        private string _oldName;
-        private string _newName;
+        private readonly int _elementId;
+        private readonly string _oldName;
+        private readonly string _newName;
 
         public ElementChangeNameAction(IDsmModel model, int elementId, string oldName, string newName) : base(model)
         {

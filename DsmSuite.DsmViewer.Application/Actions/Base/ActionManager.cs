@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DsmSuite.DsmViewer.Model.Actions.Base
+namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
     public class ActionManager
     {

@@ -1,6 +1,6 @@
 ﻿using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.Analyzer.Model.Data
+namespace DsmSuite.DsmViewer.Model.Data
 {
     public class DsmMetaDataItem : IDsmMetaDataItem
     {

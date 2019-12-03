@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Application.Algorithm;
-using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Application
 {
@@ -18,7 +16,7 @@ namespace DsmSuite.DsmViewer.Application
             _model = model;
         }
 
-        public async Task ImportModel(string dsiFilename, string dsmFilename, bool overwrite, Progress<DsmProgressInfo> progress)
+        public Task ImportModel(string dsiFilename, string dsmFilename, bool overwrite, Progress<DsmProgressInfo> progress)
         {
             throw new NotImplementedException();
         }
@@ -35,10 +33,7 @@ namespace DsmSuite.DsmViewer.Application
 
         public IList<IDsmElement> RootElements => _model.RootElements;
 
-        public IDsmModel Model
-        {
-            get { return _model; }
-        }
+        public IDsmModel Model => _model;
 
         public IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element)
         {

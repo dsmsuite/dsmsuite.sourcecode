@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
 using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Core;
 
 namespace DsmSuite.DsmViewer.Builder

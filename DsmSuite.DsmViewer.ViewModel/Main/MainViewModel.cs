@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Input;
-using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Reporting;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
@@ -10,7 +9,6 @@ using DsmSuite.DsmViewer.Application;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 using System.Linq;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -168,10 +166,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             set { _searchState = value; OnPropertyChanged(); }
         }
 
-        public ProgressViewModel ProgressViewModel
-        {
-            get { return _progressViewModel; }
-        }
+        public ProgressViewModel ProgressViewModel => _progressViewModel;
 
         private async void OpenFileExecute(object parameter)
         {
@@ -244,8 +239,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ElementDetailMatrixExecute(object parameter)
         {
-            List<IDsmElement> selectedElements = new List<IDsmElement>();
-            selectedElements.Add(SelectedProvider?.Element);
+            List<IDsmElement> selectedElements = new List<IDsmElement> {SelectedProvider?.Element};
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
 
@@ -256,9 +250,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void RelationDetailMatrixExecute(object parameter)
         {
-            List<IDsmElement> selectedElements = new List<IDsmElement>();
-            selectedElements.Add(SelectedProvider?.Element);
-            selectedElements.Add(SelectedConsumer?.Element);
+            List<IDsmElement> selectedElements = new List<IDsmElement>
+            {
+                SelectedProvider?.Element,
+                SelectedConsumer?.Element
+            };
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
 
@@ -371,7 +367,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             else if (count == 1)
             {
                 _foundElement = foundElements.FirstOrDefault();
-                if (SearchText != _foundElement.Fullname)
+                if ((_foundElement != null) && (_foundElement.Fullname != SearchText))
                 {
                     SearchText = _foundElement.Fullname;
                 }

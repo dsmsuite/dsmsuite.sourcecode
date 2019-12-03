@@ -1,4 +1,4 @@
-﻿namespace DsmSuite.DsmViewer.Model.Persistency
+﻿namespace DsmSuite.DsmViewer.Model.Interfaces
 {
     public class DsmProgressInfo
     {

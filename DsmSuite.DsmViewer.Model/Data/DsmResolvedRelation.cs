@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Data

@@ -1,7 +1,7 @@
-﻿using DsmSuite.DsmViewer.Model.Dependencies;
+﻿using DsmSuite.DsmViewer.Model.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer.Model.Test.Dependencies
+namespace DsmSuite.DsmViewer.Model.Test.Data
 {
     [TestClass]
     public class TypeRegistrationTest

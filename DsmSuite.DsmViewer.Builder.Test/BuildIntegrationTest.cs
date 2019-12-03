@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

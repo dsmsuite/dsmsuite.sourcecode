@@ -1,12 +1,11 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
-using DsmSuite.DsmViewer.Model.Actions.Base;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Model.Actions.Element
+namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementDeleteAction : ActionBase, IAction
     {
-        private int _elementId;
+        private readonly int _elementId;
 
         public ElementDeleteAction(IDsmModel model, int elementId) : base(model)
         {

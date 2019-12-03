@@ -1,4 +1,4 @@
-﻿namespace DsmSuite.DsmViewer.Model.Actions.Base
+﻿namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
     public interface IAction
     {

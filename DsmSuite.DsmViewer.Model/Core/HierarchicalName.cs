@@ -1,4 +1,4 @@
-﻿namespace DsmSuite.DsmViewer.Model.Dependencies
+﻿namespace DsmSuite.DsmViewer.Model.Core
 {
     public class HierarchicalName
     {
