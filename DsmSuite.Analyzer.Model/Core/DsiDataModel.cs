@@ -81,13 +81,12 @@ namespace DsmSuite.Analyzer.Model.Core
             GetMetaDataGroupItemList(_processStep).Add(metaDataItem);
         }
 
-        public IDsiMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
+        public void ImportMetaDataItem(string groupName, string name, string value)
         {
             Logger.LogUserMessage($"Metadata: groupName={groupName} name={name} value={value}");
 
             DsiMetaDataItem metaDataItem =new DsiMetaDataItem(name, value);
             GetMetaDataGroupItemList(groupName).Add(metaDataItem);
-            return metaDataItem;
         }
 
         public IEnumerable<string> GetMetaDataGroups()
@@ -100,13 +99,12 @@ namespace DsmSuite.Analyzer.Model.Core
             return GetMetaDataGroupItemList(groupName);
         }
         
-        public IDsiElement ImportElement(int id, string name, string type, string source)
+        public void ImportElement(int id, string name, string type, string source)
         {
             DsiElement element = new DsiElement(id, name, type, source);
             _elementsByName[element.Name] = element;
             _elementsById[element.Id] = element;
             IncrementElementTypeCount(element.Type);
-            return element;
         }
         
         public IDsiElement AddElement(string name, string type, string source)
@@ -185,7 +183,7 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public int TotalElementCount => _elementsByName.Values.Count;
         
-        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight)
+        public void ImportRelation(int consumerId, int providerId, string type, int weight)
         {
             IncrementRelationTypeCount(type);
 
@@ -195,7 +193,6 @@ namespace DsmSuite.Analyzer.Model.Core
             }
             DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight);
             _relationsByConsumerId[relation.ConsumerId].Add(relation);
-            return relation;
         }
 
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)

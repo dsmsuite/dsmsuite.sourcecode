@@ -17,7 +17,7 @@
     <element id="19" name="c.c2" type="etc" source="" />
   </elements>
   <relations>
-	<relation consumerId="12" providerId="15" type="ra" weight="1000" />
+	  <relation consumerId="12" providerId="15" type="ra" weight="1000" />
     <relation consumerId="13" providerId="15" type="ra" weight="200" />
     <relation consumerId="12" providerId="16" type="ra" weight="30" />
     <relation consumerId="13" providerId="16" type="ra" weight="4" />

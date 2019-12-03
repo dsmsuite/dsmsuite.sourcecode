@@ -22,73 +22,69 @@ namespace DsmSuite.DsmViewer.Builder.Test
             DsmModel model = new DsmModel("Test", Assembly.GetExecutingAssembly());
             Builder builder = new Builder(model, settings);
             builder.BuildModel();
-            CheckModel(model, "On build model");
-        }
 
-        private void CheckModel(IDsmModel model, string message)
-        {
             IDsmElement a = model.GetElementByFullname("a");
-            Assert.AreNotEqual(0, a.Id, message);
-            Assert.AreNotEqual(0, a.Order, message);
-            Assert.AreEqual("", a.Type, message);
-            Assert.AreEqual("a", a.Name, message);
-            Assert.AreEqual("a", a.Fullname, message);
+            Assert.AreNotEqual(0, a.Id);
+            Assert.AreNotEqual(0, a.Order);
+            Assert.AreEqual("", a.Type);
+            Assert.AreEqual("a", a.Name);
+            Assert.AreEqual("a", a.Fullname);
 
             IDsmElement a1 = model.GetElementByFullname("a.a1");
-            Assert.AreNotEqual(0, a1.Id, message);
-            Assert.AreNotEqual(0, a1.Order, message);
-            Assert.AreEqual("eta", a1.Type, message);
-            Assert.AreEqual("a1", a1.Name, message);
-            Assert.AreEqual("a.a1", a1.Fullname, message);
+            Assert.AreNotEqual(0, a1.Id);
+            Assert.AreNotEqual(0, a1.Order);
+            Assert.AreEqual("eta", a1.Type);
+            Assert.AreEqual("a1", a1.Name);
+            Assert.AreEqual("a.a1", a1.Fullname);
 
             IDsmElement a2 = model.GetElementByFullname("a.a2");
-            Assert.AreNotEqual(0, a2.Id, message);
-            Assert.AreNotEqual(0, a2.Order, message);
-            Assert.AreEqual("eta", a2.Type, message);
-            Assert.AreEqual("a2", a2.Name, message);
-            Assert.AreEqual("a.a2", a2.Fullname, message);
+            Assert.AreNotEqual(0, a2.Id);
+            Assert.AreNotEqual(0, a2.Order);
+            Assert.AreEqual("eta", a2.Type);
+            Assert.AreEqual("a2", a2.Name);
+            Assert.AreEqual("a.a2", a2.Fullname);
 
             IDsmElement b = model.GetElementByFullname("b");
-            Assert.AreNotEqual(0, b.Id, message);
-            Assert.AreNotEqual(0, b.Order, message);
-            Assert.AreEqual("", b.Type, message);
-            Assert.AreEqual("b", b.Name, message);
-            Assert.AreEqual("b", b.Fullname, message);
+            Assert.AreNotEqual(0, b.Id);
+            Assert.AreNotEqual(0, b.Order);
+            Assert.AreEqual("", b.Type);
+            Assert.AreEqual("b", b.Name);
+            Assert.AreEqual("b", b.Fullname);
 
             IDsmElement b1 = model.GetElementByFullname("b.b1");
-            Assert.AreNotEqual(0, b1.Id, message);
-            Assert.AreNotEqual(0, b1.Order, message);
-            Assert.AreEqual("etb", b1.Type, message);
-            Assert.AreEqual("b1", b1.Name, message);
-            Assert.AreEqual("b.b1", b1.Fullname, message);
+            Assert.AreNotEqual(0, b1.Id);
+            Assert.AreNotEqual(0, b1.Order);
+            Assert.AreEqual("etb", b1.Type);
+            Assert.AreEqual("b1", b1.Name);
+            Assert.AreEqual("b.b1", b1.Fullname);
 
             IDsmElement b2 = model.GetElementByFullname("b.b2");
-            Assert.AreNotEqual(0, b2.Id, message);
-            Assert.AreNotEqual(0, b2.Order, message);
-            Assert.AreEqual("etb", b2.Type, message);
-            Assert.AreEqual("b2", b2.Name, message);
-            Assert.AreEqual("b.b2", b2.Fullname, message);
+            Assert.AreNotEqual(0, b2.Id);
+            Assert.AreNotEqual(0, b2.Order);
+            Assert.AreEqual("etb", b2.Type);
+            Assert.AreEqual("b2", b2.Name);
+            Assert.AreEqual("b.b2", b2.Fullname);
 
             IDsmElement c = model.GetElementByFullname("c");
-            Assert.AreNotEqual(0, c.Id, message);
-            Assert.AreNotEqual(0, c.Order, message);
-            Assert.AreEqual("", c.Type, message);
-            Assert.AreEqual("c", c.Name, message);
-            Assert.AreEqual("c", c.Fullname, message);
+            Assert.AreNotEqual(0, c.Id);
+            Assert.AreNotEqual(0, c.Order);
+            Assert.AreEqual("", c.Type);
+            Assert.AreEqual("c", c.Name);
+            Assert.AreEqual("c", c.Fullname);
 
             IDsmElement c1 = model.GetElementByFullname("c.c1");
-            Assert.AreNotEqual(0, c1.Id, message);
-            Assert.AreNotEqual(0, c1.Order, message);
-            Assert.AreEqual("etc", c1.Type, message);
-            Assert.AreEqual("c1", c1.Name, message);
-            Assert.AreEqual("c.c1", c1.Fullname, message);
+            Assert.AreNotEqual(0, c1.Id);
+            Assert.AreNotEqual(0, c1.Order);
+            Assert.AreEqual("etc", c1.Type);
+            Assert.AreEqual("c1", c1.Name);
+            Assert.AreEqual("c.c1", c1.Fullname);
 
             IDsmElement c2 = model.GetElementByFullname("c.c2");
-            Assert.AreNotEqual(0, c2.Id, message);
-            Assert.AreNotEqual(0, c2.Order, message);
-            Assert.AreEqual("etc", c2.Type, message);
-            Assert.AreEqual("c2", c2.Name, message);
-            Assert.AreEqual("c.c2", c2.Fullname, message);
+            Assert.AreNotEqual(0, c2.Id);
+            Assert.AreNotEqual(0, c2.Order);
+            Assert.AreEqual("etc", c2.Type);
+            Assert.AreEqual("c2", c2.Name);
+            Assert.AreEqual("c.c2", c2.Fullname);
 
             Assert.AreEqual(9, model.ElementCount);
 
