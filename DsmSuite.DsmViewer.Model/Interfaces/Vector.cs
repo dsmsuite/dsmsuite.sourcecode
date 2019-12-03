@@ -1,6 +1,6 @@
 using System;
 
-namespace DsmSuite.DsmViewer.Model.Algorithms
+namespace DsmSuite.DsmViewer.Model.Interfaces
 {
     /// <summary>
     /// The vector represents the permutation of the original indexes 0 to N after the partitioning

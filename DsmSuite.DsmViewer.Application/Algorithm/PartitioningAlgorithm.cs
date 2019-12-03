@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Model.Algorithms
+namespace DsmSuite.DsmViewer.Application.Algorithm
 {
     /// <summary>
     /// This class is responsable for the partitioning calculation which for a given square matrix orders the rows

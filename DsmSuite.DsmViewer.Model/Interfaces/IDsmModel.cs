@@ -43,7 +43,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IList<IDsmElement> FindProviders(IDsmElement element);
         IList<IDsmElement> FindConsumers(IDsmElement element);
 
-        void Partition(IDsmElement element);
+        void ReorderChildren(IDsmElement element, Vector permutationVector);
         IDsmElement NextSibling(IDsmElement element);
         IDsmElement PreviousSibling(IDsmElement element);
         bool Swap(IDsmElement fisrt, IDsmElement second);

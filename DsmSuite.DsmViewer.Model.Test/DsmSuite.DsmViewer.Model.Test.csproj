@@ -69,7 +69,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Algorithm\" />
     <Folder Include="Persistency\" />
   </ItemGroup>
   <ItemGroup>

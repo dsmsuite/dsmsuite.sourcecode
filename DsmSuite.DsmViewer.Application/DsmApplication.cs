@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DsmSuite.DsmViewer.Application.Algorithm;
 using DsmSuite.DsmViewer.Model;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Model.Persistency;
@@ -117,7 +118,10 @@ namespace DsmSuite.DsmViewer.Application
 
         public void Sort(IDsmElement element, string algorithm)
         {
-            _model.Partition(element);
+            Partitioner partitioner = new Partitioner(element, _model);
+            Vector vector = partitioner.Partition();
+
+            _model.ReorderChildren(element, vector);
         }
 
         public IEnumerable<string> GetSupportedSortAlgorithms()

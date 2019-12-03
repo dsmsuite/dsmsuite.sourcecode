@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Model.Algorithms;
 using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Files.Dsm;
@@ -198,10 +197,23 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _dependencyModel.FindElementConsumers(element);
         }
 
-        public void Partition(IDsmElement element)
+        public void ReorderChildren(IDsmElement element, Vector permutationVector)
         {
-            Partitioner partitioner = new Partitioner(element, this);
-            partitioner.Partition();
+            DsmElement parent = element as DsmElement;
+            if (parent != null)
+            {
+                List<IDsmElement> clonedChildren = new List<IDsmElement>(parent.Children);
+
+                foreach (IDsmElement child in clonedChildren)
+                {
+                    parent.RemoveChild(child);
+                }
+
+                for (int i = 0; i < permutationVector.Size; i++)
+                {
+                    parent.AddChild(clonedChildren[permutationVector.Get(i)]);
+                }
+            }
             AssignElementOrder();
             IsModified = true;
         }

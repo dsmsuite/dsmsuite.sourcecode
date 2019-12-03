@@ -1,12 +1,11 @@
 using System;
 
-namespace DsmSuite.DsmViewer.Model.Algorithms
+namespace DsmSuite.DsmViewer.Application.Algorithm
 {
     public class SquareMatrix : ICloneable
     {
         readonly int[,] _matrix;
         readonly int _size;
-
 
         public SquareMatrix(int width)
         {
@@ -55,7 +54,5 @@ namespace DsmSuite.DsmViewer.Model.Algorithms
 
             return _matrix[i, j];
         }
-
-
     }
 }

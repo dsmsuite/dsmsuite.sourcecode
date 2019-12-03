@@ -44,12 +44,15 @@
     <Compile Include="Actions\Relation\RelationDeleteAction.cs" />
     <Compile Include="Actions\Relation\RelationChangeWeightAction.cs" />
     <Compile Include="Actions\Snapshot\SnapshotAction.cs" />
+    <Compile Include="Algorithm\Partitioner.cs" />
+    <Compile Include="Algorithm\PartitioningAlgorithm.cs" />
+    <Compile Include="Algorithm\Permutation.cs" />
+    <Compile Include="Algorithm\SquareMatrix.cs" />
     <Compile Include="DsmApplication.cs" />
     <Compile Include="IDsmApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Algorithm\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>

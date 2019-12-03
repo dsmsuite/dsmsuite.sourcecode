@@ -24,11 +24,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\Partitioner.cs" />
-    <Compile Include="Algorithms\PartitioningAlgorithm.cs" />
-    <Compile Include="Algorithms\Permutation.cs" />
-    <Compile Include="Algorithms\SquareMatrix.cs" />
-    <Compile Include="Algorithms\Vector.cs" />
+    <Compile Include="Interfaces\Vector.cs" />
     <Compile Include="Data\DsmMetaDataItem.cs" />
     <Compile Include="Data\DsmResolvedRelation.cs" />
     <Compile Include="Dependencies\DependencyModel.cs" />

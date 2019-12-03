@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using DsmSuite.DsmViewer.Model.Data;
-using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Model.Algorithms
+namespace DsmSuite.DsmViewer.Application.Algorithm
 {
     internal class Partitioner
     {
@@ -14,29 +13,22 @@ namespace DsmSuite.DsmViewer.Model.Algorithms
         public Partitioner(IDsmElement element, IDsmModel model)
         {
             _element = element as DsmElement;
-            Debug.Assert(_element != null);
-
             _model = model;
-            Debug.Assert(_model != null);
         }
 
-        public void Partition()
+        public Vector Partition()
         {
-            PartitionGroup(_element.Children);
-        }
-
-        void PartitionGroup(IList<IDsmElement> nodes)
-        {
-            if (nodes.Count > 1)
+            Vector vector = new Vector(_element.Children.Count);
+            if (_element.Children.Count > 1)
             {
-                SquareMatrix matrix = BuildPartitionMatrix(nodes);
+                SquareMatrix matrix = BuildPartitionMatrix(_element.Children);
 
-                PartitioningAlgorithm p = new PartitioningAlgorithm(matrix);
+                PartitioningAlgorithm algorithm = new PartitioningAlgorithm(matrix);
 
-                Vector v = p.Partition();
-
-                ReorderNodes(nodes, v);
+                vector = algorithm.Partition();
             }
+
+            return vector;
         }
 
         SquareMatrix BuildPartitionMatrix(IList<IDsmElement> nodes)
