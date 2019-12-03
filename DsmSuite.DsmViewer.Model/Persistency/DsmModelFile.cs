@@ -32,8 +32,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string RelationGroupXmlNode = "relations";
 
         private const string RelationXmlNode = "relation";
-        private const string RelationConsumerIdXmlAttribute = "consumerId";
-        private const string RelationProviderIdXmlAttribute = "providerId";
+        private const string RelationConsumerIdXmlAttribute = "from";
+        private const string RelationProviderIdXmlAttribute = "to";
         private const string RelationTypeXmlAttribute = "type";
         private const string RelationWeightXmlAttribute = "weight";
 

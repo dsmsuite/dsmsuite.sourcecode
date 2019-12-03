@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
@@ -14,12 +15,13 @@ namespace DsmSuite.DsmViewer.Model.Data
         private DsmElement _parent;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
 
-        public DsmElement(int id, string name, string type)
+        public DsmElement(int id, string name, string type, int order = 0 , bool isExpanded = false)
         {
             Id = id;
             Name = name;
             _typeId = TypeRegistration.AddTypeName(type);
-            Order = 0;
+            Order = order;
+            IsExpanded = isExpanded;
         }
 
         /// <summary>

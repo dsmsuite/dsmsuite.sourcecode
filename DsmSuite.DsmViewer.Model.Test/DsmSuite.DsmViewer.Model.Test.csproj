@@ -58,9 +58,8 @@
     <Compile Include="Core\HierarchicalNameTest.cs" />
     <Compile Include="Data\DsmRelationTest.cs" />
     <Compile Include="Core\TypeRegistrationTest.cs" />
-    <Compile Include="Files\DsmModelFileTest.cs" />
-    <Compile Include="Data\DsmMetaDataItemTest.cs" />
     <Compile Include="Persistency\DsmModelFileTest.cs" />
+    <Compile Include="Data\DsmMetaDataItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +70,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Files\Uncompressed.dsm">
+    <None Include="Persistency\Uncompressed.dsm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
