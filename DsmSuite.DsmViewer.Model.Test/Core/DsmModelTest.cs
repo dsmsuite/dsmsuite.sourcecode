@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Dependencies;
 using DsmSuite.DsmViewer.Model.Interfaces;
@@ -33,7 +35,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
     [TestClass]
     public class DependencyModelTest
     {
-        private DependencyModel _dependencyModel;
+        private DsmModel _model;
         private IDsmElement _a;
         private IDsmElement _a1;
         private IDsmElement _a2;
@@ -47,220 +49,217 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         [TestInitialize()]
         public void MyTestInitialize()
         {
-            _dependencyModel = new DependencyModel();
+            _model = new DsmModel("test", Assembly.GetExecutingAssembly());
         }
-
-
 
         [TestMethod]
         public void CreateElementTest()
         {
-            Assert.AreEqual(0, _dependencyModel.ElementCount);
+            Assert.AreEqual(0, _model.ElementCount);
 
-            _a = _dependencyModel.CreateElement("a", "", null);
+            _a = _model.CreateElement("a", "", null);
             Assert.AreNotEqual(0, _a.Id);
             Assert.AreEqual(0, _a.Order);
             Assert.AreEqual("", _a.Type);
             Assert.AreEqual("a", _a.Name);
             Assert.AreEqual("a", _a.Fullname);
-            Assert.AreEqual(1, _dependencyModel.ElementCount);
-            Assert.AreEqual(_a, _dependencyModel.GetElementByFullname("a"));
+            Assert.AreEqual(1, _model.ElementCount);
+            Assert.AreEqual(_a, _model.GetElementByFullname("a"));
 
-            _a1 = _dependencyModel.CreateElement("a1", "eta", _a.Id);
+            _a1 = _model.CreateElement("a1", "eta", _a.Id);
             Assert.AreNotEqual(0, _a1.Id);
             Assert.AreEqual(0, _a1.Order);
             Assert.AreEqual("eta", _a1.Type);
             Assert.AreEqual("a1", _a1.Name);
             Assert.AreEqual("a.a1", _a1.Fullname);
-            Assert.AreEqual(2, _dependencyModel.ElementCount);
-            Assert.AreEqual(_a1, _dependencyModel.GetElementByFullname("a.a1"));
+            Assert.AreEqual(2, _model.ElementCount);
+            Assert.AreEqual(_a1, _model.GetElementByFullname("a.a1"));
 
-            _a2 = _dependencyModel.CreateElement("a2", "eta", _a.Id);
+            _a2 = _model.CreateElement("a2", "eta", _a.Id);
             Assert.AreNotEqual(0, _a2.Id);
             Assert.AreEqual(0, _a2.Order);
             Assert.AreEqual("eta", _a2.Type);
             Assert.AreEqual("a2", _a2.Name);
             Assert.AreEqual("a.a2", _a2.Fullname);
-            Assert.AreEqual(3, _dependencyModel.ElementCount);
-            Assert.AreEqual(_a2, _dependencyModel.GetElementByFullname("a.a2"));
+            Assert.AreEqual(3, _model.ElementCount);
+            Assert.AreEqual(_a2, _model.GetElementByFullname("a.a2"));
 
-            _b = _dependencyModel.CreateElement("b", "", null);
+            _b = _model.CreateElement("b", "", null);
             Assert.AreNotEqual(0, _b.Id);
             Assert.AreEqual(0, _b.Order);
             Assert.AreEqual("", _b.Type);
             Assert.AreEqual("b", _b.Name);
             Assert.AreEqual("b", _b.Fullname);
-            Assert.AreEqual(4, _dependencyModel.ElementCount);
-            Assert.AreEqual(_b, _dependencyModel.GetElementByFullname("b"));
+            Assert.AreEqual(4, _model.ElementCount);
+            Assert.AreEqual(_b, _model.GetElementByFullname("b"));
 
-            _b1 = _dependencyModel.CreateElement("b1", "etb", _b.Id);
+            _b1 = _model.CreateElement("b1", "etb", _b.Id);
             Assert.AreNotEqual(0, _b1.Id);
             Assert.AreEqual(0, _b1.Order);
             Assert.AreEqual("etb", _b1.Type);
             Assert.AreEqual("b1", _b1.Name);
             Assert.AreEqual("b.b1", _b1.Fullname);
-            Assert.AreEqual(5, _dependencyModel.ElementCount);
-            Assert.AreEqual(_b1, _dependencyModel.GetElementByFullname("b.b1"));
+            Assert.AreEqual(5, _model.ElementCount);
+            Assert.AreEqual(_b1, _model.GetElementByFullname("b.b1"));
 
-            _b2 = _dependencyModel.CreateElement("b2", "etb", _b.Id);
+            _b2 = _model.CreateElement("b2", "etb", _b.Id);
             Assert.AreNotEqual(0, _b2.Id);
             Assert.AreEqual(0, _b2.Order);
             Assert.AreEqual("etb", _b2.Type);
             Assert.AreEqual("b2", _b2.Name);
             Assert.AreEqual("b.b2", _b2.Fullname);
-            Assert.AreEqual(6, _dependencyModel.ElementCount);
-            Assert.AreEqual(_b2, _dependencyModel.GetElementByFullname("b.b2"));
+            Assert.AreEqual(6, _model.ElementCount);
+            Assert.AreEqual(_b2, _model.GetElementByFullname("b.b2"));
 
-            _c = _dependencyModel.CreateElement("c", "", null);
+            _c = _model.CreateElement("c", "", null);
             Assert.AreNotEqual(0, _c.Id);
             Assert.AreEqual(0, _c.Order);
             Assert.AreEqual("", _c.Type);
             Assert.AreEqual("c", _c.Name);
             Assert.AreEqual("c", _c.Fullname);
-            Assert.AreEqual(7, _dependencyModel.ElementCount);
-            Assert.AreEqual(_c, _dependencyModel.GetElementByFullname("c"));
+            Assert.AreEqual(7, _model.ElementCount);
+            Assert.AreEqual(_c, _model.GetElementByFullname("c"));
 
-            _c1 = _dependencyModel.CreateElement("c1", "etc", _c.Id);
+            _c1 = _model.CreateElement("c1", "etc", _c.Id);
             Assert.AreNotEqual(0, _c1.Id);
             Assert.AreEqual(0, _c1.Order);
             Assert.AreEqual("etc", _c1.Type);
             Assert.AreEqual("c1", _c1.Name);
             Assert.AreEqual("c.c1", _c1.Fullname);
-            Assert.AreEqual(8, _dependencyModel.ElementCount);
-            Assert.AreEqual(_c1, _dependencyModel.GetElementByFullname("c.c1"));
+            Assert.AreEqual(8, _model.ElementCount);
+            Assert.AreEqual(_c1, _model.GetElementByFullname("c.c1"));
 
-            _c2 = _dependencyModel.CreateElement("c2", "etc", _c.Id);
+            _c2 = _model.CreateElement("c2", "etc", _c.Id);
             Assert.AreNotEqual(0, _c2.Id);
             Assert.AreEqual(0, _c2.Order);
             Assert.AreEqual("etc", _c2.Type);
             Assert.AreEqual("c2", _c2.Name);
             Assert.AreEqual("c.c2", _c2.Fullname);
-            Assert.AreEqual(9, _dependencyModel.ElementCount);
-            Assert.AreEqual(_c2, _dependencyModel.GetElementByFullname("c.c2"));
+            Assert.AreEqual(9, _model.ElementCount);
+            Assert.AreEqual(_c2, _model.GetElementByFullname("c.c2"));
         }
 
         [TestMethod]
         public void CreateElementWhenAlreadyExistsTest()
         {
-            Assert.AreEqual(0, _dependencyModel.ElementCount);
+            Assert.AreEqual(0, _model.ElementCount);
 
-            _a = _dependencyModel.CreateElement("a", "", null);
+            _a = _model.CreateElement("a", "", null);
             Assert.AreNotEqual(0, _a.Id);
             Assert.AreEqual(0, _a.Order);
             Assert.AreEqual("", _a.Type);
             Assert.AreEqual("a", _a.Name);
             Assert.AreEqual("a", _a.Fullname);
-            Assert.AreEqual(1, _dependencyModel.ElementCount);
-            Assert.AreEqual(_a, _dependencyModel.GetElementByFullname("a"));
+            Assert.AreEqual(1, _model.ElementCount);
+            Assert.AreEqual(_a, _model.GetElementByFullname("a"));
 
-            _a1 = _dependencyModel.CreateElement("a1", "eta", _a.Id);
+            _a1 = _model.CreateElement("a1", "eta", _a.Id);
             Assert.AreNotEqual(0, _a1.Id);
             Assert.AreEqual(0, _a1.Order);
             Assert.AreEqual("eta", _a1.Type);
             Assert.AreEqual("a1", _a1.Name);
             Assert.AreEqual("a.a1", _a1.Fullname);
-            Assert.AreEqual(2, _dependencyModel.ElementCount);
-            Assert.AreEqual(_a1, _dependencyModel.GetElementByFullname("a.a1"));
+            Assert.AreEqual(2, _model.ElementCount);
+            Assert.AreEqual(_a1, _model.GetElementByFullname("a.a1"));
 
-            Assert.AreEqual(_a, _dependencyModel.CreateElement("a", "", null));
-            Assert.AreEqual(_a1, _dependencyModel.CreateElement("a1", "eta", _a.Id));
+            Assert.AreEqual(_a, _model.CreateElement("a", "", null));
+            Assert.AreEqual(_a1, _model.CreateElement("a1", "eta", _a.Id));
         }
 
         [TestMethod]
         public void AddElementTest()
         {
-            Assert.AreEqual(0, _dependencyModel.ElementCount);
+            Assert.AreEqual(0, _model.ElementCount);
 
-            _a = _dependencyModel.AddElement(11, "a", "", 1, false, null);
+            _a = _model.ImportElement(11, "a", "", 1, false, null);
             Assert.AreEqual(11, _a.Id);
             Assert.AreEqual(1, _a.Order);
             Assert.AreEqual("", _a.Type);
             Assert.AreEqual("a", _a.Name);
             Assert.AreEqual("a", _a.Fullname);
-            Assert.AreEqual(1, _dependencyModel.ElementCount);
-            Assert.AreEqual(_a, _dependencyModel.GetElementByFullname("a"));
-            Assert.AreEqual(_a, _dependencyModel.GetElementById(11));
+            Assert.AreEqual(1, _model.ElementCount);
+            Assert.AreEqual(_a, _model.GetElementByFullname("a"));
+            Assert.AreEqual(_a, _model.GetElementById(11));
 
-            _a1 = _dependencyModel.AddElement(12, "a1", "eta", 2, false, _a.Id);
+            _a1 = _model.ImportElement(12, "a1", "eta", 2, false, _a.Id);
             Assert.AreEqual(12, _a1.Id);
             Assert.AreEqual(2, _a1.Order);
             Assert.AreEqual("eta", _a1.Type);
             Assert.AreEqual("a1", _a1.Name);
             Assert.AreEqual("a.a1", _a1.Fullname);
-            Assert.AreEqual(2, _dependencyModel.ElementCount);
-            Assert.AreEqual(_a1, _dependencyModel.GetElementByFullname("a.a1"));
-            Assert.AreEqual(_a1, _dependencyModel.GetElementById(12));
+            Assert.AreEqual(2, _model.ElementCount);
+            Assert.AreEqual(_a1, _model.GetElementByFullname("a.a1"));
+            Assert.AreEqual(_a1, _model.GetElementById(12));
 
-            _a2 = _dependencyModel.AddElement(13, "a2", "eta", 3, false, _a.Id);
+            _a2 = _model.ImportElement(13, "a2", "eta", 3, false, _a.Id);
             Assert.AreEqual(13, _a2.Id);
             Assert.AreEqual(3, _a2.Order);
             Assert.AreEqual("eta", _a2.Type);
             Assert.AreEqual("a2", _a2.Name);
             Assert.AreEqual("a.a2", _a2.Fullname);
-            Assert.AreEqual(3, _dependencyModel.ElementCount);
-            Assert.AreEqual(_a2, _dependencyModel.GetElementByFullname("a.a2"));
-            Assert.AreEqual(_a2, _dependencyModel.GetElementById(13));
+            Assert.AreEqual(3, _model.ElementCount);
+            Assert.AreEqual(_a2, _model.GetElementByFullname("a.a2"));
+            Assert.AreEqual(_a2, _model.GetElementById(13));
 
-            _b = _dependencyModel.AddElement(14, "b", "", 4, false, null);
+            _b = _model.ImportElement(14, "b", "", 4, false, null);
             Assert.AreEqual(14, _b.Id);
             Assert.AreEqual(4, _b.Order);
             Assert.AreEqual("", _b.Type);
             Assert.AreEqual("b", _b.Name);
             Assert.AreEqual("b", _b.Fullname);
-            Assert.AreEqual(4, _dependencyModel.ElementCount);
-            Assert.AreEqual(_b, _dependencyModel.GetElementByFullname("b"));
-            Assert.AreEqual(_b, _dependencyModel.GetElementById(14));
+            Assert.AreEqual(4, _model.ElementCount);
+            Assert.AreEqual(_b, _model.GetElementByFullname("b"));
+            Assert.AreEqual(_b, _model.GetElementById(14));
 
-            _b1 = _dependencyModel.AddElement(15, "b1", "etb", 5, false, _b.Id);
+            _b1 = _model.ImportElement(15, "b1", "etb", 5, false, _b.Id);
             Assert.AreEqual(15, _b1.Id);
             Assert.AreEqual(5, _b1.Order);
             Assert.AreEqual("etb", _b1.Type);
             Assert.AreEqual("b1", _b1.Name);
             Assert.AreEqual("b.b1", _b1.Fullname);
-            Assert.AreEqual(5, _dependencyModel.ElementCount);
-            Assert.AreEqual(_b1, _dependencyModel.GetElementByFullname("b.b1"));
-            Assert.AreEqual(_b1, _dependencyModel.GetElementById(15));
+            Assert.AreEqual(5, _model.ElementCount);
+            Assert.AreEqual(_b1, _model.GetElementByFullname("b.b1"));
+            Assert.AreEqual(_b1, _model.GetElementById(15));
 
-            _b2 = _dependencyModel.AddElement(16, "b2", "etb", 6, false, _b.Id);
+            _b2 = _model.ImportElement(16, "b2", "etb", 6, false, _b.Id);
             Assert.AreEqual(16, _b2.Id);
             Assert.AreEqual(6, _b2.Order);
             Assert.AreEqual("etb", _b2.Type);
             Assert.AreEqual("b2", _b2.Name);
             Assert.AreEqual("b.b2", _b2.Fullname);
-            Assert.AreEqual(6, _dependencyModel.ElementCount);
-            Assert.AreEqual(_b2, _dependencyModel.GetElementByFullname("b.b2"));
-            Assert.AreEqual(_b2, _dependencyModel.GetElementById(16));
+            Assert.AreEqual(6, _model.ElementCount);
+            Assert.AreEqual(_b2, _model.GetElementByFullname("b.b2"));
+            Assert.AreEqual(_b2, _model.GetElementById(16));
 
-            _c = _dependencyModel.AddElement(17, "c", "", 7, false, null);
+            _c = _model.ImportElement(17, "c", "", 7, false, null);
             Assert.AreEqual(17, _c.Id);
             Assert.AreEqual(7, _c.Order);
             Assert.AreEqual("", _c.Type);
             Assert.AreEqual("c", _c.Name);
             Assert.AreEqual("c", _c.Fullname);
-            Assert.AreEqual(7, _dependencyModel.ElementCount);
-            Assert.AreEqual(_c, _dependencyModel.GetElementByFullname("c"));
-            Assert.AreEqual(_c, _dependencyModel.GetElementById(17));
+            Assert.AreEqual(7, _model.ElementCount);
+            Assert.AreEqual(_c, _model.GetElementByFullname("c"));
+            Assert.AreEqual(_c, _model.GetElementById(17));
 
-            _c1 = _dependencyModel.AddElement(18, "c1", "etc", 8, false, _c.Id);
-
+            _c1 = _model.ImportElement(18, "c1", "etc", 8, false, _c.Id);
             Assert.AreEqual(18, _c1.Id);
             Assert.AreEqual(8, _c1.Order);
             Assert.AreEqual("etc", _c1.Type);
             Assert.AreEqual("c1", _c1.Name);
             Assert.AreEqual("c.c1", _c1.Fullname);
-            Assert.AreEqual(8, _dependencyModel.ElementCount);
-            Assert.AreEqual(_c1, _dependencyModel.GetElementByFullname("c.c1"));
-            Assert.AreEqual(_c1, _dependencyModel.GetElementById(18));
+            Assert.AreEqual(8, _model.ElementCount);
+            Assert.AreEqual(_c1, _model.GetElementByFullname("c.c1"));
+            Assert.AreEqual(_c1, _model.GetElementById(18));
 
-            _c2 = _dependencyModel.AddElement(19, "c2", "etc", 9, false, _c.Id);
+            _c2 = _model.ImportElement(19, "c2", "etc", 9, false, _c.Id);
             Assert.AreEqual(19, _c2.Id);
             Assert.AreEqual(9, _c2.Order);
             Assert.AreEqual("etc", _c2.Type);
             Assert.AreEqual("c2", _c2.Name);
             Assert.AreEqual("c.c2", _c2.Fullname);
-            Assert.AreEqual(9, _dependencyModel.ElementCount);
-            Assert.AreEqual(_c2, _dependencyModel.GetElementByFullname("c.c2"));
-            Assert.AreEqual(_c2, _dependencyModel.GetElementById(19));
+            Assert.AreEqual(9, _model.ElementCount);
+            Assert.AreEqual(_c2, _model.GetElementByFullname("c.c2"));
+            Assert.AreEqual(_c2, _model.GetElementById(19));
         }
 
 
@@ -268,7 +267,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         public void AddExistingElementWithNotExistingParentTest()
         {
             int notExistingParentId = 123;
-            Assert.IsNull(_dependencyModel.AddElement(11, "a", "", 1, false, notExistingParentId));
+            Assert.IsNull(_model.ImportElement(11, "a", "", 1, false, notExistingParentId));
         }
 
         [TestMethod]
@@ -276,21 +275,21 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateHierarchy();
 
-            Assert.AreEqual(9, _dependencyModel.ElementCount);
-            Assert.AreEqual(_b, _dependencyModel.GetElementByFullname("b"));
-            Assert.AreEqual(_b, _dependencyModel.GetElementById(14));
-            Assert.AreEqual(_b1, _dependencyModel.GetElementByFullname("b.b1"));
-            Assert.AreEqual(_b1, _dependencyModel.GetElementById(15));
-            Assert.AreEqual(_b2, _dependencyModel.GetElementByFullname("b.b2"));
-            Assert.AreEqual(_b2, _dependencyModel.GetElementById(16));
-            _dependencyModel.RemoveElement(_b.Id);
-            Assert.AreEqual(6, _dependencyModel.ElementCount);
-            Assert.IsNull(_dependencyModel.GetElementByFullname("b"));
-            Assert.IsNull(_dependencyModel.GetElementById(14));
-            Assert.IsNull(_dependencyModel.GetElementByFullname("b.b1"));
-            Assert.IsNull(_dependencyModel.GetElementById(15));
-            Assert.IsNull(_dependencyModel.GetElementByFullname("b.b2"));
-            Assert.IsNull(_dependencyModel.GetElementById(16));
+            Assert.AreEqual(9, _model.ElementCount);
+            Assert.AreEqual(_b, _model.GetElementByFullname("b"));
+            Assert.AreEqual(_b, _model.GetElementById(14));
+            Assert.AreEqual(_b1, _model.GetElementByFullname("b.b1"));
+            Assert.AreEqual(_b1, _model.GetElementById(15));
+            Assert.AreEqual(_b2, _model.GetElementByFullname("b.b2"));
+            Assert.AreEqual(_b2, _model.GetElementById(16));
+            _model.RemoveElement(_b.Id);
+            Assert.AreEqual(6, _model.ElementCount);
+            Assert.IsNull(_model.GetElementByFullname("b"));
+            Assert.IsNull(_model.GetElementById(14));
+            Assert.IsNull(_model.GetElementByFullname("b.b1"));
+            Assert.IsNull(_model.GetElementById(15));
+            Assert.IsNull(_model.GetElementByFullname("b.b2"));
+            Assert.IsNull(_model.GetElementById(16));
         }
 
         [TestMethod]
@@ -298,13 +297,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateHierarchy();
 
-            Assert.AreEqual(9, _dependencyModel.ElementCount);
-            Assert.AreEqual(_a2, _dependencyModel.GetElementByFullname("a.a2"));
-            Assert.AreEqual(_a2, _dependencyModel.GetElementById(13));
-            _dependencyModel.RemoveElement(_a2.Id);
-            Assert.AreEqual(8, _dependencyModel.ElementCount);
-            Assert.IsNull(_dependencyModel.GetElementByFullname("a.a2"));
-            Assert.IsNull(_dependencyModel.GetElementById(13));
+            Assert.AreEqual(9, _model.ElementCount);
+            Assert.AreEqual(_a2, _model.GetElementByFullname("a.a2"));
+            Assert.AreEqual(_a2, _model.GetElementById(13));
+            _model.RemoveElement(_a2.Id);
+            Assert.AreEqual(8, _model.ElementCount);
+            Assert.IsNull(_model.GetElementByFullname("a.a2"));
+            Assert.IsNull(_model.GetElementById(13));
         }
 
         [TestMethod]
@@ -312,14 +311,14 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateHierarchy();
 
-            _dependencyModel.AddRelation(_a1.Id, _b1.Id, "ra", 1000);
-            Assert.AreEqual(1000, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
-            _dependencyModel.AddRelation(_a2.Id, _b1.Id, "ra", 200);
-            Assert.AreEqual(1200, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
-            _dependencyModel.AddRelation(_a1.Id, _b2.Id, "ra", 30);
-            Assert.AreEqual(1230, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
-            _dependencyModel.AddRelation(_a2.Id, _b2.Id, "ra", 4);
-            Assert.AreEqual(1234, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
+            _model.AddRelation(_a1.Id, _b1.Id, "ra", 1000);
+            Assert.AreEqual(1000, _model.GetDependencyWeight(_a.Id, _b.Id));
+            _model.AddRelation(_a2.Id, _b1.Id, "ra", 200);
+            Assert.AreEqual(1200, _model.GetDependencyWeight(_a.Id, _b.Id));
+            _model.AddRelation(_a1.Id, _b2.Id, "ra", 30);
+            Assert.AreEqual(1230, _model.GetDependencyWeight(_a.Id, _b.Id));
+            _model.AddRelation(_a2.Id, _b2.Id, "ra", 4);
+            Assert.AreEqual(1234, _model.GetDependencyWeight(_a.Id, _b.Id));
         }
 
         [TestMethod]
@@ -327,16 +326,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateMatrix();
 
-            IList<IDsmRelation> relations = _dependencyModel.FindRelations(_a, _b).OrderBy(x => x.Weight).ToList();
+            IList<IDsmRelation> relations = _model.FindRelations(_a, _b).OrderBy(x => x.Weight).ToList();
 
-            _dependencyModel.RemoveRelation(relations[0]);
-            Assert.AreEqual(1230, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
-            _dependencyModel.RemoveRelation(relations[1]);
-            Assert.AreEqual(1200, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
-            _dependencyModel.RemoveRelation(relations[2]);
-            Assert.AreEqual(1000, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
-            _dependencyModel.RemoveRelation(relations[3]);
-            Assert.AreEqual(0, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
+            _model.RemoveRelation(relations[0]);
+            Assert.AreEqual(1230, _model.GetDependencyWeight(_a.Id, _b.Id));
+            _model.RemoveRelation(relations[1]);
+            Assert.AreEqual(1200, _model.GetDependencyWeight(_a.Id, _b.Id));
+            _model.RemoveRelation(relations[2]);
+            Assert.AreEqual(1000, _model.GetDependencyWeight(_a.Id, _b.Id));
+            _model.RemoveRelation(relations[3]);
+            Assert.AreEqual(0, _model.GetDependencyWeight(_a.Id, _b.Id));
         }
 
 
@@ -347,16 +346,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
 
             AddRelationsBetweenAandB();
             AddRelationsBetweenAandC();
-            Assert.IsFalse(_dependencyModel.IsCyclicDependency(_a.Id, _b.Id));
-            Assert.IsFalse(_dependencyModel.IsCyclicDependency(_a.Id, _c.Id));
+            Assert.IsFalse(_model.IsCyclicDependency(_a.Id, _b.Id));
+            Assert.IsFalse(_model.IsCyclicDependency(_a.Id, _c.Id));
 
             AddRelationsBetweenBandA();
-            Assert.IsTrue(_dependencyModel.IsCyclicDependency(_a.Id, _b.Id));
-            Assert.IsFalse(_dependencyModel.IsCyclicDependency(_a.Id, _c.Id));
+            Assert.IsTrue(_model.IsCyclicDependency(_a.Id, _b.Id));
+            Assert.IsFalse(_model.IsCyclicDependency(_a.Id, _c.Id));
 
             AddRelationsBetweenCandA();
-            Assert.IsTrue(_dependencyModel.IsCyclicDependency(_a.Id, _b.Id));
-            Assert.IsTrue(_dependencyModel.IsCyclicDependency(_a.Id, _c.Id));
+            Assert.IsTrue(_model.IsCyclicDependency(_a.Id, _b.Id));
+            Assert.IsTrue(_model.IsCyclicDependency(_a.Id, _c.Id));
         }
 
         [TestMethod]
@@ -364,7 +363,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateMatrix();
 
-            IList<IDsmRelation> relations = _dependencyModel.FindRelations(_a, _b).OrderBy(x => x.Weight).ToList();
+            IList<IDsmRelation> relations = _model.FindRelations(_a, _b).OrderBy(x => x.Weight).ToList();
             Assert.AreEqual(4, relations.Count);
 
             Assert.AreEqual(4, relations[0].Weight);
@@ -389,17 +388,17 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         {
             CreateMatrix();
 
-            IList<IDsmRelation> relations = _dependencyModel.FindRelations(_b, _b).OrderBy(x => x.Weight).ToList();
+            IList<IDsmRelation> relations = _model.FindRelations(_b, _b).OrderBy(x => x.Weight).ToList();
             Assert.AreEqual(0, relations.Count);
         }
 
 
         [TestMethod]
-        public void FindElementConsumerRelationsTest()
+        public void FindProviderRelationsTest()
         {
             CreateMatrix();
 
-            IList<IDsmRelation> relations = _dependencyModel.FindElementConsumerRelations(_b).OrderBy(x => x.Weight).ToList();
+            IList<IDsmRelation> relations = _model.FindProviderRelations(_b).OrderBy(x => x.Weight).ToList();
             Assert.AreEqual(4, relations.Count);
 
             Assert.AreEqual(4, relations[0].Weight);
@@ -420,11 +419,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         }
 
         [TestMethod]
-        public void FindElementProviderRelationsTest()
+        public void FindConsumerRelationsTest()
         {
             CreateMatrix();
 
-            IList<IDsmRelation> relations = _dependencyModel.FindElementProviderRelations(_a).OrderBy(x => x.Weight).ToList();
+            IList<IDsmRelation> relations = _model.FindConsumerRelations(_a).OrderBy(x => x.Weight).ToList();
             Assert.AreEqual(5, relations.Count);
 
             Assert.AreEqual(4, relations[0].Weight);
@@ -449,11 +448,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         }
 
         [TestMethod]
-        public void FindElementConsumersTest()
+        public void FindConsumersTest()
         {
             CreateMatrix();
 
-            IList<IDsmElement> elements = _dependencyModel.FindElementConsumers(_b).OrderBy(x => x.Fullname).ToList();
+            IList<IDsmElement> elements = _model.FindConsumers(_b).OrderBy(x => x.Fullname).ToList();
 
             Assert.AreEqual(2, elements.Count);
             Assert.AreEqual(_a1, elements[0]);
@@ -461,11 +460,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         }
 
         [TestMethod]
-        public void FindElementProvidersTest()
+        public void FindProvidersTest()
         {
             CreateMatrix();
 
-            IList<IDsmElement> elements = _dependencyModel.FindElementProviders(_a).OrderBy(x => x.Fullname).ToList();
+            IList<IDsmElement> elements = _model.FindProviders(_a).OrderBy(x => x.Fullname).ToList();
 
             Assert.AreEqual(3, elements.Count);
             Assert.AreEqual(_b1, elements[0]);
@@ -484,7 +483,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
             Assert.AreEqual(2, _a1.Order);
             Assert.AreEqual(3, _a2.Order);
 
-            Assert.IsTrue(_dependencyModel.Swap(_a1, _a2));
+            Assert.IsTrue(_model.Swap(_a1, _a2));
 
             Assert.AreEqual(2, _a.Children.Count);
             Assert.AreEqual(_a2, _a.Children[0]);
@@ -534,15 +533,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
         [TestMethod]
         public void AssignElementOrderTest()
         {
-            _a = _dependencyModel.AddElement(11, "a", "", 0, false, null);
-            _a1 = _dependencyModel.AddElement(12, "a1", "eta", 0, false, _a.Id);
-            _a2 = _dependencyModel.AddElement(13, "a2", "eta", 0, false, _a.Id);
-            _b = _dependencyModel.AddElement(14, "b", "", 0, false, null);
-            _b1 = _dependencyModel.AddElement(15, "b1", "etb", 0, false, _b.Id);
-            _b2 = _dependencyModel.AddElement(16, "b2", "etb", 0, false, _b.Id);
-            _c = _dependencyModel.AddElement(17, "c", "", 0, false, null);
-            _c1 = _dependencyModel.AddElement(18, "c1", "etc", 0,false, _c.Id);
-            _c2 = _dependencyModel.AddElement(19, "c2", "etc", 0, false, _c.Id);
+            _a = _model.ImportElement(11, "a", "", 0, false, null);
+            _a1 = _model.ImportElement(12, "a1", "eta", 0, false, _a.Id);
+            _a2 = _model.ImportElement(13, "a2", "eta", 0, false, _a.Id);
+            _b = _model.ImportElement(14, "b", "", 0, false, null);
+            _b1 = _model.ImportElement(15, "b1", "etb", 0, false, _b.Id);
+            _b2 = _model.ImportElement(16, "b2", "etb", 0, false, _b.Id);
+            _c = _model.ImportElement(17, "c", "", 0, false, null);
+            _c1 = _model.ImportElement(18, "c1", "etc", 0,false, _c.Id);
+            _c2 = _model.ImportElement(19, "c2", "etc", 0, false, _c.Id);
 
             Assert.AreEqual(0, _a.Order);
             Assert.AreEqual(0, _a1.Order);
@@ -554,7 +553,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
             Assert.AreEqual(0, _c1.Order);
             Assert.AreEqual(0, _c2.Order);
 
-            _dependencyModel.AssignElementOrder();
+            _model.AssignElementOrder();
 
             Assert.AreEqual(1, _a.Order);
             Assert.AreEqual(2, _a1.Order);
@@ -592,48 +591,48 @@ namespace DsmSuite.DsmViewer.Model.Test.Dependencies
 
         private void CreateHierarchy()
         {
-            _a = _dependencyModel.AddElement(11, "a", "", 1, false, null);
-            _a1 = _dependencyModel.AddElement(12, "a1", "eta", 2, false, _a.Id);
-            _a2 = _dependencyModel.AddElement(13, "a2", "eta", 3, false, _a.Id);
-            _b = _dependencyModel.AddElement(14, "b", "", 4, false, null);
-            _b1 = _dependencyModel.AddElement(15, "b1", "etb", 5, false, _b.Id);
-            _b2 = _dependencyModel.AddElement(16, "b2", "etb", 6, false, _b.Id);
-            _c = _dependencyModel.AddElement(17, "c", "", 7, false, null);
-            _c1 = _dependencyModel.AddElement(18, "c1", "etc", 8, false, _c.Id);
-            _c2 = _dependencyModel.AddElement(19, "c2", "etc", 9, false, _c.Id);
-            Assert.AreEqual(9, _dependencyModel.ElementCount);
+            _a = _model.ImportElement(11, "a", "", 1, false, null);
+            _a1 = _model.ImportElement(12, "a1", "eta", 2, false, _a.Id);
+            _a2 = _model.ImportElement(13, "a2", "eta", 3, false, _a.Id);
+            _b = _model.ImportElement(14, "b", "", 4, false, null);
+            _b1 = _model.ImportElement(15, "b1", "etb", 5, false, _b.Id);
+            _b2 = _model.ImportElement(16, "b2", "etb", 6, false, _b.Id);
+            _c = _model.ImportElement(17, "c", "", 7, false, null);
+            _c1 = _model.ImportElement(18, "c1", "etc", 8, false, _c.Id);
+            _c2 = _model.ImportElement(19, "c2", "etc", 9, false, _c.Id);
+            Assert.AreEqual(9, _model.ElementCount);
         }
 
         private void AddRelationsBetweenAandB()
         {
-            _dependencyModel.AddRelation(_a1.Id, _b1.Id, "ra", 1000);
-            Assert.AreEqual(1000, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
-            _dependencyModel.AddRelation(_a2.Id, _b1.Id, "ra", 200);
-            Assert.AreEqual(1200, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
-            _dependencyModel.AddRelation(_a1.Id, _b2.Id, "ra", 30);
-            Assert.AreEqual(1230, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
-            _dependencyModel.AddRelation(_a2.Id, _b2.Id, "ra", 4);
-            Assert.AreEqual(1234, _dependencyModel.GetDependencyWeight(_a.Id, _b.Id));
+            _model.AddRelation(_a1.Id, _b1.Id, "ra", 1000);
+            Assert.AreEqual(1000, _model.GetDependencyWeight(_a.Id, _b.Id));
+            _model.AddRelation(_a2.Id, _b1.Id, "ra", 200);
+            Assert.AreEqual(1200, _model.GetDependencyWeight(_a.Id, _b.Id));
+            _model.AddRelation(_a1.Id, _b2.Id, "ra", 30);
+            Assert.AreEqual(1230, _model.GetDependencyWeight(_a.Id, _b.Id));
+            _model.AddRelation(_a2.Id, _b2.Id, "ra", 4);
+            Assert.AreEqual(1234, _model.GetDependencyWeight(_a.Id, _b.Id));
         }
 
         private void AddRelationsBetweenAandC()
         {
-            _dependencyModel.AddRelation(_a1.Id, _c2.Id, "ra", 5);
-            Assert.AreEqual(5, _dependencyModel.GetDependencyWeight(_a.Id, _c.Id));
+            _model.AddRelation(_a1.Id, _c2.Id, "ra", 5);
+            Assert.AreEqual(5, _model.GetDependencyWeight(_a.Id, _c.Id));
         }
 
         private void AddRelationsBetweenBandA()
         {
-            _dependencyModel.AddRelation(_b2.Id, _a1.Id, "rb", 1);
-            Assert.AreEqual(1, _dependencyModel.GetDependencyWeight(_b.Id, _a.Id));
-            _dependencyModel.AddRelation(_b2.Id, _a2.Id, "rb", 2);
-            Assert.AreEqual(3, _dependencyModel.GetDependencyWeight(_b.Id, _a.Id));
+            _model.AddRelation(_b2.Id, _a1.Id, "rb", 1);
+            Assert.AreEqual(1, _model.GetDependencyWeight(_b.Id, _a.Id));
+            _model.AddRelation(_b2.Id, _a2.Id, "rb", 2);
+            Assert.AreEqual(3, _model.GetDependencyWeight(_b.Id, _a.Id));
         }
 
         private void AddRelationsBetweenCandA()
         {
-            _dependencyModel.AddRelation(_c1.Id, _a2.Id, "rc", 4);
-            Assert.AreEqual(4, _dependencyModel.GetDependencyWeight(_c.Id, _a.Id));
+            _model.AddRelation(_c1.Id, _a2.Id, "rc", 4);
+            Assert.AreEqual(4, _model.GetDependencyWeight(_c.Id, _a.Id));
         }
     }
 }

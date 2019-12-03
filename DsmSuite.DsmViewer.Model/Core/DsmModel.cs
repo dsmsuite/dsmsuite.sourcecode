@@ -255,6 +255,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             throw new NotImplementedException();
         }
 
+        public void RemoveRelation(IDsmRelation relation)
+        {
+            UnregisterRelation(relation);
+        }
+
         public void UnremoveRelation(int consumerId, int providerId, string type, int weight)
         {
             throw new NotImplementedException();

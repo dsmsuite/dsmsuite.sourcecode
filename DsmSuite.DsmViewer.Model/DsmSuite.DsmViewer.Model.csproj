@@ -27,7 +27,6 @@
     <Compile Include="Interfaces\Vector.cs" />
     <Compile Include="Data\DsmMetaDataItem.cs" />
     <Compile Include="Data\DsmResolvedRelation.cs" />
-    <Compile Include="Core\DependencyModel.cs" />
     <Compile Include="Core\DsmModel.cs" />
     <Compile Include="Core\HierarchicalName.cs" />
     <Compile Include="Interfaces\IDsmMetaDataItem.cs" />
@@ -38,7 +37,6 @@
     <Compile Include="Interfaces\IDsmModel.cs" />
     <Compile Include="Interfaces\IDsmElement.cs" />
     <Compile Include="Interfaces\IDsmRelation.cs" />
-    <Compile Include="Core\MetaData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\DsmRelation.cs" />
     <Compile Include="Core\TypeRegistration.cs" />

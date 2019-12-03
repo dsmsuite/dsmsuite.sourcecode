@@ -22,6 +22,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         IDsmElement CreateElement(string name, string type, int? parentId);
         void AddRelation(int consumerId, int providerId, string type, int weight);
+        void RemoveRelation(IDsmRelation relation);
         void RemoveRelation(int consumerId, int providerId, string type, int weight);
         void UnremoveRelation(int consumerId, int providerId, string type, int weight);
         int ElementCount { get; }
