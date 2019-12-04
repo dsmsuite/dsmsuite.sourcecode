@@ -57,7 +57,7 @@ namespace DsmSuite.DsmViewer.View.Windows
             ElementListView view = new ElementListView();
             view.DataContext = e;
             view.Owner = this;
-            view.ShowDialog();
+            view.Show();
         }
 
         private void OnRelationsReportReady(object sender, ViewModel.Lists.RelationListViewModel e)
@@ -65,7 +65,7 @@ namespace DsmSuite.DsmViewer.View.Windows
             RelationListView view = new RelationListView();
             view.DataContext = e;
             view.Owner = this;
-            view.ShowDialog();
+            view.Show();
         }
 
         private void OnProgressViewModelBusyChanged(object sender, bool visible)
