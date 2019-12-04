@@ -25,7 +25,8 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show overview report" Command="{Binding OverviewReportCommand}" Content="{StaticResource ReportIcon}"/>
             <Separator/>
             <TextBox Width="300" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateConverter}}" />
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Navigate to" Command="{Binding NavigateToCommand}" Content="{StaticResource ReportIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Previous" Command="{Binding NavigateToPreviousCommand}" Content="{StaticResource ChevronLeftIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Next" Command="{Binding NavigateToNextCommand}" Content="{StaticResource ChevronRightIcon}"/>
             <Label Content="{Binding SearchResult}"/>
         </ToolBar>
     </Grid>

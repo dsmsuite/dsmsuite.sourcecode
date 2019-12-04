@@ -38,7 +38,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _modelFilename;
         private string _title;
         private string _searchText;
-        private IDsmElement _foundElement;
+        private List<IDsmElement> _foundElements;
+        private int? _foundElementIndex;
         private SearchState _searchState;
         private string _searchResult;
 
@@ -75,7 +76,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             OverviewReportCommand = new RelayCommand<object>(OverviewReportExecute, OverviewReportCanExecute);
 
-            NavigateToCommand = new RelayCommand<object>(NavigateToExecute, NavigateToCanExecute);
+            NavigateToNextCommand = new RelayCommand<object>(NavigateToNextExecute, NavigateToNextCanExecute);
+            NavigateToPreviousCommand = new RelayCommand<object>(NavigateToPreviousExecute, NavigateToPreviousCanExecute);
 
             ModelFilename = "";
             Title = "DSM Viewer";
@@ -123,7 +125,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand ZoomOutCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
         public ICommand OverviewReportCommand { get; }
-        public ICommand NavigateToCommand { get; }
+        public ICommand NavigateToNextCommand { get; }
+        public ICommand NavigateToPreviousCommand { get; }
 
         public string ModelFilename
         {
@@ -246,7 +249,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ElementDetailMatrixExecute(object parameter)
         {
-            List<IDsmElement> selectedElements = new List<IDsmElement> {SelectedProvider?.Element};
+            List<IDsmElement> selectedElements = new List<IDsmElement> { SelectedProvider?.Element };
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
 
@@ -364,11 +367,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OnRunSearch()
         {
-            IEnumerable<IDsmElement> foundElements = _application.SearchExecute(SearchText);
-            int count = foundElements.Count();
+            _foundElements = _application.SearchExecute(SearchText).ToList();
+            int count = _foundElements.Count();
             if (count == 0)
             {
-                _foundElement = null;
                 SearchState = SearchState.NoMatch;
 
                 if (SearchText.Length > 0)
@@ -382,26 +384,79 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             }
             else if (count == 1)
             {
-                _foundElement = foundElements.FirstOrDefault();
-                if ((_foundElement != null) && (_foundElement.Fullname != SearchText))
+                IDsmElement foundElement = _foundElements.FirstOrDefault();
+                if ((foundElement != null) && (foundElement.Fullname != SearchText))
                 {
-                    SearchText = _foundElement.Fullname;
+                    SearchText = foundElement.Fullname;
                 }
                 SearchState = SearchState.OneMatch;
                 SearchResult = "1 element found";
             }
             else if (count > 1)
             {
-                _foundElement = null;
                 SearchState = SearchState.ManyMatches;
                 SearchResult = $"{count} elements found";
             }
         }
 
-        private void NavigateToExecute(object parameter)
+        private void NavigateToNextExecute(object parameter)
         {
-            ExpandElement(_foundElement);
-            SelectElement(ActiveMatrix.Providers, _foundElement);
+            if (!_foundElementIndex.HasValue)
+            {
+                _foundElementIndex = 0;
+            }
+            else
+            {
+                _foundElementIndex++;
+            }
+
+            NavigateToSelectedElement();
+        }
+
+        private bool NavigateToNextCanExecute(object parameter)
+        {
+            bool canExecute = false;
+
+            if (_foundElements.Count > 0)
+            {
+                if (_foundElementIndex.HasValue)
+                {
+                    if (_foundElementIndex.Value <= _foundElements.Count)
+                    {
+                        canExecute = true;
+                    }
+                }
+                else
+                {
+                    canExecute = true;
+                }
+            }
+            return canExecute;
+        }
+
+        private void NavigateToPreviousExecute(object parameter)
+        {
+            if (_foundElementIndex.HasValue)
+            {
+                _foundElementIndex--;
+            }
+
+            NavigateToSelectedElement();
+        }
+
+        private void NavigateToSelectedElement()
+        {
+            if (_foundElementIndex.HasValue)
+            {
+                IDsmElement foundElement = _foundElements[_foundElementIndex.Value];
+                ExpandElement(foundElement);
+                SelectElement(ActiveMatrix.Providers, foundElement);
+            }
+        }
+
+        private bool NavigateToPreviousCanExecute(object parameter)
+        {
+            return _foundElements.Count > 0 && _foundElementIndex > 0;
         }
 
         private void ExpandElement(IDsmElement element)
@@ -419,7 +474,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             foreach (ElementTreeItemViewModel item in providers)
             {
-                if (_foundElement.Id == item.Id)
+                if (element.Id == item.Id)
                 {
                     if (ActiveMatrix != null)
                     {
@@ -433,9 +488,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             }
         }
 
-        private bool NavigateToCanExecute(object parameter)
-        {
-            return _foundElement != null;
-        }
+
     }
 }
