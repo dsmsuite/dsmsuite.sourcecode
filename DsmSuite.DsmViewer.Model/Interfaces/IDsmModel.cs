@@ -45,9 +45,6 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         IList<IDsmResolvedRelation> ResolveRelations(IList<IDsmRelation> relations);
 
-        IList<IDsmElement> FindProviders(IDsmElement element);
-        IList<IDsmElement> FindConsumers(IDsmElement element);
-
         void ReorderChildren(IDsmElement element, Vector permutationVector);
         IDsmElement NextSibling(IDsmElement element);
         IDsmElement PreviousSibling(IDsmElement element);

@@ -445,31 +445,6 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void FindConsumersTest()
-        {
-            CreateMatrix();
-
-            IList<IDsmElement> elements = _model.FindConsumers(_b).OrderBy(x => x.Fullname).ToList();
-
-            Assert.AreEqual(2, elements.Count);
-            Assert.AreEqual(_a1, elements[0]);
-            Assert.AreEqual(_a2, elements[1]);
-        }
-
-        [TestMethod]
-        public void FindProvidersTest()
-        {
-            CreateMatrix();
-
-            IList<IDsmElement> elements = _model.FindProviders(_a).OrderBy(x => x.Fullname).ToList();
-
-            Assert.AreEqual(3, elements.Count);
-            Assert.AreEqual(_b1, elements[0]);
-            Assert.AreEqual(_b2, elements[1]);
-            Assert.AreEqual(_c2, elements[2]);
-        }
-
-        [TestMethod]
         public void TestElementSwap()
         {
             CreateHierarchy();

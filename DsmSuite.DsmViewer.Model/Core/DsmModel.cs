@@ -355,35 +355,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             return resolvedRelations;
         }
 
-        public IList<IDsmElement> FindProviders(IDsmElement element)
-        {
-            HashSet<IDsmElement> providers = new HashSet<IDsmElement>();
-            foreach (IDsmRelation relation in FindConsumerRelations(element))
-            {
-                IDsmElement provider = GetElementById(relation.ProviderId);
-                if (provider != null)
-                {
-                    providers.Add(provider);
-                }
-            }
-            return providers.ToList();
-
-        }
-
-        public IList<IDsmElement> FindConsumers(IDsmElement element)
-        {
-            HashSet<IDsmElement> consumers = new HashSet<IDsmElement>();
-            foreach (IDsmRelation relation in FindProviderRelations(element))
-            {
-                IDsmElement consumer = GetElementById(relation.ConsumerId);
-                if (consumer != null)
-                {
-                    consumers.Add(consumer);
-                }
-            }
-            return consumers.ToList();
-        }
-
         public void ReorderChildren(IDsmElement element, Vector permutationVector)
         {
             DsmElement parent = element as DsmElement;
