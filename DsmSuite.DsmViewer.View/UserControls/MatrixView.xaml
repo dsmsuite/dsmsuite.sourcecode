@@ -40,7 +40,7 @@
                         <MenuItem Header="Show provided elements" Command="{Binding ElementProvidedInterfacesReportCommand}" />
                         <MenuItem Header="Show required elements" Command="{Binding ElementRequiredInterfacesReportCommand}" />
                         <MenuItem Header="Show internals matrix" Command="{Binding ElementInternalsMatrixCommand}" />
-                        <MenuItem Header="Show context matrix" Command="{Binding ElementContextMatrixCommand}" />
+                        <!--<MenuItem Header="Show context matrix" Command="{Binding ElementContextMatrixCommand}" />-->
                     </ContextMenu>
                 </customControls:RenderedRowHeaderView.ContextMenu>
             </customControls:RenderedRowHeaderView>
@@ -57,16 +57,6 @@
                 </customControls:RenderedCellsView.ContextMenu>
             </customControls:RenderedCellsView>
         </ScrollViewer>
-        <!--<userControls:CellsView Grid.Row="1" Grid.Column="2" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <userControls:CellsView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Show relations" />
-                        <MenuItem Header="Show relation consumers" />
-                        <MenuItem Header="Show relation providers" />
-                    </ContextMenu>
-                </userControls:CellsView.ContextMenu>
-            </userControls:CellsView>-->
     </Grid>
-
 </UserControl>
 

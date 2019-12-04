@@ -1,9 +1,10 @@
 ﻿using System.Reflection;
+using DsmSuite.DsmViewer.Builder.Settings;
 using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer.Builder.Test
+namespace DsmSuite.DsmViewer.Builder.Test.Application
 {
     [TestClass]
     public class BuildIntegrationTest
@@ -19,7 +20,7 @@ namespace DsmSuite.DsmViewer.Builder.Test
             };
 
             DsmModel model = new DsmModel("Test", Assembly.GetExecutingAssembly());
-            Builder builder = new Builder(model, settings);
+            Builder.Application.Builder builder = new Builder.Application.Builder(model, settings);
             builder.BuildModel();
 
             IDsmElement a = model.GetElementByFullname("a");

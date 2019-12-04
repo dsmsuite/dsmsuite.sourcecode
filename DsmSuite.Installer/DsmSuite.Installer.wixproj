@@ -6,8 +6,9 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>4641d099-c87d-4b5d-8b50-e5c074e619d0</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>DsmSuite.Installer</OutputName>
+    <OutputName>$(SolutionName)</OutputName>
     <OutputType>Package</OutputType>
+	<SuppressPdbOutput>true</SuppressPdbOutput>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>..\build\installer\</OutputPath>
@@ -50,6 +51,9 @@
     </CreateProperty>
     <CreateProperty Value="$(DefineConstants);LongAssyVersion=$(AssyVersion)">
       <Output TaskParameter="Value" PropertyName="DefineConstants" />
+    </CreateProperty>
+	<CreateProperty Value="$(SolutionName)_%(AssemblyVersions.Version)">
+      <Output TaskParameter="Value" PropertyName="TargetName" />
     </CreateProperty>
   </Target>
 </Project>

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.Builder.Settings;
 using DsmSuite.DsmViewer.Model.Core;
 
 namespace DsmSuite.DsmViewer.Builder
@@ -38,7 +39,7 @@ namespace DsmSuite.DsmViewer.Builder
                     else
                     {
                         DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
-                        Builder builder = new Builder(model, builderSettings);
+                        Application.Builder builder = new Application.Builder(model, builderSettings);
                         builder.BuildModel();
                         model.SaveModel(builderSettings.OutputFilename, builderSettings.CompressOutputFile, null);
                     }

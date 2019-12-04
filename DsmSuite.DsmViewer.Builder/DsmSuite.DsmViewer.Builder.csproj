@@ -23,8 +23,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuilderSettings.cs" />
-    <Compile Include="Builder.cs" />
+    <Compile Include="Settings\BuilderSettings.cs" />
+    <Compile Include="Application\Builder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
