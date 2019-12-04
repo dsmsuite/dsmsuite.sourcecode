@@ -423,7 +423,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             }
             else
             {
-                _foundElementIndex++;
+                if (_foundElementIndex < _foundElements.Count - 1)
+                {
+                    _foundElementIndex++;
+                }
             }
 
             NavigateToSelectedElement();
@@ -437,7 +440,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             {
                 if (_foundElementIndex.HasValue)
                 {
-                    if (_foundElementIndex.Value <= _foundElements.Count)
+                    if (_foundElementIndex.Value < _foundElements.Count - 1)
                     {
                         canExecute = true;
                     }
