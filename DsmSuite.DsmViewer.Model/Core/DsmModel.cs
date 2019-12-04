@@ -25,6 +25,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, int /*weight*/>> _weights;
 
         private readonly IList<IDsmElement> _rootElements;
+        private int _lastElementId;
 
         public event EventHandler<bool> Modified;
 
@@ -43,7 +44,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _weights = new Dictionary<int, Dictionary<int, int>>();
 
             _rootElements = new List<IDsmElement>();
-
+            _lastElementId = 0;
             AddMetaData("Executable", SystemInfo.GetExecutableInfo(executingAssembly));
         }
 
@@ -99,6 +100,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _weights.Clear();
 
             _rootElements.Clear();
+            _lastElementId = 0;
         }
 
         public IDsmMetaDataItem AddMetaData(string name, string value)
@@ -138,6 +140,10 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
         {
+            if (id > _lastElementId)
+            {
+                _lastElementId = id;
+            }
             return AddElement(id, name, type, order, expanded, parentId);
         }
 
@@ -154,9 +160,14 @@ namespace DsmSuite.DsmViewer.Model.Core
                 }
             }
 
-            int elementId = fullname.GetHashCode();
+            IDsmElement element = GetElementByFullname(fullname);
+            if (element == null)
+            {
+                _lastElementId++;
+                element = AddElement(_lastElementId, name, type, 0, false, parentId);
+            }
 
-            return GetElementById(elementId) ?? AddElement(elementId, name, type, 0, false, parentId);
+            return element;
         }
 
         /// <summary>
