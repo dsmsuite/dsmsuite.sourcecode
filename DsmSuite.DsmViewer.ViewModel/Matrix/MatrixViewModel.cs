@@ -32,9 +32,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             MoveUpCommand = mainViewModel.MoveUpCommand;
             MoveDownCommand = mainViewModel.MoveDownCommand;
             PartitionCommand = mainViewModel.PartitionCommand;
-            ElementDetailMatrixCommand = mainViewModel.ElementDetailMatrixCommand;
-
-            RelationDetailMatrixCommand = mainViewModel.RelationDetailMatrixCommand;
+            ElementInternalsMatrixCommand = mainViewModel.ElementInternalsMatrixCommand;
+            ElementContextMatrixCommand = mainViewModel.ElementContextMatrixCommand;
+            RelationMatrixCommand = mainViewModel.RelationMatrixCommand;
 
             ToggleElementExpandedCommand = mainViewModel.ToggleElementExpandedCommand;
 
@@ -164,8 +164,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand MoveUpCommand { get; }
         public ICommand MoveDownCommand { get; }
         public ICommand PartitionCommand { get; }
-        public ICommand ElementDetailMatrixCommand { get; }
-        public ICommand RelationDetailMatrixCommand { get; }
+        public ICommand ElementInternalsMatrixCommand { get; }
+        public ICommand ElementContextMatrixCommand { get; }
+        public ICommand RelationMatrixCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
 
         public ObservableCollection<ElementTreeItemViewModel> Providers

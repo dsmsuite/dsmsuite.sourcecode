@@ -67,9 +67,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             MoveUpCommand = new RelayCommand<object>(MoveUpExecute, MoveUpCanExecute);
             MoveDownCommand = new RelayCommand<object>(MoveDownExecute, MoveDownCanExecute);
             PartitionCommand = new RelayCommand<object>(PartitionExecute, PartitionCanExecute);
-            ElementDetailMatrixCommand = new RelayCommand<object>(ElementDetailMatrixExecute, ElementDetailMatrixCanExecute);
+            ElementInternalsMatrixCommand = new RelayCommand<object>(ElementInternalsMatrixExecute, ElementInternalsMatrixCanExecute);
+            ElementContextMatrixCommand = new RelayCommand<object>(ElementContextMatrixExecute, ElementContextMatrixCanExecute);
 
-            RelationDetailMatrixCommand = new RelayCommand<object>(RelationDetailMatrixExecute, RelationDetailMatrixCanExecute);
+            RelationMatrixCommand = new RelayCommand<object>(RelationMatrixExecute, RelationMatrixCanExecute);
             ZoomInCommand = new RelayCommand<object>(ZoomInExecute, ZoomInCanExecute);
             ZoomOutCommand = new RelayCommand<object>(ZoomOutExecute, ZoomOutCanExecute);
             ToggleElementExpandedCommand = new RelayCommand<object>(ToggleElementExpandedExecute, ToggleElementExpandedCanExecute);
@@ -119,8 +120,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand MoveUpCommand { get; }
         public ICommand MoveDownCommand { get; }
         public ICommand PartitionCommand { get; }
-        public ICommand ElementDetailMatrixCommand { get; }
-        public ICommand RelationDetailMatrixCommand { get; }
+        public ICommand ElementInternalsMatrixCommand { get; }
+        public ICommand ElementContextMatrixCommand { get; }
+        public ICommand RelationMatrixCommand { get; }
         public ICommand ZoomInCommand { get; }
         public ICommand ZoomOutCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
@@ -247,18 +249,32 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return _application.HasChildren(SelectedProvider?.Element);
         }
 
-        private void ElementDetailMatrixExecute(object parameter)
+        private void ElementInternalsMatrixExecute(object parameter)
         {
             List<IDsmElement> selectedElements = new List<IDsmElement> { SelectedProvider?.Element };
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
 
-        private bool ElementDetailMatrixCanExecute(object parameter)
+        private bool ElementInternalsMatrixCanExecute(object parameter)
         {
             return true;
         }
 
-        private void RelationDetailMatrixExecute(object parameter)
+        private void ElementContextMatrixExecute(object parameter)
+        {
+            List<IDsmElement> selectedElements = new List<IDsmElement>();
+            selectedElements.Add(SelectedProvider?.Element);
+            selectedElements.AddRange(_application.GetElementConsumers(SelectedProvider?.Element));
+            selectedElements.AddRange(_application.GetElementProviders(SelectedProvider?.Element));
+            ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
+        }
+
+        private bool ElementContextMatrixCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void RelationMatrixExecute(object parameter)
         {
             List<IDsmElement> selectedElements = new List<IDsmElement>
             {
@@ -268,7 +284,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
 
-        private bool RelationDetailMatrixCanExecute(object parameter)
+        private bool RelationMatrixCanExecute(object parameter)
         {
             return true;
         }

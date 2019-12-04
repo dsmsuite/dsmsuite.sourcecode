@@ -33,8 +33,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand MoveUpCommand { get; }
         ICommand MoveDownCommand { get; }
         ICommand PartitionCommand { get; }
-        ICommand ElementDetailMatrixCommand { get; }
-
-        ICommand RelationDetailMatrixCommand { get; }
+        ICommand ElementInternalsMatrixCommand { get; }
+        ICommand ElementContextMatrixCommand { get; }
+        ICommand RelationMatrixCommand { get; }
     }
 }

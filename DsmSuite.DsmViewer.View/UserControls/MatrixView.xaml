@@ -39,7 +39,8 @@
                         <MenuItem Header="Show consumers" Command="{Binding ElementConsumersReportCommand}" />
                         <MenuItem Header="Show provided elements" Command="{Binding ElementProvidedInterfacesReportCommand}" />
                         <MenuItem Header="Show required elements" Command="{Binding ElementRequiredInterfacesReportCommand}" />
-                        <MenuItem Header="Detail matrix" Command="{Binding ElementDetailMatrixCommand}" />
+                        <MenuItem Header="Show internals matrix" Command="{Binding ElementInternalsMatrixCommand}" />
+                        <MenuItem Header="Show context matrix" Command="{Binding ElementContextMatrixCommand}" />
                     </ContextMenu>
                 </customControls:RenderedRowHeaderView.ContextMenu>
             </customControls:RenderedRowHeaderView>
@@ -51,7 +52,7 @@
                         <MenuItem Header="Show relations" Command="{Binding CellRelationsReportCommand}" />
                         <MenuItem Header="Show relation consumers" Command="{Binding CellConsumersReportCommand}" />
                         <MenuItem Header="Show relation providers" Command="{Binding CellProvidersReportCommand}" />
-                        <MenuItem Header="Detail matrix" Command="{Binding RelationDetailMatrixCommand}" />
+                        <MenuItem Header="Show relation matrix" Command="{Binding RelationMatrixCommand}" />
                     </ContextMenu>
                 </customControls:RenderedCellsView.ContextMenu>
             </customControls:RenderedCellsView>
