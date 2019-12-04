@@ -8,7 +8,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 {
     public class DsmModelFile
     {
-        private const string RootXmlNode = "model";
+        private const string RootXmlNode = "dsmmodel";
         private const string ModelelementCountXmlAttribute = "elementCount";
         private const string ModelrelationCountXmlAttribute = "relationCount";
 
@@ -32,8 +32,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string RelationGroupXmlNode = "relations";
 
         private const string RelationXmlNode = "relation";
-        private const string RelationConsumerIdXmlAttribute = "from";
-        private const string RelationProviderIdXmlAttribute = "to";
+        private const string RelationFromXmlAttribute = "from";
+        private const string RelationToXmlAttribute = "to";
         private const string RelationTypeXmlAttribute = "type";
         private const string RelationWeightXmlAttribute = "weight";
 
@@ -227,8 +227,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             if (xReader.Name == RelationXmlNode)
             {
-                int? consumerId = ParseInt(xReader.GetAttribute(RelationConsumerIdXmlAttribute));
-                int? providerId = ParseInt(xReader.GetAttribute(RelationProviderIdXmlAttribute));
+                int? consumerId = ParseInt(xReader.GetAttribute(RelationFromXmlAttribute));
+                int? providerId = ParseInt(xReader.GetAttribute(RelationToXmlAttribute));
                 string type = xReader.GetAttribute(RelationTypeXmlAttribute);
                 int? weight = ParseInt(xReader.GetAttribute(RelationWeightXmlAttribute));
 
@@ -273,8 +273,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             UpdateProgress(progress);
 
             writer.WriteStartElement(RelationXmlNode);
-            writer.WriteAttributeString(RelationConsumerIdXmlAttribute, relation.ConsumerId.ToString());
-            writer.WriteAttributeString(RelationProviderIdXmlAttribute, relation.ProviderId.ToString());
+            writer.WriteAttributeString(RelationFromXmlAttribute, relation.ConsumerId.ToString());
+            writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
             writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
             writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
             writer.WriteEndElement();

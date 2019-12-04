@@ -8,7 +8,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
 {
     public class DsiModelFile
     {
-        private const string RootXmlNode = "system";
+        private const string RootXmlNode = "dsimodel";
 
         private const string MetaDataGroupXmlNode = "metadatagroup";
         private const string MetaDataGroupNameXmlAttribute = "name";
@@ -27,8 +27,8 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private const string RelationGroupXmlNode = "relations";
 
         private const string RelationXmlNode = "relation";
-        private const string RelationConsumerIdXmlAttribute = "consumerId";
-        private const string RelationProviderIdXmlAttribute = "providerId";
+        private const string RelationFromXmlAttribute = "from";
+        private const string RelationToXmlAttribute = "to";
         private const string RelationTypeXmlAttribute = "type";
         private const string RelationWeightXmlAttribute = "weight";
 
@@ -168,8 +168,8 @@ namespace DsmSuite.Analyzer.Model.Persistency
             foreach (IDsiRelation relation in _callback.GetRelations())
             {
                 writer.WriteStartElement(RelationXmlNode);
-                writer.WriteAttributeString(RelationConsumerIdXmlAttribute, relation.ConsumerId.ToString());
-                writer.WriteAttributeString(RelationProviderIdXmlAttribute, relation.ProviderId.ToString());
+                writer.WriteAttributeString(RelationFromXmlAttribute, relation.ConsumerId.ToString());
+                writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
                 writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
                 writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
                 writer.WriteEndElement();
@@ -182,9 +182,9 @@ namespace DsmSuite.Analyzer.Model.Persistency
             if (xReader.Name == RelationXmlNode)
             {
                 int consumerId;
-                int.TryParse(xReader.GetAttribute(RelationConsumerIdXmlAttribute), out consumerId);
+                int.TryParse(xReader.GetAttribute(RelationFromXmlAttribute), out consumerId);
                 int providerId;
-                int.TryParse(xReader.GetAttribute(RelationProviderIdXmlAttribute), out providerId);
+                int.TryParse(xReader.GetAttribute(RelationToXmlAttribute), out providerId);
                 string type = xReader.GetAttribute(RelationTypeXmlAttribute);
                 int weight;
                 int.TryParse(xReader.GetAttribute(RelationWeightXmlAttribute), out weight);

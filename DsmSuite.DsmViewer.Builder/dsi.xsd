@@ -1,5 +1,5 @@
 ﻿<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
-  <xs:element name="system">
+  <xs:element name="dsimodel">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="metadatagroup">
@@ -34,8 +34,8 @@
             <xs:sequence>
               <xs:element name="relation" maxOccurs="unbounded">
                 <xs:complexType>
-                  <xs:attribute name="consumerId" type="xs:int"></xs:attribute>
-                  <xs:attribute name="providerId" type="xs:int"></xs:attribute>
+                  <xs:attribute name="from" type="xs:int"></xs:attribute>
+                  <xs:attribute name="to" type="xs:int"></xs:attribute>
                   <xs:attribute name="type" type="xs:string"></xs:attribute>
                   <xs:attribute name="weight" type="xs:int"></xs:attribute>
                 </xs:complexType>
