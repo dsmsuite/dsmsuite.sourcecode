@@ -14,7 +14,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private double _zoomLevel;
         private readonly IMainViewModel _mainViewModel;
         private readonly IDsmApplication _application;
-        private readonly IList<IDsmElement> _selectedElements;
+        private readonly IEnumerable<IDsmElement> _selectedElements;
         private ElementViewModel _selectedConsumer;
         private ElementViewModel _selectedProvider;
         private ElementViewModel _hoveredConsumer;
@@ -23,7 +23,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private IList<ElementViewModel> _consumers;
         private IList<IList<CellViewModel>> _dependencies;
 
-        public MatrixViewModel(IMainViewModel mainViewModel, IDsmApplication application, IList<IDsmElement> selectedElements)
+        public MatrixViewModel(IMainViewModel mainViewModel, IDsmApplication application, IEnumerable<IDsmElement> selectedElements)
         {
             _mainViewModel = mainViewModel;
             _application = application;

@@ -70,7 +70,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Persistency\Uncompressed.dsm">
+    <None Include="DsmSuite.DsmViewer.Model.Test.Input.dsm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

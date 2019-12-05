@@ -107,7 +107,7 @@ namespace DsmSuite.Analyzer.Model.Core
             IncrementElementTypeCount(element.Type);
         }
         
-        public IDsiElement AddElement(string name, string type, string source)
+        public IDsiElement CreateElement(string name, string type, string source)
         {
             AnalyzerLogger.LogDataModelAction("Add element to data model name=" + name + " type=" + type + " source=" + source);
 
@@ -115,7 +115,7 @@ namespace DsmSuite.Analyzer.Model.Core
             if (!_elementsByName.ContainsKey(key))
             {
                 IncrementElementTypeCount(type);
-                int id = _elementsByName.Count;
+                int id = _elementsByName.Count + 1;
                 DsiElement element = new DsiElement(id, name, type, source);
                 _elementsByName[key] = element;
                 _elementsById[id] = element;

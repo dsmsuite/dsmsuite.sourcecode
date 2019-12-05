@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Uncompressed.dsi">
+    <None Include="DsmSuite.DsmViewer.Builder.Test.Input.dsi">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

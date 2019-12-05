@@ -25,9 +25,11 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
         }
 
         [TestMethod]
-        public void TestLoadDsiModeiFile()
+        public void TestLoadModel()
         {
-            DsiModelFile modelFile = new DsiModelFile(TestFile, this);
+            string inputFilename = "DsmSuite.Analyzer.Model.Test.Input.dsi";
+
+            DsiModelFile modelFile = new DsiModelFile(inputFilename, this);
             modelFile.Load(null);
 
             Assert.AreEqual(2, _metaData.Count);
@@ -71,7 +73,20 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
         }
 
         [TestMethod]
-        public void TestSaveAndLoadDsiModeiFile()
+        public void TestSaveModel()
+        {
+            string inputFilename = "DsmSuite.Analyzer.Model.Test.Input.dsi";
+            string outputFilename = "DsmSuite.Analyzer.Model.Test.Output.dsi";
+
+            FillModelData();
+
+            DsiModelFile modelFile = new DsiModelFile(outputFilename, this);
+            modelFile.Save(false, null);
+
+            Assert.IsTrue(File.ReadAllBytes(outputFilename).SequenceEqual(File.ReadAllBytes(inputFilename)));
+        }
+
+        private void FillModelData()
         {
             _metaData["group1"] = new List<IDsiMetaDataItem>
             {
@@ -91,12 +106,6 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
 
             _relations.Add(new DsiRelation(1, 2, "relationtype1", 100));
             _relations.Add(new DsiRelation(2, 3, "relationtype2", 200));
-
-            string outputFilename = "Output.dsi";
-            DsiModelFile modelFile = new DsiModelFile(outputFilename, this);
-            modelFile.Save(false, null);
-
-            Assert.IsTrue(File.ReadAllBytes(outputFilename).SequenceEqual(File.ReadAllBytes(TestFile)));
         }
 
         public void ImportMetaDataItem(string groupName, string name, string value)
@@ -147,17 +156,6 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
         public IEnumerable<IDsiRelation> GetRelations()
         {
             return _relations;
-        }
-
-        public static string TestFile
-        {
-            get
-            {
-                string testData = @"..\..\DsmSuite.Analyzer.Model.Test";
-                string pathExecutingAssembly = AppDomain.CurrentDomain.BaseDirectory;
-                string filename = "Test.dsi";
-                return Path.GetFullPath(Path.Combine(pathExecutingAssembly, testData, filename));
-            }
         }
     }
 }

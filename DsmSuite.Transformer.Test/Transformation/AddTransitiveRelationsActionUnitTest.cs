@@ -14,15 +14,15 @@ namespace DsmSuite.Transformer.Test.Transformation
         {
             DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
-            IDsiElement element1 = dataModel.AddElement("element1Name", "class", "");
+            IDsiElement element1 = dataModel.CreateElement("element1Name", "class", "");
             Assert.IsNotNull(element1);
-            IDsiElement element2 = dataModel.AddElement("element2Name", "class", "");
+            IDsiElement element2 = dataModel.CreateElement("element2Name", "class", "");
             Assert.IsNotNull(element2);
-            IDsiElement element3 = dataModel.AddElement("element3Name", "class", "");
+            IDsiElement element3 = dataModel.CreateElement("element3Name", "class", "");
             Assert.IsNotNull(element3);
-            IDsiElement element4 = dataModel.AddElement("element4Name", "class", "");
+            IDsiElement element4 = dataModel.CreateElement("element4Name", "class", "");
             Assert.IsNotNull(element4);
-            IDsiElement element5 = dataModel.AddElement("element5Name", "class", "");
+            IDsiElement element5 = dataModel.CreateElement("element5Name", "class", "");
             Assert.IsNotNull(element5);
 
             dataModel.AddRelation(element1.Name, element2.Name, "", 1, "context");

@@ -40,7 +40,7 @@ namespace DsmSuite.DsmViewer.Application
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));
         }
 
-        public IList<IDsmElement> RootElements => _model.RootElements;
+        public IEnumerable<IDsmElement> RootElements => _model.RootElements;
 
         public bool IsModified => _model.IsModified;
 

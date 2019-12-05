@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<system xmlns="urn:dsi-schema">
+<dsimodel xmlns="urn:dsi-schema">
   <metadatagroup name="group1">
     <metadata name="item1" value="value1" />
     <metadata name="item2" value="value2" />
@@ -14,7 +14,7 @@
     <element id="3" name="b.b1" type="elementtype3" source="source3" />
   </elements>
   <relations>
-    <relation consumerId="1" providerId="2" type="relationtype1" weight="100" />
-    <relation consumerId="2" providerId="3" type="relationtype2" weight="200" />
+    <relation from="1" to="2" type="relationtype1" weight="100" />
+    <relation from="2" to="3" type="relationtype2" weight="200" />
   </relations>
-</system>
+</dsimodel>

@@ -30,7 +30,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
     /// --+----+------+------+------+------+------+------+
     /// </summary>
     [TestClass]
-    public class DependencyModelTest
+    public class DsmModelTest
     {
         private DsmModel _model;
         private IDsmElement _a;
@@ -55,7 +55,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(0, _model.ElementCount);
 
             _a = _model.CreateElement("a", "", null);
-            Assert.AreNotEqual(0, _a.Id);
+            Assert.AreEqual(1, _a.Id);
             Assert.AreEqual(0, _a.Order);
             Assert.AreEqual("", _a.Type);
             Assert.AreEqual("a", _a.Name);
@@ -64,7 +64,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(_a, _model.GetElementByFullname("a"));
 
             _a1 = _model.CreateElement("a1", "eta", _a.Id);
-            Assert.AreNotEqual(0, _a1.Id);
+            Assert.AreEqual(2, _a1.Id);
             Assert.AreEqual(0, _a1.Order);
             Assert.AreEqual("eta", _a1.Type);
             Assert.AreEqual("a1", _a1.Name);
@@ -73,7 +73,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(_a1, _model.GetElementByFullname("a.a1"));
 
             _a2 = _model.CreateElement("a2", "eta", _a.Id);
-            Assert.AreNotEqual(0, _a2.Id);
+            Assert.AreEqual(3, _a2.Id);
             Assert.AreEqual(0, _a2.Order);
             Assert.AreEqual("eta", _a2.Type);
             Assert.AreEqual("a2", _a2.Name);
@@ -82,7 +82,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(_a2, _model.GetElementByFullname("a.a2"));
 
             _b = _model.CreateElement("b", "", null);
-            Assert.AreNotEqual(0, _b.Id);
+            Assert.AreEqual(4, _b.Id);
             Assert.AreEqual(0, _b.Order);
             Assert.AreEqual("", _b.Type);
             Assert.AreEqual("b", _b.Name);
@@ -91,7 +91,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(_b, _model.GetElementByFullname("b"));
 
             _b1 = _model.CreateElement("b1", "etb", _b.Id);
-            Assert.AreNotEqual(0, _b1.Id);
+            Assert.AreEqual(5, _b1.Id);
             Assert.AreEqual(0, _b1.Order);
             Assert.AreEqual("etb", _b1.Type);
             Assert.AreEqual("b1", _b1.Name);
@@ -100,7 +100,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(_b1, _model.GetElementByFullname("b.b1"));
 
             _b2 = _model.CreateElement("b2", "etb", _b.Id);
-            Assert.AreNotEqual(0, _b2.Id);
+            Assert.AreEqual(6, _b2.Id);
             Assert.AreEqual(0, _b2.Order);
             Assert.AreEqual("etb", _b2.Type);
             Assert.AreEqual("b2", _b2.Name);
@@ -109,7 +109,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(_b2, _model.GetElementByFullname("b.b2"));
 
             _c = _model.CreateElement("c", "", null);
-            Assert.AreNotEqual(0, _c.Id);
+            Assert.AreEqual(7, _c.Id);
             Assert.AreEqual(0, _c.Order);
             Assert.AreEqual("", _c.Type);
             Assert.AreEqual("c", _c.Name);
@@ -118,7 +118,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(_c, _model.GetElementByFullname("c"));
 
             _c1 = _model.CreateElement("c1", "etc", _c.Id);
-            Assert.AreNotEqual(0, _c1.Id);
+            Assert.AreEqual(8, _c1.Id);
             Assert.AreEqual(0, _c1.Order);
             Assert.AreEqual("etc", _c1.Type);
             Assert.AreEqual("c1", _c1.Name);
@@ -127,7 +127,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(_c1, _model.GetElementByFullname("c.c1"));
 
             _c2 = _model.CreateElement("c2", "etc", _c.Id);
-            Assert.AreNotEqual(0, _c2.Id);
+            Assert.AreEqual(9, _c2.Id);
             Assert.AreEqual(0, _c2.Order);
             Assert.AreEqual("etc", _c2.Type);
             Assert.AreEqual("c2", _c2.Name);
@@ -164,7 +164,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void AddElementTest()
+        public void ImportElementTest()
         {
             Assert.AreEqual(0, _model.ElementCount);
 

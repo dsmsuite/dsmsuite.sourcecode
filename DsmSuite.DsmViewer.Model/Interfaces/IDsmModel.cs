@@ -16,8 +16,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         IDsmMetaDataItem AddMetaData(string group, string name, string value);
         IDsmMetaDataItem AddMetaData(string itemName, string itemValue);
-        IList<string> GetMetaDataGroups();
-        IList<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
+        IEnumerable<string> GetMetaDataGroups();
+        IEnumerable<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
 
         IDsmElement CreateElement(string name, string type, int? parentId);
         void AddRelation(int consumerId, int providerId, string type, int weight);
@@ -27,7 +27,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         int ElementCount { get; }
 
         void AssignElementOrder();
-        IList<IDsmElement> RootElements { get; }
+        IEnumerable<IDsmElement> RootElements { get; }
 
         IDsmElement GetElementById(int id);
         IDsmElement GetElementByFullname(string fullname);
@@ -39,11 +39,11 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         int GetDependencyWeight(int consumerId, int providerId);
         bool IsCyclicDependency(int consumerId, int providerId);
 
-        IList<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
-        IList<IDsmRelation> FindProviderRelations(IDsmElement element);
-        IList<IDsmRelation> FindConsumerRelations(IDsmElement element);
+        IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
+        IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element);
+        IEnumerable<IDsmRelation> FindConsumerRelations(IDsmElement element);
 
-        IList<IDsmResolvedRelation> ResolveRelations(IList<IDsmRelation> relations);
+        IEnumerable<IDsmResolvedRelation> ResolveRelations(IEnumerable<IDsmRelation> relations);
 
         void ReorderChildren(IDsmElement element, Vector permutationVector);
         IDsmElement NextSibling(IDsmElement element);

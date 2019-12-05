@@ -9,11 +9,11 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId);
         IDsmRelation ImportRelation(int consumerId, int providerId, string type, int weight);
 
-        IList<string> GetMetaDataGroups();
-        IList<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
-        IList<IDsmElement> GetRootElements();
+        IEnumerable<string> GetMetaDataGroups();
+        IEnumerable<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
+        IEnumerable<IDsmElement> GetRootElements();
         int GetElementCount();
-        IList<IDsmRelation> GetRelations();
+        IEnumerable<IDsmRelation> GetRelations();
         int GetRelationCount();
     }
 }

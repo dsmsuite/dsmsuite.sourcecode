@@ -74,8 +74,8 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
 
         private void RegisterRelation(string consumerName, string providerName)
         {
-            _model.AddElement(consumerName, "", null);
-            _model.AddElement(providerName, "", null);
+            _model.CreateElement(consumerName, "", null);
+            _model.CreateElement(providerName, "", null);
             _model.AddRelation(consumerName, providerName, "dependency", 1, "dot file");
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DsmSuite.DsmViewer.Model.Data;
@@ -35,6 +36,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
     {
         private readonly List<DsmElement> _rootElements = new List<DsmElement>();
         private readonly List<DsmRelation> _relations = new List<DsmRelation>();
+        private readonly Dictionary<string, List<IDsmMetaDataItem>> _metaData = new Dictionary<string, List<IDsmMetaDataItem>>();
 
         [TestInitialize()]
         public void MyTestInitialize()
@@ -42,91 +44,25 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         }
 
         [TestMethod]
-        public void TestLoadModelUncompressed()
+        public void TestLoadModel()
         {
-            string filename = "Persistency/Uncompressed.dsm";
-
-            DsmModelFile readModelFile = new DsmModelFile(filename, this);
+            string inputFile = "DsmSuite.DsmViewer.Model.Test.Input.dsm";
+            DsmModelFile readModelFile = new DsmModelFile(inputFile, this);
             readModelFile.Load(null);
             Assert.IsFalse(readModelFile.IsCompressedFile());
-            CheckModel();
-        }
 
-        [TestMethod]
-        public void TestSaveModelUncompressed()
-        {
-            string actual = "Output.dsm";
-            string expected = "Persistency/Uncompressed.dsm";
+            Assert.AreEqual(2, _metaData.Count);
+            Assert.AreEqual(2, _metaData["group1"].Count);
+            Assert.AreEqual("item1", _metaData["group1"][0].Name);
+            Assert.AreEqual("value1", _metaData["group1"][0].Value);
+            Assert.AreEqual("item2", _metaData["group1"][1].Name);
+            Assert.AreEqual("value2", _metaData["group1"][1].Value);
+            Assert.AreEqual(2, _metaData["group2"].Count);
+            Assert.AreEqual("item3", _metaData["group2"][0].Name);
+            Assert.AreEqual("value3", _metaData["group2"][0].Value);
+            Assert.AreEqual("item4", _metaData["group2"][1].Name);
+            Assert.AreEqual("value4", _metaData["group2"][1].Value);
 
-            CreateMatrix();
-
-            DsmModelFile writtenModelFile = new DsmModelFile(actual, this);
-            writtenModelFile.Save(false, null);
-            Assert.IsFalse(writtenModelFile.IsCompressedFile());
-
-            Assert.IsTrue(File.ReadAllBytes(actual).SequenceEqual(File.ReadAllBytes(expected)));
-        }
-
-        [TestMethod]
-        public void TestSaveAndLoadBackModelCompressed()
-        {
-            string filename = "Persistency/Compressed.dsm";
-
-            CreateMatrix();
-
-            DsmModelFile writtenModelFile = new DsmModelFile(filename, this);
-            writtenModelFile.Save(true, null);
-            Assert.IsTrue(writtenModelFile.IsCompressedFile());
-
-            ClearMatrix();
-
-            DsmModelFile readModelFile = new DsmModelFile(filename, this);
-            readModelFile.Load(null);
-            Assert.IsTrue(readModelFile.IsCompressedFile());
-
-            CheckModel();
-        }
-
-        private void CreateMatrix()
-        {
-            DsmElement a = new DsmElement(11, "a", "", 1, true);
-            DsmElement a1 = new DsmElement(12, "a1", "eta", 2);
-            DsmElement a2 = new DsmElement(13, "a2", "eta", 3);
-            DsmElement b = new DsmElement(14, "b", "", 4);
-            DsmElement b1 = new DsmElement(15, "b1", "etb", 5);
-            DsmElement b2 = new DsmElement(16, "b2", "etb", 6);
-            DsmElement c = new DsmElement(17, "c", "", 7);
-            DsmElement c1 = new DsmElement(18, "c1", "etc", 8);
-            DsmElement c2 = new DsmElement(19, "c2", "etc", 9);
-
-            _rootElements.Add(a);
-            a.AddChild(a1);
-            a.AddChild(a2);
-            _rootElements.Add(b);
-            b.AddChild(b1);
-            b.AddChild(b2);
-            _rootElements.Add(c);
-            c.AddChild(c1);
-            c.AddChild(c2);
-
-            _relations.Add(new DsmRelation(a1.Id, b1.Id, "ra", 1000));
-            _relations.Add(new DsmRelation(a2.Id, b1.Id, "ra", 200));
-            _relations.Add(new DsmRelation(a1.Id, b2.Id, "ra", 30));
-            _relations.Add(new DsmRelation(a2.Id, b2.Id, "ra", 4));
-            _relations.Add(new DsmRelation(a1.Id, c2.Id, "ra", 5));
-            _relations.Add(new DsmRelation(b2.Id, a1.Id, "rb", 1));
-            _relations.Add(new DsmRelation(b2.Id, a2.Id, "rb", 2));
-            _relations.Add(new DsmRelation(c1.Id, a2.Id, "rc", 4));
-        }
-
-        private void ClearMatrix()
-        {
-            _rootElements.Clear();
-            _relations.Clear();
-        }
-
-        private void CheckModel()
-        {
             Assert.AreEqual(3, _rootElements.Count);
 
             IDsmElement a = _rootElements[0];
@@ -245,9 +181,75 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual(4, _relations[7].Weight);
         }
 
+        [TestMethod]
+        public void TestSaveModel()
+        {
+            string inputFile = "DsmSuite.DsmViewer.Model.Test.Input.dsm";
+            string outputFile = "DsmSuite.DsmViewer.Model.Test.Output.dsm";
+
+            FillModelData();
+
+            DsmModelFile writtenModelFile = new DsmModelFile(outputFile, this);
+            writtenModelFile.Save(false, null);
+            Assert.IsFalse(writtenModelFile.IsCompressedFile());
+
+            Assert.IsTrue(File.ReadAllBytes(outputFile).SequenceEqual(File.ReadAllBytes(inputFile)));
+        }
+
+        private void FillModelData()
+        {
+            _metaData["group1"] = new List<IDsmMetaDataItem>
+            {
+                new DsmMetaDataItem("item1", "value1"),
+                new DsmMetaDataItem("item2", "value2")
+            };
+
+            _metaData["group2"] = new List<IDsmMetaDataItem>
+            {
+                new DsmMetaDataItem("item3", "value3"),
+                new DsmMetaDataItem("item4", "value4")
+            };
+
+            DsmElement a = new DsmElement(11, "a", "", 1, true);
+            DsmElement a1 = new DsmElement(12, "a1", "eta", 2);
+            DsmElement a2 = new DsmElement(13, "a2", "eta", 3);
+            DsmElement b = new DsmElement(14, "b", "", 4);
+            DsmElement b1 = new DsmElement(15, "b1", "etb", 5);
+            DsmElement b2 = new DsmElement(16, "b2", "etb", 6);
+            DsmElement c = new DsmElement(17, "c", "", 7);
+            DsmElement c1 = new DsmElement(18, "c1", "etc", 8);
+            DsmElement c2 = new DsmElement(19, "c2", "etc", 9);
+
+            _rootElements.Add(a);
+            a.AddChild(a1);
+            a.AddChild(a2);
+            _rootElements.Add(b);
+            b.AddChild(b1);
+            b.AddChild(b2);
+            _rootElements.Add(c);
+            c.AddChild(c1);
+            c.AddChild(c2);
+
+            _relations.Add(new DsmRelation(a1.Id, b1.Id, "ra", 1000));
+            _relations.Add(new DsmRelation(a2.Id, b1.Id, "ra", 200));
+            _relations.Add(new DsmRelation(a1.Id, b2.Id, "ra", 30));
+            _relations.Add(new DsmRelation(a2.Id, b2.Id, "ra", 4));
+            _relations.Add(new DsmRelation(a1.Id, c2.Id, "ra", 5));
+            _relations.Add(new DsmRelation(b2.Id, a1.Id, "rb", 1));
+            _relations.Add(new DsmRelation(b2.Id, a2.Id, "rb", 2));
+            _relations.Add(new DsmRelation(c1.Id, a2.Id, "rc", 4));
+        }
+
         public IDsmMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
         {
-            return null;
+            if (!_metaData.ContainsKey(groupName))
+            {
+                _metaData[groupName] = new List<IDsmMetaDataItem>();
+            }
+
+            DsmMetaDataItem dsmMetaDataItem = new DsmMetaDataItem(name, value);
+            _metaData[groupName].Add(dsmMetaDataItem);
+            return dsmMetaDataItem;
         }
 
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
@@ -277,19 +279,26 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return relation;
         }
 
-        public IList<string> GetMetaDataGroups()
+        public IEnumerable<string> GetMetaDataGroups()
         {
-            return new List<string>();
+            return _metaData.Keys;
         }
 
-        public IList<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName)
+        public IEnumerable<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName)
         {
-            return new List<IDsmMetaDataItem>();
+            if (_metaData.ContainsKey(groupName))
+            {
+                return _metaData[groupName];
+            }
+            else
+            {
+                return new List<IDsmMetaDataItem>();
+            }
         }
 
-        public IList<IDsmElement> GetRootElements()
+        public IEnumerable<IDsmElement> GetRootElements()
         {
-            return _rootElements.ToList<IDsmElement>();
+            return _rootElements;
         }
 
         public int GetElementCount()
@@ -302,9 +311,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return elementCount;
         }
 
-        public IList<IDsmRelation> GetRelations()
+        public IEnumerable<IDsmRelation> GetRelations()
         {
-            return _relations.ToList<IDsmRelation>();
+            return _relations;
         }
 
         public int GetRelationCount()

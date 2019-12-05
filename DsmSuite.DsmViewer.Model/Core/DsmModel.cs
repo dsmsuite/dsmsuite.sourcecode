@@ -126,17 +126,17 @@ namespace DsmSuite.DsmViewer.Model.Core
             return metaDataItem;
         }
 
-        public IList<string> GetMetaDataGroups()
+        public IEnumerable<string> GetMetaDataGroups()
         {
             return _metaDataGroupNames;
         }
 
-        public IList<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName)
+        public IEnumerable<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName)
         {
             return GetMetaDataGroupItemList(groupName);
         }
 
-        public IList<IDsmElement> RootElements => _rootElements;
+        public IEnumerable<IDsmElement> RootElements => _rootElements;
 
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
         {
@@ -193,7 +193,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             throw new NotImplementedException();
         }
 
-        public IList<IDsmElement> GetRootElements()
+        public IEnumerable<IDsmElement> GetRootElements()
         {
             return _rootElements;
         }
@@ -290,7 +290,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                    (GetDependencyWeight(providerId, consumerId) > 0);
         }
 
-        public IList<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
+        public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
             IList<IDsmRelation> relations = new List<IDsmRelation>();
             List<int> consumerIds = GetIdsOfElementAndItsChidren(consumer);
@@ -308,7 +308,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public IList<IDsmRelation> FindProviderRelations(IDsmElement element)
+        public IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
             List<int> providerIds = GetIdsOfElementAndItsChidren(element);
@@ -322,7 +322,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public IList<IDsmRelation> FindConsumerRelations(IDsmElement element)
+        public IEnumerable<IDsmRelation> FindConsumerRelations(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
             List<int> consumerIds = GetIdsOfElementAndItsChidren(element);
@@ -336,7 +336,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public IList<IDsmRelation> GetRelations()
+        public IEnumerable<IDsmRelation> GetRelations()
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
             foreach (Dictionary<int, DsmRelation> consumerRelations in _relationsByConsumer.Values)
@@ -356,7 +356,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relationCount;
         }
 
-        public IList<IDsmResolvedRelation> ResolveRelations(IList<IDsmRelation> relations)
+        public IEnumerable<IDsmResolvedRelation> ResolveRelations(IEnumerable<IDsmRelation> relations)
         {
             List<IDsmResolvedRelation> resolvedRelations = new List<IDsmResolvedRelation>();
             foreach (IDsmRelation relation in relations)
@@ -427,9 +427,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
             return previous;
         }
-
-
-
+        
         private List<int> GetIdsOfElementAndItsChidren(IDsmElement element)
         {
             List<int> ids = new List<int>();

@@ -15,8 +15,8 @@ namespace DsmSuite.Transformer.Test.Transformation
         {
             DsiDataModel dataModel = new DsiDataModel("Test", System.Reflection.Assembly.GetExecutingAssembly());
 
-            dataModel.AddElement("element1Name", "class", "element1Source");
-            dataModel.AddElement("element2Name", "class", "element2Source");
+            dataModel.CreateElement("element1Name", "class", "element1Source");
+            dataModel.CreateElement("element2Name", "class", "element2Source");
 
             IDsiElement element1Before = dataModel.FindElement("element1Name");
             Assert.IsNotNull(element1Before);

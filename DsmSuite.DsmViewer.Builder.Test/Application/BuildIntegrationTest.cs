@@ -14,8 +14,8 @@ namespace DsmSuite.DsmViewer.Builder.Test.Application
         {
             BuilderSettings settings = new BuilderSettings
             {
-                InputFilename = "Uncompressed.dsi",
-                OutputFilename = "Uncompressed.dsm",
+                InputFilename = "DsmSuite.DsmViewer.Builder.Test.Input.dsi",
+                OutputFilename = "DsmSuite.DsmViewer.Builder.Test.Output.dsm",
                 CompressOutputFile = false
             };
 

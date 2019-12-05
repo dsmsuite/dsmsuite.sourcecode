@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<model elementCount="9" relationCount="8">
+<dsmmodel elementCount="9" relationCount="8">
+  <metadatagroup name="group1">
+    <metadata name="item1" value="value1" />
+    <metadata name="item2" value="value2" />
+  </metadatagroup>
+  <metadatagroup name="group2">
+    <metadata name="item3" value="value3" />
+    <metadata name="item4" value="value4" />
+  </metadatagroup>
   <elements>
     <element id="11" order="1" name="a" type="" expanded="True" />
     <element id="12" order="2" name="a1" type="eta" expanded="False" parent="11" />
@@ -21,4 +29,4 @@
     <relation from="16" to="13" type="rb" weight="2" />
     <relation from="18" to="13" type="rc" weight="4" />
   </relations>
-</model>
+</dsmmodel>

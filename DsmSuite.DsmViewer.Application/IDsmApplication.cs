@@ -14,7 +14,7 @@ namespace DsmSuite.DsmViewer.Application
         bool IsModified { get; }
 
         string GetOverviewReport();
-        IList<IDsmElement> RootElements { get; }
+        IEnumerable<IDsmElement> RootElements { get; }
         IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element);
         IEnumerable<IDsmElement> GetElementProviders(IDsmElement element);
         IEnumerable<IDsmResolvedRelation> FindRelations(IDsmElement consumer, IDsmElement provider);

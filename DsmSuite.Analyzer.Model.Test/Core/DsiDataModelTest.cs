@@ -16,17 +16,17 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             Assert.AreEqual(0, dataModel.TotalElementCount);
-            IDsiElement element1 = dataModel.AddElement("element1Name", "class", "element1Source");
+            IDsiElement element1 = dataModel.CreateElement("element1Name", "class", "element1Source");
             Assert.IsNotNull(element1);
-            Assert.AreEqual(0, element1.Id);
+            Assert.AreEqual(1, element1.Id);
             Assert.AreEqual("element1Name", element1.Name);
             Assert.AreEqual("class", element1.Type);
             Assert.AreEqual("element1Source", element1.Source);
             Assert.AreEqual(1, dataModel.TotalElementCount);
 
-            IDsiElement element2 = dataModel.AddElement("element2Name", "struct", "element2Source");
+            IDsiElement element2 = dataModel.CreateElement("element2Name", "struct", "element2Source");
             Assert.IsNotNull(element2);
-            Assert.AreEqual(1, element2.Id);
+            Assert.AreEqual(2, element2.Id);
             Assert.AreEqual("element2Name", element2.Name);
             Assert.AreEqual("struct", element2.Type);
             Assert.AreEqual("element2Source", element2.Source);
@@ -39,11 +39,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             Assert.AreEqual(0, dataModel.TotalElementCount);
-            IDsiElement element1 = dataModel.AddElement("elementName", "class", "elementSourceA");
+            IDsiElement element1 = dataModel.CreateElement("elementName", "class", "elementSourceA");
             Assert.IsNotNull(element1);
             Assert.AreEqual(1, dataModel.TotalElementCount);
 
-            IDsiElement element2 = dataModel.AddElement("elementName", "enum", "elementSourceB");
+            IDsiElement element2 = dataModel.CreateElement("elementName", "enum", "elementSourceB");
             Assert.IsNull(element2);
             Assert.AreEqual(1, dataModel.TotalElementCount);
         }
@@ -53,27 +53,27 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         {
             DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
-            dataModel.AddElement("element1Name", "class", "element1Source");
-            dataModel.AddElement("element2Name", "class", "element2Source");
-            dataModel.AddElement("element3Name", "struct", "element3Source");
+            dataModel.CreateElement("element1Name", "class", "element1Source");
+            dataModel.CreateElement("element2Name", "class", "element2Source");
+            dataModel.CreateElement("element3Name", "struct", "element3Source");
 
             IDsiElement element1 = dataModel.FindElement("element1Name");
             Assert.IsNotNull(element1);
-            Assert.AreEqual(0, element1.Id);
+            Assert.AreEqual(1, element1.Id);
             Assert.AreEqual("element1Name", element1.Name);
             Assert.AreEqual("class", element1.Type);
             Assert.AreEqual("element1Source", element1.Source);
 
             IDsiElement element2 = dataModel.FindElement("element2Name");
             Assert.IsNotNull(element2);
-            Assert.AreEqual(1, element2.Id);
+            Assert.AreEqual(2, element2.Id);
             Assert.AreEqual("element2Name", element2.Name);
             Assert.AreEqual("class", element2.Type);
             Assert.AreEqual("element2Source", element2.Source);
 
             IDsiElement element3 = dataModel.FindElement("element3Name");
             Assert.IsNotNull(element3);
-            Assert.AreEqual(2, element3.Id);
+            Assert.AreEqual(3, element3.Id);
             Assert.AreEqual("element3Name", element3.Name);
             Assert.AreEqual("struct", element3.Type);
             Assert.AreEqual("element3Source", element3.Source);
@@ -87,11 +87,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         {
             DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
-            IDsiElement consumer = dataModel.AddElement("consumerName", "class", "consumerSource");
+            IDsiElement consumer = dataModel.CreateElement("consumerName", "class", "consumerSource");
             Assert.IsNotNull(consumer);
-            IDsiElement provider1 = dataModel.AddElement("provider1Name", "class", "provider1Source");
+            IDsiElement provider1 = dataModel.CreateElement("provider1Name", "class", "provider1Source");
             Assert.IsNotNull(provider1);
-            IDsiElement provider2 = dataModel.AddElement("provider2Name", "class", "provider2Source");
+            IDsiElement provider2 = dataModel.CreateElement("provider2Name", "class", "provider2Source");
             Assert.IsNotNull(provider2);
 
             string relation1Type = "relationType1";
@@ -130,13 +130,13 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         {
             DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
-            dataModel.AddElement("element1Name", "class", "element1Source");
-            dataModel.AddElement("element2Name", "enum", "element2Source");
-            dataModel.AddElement("element3Name", "struct", "element3Source");
+            dataModel.CreateElement("element1Name", "class", "element1Source");
+            dataModel.CreateElement("element2Name", "enum", "element2Source");
+            dataModel.CreateElement("element3Name", "struct", "element3Source");
 
             IDsiElement element2 = dataModel.FindElement("element2Name");
             Assert.IsNotNull(element2);
-            Assert.AreEqual(1, element2.Id);
+            Assert.AreEqual(2, element2.Id);
             Assert.AreEqual("element2Name", element2.Name);
             Assert.AreEqual("enum", element2.Type);
             Assert.AreEqual("element2Source", element2.Source);
@@ -145,7 +145,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
 
             IDsiElement renamedElement2 = dataModel.FindElement("element2NewName");
             Assert.IsNotNull(renamedElement2);
-            Assert.AreEqual(1, renamedElement2.Id);
+            Assert.AreEqual(2, renamedElement2.Id);
             Assert.AreEqual("element2NewName", renamedElement2.Name);
             Assert.AreEqual("enum", renamedElement2.Type);
             Assert.AreEqual("element2Source", renamedElement2.Source);
@@ -159,11 +159,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         {
             DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
-            IDsiElement consumer = dataModel.AddElement("consumerName", "class", "consumerSource");
+            IDsiElement consumer = dataModel.CreateElement("consumerName", "class", "consumerSource");
             Assert.IsNotNull(consumer);
-            IDsiElement provider1 = dataModel.AddElement("provider1Name", "class", "provider1Source");
+            IDsiElement provider1 = dataModel.CreateElement("provider1Name", "class", "provider1Source");
             Assert.IsNotNull(provider1);
-            IDsiElement provider2 = dataModel.AddElement("provider2Name", "class", "provider2Source");
+            IDsiElement provider2 = dataModel.CreateElement("provider2Name", "class", "provider2Source");
             Assert.IsNotNull(provider2);
 
             string relation1Type = "relationType1";
@@ -196,11 +196,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
 
             DsiDataModel dataModel1 = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
-            IDsiElement consumer = dataModel1.AddElement("consumerName", "class", "consumerSource");
+            IDsiElement consumer = dataModel1.CreateElement("consumerName", "class", "consumerSource");
             Assert.IsNotNull(consumer);
-            IDsiElement provider1 = dataModel1.AddElement("provider1Name", "class", "provider1Source");
+            IDsiElement provider1 = dataModel1.CreateElement("provider1Name", "class", "provider1Source");
             Assert.IsNotNull(provider1);
-            IDsiElement provider2 = dataModel1.AddElement("provider2Name", "class", "provider2Source");
+            IDsiElement provider2 = dataModel1.CreateElement("provider2Name", "class", "provider2Source");
             Assert.IsNotNull(provider2);
 
             dataModel1.AddRelation(consumer.Name, provider1.Name, "relationType2", 2, "context");

@@ -14,7 +14,7 @@ namespace DsmSuite.Analyzer.Model.Interface
         IEnumerable<string> GetMetaDataGroups();
         IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string groupName);
 
-        IDsiElement AddElement(string name, string type, string source);
+        IDsiElement CreateElement(string name, string type, string source);
         void RemoveElement(IDsiElement element);
         void RenameElement(IDsiElement element, string newName);
         IDsiElement FindElement(int id);
