@@ -13,6 +13,8 @@ namespace DsmSuite.DsmViewer.Application
         Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress);
         bool IsModified { get; }
 
+        void Undo();
+        void Redo();
         string GetOverviewReport();
         IEnumerable<IDsmElement> RootElements { get; }
         IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element);

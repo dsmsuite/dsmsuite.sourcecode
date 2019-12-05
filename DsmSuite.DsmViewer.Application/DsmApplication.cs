@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Application.Actions.Element;
-using DsmSuite.DsmViewer.Application.Algorithm;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Reporting;
 
@@ -23,6 +22,16 @@ namespace DsmSuite.DsmViewer.Application
             _model.Modified += OnModelModified;
 
             _actionManager = new ActionManager();
+        }
+
+        public void Undo()
+        {
+            _actionManager.Undo();
+        }
+
+        public void Redo()
+        {
+            _actionManager.Redo();
         }
 
         private void OnModelModified(object sender, bool e)

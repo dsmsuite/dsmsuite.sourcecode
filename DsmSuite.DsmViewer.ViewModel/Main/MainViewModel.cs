@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Input;
-using DsmSuite.DsmViewer.Reporting;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
 using DsmSuite.DsmViewer.Application;
@@ -73,6 +72,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ZoomOutCommand = new RelayCommand<object>(ZoomOutExecute, ZoomOutCanExecute);
             ToggleElementExpandedCommand = new RelayCommand<object>(ToggleElementExpandedExecute, ToggleElementExpandedCanExecute);
 
+            UndoCommand = new RelayCommand<object>(UndoExecute, UndoCanExecute);
+            RedoCommand = new RelayCommand<object>(RedoExecute, RedoCanExecute);
+            
             OverviewReportCommand = new RelayCommand<object>(OverviewReportExecute, OverviewReportCanExecute);
 
             NavigateToNextCommand = new RelayCommand<object>(NavigateToNextExecute, NavigateToNextCanExecute);
@@ -124,6 +126,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand ZoomInCommand { get; }
         public ICommand ZoomOutCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
+        public ICommand UndoCommand { get; }
+        public ICommand RedoCommand { get; }
         public ICommand OverviewReportCommand { get; }
         public ICommand NavigateToNextCommand { get; }
         public ICommand NavigateToPreviousCommand { get; }
@@ -351,6 +355,26 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         }
 
         private bool ToggleElementExpandedCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void UndoExecute(object parameter)
+        {
+            _application.Undo();
+        }
+
+        private bool UndoCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void RedoExecute(object parameter)
+        {
+            _application.Redo();
+        }
+
+        private bool RedoCanExecute(object parameter)
         {
             return true;
         }
