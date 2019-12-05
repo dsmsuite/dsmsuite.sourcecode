@@ -7,12 +7,13 @@ namespace DsmSuite.DsmViewer.Application
 {
     public interface IDsmApplication
     {
-        IDsmModel Model { get; }
+        event EventHandler<bool> Modified;
 
-        Task ImportModel(string dsiFilename, string dsmFilename, bool overwrite, Progress<DsmProgressInfo> progress);
         Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress);
         Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress);
+        bool IsModified { get; }
 
+        string GetOverviewReport();
         IList<IDsmElement> RootElements { get; }
         IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element);
         IEnumerable<IDsmElement> GetElementProviders(IDsmElement element);
@@ -25,6 +26,8 @@ namespace DsmSuite.DsmViewer.Application
         bool IsLastChild(IDsmElement element);
         bool HasChildren(IDsmElement element);
         void Sort(IDsmElement element, string algorithm);
+        void MoveUp(IDsmElement element);
+        void MoveDown(IDsmElement element);
         IEnumerable<string> GetSupportedSortAlgorithms();
 
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);

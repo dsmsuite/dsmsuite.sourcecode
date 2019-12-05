@@ -2,23 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.DsmViewer.Application.Algorithm;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.Reporting;
 
 namespace DsmSuite.DsmViewer.Application
 {
     public class DsmApplication : IDsmApplication
     {
         private readonly IDsmModel _model;
+        private readonly ActionManager _actionManager;
+
+        public event EventHandler<bool> Modified;
 
         public DsmApplication(IDsmModel model)
         {
             _model = model;
+            _model.Modified += OnModelModified;
+
+            _actionManager = new ActionManager();
         }
 
-        public Task ImportModel(string dsiFilename, string dsmFilename, bool overwrite, Progress<DsmProgressInfo> progress)
+        private void OnModelModified(object sender, bool e)
         {
-            throw new NotImplementedException();
+            Modified?.Invoke(sender,e);
         }
 
         public async Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress)
@@ -33,7 +42,13 @@ namespace DsmSuite.DsmViewer.Application
 
         public IList<IDsmElement> RootElements => _model.RootElements;
 
-        public IDsmModel Model => _model;
+        public bool IsModified => _model.IsModified;
+
+        public string GetOverviewReport()
+        {
+            OverviewReport report = new OverviewReport(_model);
+            return report.WriteReport();
+        }
 
         public IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element)
         {
@@ -113,10 +128,20 @@ namespace DsmSuite.DsmViewer.Application
 
         public void Sort(IDsmElement element, string algorithm)
         {
-            Partitioner partitioner = new Partitioner(element, _model);
-            Vector vector = partitioner.Partition();
+            ElementPartitionAction action = new ElementPartitionAction(_model, element, algorithm);
+            _actionManager.Execute(action);
+        }
 
-            _model.ReorderChildren(element, vector);
+        public void MoveUp(IDsmElement element)
+        {
+            ElementMoveUpAction action = new ElementMoveUpAction(_model, element);
+            _actionManager.Execute(action);
+        }
+
+        public void MoveDown(IDsmElement element)
+        {
+            ElementMoveDownAction action = new ElementMoveDownAction(_model, element);
+            _actionManager.Execute(action);
         }
 
         public IEnumerable<string> GetSupportedSortAlgorithms()

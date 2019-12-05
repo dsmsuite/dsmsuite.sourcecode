@@ -60,6 +60,10 @@
       <Project>{ae2405c6-54ca-43b1-bcf0-36b7010c0f0e}</Project>
       <Name>DsmSuite.DsmViewer.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DsmSuite.DsmViewer.Reporting\DsmSuite.DsmViewer.Reporting.csproj">
+      <Project>{9CF52435-FC03-45C5-83A2-E4B511B59C13}</Project>
+      <Name>DsmSuite.DsmViewer.Reporting</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -34,7 +34,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public event EventHandler<RelationListViewModel> RelationsReportReady;
 
         private readonly IDsmApplication _application;
-        private readonly IDsmModel _model;
         private string _modelFilename;
         private string _title;
         private string _searchText;
@@ -57,8 +56,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public MainViewModel(IDsmApplication application)
         {
             _application = application;
-            _model = application.Model;
-            _model.Modified += OnModelModified;
+            _application.Modified += OnModelModified;
             OpenFileCommand = new RelayCommand<object>(OpenFileExecute, OpenFileCanExecute);
             SaveFileCommand = new RelayCommand<object>(SaveFileExecute, SaveFileCanExecute);
 
@@ -225,7 +223,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool SaveFileCanExecute(object parameter)
         {
-            return _model.IsModified;
+            return _application.IsModified;
         }
 
         private void HomeExecute(object parameter)
@@ -291,13 +289,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void MoveUpExecute(object parameter)
         {
-            IDsmElement current = SelectedProvider?.Element;
-            IDsmElement previous = current?.PreviousSibling;
-            if ((current != null) && (previous != null))
-            {
-                _model.Swap(current, previous);
-                ActiveMatrix.Reload();
-            }
+            _application.MoveUp(SelectedProvider?.Element);
+            ActiveMatrix.Reload();
         }
 
         private bool MoveUpCanExecute(object parameter)
@@ -309,13 +302,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void MoveDownExecute(object parameter)
         {
-            IDsmElement current = SelectedProvider?.Element;
-            IDsmElement next = current?.NextSibling;
-            if ((current != null) && (next != null))
-            {
-                _model.Swap(current, next);
-                ActiveMatrix.Reload();
-            }
+            _application.MoveDown(SelectedProvider?.Element);
+            ActiveMatrix.Reload();
         }
 
         private bool MoveDownCanExecute(object parameter)
@@ -369,8 +357,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OverviewReportExecute(object parameter)
         {
-            OverviewReport report = new OverviewReport(_model);
-            string content = report.WriteReport();
+            string content = _application.GetOverviewReport();
 
             ReportViewModel reportViewModel = new ReportViewModel() { Title = "Overview", Content = content };
             ReportCreated?.Invoke(this, reportViewModel);

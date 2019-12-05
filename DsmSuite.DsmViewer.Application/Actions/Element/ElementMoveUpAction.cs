@@ -6,13 +6,22 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementMoveDownAction : ActionBase, IAction
     {
-        public ElementMoveDownAction(IDsmModel model) : base(model)
+        private readonly IDsmModel _model;
+        private readonly IDsmElement _element;
+
+        public ElementMoveDownAction(IDsmModel model, IDsmElement element) : base(model)
         {
+            _model = model;
+            _element = element;
         }
 
         public void Do()
         {
-            throw new NotImplementedException();
+            IDsmElement next = _element?.NextSibling;
+            if ((_element != null) && (next != null))
+            {
+                _model.Swap(_element, next);
+            }
         }
 
         public void Undo()
