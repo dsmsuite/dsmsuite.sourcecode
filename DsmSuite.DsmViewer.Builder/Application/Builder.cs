@@ -48,10 +48,10 @@ namespace DsmSuite.DsmViewer.Builder.Application
         public void ImportElement(int id, string fullname, string type, string source)
         {
             IDsmElement parent = null;
-            HierarchicalName elementName = new HierarchicalName();
-            foreach (string name in new HierarchicalName(fullname).Elements)
+            ElementName elementName = new ElementName();
+            foreach (string name in new ElementName(fullname).NameParts)
             {
-                elementName.Add(name);
+                elementName.AddNamePart(name);
 
                 bool isElementLeaf = (fullname == elementName.FullName);
                 string elementType = isElementLeaf ? type : "";

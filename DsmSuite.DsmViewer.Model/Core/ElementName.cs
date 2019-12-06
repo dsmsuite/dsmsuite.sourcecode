@@ -1,24 +1,24 @@
 ﻿namespace DsmSuite.DsmViewer.Model.Core
 {
-    public class HierarchicalName
+    public class ElementName
     {
-        public HierarchicalName()
+        public ElementName()
         {
             FullName = "";
         }
 
-        public HierarchicalName(string fullname)
+        public ElementName(string fullname)
         {
             FullName = fullname;
         }
 
-        public HierarchicalName(string parentName, string name)
+        public ElementName(string parentName, string name)
         {
             FullName = parentName;
-            Add(name);
+            AddNamePart(name);
         }
 
-        public void Add(string name)
+        public void AddNamePart(string name)
         {
             if (FullName.Length > 0)
             {
@@ -29,11 +29,11 @@
 
         public string FullName { get; private set; }
 
-        public string[] Elements => FullName.Split('.');
+        public string[] NameParts => FullName.Split('.');
 
-        public int ElementCount => Elements.Length;
+        public int NamePartCount => NameParts.Length;
 
-        public string Name => Elements[Elements.Length - 1];
+        public string LastNamePart => NameParts[NameParts.Length - 1];
 
         public string ParentName
         {
@@ -41,7 +41,7 @@
             {
                 string parentName = "";
                 int beginIndex = 0;
-                int endIndex = FullName.Length - Name.Length - 1;
+                int endIndex = FullName.Length - LastNamePart.Length - 1;
                 if (endIndex > 0)
                 {
                     parentName = FullName.Substring(beginIndex, endIndex);

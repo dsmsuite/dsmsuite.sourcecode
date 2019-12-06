@@ -154,8 +154,8 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 if (_elementsById.ContainsKey(parentId.Value))
                 {
-                    HierarchicalName elementName = new HierarchicalName(_elementsById[parentId.Value].Fullname);
-                    elementName.Add(name);
+                    ElementName elementName = new ElementName(_elementsById[parentId.Value].Fullname);
+                    elementName.AddNamePart(name);
                     fullname = elementName.FullName;
                 }
             }
