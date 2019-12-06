@@ -7,26 +7,30 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
     public class ElementMoveUpAction : ActionBase, IAction
     {
         private readonly IDsmModel _model;
-        private readonly IDsmElement _element;
+        private readonly IDsmElement _currentElement;
+        private readonly IDsmElement _previousElement;
 
         public ElementMoveUpAction(IDsmModel model, IDsmElement element) : base(model)
         {
             _model = model;
-            _element = element;
+            _currentElement = element;
+            _previousElement = element?.PreviousSibling;
         }
 
         public void Do()
         {
-            IDsmElement previous = _element?.PreviousSibling;
-            if ((_element != null) && (previous != null))
+            if (_currentElement != null && _previousElement != null)
             {
-                _model.Swap(_element, previous);
+                _model.Swap(_currentElement, _previousElement);
             }
         }
 
         public void Undo()
         {
-            throw new NotImplementedException();
+            if (_currentElement != null && _previousElement != null)
+            {
+                _model.Swap(_previousElement, _currentElement);
+            }
         }
 
         public string Description => "Move down element";
