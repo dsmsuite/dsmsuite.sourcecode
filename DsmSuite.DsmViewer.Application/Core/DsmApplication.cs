@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Application.Actions.Element;
+using DsmSuite.DsmViewer.Application.Import;
+using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Reporting;
 
-namespace DsmSuite.DsmViewer.Application
+namespace DsmSuite.DsmViewer.Application.Core
 {
     public class DsmApplication : IDsmApplication
     {
@@ -37,6 +39,12 @@ namespace DsmSuite.DsmViewer.Application
         private void OnModelModified(object sender, bool e)
         {
             Modified?.Invoke(sender,e);
+        }
+
+        public void ImportModel(string dsiFilename, string dsmFilename, bool overwriteDsmFile, bool compressDsmFile)
+        {
+            DsmBuilder builder = new DsmBuilder(_model);
+            builder.BuildModel(dsiFilename, dsmFilename, overwriteDsmFile, compressDsmFile);
         }
 
         public async Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress)

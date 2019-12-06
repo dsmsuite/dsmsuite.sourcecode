@@ -15,6 +15,7 @@ namespace DsmSuite.DsmViewer.Builder.Settings
         private bool _loggingEnabled;
         private string _inputFilename;
         private string _outputFilename;
+        private bool _overwriteOutputFile;
         private bool _compressOutputFile;
 
         public static BuilderSettings CreateDefault()
@@ -24,6 +25,7 @@ namespace DsmSuite.DsmViewer.Builder.Settings
                 LoggingEnabled = false,
                 InputFilename = "Input.dsi",
                 OutputFilename = "Output.dsm",
+                OverwriteOutputFile = false,
                 CompressOutputFile = true
             };
 
@@ -46,6 +48,12 @@ namespace DsmSuite.DsmViewer.Builder.Settings
         {
             get { return _outputFilename; }
             set { _outputFilename = value; }
+        }      
+
+        public bool OverwriteOutputFile
+        {
+            get { return _overwriteOutputFile; }
+            set { _overwriteOutputFile = value; }
         }
 
         public bool CompressOutputFile

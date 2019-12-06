@@ -2,6 +2,7 @@
 using System.Windows;
 using DsmSuite.DsmViewer.ViewModel.Main;
 using DsmSuite.DsmViewer.Application;
+using DsmSuite.DsmViewer.Application.Core;
 using DsmSuite.DsmViewer.Model.Core;
 
 namespace DsmSuite.DsmViewer.View.Windows

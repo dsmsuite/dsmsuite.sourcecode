@@ -7,6 +7,7 @@ using DsmSuite.DsmViewer.ViewModel.Matrix;
 using DsmSuite.DsmViewer.Application;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 using System.Linq;
+using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main

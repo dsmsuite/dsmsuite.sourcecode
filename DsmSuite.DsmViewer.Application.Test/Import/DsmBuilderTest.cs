@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using DsmSuite.DsmViewer.Builder.Settings;
+using DsmSuite.DsmViewer.Application.Import;
 using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,16 +12,12 @@ namespace DsmSuite.DsmViewer.Builder.Test.Application
         [TestMethod]
         public void TestBuild()
         {
-            BuilderSettings settings = new BuilderSettings
-            {
-                InputFilename = "DsmSuite.DsmViewer.Builder.Test.Input.dsi",
-                OutputFilename = "DsmSuite.DsmViewer.Builder.Test.Output.dsm",
-                CompressOutputFile = false
-            };
+            string inputFilename = "DsmSuite.DsmViewer.Application.Test.Input.dsi";
+            string outputFilename = "DsmSuite.DsmViewer.Application.Test.Output.dsm";
 
             DsmModel model = new DsmModel("Test", Assembly.GetExecutingAssembly());
-            Builder.Application.Builder builder = new Builder.Application.Builder(model, settings);
-            builder.BuildModel();
+            DsmBuilder builder = new DsmBuilder(model);
+            builder.BuildModel(inputFilename, outputFilename, false, true);
 
             IDsmElement a = model.GetElementByFullname("a");
             Assert.AreNotEqual(0, a.Id);

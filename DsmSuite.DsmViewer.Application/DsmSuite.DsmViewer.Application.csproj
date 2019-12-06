@@ -48,14 +48,23 @@
     <Compile Include="Algorithm\PartitioningAlgorithm.cs" />
     <Compile Include="Algorithm\Permutation.cs" />
     <Compile Include="Algorithm\SquareMatrix.cs" />
-    <Compile Include="DsmApplication.cs" />
-    <Compile Include="IDsmApplication.cs" />
+    <Compile Include="Core\DsmApplication.cs" />
+    <Compile Include="Import\DsmBuilder.cs" />
+    <Compile Include="Interfaces\IDsmApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
+      <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
+      <Name>DsmSuite.Analyzer.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
+      <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
+      <Name>DsmSuite.Common.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DsmSuite.DsmViewer.Model\DsmSuite.DsmViewer.Model.csproj">
       <Project>{ae2405c6-54ca-43b1-bcf0-36b7010c0f0e}</Project>
       <Name>DsmSuite.DsmViewer.Model</Name>

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Application
+namespace DsmSuite.DsmViewer.Application.Interfaces
 {
     public interface IDsmApplication
     {
         event EventHandler<bool> Modified;
 
+        void ImportModel(string dsiFilename, string dsmFilename, bool overwriteDsmFile, bool compressDsmFile);
         Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress);
         Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress);
         bool IsModified { get; }

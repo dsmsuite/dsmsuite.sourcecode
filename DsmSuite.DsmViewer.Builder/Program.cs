@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.Application.Core;
 using DsmSuite.DsmViewer.Builder.Settings;
 using DsmSuite.DsmViewer.Model.Core;
 
@@ -11,6 +13,9 @@ namespace DsmSuite.DsmViewer.Builder
         static void Main(string[] args)
         {
             Logger.LogAssemblyInfo(Assembly.GetExecutingAssembly());
+
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
 
             if (args.Length < 1)
             {
@@ -39,12 +44,16 @@ namespace DsmSuite.DsmViewer.Builder
                     else
                     {
                         DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
-                        Application.Builder builder = new Application.Builder(model, builderSettings);
-                        builder.BuildModel();
-                        model.SaveModel(builderSettings.OutputFilename, builderSettings.CompressOutputFile, null);
+                        DsmApplication application = new DsmApplication(model);
+                        application.ImportModel(builderSettings.InputFilename, builderSettings.OutputFilename, builderSettings.OverwriteOutputFile, builderSettings.CompressOutputFile);
                     }
                 }
             }
+
+            Logger.LogResourceUsage();
+
+            stopWatch.Stop();
+            Logger.LogUserMessage($" total elapsed time = {stopWatch.Elapsed}");
         }
     }
 }

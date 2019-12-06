@@ -1,45 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Model.Persistency;
 using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Builder.Settings;
 using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Builder.Application
+namespace DsmSuite.DsmViewer.Application.Import
 {
-    public class Builder : IDsiModelFileCallback
+    public class DsmBuilder : IDsiModelFileCallback
     {
-        private readonly BuilderSettings _builderSettings;
         private readonly IDsmModel _model;
         private readonly Dictionary<int, IDsmElement> _elementsById = new Dictionary<int, IDsmElement>();
 
-        public Builder(IDsmModel model, BuilderSettings builderSettings)
+        public DsmBuilder(IDsmModel model)
         {
-            _builderSettings = builderSettings;
             _model = model;
         }
 
-        public void BuildModel()
+        public void BuildModel(string dsiFilename, string dsmFilename, bool overwriteDsmFile, bool compressDsmFile)
         {
-            Logger.LogUserMessage("Build model");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             _model.Clear();
 
-            DsiModelFile dsiModelFile = new DsiModelFile(_builderSettings.InputFilename, this);
+            DsiModelFile dsiModelFile = new DsiModelFile(dsiFilename, this);
             dsiModelFile.Load(null);
             _model.AssignElementOrder();
-            _model.SaveModel(_builderSettings.OutputFilename, _builderSettings.CompressOutputFile, null);
-
-            Logger.LogResourceUsage();
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($" total elapsed time = {stopWatch.Elapsed}");
+            _model.SaveModel(dsmFilename, compressDsmFile, null);
         }
-        
+
         public void ImportMetaDataItem(string groupName, string name, string value)
         {
             _model.AddMetaData(groupName, name, value);

@@ -24,7 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Settings\BuilderSettings.cs" />
-    <Compile Include="Application\Builder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -45,6 +44,10 @@
     <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
       <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
       <Name>DsmSuite.Common.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DsmSuite.DsmViewer.Application\DsmSuite.DsmViewer.Application.csproj">
+      <Project>{f864bd74-a7e3-4349-be07-f0725a2ea589}</Project>
+      <Name>DsmSuite.DsmViewer.Application</Name>
     </ProjectReference>
     <ProjectReference Include="..\DsmSuite.DsmViewer.Model\DsmSuite.DsmViewer.Model.csproj">
       <Project>{ae2405c6-54ca-43b1-bcf0-36b7010c0f0e}</Project>
