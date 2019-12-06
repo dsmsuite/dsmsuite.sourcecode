@@ -10,6 +10,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;
         private readonly  string _algorithm;
+        private Vector _vector;
 
         public ElementPartitionAction(IDsmModel model, IDsmElement element, string algorithm) : base(model)
         {
@@ -21,13 +22,18 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public void Do()
         {
             Partitioner partitioner = new Partitioner(_element, _model);
-            Vector vector = partitioner.Partition();
-            _model.ReorderChildren(_element, vector);
+            _vector = partitioner.Partition();
+            _model.ReorderChildren(_element, _vector);
         }
 
         public void Undo()
         {
-            throw new NotImplementedException();
+            Vector inverseVector = new Vector(_vector.Size());
+            for (int i = 0; i < _vector.Size(); i++)
+            {
+                inverseVector.Set(_vector.Get(i), i);
+            }
+            _model.ReorderChildren(_element, inverseVector);
         }
 
         public string Description => "Partition element";

@@ -2,12 +2,18 @@ using System;
 
 namespace DsmSuite.DsmViewer.Model.Interfaces
 {
+    public interface IVector
+    {
+        int Get(int i);
+        int Size();
+    }
+
     /// <summary>
     /// The vector represents the permutation of the original indexes 0 to N after the partitioning
     /// has been accomplished : ex : original 0 1 2 3 4 could be permuted to 3 2 1 0 4.  We use this to
     /// reorganize the real matrix after the calculation has completed
     /// </summary>
-    public class Vector
+    public class Vector : IVector
     {
         readonly int _size;
         private readonly int[] _vector;
@@ -30,8 +36,10 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// <summary>
         /// Gets the size of this vector
         /// </summary>
-        public int Size => _size;
-
+        public int Size()
+        {
+            return _size;
+        }
 
         /// <summary>
         /// Set the value of index i

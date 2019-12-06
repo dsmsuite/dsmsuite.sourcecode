@@ -366,7 +366,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return resolvedRelations;
         }
 
-        public void ReorderChildren(IDsmElement element, Vector permutationVector)
+        public void ReorderChildren(IDsmElement element, IVector permutationVector)
         {
             DsmElement parent = element as DsmElement;
             if (parent != null)
@@ -378,7 +378,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     parent.RemoveChild(child);
                 }
 
-                for (int i = 0; i < permutationVector.Size; i++)
+                for (int i = 0; i < permutationVector.Size(); i++)
                 {
                     parent.AddChild(clonedChildren[permutationVector.Get(i)]);
                 }

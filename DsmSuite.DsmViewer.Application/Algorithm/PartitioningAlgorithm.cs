@@ -67,11 +67,11 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             // bubble zero rows to the top - starting from the bottom - to leave any rows already moved
             // by the user stay in place
 
-            int i = vector.Size - 1;
+            int i = vector.Size() - 1;
             while (i >= nextSwapRow)
             {
                 var allZero = true;
-                for (int j = 0; j < vector.Size && allZero; j++)
+                for (int j = 0; j < vector.Size() && allZero; j++)
                 {
                     if (i != j)  // the diagonal must obviously be ignored
                     {
@@ -100,7 +100,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
 
         int MoveFullRows(Vector vector, int start)
         {
-            int nextSwapRow = vector.Size - 1;
+            int nextSwapRow = vector.Size() - 1;
 
             // bubble complete rows to the bottom starting 'start'
             int i = start;
@@ -108,7 +108,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             while (i <= nextSwapRow)
             {
                 var allNonZero = true;
-                for (int j = 0; j < vector.Size && allNonZero; j++)
+                for (int j = 0; j < vector.Size() && allNonZero; j++)
                 {
                     if (i != j)
                     {
@@ -141,7 +141,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             while (j <= nextSwap)
             {
                 var allZeros = true;
-                for (int i = 0; i < vector.Size && allZeros; i++)
+                for (int i = 0; i < vector.Size() && allZeros; i++)
                 {
                     if (i != j)
                     {
@@ -188,7 +188,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
 
             // For holding Permutations already examined during one iteration of the outer while loop
             IDictionary<Permutation, object> permMap =
-                new Dictionary<Permutation, object>(vector.Size * vector.Size / 2);
+                new Dictionary<Permutation, object>(vector.Size() * vector.Size() / 2);
             do
             {
                 doLoop = false;
@@ -254,13 +254,13 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             // calculate score for cells in upper triangle (TODO possible optimisation between start and end)
             long score = 0;
 
-            for (int i = 0; i < vector.Size - 1; i++)
+            for (int i = 0; i < vector.Size() - 1; i++)
             {
-                for (int j = i + 1; j < vector.Size; j++)
+                for (int j = i + 1; j < vector.Size(); j++)
                 {
                     if (TrueMatrixValue(vector, i, j) == 0)
                     {
-                        score += CellScore(i, j, vector.Size);
+                        score += CellScore(i, j, vector.Size());
                     }
                 }
             }

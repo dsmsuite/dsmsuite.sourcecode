@@ -45,7 +45,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         IEnumerable<IDsmResolvedRelation> ResolveRelations(IEnumerable<IDsmRelation> relations);
 
-        void ReorderChildren(IDsmElement element, Vector permutationVector);
+        void ReorderChildren(IDsmElement element, IVector permutationVector);
         IDsmElement NextSibling(IDsmElement element);
         IDsmElement PreviousSibling(IDsmElement element);
         bool Swap(IDsmElement fisrt, IDsmElement second);
