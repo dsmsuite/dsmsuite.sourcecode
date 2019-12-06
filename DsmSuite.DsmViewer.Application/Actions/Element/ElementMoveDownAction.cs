@@ -33,6 +33,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             }
         }
 
-        public string Description => "Move down element";
+        public string Description => $"Move down element name={_currentElement.Fullname}";
     }
 }

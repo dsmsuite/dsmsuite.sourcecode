@@ -22,8 +22,8 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom in" Command="{Binding ZoomInCommand}" Content="{StaticResource ZoomInIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>
              <Separator/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Undo" Command="{Binding UndoCommand}" Content="{StaticResource UndoIcon}"/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Rdeo" Command="{Binding RedoCommand}" Content="{StaticResource RedoIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding UndoText}" Command="{Binding UndoCommand}" Content="{StaticResource UndoIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding RedoText}" Command="{Binding RedoCommand}" Content="{StaticResource RedoIcon}"/>
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show overview report" Command="{Binding OverviewReportCommand}" Content="{StaticResource ReportIcon}"/>
             <Separator/>

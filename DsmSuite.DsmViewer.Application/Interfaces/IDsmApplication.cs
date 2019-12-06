@@ -8,13 +8,17 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
     public interface IDsmApplication
     {
         event EventHandler<bool> Modified;
+        event EventHandler ActionPerformned;
 
         void ImportModel(string dsiFilename, string dsmFilename, bool overwriteDsmFile, bool compressDsmFile);
         Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress);
         Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress);
         bool IsModified { get; }
-
+        bool CanUndo();
+        string GetUndoActionDescription();
         void Undo();
+        bool CanRedo();
+        string GetRedoActionDescription();
         void Redo();
         string GetOverviewReport();
         IEnumerable<IDsmElement> RootElements { get; }

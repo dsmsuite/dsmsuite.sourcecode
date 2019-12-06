@@ -17,6 +17,7 @@ namespace DsmSuite.DsmViewer.Application.Core
         private readonly ActionManager _actionManager;
 
         public event EventHandler<bool> Modified;
+        public event EventHandler ActionPerformned;
 
         public DsmApplication(IDsmModel model)
         {
@@ -24,11 +25,37 @@ namespace DsmSuite.DsmViewer.Application.Core
             _model.Modified += OnModelModified;
 
             _actionManager = new ActionManager();
+            _actionManager.ActionPerformned += OnActionPerformned;
+        }
+
+        private void OnActionPerformned(object sender, EventArgs e)
+        {
+            ActionPerformned?.Invoke(sender, e);
+        }
+
+        public bool CanUndo()
+        {
+            return _actionManager.CanUndo();
+        }
+
+        public string GetUndoActionDescription()
+        {
+            return _actionManager.GetUndoActionDescription();
         }
 
         public void Undo()
         {
             _actionManager.Undo();
+        }
+
+        public bool CanRedo()
+        {
+            return _actionManager.CanRedo();
+        }
+
+        public string GetRedoActionDescription()
+        {
+            return _actionManager.GetRedoActionDescription();
         }
 
         public void Redo()

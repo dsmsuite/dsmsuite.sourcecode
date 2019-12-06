@@ -52,11 +52,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private MatrixViewModel _activeMatrix;
         private readonly ProgressViewModel _progressViewModel;
+        private string _redoText;
+        private string _undoText;
 
         public MainViewModel(IDsmApplication application)
         {
             _application = application;
             _application.Modified += OnModelModified;
+            _application.ActionPerformned += OnActionPerformned;
+
             OpenFileCommand = new RelayCommand<object>(OpenFileExecute, OpenFileCanExecute);
             SaveFileCommand = new RelayCommand<object>(SaveFileExecute, SaveFileCanExecute);
 
@@ -360,24 +364,38 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return true;
         }
 
+        public string UndoText
+        {
+            get { return _undoText; }
+            set { _undoText = value; OnPropertyChanged(); }
+        }
+
         private void UndoExecute(object parameter)
         {
             _application.Undo();
+            ActiveMatrix.Reload();
         }
 
         private bool UndoCanExecute(object parameter)
         {
-            return true;
+            return _application.CanUndo();
         }
 
         private void RedoExecute(object parameter)
         {
-            _application.Redo();
+            _application.Redo(); 
+            ActiveMatrix.Reload();
+        }
+
+        public string RedoText
+        {
+            get { return _redoText; }
+            set { _redoText = value; OnPropertyChanged(); }
         }
 
         private bool RedoCanExecute(object parameter)
         {
-            return true;
+            return _application.CanRedo();
         }
 
         private void OverviewReportExecute(object parameter)
@@ -519,6 +537,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             }
         }
 
-
+        private void OnActionPerformned(object sender, EventArgs e)
+        {
+            UndoText = $"Undo {_application.GetUndoActionDescription()}";
+            RedoText = $"Redo {_application.GetRedoActionDescription()}";
+        }
     }
 }
