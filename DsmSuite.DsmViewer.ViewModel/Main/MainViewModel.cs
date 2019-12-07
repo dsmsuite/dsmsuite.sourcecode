@@ -59,7 +59,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             _application = application;
             _application.Modified += OnModelModified;
-            _application.ActionPerformned += OnActionPerformned;
+            _application.ActionPerformed += OnActionPerformed;
 
             OpenFileCommand = new RelayCommand<object>(OpenFileExecute, OpenFileCanExecute);
             SaveFileCommand = new RelayCommand<object>(SaveFileExecute, SaveFileCanExecute);
@@ -413,7 +413,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OnRunSearch()
         {
-            _foundElements = _application.SearchExecute(SearchText).ToList();
+            _foundElements = _application.SearchElements(SearchText).ToList();
             int count = _foundElements.Count();
             if (count == 0)
             {
@@ -537,7 +537,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             }
         }
 
-        private void OnActionPerformned(object sender, EventArgs e)
+        private void OnActionPerformed(object sender, EventArgs e)
         {
             UndoText = $"Undo {_application.GetUndoActionDescription()}";
             RedoText = $"Redo {_application.GetRedoActionDescription()}";

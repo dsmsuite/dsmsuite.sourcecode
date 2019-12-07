@@ -3,7 +3,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
-    public class RelationCreateAction : ActionBase, IAction
+    public class RelationCreateAction : ActionBase
     {
         private readonly int _consumerId;
         private readonly int _providerId;
@@ -18,16 +18,16 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _weight = weight;
         }
 
-        public void Do()
+        public override void Do()
         {
             Model.AddRelation(_consumerId, _providerId, _type, _weight);
         }
 
-        public void Undo()
+        public override void Undo()
         {
             Model.RemoveRelation(_consumerId, _providerId, _type, _weight);
         }
 
-        public string Description => "Create relation";
+        public override string Description => "Create relation";
     }
 }

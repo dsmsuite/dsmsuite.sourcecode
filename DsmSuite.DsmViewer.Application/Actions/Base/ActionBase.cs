@@ -2,7 +2,7 @@
 
 namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
-    public abstract class ActionBase
+    public abstract class ActionBase : IAction
     {
         protected ActionBase(IDsmModel model)
         {
@@ -10,5 +10,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
         }
 
         protected IDsmModel Model { get; }
+
+        public abstract void Do();
+
+        public abstract void Undo();
+
+        public abstract string Description { get; }
     }
 }

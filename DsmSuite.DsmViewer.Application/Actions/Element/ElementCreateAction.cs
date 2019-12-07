@@ -3,7 +3,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementCreateAction : ActionBase, IAction
+    public class ElementCreateAction : ActionBase
     {
         private int _elementId;
         private readonly string _name;
@@ -17,17 +17,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _parentId = parentId;
         }
 
-        public void Do()
+        public override void Do()
         {
             IDsmElement element = Model.CreateElement(_name, _type, _parentId);
             _elementId = element.Id;
         }
 
-        public void Undo()
+        public override void Undo()
         {
             Model.RestoreElement(_elementId);
         }
 
-        public string Description => "Create element";
+        public override string Description => "Create element";
     }
 }

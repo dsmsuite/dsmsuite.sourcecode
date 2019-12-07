@@ -8,7 +8,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
     public interface IDsmApplication
     {
         event EventHandler<bool> Modified;
-        event EventHandler ActionPerformned;
+        event EventHandler ActionPerformed;
 
         void ImportModel(string dsiFilename, string dsmFilename, bool overwriteDsmFile, bool compressDsmFile);
         Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress);
@@ -40,6 +40,6 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
         bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
 
-        IEnumerable<IDsmElement> SearchExecute(string text);
+        IEnumerable<IDsmElement> SearchElements(string text);
     }
 }

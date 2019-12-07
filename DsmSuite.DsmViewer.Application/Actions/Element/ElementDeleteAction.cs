@@ -3,7 +3,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementDeleteAction : ActionBase, IAction
+    public class ElementDeleteAction : ActionBase
     {
         private readonly int _elementId;
 
@@ -12,16 +12,16 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _elementId = elementId;
         }
 
-        public void Do()
+        public override void Do()
         {
             Model.RemoveElement(_elementId);
         }
 
-        public void Undo()
+        public override void Undo()
         {
             Model.RestoreElement(_elementId);
         }
 
-        public string Description => "Delete element";
+        public override string Description => "Delete element";
     }
 }

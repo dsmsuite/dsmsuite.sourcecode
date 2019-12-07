@@ -4,22 +4,22 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 {
-    public class SnapshotAction : ActionBase, IAction
+    public class SnapshotAction : ActionBase
     {
         public SnapshotAction(IDsmModel model) : base(model)
         {
         }
 
-        public void Do()
+        public override void Do()
         {
             throw new NotImplementedException();
         }
 
-        public void Undo()
+        public override void Undo()
         {
             throw new NotImplementedException();
         }
 
-        public string Description => "Create element";
+        public override string Description => "Snapshot";
     }
 }

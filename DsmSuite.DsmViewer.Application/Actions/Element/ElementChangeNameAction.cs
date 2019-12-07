@@ -3,7 +3,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementChangeNameAction : ActionBase, IAction
+    public class ElementChangeNameAction : ActionBase
     {
         private readonly int _elementId;
         private readonly string _oldName;
@@ -16,7 +16,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _newName = newName;
         }
 
-        public void Do()
+        public override void Do()
         {
             IDsmElement element = Model.GetElementById(_elementId);
             if (element.Name == _oldName)
@@ -25,7 +25,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             }
         }
 
-        public void Undo()
+        public override void Undo()
         {
             IDsmElement element = Model.GetElementById(_elementId);
             if (element.Name == _newName)
@@ -34,6 +34,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             }
         }
 
-        public string Description => "Rename element";
+        public override string Description => "Rename element";
     }
 }

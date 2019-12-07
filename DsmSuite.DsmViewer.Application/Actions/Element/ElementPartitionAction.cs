@@ -5,7 +5,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementPartitionAction : ActionBase, IAction
+    public class ElementPartitionAction : ActionBase
     {
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;
@@ -19,14 +19,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _algorithm = algorithm;
         }
 
-        public void Do()
+        public override void Do()
         {
             Partitioner partitioner = new Partitioner(_element, _model);
             _vector = partitioner.Partition();
             _model.ReorderChildren(_element, _vector);
         }
 
-        public void Undo()
+        public override void Undo()
         {
             Vector inverseVector = new Vector(_vector.Size());
             for (int i = 0; i < _vector.Size(); i++)
@@ -36,6 +36,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _model.ReorderChildren(_element, inverseVector);
         }
 
-        public string Description => "Partition element";
+        public override string Description => "Partition element";
     }
 }

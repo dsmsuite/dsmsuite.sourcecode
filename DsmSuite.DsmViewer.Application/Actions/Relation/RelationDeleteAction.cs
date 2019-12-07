@@ -18,16 +18,16 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _weight = weight;
         }
 
-        public void Do()
+        public override void Do()
         {
             Model.RemoveRelation(_consumerId, _providerId, _type, _weight);
         }
 
-        public void Undo()
+        public override void Undo()
         {
             Model.UnremoveRelation(_consumerId, _providerId, _type, _weight);
         }
 
-        public string Description => "Delete relation";
+        public override string Description => "Delete relation";
     }
 }

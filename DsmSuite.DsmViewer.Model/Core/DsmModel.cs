@@ -232,7 +232,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return elementWithName.FirstOrDefault();
         }
 
-        public IEnumerable<IDsmElement> GetElementsWithFullnameContainingText(string text)
+        public IEnumerable<IDsmElement> SearchElements(string text)
         {
             return from element in _elementsById.Values
                    where element.Fullname.Contains(text)

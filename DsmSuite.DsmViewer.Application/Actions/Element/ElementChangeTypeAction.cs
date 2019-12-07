@@ -4,7 +4,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementChangeTypeAction : ActionBase, IAction
+    public class ElementChangeTypeAction : ActionBase
     {
         private readonly int _elementId;
         private readonly string _oldType;
@@ -17,16 +17,16 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _newType = newType;
         }
 
-        public void Do()
+        public override void Do()
         {
             throw new NotImplementedException();
         }
 
-        public void Undo()
+        public override void Undo()
         {
             throw new NotImplementedException();
         }
 
-        public string Description => "Rename element";
+        public override string Description => "Rename element";
     }
 }

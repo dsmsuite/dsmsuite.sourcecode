@@ -10,16 +10,16 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         {
         }
 
-        public void Do()
+        public override void Do()
         {
             throw new NotImplementedException();
         }
 
-        public void Undo()
+        public override void Undo()
         {
             throw new NotImplementedException();
         }
 
-        public string Description => "Move relation";
+        public override string Description => "Move relation";
     }
 }

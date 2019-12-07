@@ -6,23 +6,23 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
     public class ActionManager
     {
-        private readonly Stack<IAction> _undoActionStack;
-        private readonly Stack<IAction> _redoActionStack;
+        private readonly Stack<ActionBase> _undoActionStack;
+        private readonly Stack<ActionBase> _redoActionStack;
 
-        public event EventHandler ActionPerformned;
+        public event EventHandler ActionPerformed;
 
         public ActionManager()
         {
-            _undoActionStack = new Stack<IAction>();
-            _redoActionStack = new Stack<IAction>();
+            _undoActionStack = new Stack<ActionBase>();
+            _redoActionStack = new Stack<ActionBase>();
         }
 
-        public void Execute(IAction action)
+        public void Execute(ActionBase action)
         {
             _undoActionStack.Push(action);
             _redoActionStack.Clear();
             action.Do();
-            ActionPerformned?.Invoke(this, EventArgs.Empty);
+            ActionPerformed?.Invoke(this, EventArgs.Empty);
             Logger.LogInfo("Do :{action.Description}");
         }
 
@@ -31,26 +31,26 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             return _undoActionStack.Count > 0;
         }
 
-        public string GetUndoActionDescription()
+        public IAction GetCurrentUndoAction()
         {
-            string description = ""; ;
-            if (_undoActionStack.Count > 0)
+            IAction action = null;
+            if (_redoActionStack.Count > 0)
             {
-                description = _undoActionStack.Peek().Description;
+                action = _redoActionStack.Peek();
             };
-            return description;
+            return action;
         }
 
         public void Undo()
         {
             if (_undoActionStack.Count > 0)
             {
-                IAction action = _undoActionStack.Pop();
+                ActionBase action = _undoActionStack.Pop();
                 if (action != null)
                 {
                     _redoActionStack.Push(action);
                     action.Undo();
-                    ActionPerformned?.Invoke(this, EventArgs.Empty);
+                    ActionPerformed?.Invoke(this, EventArgs.Empty);
                     Logger.LogInfo("Undo :{action.Description}");
                 }
             }
@@ -61,26 +61,26 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             return _redoActionStack.Count > 0;
         }
 
-        public string GetRedoActionDescription()
+        public IAction GetCurrentRedoAction()
         {
-            string description = ""; ;
+            IAction action = null;
             if (_redoActionStack.Count > 0)
             {
-                description = _redoActionStack.Peek().Description;
+                action = _redoActionStack.Peek();
             };
-            return description;
+            return action;
         }
 
         public void Redo()
         {
             if (_redoActionStack.Count > 0)
             {
-                IAction action = _redoActionStack.Pop();
+                ActionBase action = _redoActionStack.Pop();
                 if (action != null)
                 {
                     _undoActionStack.Push(action);
                     action.Do();
-                    ActionPerformned?.Invoke(this, EventArgs.Empty);
+                    ActionPerformed?.Invoke(this, EventArgs.Empty);
                     Logger.LogInfo("Redo :{action.Description}");
                 }
             }
@@ -92,16 +92,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             _redoActionStack.Clear();
         }
 
-        public IEnumerable<string> GetActionDescriptions()
+        public IEnumerable<IAction> GetUndoActions()
         {
-            List<string> actionDescriptions = new List<string>();
-            foreach (IAction action in _undoActionStack)
-            {
-                actionDescriptions.Add(action.Description);
-            }
-            return actionDescriptions;
+            return _undoActionStack;
         }
-
-
     }
 }

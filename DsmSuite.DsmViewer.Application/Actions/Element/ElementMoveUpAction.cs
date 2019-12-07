@@ -4,7 +4,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementMoveDownAction : ActionBase, IAction
+    public class ElementMoveDownAction : ActionBase
     {
         private readonly IDsmModel _model;
         private readonly IDsmElement _currentElement;
@@ -17,7 +17,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _nextElement = element?.NextSibling;
         }
 
-        public void Do()
+        public override void Do()
         {
             if (_currentElement != null && _nextElement != null)
             {
@@ -25,7 +25,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             }
         }
 
-        public void Undo()
+        public override void Undo()
         {
             if (_currentElement != null && _nextElement != null)
             {
@@ -33,6 +33,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             }
         }
 
-        public string Description => $"Move up element name={_currentElement.Fullname}";
+        public override string Description => $"Move up element name={_currentElement.Fullname}";
     }
 }

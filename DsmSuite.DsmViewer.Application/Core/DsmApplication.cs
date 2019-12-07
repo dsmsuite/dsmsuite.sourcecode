@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.DsmViewer.Application.Import;
 using DsmSuite.DsmViewer.Application.Interfaces;
+using DsmSuite.DsmViewer.Application.Queries;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Reporting;
 
@@ -15,9 +15,10 @@ namespace DsmSuite.DsmViewer.Application.Core
     {
         private readonly IDsmModel _model;
         private readonly ActionManager _actionManager;
+        private readonly DsmQueries _queries;
 
         public event EventHandler<bool> Modified;
-        public event EventHandler ActionPerformned;
+        public event EventHandler ActionPerformed;
 
         public DsmApplication(IDsmModel model)
         {
@@ -25,12 +26,14 @@ namespace DsmSuite.DsmViewer.Application.Core
             _model.Modified += OnModelModified;
 
             _actionManager = new ActionManager();
-            _actionManager.ActionPerformned += OnActionPerformned;
+            _actionManager.ActionPerformed += OnActionPerformed;
+
+            _queries = new DsmQueries(model);
         }
 
-        private void OnActionPerformned(object sender, EventArgs e)
+        private void OnActionPerformed(object sender, EventArgs e)
         {
-            ActionPerformned?.Invoke(sender, e);
+            ActionPerformed?.Invoke(sender, e);
         }
 
         public bool CanUndo()
@@ -40,7 +43,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public string GetUndoActionDescription()
         {
-            return _actionManager.GetUndoActionDescription();
+            return _actionManager.GetCurrentUndoAction()?.Description;
         }
 
         public void Undo()
@@ -55,7 +58,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public string GetRedoActionDescription()
         {
-            return _actionManager.GetRedoActionDescription();
+            return _actionManager.GetCurrentRedoAction()?.Description;
         }
 
         public void Redo()
@@ -94,65 +97,34 @@ namespace DsmSuite.DsmViewer.Application.Core
             return report.WriteReport();
         }
 
+        public IEnumerable<IDsmElement> GetElementConsumers(IDsmElement element)
+        {
+            return _queries.GetElementConsumers(element);
+        }
+
         public IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element)
         {
-            var relations = _model.ResolveRelations(_model.FindProviderRelations(element))
-                .OrderBy(x => x.Provider.Fullname)
-                .GroupBy(x => x.Provider.Fullname)
-                .Select(x => x.FirstOrDefault())
-                .ToList();
-
-            var elements = relations.Select(x => x.Provider)
-                .ToList();
-            return elements;
+            return _queries.GetElementProvidedElements(element);
         }
 
         public IEnumerable<IDsmElement> GetElementProviders(IDsmElement element)
         {
-            var relations = _model.ResolveRelations(_model.FindConsumerRelations(element))
-                .OrderBy(x => x.Provider.Fullname)
-                .GroupBy(x => x.Provider.Fullname)
-                .Select(x => x.FirstOrDefault())
-                .ToList();
-
-            var elements = relations.Select(x => x.Provider)
-                .ToList();
-            return elements;
+            return _queries.GetElementProviders(element);
         }
 
         public IEnumerable<IDsmResolvedRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
-            var relations = _model.ResolveRelations(_model.FindRelations(consumer, provider))
-                .OrderBy(x => x.Provider.Fullname)
-                .ThenBy(x => x.Consumer.Fullname)
-                .ToList();
-            return relations;
+            return _queries.FindRelations(consumer, provider);
         }
 
         public IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider)
         {
-            var relations = _model.ResolveRelations(_model.FindRelations(consumer, provider))
-                .OrderBy(x => x.Provider.Fullname)
-                .GroupBy(x => x.Provider.Fullname)
-                .Select(x => x.FirstOrDefault())
-                .ToList();
-
-            var elements = relations.Select(x => x.Provider)
-                .ToList();
-            return elements;
+            return _queries.GetRelationProviders(consumer, provider);
         }
 
         public IEnumerable<IDsmElement> GetRelationConsumers(IDsmElement consumer, IDsmElement provider)
         {
-            var relations = _model.ResolveRelations(_model.FindRelations(consumer, provider))
-                .OrderBy(x => x.Consumer.Fullname)
-                .GroupBy(x => x.Consumer.Fullname)
-                .Select(x => x.FirstOrDefault())
-                .ToList();
-
-            var elements = relations.Select(x => x.Consumer)
-                .ToList();
-            return elements;
+            return _queries.GetRelationConsumers(consumer, provider);
         }
 
         public bool IsFirstChild(IDsmElement element)
@@ -193,19 +165,6 @@ namespace DsmSuite.DsmViewer.Application.Core
             return new List<string> {"Partition"};
         }
 
-        public IEnumerable<IDsmElement> GetElementConsumers(IDsmElement element)
-        {
-            var relations = _model.ResolveRelations(_model.FindProviderRelations(element))
-                .OrderBy(x => x.Consumer.Fullname)
-                .GroupBy(x => x.Consumer.Fullname)
-                .Select(x => x.FirstOrDefault())
-                .ToList();
-
-            var elements = relations.Select(x => x.Consumer)
-                .ToList();
-            return elements;
-        }
-
         public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
             return _model.GetDependencyWeight(consumer.Id, provider.Id);
@@ -216,9 +175,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _model.IsCyclicDependency(consumer.Id, provider.Id);
         }
 
-        public IEnumerable<IDsmElement> SearchExecute(string text)
+        public IEnumerable<IDsmElement> SearchElements(string text)
         {
-            return _model.GetElementsWithFullnameContainingText(text);
+            return _model.SearchElements(text);
         }
     }
 }
