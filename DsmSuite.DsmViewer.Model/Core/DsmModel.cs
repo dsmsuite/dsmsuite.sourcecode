@@ -170,6 +170,23 @@ namespace DsmSuite.DsmViewer.Model.Core
             return element;
         }
 
+        public void ChangeParent(IDsmElement element, IDsmElement parent)
+        {
+            DsmElement currentParent = element.Parent as DsmElement;
+            DsmElement newParent = parent as DsmElement;
+            if ((currentParent != null) && (newParent != null))
+            {
+                currentParent.RemoveChild(element);
+                newParent.AddChild(element);
+            }
+        }
+
+        public void RemoveElement(IDsmElement element)
+        {
+            RemoveElement(element.Id);
+        }
+
+
         /// <summary>
         /// Remove the element and its children from the model.
         /// </summary>
@@ -186,6 +203,11 @@ namespace DsmSuite.DsmViewer.Model.Core
                     RemoveElement(child.Id);
                 }
             }
+        }
+
+        public void RestoreElement(IDsmElement element)
+        {
+            throw new NotImplementedException();
         }
 
         public void RestoreElement(int id)

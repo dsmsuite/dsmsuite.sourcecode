@@ -1,23 +1,31 @@
 ﻿using System;
 using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementChangeParentAction : ActionBase
     {
-        public ElementChangeParentAction(IDsmModel model) : base(model)
+        private readonly IDsmElement _element;
+        private readonly IDsmElement _oldParent;
+        private readonly IDsmElement _newParent;
+
+        public ElementChangeParentAction(IDsmModel model, IDsmElement element, IDsmElement newParent) : base(model)
         {
+            _element = element;
+            _oldParent = _element.Parent;
+            _newParent = newParent;
         }
 
         public override void Do()
         {
-            throw new NotImplementedException();
+            Model.ChangeParent(_element, _newParent);
         }
 
         public override void Undo()
         {
-            throw new NotImplementedException();
+            Model.ChangeParent(_element, _oldParent);
         }
 
         public override string Description => "Move element";

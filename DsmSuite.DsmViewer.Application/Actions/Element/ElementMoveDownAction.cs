@@ -6,13 +6,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementMoveUpAction : ActionBase
     {
-        private readonly IDsmModel _model;
         private readonly IDsmElement _currentElement;
         private readonly IDsmElement _previousElement;
 
         public ElementMoveUpAction(IDsmModel model, IDsmElement element) : base(model)
         {
-            _model = model;
             _currentElement = element;
             _previousElement = element?.PreviousSibling;
         }
@@ -21,7 +19,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         {
             if (_currentElement != null && _previousElement != null)
             {
-                _model.Swap(_currentElement, _previousElement);
+                Model.Swap(_currentElement, _previousElement);
             }
         }
 
@@ -29,7 +27,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         {
             if (_currentElement != null && _previousElement != null)
             {
-                _model.Swap(_previousElement, _currentElement);
+                Model.Swap(_previousElement, _currentElement);
             }
         }
 

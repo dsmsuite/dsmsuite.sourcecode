@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Application.Actions.Element;
@@ -71,10 +72,18 @@ namespace DsmSuite.DsmViewer.Application.Core
             Modified?.Invoke(sender,e);
         }
 
-        public void ImportModel(string dsiFilename, string dsmFilename, bool overwriteDsmFile, bool compressDsmFile)
+        public void ImportModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile)
         {
-            DsmBuilder builder = new DsmBuilder(_model);
-            builder.BuildModel(dsiFilename, dsmFilename, overwriteDsmFile, compressDsmFile);
+            if (!File.Exists(dsmFilename) || overwriteDsmFile)
+            {
+                DsmBuilder builder = new DsmBuilder(_model);
+                builder.Build(dsiFilename, dsmFilename, applyPartitionAlgorithm, compressDsmFile);
+            }
+            else
+            {
+                DsmUpdater updater = new DsmUpdater(_model);
+                updater.Update(dsiFilename, dsmFilename, compressDsmFile);
+            }
         }
 
         public async Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress)

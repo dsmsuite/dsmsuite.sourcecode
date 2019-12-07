@@ -5,21 +5,21 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementDeleteAction : ActionBase
     {
-        private readonly int _elementId;
+        private readonly IDsmElement _element;
 
-        public ElementDeleteAction(IDsmModel model, int elementId) : base(model)
+        public ElementDeleteAction(IDsmModel model, IDsmElement element) : base(model)
         {
-            _elementId = elementId;
+            _element = element;
         }
 
         public override void Do()
         {
-            Model.RemoveElement(_elementId);
+            Model.RemoveElement(_element);
         }
 
         public override void Undo()
         {
-            Model.RestoreElement(_elementId);
+            Model.RestoreElement(_element);
         }
 
         public override string Description => "Delete element";

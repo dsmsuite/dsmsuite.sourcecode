@@ -29,7 +29,6 @@
     <Compile Include="Actions\Base\ActionBase.cs" />
     <Compile Include="Actions\Base\ActionManager.cs" />
     <Compile Include="Actions\Base\IAction.cs" />
-    <Compile Include="Actions\Element\ElementChangeTypeAction.cs" />
     <Compile Include="Actions\Element\ElementCreateAction.cs" />
     <Compile Include="Actions\Element\ElementDeleteAction.cs" />
     <Compile Include="Actions\Element\ElementChangeParentAction.cs" />
@@ -39,7 +38,6 @@
     <Compile Include="Actions\Element\ElementMoveUpAction.cs" />
     <Compile Include="Actions\Relation\RelationChangeConsumerAction.cs" />
     <Compile Include="Actions\Relation\RelationChangeProviderAction.cs" />
-    <Compile Include="Actions\Relation\RelationChangeTypeAction.cs" />
     <Compile Include="Actions\Relation\RelationCreateAction.cs" />
     <Compile Include="Actions\Relation\RelationDeleteAction.cs" />
     <Compile Include="Actions\Relation\RelationChangeWeightAction.cs" />

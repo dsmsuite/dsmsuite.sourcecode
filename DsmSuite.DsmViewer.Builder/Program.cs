@@ -45,7 +45,7 @@ namespace DsmSuite.DsmViewer.Builder
                     {
                         DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
                         DsmApplication application = new DsmApplication(model);
-                        application.ImportModel(builderSettings.InputFilename, builderSettings.OutputFilename, builderSettings.OverwriteOutputFile, builderSettings.CompressOutputFile);
+                        application.ImportModel(builderSettings.InputFilename, builderSettings.OutputFilename, builderSettings.ApplyPartitioningAlgorithm, builderSettings.OverwriteOutputFile, builderSettings.CompressOutputFile);
                     }
                 }
             }

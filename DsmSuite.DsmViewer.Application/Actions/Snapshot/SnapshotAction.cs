@@ -6,20 +6,21 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 {
     public class SnapshotAction : ActionBase
     {
-        public SnapshotAction(IDsmModel model) : base(model)
+        private readonly string _snapshotText;
+
+        public SnapshotAction(IDsmModel model, string snapshotText) : base(model)
         {
+            _snapshotText = snapshotText;
         }
 
         public override void Do()
         {
-            throw new NotImplementedException();
         }
 
         public override void Undo()
         {
-            throw new NotImplementedException();
         }
 
-        public override string Description => "Snapshot";
+        public override string Description => $"Snapshot {_snapshotText}";
     }
 }

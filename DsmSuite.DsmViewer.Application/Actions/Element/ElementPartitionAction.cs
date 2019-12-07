@@ -7,23 +7,21 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementPartitionAction : ActionBase
     {
-        private readonly IDsmModel _model;
         private readonly IDsmElement _element;
         private readonly  string _algorithm;
         private Vector _vector;
 
         public ElementPartitionAction(IDsmModel model, IDsmElement element, string algorithm) : base(model)
         {
-            _model = model;
             _element = element;
             _algorithm = algorithm;
         }
 
         public override void Do()
         {
-            Partitioner partitioner = new Partitioner(_element, _model);
+            Partitioner partitioner = new Partitioner(_element, Model);
             _vector = partitioner.Partition();
-            _model.ReorderChildren(_element, _vector);
+            Model.ReorderChildren(_element, _vector);
         }
 
         public override void Undo()
@@ -33,7 +31,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             {
                 inverseVector.Set(_vector.Get(i), i);
             }
-            _model.ReorderChildren(_element, inverseVector);
+            Model.ReorderChildren(_element, inverseVector);
         }
 
         public override string Description => "Partition element";

@@ -25,6 +25,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void RemoveRelation(int consumerId, int providerId, string type, int weight);
         void UnremoveRelation(int consumerId, int providerId, string type, int weight);
         int ElementCount { get; }
+        void ChangeParent(IDsmElement element, IDsmElement parent);
 
         void AssignElementOrder();
         IEnumerable<IDsmElement> RootElements { get; }
@@ -34,7 +35,9 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<IDsmElement> SearchElements(string text);
 
         void RemoveElement(int id);
+        void RemoveElement(IDsmElement element);
         void RestoreElement(int id);
+        void RestoreElement(IDsmElement element);
 
         int GetDependencyWeight(int consumerId, int providerId);
         bool IsCyclicDependency(int consumerId, int providerId);
