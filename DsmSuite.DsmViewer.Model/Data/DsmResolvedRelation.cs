@@ -6,7 +6,7 @@ namespace DsmSuite.DsmViewer.Model.Data
 
     public class DsmResolvedRelation : IDsmResolvedRelation
     {
-        public DsmResolvedRelation(Dictionary<int, DsmElement> elementsById, IDsmRelation relation)
+        public DsmResolvedRelation(Dictionary<int, IDsmElement> elementsById, IDsmRelation relation)
         {
             Id = relation.Id;
             Consumer = elementsById.ContainsKey(relation.Consumer) ? elementsById[relation.Consumer] : null;

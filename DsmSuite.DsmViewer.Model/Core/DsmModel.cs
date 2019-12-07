@@ -17,11 +17,13 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly List<string> _metaDataGroupNames;
         private readonly Dictionary<string, List<IDsmMetaDataItem>> _metaDataGroups;
 
-        private readonly Dictionary<int /*id*/, DsmElement> _elementsById;
+        private readonly Dictionary<int /*id*/, IDsmElement> _elementsById;
+        private readonly Dictionary<int /*id*/, IDsmElement> _deletedElementsById;
 
-        private readonly Dictionary<int /*relationId*/, DsmRelation> _relationsById;
-        private readonly Dictionary<int /*providerId*/, Dictionary<int /*consumerId*/, DsmRelation>> _relationsByProvider;
-        private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, DsmRelation>> _relationsByConsumer;
+        private readonly Dictionary<int /*relationId*/, IDsmRelation> _relationsById;
+        private readonly Dictionary<int /*providerId*/, Dictionary<int /*consumerId*/, IDsmRelation>> _relationsByProvider;
+        private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, IDsmRelation>> _relationsByConsumer;
+        private readonly Dictionary<int /*relationId*/, IDsmRelation> _deletedRelationsById;
 
         private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, int /*weight*/>> _weights;
 
@@ -37,13 +39,16 @@ namespace DsmSuite.DsmViewer.Model.Core
             _metaDataGroupNames = new List<string>();
             _metaDataGroups = new Dictionary<string, List<IDsmMetaDataItem>>();
 
-            _elementsById = new Dictionary<int, DsmElement>();
+            _elementsById = new Dictionary<int, IDsmElement>();
+            _deletedElementsById = new Dictionary<int, IDsmElement>();
             _rootElements = new List<IDsmElement>();
+
             _lastElementId = 0;
 
-            _relationsById = new Dictionary<int, DsmRelation>();
-            _relationsByProvider = new Dictionary<int, Dictionary<int, DsmRelation>>();
-            _relationsByConsumer = new Dictionary<int, Dictionary<int, DsmRelation>>();
+            _relationsById = new Dictionary<int, IDsmRelation>();
+            _relationsByProvider = new Dictionary<int, Dictionary<int, IDsmRelation>>();
+            _relationsByConsumer = new Dictionary<int, Dictionary<int, IDsmRelation>>();
+            _deletedRelationsById = new Dictionary<int, IDsmRelation>();
             _lastRelationId = 0;
 
             _weights = new Dictionary<int, Dictionary<int, int>>();
@@ -205,7 +210,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             if (_elementsById.ContainsKey(id))
             {
-                DsmElement element = _elementsById[id];
+                IDsmElement element = _elementsById[id];
                 UnregisterElement(element);
 
                 foreach (IDsmElement child in element.Children)
@@ -218,7 +223,11 @@ namespace DsmSuite.DsmViewer.Model.Core
         public void UnremoveElement(int id)
         {
             Logger.LogDataModelMessage($"Restore element id={id}");
-            throw new NotImplementedException();
+            if (_deletedElementsById.ContainsKey(id))
+            {
+                IDsmElement element = _deletedElementsById[id];
+                RegisterElement(element);
+            }
         }
 
         public IEnumerable<IDsmElement> GetRootElements()
@@ -255,7 +264,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmElement GetElementByFullname(string fullname)
         {
-            IEnumerable<DsmElement> elementWithName = from element in _elementsById.Values
+            IEnumerable<IDsmElement> elementWithName = from element in _elementsById.Values
                                                       where element.Fullname == fullname
                                                       select element;
 
@@ -312,7 +321,11 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void UnremoveRelation(int relationId)
         {
-            throw new NotImplementedException();
+            IDsmRelation relation = _deletedRelationsById[relationId];
+            if (relation != null)
+            {
+                RegisterRelation(relation);
+            }
         }
 
         public int GetDependencyWeight(int consumerId, int providerId)
@@ -475,12 +488,8 @@ namespace DsmSuite.DsmViewer.Model.Core
                 GetIdsOfElementAndItsChidren(child, ids);
             }
         }
-
-
-
-
-
-        private void RegisterElement(DsmElement element)
+        
+        private void RegisterElement(IDsmElement element)
         {
             _elementsById[element.Id] = element;
         }
@@ -491,6 +500,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             UnregisterConsumerRelations(element);
 
             _elementsById.Remove(element.Id);
+            _deletedElementsById[element.Id] = element;
         }
 
         /// <summary>
@@ -516,14 +526,17 @@ namespace DsmSuite.DsmViewer.Model.Core
 
                     if (_elementsById.ContainsKey(parentId.Value))
                     {
-                        _elementsById[parentId.Value].AddChild(element);
-                        RegisterElement(element);
+                        DsmElement parent = _elementsById[parentId.Value] as DsmElement;
+                        if (parent != null)
+                        {
+                            parent.AddChild(element);
+                            RegisterElement(element);
+                        }
                     }
                     else
                     {
                         Logger.LogError($"Parent not found id={id}");
                     }
-
                 }
             }
             else
@@ -535,22 +548,25 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             return element;
         }
-
-
-
-        private void RegisterRelation(DsmRelation relation)
+        
+        private void RegisterRelation(IDsmRelation relation)
         {
             _relationsById[relation.Id] = relation;
 
+            if (_deletedRelationsById.ContainsKey(relation.Id))
+            {
+                _deletedRelationsById.Remove(relation.Id);
+            }
+
             if (!_relationsByProvider.ContainsKey(relation.Provider))
             {
-                _relationsByProvider[relation.Provider] = new Dictionary<int, DsmRelation>();
+                _relationsByProvider[relation.Provider] = new Dictionary<int, IDsmRelation>();
             }
             _relationsByProvider[relation.Provider][relation.Consumer] = relation;
 
             if (!_relationsByConsumer.ContainsKey(relation.Consumer))
             {
-                _relationsByConsumer[relation.Consumer] = new Dictionary<int, DsmRelation>();
+                _relationsByConsumer[relation.Consumer] = new Dictionary<int, IDsmRelation>();
             }
             _relationsByConsumer[relation.Consumer][relation.Provider] = relation;
 
@@ -560,6 +576,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         private void UnregisterRelation(IDsmRelation relation)
         {
             _relationsById.Remove(relation.Id);
+
+            _deletedRelationsById[relation.Id] = relation;
 
             if (!_relationsByProvider.ContainsKey(relation.Provider))
             {
@@ -657,7 +675,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 _relationsByConsumer.Remove(element.Id);
             }
 
-            foreach (Dictionary<int, DsmRelation> consumerRelations in _relationsByConsumer.Values)
+            foreach (Dictionary<int, IDsmRelation> consumerRelations in _relationsByConsumer.Values)
             {
                 if (consumerRelations.ContainsKey(element.Id))
                 {
@@ -673,7 +691,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 _relationsByProvider.Remove(element.Id);
             }
 
-            foreach (Dictionary<int, DsmRelation> providerRelations in _relationsByProvider.Values)
+            foreach (Dictionary<int, IDsmRelation> providerRelations in _relationsByProvider.Values)
             {
                 if (providerRelations.ContainsKey(element.Id))
                 {
