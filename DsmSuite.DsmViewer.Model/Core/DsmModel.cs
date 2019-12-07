@@ -448,6 +448,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
 
             AssignElementOrder();
+            IsModified = true;
 
             return swapped;
         }
