@@ -15,16 +15,16 @@ namespace DsmSuite.Transformer.Test.Transformation
         {
             DsiDataModel dataModel = new DsiDataModel("Test", System.Reflection.Assembly.GetExecutingAssembly());
 
-            dataModel.CreateElement("element1Name", "class", "element1Source");
-            dataModel.CreateElement("element2Name", "class", "element2Source");
+            dataModel.AddElement("element1Name", "class", "element1Source");
+            dataModel.AddElement("element2Name", "class", "element2Source");
 
-            IDsiElement element1Before = dataModel.FindElement("element1Name");
+            IDsiElement element1Before = dataModel.FindElementByName("element1Name");
             Assert.IsNotNull(element1Before);
-            IDsiElement element2Before = dataModel.FindElement("element2Name");
+            IDsiElement element2Before = dataModel.FindElementByName("element2Name");
             Assert.IsNotNull(element2Before);
-            IDsiElement element3Before = dataModel.FindElement("element3Name");
+            IDsiElement element3Before = dataModel.FindElementByName("element3Name");
             Assert.IsNull(element3Before);
-            IDsiElement element4Before = dataModel.FindElement("element4Name");
+            IDsiElement element4Before = dataModel.FindElementByName("element4Name");
             Assert.IsNull(element4Before);
 
             MoveElementsSettings moveElementsSettings = new MoveElementsSettings
@@ -40,13 +40,13 @@ namespace DsmSuite.Transformer.Test.Transformation
             MoveElementsAction transformation = new MoveElementsAction(dataModel, moveElementsSettings);
             transformation.Execute();
 
-            IDsiElement element1After = dataModel.FindElement("element1Name");
+            IDsiElement element1After = dataModel.FindElementByName("element1Name");
             Assert.IsNull(element1After);
-            IDsiElement element2After = dataModel.FindElement("element2Name");
+            IDsiElement element2After = dataModel.FindElementByName("element2Name");
             Assert.IsNotNull(element2After);
-            IDsiElement element3After = dataModel.FindElement("element3Name");
+            IDsiElement element3After = dataModel.FindElementByName("element3Name");
             Assert.IsNotNull(element3After);
-            IDsiElement element4After = dataModel.FindElement("element4Name");
+            IDsiElement element4After = dataModel.FindElementByName("element4Name");
             Assert.IsNull(element4After);
 
             // Element1 renamed

@@ -26,139 +26,139 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
             analyzer.Analyze();
 
             // Main elements
-            IDsiElement elementMainClient = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainClient");
+            IDsiElement elementMainClient = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainClient");
             Assert.IsNotNull(elementMainClient);
 
-            IDsiElement elementMainType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType");
+            IDsiElement elementMainType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainType");
             Assert.IsNotNull(elementMainType);
 
-            IDsiElement elementMainTypeMyDelegate = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType/MyDelegate");
+            IDsiElement elementMainTypeMyDelegate = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainType/MyDelegate");
             Assert.IsNotNull(elementMainTypeMyDelegate);
 
-            IDsiElement elementMainTypeAnonymous = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType/<>c");
+            IDsiElement elementMainTypeAnonymous = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainType/<>c");
             Assert.IsNotNull(elementMainTypeAnonymous);
 
-            IDsiElement elementInterfaceA = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.InterfaceA");
+            IDsiElement elementInterfaceA = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.InterfaceA");
             Assert.IsNotNull(elementInterfaceA);
 
-            IDsiElement elementBaseType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.BaseType");
+            IDsiElement elementBaseType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.BaseType");
             Assert.IsNotNull(elementBaseType);
 
-            IDsiElement elementNestedType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MainType/NestedType");
+            IDsiElement elementNestedType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainType/NestedType");
             Assert.IsNotNull(elementNestedType);
 
             // Fields
-            IDsiElement elementFieldType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.FieldType");
+            IDsiElement elementFieldType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.FieldType");
             Assert.IsNotNull(elementFieldType);
 
-            IDsiElement elementGenericFieldType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericFieldType`1");
+            IDsiElement elementGenericFieldType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericFieldType`1");
             Assert.IsNotNull(elementGenericFieldType);
 
-            IDsiElement elementGenericFieldTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericFieldTypeParameter");
+            IDsiElement elementGenericFieldTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericFieldTypeParameter");
             Assert.IsNotNull(elementGenericFieldTypeParameter);
 
             // Properties
-            IDsiElement elementPropertyType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.PropertyType");
+            IDsiElement elementPropertyType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.PropertyType");
             Assert.IsNotNull(elementPropertyType);
 
-            IDsiElement elementPropertyEnum = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.PropertyEnum");
+            IDsiElement elementPropertyEnum = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.PropertyEnum");
             Assert.IsNotNull(elementPropertyEnum);
 
-            IDsiElement elementGenericPropertyType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericPropertyType`1");
+            IDsiElement elementGenericPropertyType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericPropertyType`1");
             Assert.IsNotNull(elementGenericPropertyType);
 
-            IDsiElement elementGenericPropertyTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericPropertyTypeParameter");
+            IDsiElement elementGenericPropertyTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericPropertyTypeParameter");
             Assert.IsNotNull(elementGenericPropertyTypeParameter);
 
             // Method variables
-            IDsiElement elementMethodVariableType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.MethodVariableType");
+            IDsiElement elementMethodVariableType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MethodVariableType");
             Assert.IsNotNull(elementMethodVariableType);
 
             // Parameters
-            IDsiElement elementParameterEnum = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ParameterEnum");
+            IDsiElement elementParameterEnum = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ParameterEnum");
             Assert.IsNotNull(elementParameterEnum);
 
-            IDsiElement elementParameterType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ParameterType");
+            IDsiElement elementParameterType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ParameterType");
             Assert.IsNotNull(elementParameterType);
 
-            IDsiElement elementGenericParameterType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterType`1");
+            IDsiElement elementGenericParameterType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterType`1");
             Assert.IsNotNull(elementGenericParameterType);
 
-            IDsiElement elementGenericParameterTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterTypeParameter"); 
+            IDsiElement elementGenericParameterTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterTypeParameter"); 
             Assert.IsNotNull(elementGenericParameterTypeParameter);
 
             // Return types
-            IDsiElement elementReturnType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ReturnType"); 
+            IDsiElement elementReturnType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ReturnType"); 
             Assert.IsNotNull(elementReturnType);
 
-            IDsiElement elementReturnEnum = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.ReturnEnum"); 
+            IDsiElement elementReturnEnum = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ReturnEnum"); 
             Assert.IsNotNull(elementReturnEnum);
 
-            IDsiElement elementGenericReturnType = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnType`1"); 
+            IDsiElement elementGenericReturnType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnType`1"); 
             Assert.IsNotNull(elementGenericReturnType);
 
-            IDsiElement elementGenericReturnTypeParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnTypeParameter"); 
+            IDsiElement elementGenericReturnTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnTypeParameter"); 
             Assert.IsNotNull(elementGenericReturnTypeParameter);
 
-            IDsiElement elementDelegateGenericParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.DelegateGenericParameter");
+            IDsiElement elementDelegateGenericParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.DelegateGenericParameter");
             Assert.IsNotNull(elementDelegateGenericParameter);
 
-            IDsiElement elementEventsArgsGenericParameter = model.FindElement("DsmSuite.Analyzer.DotNet.Test.Data.EventsArgsGenericParameter"); 
+            IDsiElement elementEventsArgsGenericParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.EventsArgsGenericParameter"); 
             Assert.IsNotNull(elementEventsArgsGenericParameter);
 
             // Main relations
-            Assert.IsTrue(model.DoesRelationExist(elementMainClient, elementMainType)); 
-            Assert.IsTrue(model.DoesRelationExist(elementMainClient, elementEventsArgsGenericParameter));
+            Assert.IsTrue(model.DoesRelationExist(elementMainClient.Id, elementMainType.Id)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainClient.Id, elementEventsArgsGenericParameter.Id));
 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementNestedType));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementMainTypeAnonymous));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementMainTypeMyDelegate));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementNestedType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementMainTypeAnonymous.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementMainTypeMyDelegate.Id));
 
-            Assert.IsTrue(model.DoesRelationExist(elementMainTypeAnonymous, elementMainTypeMyDelegate));
+            Assert.IsTrue(model.DoesRelationExist(elementMainTypeAnonymous.Id, elementMainTypeMyDelegate.Id));
 
-            Assert.IsTrue(model.DoesRelationExist(elementMainTypeAnonymous, elementDelegateGenericParameter));
-            Assert.IsTrue(model.DoesRelationExist(elementMainTypeAnonymous, elementDelegateGenericParameter));
+            Assert.IsTrue(model.DoesRelationExist(elementMainTypeAnonymous.Id, elementDelegateGenericParameter.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainTypeAnonymous.Id, elementDelegateGenericParameter.Id));
 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementInterfaceA)); 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementBaseType)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementInterfaceA.Id)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementBaseType.Id)); 
 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementEventsArgsGenericParameter));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementDelegateGenericParameter));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementEventsArgsGenericParameter.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementDelegateGenericParameter.Id));
 
             // Field relations
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementFieldType)); 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementGenericFieldType)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementFieldType.Id)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericFieldType.Id)); 
 
             // Property relations
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementPropertyType));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementPropertyEnum));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementGenericPropertyType));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementGenericPropertyTypeParameter));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementPropertyType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementPropertyEnum.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericPropertyType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericPropertyTypeParameter.Id));
 
             // Method variable relations
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementMethodVariableType));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementMethodVariableType.Id));
 
             // Parameters type relations
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementParameterEnum));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementParameterType));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementGenericParameterType));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementGenericParameterTypeParameter));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementParameterEnum.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementParameterType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericParameterType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericParameterTypeParameter.Id));
 
-            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA, elementParameterEnum));
-            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA, elementParameterType));
-            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA, elementGenericParameterType));
-            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA, elementGenericParameterTypeParameter));
+            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementParameterEnum.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementParameterType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementGenericParameterType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementGenericParameterTypeParameter.Id));
 
             // Return type relations
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementReturnType));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementReturnEnum));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementGenericReturnType));
-            Assert.IsTrue(model.DoesRelationExist(elementMainType, elementGenericReturnTypeParameter));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementReturnType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementReturnEnum.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericReturnType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericReturnTypeParameter.Id));
 
-            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA, elementReturnType));
-            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA, elementReturnEnum));
-            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA, elementGenericReturnType));
-            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA, elementGenericReturnTypeParameter));
+            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementReturnType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementReturnEnum.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementGenericReturnType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementGenericReturnTypeParameter.Id));
         }
     }
 }

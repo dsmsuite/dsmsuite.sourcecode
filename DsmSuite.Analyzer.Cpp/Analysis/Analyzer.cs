@@ -87,7 +87,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 string name = ExtractSourceFileUniqueName(sourceFile.Name);
                 string type = sourceFile.Extension;
-                _model.CreateElement(name, type, sourceFile.FileInfo.FullName);
+                _model.AddElement(name, type, sourceFile.FileInfo.FullName);
             }
             else
             {

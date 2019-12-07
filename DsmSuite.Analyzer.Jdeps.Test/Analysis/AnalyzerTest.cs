@@ -24,25 +24,25 @@ namespace DsmSuite.Analyzer.Jdeps.Test.Analysis
 
             Assert.AreEqual(5, model.TotalElementCount);
 
-            IDsiElement elementJavaxCryptoCipher = model.FindElement("javax.crypto.Cipher");
+            IDsiElement elementJavaxCryptoCipher = model.FindElementByName("javax.crypto.Cipher");
             Assert.IsNotNull(elementJavaxCryptoCipher);
 
-            IDsiElement elementJavaxCryptoCipherTransform = model.FindElement("javax.crypto.Cipher.Transform");
+            IDsiElement elementJavaxCryptoCipherTransform = model.FindElementByName("javax.crypto.Cipher.Transform");
             Assert.IsNotNull(elementJavaxCryptoCipherTransform);
 
-            IDsiElement elementJavaxCryptoSpecRcsParameterSpec = model.FindElement("javax.crypto.spec.RC5ParameterSpec");
+            IDsiElement elementJavaxCryptoSpecRcsParameterSpec = model.FindElementByName("javax.crypto.spec.RC5ParameterSpec");
             Assert.IsNotNull(elementJavaxCryptoSpecRcsParameterSpec);
 
-            IDsiElement elementSunSecurityJcaGetInstance = model.FindElement("sun.security.jca.GetInstance");
+            IDsiElement elementSunSecurityJcaGetInstance = model.FindElementByName("sun.security.jca.GetInstance");
             Assert.IsNotNull(elementSunSecurityJcaGetInstance);
 
-            IDsiElement elementJavaLangCharSequence = model.FindElement("java.lang.CharSequence");
+            IDsiElement elementJavaLangCharSequence = model.FindElementByName("java.lang.CharSequence");
             Assert.IsNotNull(elementJavaLangCharSequence);
 
             Assert.AreEqual(3, model.ResolvedRelationCount);
-            Assert.IsTrue(model.DoesRelationExist(elementJavaxCryptoCipher, elementJavaxCryptoSpecRcsParameterSpec));
-            Assert.IsTrue(model.DoesRelationExist(elementJavaxCryptoCipher, elementSunSecurityJcaGetInstance));
-            Assert.IsTrue(model.DoesRelationExist(elementJavaxCryptoCipherTransform, elementJavaLangCharSequence));
+            Assert.IsTrue(model.DoesRelationExist(elementJavaxCryptoCipher.Id, elementJavaxCryptoSpecRcsParameterSpec.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementJavaxCryptoCipher.Id, elementSunSecurityJcaGetInstance.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementJavaxCryptoCipherTransform.Id, elementJavaLangCharSequence.Id));
         }
     }
 }

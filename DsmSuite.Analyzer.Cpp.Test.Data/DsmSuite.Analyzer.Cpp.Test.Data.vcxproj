@@ -67,22 +67,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
     <OutDir>..\build\bin\</OutDir>
-    <IntDir>..\build\obj\</IntDir>
+    <IntDir>..\build\obj\DsmSuite.Analyzer.Cpp.Test.Data\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.lib</TargetExt>
     <OutDir>..\build\bin\</OutDir>
-    <IntDir>..\build\obj\</IntDir>
+    <IntDir>..\build\obj\DsmSuite.Analyzer.Cpp.Test.Data\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.lib</TargetExt>
     <OutDir>..\build\bin\</OutDir>
-    <IntDir>..\build\obj\</IntDir>
+    <IntDir>..\build\obj\DsmSuite.Analyzer.Cpp.Test.Data\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.lib</TargetExt>
     <OutDir>..\build\bin\</OutDir>
-    <IntDir>..\build\obj\</IntDir>
+    <IntDir>..\build\obj\DsmSuite.Analyzer.Cpp.Test.Data\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

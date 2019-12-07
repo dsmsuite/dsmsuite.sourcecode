@@ -32,14 +32,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             {
                 elementNames.Add(element.Name);
 
-                foreach (IDsiRelation relation in dataModel.GetProviderRelations(element))
+                foreach (IDsiRelation relation in dataModel.GetRelationsOfConsumer(element.Id))
                 {
                     if (!providerNames.ContainsKey(element.Name))
                     {
                         providerNames[element.Name] = new HashSet<string>();
                     }
 
-                    IDsiElement provider = dataModel.FindElement(relation.Provider);
+                    IDsiElement provider = dataModel.FindElementById(relation.ProviderId);
                     providerNames[element.Name].Add(provider.Name);
                 }
             }
@@ -110,14 +110,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             {
                 elementNames.Add(element.Name);
 
-                foreach (IDsiRelation relation in dataModel.GetProviderRelations(element))
+                foreach (IDsiRelation relation in dataModel.GetRelationsOfConsumer(element.Id))
                 {
                     if (!providerNames.ContainsKey(element.Name))
                     {
                         providerNames[element.Name] = new HashSet<string>();
                     }
 
-                    IDsiElement provider = dataModel.FindElement(relation.Provider);
+                    IDsiElement provider = dataModel.FindElementById(relation.ProviderId);
                     providerNames[element.Name].Add(provider.Name);
                 }
             }

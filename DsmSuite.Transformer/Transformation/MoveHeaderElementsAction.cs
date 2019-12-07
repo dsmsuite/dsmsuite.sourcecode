@@ -33,10 +33,10 @@ namespace DsmSuite.Transformer.Transformation
 
         private void MoveHeaderElement(IDsiElement element)
         {
-            foreach (IDsiRelation relation in _model.GetProviderRelations(element))
+            foreach (IDsiRelation relation in _model.GetRelationsOfConsumer(element.Id))
             {
-                IDsiElement consumer = _model.FindElement(relation.Consumer);
-                IDsiElement provider = _model.FindElement(relation.Provider);
+                IDsiElement consumer = _model.FindElementById(relation.ConsumerId);
+                IDsiElement provider = _model.FindElementById(relation.ProviderId);
 
                 // Usual case where implementation file includes header file
                 if (IsImplementation(consumer) &&

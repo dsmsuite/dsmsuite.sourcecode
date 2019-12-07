@@ -118,7 +118,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
         private void RegisterElement(EA.Element element)
         {
             Logger.LogInfo("Register model element:" + ExtractUniqueName(element));
-            _model.CreateElement(ExtractUniqueName(element), element.Type, _analyzerSettings.InputFilename);
+            _model.AddElement(ExtractUniqueName(element), element.Type, _analyzerSettings.InputFilename);
         }
 
         private void RegisterRelation(EA.Connector connector)

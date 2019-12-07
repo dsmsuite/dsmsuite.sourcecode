@@ -52,9 +52,9 @@ namespace DsmSuite.Transformer.Transformation
 
                 _directProviders[key] = new HashSet<IDsiElement>();
 
-                foreach (IDsiRelation providerRelation in _model.GetProviderRelations(element))
+                foreach (IDsiRelation providerRelation in _model.GetRelationsOfConsumer(element.Id))
                 {
-                    IDsiElement provider = _model.FindElement(providerRelation.Provider);
+                    IDsiElement provider = _model.FindElementById(providerRelation.ProviderId);
                     _directProviders[key].Add(provider);
                 }
             }

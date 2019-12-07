@@ -9,9 +9,6 @@ using DsmSuite.Analyzer.Util;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
-    /// <summary>
-    /// The data model maintains data item and allows persisting them to a file.
-    /// </summary>
     public class DsiDataModel : IDsiDataModel, IDsiModelFileCallback
     {
         private readonly string _processStep;
@@ -46,7 +43,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void Load(string dsiFilename)
         {
-            AnalyzerLogger.LogDataModelAction("Load data model file=" + dsiFilename);
+            AnalyzerLogger.LogDataModelAction($"Load data model file={dsiFilename}");
 
             DsiModelFile modelFile = new DsiModelFile(dsiFilename, this);
             modelFile.Load(null);
@@ -54,7 +51,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void Save(string dsiFilename, bool compressFile)
         {
-            AnalyzerLogger.LogDataModelAction("Save data model file=" + dsiFilename);
+            AnalyzerLogger.LogDataModelAction($"Save data model file={dsiFilename}");
 
             foreach (string type in GetElementTypes())
             {
@@ -75,18 +72,16 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void AddMetaData(string name, string value)
         {
-            Logger.LogUserMessage($"Metadata: processStep={_processStep} name={name} value={value}");
+            Logger.LogUserMessage($"Add metadata: group={_processStep} name={name} value={value}");
 
-            DsiMetaDataItem metaDataItem = new DsiMetaDataItem(name, value);
-            GetMetaDataGroupItemList(_processStep).Add(metaDataItem);
+            GetMetaDataGroupItemList(_processStep).Add(new DsiMetaDataItem(name, value));
         }
 
-        public void ImportMetaDataItem(string groupName, string itemName, string itemValue)
+        public void ImportMetaDataItem(string group, string name, string value)
         {
-            Logger.LogUserMessage($"Metadata: groupName={groupName} name={itemName} value={itemValue}");
+            Logger.LogUserMessage($"Import meta data: group={group} name={name} value={value}");
 
-            DsiMetaDataItem metaDataItem =new DsiMetaDataItem(itemName, itemValue);
-            GetMetaDataGroupItemList(groupName).Add(metaDataItem);
+            GetMetaDataGroupItemList(group).Add(new DsiMetaDataItem(name, value));
         }
 
         public IEnumerable<string> GetMetaDataGroups()
@@ -94,22 +89,24 @@ namespace DsmSuite.Analyzer.Model.Core
             return _metaDataGroupNames;
         }
 
-        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string groupName)
+        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string group)
         {
-            return GetMetaDataGroupItemList(groupName);
+            return GetMetaDataGroupItemList(group);
         }
         
-        public void ImportElement(int elementId, string name, string type, string source)
+        public void ImportElement(int id, string name, string type, string source)
         {
-            DsiElement element = new DsiElement(elementId, name, type, source);
+            AnalyzerLogger.LogDataModelAction($"Import element to data model id={id} name={name} type={type} source={source}");
+
+            DsiElement element = new DsiElement(id, name, type, source);
             _elementsByName[element.Name] = element;
             _elementsById[element.Id] = element;
             IncrementElementTypeCount(element.Type);
         }
         
-        public IDsiElement CreateElement(string name, string type, string source)
+        public IDsiElement AddElement(string name, string type, string source)
         {
-            AnalyzerLogger.LogDataModelAction("Add element to data model name=" + name + " type=" + type + " source=" + source);
+            AnalyzerLogger.LogDataModelAction($"Add element to data model name={name} type={type} source={source}");
 
             string key = name.ToLower();
             if (!_elementsByName.ContainsKey(key))
@@ -129,6 +126,8 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public void RemoveElement(IDsiElement element)
         {
+            AnalyzerLogger.LogDataModelAction($"Remove element from data model id={element.Id} name={element.Name} type={element.Type} source={element.Source}");
+
             string key = element.Name.ToLower();
             _elementsByName.Remove(key);
             _elementsById.Remove(element.Id);
@@ -136,7 +135,8 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void RenameElement(IDsiElement element, string newName)
         {
-            AnalyzerLogger.LogDataModelAction("Rename element in data model from name=" + element.Name + " to name=" + newName);
+            AnalyzerLogger.LogDataModelAction("Rename element in data model id={element.Id} from {element.Name} to {newName}");
+
             DsiElement e = element as DsiElement;
             if (e != null)
             {
@@ -148,17 +148,17 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
 
-        public IDsiElement FindElement(string name)
-        {
-            string key = name.ToLower();
-            return _elementsByName.ContainsKey(key) ? _elementsByName[key] : null;
-        }
-
-        public IDsiElement FindElement(int id)
+        public IDsiElement FindElementById(int id)
         {
             return _elementsById.ContainsKey(id) ? _elementsById[id] : null;
         }
 
+        public IDsiElement FindElementByName(string name)
+        {
+            string key = name.ToLower();
+            return _elementsByName.ContainsKey(key) ? _elementsByName[key] : null;
+        }
+        
         public IEnumerable<IDsiElement> GetElements()
         {
             return _elementsById.Values;
@@ -185,6 +185,8 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public void ImportRelation(int consumerId, int providerId, string type, int weight)
         {
+            AnalyzerLogger.LogDataModelAction("Import relation in data model consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
+
             IncrementRelationTypeCount(type);
 
             if (!_relationsByConsumerId.ContainsKey(consumerId))
@@ -192,16 +194,17 @@ namespace DsmSuite.Analyzer.Model.Core
                 _relationsByConsumerId[consumerId] = new List<IDsiRelation>();
             }
             DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight);
-            _relationsByConsumerId[relation.Consumer].Add(relation);
+            _relationsByConsumerId[relation.ConsumerId].Add(relation);
         }
 
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
         {
-            AnalyzerLogger.LogDataModelAction("Add relation " + type + " from consumer=" + consumerName + " to provider=" + providerName + " in " + context);
+            AnalyzerLogger.LogDataModelAction("Add relation to data model consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
+
             _relationCount++;
 
-            IDsiElement consumer = FindElement(consumerName);
-            IDsiElement provider = FindElement(providerName);
+            IDsiElement consumer = FindElementByName(consumerName);
+            IDsiElement provider = FindElementByName(providerName);
             IDsiRelation relation = null;
 
             if (consumer != null && provider != null)
@@ -225,9 +228,10 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void SkipRelation(string consumerName, string providerName, string type, string context)
         {
-            AnalyzerLogger.LogDataModelAction("Skip relation " + type + " from consumer=" + consumerName + " to provider=" + providerName + " in " + context);
+            AnalyzerLogger.LogDataModelAction("Skip relation in data model consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
 
             AnalyzerLogger.LogDataModelRelationNotResolved(consumerName, providerName);
+
             _relationCount++;
         }
 
@@ -248,11 +252,11 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
         
-        public ICollection<IDsiRelation> GetProviderRelations(IDsiElement consumer)
+        public ICollection<IDsiRelation> GetRelationsOfConsumer(int consumerId)
         {
-            if (_relationsByConsumerId.ContainsKey(consumer.Id))
+            if (_relationsByConsumerId.ContainsKey(consumerId))
             {
-                return _relationsByConsumerId[consumer.Id];
+                return _relationsByConsumerId[consumerId];
             }
             else
             {
@@ -270,15 +274,15 @@ namespace DsmSuite.Analyzer.Model.Core
             return relations;
         }
 
-        public bool DoesRelationExist(IDsiElement consumer, IDsiElement provider)
+        public bool DoesRelationExist(int consumerId, int providerId)
         {
             bool doesRelationExist = false;
 
-            if (_relationsByConsumerId.ContainsKey(consumer.Id))
+            if (_relationsByConsumerId.ContainsKey(consumerId))
             {
-                foreach (IDsiRelation relation in _relationsByConsumerId[consumer.Id])
+                foreach (IDsiRelation relation in _relationsByConsumerId[consumerId])
                 {
-                    if (relation.Provider == provider.Id)
+                    if (relation.ProviderId == providerId)
                     {
                         doesRelationExist = true;
                     }
@@ -338,8 +342,8 @@ namespace DsmSuite.Analyzer.Model.Core
 
                     foreach (IDsiRelation relation in relations)
                     {
-                        if (!_elementsById.ContainsKey(relation.Consumer) ||
-                            !_elementsById.ContainsKey(relation.Provider))
+                        if (!_elementsById.ContainsKey(relation.ConsumerId) ||
+                            !_elementsById.ContainsKey(relation.ProviderId))
                         {
                             _relationsByConsumerId[element.Id].Remove(relation);
                         }
@@ -348,15 +352,15 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
 
-        private IList<IDsiMetaDataItem> GetMetaDataGroupItemList(string groupName)
+        private IList<IDsiMetaDataItem> GetMetaDataGroupItemList(string group)
         {
-            if (!_metaDataGroups.ContainsKey(groupName))
+            if (!_metaDataGroups.ContainsKey(group))
             {
-                _metaDataGroupNames.Add(groupName);
-                _metaDataGroups[groupName] = new List<IDsiMetaDataItem>();
+                _metaDataGroupNames.Add(group);
+                _metaDataGroups[group] = new List<IDsiMetaDataItem>();
             }
 
-            return _metaDataGroups[groupName];
+            return _metaDataGroups[group];
         }
 
         private void IncrementElementTypeCount(string type)

@@ -428,7 +428,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             if (!IsExternal(typeName))
             {
                 if (
-                    _model.CreateElement(typeDecl.GetElementType().ToString(), DetermineType(typeDecl),
+                    _model.AddElement(typeDecl.GetElementType().ToString(), DetermineType(typeDecl),
                         assemblyFileInfo.FullName) != null)
                 {
                     _typeList.Add(typeDecl);

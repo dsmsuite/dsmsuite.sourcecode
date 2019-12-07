@@ -3,8 +3,8 @@ namespace DsmSuite.Analyzer.Model.Interface
 {
     public interface IDsiRelation
     {
-        int Consumer{ get; }
-        int Provider { get; }
+        int ConsumerId{ get; }
+        int ProviderId { get; }
         string Type { get; }
         int Weight { get; }
     }

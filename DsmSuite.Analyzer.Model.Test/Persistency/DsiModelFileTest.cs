@@ -33,11 +33,13 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             modelFile.Load(null);
 
             Assert.AreEqual(2, _metaData.Count);
+
             Assert.AreEqual(2, _metaData["group1"].Count);
             Assert.AreEqual("item1", _metaData["group1"][0].Name);
             Assert.AreEqual("value1", _metaData["group1"][0].Value);
             Assert.AreEqual("item2", _metaData["group1"][1].Name);
             Assert.AreEqual("value2", _metaData["group1"][1].Value);
+
             Assert.AreEqual(2, _metaData["group2"].Count);
             Assert.AreEqual("item3", _metaData["group2"][0].Name);
             Assert.AreEqual("value3", _metaData["group2"][0].Value);
@@ -45,6 +47,7 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             Assert.AreEqual("value4", _metaData["group2"][1].Value);
 
             Assert.AreEqual(3, _elements.Count);
+
             Assert.AreEqual(1, _elements[0].Id);
             Assert.AreEqual("a.a1", _elements[0].Name);
             Assert.AreEqual("elementtype1", _elements[0].Type);
@@ -61,13 +64,14 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             Assert.AreEqual("source3", _elements[2].Source);
 
             Assert.AreEqual(2, _relations.Count);
-            Assert.AreEqual(1, _relations[0].Consumer);
-            Assert.AreEqual(2, _relations[0].Provider);
+
+            Assert.AreEqual(1, _relations[0].ConsumerId);
+            Assert.AreEqual(2, _relations[0].ProviderId);
             Assert.AreEqual("relationtype1", _relations[0].Type);
             Assert.AreEqual(100, _relations[0].Weight);
 
-            Assert.AreEqual(2, _relations[1].Consumer);
-            Assert.AreEqual(3, _relations[1].Provider);
+            Assert.AreEqual(2, _relations[1].ConsumerId);
+            Assert.AreEqual(3, _relations[1].ProviderId);
             Assert.AreEqual("relationtype2", _relations[1].Type);
             Assert.AreEqual(200, _relations[1].Weight);
         }
@@ -115,20 +119,17 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
                 _metaData[groupName] = new List<IDsiMetaDataItem>();
             }
 
-            DsiMetaDataItem dsiMetaDataItem = new DsiMetaDataItem(itemName, itemValue);
-            _metaData[groupName].Add(dsiMetaDataItem);
+            _metaData[groupName].Add(new DsiMetaDataItem(itemName, itemValue));
         }
 
         public void ImportElement(int elementId, string name, string type, string source)
         {
-            DsiElement element = new DsiElement(elementId, name, type, source);
-            _elements.Add(element);
+            _elements.Add(new DsiElement(elementId, name, type, source));
         }
 
         public void ImportRelation(int consumerId, int providerId, string type, int weight)
         {
-            DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight);
-            _relations.Add(relation);
+            _relations.Add(new DsiRelation(consumerId, providerId, type, weight));
         }
 
         public IEnumerable<string> GetMetaDataGroups()
@@ -136,11 +137,11 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             return _metaData.Keys;
         }
 
-        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string groupName)
+        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string group)
         {
-            if (_metaData.ContainsKey(groupName))
+            if (_metaData.ContainsKey(group))
             {
-                return _metaData[groupName];
+                return _metaData[group];
             }
             else
             {

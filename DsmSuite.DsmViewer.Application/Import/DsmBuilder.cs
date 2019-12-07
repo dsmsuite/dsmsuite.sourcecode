@@ -76,15 +76,15 @@ namespace DsmSuite.DsmViewer.Application.Import
             }
         }
 
-        public void ImportRelation(int consumer, int provider, string type, int weight)
+        public void ImportRelation(int consumerId, int providerId, string type, int weight)
         {
-            if (_dsiToDsmMapping.ContainsKey(consumer) && _dsiToDsmMapping.ContainsKey(provider))
+            if (_dsiToDsmMapping.ContainsKey(consumerId) && _dsiToDsmMapping.ContainsKey(providerId))
             {
-                _model.AddRelation(_dsiToDsmMapping[consumer], _dsiToDsmMapping[provider], type, weight);
+                _model.AddRelation(_dsiToDsmMapping[consumerId], _dsiToDsmMapping[providerId], type, weight);
             }
             else
             {
-                Logger.LogError($"Could not find consumer or provider of relation consumer={consumer} provider={provider}");
+                Logger.LogError($"Could not find consumer or provider of relation consumer={consumerId} provider={providerId}");
             }
         }
 

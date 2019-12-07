@@ -10,15 +10,15 @@ namespace DsmSuite.Analyzer.Model.Interface
         void Load(string dsiFilename);
         void Save(string dsiFilename, bool compressFile);
 
-        void AddMetaData(string itemName, string itemValue);
+        void AddMetaData(string name, string value);
         IEnumerable<string> GetMetaDataGroups();
-        IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string groupName);
+        IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string group);
 
-        IDsiElement CreateElement(string name, string type, string source);
+        IDsiElement AddElement(string name, string type, string source);
         void RemoveElement(IDsiElement element);
         void RenameElement(IDsiElement element, string newName);
-        IDsiElement FindElement(int id);
-        IDsiElement FindElement(string name);
+        IDsiElement FindElementById(int id);
+        IDsiElement FindElementByName(string name);
         IEnumerable<IDsiElement> GetElements();
         int TotalElementCount { get; }
         double ResolvedRelationPercentage { get; }
@@ -28,9 +28,9 @@ namespace DsmSuite.Analyzer.Model.Interface
 
         IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context);
         void SkipRelation(string consumerName, string providerName, string type, string context);
-        ICollection<IDsiRelation> GetProviderRelations(IDsiElement consumer);
+        ICollection<IDsiRelation> GetRelationsOfConsumer(int consumerId);
         IEnumerable<IDsiRelation> GetRelations();
-        bool DoesRelationExist(IDsiElement consumer, IDsiElement provider);
+        bool DoesRelationExist(int consumerId, int providerId);
         int TotalRelationCount { get; }
         int ResolvedRelationCount { get; }
 

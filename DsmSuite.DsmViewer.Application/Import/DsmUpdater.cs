@@ -54,15 +54,15 @@ namespace DsmSuite.DsmViewer.Application.Import
             }
         }
 
-        public void ImportRelation(int consumer, int provider, string type, int weight)
+        public void ImportRelation(int consumerId, int providerId, string type, int weight)
         {
-            if (_elementsById.ContainsKey(consumer) && _elementsById.ContainsKey(provider))
+            if (_elementsById.ContainsKey(consumerId) && _elementsById.ContainsKey(providerId))
             {
-                _model.AddRelation(consumer, provider, type, weight);
+                _model.AddRelation(consumerId, providerId, type, weight);
             }
             else
             {
-                Logger.LogError($"Could not find consumer or provider of relation consumer={consumer} provider={provider}");
+                Logger.LogError($"Could not find consumer or provider of relation consumer={consumerId} provider={providerId}");
             }
         }
 

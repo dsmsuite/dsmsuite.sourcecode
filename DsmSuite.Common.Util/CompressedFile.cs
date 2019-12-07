@@ -4,6 +4,7 @@ using System.IO.Compression;
 
 namespace DsmSuite.Common.Util
 {
+    /// <typeparam name="TProggressType"></typeparam>
     public class CompressedFile<TProggressType>
     {
         private readonly string _filename;

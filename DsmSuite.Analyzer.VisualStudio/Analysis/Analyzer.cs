@@ -197,7 +197,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                                         SourceFile includedSourceFile = new SourceFile(includedFile);
                                         string providerName = GetExternalName(includedSourceFile.SourceFileInfo);
                                         string type = includedSourceFile.FileType;
-                                        _model.CreateElement(providerName, type, includedFile);
+                                        _model.AddElement(providerName, type, includedFile);
                                         _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
                                     }
                                 }
@@ -327,13 +327,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     case ViewMode.LogicalView:
                         {
                             string name = GetLogicalName(solutionFile, visualStudioProject, sourceFile);
-                            _model.CreateElement(name, type, sourceFile.SourceFileInfo.FullName);
+                            _model.AddElement(name, type, sourceFile.SourceFileInfo.FullName);
                             break;
                         }
                     case ViewMode.PhysicalView:
                         {
                             string name = GetPhysicalName(sourceFile);
-                            _model.CreateElement(name, type, sourceFile.SourceFileInfo.FullName);
+                            _model.AddElement(name, type, sourceFile.SourceFileInfo.FullName);
                             break;
                         }
                     default:
