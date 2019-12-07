@@ -32,10 +32,7 @@ namespace DsmSuite.DsmViewer.Builder
                 else
                 {
                     BuilderSettings builderSettings = BuilderSettings.ReadFromFile(settingsFileInfo.FullName);
-                    if (builderSettings.LoggingEnabled)
-                    {
-                        Logger.EnableLogging(Assembly.GetExecutingAssembly());
-                    }
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), builderSettings.LoggingEnabled);
 
                     if (!File.Exists(builderSettings.InputFilename))
                     {

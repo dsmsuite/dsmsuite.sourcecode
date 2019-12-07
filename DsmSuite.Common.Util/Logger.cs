@@ -13,22 +13,15 @@ namespace DsmSuite.Common.Util
     {
         public static DirectoryInfo LogDirectory { get; private set; }
 
-        static Logger()
+        public static void EnableLogging(Assembly assembly, bool enabled)
         {
-            DateTime now = DateTime.Now;
-            string timestamp = $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
-            LogDirectory = Directory.CreateDirectory(@"C:\Temp\DsmSuiteTracing" + @"\Log_" + timestamp + @"\");
+            LoggingEnabled = enabled;
+            if (enabled)
+            {
+                LogDirectory = CreateLogDirectory(assembly);
+            }
         }
-
-        public static void EnableLogging(Assembly assembly)
-        {
-            LoggingEnabled = true;
-            DateTime now = DateTime.Now;
-            string timestamp = $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
-            string assemblyName = assembly.GetName().Name;
-            LogDirectory = Directory.CreateDirectory($@"C:\Temp\DsmSuiteLogging\{assemblyName}_{timestamp}\");
-        }
-
+        
         public static bool LoggingEnabled { get; private set; }
 
         public static void LogAssemblyInfo(Assembly assembly)
@@ -45,7 +38,7 @@ namespace DsmSuite.Common.Util
             [CallerLineNumber] int lineNumber = 0)
         {
             Console.WriteLine(message);
-            WriteLine(true, GetLogfile("userMessages.log"), FormatLine(sourceFile, method, lineNumber, "info", message));
+            WriteLine("userMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
         public static void LogInfo(string message,
@@ -53,8 +46,7 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine(LoggingEnabled, GetLogfile("infoMessages.log"),
-                FormatLine(sourceFile, method, lineNumber, "info", message));
+            WriteLine("infoMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
         public static void LogError(string message,
@@ -62,8 +54,7 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine(LoggingEnabled, GetLogfile("errorMessages.log"),
-                FormatLine(sourceFile, method, lineNumber, "error", message));
+            WriteLine("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
         }
 
         public static void LogException(string message, Exception e,
@@ -71,13 +62,11 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine(LoggingEnabled, GetLogfile("errorMessages.log"),
-                FormatLine(sourceFile, method, lineNumber, "error", message));
+            WriteLine("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
 
-            WriteLine(LoggingEnabled, GetLogfile("exceptions.log"),
-                FormatLine(sourceFile, method, lineNumber, message, e.Message));
-            WriteLine(LoggingEnabled, GetLogfile("exceptions.log"), e.StackTrace);
-            WriteLine(LoggingEnabled, GetLogfile("exceptions.log"), "");
+            WriteLine("exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
+            WriteLine("exceptions.log", e.StackTrace);
+            WriteLine("exceptions.log", "");
         }
 
         public static void LogResourceUsage()
@@ -92,6 +81,33 @@ namespace DsmSuite.Common.Util
             LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
         }
 
+        private static DirectoryInfo CreateLogDirectory(Assembly assembly)
+        {
+            DateTime now = DateTime.Now;
+            string timestamp =
+                $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
+            string assemblyName = assembly.GetName().Name;
+            return Directory.CreateDirectory($@"C:\Temp\DsmSuiteLogging\{assemblyName}_{timestamp}\");
+        }
+
+        private static void WriteLine(string logFilename, string line)
+        {
+            if (LoggingEnabled)
+            {
+                string path = GetLogFullPath(logFilename);
+                FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write);
+                using (StreamWriter writetext = new StreamWriter(fs))
+                {
+                    writetext.WriteLine(line);
+                }
+            }
+        }
+
+        private static string GetLogFullPath(string logFilename)
+        {
+            return Path.GetFullPath(Path.Combine(LogDirectory.FullName, logFilename));
+        }
+
         private static string FormatLine(string sourceFile, string method, int lineNumber, string catagory, string text)
         {
             return StripPath(sourceFile) + " " + method + "() line=" + lineNumber + " " + catagory + "=" + text;
@@ -102,23 +118,6 @@ namespace DsmSuite.Common.Util
             char[] separators = { '\\' };
             string[] parts = sourceFile.Split(separators);
             return parts[parts.Length - 1];
-        }
-
-        private static void WriteLine(bool enabled, string filename, string line)
-        {
-            if (enabled)
-            {
-                FileStream fs = new FileStream(filename, FileMode.Append, FileAccess.Write);
-                using (StreamWriter writetext = new StreamWriter(fs))
-                {
-                    writetext.WriteLine(line);
-                }
-            }
-        }
-
-        private static string GetLogfile(string relativeLogfile)
-        {
-            return Path.GetFullPath(Path.Combine(LogDirectory.FullName, relativeLogfile));
         }
     }
 }

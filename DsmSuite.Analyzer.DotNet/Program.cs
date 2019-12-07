@@ -26,10 +26,7 @@ namespace DsmSuite.Analyzer.DotNet
                 else
                 {
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    if (analyzerSettings.LoggingEnabled)
-                    {
-                        Logger.EnableLogging(Assembly.GetExecutingAssembly());
-                    }
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
                     if (!Directory.Exists(analyzerSettings.AssemblyDirectory))
                     {

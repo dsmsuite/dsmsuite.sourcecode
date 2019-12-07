@@ -27,10 +27,7 @@ namespace DsmSuite.Analyzer.Cpp
                 else
                 {
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    if (analyzerSettings.LoggingEnabled)
-                    {
-                        Logger.EnableLogging(Assembly.GetExecutingAssembly());
-                    }
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
                     DsiDataModel model = new DsiDataModel("Analyzer", Assembly.GetExecutingAssembly());
                     Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);

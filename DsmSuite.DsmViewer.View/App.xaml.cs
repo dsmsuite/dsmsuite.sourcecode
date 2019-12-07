@@ -26,10 +26,7 @@ namespace DsmSuite.DsmViewer.View
             if (settingsFileInfo.Exists)
             {
                 ViewerSettings viewerSettings = ViewerSettings.ReadFromFile(settingsFileInfo.FullName);
-                if (viewerSettings.LoggingEnabled)
-                {
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly());
-                }
+                Logger.EnableLogging(Assembly.GetExecutingAssembly(), viewerSettings.LoggingEnabled);
             }
             
             PresentationTraceSources.Refresh();

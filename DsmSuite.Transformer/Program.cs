@@ -26,10 +26,7 @@ namespace DsmSuite.Transformer
                 else
                 {
                     TransformerSettings transformerSettings = TransformerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    if (transformerSettings.LoggingEnabled)
-                    {
-                        Logger.EnableLogging(Assembly.GetExecutingAssembly());
-                    }
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), transformerSettings.LoggingEnabled);
 
                     if (!File.Exists(transformerSettings.InputFilename))
                     {

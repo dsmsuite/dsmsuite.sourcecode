@@ -29,10 +29,7 @@ namespace DsmSuite.Analyzer.VisualStudio
                 else
                 {
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    if (analyzerSettings.LoggingEnabled)
-                    {
-                        Logger.EnableLogging(Assembly.GetExecutingAssembly());
-                    }
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
                     bool allFound = true;
                     foreach (SolutionGroup solutionGroup in analyzerSettings.SolutionGroups)
