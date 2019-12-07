@@ -43,7 +43,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void Load(string dsiFilename)
         {
-            AnalyzerLogger.LogDataModelAction($"Load data model file={dsiFilename}");
+            Logger.LogDataModelMessage($"Load data model file={dsiFilename}");
 
             DsiModelFile modelFile = new DsiModelFile(dsiFilename, this);
             modelFile.Load(null);
@@ -51,7 +51,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void Save(string dsiFilename, bool compressFile)
         {
-            AnalyzerLogger.LogDataModelAction($"Save data model file={dsiFilename}");
+            Logger.LogDataModelMessage($"Save data model file={dsiFilename} compresss={compressFile}");
 
             foreach (string type in GetElementTypes())
             {
@@ -72,14 +72,14 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void AddMetaData(string name, string value)
         {
-            Logger.LogUserMessage($"Add metadata: group={_processStep} name={name} value={value}");
+            Logger.LogDataModelMessage($"Add metadata group={_processStep} name={name} value={value}");
 
             GetMetaDataGroupItemList(_processStep).Add(new DsiMetaDataItem(name, value));
         }
 
         public void ImportMetaDataItem(string group, string name, string value)
         {
-            Logger.LogUserMessage($"Import meta data: group={group} name={name} value={value}");
+            Logger.LogDataModelMessage($"Import meta data group={group} name={name} value={value}");
 
             GetMetaDataGroupItemList(group).Add(new DsiMetaDataItem(name, value));
         }
@@ -96,7 +96,7 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public void ImportElement(int id, string name, string type, string source)
         {
-            AnalyzerLogger.LogDataModelAction($"Import element to data model id={id} name={name} type={type} source={source}");
+            Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} source={source}");
 
             DsiElement element = new DsiElement(id, name, type, source);
             _elementsByName[element.Name] = element;
@@ -106,7 +106,7 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public IDsiElement AddElement(string name, string type, string source)
         {
-            AnalyzerLogger.LogDataModelAction($"Add element to data model name={name} type={type} source={source}");
+            Logger.LogDataModelMessage($"Add element name={name} type={type} source={source}");
 
             string key = name.ToLower();
             if (!_elementsByName.ContainsKey(key))
@@ -126,7 +126,7 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public void RemoveElement(IDsiElement element)
         {
-            AnalyzerLogger.LogDataModelAction($"Remove element from data model id={element.Id} name={element.Name} type={element.Type} source={element.Source}");
+            Logger.LogDataModelMessage($"Remove element id={element.Id} name={element.Name} type={element.Type} source={element.Source}");
 
             string key = element.Name.ToLower();
             _elementsByName.Remove(key);
@@ -135,7 +135,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void RenameElement(IDsiElement element, string newName)
         {
-            AnalyzerLogger.LogDataModelAction("Rename element in data model id={element.Id} from {element.Name} to {newName}");
+            Logger.LogDataModelMessage("Rename element id={element.Id} from {element.Name} to {newName}");
 
             DsiElement e = element as DsiElement;
             if (e != null)
@@ -185,7 +185,7 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public void ImportRelation(int consumerId, int providerId, string type, int weight)
         {
-            AnalyzerLogger.LogDataModelAction("Import relation in data model consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
+            Logger.LogDataModelMessage("Import relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
 
             IncrementRelationTypeCount(type);
 
@@ -199,7 +199,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
         {
-            AnalyzerLogger.LogDataModelAction("Add relation to data model consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
+            Logger.LogDataModelMessage("Add relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
 
             _relationCount++;
 
@@ -228,7 +228,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void SkipRelation(string consumerName, string providerName, string type, string context)
         {
-            AnalyzerLogger.LogDataModelAction("Skip relation in data model consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
+            Logger.LogDataModelMessage("Skip relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
 
             AnalyzerLogger.LogDataModelRelationNotResolved(consumerName, providerName);
 

@@ -91,14 +91,6 @@ namespace DsmSuite.Analyzer.Util
             Logger.LogToFile("transformation.log", actionName + ": " + description);
         }
 
-        public static void LogDataModelAction(string message,
-                    [CallerFilePath] string file = "",
-                    [CallerMemberName] string method = "",
-                    [CallerLineNumber] int lineNumber = 0)
-        {
-            Logger.LogToFile("dataModelActions.log", FormatLine(file, method, lineNumber, "action", message));
-        }
-
         public static void LogDataModelRelationNotResolved(string consumerName, string providerName)
         {
             string key = providerName;
@@ -154,18 +146,6 @@ namespace DsmSuite.Analyzer.Util
                 Logger.LogToFile(overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");
                 Logger.LogToFile(detailsFilename, $"{keys.Count} items found in {totalOccurances} occurances");
             }
-        }
-
-        private static string FormatLine(string sourceFile, string method, int lineNumber, string catagory, string text)
-        {
-            return StripPath(sourceFile) + " " + method + "() line=" + lineNumber + " " + catagory + "=" + text;
-        }
-
-        private static string StripPath(string sourceFile)
-        {
-            char[] separators = { '\\' };
-            string[] parts = sourceFile.Split(separators);
-            return parts[parts.Length - 1];
         }
     }
 }

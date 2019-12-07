@@ -53,6 +53,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress)
         {
+            Logger.LogDataModelMessage($"Load data model file={dsmFilename}");
+
             Clear();
             DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, this);
             dsmModelFile.Load(progress);
@@ -62,6 +64,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void SaveModel(string dsmFilename, bool compressFile, IProgress<DsmProgressInfo> progress)
         {
+            Logger.LogDataModelMessage($"Save data model file={dsmFilename} compresss={compressFile}");
+
             if (_processStep != null)
             {
                 AddMetaData("Total elements found", $"{ElementCount}");
@@ -109,24 +113,28 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmMetaDataItem AddMetaData(string name, string value)
         {
-            return AddMetaData(_processStep, name, value);
+            Logger.LogDataModelMessage($"Add meta data group={_processStep} name={name} value={value}");
+
+            DsmMetaDataItem metaDataItem = new DsmMetaDataItem(name, value);
+            GetMetaDataGroupItemList(_processStep).Add(metaDataItem);
+            return metaDataItem;
         }
 
         public IDsmMetaDataItem AddMetaData(string group, string name, string value)
         {
-            Logger.LogUserMessage($"Metadata: processStep={group} name={name} value={value}");
+            Logger.LogDataModelMessage($"Add meta data group={group} name={name} value={value}");
 
             DsmMetaDataItem metaDataItem = new DsmMetaDataItem(name, value);
             GetMetaDataGroupItemList(group).Add(metaDataItem);
             return metaDataItem;
         }
 
-        public IDsmMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
+        public IDsmMetaDataItem ImportMetaDataItem(string group, string name, string value)
         {
-            Logger.LogUserMessage($"Metadata: groupName={groupName} name={name} value={value}");
+            Logger.LogDataModelMessage($"Import meta data group={group} name={name} value={value}");
 
             DsmMetaDataItem metaDataItem = new DsmMetaDataItem(name, value);
-            GetMetaDataGroupItemList(groupName).Add(metaDataItem);
+            GetMetaDataGroupItemList(group).Add(metaDataItem);
             return metaDataItem;
         }
 
@@ -144,6 +152,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
         {
+            Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} order={order} expanded={expanded} parentId={parentId}");
+
             if (id > _lastElementId)
             {
                 _lastElementId = id;
@@ -151,8 +161,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             return AddElement(id, name, type, order, expanded, parentId);
         }
 
-        public IDsmElement CreateElement(string name, string type, int? parentId)
+        public IDsmElement AddElement(string name, string type, int? parentId)
         {
+            Logger.LogDataModelMessage($"Add element name={name} type={type} parentId={parentId}");
+
             string fullname = name;
             if (parentId.HasValue)
             {
@@ -176,6 +188,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void ChangeParent(IDsmElement element, IDsmElement parent)
         {
+            Logger.LogDataModelMessage($"Change element parent name={element.Name} from {element.Parent.Fullname} to {parent.Fullname}");
+
             DsmElement currentParent = element.Parent as DsmElement;
             DsmElement newParent = parent as DsmElement;
             if ((currentParent != null) && (newParent != null))
@@ -185,18 +199,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        public void RemoveElement(IDsmElement element)
-        {
-            RemoveElement(element.Id);
-        }
-
-
-        /// <summary>
-        /// Remove the element and its children from the model.
-        /// </summary>
-        /// <param name="id"></param>
         public void RemoveElement(int id)
         {
+            Logger.LogDataModelMessage($"Remove element id={id}");
+
             if (_elementsById.ContainsKey(id))
             {
                 DsmElement element = _elementsById[id];
@@ -209,13 +215,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        public void RestoreElement(IDsmElement element)
+        public void UnremoveElement(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public void RestoreElement(int id)
-        {
+            Logger.LogDataModelMessage($"Restore element id={id}");
             throw new NotImplementedException();
         }
 
@@ -231,6 +233,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void AssignElementOrder()
         {
+            Logger.LogDataModelMessage("AssignElementOrder");
+
             int order = 1;
             foreach (IDsmElement root in _rootElements)
             {
@@ -267,6 +271,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight)
         {
+            Logger.LogDataModelMessage("Import relation relationId={relationId} consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
+
             if (relationId > _lastRelationId)
             {
                 _lastRelationId = relationId;
@@ -281,27 +287,30 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relation;
         }
 
-        public void AddRelation(int consumerId, int providerId, string type, int weight)
+        public IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight)
         {
+            Logger.LogDataModelMessage("Add relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
+
+            DsmRelation relation = null;
             if (consumerId != providerId)
             {
                 _lastRelationId++;
-                DsmRelation relation = new DsmRelation(_lastRelationId, consumerId, providerId, type, weight);
+                relation = new DsmRelation(_lastRelationId, consumerId, providerId, type, weight);
                 RegisterRelation(relation);
+            }
+            return relation;
+        }
+
+        public void RemoveRelation(int relationId)
+        {
+            IDsmRelation relation = _relationsById[relationId];
+            if (relation != null)
+            {
+                UnregisterRelation(relation);
             }
         }
 
-        public void RemoveRelation(int consumerId, int providerId, string type, int weight)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveRelation(IDsmRelation relation)
-        {
-            UnregisterRelation(relation);
-        }
-
-        public void UnremoveRelation(int consumerId, int providerId, string type, int weight)
+        public void UnremoveRelation(int relationId)
         {
             throw new NotImplementedException();
         }
@@ -375,12 +384,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public int GetRelationCount()
         {
-            int relationCount = 0;
-            foreach (Dictionary<int, DsmRelation> consumerRelations in _relationsByConsumer.Values)
-            {
-                relationCount += consumerRelations.Count;
-            }
-            return relationCount;
+            return _relationsById.Values.Count;
         }
 
         public IEnumerable<IDsmResolvedRelation> ResolveRelations(IEnumerable<IDsmRelation> relations)
@@ -454,7 +458,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
             return previous;
         }
-        
+
         private List<int> GetIdsOfElementAndItsChidren(IDsmElement element)
         {
             List<int> ids = new List<int>();
@@ -598,7 +602,6 @@ namespace DsmSuite.DsmViewer.Model.Core
                 }
             }
         }
-
 
         private void AddWeight(int consumerId, int providerId, int weight)
         {

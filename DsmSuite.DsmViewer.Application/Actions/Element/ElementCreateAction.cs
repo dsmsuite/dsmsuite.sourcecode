@@ -19,12 +19,12 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override void Do()
         {
-            _element = Model.CreateElement(_name, _type, _parentId);
+            _element = Model.AddElement(_name, _type, _parentId);
         }
 
         public override void Undo()
         {
-            Model.RemoveElement(_element);
+            Model.RemoveElement(_element.Id);
         }
 
         public override string Description => "Create element";

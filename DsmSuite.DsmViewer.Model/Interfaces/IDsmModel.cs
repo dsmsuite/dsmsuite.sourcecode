@@ -19,26 +19,26 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<string> GetMetaDataGroups();
         IEnumerable<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
 
-        IDsmElement CreateElement(string name, string type, int? parentId);
-        void AddRelation(int consumerId, int providerId, string type, int weight);
-        void RemoveRelation(IDsmRelation relation);
-        void RemoveRelation(int consumerId, int providerId, string type, int weight);
-        void UnremoveRelation(int consumerId, int providerId, string type, int weight);
+        IDsmElement AddElement(string name, string type, int? parentId);
+        void RemoveElement(int id);
+        void UnremoveElement(int id);
         int ElementCount { get; }
         void ChangeParent(IDsmElement element, IDsmElement parent);
-
-        void AssignElementOrder();
+        void ReorderChildren(IDsmElement element, IVector permutationVector);
+        IDsmElement NextSibling(IDsmElement element);
+        IDsmElement PreviousSibling(IDsmElement element);
+        bool Swap(IDsmElement fisrt, IDsmElement second);
         IEnumerable<IDsmElement> RootElements { get; }
 
         IDsmElement GetElementById(int id);
         IDsmElement GetElementByFullname(string fullname);
         IEnumerable<IDsmElement> SearchElements(string text);
 
-        void RemoveElement(int id);
-        void RemoveElement(IDsmElement element);
-        void RestoreElement(int id);
-        void RestoreElement(IDsmElement element);
+        void AssignElementOrder();
 
+        IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight);
+        void RemoveRelation(int relationId);
+        void UnremoveRelation(int relationId);
         int GetDependencyWeight(int consumerId, int providerId);
         bool IsCyclicDependency(int consumerId, int providerId);
 
@@ -48,9 +48,6 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         IEnumerable<IDsmResolvedRelation> ResolveRelations(IEnumerable<IDsmRelation> relations);
 
-        void ReorderChildren(IDsmElement element, IVector permutationVector);
-        IDsmElement NextSibling(IDsmElement element);
-        IDsmElement PreviousSibling(IDsmElement element);
-        bool Swap(IDsmElement fisrt, IDsmElement second);
+
     }
 }

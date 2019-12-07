@@ -41,6 +41,14 @@ namespace DsmSuite.Common.Util
             LogToFile("userMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
+        public static void LogDataModelMessage(string message,
+            [CallerFilePath] string sourceFile = "",
+            [CallerMemberName] string method = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            LogToFile("dataModelMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
+        }
+
         public static void LogInfo(string message,
             [CallerFilePath] string sourceFile = "",
             [CallerMemberName] string method = "",

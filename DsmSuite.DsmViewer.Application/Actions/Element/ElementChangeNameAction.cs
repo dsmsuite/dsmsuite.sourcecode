@@ -5,25 +5,33 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementChangeNameAction : ActionBase
     {
-        private readonly IDsmElement _element;
+        private readonly int _elementId;
         private readonly string _oldName;
         private readonly string _newName;
 
         public ElementChangeNameAction(IDsmModel model, IDsmElement element, string newName) : base(model)
         {
-            _element = element;
-            _oldName = _element.Name;
+            _elementId = element.Id;
+            _oldName = element.Name;
             _newName = newName;
         }
 
         public override void Do()
         {
-            _element.Name = _newName;
+            IDsmElement element = Model.GetElementById(_elementId);
+            if (element != null)
+            {
+                element.Name = _newName;
+            }
         }
 
         public override void Undo()
         {
-            _element.Name = _oldName;
+            IDsmElement element = Model.GetElementById(_elementId);
+            if (element != null)
+            {
+                element.Name = _oldName;
+            }
         }
 
         public override string Description => "Rename element";

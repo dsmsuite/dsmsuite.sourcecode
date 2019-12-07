@@ -5,27 +5,20 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
     public class RelationDeleteAction : ActionBase
     {
-        private readonly int _consumerId;
-        private readonly int _providerId;
-        private readonly string _type;
-        private readonly int _weight;
-
-        public RelationDeleteAction(IDsmModel model, int consumerId, int providerId, string type, int weight) : base(model)
+        private readonly IDsmRelation _relation;
+        public RelationDeleteAction(IDsmModel model, IDsmRelation relation) : base(model)
         {
-            _consumerId = consumerId;
-            _providerId = providerId;
-            _type = type;
-            _weight = weight;
+            _relation = relation;
         }
 
         public override void Do()
         {
-            Model.RemoveRelation(_consumerId, _providerId, _type, _weight);
+            Model.RemoveRelation(_relation.Id);
         }
 
         public override void Undo()
         {
-            Model.UnremoveRelation(_consumerId, _providerId, _type, _weight);
+            Model.UnremoveRelation(_relation.Id);
         }
 
         public override string Description => "Delete relation";

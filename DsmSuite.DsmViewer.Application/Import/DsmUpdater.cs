@@ -44,7 +44,7 @@ namespace DsmSuite.DsmViewer.Application.Import
                 string elementType = isElementLeaf ? type : "";
 
                 int? parentId = parent?.Id;
-                IDsmElement element = _model.CreateElement(name, elementType, parentId);
+                IDsmElement element = _model.AddElement(name, elementType, parentId);
                 parent = element;
 
                 if (isElementLeaf)
