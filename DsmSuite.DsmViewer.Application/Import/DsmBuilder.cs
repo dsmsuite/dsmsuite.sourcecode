@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.Application.Import
     public class DsmBuilder : IDsiModelFileCallback
     {
         private readonly IDsmModel _model;
-        private readonly Dictionary<int, IDsmElement> _elementsById = new Dictionary<int, IDsmElement>();
+        private readonly Dictionary<int, int> _dsiToDsmMapping = new Dictionary<int, int>();
 
         public DsmBuilder(IDsmModel model)
         {
@@ -71,16 +71,16 @@ namespace DsmSuite.DsmViewer.Application.Import
 
                 if (isElementLeaf)
                 {
-                    _elementsById[id] = element;
+                    _dsiToDsmMapping[id] = element.Id;
                 }
             }
         }
 
         public void ImportRelation(int consumer, int provider, string type, int weight)
         {
-            if (_elementsById.ContainsKey(consumer) && _elementsById.ContainsKey(provider))
+            if (_dsiToDsmMapping.ContainsKey(consumer) && _dsiToDsmMapping.ContainsKey(provider))
             {
-                _model.AddRelation(consumer, provider, type, weight);
+                _model.AddRelation(_dsiToDsmMapping[consumer], _dsiToDsmMapping[provider], type, weight);
             }
             else
             {
