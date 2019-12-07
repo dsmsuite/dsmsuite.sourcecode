@@ -35,8 +35,8 @@ namespace DsmSuite.Transformer.Transformation
         {
             foreach (IDsiRelation relation in _model.GetProviderRelations(element))
             {
-                IDsiElement consumer = _model.FindElement(relation.ConsumerId);
-                IDsiElement provider = _model.FindElement(relation.ProviderId);
+                IDsiElement consumer = _model.FindElement(relation.Consumer);
+                IDsiElement provider = _model.FindElement(relation.Provider);
 
                 // Usual case where implementation file includes header file
                 if (IsImplementation(consumer) &&

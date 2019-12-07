@@ -61,13 +61,13 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             Assert.AreEqual("source3", _elements[2].Source);
 
             Assert.AreEqual(2, _relations.Count);
-            Assert.AreEqual(1, _relations[0].ConsumerId);
-            Assert.AreEqual(2, _relations[0].ProviderId);
+            Assert.AreEqual(1, _relations[0].Consumer);
+            Assert.AreEqual(2, _relations[0].Provider);
             Assert.AreEqual("relationtype1", _relations[0].Type);
             Assert.AreEqual(100, _relations[0].Weight);
 
-            Assert.AreEqual(2, _relations[1].ConsumerId);
-            Assert.AreEqual(3, _relations[1].ProviderId);
+            Assert.AreEqual(2, _relations[1].Consumer);
+            Assert.AreEqual(3, _relations[1].Provider);
             Assert.AreEqual("relationtype2", _relations[1].Type);
             Assert.AreEqual(200, _relations[1].Weight);
         }
@@ -108,20 +108,20 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             _relations.Add(new DsiRelation(2, 3, "relationtype2", 200));
         }
 
-        public void ImportMetaDataItem(string groupName, string name, string value)
+        public void ImportMetaDataItem(string groupName, string itemName, string itemValue)
         {
             if (!_metaData.ContainsKey(groupName))
             {
                 _metaData[groupName] = new List<IDsiMetaDataItem>();
             }
 
-            DsiMetaDataItem dsiMetaDataItem = new DsiMetaDataItem(name, value);
+            DsiMetaDataItem dsiMetaDataItem = new DsiMetaDataItem(itemName, itemValue);
             _metaData[groupName].Add(dsiMetaDataItem);
         }
 
-        public void ImportElement(int id, string name, string type, string source)
+        public void ImportElement(int elementId, string name, string type, string source)
         {
-            DsiElement element = new DsiElement(id, name, type, source);
+            DsiElement element = new DsiElement(elementId, name, type, source);
             _elements.Add(element);
         }
 

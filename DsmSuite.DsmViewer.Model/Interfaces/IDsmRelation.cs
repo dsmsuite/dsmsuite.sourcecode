@@ -3,14 +3,19 @@
     public interface IDsmRelation
     {
         /// <summary>
-        /// The consumer element.
+        /// Unique and non-modifiable Number identifying the relation.
         /// </summary>
-        int ConsumerId { get; }
+        int Id { get; }
 
         /// <summary>
-        /// The provider element.
+        /// The consumer element id.
         /// </summary>
-        int ProviderId { get; }
+        int Consumer { get; }
+
+        /// <summary>
+        /// The provider element id.
+        /// </summary>
+        int Provider { get; }
 
         /// <summary>
         /// Type of relation.

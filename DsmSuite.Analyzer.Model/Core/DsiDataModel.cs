@@ -81,11 +81,11 @@ namespace DsmSuite.Analyzer.Model.Core
             GetMetaDataGroupItemList(_processStep).Add(metaDataItem);
         }
 
-        public void ImportMetaDataItem(string groupName, string name, string value)
+        public void ImportMetaDataItem(string groupName, string itemName, string itemValue)
         {
-            Logger.LogUserMessage($"Metadata: groupName={groupName} name={name} value={value}");
+            Logger.LogUserMessage($"Metadata: groupName={groupName} name={itemName} value={itemValue}");
 
-            DsiMetaDataItem metaDataItem =new DsiMetaDataItem(name, value);
+            DsiMetaDataItem metaDataItem =new DsiMetaDataItem(itemName, itemValue);
             GetMetaDataGroupItemList(groupName).Add(metaDataItem);
         }
 
@@ -99,9 +99,9 @@ namespace DsmSuite.Analyzer.Model.Core
             return GetMetaDataGroupItemList(groupName);
         }
         
-        public void ImportElement(int id, string name, string type, string source)
+        public void ImportElement(int elementId, string name, string type, string source)
         {
-            DsiElement element = new DsiElement(id, name, type, source);
+            DsiElement element = new DsiElement(elementId, name, type, source);
             _elementsByName[element.Name] = element;
             _elementsById[element.Id] = element;
             IncrementElementTypeCount(element.Type);
@@ -192,7 +192,7 @@ namespace DsmSuite.Analyzer.Model.Core
                 _relationsByConsumerId[consumerId] = new List<IDsiRelation>();
             }
             DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight);
-            _relationsByConsumerId[relation.ConsumerId].Add(relation);
+            _relationsByConsumerId[relation.Consumer].Add(relation);
         }
 
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
@@ -278,7 +278,7 @@ namespace DsmSuite.Analyzer.Model.Core
             {
                 foreach (IDsiRelation relation in _relationsByConsumerId[consumer.Id])
                 {
-                    if (relation.ProviderId == provider.Id)
+                    if (relation.Provider == provider.Id)
                     {
                         doesRelationExist = true;
                     }
@@ -338,8 +338,8 @@ namespace DsmSuite.Analyzer.Model.Core
 
                     foreach (IDsiRelation relation in relations)
                     {
-                        if (!_elementsById.ContainsKey(relation.ConsumerId) ||
-                            !_elementsById.ContainsKey(relation.ProviderId))
+                        if (!_elementsById.ContainsKey(relation.Consumer) ||
+                            !_elementsById.ContainsKey(relation.Provider))
                         {
                             _relationsByConsumerId[element.Id].Remove(relation);
                         }

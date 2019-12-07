@@ -39,7 +39,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
                         providerNames[element.Name] = new HashSet<string>();
                     }
 
-                    IDsiElement provider = dataModel.FindElement(relation.ProviderId);
+                    IDsiElement provider = dataModel.FindElement(relation.Provider);
                     providerNames[element.Name].Add(provider.Name);
                 }
             }
@@ -117,7 +117,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
                         providerNames[element.Name] = new HashSet<string>();
                     }
 
-                    IDsiElement provider = dataModel.FindElement(relation.ProviderId);
+                    IDsiElement provider = dataModel.FindElement(relation.Provider);
                     providerNames[element.Name].Add(provider.Name);
                 }
             }

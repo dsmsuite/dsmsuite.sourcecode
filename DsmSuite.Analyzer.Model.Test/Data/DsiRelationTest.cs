@@ -11,8 +11,8 @@ namespace DsmSuite.Analyzer.Model.Test.Data
         public void TestRelationConstructor()
         {
             IDsiRelation relation = new DsiRelation(1, 2, "type", 3);
-            Assert.AreEqual(1, relation.ConsumerId);
-            Assert.AreEqual(2, relation.ProviderId);
+            Assert.AreEqual(1, relation.Consumer);
+            Assert.AreEqual(2, relation.Provider);
             Assert.AreEqual("type", relation.Type);
             Assert.AreEqual(3, relation.Weight);
         }

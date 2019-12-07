@@ -17,7 +17,7 @@ namespace DsmSuite.DsmViewer.Builder.Test.Application
 
             DsmModel model = new DsmModel("Test", Assembly.GetExecutingAssembly());
             DsmBuilder builder = new DsmBuilder(model);
-            builder.Build(inputFilename, outputFilename, false, true);
+            builder.Build(inputFilename, outputFilename, false, false);
 
             IDsmElement a = model.GetElementByFullname("a");
             Assert.AreNotEqual(0, a.Id);

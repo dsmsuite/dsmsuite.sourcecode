@@ -20,13 +20,13 @@
     <element id="19" order="9" name="c2" type="etc" expanded="False" parent="17" />
   </elements>
   <relations>
-    <relation from="12" to="15" type="ra" weight="1000" />
-    <relation from="13" to="15" type="ra" weight="200" />
-    <relation from="12" to="16" type="ra" weight="30" />
-    <relation from="13" to="16" type="ra" weight="4" />
-    <relation from="12" to="19" type="ra" weight="5" />
-    <relation from="16" to="12" type="rb" weight="1" />
-    <relation from="16" to="13" type="rb" weight="2" />
-    <relation from="18" to="13" type="rc" weight="4" />
+    <relation id="91" from="12" to="15" type="ra" weight="1000" />
+    <relation id="92" from="13" to="15" type="ra" weight="200" />
+    <relation id="93" from="12" to="16" type="ra" weight="30" />
+    <relation id="94" from="13" to="16" type="ra" weight="4" />
+    <relation id="95" from="12" to="19" type="ra" weight="5" />
+    <relation id="96" from="16" to="12" type="rb" weight="1" />
+    <relation id="97" from="16" to="13" type="rb" weight="2" />
+    <relation id="98" from="18" to="13" type="rc" weight="4" />
   </relations>
 </dsmmodel>

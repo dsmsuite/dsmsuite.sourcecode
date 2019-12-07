@@ -168,8 +168,8 @@ namespace DsmSuite.Analyzer.Model.Persistency
             foreach (IDsiRelation relation in _callback.GetRelations())
             {
                 writer.WriteStartElement(RelationXmlNode);
-                writer.WriteAttributeString(RelationFromXmlAttribute, relation.ConsumerId.ToString());
-                writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
+                writer.WriteAttributeString(RelationFromXmlAttribute, relation.Consumer.ToString());
+                writer.WriteAttributeString(RelationToXmlAttribute, relation.Provider.ToString());
                 writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
                 writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
                 writer.WriteEndElement();
@@ -181,15 +181,15 @@ namespace DsmSuite.Analyzer.Model.Persistency
         {
             if (xReader.Name == RelationXmlNode)
             {
-                int consumerId;
-                int.TryParse(xReader.GetAttribute(RelationFromXmlAttribute), out consumerId);
-                int providerId;
-                int.TryParse(xReader.GetAttribute(RelationToXmlAttribute), out providerId);
+                int consumer;
+                int.TryParse(xReader.GetAttribute(RelationFromXmlAttribute), out consumer);
+                int provider;
+                int.TryParse(xReader.GetAttribute(RelationToXmlAttribute), out provider);
                 string type = xReader.GetAttribute(RelationTypeXmlAttribute);
                 int weight;
                 int.TryParse(xReader.GetAttribute(RelationWeightXmlAttribute), out weight);
 
-                _callback.ImportRelation(consumerId, providerId, type, weight);
+                _callback.ImportRelation(consumer, provider, type, weight);
             }
         }
     }

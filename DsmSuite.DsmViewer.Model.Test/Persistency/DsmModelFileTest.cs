@@ -140,43 +140,51 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("c.c2", c2.Fullname);
             Assert.IsFalse(c2.IsExpanded);
 
-            Assert.AreEqual(a1.Id, _relations[0].ConsumerId);
-            Assert.AreEqual(b1.Id, _relations[0].ProviderId);
+            Assert.AreEqual(91, _relations[0].Id);
+            Assert.AreEqual(a1.Id, _relations[0].Consumer);
+            Assert.AreEqual(b1.Id, _relations[0].Provider);
             Assert.AreEqual("ra", _relations[0].Type);
             Assert.AreEqual(1000, _relations[0].Weight);
 
-            Assert.AreEqual(a2.Id, _relations[1].ConsumerId);
-            Assert.AreEqual(b1.Id, _relations[1].ProviderId);
+            Assert.AreEqual(92, _relations[1].Id);
+            Assert.AreEqual(a2.Id, _relations[1].Consumer);
+            Assert.AreEqual(b1.Id, _relations[1].Provider);
             Assert.AreEqual("ra", _relations[1].Type);
             Assert.AreEqual(200, _relations[1].Weight);
 
-            Assert.AreEqual(a1.Id, _relations[2].ConsumerId);
-            Assert.AreEqual(b2.Id, _relations[2].ProviderId);
+            Assert.AreEqual(93, _relations[2].Id);
+            Assert.AreEqual(a1.Id, _relations[2].Consumer);
+            Assert.AreEqual(b2.Id, _relations[2].Provider);
             Assert.AreEqual("ra", _relations[2].Type);
             Assert.AreEqual(30, _relations[2].Weight);
 
-            Assert.AreEqual(a2.Id, _relations[3].ConsumerId);
-            Assert.AreEqual(b2.Id, _relations[3].ProviderId);
+            Assert.AreEqual(94, _relations[3].Id);
+            Assert.AreEqual(a2.Id, _relations[3].Consumer);
+            Assert.AreEqual(b2.Id, _relations[3].Provider);
             Assert.AreEqual("ra", _relations[3].Type);
             Assert.AreEqual(4, _relations[3].Weight);
 
-            Assert.AreEqual(a1.Id, _relations[4].ConsumerId);
-            Assert.AreEqual(c2.Id, _relations[4].ProviderId);
+            Assert.AreEqual(95, _relations[4].Id);
+            Assert.AreEqual(a1.Id, _relations[4].Consumer);
+            Assert.AreEqual(c2.Id, _relations[4].Provider);
             Assert.AreEqual("ra", _relations[4].Type);
             Assert.AreEqual(5, _relations[4].Weight);
 
-            Assert.AreEqual(b2.Id, _relations[5].ConsumerId);
-            Assert.AreEqual(a1.Id, _relations[5].ProviderId);
+            Assert.AreEqual(96, _relations[5].Id);
+            Assert.AreEqual(b2.Id, _relations[5].Consumer);
+            Assert.AreEqual(a1.Id, _relations[5].Provider);
             Assert.AreEqual("rb", _relations[5].Type);
             Assert.AreEqual(1, _relations[5].Weight);
 
-            Assert.AreEqual(b2.Id, _relations[6].ConsumerId);
-            Assert.AreEqual(a2.Id, _relations[6].ProviderId);
+            Assert.AreEqual(97, _relations[6].Id);
+            Assert.AreEqual(b2.Id, _relations[6].Consumer);
+            Assert.AreEqual(a2.Id, _relations[6].Provider);
             Assert.AreEqual("rb", _relations[6].Type);
             Assert.AreEqual(2, _relations[6].Weight);
 
-            Assert.AreEqual(c1.Id, _relations[7].ConsumerId);
-            Assert.AreEqual(a2.Id, _relations[7].ProviderId);
+            Assert.AreEqual(98, _relations[7].Id);
+            Assert.AreEqual(c1.Id, _relations[7].Consumer);
+            Assert.AreEqual(a2.Id, _relations[7].Provider);
             Assert.AreEqual("rc", _relations[7].Type);
             Assert.AreEqual(4, _relations[7].Weight);
         }
@@ -230,14 +238,14 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             c.AddChild(c1);
             c.AddChild(c2);
 
-            _relations.Add(new DsmRelation(a1.Id, b1.Id, "ra", 1000));
-            _relations.Add(new DsmRelation(a2.Id, b1.Id, "ra", 200));
-            _relations.Add(new DsmRelation(a1.Id, b2.Id, "ra", 30));
-            _relations.Add(new DsmRelation(a2.Id, b2.Id, "ra", 4));
-            _relations.Add(new DsmRelation(a1.Id, c2.Id, "ra", 5));
-            _relations.Add(new DsmRelation(b2.Id, a1.Id, "rb", 1));
-            _relations.Add(new DsmRelation(b2.Id, a2.Id, "rb", 2));
-            _relations.Add(new DsmRelation(c1.Id, a2.Id, "rc", 4));
+            _relations.Add(new DsmRelation(91, a1.Id, b1.Id, "ra", 1000));
+            _relations.Add(new DsmRelation(92, a2.Id, b1.Id, "ra", 200));
+            _relations.Add(new DsmRelation(93, a1.Id, b2.Id, "ra", 30));
+            _relations.Add(new DsmRelation(94, a2.Id, b2.Id, "ra", 4));
+            _relations.Add(new DsmRelation(95, a1.Id, c2.Id, "ra", 5));
+            _relations.Add(new DsmRelation(96, b2.Id, a1.Id, "rb", 1));
+            _relations.Add(new DsmRelation(97, b2.Id, a2.Id, "rb", 2));
+            _relations.Add(new DsmRelation(98, c1.Id, a2.Id, "rc", 4));
         }
 
         public IDsmMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
@@ -272,9 +280,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return element;
         }
 
-        public IDsmRelation ImportRelation(int consumerId, int providerId, string type, int weight)
+        public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight)
         {
-            DsmRelation relation = new DsmRelation(consumerId, providerId, type, weight);
+            DsmRelation relation = new DsmRelation(relationId, consumerId, providerId, type, weight);
             _relations.Add(relation);
             return relation;
         }

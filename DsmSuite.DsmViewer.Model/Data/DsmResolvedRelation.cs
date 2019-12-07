@@ -8,12 +8,14 @@ namespace DsmSuite.DsmViewer.Model.Data
     {
         public DsmResolvedRelation(Dictionary<int, DsmElement> elementsById, IDsmRelation relation)
         {
-            Consumer = elementsById.ContainsKey(relation.ConsumerId) ? elementsById[relation.ConsumerId] : null;
-            Provider = elementsById.ContainsKey(relation.ProviderId) ? elementsById[relation.ProviderId] : null;
+            Id = relation.Id;
+            Consumer = elementsById.ContainsKey(relation.Consumer) ? elementsById[relation.Consumer] : null;
+            Provider = elementsById.ContainsKey(relation.Provider) ? elementsById[relation.Provider] : null;
             Type = relation.Type;
             Weight = relation.Weight;
         }
 
+        public int Id { get; }
         public IDsmElement Consumer { get; }
         public IDsmElement Provider { get; }
         public string Type { get; }

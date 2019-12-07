@@ -9,13 +9,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Data
         [TestMethod]
         public void TestRelationConstructor()
         {
-            int consumerId = 1;
-            int providerId = 2;
+            int relationId = 1;
+            int consumerId = 2;
+            int providerId = 3;
             string relationType = "include";
-            int weight = 3;
-            DsmRelation relation = new DsmRelation(consumerId, providerId, relationType, weight);
-            Assert.AreEqual(consumerId, relation.ConsumerId);
-            Assert.AreEqual(providerId, relation.ProviderId);
+            int weight = 4;
+            DsmRelation relation = new DsmRelation(relationId, consumerId, providerId, relationType, weight);
+            Assert.AreEqual(relationId, relation.Id);
+            Assert.AreEqual(consumerId, relation.Consumer);
+            Assert.AreEqual(providerId, relation.Provider);
             Assert.AreEqual(relationType, relation.Type);
             Assert.AreEqual(weight, relation.Weight);
         }

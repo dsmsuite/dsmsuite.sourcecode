@@ -38,7 +38,7 @@ namespace DsmSuite.Common.Util
             [CallerLineNumber] int lineNumber = 0)
         {
             Console.WriteLine(message);
-            WriteLine("userMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
+            LogToFile("userMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
         public static void LogInfo(string message,
@@ -46,7 +46,7 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine("infoMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
+            LogToFile("infoMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
         public static void LogError(string message,
@@ -54,7 +54,7 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
+            LogToFile("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
         }
 
         public static void LogException(string message, Exception e,
@@ -62,11 +62,11 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
+            LogToFile("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
 
-            WriteLine("exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
-            WriteLine("exceptions.log", e.StackTrace);
-            WriteLine("exceptions.log", "");
+            LogToFile("exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
+            LogToFile("exceptions.log", e.StackTrace);
+            LogToFile("exceptions.log", "");
         }
 
         public static void LogResourceUsage()
@@ -81,16 +81,7 @@ namespace DsmSuite.Common.Util
             LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
         }
 
-        private static DirectoryInfo CreateLogDirectory(Assembly assembly)
-        {
-            DateTime now = DateTime.Now;
-            string timestamp =
-                $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
-            string assemblyName = assembly.GetName().Name;
-            return Directory.CreateDirectory($@"C:\Temp\DsmSuiteLogging\{assemblyName}_{timestamp}\");
-        }
-
-        private static void WriteLine(string logFilename, string line)
+        public static void LogToFile(string logFilename, string line)
         {
             if (LoggingEnabled)
             {
@@ -102,6 +93,17 @@ namespace DsmSuite.Common.Util
                 }
             }
         }
+
+        private static DirectoryInfo CreateLogDirectory(Assembly assembly)
+        {
+            DateTime now = DateTime.Now;
+            string timestamp =
+                $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
+            string assemblyName = assembly.GetName().Name;
+            return Directory.CreateDirectory($@"C:\Temp\DsmSuiteLogging\{assemblyName}_{timestamp}\");
+        }
+
+
 
         private static string GetLogFullPath(string logFilename)
         {

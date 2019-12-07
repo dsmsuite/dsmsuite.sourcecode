@@ -19,6 +19,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private readonly Dictionary<int /*id*/, DsmElement> _elementsById;
 
+        private readonly Dictionary<int /*relationId*/, DsmRelation> _relationsById;
         private readonly Dictionary<int /*providerId*/, Dictionary<int /*consumerId*/, DsmRelation>> _relationsByProvider;
         private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, DsmRelation>> _relationsByConsumer;
 
@@ -26,7 +27,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private readonly IList<IDsmElement> _rootElements;
         private int _lastElementId;
-
+        private int _lastRelationId;
         public event EventHandler<bool> Modified;
 
         public DsmModel(string processStep, Assembly executingAssembly)
@@ -37,14 +38,16 @@ namespace DsmSuite.DsmViewer.Model.Core
             _metaDataGroups = new Dictionary<string, List<IDsmMetaDataItem>>();
 
             _elementsById = new Dictionary<int, DsmElement>();
+            _rootElements = new List<IDsmElement>();
+            _lastElementId = 0;
 
+            _relationsById = new Dictionary<int, DsmRelation>();
             _relationsByProvider = new Dictionary<int, Dictionary<int, DsmRelation>>();
             _relationsByConsumer = new Dictionary<int, Dictionary<int, DsmRelation>>();
+            _lastRelationId = 0;
 
             _weights = new Dictionary<int, Dictionary<int, int>>();
 
-            _rootElements = new List<IDsmElement>();
-            _lastElementId = 0;
             AddMetaData("Executable", SystemInfo.GetExecutableInfo(executingAssembly));
         }
 
@@ -93,14 +96,15 @@ namespace DsmSuite.DsmViewer.Model.Core
             _metaDataGroups.Clear();
 
             _elementsById.Clear();
-
-            _relationsByProvider.Clear();
-            _relationsByConsumer.Clear();
-
-            _weights.Clear();
-
             _rootElements.Clear();
             _lastElementId = 0;
+
+            _relationsById.Clear();
+            _relationsByProvider.Clear();
+            _relationsByConsumer.Clear();
+            _lastRelationId = 0;
+
+            _weights.Clear();
         }
 
         public IDsmMetaDataItem AddMetaData(string name, string value)
@@ -261,12 +265,17 @@ namespace DsmSuite.DsmViewer.Model.Core
                    select element;
         }
 
-        public IDsmRelation ImportRelation(int consumerId, int providerId, string type, int weight)
+        public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight)
         {
+            if (relationId > _lastRelationId)
+            {
+                _lastRelationId = relationId;
+            }
+
             DsmRelation relation = null;
             if (consumerId != providerId)
             {
-                relation = new DsmRelation(consumerId, providerId, type, weight);
+                relation = new DsmRelation(relationId, consumerId, providerId, type, weight);
                 RegisterRelation(relation);
             }
             return relation;
@@ -276,7 +285,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             if (consumerId != providerId)
             {
-                DsmRelation relation = new DsmRelation(consumerId, providerId, type, weight);
+                _lastRelationId++;
+                DsmRelation relation = new DsmRelation(_lastRelationId, consumerId, providerId, type, weight);
                 RegisterRelation(relation);
             }
         }
@@ -360,12 +370,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IEnumerable<IDsmRelation> GetRelations()
         {
-            List<IDsmRelation> relations = new List<IDsmRelation>();
-            foreach (Dictionary<int, DsmRelation> consumerRelations in _relationsByConsumer.Values)
-            {
-                relations.AddRange(consumerRelations.Values);
-            }
-            return relations;
+            return _relationsById.Values.OrderBy(x => x.Id);
         }
 
         public int GetRelationCount()
@@ -531,31 +536,35 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private void RegisterRelation(DsmRelation relation)
         {
-            if (!_relationsByProvider.ContainsKey(relation.ProviderId))
-            {
-                _relationsByProvider[relation.ProviderId] = new Dictionary<int, DsmRelation>();
-            }
-            _relationsByProvider[relation.ProviderId][relation.ConsumerId] = relation;
+            _relationsById[relation.Id] = relation;
 
-            if (!_relationsByConsumer.ContainsKey(relation.ConsumerId))
+            if (!_relationsByProvider.ContainsKey(relation.Provider))
             {
-                _relationsByConsumer[relation.ConsumerId] = new Dictionary<int, DsmRelation>();
+                _relationsByProvider[relation.Provider] = new Dictionary<int, DsmRelation>();
             }
-            _relationsByConsumer[relation.ConsumerId][relation.ProviderId] = relation;
+            _relationsByProvider[relation.Provider][relation.Consumer] = relation;
+
+            if (!_relationsByConsumer.ContainsKey(relation.Consumer))
+            {
+                _relationsByConsumer[relation.Consumer] = new Dictionary<int, DsmRelation>();
+            }
+            _relationsByConsumer[relation.Consumer][relation.Provider] = relation;
 
             UpdateWeights(relation, AddWeight);
         }
 
         private void UnregisterRelation(IDsmRelation relation)
         {
-            if (!_relationsByProvider.ContainsKey(relation.ProviderId))
+            _relationsById.Remove(relation.Id);
+
+            if (!_relationsByProvider.ContainsKey(relation.Provider))
             {
-                _relationsByProvider[relation.ProviderId].Remove(relation.ConsumerId);
+                _relationsByProvider[relation.Provider].Remove(relation.Consumer);
             }
 
-            if (!_relationsByConsumer.ContainsKey(relation.ConsumerId))
+            if (!_relationsByConsumer.ContainsKey(relation.Consumer))
             {
-                _relationsByConsumer[relation.ConsumerId].Remove(relation.ProviderId);
+                _relationsByConsumer[relation.Consumer].Remove(relation.Provider);
             }
 
             UpdateWeights(relation, RemoveWeight);
@@ -571,8 +580,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private void UpdateWeights(IDsmRelation relation, ModifyWeight modifyWeight)
         {
-            int consumerId = relation.ConsumerId;
-            int providerId = relation.ProviderId;
+            int consumerId = relation.Consumer;
+            int providerId = relation.Provider;
 
             if (_elementsById.ContainsKey(consumerId))
             {

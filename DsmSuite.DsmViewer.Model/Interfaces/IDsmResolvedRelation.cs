@@ -2,6 +2,7 @@
 {
     public interface IDsmResolvedRelation
     {
+        int Id { get; }
         IDsmElement Consumer { get; }
         IDsmElement Provider { get; }
         string Type { get; }

@@ -75,20 +75,20 @@ namespace DsmSuite.Analyzer.Util
                                                         string includeFile,
                                                         List<Tuple<string, bool>> candidates)
         {
-            string logFile = GetLogfile("ambigiousIncludes.log");
+            string logFile = "ambigiousIncludes.log";
             string message = "Include file ambiguous: " + includeFile + " in " + sourceFile;
-            WriteLine(logFile, message);
+            Logger.LogToFile(logFile, message);
 
             foreach (Tuple<string, bool> candidate in candidates)
             {
                 string details = " resolved=" + candidate.Item2 + " file=" + candidate.Item1;
-                WriteLine(logFile, details);
+                Logger.LogToFile(logFile, details);
             }
         }
 
         public static void LogTransformation(string actionName, string description)
         {
-            WriteLine(GetLogfile("transformation.log"), actionName + ": " + description);
+            Logger.LogToFile("transformation.log", actionName + ": " + description);
         }
 
         public static void LogDataModelAction(string message,
@@ -96,7 +96,7 @@ namespace DsmSuite.Analyzer.Util
                     [CallerMemberName] string method = "",
                     [CallerLineNumber] int lineNumber = 0)
         {
-            WriteLine(GetLogfile("dataModelActions.log"), FormatLine(file, method, lineNumber, "action", message));
+            Logger.LogToFile("dataModelActions.log", FormatLine(file, method, lineNumber, "action", message));
         }
 
         public static void LogDataModelRelationNotResolved(string consumerName, string providerName)
@@ -121,8 +121,8 @@ namespace DsmSuite.Analyzer.Util
 
         private static void Flush(Dictionary<string, HashSet<string>> messages, string title, string filename)
         {
-            string overviewFilename = GetLogfile(filename + "Overview.txt");
-            string detailsFilename = GetLogfile(filename + "Details.txt");
+            string overviewFilename = filename + "Overview.txt";
+            string detailsFilename = filename + "Details.txt";
 
             int totalOccurances = 0;
 
@@ -131,28 +131,28 @@ namespace DsmSuite.Analyzer.Util
 
             if (keys.Count > 0)
             {
-                WriteLine(overviewFilename, title);
-                WriteLine(detailsFilename, title);
+                Logger.LogToFile(overviewFilename, title);
+                Logger.LogToFile(detailsFilename, title);
 
-                WriteLine(overviewFilename, "--------------------------------------------");
-                WriteLine(detailsFilename, "---------------------------------------------");
+                Logger.LogToFile(overviewFilename, "--------------------------------------------");
+                Logger.LogToFile(detailsFilename, "---------------------------------------------");
             }
             
             foreach (string key in keys)
             {
                 int occurances = messages[key].Count;
                 totalOccurances += occurances;
-                WriteLine(overviewFilename, $"{key} {occurances} occurances");
-                WriteLine(detailsFilename, $"{key} {occurances} occurances");
+                Logger.LogToFile(overviewFilename, $"{key} {occurances} occurances");
+                Logger.LogToFile(detailsFilename, $"{key} {occurances} occurances");
                 foreach (string message in messages[key])
                 {
-                    WriteLine(detailsFilename, "  " + message);
+                    Logger.LogToFile(detailsFilename, "  " + message);
                 }
             }
             if (keys.Count > 0)
             {
-                WriteLine(overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");
-                WriteLine(detailsFilename, $"{keys.Count} items found in {totalOccurances} occurances");
+                Logger.LogToFile(overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");
+                Logger.LogToFile(detailsFilename, $"{keys.Count} items found in {totalOccurances} occurances");
             }
         }
 
@@ -166,23 +166,6 @@ namespace DsmSuite.Analyzer.Util
             char[] separators = { '\\' };
             string[] parts = sourceFile.Split(separators);
             return parts[parts.Length - 1];
-        }
-
-        private static void WriteLine(string filename, string line)
-        {
-            if (Logger.LoggingEnabled)
-            {
-                FileStream fs = new FileStream(filename, FileMode.Append, FileAccess.Write);
-                using (StreamWriter writetext = new StreamWriter(fs))
-                {
-                    writetext.WriteLine(line);
-                }
-            }
-        }
-
-        private static string GetLogfile(string relativeLogfile)
-        {
-            return Path.GetFullPath(Path.Combine(Logger.LogDirectory.FullName, relativeLogfile));
         }
     }
 }

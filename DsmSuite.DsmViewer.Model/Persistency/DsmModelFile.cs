@@ -32,6 +32,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string RelationGroupXmlNode = "relations";
 
         private const string RelationXmlNode = "relation";
+        private const string RelationIdXmlAttribute = "id";
         private const string RelationFromXmlAttribute = "from";
         private const string RelationToXmlAttribute = "to";
         private const string RelationTypeXmlAttribute = "type";
@@ -145,12 +146,12 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
         private void WriteMetaData(XmlWriter writer)
         {
-            foreach (string groupName in _callback.GetMetaDataGroups())
+            foreach (string group in _callback.GetMetaDataGroups())
             {
                 writer.WriteStartElement(MetaDataGroupXmlNode);
-                writer.WriteAttributeString(MetaDataGroupNameXmlAttribute, groupName);
+                writer.WriteAttributeString(MetaDataGroupNameXmlAttribute, group);
 
-                foreach (IDsmMetaDataItem metaDataItem in _callback.GetMetaDataGroupItems(groupName))
+                foreach (IDsmMetaDataItem metaDataItem in _callback.GetMetaDataGroupItems(group))
                 {
                     writer.WriteStartElement(MetaDataXmlNode);
                     writer.WriteAttributeString(MetaDataItemNameXmlAttribute, metaDataItem.Name);
@@ -165,7 +166,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             if (xReader.Name == MetaDataGroupXmlNode)
             {
-                string groupName = xReader.GetAttribute(MetaDataGroupNameXmlAttribute);
+                string group = xReader.GetAttribute(MetaDataGroupNameXmlAttribute);
                 XmlReader xMetaDataReader = xReader.ReadSubtree();
                 while (xMetaDataReader.Read())
                 {
@@ -175,7 +176,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                         string value = xMetaDataReader.GetAttribute(MetaDataItemValueXmlAttribute);
                         if ((name != null) && (value != null))
                         {
-                            _callback.ImportMetaDataItem(groupName, name, value);
+                            _callback.ImportMetaDataItem(group, name, value);
                         }
                     }
                 }
@@ -201,11 +202,11 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 string name = xReader.GetAttribute(ElementNameXmlAttribute);
                 string type = xReader.GetAttribute(ElementTypeXmlAttribute);
                 bool expanded = ParseBool(xReader.GetAttribute(ElementExpandedXmlAttribute));
-                int? parentId = ParseInt(xReader.GetAttribute(ElementParentXmlAttribute));
+                int? parent = ParseInt(xReader.GetAttribute(ElementParentXmlAttribute));
 
                 if (id.HasValue && order.HasValue)
                 {
-                    _callback.ImportElement(id.Value, name, type, order.Value, expanded, parentId);
+                    _callback.ImportElement(id.Value, name, type, order.Value, expanded, parent);
                 }
 
                 _progressItemCount++;
@@ -227,16 +228,18 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             if (xReader.Name == RelationXmlNode)
             {
-                int? consumerId = ParseInt(xReader.GetAttribute(RelationFromXmlAttribute));
-                int? providerId = ParseInt(xReader.GetAttribute(RelationToXmlAttribute));
+                int? id = ParseInt(xReader.GetAttribute(RelationIdXmlAttribute));
+                int? consumer = ParseInt(xReader.GetAttribute(RelationFromXmlAttribute));
+                int? provider = ParseInt(xReader.GetAttribute(RelationToXmlAttribute));
                 string type = xReader.GetAttribute(RelationTypeXmlAttribute);
                 int? weight = ParseInt(xReader.GetAttribute(RelationWeightXmlAttribute));
 
-                if (consumerId.HasValue &&
-                    providerId.HasValue &&
+                if (id.HasValue &&
+                    consumer.HasValue &&
+                    provider.HasValue &&
                     weight.HasValue)
                 {
-                    _callback.ImportRelation(consumerId.Value, providerId.Value, type, weight.Value);
+                    _callback.ImportRelation(id.Value, consumer.Value, provider.Value, type, weight.Value);
                 }
 
                 _progressItemCount++;
@@ -273,8 +276,9 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             UpdateProgress(progress);
 
             writer.WriteStartElement(RelationXmlNode);
-            writer.WriteAttributeString(RelationFromXmlAttribute, relation.ConsumerId.ToString());
-            writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
+            writer.WriteAttributeString(RelationIdXmlAttribute, relation.Id.ToString());
+            writer.WriteAttributeString(RelationFromXmlAttribute, relation.Consumer.ToString());
+            writer.WriteAttributeString(RelationToXmlAttribute, relation.Provider.ToString());
             writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
             writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
             writer.WriteEndElement();

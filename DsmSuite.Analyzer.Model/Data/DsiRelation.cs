@@ -7,16 +7,16 @@ namespace DsmSuite.Analyzer.Model.Data
     /// </summary>
     public class DsiRelation : IDsiRelation
     {
-        public DsiRelation(int consumerId, int providerId, string type, int weight)
+        public DsiRelation(int consumer, int provider, string type, int weight)
         {
-            ConsumerId = consumerId;
-            ProviderId = providerId;
+            Consumer = consumer;
+            Provider = provider;
             Type = type;
             Weight = weight;
         }
 
-        public int ConsumerId { get; }
-        public int ProviderId { get; }
+        public int Consumer { get; }
+        public int Provider { get; }
         public string Type { get; }
         public int Weight { get; }
     }

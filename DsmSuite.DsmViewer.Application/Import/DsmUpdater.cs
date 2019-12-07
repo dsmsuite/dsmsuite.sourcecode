@@ -27,9 +27,9 @@ namespace DsmSuite.DsmViewer.Application.Import
             //_model.SaveModel(dsmFilename, compressDsmFile, null);
         }
 
-        public void ImportMetaDataItem(string groupName, string name, string value)
+        public void ImportMetaDataItem(string group, string name, string value)
         {
-            _model.AddMetaData(groupName, name, value);
+            _model.AddMetaData(group, name, value);
         }
 
         public void ImportElement(int id, string fullname, string type, string source)
@@ -54,17 +54,15 @@ namespace DsmSuite.DsmViewer.Application.Import
             }
         }
 
-        public void ImportRelation(int consumerId, int providerId, string type, int weight)
+        public void ImportRelation(int consumer, int provider, string type, int weight)
         {
-            if (_elementsById.ContainsKey(consumerId) && _elementsById.ContainsKey(providerId))
+            if (_elementsById.ContainsKey(consumer) && _elementsById.ContainsKey(provider))
             {
-                IDsmElement consumer = _elementsById[consumerId];
-                IDsmElement provider = _elementsById[providerId];
-                _model.AddRelation(consumer.Id, provider.Id, type, weight);
+                _model.AddRelation(consumer, provider, type, weight);
             }
             else
             {
-                Logger.LogError($"Could not find consumer or provider of relation consumer={consumerId} provider={providerId}");
+                Logger.LogError($"Could not find consumer or provider of relation consumer={consumer} provider={provider}");
             }
         }
 
@@ -73,7 +71,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             return null;
         }
 
-        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string groupName)
+        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string group)
         {
             return null;
         }

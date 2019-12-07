@@ -364,20 +364,20 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(4, relations.Count);
 
             Assert.AreEqual(4, relations[0].Weight);
-            Assert.AreEqual(_a2.Id, relations[0].ConsumerId);
-            Assert.AreEqual(_b2.Id, relations[0].ProviderId);
+            Assert.AreEqual(_a2.Id, relations[0].Consumer);
+            Assert.AreEqual(_b2.Id, relations[0].Provider);
 
             Assert.AreEqual(30, relations[1].Weight);
-            Assert.AreEqual(_a1.Id, relations[1].ConsumerId);
-            Assert.AreEqual(_b2.Id, relations[1].ProviderId);
+            Assert.AreEqual(_a1.Id, relations[1].Consumer);
+            Assert.AreEqual(_b2.Id, relations[1].Provider);
 
             Assert.AreEqual(200, relations[2].Weight);
-            Assert.AreEqual(_a2.Id, relations[2].ConsumerId);
-            Assert.AreEqual(_b1.Id, relations[2].ProviderId);
+            Assert.AreEqual(_a2.Id, relations[2].Consumer);
+            Assert.AreEqual(_b1.Id, relations[2].Provider);
 
             Assert.AreEqual(1000, relations[3].Weight);
-            Assert.AreEqual(_a1.Id, relations[3].ConsumerId);
-            Assert.AreEqual(_b1.Id, relations[3].ProviderId);
+            Assert.AreEqual(_a1.Id, relations[3].Consumer);
+            Assert.AreEqual(_b1.Id, relations[3].Provider);
         }
 
         [TestMethod]
@@ -399,20 +399,20 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(4, relations.Count);
 
             Assert.AreEqual(4, relations[0].Weight);
-            Assert.AreEqual(_a2.Id, relations[0].ConsumerId);
-            Assert.AreEqual(_b2.Id, relations[0].ProviderId);
+            Assert.AreEqual(_a2.Id, relations[0].Consumer);
+            Assert.AreEqual(_b2.Id, relations[0].Provider);
 
             Assert.AreEqual(30, relations[1].Weight);
-            Assert.AreEqual(_a1.Id, relations[1].ConsumerId);
-            Assert.AreEqual(_b2.Id, relations[1].ProviderId);
+            Assert.AreEqual(_a1.Id, relations[1].Consumer);
+            Assert.AreEqual(_b2.Id, relations[1].Provider);
 
             Assert.AreEqual(200, relations[2].Weight);
-            Assert.AreEqual(_a2.Id, relations[2].ConsumerId);
-            Assert.AreEqual(_b1.Id, relations[2].ProviderId);
+            Assert.AreEqual(_a2.Id, relations[2].Consumer);
+            Assert.AreEqual(_b1.Id, relations[2].Provider);
 
             Assert.AreEqual(1000, relations[3].Weight);
-            Assert.AreEqual(_a1.Id, relations[3].ConsumerId);
-            Assert.AreEqual(_b1.Id, relations[3].ProviderId);
+            Assert.AreEqual(_a1.Id, relations[3].Consumer);
+            Assert.AreEqual(_b1.Id, relations[3].Provider);
         }
 
         [TestMethod]
@@ -424,24 +424,24 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(5, relations.Count);
 
             Assert.AreEqual(4, relations[0].Weight);
-            Assert.AreEqual(_a2.Id, relations[0].ConsumerId);
-            Assert.AreEqual(_b2.Id, relations[0].ProviderId);
+            Assert.AreEqual(_a2.Id, relations[0].Consumer);
+            Assert.AreEqual(_b2.Id, relations[0].Provider);
 
             Assert.AreEqual(5, relations[1].Weight);
-            Assert.AreEqual(_a1.Id, relations[1].ConsumerId);
-            Assert.AreEqual(_c2.Id, relations[1].ProviderId);
+            Assert.AreEqual(_a1.Id, relations[1].Consumer);
+            Assert.AreEqual(_c2.Id, relations[1].Provider);
 
             Assert.AreEqual(30, relations[2].Weight);
-            Assert.AreEqual(_a1.Id, relations[2].ConsumerId);
-            Assert.AreEqual(_b2.Id, relations[2].ProviderId);
+            Assert.AreEqual(_a1.Id, relations[2].Consumer);
+            Assert.AreEqual(_b2.Id, relations[2].Provider);
 
             Assert.AreEqual(200, relations[3].Weight);
-            Assert.AreEqual(_a2.Id, relations[3].ConsumerId);
-            Assert.AreEqual(_b1.Id, relations[3].ProviderId);
+            Assert.AreEqual(_a2.Id, relations[3].Consumer);
+            Assert.AreEqual(_b1.Id, relations[3].Provider);
 
             Assert.AreEqual(1000, relations[4].Weight);
-            Assert.AreEqual(_a1.Id, relations[4].ConsumerId);
-            Assert.AreEqual(_b1.Id, relations[4].ProviderId);
+            Assert.AreEqual(_a1.Id, relations[4].Consumer);
+            Assert.AreEqual(_b1.Id, relations[4].Provider);
         }
 
         [TestMethod]

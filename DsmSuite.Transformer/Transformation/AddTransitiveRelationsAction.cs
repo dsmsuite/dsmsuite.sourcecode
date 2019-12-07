@@ -54,7 +54,7 @@ namespace DsmSuite.Transformer.Transformation
 
                 foreach (IDsiRelation providerRelation in _model.GetProviderRelations(element))
                 {
-                    IDsiElement provider = _model.FindElement(providerRelation.ProviderId);
+                    IDsiElement provider = _model.FindElement(providerRelation.Provider);
                     _directProviders[key].Add(provider);
                 }
             }

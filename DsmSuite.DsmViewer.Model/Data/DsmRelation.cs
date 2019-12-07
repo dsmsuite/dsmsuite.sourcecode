@@ -11,32 +11,23 @@ namespace DsmSuite.DsmViewer.Model.Data
         private readonly char _typeId;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
 
-        public DsmRelation(int consumerId, int providerId, string type, int weight)
+        public DsmRelation(int id, int consumer, int provider, string type, int weight)
         {
-            ConsumerId = consumerId;
-            ProviderId = providerId;
+            Id = id;
+            Consumer = consumer;
+            Provider = provider;
             _typeId = TypeRegistration.AddTypeName(type);
             Weight = weight;
         }
 
-        /// <summary>
-        /// Unique id of consumer element.
-        /// </summary>
-        public int ConsumerId { get; }
+        public int Id { get; }
 
-        /// <summary>
-        /// Unique id of provider element.
-        /// </summary>
-        public int ProviderId { get; }
+        public int Consumer { get; }
 
-        /// <summary>
-        /// Type of relation.
-        /// </summary>
+        public int Provider { get; }
+
         public string Type => TypeRegistration.GetTypeName(_typeId);
 
-        /// <summary>
-        /// Strength or weight of the relation
-        /// </summary>
         public int Weight { get; }
     }
 }
