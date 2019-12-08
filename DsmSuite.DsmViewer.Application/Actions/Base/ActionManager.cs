@@ -34,9 +34,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
         public IAction GetCurrentUndoAction()
         {
             IAction action = null;
-            if (_redoActionStack.Count > 0)
+            if (_undoActionStack.Count > 0)
             {
-                action = _redoActionStack.Peek();
+                action = _undoActionStack.Peek();
             }
             return action;
         }

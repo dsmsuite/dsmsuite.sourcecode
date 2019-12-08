@@ -213,12 +213,18 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (_elementsById.ContainsKey(id))
             {
                 IDsmElement element = _elementsById[id];
+                DsmElement parent = element.Parent as DsmElement;
+                if (parent != null)
+                {
+                    parent.RemoveChild(element);
+                    if (!parent.HasChildren)
+                    {
+                        parent.IsExpanded = false;
+                    }
+                }
+
                 UnregisterElement(element);
 
-                foreach (IDsmElement child in element.Children)
-                {
-                    RemoveElement(child.Id);
-                }
                 IsModified = true;
             }
         }
@@ -230,8 +236,8 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 IDsmElement element = _deletedElementsById[id];
                 RegisterElement(element);
-
             }
+            IsModified = true;
         }
 
 
@@ -500,6 +506,11 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             _elementsById.Remove(element.Id);
             _deletedElementsById[element.Id] = element;
+
+            foreach (IDsmElement child in element.Children)
+            {
+                UnregisterElement(child);
+            }
         }
 
         /// <summary>
