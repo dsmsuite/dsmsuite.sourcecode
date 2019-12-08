@@ -31,6 +31,7 @@
   <ItemGroup>
     <Compile Include="Editing\ElementCreateViewModel.cs" />
     <Compile Include="Editing\ElementEditViewModel.cs" />
+    <Compile Include="Editing\RelationCreateViewModel.cs" />
     <Compile Include="Lists\ElementListItemViewModel.cs" />
     <Compile Include="Lists\ElementListViewModel.cs" />
     <Compile Include="Lists\RelationListItemViewModel.cs" />

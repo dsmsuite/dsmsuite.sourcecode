@@ -71,6 +71,9 @@
     <Compile Include="Windows\RelationListView.xaml.cs">
       <DependentUpon>RelationListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\RelationView.xaml.cs">
+      <DependentUpon>RelationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
@@ -131,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\RelationListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\RelationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

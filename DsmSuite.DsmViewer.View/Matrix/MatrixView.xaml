@@ -42,8 +42,7 @@
                         <MenuItem Header="Show provided interface" Command="{Binding ShowElementProvidedInterfacesCommand}" />
                         <MenuItem Header="Show required interface" Command="{Binding ShowElementRequiredInterfacesCommand}" />
                         <MenuItem Header="Show detail matrix" Command="{Binding ShowElementDetailMatrixCommand}" />
-                        <!--<MenuItem Header="Show context matrix" Command="{Binding ShowElementContextMatrixCommand}" />-->
-                    </ContextMenu>
+                        <MenuItem Header="Show context matrix" Command="{Binding ShowElementContextMatrixCommand}" />                    </ContextMenu>
                 </matrix:RenderedRowHeaderView.ContextMenu>
             </matrix:RenderedRowHeaderView>
         </Canvas>
@@ -51,6 +50,9 @@
             <matrix:RenderedCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <matrix:RenderedCellsView.ContextMenu>
                     <ContextMenu>
+                        <MenuItem Header="Edit relation" Command="{Binding EditElementCommand}" />
+                        <MenuItem Header="Create relation" Command="{Binding CreateRelationCommand}" />
+                        <MenuItem Header="Delete relation" Command="{Binding DeleteRelationCommand}" />
                         <MenuItem Header="Show relations" Command="{Binding ShowCellRelationsCommand}" />
                         <MenuItem Header="Show relation consumers" Command="{Binding ShowCellConsumersCommand}" />
                         <MenuItem Header="Show relation providers" Command="{Binding ShowCellProvidersCommand}" />

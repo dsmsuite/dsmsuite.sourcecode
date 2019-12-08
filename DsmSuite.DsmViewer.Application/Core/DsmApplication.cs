@@ -122,9 +122,14 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _queries.GetElementProviders(element);
         }
 
-        public IEnumerable<IDsmResolvedRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
+        public IEnumerable<IDsmResolvedRelation> FindResolvedRelations(IDsmElement consumer, IDsmElement provider)
         {
             return _queries.FindRelations(consumer, provider);
+        }
+
+        public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
+        {
+            return _model.FindRelations(consumer, provider);
         }
 
         public IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider)

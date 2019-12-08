@@ -294,7 +294,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ShowElementContextMatrixCanExecute(object parameter)
         {
-            return true;
+            return false; // TODO: Enable when implemented
         }
 
         private void ShowCellDetailMatrixExecute(object parameter)
@@ -605,13 +605,29 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void DeleteRelationExecute(object parameter)
         {
-            IDsmRelation relation = null;
-            _application.DeleteRelation(relation);
+            if ((SelectedConsumer != null) && (SelectedProvider != null))
+            {
+                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+                IDsmRelation relation = relations.FirstOrDefault();
+                if (relation != null)
+                {
+                    _application.DeleteRelation(relation);
+                }
+            }
         }
 
         private bool DeleteRelationCanExecute(object parameter)
         {
-            return true;
+            bool canExecute = false;
+            if ((SelectedConsumer != null) && (SelectedProvider != null))
+            {
+                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+                if (relations.Count() == 1)
+                {
+                    canExecute = true;
+                }
+            }
+            return canExecute;
         }
     }
 }

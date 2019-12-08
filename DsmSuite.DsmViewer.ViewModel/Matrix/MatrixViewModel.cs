@@ -366,7 +366,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             string title = $"Relations between consumer {SelectedConsumer.Element.Fullname} and provider {SelectedProvider.Element.Fullname}";
 
-            var relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+            var relations = _application.FindResolvedRelations(SelectedConsumer.Element, SelectedProvider.Element);
 
             RelationListViewModel relationsListViewModel = new RelationListViewModel(title, relations);
             _mainViewModel.NotifyRelationsReportReady(relationsListViewModel);
