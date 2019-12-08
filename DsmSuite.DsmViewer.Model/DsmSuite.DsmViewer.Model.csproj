@@ -26,11 +26,9 @@
   <ItemGroup>
     <Compile Include="Interfaces\Vector.cs" />
     <Compile Include="Data\DsmMetaDataItem.cs" />
-    <Compile Include="Data\DsmResolvedRelation.cs" />
     <Compile Include="Core\DsmModel.cs" />
     <Compile Include="Core\ElementName.cs" />
     <Compile Include="Interfaces\IDsmMetaDataItem.cs" />
-    <Compile Include="Interfaces\IDsmResolvedRelation.cs" />
     <Compile Include="Persistency\DsmModelFile.cs" />
     <Compile Include="Persistency\IDsmModelFileCallback.cs" />
     <Compile Include="Interfaces\DsmProgressInfo.cs" />

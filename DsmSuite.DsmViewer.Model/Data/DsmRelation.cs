@@ -11,20 +11,20 @@ namespace DsmSuite.DsmViewer.Model.Data
         private readonly char _typeId;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
 
-        public DsmRelation(int id, int consumer, int provider, string type, int weight)
+        public DsmRelation(int id, int consumerId, int providerId, string type, int weight)
         {
             Id = id;
-            Consumer = consumer;
-            Provider = provider;
+            ConsumerId = consumerId;
+            ProviderId = providerId;
             _typeId = TypeRegistration.AddTypeName(type);
             Weight = weight;
         }
 
         public int Id { get; }
 
-        public int Consumer { get; }
+        public int ConsumerId { get; }
 
-        public int Provider { get; }
+        public int ProviderId { get; }
 
         public string Type => TypeRegistration.GetTypeName(_typeId);
 

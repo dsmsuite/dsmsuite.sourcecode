@@ -141,50 +141,50 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.IsFalse(c2.IsExpanded);
 
             Assert.AreEqual(91, _relations[0].Id);
-            Assert.AreEqual(a1.Id, _relations[0].Consumer);
-            Assert.AreEqual(b1.Id, _relations[0].Provider);
+            Assert.AreEqual(a1.Id, _relations[0].ConsumerId);
+            Assert.AreEqual(b1.Id, _relations[0].ProviderId);
             Assert.AreEqual("ra", _relations[0].Type);
             Assert.AreEqual(1000, _relations[0].Weight);
 
             Assert.AreEqual(92, _relations[1].Id);
-            Assert.AreEqual(a2.Id, _relations[1].Consumer);
-            Assert.AreEqual(b1.Id, _relations[1].Provider);
+            Assert.AreEqual(a2.Id, _relations[1].ConsumerId);
+            Assert.AreEqual(b1.Id, _relations[1].ProviderId);
             Assert.AreEqual("ra", _relations[1].Type);
             Assert.AreEqual(200, _relations[1].Weight);
 
             Assert.AreEqual(93, _relations[2].Id);
-            Assert.AreEqual(a1.Id, _relations[2].Consumer);
-            Assert.AreEqual(b2.Id, _relations[2].Provider);
+            Assert.AreEqual(a1.Id, _relations[2].ConsumerId);
+            Assert.AreEqual(b2.Id, _relations[2].ProviderId);
             Assert.AreEqual("ra", _relations[2].Type);
             Assert.AreEqual(30, _relations[2].Weight);
 
             Assert.AreEqual(94, _relations[3].Id);
-            Assert.AreEqual(a2.Id, _relations[3].Consumer);
-            Assert.AreEqual(b2.Id, _relations[3].Provider);
+            Assert.AreEqual(a2.Id, _relations[3].ConsumerId);
+            Assert.AreEqual(b2.Id, _relations[3].ProviderId);
             Assert.AreEqual("ra", _relations[3].Type);
             Assert.AreEqual(4, _relations[3].Weight);
 
             Assert.AreEqual(95, _relations[4].Id);
-            Assert.AreEqual(a1.Id, _relations[4].Consumer);
-            Assert.AreEqual(c2.Id, _relations[4].Provider);
+            Assert.AreEqual(a1.Id, _relations[4].ConsumerId);
+            Assert.AreEqual(c2.Id, _relations[4].ProviderId);
             Assert.AreEqual("ra", _relations[4].Type);
             Assert.AreEqual(5, _relations[4].Weight);
 
             Assert.AreEqual(96, _relations[5].Id);
-            Assert.AreEqual(b2.Id, _relations[5].Consumer);
-            Assert.AreEqual(a1.Id, _relations[5].Provider);
+            Assert.AreEqual(b2.Id, _relations[5].ConsumerId);
+            Assert.AreEqual(a1.Id, _relations[5].ProviderId);
             Assert.AreEqual("rb", _relations[5].Type);
             Assert.AreEqual(1, _relations[5].Weight);
 
             Assert.AreEqual(97, _relations[6].Id);
-            Assert.AreEqual(b2.Id, _relations[6].Consumer);
-            Assert.AreEqual(a2.Id, _relations[6].Provider);
+            Assert.AreEqual(b2.Id, _relations[6].ConsumerId);
+            Assert.AreEqual(a2.Id, _relations[6].ProviderId);
             Assert.AreEqual("rb", _relations[6].Type);
             Assert.AreEqual(2, _relations[6].Weight);
 
             Assert.AreEqual(98, _relations[7].Id);
-            Assert.AreEqual(c1.Id, _relations[7].Consumer);
-            Assert.AreEqual(a2.Id, _relations[7].Provider);
+            Assert.AreEqual(c1.Id, _relations[7].ConsumerId);
+            Assert.AreEqual(a2.Id, _relations[7].ProviderId);
             Assert.AreEqual("rc", _relations[7].Type);
             Assert.AreEqual(4, _relations[7].Weight);
         }

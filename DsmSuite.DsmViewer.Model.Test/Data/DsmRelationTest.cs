@@ -16,8 +16,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Data
             int weight = 4;
             DsmRelation relation = new DsmRelation(relationId, consumerId, providerId, relationType, weight);
             Assert.AreEqual(relationId, relation.Id);
-            Assert.AreEqual(consumerId, relation.Consumer);
-            Assert.AreEqual(providerId, relation.Provider);
+            Assert.AreEqual(consumerId, relation.ConsumerId);
+            Assert.AreEqual(providerId, relation.ProviderId);
             Assert.AreEqual(relationType, relation.Type);
             Assert.AreEqual(weight, relation.Weight);
         }

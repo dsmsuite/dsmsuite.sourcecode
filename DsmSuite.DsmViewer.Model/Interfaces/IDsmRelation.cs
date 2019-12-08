@@ -10,12 +10,12 @@
         /// <summary>
         /// The consumer element id.
         /// </summary>
-        int Consumer { get; }
+        int ConsumerId { get; }
 
         /// <summary>
         /// The provider element id.
         /// </summary>
-        int Provider { get; }
+        int ProviderId { get; }
 
         /// <summary>
         /// Type of relation.

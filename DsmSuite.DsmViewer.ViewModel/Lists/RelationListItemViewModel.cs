@@ -1,4 +1,5 @@
-﻿using DsmSuite.DsmViewer.Model.Interfaces;
+﻿using DsmSuite.DsmViewer.Application.Interfaces;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
@@ -8,8 +9,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         public RelationListItemViewModel(int index, IDsmResolvedRelation relation)
         {
             Index = index;
-            ConsumerName = relation.Consumer.Fullname;
-            ProviderName = relation.Provider.Fullname;
+            ConsumerName = relation.ConsumerElement.Fullname;
+            ProviderName = relation.ProviderElement.Fullname;
             RelationType = relation.Type;
             RelationWeight = relation.Weight;
         }
