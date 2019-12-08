@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Application.Actions.Element;
+using DsmSuite.DsmViewer.Application.Actions.Relation;
 using DsmSuite.DsmViewer.Application.Import;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Queries;
@@ -187,6 +188,42 @@ namespace DsmSuite.DsmViewer.Application.Core
         public IEnumerable<IDsmElement> SearchElements(string text)
         {
             return _model.SearchElements(text);
+        }
+
+        public void CreateElement(string name, string type, IDsmElement parent)
+        {
+            ElementCreateAction action = new ElementCreateAction(_model, name, type, parent.Id);
+            _actionManager.Execute(action);
+        }
+
+        public void DeleteElement(IDsmElement element)
+        {
+            ElementDeleteAction action = new ElementDeleteAction(_model, element);
+            _actionManager.Execute(action);
+        }
+
+        public void RenameElement(IDsmElement element, string newName)
+        {
+            ElementRenameAction action = new ElementRenameAction(_model, element, newName);
+            _actionManager.Execute(action);
+        }
+
+        public void MoveElement(IDsmElement element, IDsmElement newParent)
+        {
+            ElementMoveAction action = new ElementMoveAction(_model, element, newParent);
+            _actionManager.Execute(action);
+        }
+        
+        public void CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
+        {
+            RelationCreateAction action = new RelationCreateAction(_model, consumer.Id, provider.Id, type, weight);
+            _actionManager.Execute(action);
+        }
+
+        public void DeleteRelation(IDsmRelation relation)
+        {
+            RelationDeleteAction action = new RelationDeleteAction(_model, relation);
+            _actionManager.Execute(action);
         }
     }
 }

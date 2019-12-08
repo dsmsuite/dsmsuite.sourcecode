@@ -29,9 +29,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _application = application;
             _selectedElements = selectedElements;
 
-            MoveUpCommand = mainViewModel.MoveUpCommand;
-            MoveDownCommand = mainViewModel.MoveDownCommand;
-            PartitionCommand = mainViewModel.PartitionCommand;
+            MoveUpCommand = mainViewModel.MoveUpElementCommand;
+            MoveDownCommand = mainViewModel.MoveDownElementCommand;
+            PartitionCommand = mainViewModel.PartitionElementCommand;
             ElementInternalsMatrixCommand = mainViewModel.ElementInternalsMatrixCommand;
             ElementContextMatrixCommand = mainViewModel.ElementContextMatrixCommand;
             RelationMatrixCommand = mainViewModel.RelationMatrixCommand;

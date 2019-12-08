@@ -65,9 +65,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             HomeCommand = new RelayCommand<object>(HomeExecute, HomeCanExecute);
 
-            MoveUpCommand = new RelayCommand<object>(MoveUpExecute, MoveUpCanExecute);
-            MoveDownCommand = new RelayCommand<object>(MoveDownExecute, MoveDownCanExecute);
-            PartitionCommand = new RelayCommand<object>(PartitionExecute, PartitionCanExecute);
+            MoveUpElementCommand = new RelayCommand<object>(MoveUpElementExecute, MoveUpElementCanExecute);
+            MoveDownElementCommand = new RelayCommand<object>(MoveDownElementExecute, MoveDownElementCanExecute);
+            PartitionElementCommand = new RelayCommand<object>(PartitionElementExecute, PartitionElementCanExecute);
             ElementInternalsMatrixCommand = new RelayCommand<object>(ElementInternalsMatrixExecute, ElementInternalsMatrixCanExecute);
             ElementContextMatrixCommand = new RelayCommand<object>(ElementContextMatrixExecute, ElementContextMatrixCanExecute);
 
@@ -83,6 +83,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             NavigateToNextCommand = new RelayCommand<object>(NavigateToNextExecute, NavigateToNextCanExecute);
             NavigateToPreviousCommand = new RelayCommand<object>(NavigateToPreviousExecute, NavigateToPreviousCanExecute);
+
+            CreateElementCommand = new RelayCommand<object>(CreateElementExecute, CreateElementCanExecute);
+            DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
+            MoveElementCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
+            RenameElementCommand = new RelayCommand<object>(RenameElementExecute, RenameElementCanExecute);
+            CreateRelationCommand = new RelayCommand<object>(CreateRelationExecute, CreateRelationCanExecute);
+            DeleteRelationCommand = new RelayCommand<object>(CreateRelationExecute, DeleteRelationCanExecute);
 
             ModelFilename = "";
             Title = "DSM Viewer";
@@ -121,9 +128,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand SaveFileCommand { get; }
         public ICommand HomeCommand { get; }
 
-        public ICommand MoveUpCommand { get; }
-        public ICommand MoveDownCommand { get; }
-        public ICommand PartitionCommand { get; }
+        public ICommand MoveUpElementCommand { get; }
+        public ICommand MoveDownElementCommand { get; }
+        public ICommand PartitionElementCommand { get; }
         public ICommand ElementInternalsMatrixCommand { get; }
         public ICommand ElementContextMatrixCommand { get; }
         public ICommand RelationMatrixCommand { get; }
@@ -135,6 +142,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand OverviewReportCommand { get; }
         public ICommand NavigateToNextCommand { get; }
         public ICommand NavigateToPreviousCommand { get; }
+
+        public ICommand CreateElementCommand { get; }
+        public ICommand DeleteElementCommand { get; }
+        public ICommand MoveElementCommand { get; }
+        public ICommand RenameElementCommand { get; }
+        public ICommand CreateRelationCommand { get; }
+        public ICommand DeleteRelationCommand { get; }
 
         public string ModelFilename
         {
@@ -244,13 +258,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return IsLoaded;
         }
 
-        private void PartitionExecute(object parameter)
+        private void PartitionElementExecute(object parameter)
         {
             _application.Sort(SelectedProvider?.Element, "Partition");
             ActiveMatrix.Reload();
         }
 
-        private bool PartitionCanExecute(object parameter)
+        private bool PartitionElementCanExecute(object parameter)
         {
             return _application.HasChildren(SelectedProvider?.Element);
         }
@@ -294,26 +308,26 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return true;
         }
 
-        private void MoveUpExecute(object parameter)
+        private void MoveUpElementExecute(object parameter)
         {
             _application.MoveUp(SelectedProvider?.Element);
             ActiveMatrix.Reload();
         }
 
-        private bool MoveUpCanExecute(object parameter)
+        private bool MoveUpElementCanExecute(object parameter)
         {
             IDsmElement current = SelectedProvider?.Element;
             IDsmElement previous = current?.PreviousSibling;
             return (current != null) && (previous != null);
         }
 
-        private void MoveDownExecute(object parameter)
+        private void MoveDownElementExecute(object parameter)
         {
             _application.MoveDown(SelectedProvider?.Element);
             ActiveMatrix.Reload();
         }
 
-        private bool MoveDownCanExecute(object parameter)
+        private bool MoveDownElementCanExecute(object parameter)
         {
             IDsmElement current = SelectedProvider?.Element;
             IDsmElement next = current?.NextSibling;
@@ -531,6 +545,73 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             UndoText = $"Undo {_application.GetUndoActionDescription()}";
             RedoText = $"Redo {_application.GetRedoActionDescription()}";
+        }
+
+        private void CreateElementExecute(object parameter)
+        {
+            string name = "Name";
+            string type = "Type";
+            _application.CreateElement(name, type, SelectedProvider.Element);
+        }
+
+        private bool CreateElementCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void DeleteElementExecute(object parameter)
+        {
+            _application.DeleteElement(SelectedProvider.Element);
+        }
+
+        private bool DeleteElementCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void RenameElementExecute(object parameter)
+        {
+            string newName = "NewName";
+            _application.RenameElement(SelectedProvider.Element, newName);
+        }
+
+        private bool RenameElementCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void MoveElementExecute(object parameter)
+        {
+            IDsmElement newParent = null;
+            _application.MoveElement(SelectedProvider.Element, newParent);
+        }
+
+        private bool MoveElementCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void CreateRelationExecute(object parameter)
+        {
+            IDsmElement consumer = SelectedConsumer.Element;
+            IDsmElement provider = SelectedProvider.Element;
+            _application.CreateRelation(consumer, provider, "type", 1);
+        }
+
+        private bool CreateRelationCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void DeleteRelationExecute(object parameter)
+        {
+            IDsmRelation relation = null;
+            _application.DeleteRelation(relation);
+        }
+
+        private bool DeleteRelationCanExecute(object parameter)
+        {
+            return true;
         }
     }
 }

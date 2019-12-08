@@ -15,9 +15,9 @@
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Navigate back to full matrix" Command="{Binding HomeCommand}" Content="{StaticResource HomeIcon}"/>
             <Separator/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Move selected element up" Command="{Binding MoveUpCommand}" Content="{StaticResource UpIcon}"/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Move selected element down" Command="{Binding MoveDownCommand}" Content="{StaticResource DownIcon}"/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Sort selected element" Command="{Binding PartitionCommand}" Content="{StaticResource PartitionIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Move selected element up" Command="{Binding MoveUpElementCommand}" Content="{StaticResource UpIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Move selected element down" Command="{Binding MoveDownElementCommand}" Content="{StaticResource DownIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Sort selected element" Command="{Binding PartitionElementCommand}" Content="{StaticResource PartitionIcon}"/>
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom in" Command="{Binding ZoomInCommand}" Content="{StaticResource ZoomInIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>

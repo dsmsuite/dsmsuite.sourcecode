@@ -3,13 +3,13 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementChangeNameAction : ActionBase
+    public class ElementRenameAction : ActionBase
     {
         private readonly int _elementId;
         private readonly string _oldName;
         private readonly string _newName;
 
-        public ElementChangeNameAction(IDsmModel model, IDsmElement element, string newName) : base(model)
+        public ElementRenameAction(IDsmModel model, IDsmElement element, string newName) : base(model)
         {
             _elementId = element.Id;
             _oldName = element.Name;

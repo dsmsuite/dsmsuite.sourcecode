@@ -30,9 +30,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         event EventHandler<RelationListViewModel> RelationsReportReady;
 
         ICommand ToggleElementExpandedCommand { get; }
-        ICommand MoveUpCommand { get; }
-        ICommand MoveDownCommand { get; }
-        ICommand PartitionCommand { get; }
+        ICommand MoveUpElementCommand { get; }
+        ICommand MoveDownElementCommand { get; }
+        ICommand PartitionElementCommand { get; }
         ICommand ElementInternalsMatrixCommand { get; }
         ICommand ElementContextMatrixCommand { get; }
         ICommand RelationMatrixCommand { get; }

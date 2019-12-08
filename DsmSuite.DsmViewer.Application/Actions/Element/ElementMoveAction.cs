@@ -3,13 +3,13 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementChangeParentAction : ActionBase
+    public class ElementMoveAction : ActionBase
     {
         private readonly IDsmElement _element;
         private readonly IDsmElement _oldParent;
         private readonly IDsmElement _newParent;
 
-        public ElementChangeParentAction(IDsmModel model, IDsmElement element, IDsmElement newParent) : base(model)
+        public ElementMoveAction(IDsmModel model, IDsmElement element, IDsmElement newParent) : base(model)
         {
             _element = element;
             _oldParent = _element.Parent;
