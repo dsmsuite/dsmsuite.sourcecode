@@ -7,7 +7,7 @@ namespace DsmSuite.DsmViewer.Model.Data
     /// </summary>
     public class DsmRelation : IDsmRelation
     {
-        private readonly char _typeId;
+        private char _typeId;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
 
         public DsmRelation(int id, int consumerId, int providerId, string type, int weight)
@@ -25,8 +25,12 @@ namespace DsmSuite.DsmViewer.Model.Data
 
         public int ProviderId { get; }
 
-        public string Type => TypeRegistration.GetTypeName(_typeId);
+        public string Type
+        {
+            get { return TypeRegistration.GetTypeName(_typeId); }
+            set { _typeId = TypeRegistration.AddTypeName(value); }
+        }
 
-        public int Weight { get; }
+        public int Weight { get; set; }
     }
 }

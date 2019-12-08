@@ -35,8 +35,9 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<IDsmElement> SearchElements(string text);
 
         void AssignElementOrder();
-
+        void EditElement(IDsmElement relation, string name, string type);
         IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight);
+        void EditRelation(IDsmRelation relation, string type, int weight);
         void RemoveRelation(int relationId);
         void UnremoveRelation(int relationId);
         int GetDependencyWeight(int consumerId, int providerId);

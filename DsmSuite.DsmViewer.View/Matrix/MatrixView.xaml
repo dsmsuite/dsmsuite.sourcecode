@@ -33,12 +33,15 @@
                         <MenuItem Header="Partition" Command="{Binding PartitionCommand}" />
                         <MenuItem Header="Move up" Command="{Binding MoveUpCommand}" />
                         <MenuItem Header="Move down" Command="{Binding MoveDownCommand}" />
+                        <Separator />
+                        <MenuItem Header="Create element" Command="{Binding CreateElementCommand}" />                        
                         <MenuItem Header="Edit element" Command="{Binding EditElementCommand}" />                        
-                        <MenuItem Header="Create child element" Command="{Binding CreateElementCommand}" />
                         <MenuItem Header="Delete element" Command="{Binding DeleteElementCommand}" />
+                        <Separator />
                         <MenuItem Header="Show consumers" Command="{Binding ShowElementConsumersCommand}" />
                         <MenuItem Header="Show provided interface" Command="{Binding ShowElementProvidedInterfacesCommand}" />
                         <MenuItem Header="Show required interface" Command="{Binding ShowElementRequiredInterfacesCommand}" />
+                        <Separator />
                         <MenuItem Header="Show detail matrix" Command="{Binding ShowElementDetailMatrixCommand}" />
                         <MenuItem Header="Show context matrix" Command="{Binding ShowElementContextMatrixCommand}" />                    </ContextMenu>
                 </matrix:RenderedRowHeaderView.ContextMenu>
@@ -48,12 +51,14 @@
             <matrix:RenderedCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <matrix:RenderedCellsView.ContextMenu>
                     <ContextMenu>
+                        <MenuItem Header="Create relation" Command="{Binding CreateRelationCommand}" />                        
                         <MenuItem Header="Edit relation" Command="{Binding EditRelationCommand}" />
-                        <MenuItem Header="Create relation" Command="{Binding CreateRelationCommand}" />
                         <MenuItem Header="Delete relation" Command="{Binding DeleteRelationCommand}" />
+                        <Separator />
                         <MenuItem Header="Show relations" Command="{Binding ShowCellRelationsCommand}" />
                         <MenuItem Header="Show relation consumers" Command="{Binding ShowCellConsumersCommand}" />
                         <MenuItem Header="Show relation providers" Command="{Binding ShowCellProvidersCommand}" />
+                        <Separator />
                         <MenuItem Header="Show relation matrix" Command="{Binding ShowCellDetailMatrixCommand}" />
                     </ContextMenu>
                 </matrix:RenderedCellsView.ContextMenu>

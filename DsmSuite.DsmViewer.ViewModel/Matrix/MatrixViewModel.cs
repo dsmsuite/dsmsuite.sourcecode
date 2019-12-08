@@ -50,8 +50,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             DeleteElementCommand = mainViewModel.DeleteElementCommand;
             MoveElementCommand = mainViewModel.MoveElementCommand;
             EditElementCommand = mainViewModel.EditElementCommand;
+
             CreateRelationCommand = mainViewModel.CreateRelationCommand;
             DeleteRelationCommand = mainViewModel.DeleteRelationCommand;
+            EditRelationCommand = mainViewModel.EditRelationCommand;
 
             Providers = CreateProviderTree();
             Update();
@@ -70,6 +72,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand EditElementCommand { get; }
         public ICommand CreateRelationCommand { get; }
         public ICommand DeleteRelationCommand { get; }
+        public ICommand EditRelationCommand { get; }
 
         public double ZoomLevel
         {

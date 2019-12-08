@@ -5,7 +5,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementEditAction : ActionBase
     {
-        private readonly int _elementId;
+        private readonly IDsmElement _element;
         private readonly string _oldName;
         private readonly string _newName;
         private readonly string _oldType;
@@ -13,7 +13,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public ElementEditAction(IDsmModel model, IDsmElement element, string name, string type) : base(model)
         {
-            _elementId = element.Id;
+            _element = element;
             _oldName = element.Name;
             _newName = name;
             _oldType = element.Type;
@@ -22,22 +22,12 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override void Do()
         {
-            IDsmElement element = Model.GetElementById(_elementId);
-            if (element != null)
-            {
-                element.Name = _newName;
-                element.Type = _newType;
-            }
+            Model.EditElement(_element, _newName, _newType);
         }
 
         public override void Undo()
         {
-            IDsmElement element = Model.GetElementById(_elementId);
-            if (element != null)
-            {
-                element.Name = _oldName;
-                element.Type = _oldType;
-            }
+            Model.EditElement(_element, _oldName, _oldType);
         }
 
         public override string Description => "Edit element";

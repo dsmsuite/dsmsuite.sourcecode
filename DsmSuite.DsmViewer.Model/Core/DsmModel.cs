@@ -276,8 +276,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IDsmElement GetElementByFullname(string fullname)
         {
             IEnumerable<IDsmElement> elementWithName = from element in _elementsById.Values
-                                                      where element.Fullname == fullname
-                                                      select element;
+                                                       where element.Fullname == fullname
+                                                       select element;
 
             return elementWithName.FirstOrDefault();
         }
@@ -317,9 +317,35 @@ namespace DsmSuite.DsmViewer.Model.Core
                 _lastRelationId++;
                 relation = new DsmRelation(_lastRelationId, consumerId, providerId, type, weight);
                 RegisterRelation(relation);
+
                 IsModified = true;
             }
             return relation;
+        }
+
+        public void EditRelation(IDsmRelation relation, string type, int weight)
+        {
+            DsmRelation editedRelation = relation as DsmRelation;
+            if (editedRelation != null)
+            {
+                UnregisterRelation(relation);
+
+                editedRelation.Type = type;
+                editedRelation.Weight = weight;
+
+                RegisterRelation(relation);
+                IsModified = true;
+            }
+        }
+        public void EditElement(IDsmElement element, string name, string type)
+        {
+            DsmElement editedElement = element as DsmElement;
+            if (editedElement != null)
+            {
+                editedElement.Name = name;
+                editedElement.Type = type;
+                IsModified = true;
+            }
         }
 
         public void RemoveRelation(int relationId)
@@ -493,7 +519,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 GetIdsOfElementAndItsChidren(child, ids);
             }
         }
-        
+
         private void RegisterElement(IDsmElement element)
         {
             _elementsById[element.Id] = element;
@@ -558,7 +584,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             return element;
         }
-        
+
         private void RegisterRelation(IDsmRelation relation)
         {
             _relationsById[relation.Id] = relation;

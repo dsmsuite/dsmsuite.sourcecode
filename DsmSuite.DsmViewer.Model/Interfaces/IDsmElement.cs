@@ -18,12 +18,12 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// <summary>
         /// Type of element.
         /// </summary>
-        string Type { get; set; }
+        string Type { get; }
 
         /// <summary>
         /// Name of the element.
         /// </summary>
-        string Name { get; set; }
+        string Name { get; }
 
         /// <summary>
         /// Full name of the element based on its position in the element hierarchy

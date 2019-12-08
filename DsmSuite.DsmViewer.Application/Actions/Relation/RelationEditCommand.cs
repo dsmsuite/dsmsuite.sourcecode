@@ -25,14 +25,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public override void Do()
         {
-             //Model.EditRelation(_relation, _newType, _newWeight);
+             Model.EditRelation(_relation, _newType, _newWeight);
         }
 
         public override void Undo()
         {
-            //Model.EditRelation(_relation, _oldType, _oldWeight);
+             Model.EditRelation(_relation, _oldType, _oldWeight);
         }
 
-        public override string Description => "Create relation";
+        public override string Description => "Edit relation";
     }
 }
