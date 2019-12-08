@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -9,6 +10,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 {
     public class RenderedRowHeaderItemView : MatrixFrameworkElement
     {
+        private static readonly string DataObjectName = "Element";
         private static readonly string BlackRightPointingTriangle = '\u25B6'.ToString();
         private static readonly string BlackDownPointingTriangle = '\u25BC'.ToString();
         private static readonly FormattedText BlackRightPointingTriangleFormattedText;
@@ -48,7 +50,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DataObject data = new DataObject();
-                data.SetData("Element", _viewModel.Element);
+                data.SetData(DataObjectName, _viewModel.Element);
                 DragDrop.DoDragDrop(this, data, DragDropEffects.Copy | DragDropEffects.Move);
             }
         }
@@ -75,11 +77,13 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             base.OnDrop(e);
 
-            if (e.Data.GetDataPresent("Element"))
+            if (e.Data.GetDataPresent(DataObjectName))
             {
+                IDsmElement element = (IDsmElement) e.Data.GetData(DataObjectName);
                 IDsmElement newParent = _viewModel.Element;
-                IDsmElement element = (IDsmElement)e.Data.GetData("Element");
-                
+                Tuple<IDsmElement, IDsmElement> moveParameter = new Tuple<IDsmElement, IDsmElement>(element, newParent);
+                _viewModel.MoveCommand.Execute(moveParameter);
+
                 e.Effects = DragDropEffects.Move;
             }
             e.Handled = true;

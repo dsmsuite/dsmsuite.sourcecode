@@ -31,6 +31,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             ToggleElementExpandedCommand = mainViewModel.ToggleElementExpandedCommand;
 
+            MoveCommand = mainViewModel.MoveElementCommand;
             MoveUpCommand = mainViewModel.MoveUpElementCommand;
             MoveDownCommand = mainViewModel.MoveDownElementCommand;
             PartitionCommand = mainViewModel.PartitionElementCommand;
@@ -178,6 +179,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             HoveredProvider = provider;
         }
 
+        public ICommand MoveCommand { get; }
         public ICommand MoveUpCommand { get; }
         public ICommand MoveDownCommand { get; }
         public ICommand PartitionCommand { get; }

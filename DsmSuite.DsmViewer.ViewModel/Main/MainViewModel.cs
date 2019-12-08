@@ -586,8 +586,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void MoveElementExecute(object parameter)
         {
-            IDsmElement newParent = null;
-            _application.MoveElement(SelectedProvider.Element, newParent);
+            Tuple<IDsmElement, IDsmElement> moveParameter = parameter as Tuple<IDsmElement, IDsmElement>;
+            if (moveParameter != null)
+            {
+                _application.MoveElement(moveParameter.Item1, moveParameter.Item2);
+            }
         }
 
         private bool MoveElementCanExecute(object parameter)
