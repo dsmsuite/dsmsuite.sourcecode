@@ -29,7 +29,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             RelationsReportReady?.Invoke(this, report);
         }
 
-        public event EventHandler<ElementEditViewModel> ElementEditingStarted;
+        public event EventHandler<ElementCreateViewModel> ElementCreateStarted;
+        public event EventHandler<ElementEditViewModel> ElementEditStarted;
+
         public event EventHandler<ReportViewModel> ReportCreated;
         public event EventHandler<ElementListViewModel> ElementsReportReady;
         public event EventHandler<RelationListViewModel> RelationsReportReady;
@@ -552,9 +554,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void CreateElementExecute(object parameter)
         {
-            string name = "Name";
-            string type = "Type";
-            _application.CreateElement(name, type, SelectedProvider.Element);
+            ElementCreateViewModel elementCreateViewModel = new ElementCreateViewModel(_application, SelectedProvider.Element);
+            ElementCreateStarted?.Invoke(this, elementCreateViewModel);
             ActiveMatrix.Reload();
         }
 
@@ -577,7 +578,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private void EditElementExecute(object parameter)
         {
             ElementEditViewModel elementEditViewModel = new ElementEditViewModel(_application, SelectedProvider.Element);
-            ElementEditingStarted?.Invoke(this, elementEditViewModel);
+            ElementEditStarted?.Invoke(this, elementEditViewModel);
             ActiveMatrix.Reload();
         }
 

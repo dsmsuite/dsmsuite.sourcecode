@@ -1,10 +1,10 @@
-﻿<Window x:Class="DsmSuite.DsmViewer.View.Windows.ElementEditView"
+﻿<Window x:Class="DsmSuite.DsmViewer.View.Windows.ElementCreateView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Edit element" Height="150" Width="300">
+        Title="Create new element" Height="150" Width="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50" />
@@ -21,7 +21,7 @@
         <Label Content="Type" Grid.Row="1" Grid.Column="0" Margin="5"/>
         <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Type}"/>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-            <Button Content="Ok" Margin="5" Click="OnOkButtonClicked" Command="{Binding EditElementCommand}" IsDefault="True"/>
+            <Button Content="Ok" Margin="5" Click="OnOkButtonClicked" Command="{Binding CreateElementCommand}" IsDefault="True"/>
             <Button Content="Cancel" Margin="5" IsCancel="True" />
         </StackPanel>
     </Grid>

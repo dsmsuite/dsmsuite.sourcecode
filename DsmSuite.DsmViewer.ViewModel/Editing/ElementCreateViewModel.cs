@@ -5,24 +5,24 @@ using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Editing
 {
-    public class ElementEditViewModel : ViewModelBase
+    public class ElementCreateViewModel : ViewModelBase
     {
         private readonly IDsmApplication _application;
-        private readonly IDsmElement _element;
+        private readonly IDsmElement _parent;
         private string _name;
         private string _type;
 
-        public ICommand EditElementCommand { get; }
+        public ICommand CreateElementCommand { get; }
 
-        public ElementEditViewModel(IDsmApplication application, IDsmElement element)
+        public ElementCreateViewModel(IDsmApplication application, IDsmElement parent)
         {
             _application = application;
-            _element = element;
+            _parent = parent;
 
-            Name = _element.Name;
-            Type = _element.Type;
+            Name = "";
+            Type = "";
 
-            EditElementCommand = new RelayCommand<object>(EditElementExecute, EditElementCanExecute);
+            CreateElementCommand = new RelayCommand<object>(CreateElementExecute, CreateElementCanExecute);
         }
 
         public string Name
@@ -37,12 +37,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing
             set { _type = value; OnPropertyChanged(); }
         }
 
-        private void EditElementExecute(object parameter)
+        private void CreateElementExecute(object parameter)
         {
-            _application.EditElement(_element, Name, Type);
+            _application.CreateElement(Name, Type, _parent);
         }
 
-        private bool EditElementCanExecute(object parameter)
+        private bool CreateElementCanExecute(object parameter)
         {
             return Name.Length > 0;
         }

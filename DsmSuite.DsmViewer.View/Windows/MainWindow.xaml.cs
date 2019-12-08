@@ -34,13 +34,21 @@ namespace DsmSuite.DsmViewer.View.Windows
             _mainViewModel.RelationsReportReady += OnRelationsReportReady;
             _mainViewModel.ProgressViewModel.BusyChanged += OnProgressViewModelBusyChanged;
 
-            _mainViewModel.ElementEditingStarted += OnElementElementEditingStarted;
+            _mainViewModel.ElementCreateStarted += OnElementElementCreateStarted;
+            _mainViewModel.ElementEditStarted += OnElementElementEditStarted;
             DataContext = _mainViewModel;
 
             OpenModelFile();
         }
 
-        private void OnElementElementEditingStarted(object sender, ViewModel.Editing.ElementEditViewModel viewModel)
+        private void OnElementElementCreateStarted(object sender, ViewModel.Editing.ElementCreateViewModel viewModel)
+        {
+            ElementCreateView elementCreateView = new ElementCreateView();
+            elementCreateView.DataContext = viewModel;
+            elementCreateView.ShowDialog();
+        }
+
+        private void OnElementElementEditStarted(object sender, ViewModel.Editing.ElementEditViewModel viewModel)
         {
             ElementEditView elementEditView = new ElementEditView();
             elementEditView.DataContext = viewModel;

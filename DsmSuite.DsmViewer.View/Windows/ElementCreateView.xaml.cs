@@ -4,11 +4,11 @@ using DsmSuite.DsmViewer.ViewModel.Editing;
 namespace DsmSuite.DsmViewer.View.Windows
 {
     /// <summary>
-    /// Interaction logic for ElementEditView.xaml
+    /// Interaction logic for ElementCreateView.xaml
     /// </summary>
-    public partial class ElementEditView : Window
+    public partial class ElementCreateView : Window
     {
-        public ElementEditView()
+        public ElementCreateView()
         {
             InitializeComponent();
         }

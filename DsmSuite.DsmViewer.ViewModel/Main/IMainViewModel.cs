@@ -26,7 +26,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         void NotifyElementsReportReady(ElementListViewModel report);
         void NotifyRelationsReportReady(RelationListViewModel report);
 
-        event EventHandler<ElementEditViewModel> ElementEditingStarted;
+        event EventHandler<ElementCreateViewModel> ElementCreateStarted;
+        event EventHandler<ElementEditViewModel> ElementEditStarted;
 
         event EventHandler<ReportViewModel> ReportCreated;
         event EventHandler<ElementListViewModel> ElementsReportReady;
