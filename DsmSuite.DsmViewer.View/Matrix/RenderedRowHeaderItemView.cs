@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
@@ -35,8 +37,52 @@ namespace DsmSuite.DsmViewer.View.Matrix
         public RenderedRowHeaderItemView(RenderTheme renderTheme)
         {
             _renderTheme = renderTheme;
+            AllowDrop = true;
 
             DataContextChanged += OnDataContextChanged;
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DataObject data = new DataObject();
+                data.SetData("Element", _viewModel.Element);
+                DragDrop.DoDragDrop(this, data, DragDropEffects.Copy | DragDropEffects.Move);
+            }
+        }
+
+        protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
+        {
+            base.OnGiveFeedback(e);
+            if (e.Effects.HasFlag(DragDropEffects.Copy))
+            {
+                Mouse.SetCursor(Cursors.Cross);
+            }
+            else if (e.Effects.HasFlag(DragDropEffects.Move))
+            {
+                Mouse.SetCursor(Cursors.Pen);
+            }
+            else
+            {
+                Mouse.SetCursor(Cursors.None);
+            }
+            e.Handled = true;
+        }
+
+        protected override void OnDrop(DragEventArgs e)
+        {
+            base.OnDrop(e);
+
+            if (e.Data.GetDataPresent("Element"))
+            {
+                IDsmElement newParent = _viewModel.Element;
+                IDsmElement element = (IDsmElement)e.Data.GetData("Element");
+                
+                e.Effects = DragDropEffects.Move;
+            }
+            e.Handled = true;
         }
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
