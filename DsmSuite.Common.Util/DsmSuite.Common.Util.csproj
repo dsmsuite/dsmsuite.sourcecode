@@ -26,6 +26,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ElementName.cs" />
     <Compile Include="FilePath.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="CompressedFile.cs" />

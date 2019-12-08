@@ -7,7 +7,7 @@ namespace DsmSuite.DsmViewer.View.UserControls
     /// <summary>
     /// Interaction logic for InfoView.xaml
     /// </summary>
-    public partial class InfoView : UserControl
+    public partial class InfoView
     {
         private MainViewModel _mainViewModel;
 
@@ -18,7 +18,7 @@ namespace DsmSuite.DsmViewer.View.UserControls
 
         private void InfoViewOnLoaded(object sender, RoutedEventArgs e)
         {
-            _mainViewModel = this.DataContext as MainViewModel;
+            _mainViewModel = DataContext as MainViewModel;
         }
     }
 }

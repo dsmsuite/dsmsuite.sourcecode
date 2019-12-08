@@ -4,7 +4,6 @@ using System.IO;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
-using DsmSuite.DsmViewer.Application;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 using System.Linq;
 using DsmSuite.DsmViewer.Application.Interfaces;
@@ -269,8 +268,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ElementContextMatrixExecute(object parameter)
         {
-            List<IDsmElement> selectedElements = new List<IDsmElement>();
-            selectedElements.Add(SelectedProvider?.Element);
+            List<IDsmElement> selectedElements = new List<IDsmElement> {SelectedProvider?.Element};
             selectedElements.AddRange(_application.GetElementConsumers(SelectedProvider?.Element));
             selectedElements.AddRange(_application.GetElementProviders(SelectedProvider?.Element));
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
@@ -414,19 +412,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private void OnRunSearch()
         {
             _foundElements = _application.SearchElements(SearchText).ToList();
-            int count = _foundElements.Count();
+            int count = _foundElements.Count;
             if (count == 0)
             {
                 SearchState = SearchState.NoMatch;
-
-                if (SearchText.Length > 0)
-                {
-                    SearchResult = "No elements found";
-                }
-                else
-                {
-                    SearchResult = "";
-                }
+                SearchResult = SearchText.Length > 0 ? "No elements found" : "";
             }
             else if (count == 1)
             {

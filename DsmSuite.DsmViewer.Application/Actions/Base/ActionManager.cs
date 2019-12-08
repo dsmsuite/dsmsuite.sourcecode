@@ -37,7 +37,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             if (_redoActionStack.Count > 0)
             {
                 action = _redoActionStack.Peek();
-            };
+            }
             return action;
         }
 
@@ -67,7 +67,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             if (_redoActionStack.Count > 0)
             {
                 action = _redoActionStack.Peek();
-            };
+            }
             return action;
         }
 

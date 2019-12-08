@@ -8,7 +8,7 @@ namespace DsmSuite.DsmViewer.View.UserControls
     /// <summary>
     /// Interaction logic for ColumnHeaderView.xaml
     /// </summary>
-    public partial class ColumnHeaderView : UserControl
+    public partial class ColumnHeaderView
     {
         public ColumnHeaderView()
         {

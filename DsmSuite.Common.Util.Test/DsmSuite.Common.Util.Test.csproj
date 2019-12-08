@@ -56,6 +56,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CompressedFileTest.cs" />
+    <Compile Include="ElementNameTest.cs" />
     <Compile Include="FilePathTest.cs" />
     <Compile Include="StringExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

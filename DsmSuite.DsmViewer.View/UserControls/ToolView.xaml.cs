@@ -1,14 +1,13 @@
 ﻿using System.Windows;
 using DsmSuite.DsmViewer.ViewModel.Main;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
-using UserControl = System.Windows.Controls.UserControl;
 
 namespace DsmSuite.DsmViewer.View.UserControls
 {
     /// <summary>
     /// Interaction logic for ControlAndInfoView.xaml
     /// </summary>
-    public partial class ToolView : UserControl
+    public partial class ToolView
     {
         private MainViewModel _mainViewModel;
 
@@ -19,7 +18,7 @@ namespace DsmSuite.DsmViewer.View.UserControls
 
         private void ToolView_OnLoaded(object sender, RoutedEventArgs e)
         {
-            _mainViewModel = this.DataContext as MainViewModel;
+            _mainViewModel = DataContext as MainViewModel;
         }
 
         private void OpenButtonClick(object sender, RoutedEventArgs e)
@@ -35,14 +34,16 @@ namespace DsmSuite.DsmViewer.View.UserControls
         {
             string selectedFile = null;
 
-            OpenFileDialog dlg = new OpenFileDialog();
+            OpenFileDialog dlg = new OpenFileDialog
+            {
+                AddExtension = true,
+                CheckFileExists = true,
+                CheckPathExists = true,
+                DefaultExt = "dsm",
+                Filter = "DSM project files (*.dsm)|*.dsm|All files (*.*)|*.*",
+                Title = "Open DSM project"
+            };
 
-            dlg.AddExtension = true;
-            dlg.CheckFileExists = true;
-            dlg.CheckPathExists = true;
-            dlg.DefaultExt = "dsm";
-            dlg.Filter = "DSM project files (*.dsm)|*.dsm|All files (*.*)|*.*";
-            dlg.Title = "Open DSM project";
 
             bool? result = dlg.ShowDialog();
 

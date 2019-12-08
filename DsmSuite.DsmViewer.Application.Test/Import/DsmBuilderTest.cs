@@ -4,7 +4,7 @@ using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer.Builder.Test.Application
+namespace DsmSuite.DsmViewer.Application.Test.Import
 {
     [TestClass]
     public class BuildIntegrationTest

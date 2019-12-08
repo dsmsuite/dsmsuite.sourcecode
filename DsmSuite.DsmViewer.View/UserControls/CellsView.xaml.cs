@@ -8,7 +8,7 @@ namespace DsmSuite.DsmViewer.View.UserControls
     /// <summary>
     /// Interaction logic for MatrixView.xaml
     /// </summary>
-    public partial class CellsView : UserControl
+    public partial class CellsView
     {
         private double _matrixCellSize;
         public CellsView()

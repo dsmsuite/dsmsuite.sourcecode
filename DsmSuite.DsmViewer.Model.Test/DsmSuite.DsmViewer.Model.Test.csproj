@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="Core\DsmModelTest.cs" />
     <Compile Include="Data\DsmElementTest.cs" />
-    <Compile Include="Core\ElementNameTest.cs" />
     <Compile Include="Data\DsmRelationTest.cs" />
     <Compile Include="Data\TypeRegistrationTest.cs" />
     <Compile Include="Persistency\DsmModelFileTest.cs" />

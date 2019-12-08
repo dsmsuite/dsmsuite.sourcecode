@@ -8,7 +8,7 @@ namespace DsmSuite.DsmViewer.View.UserControls
     /// <summary>
     /// Interaction logic for RowHeaderView.xaml
     /// </summary>
-    public partial class RowHeaderView : UserControl
+    public partial class RowHeaderView
     {
         public RowHeaderView()
         {

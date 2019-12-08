@@ -2,7 +2,6 @@
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Collections.Generic;
 using System.Windows.Input;
-using DsmSuite.DsmViewer.Application;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Lists;

@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using System.Windows;
 using DsmSuite.DsmViewer.ViewModel.Main;
-using DsmSuite.DsmViewer.Application;
 using DsmSuite.DsmViewer.Application.Core;
 using DsmSuite.DsmViewer.Model.Core;
 
@@ -55,17 +54,21 @@ namespace DsmSuite.DsmViewer.View.Windows
 
         private void OnElementsReportReady(object sender, ViewModel.Lists.ElementListViewModel e)
         {
-            ElementListView view = new ElementListView();
-            view.DataContext = e;
-            view.Owner = this;
+            ElementListView view = new ElementListView
+            {
+                DataContext = e,
+                Owner = this
+            };
             view.Show();
         }
 
         private void OnRelationsReportReady(object sender, ViewModel.Lists.RelationListViewModel e)
         {
-            RelationListView view = new RelationListView();
-            view.DataContext = e;
-            view.Owner = this;
+            RelationListView view = new RelationListView
+            {
+                DataContext = e,
+                Owner = this
+            };
             view.Show();
         }
 
@@ -75,9 +78,11 @@ namespace DsmSuite.DsmViewer.View.Windows
             {
                 if (_progressWindow == null)
                 {
-                    _progressWindow = new ProgressWindow();
-                    _progressWindow.DataContext = _mainViewModel.ProgressViewModel;
-                    _progressWindow.Owner = this;
+                    _progressWindow = new ProgressWindow
+                    {
+                        DataContext = _mainViewModel.ProgressViewModel,
+                        Owner = this
+                    };
                     _progressWindow.ShowDialog();
                 }
             }

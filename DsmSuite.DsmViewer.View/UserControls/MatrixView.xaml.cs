@@ -5,7 +5,7 @@ namespace DsmSuite.DsmViewer.View.UserControls
     /// <summary>
     /// Interaction logic for MatrixView.xaml
     /// </summary>
-    public partial class MatrixView : UserControl
+    public partial class MatrixView
     {
         public MatrixView()
         {

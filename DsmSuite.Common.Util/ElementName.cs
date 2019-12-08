@@ -1,4 +1,4 @@
-﻿namespace DsmSuite.DsmViewer.Model.Core
+﻿namespace DsmSuite.Common.Util
 {
     public class ElementName
     {
