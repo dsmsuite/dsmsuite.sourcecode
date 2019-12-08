@@ -12,18 +12,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing
         private string _name;
         private string _type;
 
-        public ICommand EditElementCommand { get; }
+        public ICommand AcceptChangeCommand { get; }
 
         public ElementEditViewModel(IDsmApplication application, IDsmElement element)
         {
             _application = application;
             _element = element;
 
+            Title = $"Edit element {element.Fullname}";
             Name = _element.Name;
             Type = _element.Type;
 
-            EditElementCommand = new RelayCommand<object>(EditElementExecute, EditElementCanExecute);
+            AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
+
+        public string Title { get; }
 
         public string Name
         {
@@ -37,12 +40,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing
             set { _type = value; OnPropertyChanged(); }
         }
 
-        private void EditElementExecute(object parameter)
+        private void AcceptChangeExecute(object parameter)
         {
             _application.EditElement(_element, Name, Type);
         }
 
-        private bool EditElementCanExecute(object parameter)
+        private bool AcceptChangeCanExecute(object parameter)
         {
             return Name.Length > 0;
         }

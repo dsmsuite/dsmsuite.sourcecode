@@ -43,14 +43,14 @@ namespace DsmSuite.DsmViewer.View.Windows
 
         private void OnElementElementCreateStarted(object sender, ViewModel.Editing.ElementCreateViewModel viewModel)
         {
-            ElementCreateView elementCreateView = new ElementCreateView();
+            ElementView elementCreateView = new ElementView();
             elementCreateView.DataContext = viewModel;
             elementCreateView.ShowDialog();
         }
 
         private void OnElementElementEditStarted(object sender, ViewModel.Editing.ElementEditViewModel viewModel)
         {
-            ElementEditView elementEditView = new ElementEditView();
+            ElementView elementEditView = new ElementView();
             elementEditView.DataContext = viewModel;
             elementEditView.ShowDialog();
         }

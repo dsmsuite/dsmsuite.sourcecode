@@ -8,22 +8,25 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing
     public class ElementCreateViewModel : ViewModelBase
     {
         private readonly IDsmApplication _application;
-        private readonly IDsmElement _parent;
+        private readonly IDsmElement _element;
         private string _name;
         private string _type;
 
-        public ICommand CreateElementCommand { get; }
+        public ICommand AcceptChangeCommand { get; }
 
-        public ElementCreateViewModel(IDsmApplication application, IDsmElement parent)
+        public ElementCreateViewModel(IDsmApplication application, IDsmElement element)
         {
             _application = application;
-            _parent = parent;
+            _element = element;
 
+            Title = $"Create child element for {element.Fullname}";
             Name = "";
             Type = "";
 
-            CreateElementCommand = new RelayCommand<object>(CreateElementExecute, CreateElementCanExecute);
+            AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
+
+        public string Title { get; }
 
         public string Name
         {
@@ -37,12 +40,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing
             set { _type = value; OnPropertyChanged(); }
         }
 
-        private void CreateElementExecute(object parameter)
+        private void AcceptChangeExecute(object parameter)
         {
-            _application.CreateElement(Name, Type, _parent);
+            _application.CreateElement(Name, Type, _element);
         }
 
-        private bool CreateElementCanExecute(object parameter)
+        private bool AcceptChangeCanExecute(object parameter)
         {
             return Name.Length > 0;
         }
