@@ -31,6 +31,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         public event EventHandler<ElementCreateViewModel> ElementCreateStarted;
         public event EventHandler<ElementEditViewModel> ElementEditStarted;
+        public event EventHandler<RelationCreateViewModel> RelationCreateStarted;
+        public event EventHandler<RelationEditViewModel> RelationEditStarted;
 
         public event EventHandler<ReportViewModel> ReportCreated;
         public event EventHandler<ElementListViewModel> ElementsReportReady;
@@ -93,6 +95,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
             MoveElementCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
             EditElementCommand = new RelayCommand<object>(EditElementExecute, EditElementCanExecute);
+            EditRelationCommand = new RelayCommand<object>(EditRelationExecute, EditRelationCanExecute);
             CreateRelationCommand = new RelayCommand<object>(CreateRelationExecute, CreateRelationCanExecute);
             DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
 
@@ -153,6 +156,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand MoveElementCommand { get; }
         public ICommand EditElementCommand { get; }
         public ICommand CreateRelationCommand { get; }
+        public ICommand EditRelationCommand { get; }
         public ICommand DeleteRelationCommand { get; }
 
         public string ModelFilename
@@ -591,11 +595,42 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return true;
         }
 
+        private void EditRelationExecute(object parameter)
+        {
+            bool canExecute = false;
+            if ((SelectedConsumer != null) && (SelectedProvider != null))
+            {
+                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+                IDsmRelation relation = relations.FirstOrDefault();
+                if (relation != null)
+                {
+                    RelationEditViewModel relationEditViewModel = new RelationEditViewModel(_application, relation);
+                    RelationEditStarted?.Invoke(this, relationEditViewModel);
+                }
+            }
+        }
+
+        private bool EditRelationCanExecute(object parameter)
+        {
+            bool canExecute = false;
+            if ((SelectedConsumer != null) && (SelectedProvider != null))
+            {
+                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+                if (relations.Count() == 1)
+                {
+                    canExecute = true;
+                }
+            }
+            return canExecute;
+        }
+
         private void CreateRelationExecute(object parameter)
         {
             IDsmElement consumer = SelectedConsumer.Element;
             IDsmElement provider = SelectedProvider.Element;
-            _application.CreateRelation(consumer, provider, "type", 1);
+
+            RelationCreateViewModel relationCreateViewModel = new RelationCreateViewModel(_application, consumer, provider);
+            RelationCreateStarted?.Invoke(this, relationCreateViewModel);
         }
 
         private bool CreateRelationCanExecute(object parameter)

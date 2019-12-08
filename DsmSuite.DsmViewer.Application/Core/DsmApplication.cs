@@ -230,5 +230,11 @@ namespace DsmSuite.DsmViewer.Application.Core
             RelationDeleteAction action = new RelationDeleteAction(_model, relation);
             _actionManager.Execute(action);
         }
+
+        public void EditRelation(IDsmRelation relation, string type, int weight)
+        {
+            RelationEditAction action = new RelationEditAction(_model, relation, type, weight);
+            _actionManager.Execute(action);
+        }
     }
 }

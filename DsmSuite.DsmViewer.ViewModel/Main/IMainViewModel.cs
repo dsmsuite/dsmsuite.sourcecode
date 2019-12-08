@@ -28,6 +28,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         event EventHandler<ElementCreateViewModel> ElementCreateStarted;
         event EventHandler<ElementEditViewModel> ElementEditStarted;
+        event EventHandler<RelationCreateViewModel> RelationCreateStarted;
+        event EventHandler<RelationEditViewModel> RelationEditStarted;
 
         event EventHandler<ReportViewModel> ReportCreated;
         event EventHandler<ElementListViewModel> ElementsReportReady;
@@ -46,6 +48,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand MoveElementCommand { get; }
         ICommand EditElementCommand { get; }
         ICommand CreateRelationCommand { get; }
+        ICommand EditRelationCommand { get; }
         ICommand DeleteRelationCommand { get; }
     }
 }

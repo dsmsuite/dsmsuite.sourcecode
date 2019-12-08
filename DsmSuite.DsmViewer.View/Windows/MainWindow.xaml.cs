@@ -34,25 +34,41 @@ namespace DsmSuite.DsmViewer.View.Windows
             _mainViewModel.RelationsReportReady += OnRelationsReportReady;
             _mainViewModel.ProgressViewModel.BusyChanged += OnProgressViewModelBusyChanged;
 
-            _mainViewModel.ElementCreateStarted += OnElementElementCreateStarted;
-            _mainViewModel.ElementEditStarted += OnElementElementEditStarted;
+            _mainViewModel.ElementCreateStarted += OnElementCreateStarted;
+            _mainViewModel.ElementEditStarted += OnElementEditStarted;
+            _mainViewModel.RelationCreateStarted += OnRelationCreateStarted;
+            _mainViewModel.RelationEditStarted += OnRelationEditStarted;
             DataContext = _mainViewModel;
 
             OpenModelFile();
         }
 
-        private void OnElementElementCreateStarted(object sender, ViewModel.Editing.ElementCreateViewModel viewModel)
+        private void OnElementCreateStarted(object sender, ViewModel.Editing.ElementCreateViewModel viewModel)
         {
-            ElementView elementCreateView = new ElementView();
-            elementCreateView.DataContext = viewModel;
-            elementCreateView.ShowDialog();
+            ElementView view = new ElementView();
+            view.DataContext = viewModel;
+            view.ShowDialog();
         }
 
-        private void OnElementElementEditStarted(object sender, ViewModel.Editing.ElementEditViewModel viewModel)
+        private void OnElementEditStarted(object sender, ViewModel.Editing.ElementEditViewModel viewModel)
         {
-            ElementView elementEditView = new ElementView();
-            elementEditView.DataContext = viewModel;
-            elementEditView.ShowDialog();
+            ElementView view = new ElementView();
+            view.DataContext = viewModel;
+            view.ShowDialog();
+        }
+
+        private void OnRelationCreateStarted(object sender, ViewModel.Editing.RelationCreateViewModel viewModel)
+        {
+            RelationView view = new RelationView();
+            view.DataContext = viewModel;
+            view.ShowDialog();
+        }
+
+        private void OnRelationEditStarted(object sender, ViewModel.Editing.RelationEditViewModel viewModel)
+        {
+            RelationView view = new RelationView();
+            view.DataContext = viewModel;
+            view.ShowDialog();
         }
 
         private void OpenModelFile()

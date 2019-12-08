@@ -50,5 +50,6 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         void CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight);
         void DeleteRelation(IDsmRelation relation);
+        void EditRelation(IDsmRelation relation, string type, int weight);
     }
 }

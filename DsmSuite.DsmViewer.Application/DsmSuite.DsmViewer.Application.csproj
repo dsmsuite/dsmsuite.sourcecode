@@ -37,6 +37,7 @@
     <Compile Include="Actions\Element\ElementUpAction.cs" />
     <Compile Include="Actions\Relation\RelationCreateAction.cs" />
     <Compile Include="Actions\Relation\RelationDeleteAction.cs" />
+    <Compile Include="Actions\Relation\RelationEditCommand.cs" />
     <Compile Include="Actions\Snapshot\SnapshotAction.cs" />
     <Compile Include="Algorithm\Partitioner.cs" />
     <Compile Include="Algorithm\PartitioningAlgorithm.cs" />

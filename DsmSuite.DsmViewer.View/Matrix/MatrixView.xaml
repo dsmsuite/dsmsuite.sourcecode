@@ -22,12 +22,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <!--<userControls:ColumnHeaderView Grid.Row="0" Grid.Column="2" Height="{StaticResource MatrixHeaderHeight}" Width="Auto"/>-->
         <Canvas x:Name="ColumnHeaderCanvas" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="{StaticResource MatrixHeaderHeight}" ClipToBounds="True">
             <matrix:RenderedColumHeaderView x:Name="ColumnHeaderView"  Height="{StaticResource MatrixHeaderHeight}" Width="Auto" Left="0" Top="0" />
         </Canvas>
         <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="5" Style="{StaticResource GridSplitterStyle}"/>
-        <!--<userControls:RowHeaderView Grid.Row="1" Grid.Column="0" Height="Auto" Width="Auto" />-->
         <Canvas x:Name="RowHeaderViewCanvas"  Grid.Row="1" Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" ClipToBounds="True">
             <matrix:RenderedRowHeaderView x:Name="RowHeaderView" Height="Auto" HorizontalAlignment="Stretch">
                 <matrix:RenderedRowHeaderView.ContextMenu>
@@ -50,7 +48,7 @@
             <matrix:RenderedCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <matrix:RenderedCellsView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Edit relation" Command="{Binding EditElementCommand}" />
+                        <MenuItem Header="Edit relation" Command="{Binding EditRelationCommand}" />
                         <MenuItem Header="Create relation" Command="{Binding CreateRelationCommand}" />
                         <MenuItem Header="Delete relation" Command="{Binding DeleteRelationCommand}" />
                         <MenuItem Header="Show relations" Command="{Binding ShowCellRelationsCommand}" />
