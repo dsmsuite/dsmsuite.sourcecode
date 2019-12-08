@@ -68,10 +68,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             MoveUpElementCommand = new RelayCommand<object>(MoveUpElementExecute, MoveUpElementCanExecute);
             MoveDownElementCommand = new RelayCommand<object>(MoveDownElementExecute, MoveDownElementCanExecute);
             PartitionElementCommand = new RelayCommand<object>(PartitionElementExecute, PartitionElementCanExecute);
-            ElementInternalsMatrixCommand = new RelayCommand<object>(ElementInternalsMatrixExecute, ElementInternalsMatrixCanExecute);
-            ElementContextMatrixCommand = new RelayCommand<object>(ElementContextMatrixExecute, ElementContextMatrixCanExecute);
 
-            RelationMatrixCommand = new RelayCommand<object>(RelationMatrixExecute, RelationMatrixCanExecute);
+            ShowElementDetailMatrixCommand = new RelayCommand<object>(ShowElementDetailMatrixExecute, ShowElementDetailMatrixCanExecute);
+            ShowElementContextMatrixCommand = new RelayCommand<object>(ShowElementContextMatrixExecute, ShowElementContextMatrixCanExecute);
+            ShowCellDetailMatrixCommand = new RelayCommand<object>(ShowCellDetailMatrixExecute, ShowCellDetailMatrixCanExecute);
+
             ZoomInCommand = new RelayCommand<object>(ZoomInExecute, ZoomInCanExecute);
             ZoomOutCommand = new RelayCommand<object>(ZoomOutExecute, ZoomOutCanExecute);
             ToggleElementExpandedCommand = new RelayCommand<object>(ToggleElementExpandedExecute, ToggleElementExpandedCanExecute);
@@ -131,9 +132,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand MoveUpElementCommand { get; }
         public ICommand MoveDownElementCommand { get; }
         public ICommand PartitionElementCommand { get; }
-        public ICommand ElementInternalsMatrixCommand { get; }
-        public ICommand ElementContextMatrixCommand { get; }
-        public ICommand RelationMatrixCommand { get; }
+        public ICommand ShowElementDetailMatrixCommand { get; }
+        public ICommand ShowElementContextMatrixCommand { get; }
+        public ICommand ShowCellDetailMatrixCommand { get; }
         public ICommand ZoomInCommand { get; }
         public ICommand ZoomOutCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
@@ -269,18 +270,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return _application.HasChildren(SelectedProvider?.Element);
         }
 
-        private void ElementInternalsMatrixExecute(object parameter)
+        private void ShowElementDetailMatrixExecute(object parameter)
         {
             List<IDsmElement> selectedElements = new List<IDsmElement> { SelectedProvider?.Element };
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
 
-        private bool ElementInternalsMatrixCanExecute(object parameter)
+        private bool ShowElementDetailMatrixCanExecute(object parameter)
         {
             return true;
         }
 
-        private void ElementContextMatrixExecute(object parameter)
+        private void ShowElementContextMatrixExecute(object parameter)
         {
             List<IDsmElement> selectedElements = new List<IDsmElement> {SelectedProvider?.Element};
             selectedElements.AddRange(_application.GetElementConsumers(SelectedProvider?.Element));
@@ -288,12 +289,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
 
-        private bool ElementContextMatrixCanExecute(object parameter)
+        private bool ShowElementContextMatrixCanExecute(object parameter)
         {
             return true;
         }
 
-        private void RelationMatrixExecute(object parameter)
+        private void ShowCellDetailMatrixExecute(object parameter)
         {
             List<IDsmElement> selectedElements = new List<IDsmElement>
             {
@@ -303,7 +304,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
 
-        private bool RelationMatrixCanExecute(object parameter)
+        private bool ShowCellDetailMatrixCanExecute(object parameter)
         {
             return true;
         }

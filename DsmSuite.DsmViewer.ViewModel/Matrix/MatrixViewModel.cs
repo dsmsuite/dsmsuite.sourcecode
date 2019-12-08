@@ -29,33 +29,34 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _application = application;
             _selectedElements = selectedElements;
 
+            ToggleElementExpandedCommand = mainViewModel.ToggleElementExpandedCommand;
+
             MoveUpCommand = mainViewModel.MoveUpElementCommand;
             MoveDownCommand = mainViewModel.MoveDownElementCommand;
             PartitionCommand = mainViewModel.PartitionElementCommand;
-            ElementInternalsMatrixCommand = mainViewModel.ElementInternalsMatrixCommand;
-            ElementContextMatrixCommand = mainViewModel.ElementContextMatrixCommand;
-            RelationMatrixCommand = mainViewModel.RelationMatrixCommand;
 
-            ToggleElementExpandedCommand = mainViewModel.ToggleElementExpandedCommand;
+            ShowCellRelationsCommand = new RelayCommand<object>(ShowCellRelationsExecute, ShowCellRelationsCanExecute);
+            ShowCellConsumersCommand = new RelayCommand<object>(ShowCellConsumersExecute, ShowCellConsumersCanExecute);
+            ShowCellProvidersCommand = new RelayCommand<object>(ShowCellProvidersExecute, ShowCellProvidersCanExecute);
+            ShowElementDetailMatrixCommand = mainViewModel.ShowElementDetailMatrixCommand;
+            ShowElementContextMatrixCommand = mainViewModel.ShowElementContextMatrixCommand;
 
-            CellRelationsReportCommand = new RelayCommand<object>(RelationsReportExecute, RelationsReportCanExecute);
-            CellConsumersReportCommand = new RelayCommand<object>(CellConsumersReportExecute, CellConsumersReportCanExecute);
-            CellProvidersReportCommand = new RelayCommand<object>(CellProvidersReportExecute, CellProvidersReportCanExecute);
-            ElementConsumersReportCommand = new RelayCommand<object>(ElementConsumersReportExecute, ElementConsumersReportCanExecute);
-            ElementProvidedInterfacesReportCommand = new RelayCommand<object>(ElementProvidedInterfacesReportExecute, ElementProvidedInterfacesReportCanExecute);
-            ElementRequiredInterfacesReportCommand = new RelayCommand<object>(ElementRequiredInterfacesReportExecute, ElementRequiredInterfacesReportCanExecute);
+            ShowElementConsumersCommand = new RelayCommand<object>(ShowElementConsumersExecute, ShowConsumersCanExecute);
+            ShowElementProvidedInterfacesCommand = new RelayCommand<object>(ShowProvidedInterfacesExecute, ShowElementProvidedInterfacesCanExecute);
+            ShowElementRequiredInterfacesCommand = new RelayCommand<object>(ShowElementRequiredInterfacesExecute, ShowElementRequiredInterfacesCanExecute);
+            ShowCellDetailMatrixCommand = mainViewModel.ShowCellDetailMatrixCommand;
 
             Providers = CreateProviderTree();
             Update();
             ZoomLevel = 1.0;
         }
 
-        public ICommand CellRelationsReportCommand { get; }
-        public ICommand CellConsumersReportCommand { get; }
-        public ICommand CellProvidersReportCommand { get; }
-        public ICommand ElementConsumersReportCommand { get; }
-        public ICommand ElementProvidedInterfacesReportCommand { get; }
-        public ICommand ElementRequiredInterfacesReportCommand { get; }
+        public ICommand ShowCellRelationsCommand { get; }
+        public ICommand ShowCellConsumersCommand { get; }
+        public ICommand ShowCellProvidersCommand { get; }
+        public ICommand ShowElementConsumersCommand { get; }
+        public ICommand ShowElementProvidedInterfacesCommand { get; }
+        public ICommand ShowElementRequiredInterfacesCommand { get; }
 
         public double ZoomLevel
         {
@@ -164,9 +165,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand MoveUpCommand { get; }
         public ICommand MoveDownCommand { get; }
         public ICommand PartitionCommand { get; }
-        public ICommand ElementInternalsMatrixCommand { get; }
-        public ICommand ElementContextMatrixCommand { get; }
-        public ICommand RelationMatrixCommand { get; }
+        public ICommand ShowElementDetailMatrixCommand { get; }
+        public ICommand ShowElementContextMatrixCommand { get; }
+        public ICommand ShowCellDetailMatrixCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
 
         public ObservableCollection<ElementTreeItemViewModel> Providers
@@ -272,7 +273,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             return cellViewModels;
         }
 
-        private void CellConsumersReportExecute(object parameter)
+        private void ShowCellConsumersExecute(object parameter)
         {
             string title = $"Consumers in relations between consumer {SelectedConsumer.Element.Fullname} and provider {SelectedProvider.Element.Fullname}";
 
@@ -283,12 +284,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         }
 
 
-        private bool CellConsumersReportCanExecute(object parameter)
+        private bool ShowCellConsumersCanExecute(object parameter)
         {
             return true;
         }
 
-        private void CellProvidersReportExecute(object parameter)
+        private void ShowCellProvidersExecute(object parameter)
         {
             string title = $"Providers in relations between consumer {SelectedConsumer.Element.Fullname} and provider {SelectedProvider.Element.Fullname}";
 
@@ -298,12 +299,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
 
-        private bool CellProvidersReportCanExecute(object parameter)
+        private bool ShowCellProvidersCanExecute(object parameter)
         {
             return true;
         }
 
-        private void ElementConsumersReportExecute(object parameter)
+        private void ShowElementConsumersExecute(object parameter)
         {
             string title = $"Consumers of {SelectedProvider.Element.Fullname}";
 
@@ -313,12 +314,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
 
-        private bool ElementConsumersReportCanExecute(object parameter)
+        private bool ShowConsumersCanExecute(object parameter)
         {
             return true;
         }
 
-        private void ElementProvidedInterfacesReportExecute(object parameter)
+        private void ShowProvidedInterfacesExecute(object parameter)
         {
             string title = $"Provided interface of {SelectedProvider.Element.Fullname}";
 
@@ -328,12 +329,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
         
-        private bool ElementProvidedInterfacesReportCanExecute(object parameter)
+        private bool ShowElementProvidedInterfacesCanExecute(object parameter)
         {
             return true;
         }
 
-        private void ElementRequiredInterfacesReportExecute(object parameter)
+        private void ShowElementRequiredInterfacesExecute(object parameter)
         {
             string title = $"Required interface of {SelectedProvider.Element.Fullname}";
 
@@ -343,12 +344,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
 
-        private bool ElementRequiredInterfacesReportCanExecute(object parameter)
+        private bool ShowElementRequiredInterfacesCanExecute(object parameter)
         {
             return true;
         }
 
-        private void RelationsReportExecute(object parameter)
+        private void ShowCellRelationsExecute(object parameter)
         {
             string title = $"Relations between consumer {SelectedConsumer.Element.Fullname} and provider {SelectedProvider.Element.Fullname}";
 
@@ -358,7 +359,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _mainViewModel.NotifyRelationsReportReady(relationsListViewModel);
         }
         
-        private bool RelationsReportCanExecute(object parameter)
+        private bool ShowCellRelationsCanExecute(object parameter)
         {
             return true;
         }

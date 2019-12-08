@@ -35,11 +35,11 @@
                         <MenuItem Header="Partition" Command="{Binding PartitionCommand}" />
                         <MenuItem Header="Move up" Command="{Binding MoveUpCommand}" />
                         <MenuItem Header="Move down" Command="{Binding MoveDownCommand}" />
-                        <MenuItem Header="Show consumers" Command="{Binding ElementConsumersReportCommand}" />
-                        <MenuItem Header="Show provided elements" Command="{Binding ElementProvidedInterfacesReportCommand}" />
-                        <MenuItem Header="Show required elements" Command="{Binding ElementRequiredInterfacesReportCommand}" />
-                        <MenuItem Header="Show internals matrix" Command="{Binding ElementInternalsMatrixCommand}" />
-                        <!--<MenuItem Header="Show context matrix" Command="{Binding ElementContextMatrixCommand}" />-->
+                        <MenuItem Header="Show consumers" Command="{Binding ShowElementConsumersCommand}" />
+                        <MenuItem Header="Show provided interface" Command="{Binding ShowElementProvidedInterfacesCommand}" />
+                        <MenuItem Header="Show required interface" Command="{Binding ShowElementRequiredInterfacesCommand}" />
+                        <MenuItem Header="Show detail matrix" Command="{Binding ShowElementDetailMatrixCommand}" />
+                        <!--<MenuItem Header="Show context matrix" Command="{Binding ShowElementContextMatrixCommand}" />-->
                     </ContextMenu>
                 </matrix:RenderedRowHeaderView.ContextMenu>
             </matrix:RenderedRowHeaderView>
@@ -48,10 +48,10 @@
             <matrix:RenderedCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <matrix:RenderedCellsView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Show relations" Command="{Binding CellRelationsReportCommand}" />
-                        <MenuItem Header="Show relation consumers" Command="{Binding CellConsumersReportCommand}" />
-                        <MenuItem Header="Show relation providers" Command="{Binding CellProvidersReportCommand}" />
-                        <MenuItem Header="Show relation matrix" Command="{Binding RelationMatrixCommand}" />
+                        <MenuItem Header="Show relations" Command="{Binding ShowCellRelationsCommand}" />
+                        <MenuItem Header="Show relation consumers" Command="{Binding ShowCellConsumersCommand}" />
+                        <MenuItem Header="Show relation providers" Command="{Binding ShowCellProvidersCommand}" />
+                        <MenuItem Header="Show relation matrix" Command="{Binding ShowCellDetailMatrixCommand}" />
                     </ContextMenu>
                 </matrix:RenderedCellsView.ContextMenu>
             </matrix:RenderedCellsView>
