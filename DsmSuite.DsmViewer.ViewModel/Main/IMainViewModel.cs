@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.ViewModel.Common;
+using DsmSuite.DsmViewer.ViewModel.Editing;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
@@ -25,6 +26,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         void NotifyElementsReportReady(ElementListViewModel report);
         void NotifyRelationsReportReady(RelationListViewModel report);
 
+        event EventHandler<ElementEditViewModel> ElementEditingStarted;
+
         event EventHandler<ReportViewModel> ReportCreated;
         event EventHandler<ElementListViewModel> ElementsReportReady;
         event EventHandler<RelationListViewModel> RelationsReportReady;
@@ -40,7 +43,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand CreateElementCommand { get; }
         ICommand DeleteElementCommand { get; }
         ICommand MoveElementCommand { get; }
-        ICommand RenameElementCommand { get; }
+        ICommand EditElementCommand { get; }
         ICommand CreateRelationCommand { get; }
         ICommand DeleteRelationCommand { get; }
     }

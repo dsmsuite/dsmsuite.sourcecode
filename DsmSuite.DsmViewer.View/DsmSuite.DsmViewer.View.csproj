@@ -59,6 +59,9 @@
     </Compile>
     <Compile Include="ValueConverters\SearchStateConverter.cs" />
     <Compile Include="Settings\ViewerSettings.cs" />
+    <Compile Include="Windows\ElementEditView.xaml.cs">
+      <DependentUpon>ElementEditView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ElementListView.xaml.cs">
       <DependentUpon>ElementListView.xaml</DependentUpon>
     </Compile>
@@ -71,6 +74,10 @@
     <Compile Include="Windows\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Windows\ElementEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\ElementListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

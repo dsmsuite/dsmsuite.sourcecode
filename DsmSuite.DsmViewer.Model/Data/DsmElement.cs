@@ -8,7 +8,7 @@ namespace DsmSuite.DsmViewer.Model.Data
     /// </summary>
     public class DsmElement : IDsmElement
     {
-        private readonly char _typeId;
+        private char _typeId;
         private readonly List<IDsmElement> _children = new List<IDsmElement>();
         private DsmElement _parent;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
@@ -35,7 +35,11 @@ namespace DsmSuite.DsmViewer.Model.Data
         /// <summary>
         /// Type of element.
         /// </summary>
-        public string Type => TypeRegistration.GetTypeName(_typeId);
+        public string Type
+        {
+            get { return TypeRegistration.GetTypeName(_typeId); }
+            set { _typeId = TypeRegistration.AddTypeName(value); }
+        }
 
         /// <summary>
         /// Name of the element.

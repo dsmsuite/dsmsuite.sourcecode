@@ -49,7 +49,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             CreateElementCommand = mainViewModel.CreateElementCommand;
             DeleteElementCommand = mainViewModel.DeleteElementCommand;
             MoveElementCommand = mainViewModel.MoveElementCommand;
-            RenameElementCommand = mainViewModel.RenameElementCommand;
+            EditElementCommand = mainViewModel.EditElementCommand;
             CreateRelationCommand = mainViewModel.CreateRelationCommand;
             DeleteRelationCommand = mainViewModel.DeleteRelationCommand;
 
@@ -67,7 +67,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand CreateElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
         public ICommand MoveElementCommand { get; }
-        public ICommand RenameElementCommand { get; }
+        public ICommand EditElementCommand { get; }
         public ICommand CreateRelationCommand { get; }
         public ICommand DeleteRelationCommand { get; }
 

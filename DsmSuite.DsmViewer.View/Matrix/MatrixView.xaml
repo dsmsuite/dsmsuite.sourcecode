@@ -35,7 +35,7 @@
                         <MenuItem Header="Partition" Command="{Binding PartitionCommand}" />
                         <MenuItem Header="Move up" Command="{Binding MoveUpCommand}" />
                         <MenuItem Header="Move down" Command="{Binding MoveDownCommand}" />
-                        <MenuItem Header="Rename element" Command="{Binding RenameElementCommand}" />                        
+                        <MenuItem Header="Edit element" Command="{Binding EditElementCommand}" />                        
                         <MenuItem Header="Create element" Command="{Binding CreateElementCommand}" />
                         <MenuItem Header="Delete element" Command="{Binding DeleteElementCommand}" />
                         <MenuItem Header="Show consumers" Command="{Binding ShowElementConsumersCommand}" />

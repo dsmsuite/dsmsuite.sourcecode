@@ -202,9 +202,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Execute(action);
         }
 
-        public void RenameElement(IDsmElement element, string newName)
+        public void EditElement(IDsmElement element, string name, string type)
         {
-            ElementRenameAction action = new ElementRenameAction(_model, element, newName);
+            ElementEditAction action = new ElementEditAction(_model, element, name, type);
             _actionManager.Execute(action);
         }
 

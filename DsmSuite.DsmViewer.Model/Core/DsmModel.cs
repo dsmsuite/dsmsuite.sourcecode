@@ -186,6 +186,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 _lastElementId++;
                 element = AddElement(_lastElementId, name, type, 0, false, parentId);
+                IsModified = true;
             }
 
             return element;
@@ -201,6 +202,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 currentParent.RemoveChild(element);
                 newParent.AddChild(element);
+                IsModified = true;
             }
         }
 
@@ -217,6 +219,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 {
                     RemoveElement(child.Id);
                 }
+                IsModified = true;
             }
         }
 
@@ -227,8 +230,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 IDsmElement element = _deletedElementsById[id];
                 RegisterElement(element);
+
             }
         }
+
 
         public IEnumerable<IDsmElement> GetRootElements()
         {
@@ -306,6 +311,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 _lastRelationId++;
                 relation = new DsmRelation(_lastRelationId, consumerId, providerId, type, weight);
                 RegisterRelation(relation);
+                IsModified = true;
             }
             return relation;
         }
@@ -316,6 +322,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (relation != null)
             {
                 UnregisterRelation(relation);
+                IsModified = true;
             }
         }
 
@@ -325,6 +332,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (relation != null)
             {
                 RegisterRelation(relation);
+                IsModified = true;
             }
         }
 

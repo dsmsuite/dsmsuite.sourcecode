@@ -44,7 +44,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         void CreateElement(string name, string type, IDsmElement parent);
         void DeleteElement(IDsmElement element);
-        void RenameElement(IDsmElement element, string newName);
+        void EditElement(IDsmElement element, string name, string type);
         void MoveElement(IDsmElement element, IDsmElement newParent);
 
         void CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight);

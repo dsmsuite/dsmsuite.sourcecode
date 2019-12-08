@@ -484,7 +484,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
 
         [TestMethod]
-        public void RenameElementTest()
+        public void EditElementTest()
         {
             Assert.Inconclusive("Not implemented yet");
         }

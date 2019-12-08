@@ -8,6 +8,7 @@ using DsmSuite.DsmViewer.ViewModel.Lists;
 using System.Linq;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.ViewModel.Editing;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -28,6 +29,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             RelationsReportReady?.Invoke(this, report);
         }
 
+        public event EventHandler<ElementEditViewModel> ElementEditingStarted;
         public event EventHandler<ReportViewModel> ReportCreated;
         public event EventHandler<ElementListViewModel> ElementsReportReady;
         public event EventHandler<RelationListViewModel> RelationsReportReady;
@@ -88,7 +90,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             CreateElementCommand = new RelayCommand<object>(CreateElementExecute, CreateElementCanExecute);
             DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
             MoveElementCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
-            RenameElementCommand = new RelayCommand<object>(RenameElementExecute, RenameElementCanExecute);
+            EditElementCommand = new RelayCommand<object>(EditElementExecute, EditElementCanExecute);
             CreateRelationCommand = new RelayCommand<object>(CreateRelationExecute, CreateRelationCanExecute);
             DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
 
@@ -147,7 +149,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand CreateElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
         public ICommand MoveElementCommand { get; }
-        public ICommand RenameElementCommand { get; }
+        public ICommand EditElementCommand { get; }
         public ICommand CreateRelationCommand { get; }
         public ICommand DeleteRelationCommand { get; }
 
@@ -572,14 +574,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return true;
         }
 
-        private void RenameElementExecute(object parameter)
+        private void EditElementExecute(object parameter)
         {
-            string newName = "NewName";
-            _application.RenameElement(SelectedProvider.Element, newName);
+            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(_application, SelectedProvider.Element);
+            ElementEditingStarted?.Invoke(this, elementEditViewModel);
             ActiveMatrix.Reload();
         }
 
-        private bool RenameElementCanExecute(object parameter)
+        private bool EditElementCanExecute(object parameter)
         {
             return true;
         }

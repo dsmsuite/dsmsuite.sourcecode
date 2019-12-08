@@ -18,7 +18,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// <summary>
         /// Type of element.
         /// </summary>
-        string Type { get; }
+        string Type { get; set; }
 
         /// <summary>
         /// Name of the element.
