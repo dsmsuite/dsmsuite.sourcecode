@@ -10,7 +10,7 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SolidColorBrush brush = new SolidColorBrush(Colors.White);
+            SolidColorBrush brush;
             SearchState searchState = (SearchState)value;
             switch(searchState)
             {

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:userControls="clr-namespace:DsmSuite.DsmViewer.View.UserControls"
+        xmlns:matrix="clr-namespace:DsmSuite.DsmViewer.View.Matrix"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="Auto" Width="Auto"
         Loaded="MainWindow_OnLoaded" Background="{StaticResource BackgroundColor}">
@@ -13,6 +14,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <userControls:ToolView Grid.Row="0"/>
-        <userControls:MatrixView Grid.Row="1"/>
+        <matrix:MatrixView Grid.Row="1"/>
     </Grid>
 </Window>

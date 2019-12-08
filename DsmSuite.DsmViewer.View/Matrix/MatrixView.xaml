@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="DsmSuite.DsmViewer.View.UserControls.MatrixView"
+﻿<UserControl x:Class="DsmSuite.DsmViewer.View.Matrix.MatrixView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:customControls="clr-namespace:DsmSuite.DsmViewer.View.CustomControls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:matrix="clr-namespace:DsmSuite.DsmViewer.View.Matrix"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid DataContext="{Binding ActiveMatrix}">
@@ -24,13 +24,13 @@
         </Grid.RowDefinitions>
         <!--<userControls:ColumnHeaderView Grid.Row="0" Grid.Column="2" Height="{StaticResource MatrixHeaderHeight}" Width="Auto"/>-->
         <Canvas x:Name="ColumnHeaderCanvas" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="{StaticResource MatrixHeaderHeight}" ClipToBounds="True">
-            <customControls:RenderedColumHeaderView x:Name="ColumnHeaderView"  Height="{StaticResource MatrixHeaderHeight}" Width="Auto" Left="0" Top="0" />
+            <matrix:RenderedColumHeaderView x:Name="ColumnHeaderView"  Height="{StaticResource MatrixHeaderHeight}" Width="Auto" Left="0" Top="0" />
         </Canvas>
         <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="5" Style="{StaticResource GridSplitterStyle}"/>
         <!--<userControls:RowHeaderView Grid.Row="1" Grid.Column="0" Height="Auto" Width="Auto" />-->
         <Canvas x:Name="RowHeaderViewCanvas"  Grid.Row="1" Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" ClipToBounds="True">
-            <customControls:RenderedRowHeaderView x:Name="RowHeaderView" Height="Auto" HorizontalAlignment="Stretch">
-                <customControls:RenderedRowHeaderView.ContextMenu>
+            <matrix:RenderedRowHeaderView x:Name="RowHeaderView" Height="Auto" HorizontalAlignment="Stretch">
+                <matrix:RenderedRowHeaderView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Partition" Command="{Binding PartitionCommand}" />
                         <MenuItem Header="Move up" Command="{Binding MoveUpCommand}" />
@@ -41,21 +41,51 @@
                         <MenuItem Header="Show internals matrix" Command="{Binding ElementInternalsMatrixCommand}" />
                         <!--<MenuItem Header="Show context matrix" Command="{Binding ElementContextMatrixCommand}" />-->
                     </ContextMenu>
-                </customControls:RenderedRowHeaderView.ContextMenu>
-            </customControls:RenderedRowHeaderView>
+                </matrix:RenderedRowHeaderView.ContextMenu>
+            </matrix:RenderedRowHeaderView>
         </Canvas>
         <ScrollViewer Grid.Row="1" Grid.Column="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="CellsViewOnScrollChanged">
-            <customControls:RenderedCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <customControls:RenderedCellsView.ContextMenu>
+            <matrix:RenderedCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <matrix:RenderedCellsView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Show relations" Command="{Binding CellRelationsReportCommand}" />
                         <MenuItem Header="Show relation consumers" Command="{Binding CellConsumersReportCommand}" />
                         <MenuItem Header="Show relation providers" Command="{Binding CellProvidersReportCommand}" />
                         <MenuItem Header="Show relation matrix" Command="{Binding RelationMatrixCommand}" />
                     </ContextMenu>
-                </customControls:RenderedCellsView.ContextMenu>
-            </customControls:RenderedCellsView>
+                </matrix:RenderedCellsView.ContextMenu>
+            </matrix:RenderedCellsView>
         </ScrollViewer>
     </Grid>
 </UserControl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

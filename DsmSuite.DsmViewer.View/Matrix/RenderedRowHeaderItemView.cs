@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
 
-namespace DsmSuite.DsmViewer.View.CustomControls
+namespace DsmSuite.DsmViewer.View.Matrix
 {
     public class RenderedRowHeaderItemView : MatrixFrameworkElement
     {

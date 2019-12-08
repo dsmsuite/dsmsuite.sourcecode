@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace DsmSuite.DsmViewer.View.CustomControls
+namespace DsmSuite.DsmViewer.View.Matrix
 {
     public class MatrixFrameworkElement : FrameworkElement
     {

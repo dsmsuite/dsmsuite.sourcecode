@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
 
-namespace DsmSuite.DsmViewer.View.CustomControls
+namespace DsmSuite.DsmViewer.View.Matrix
 {
     public class RenderedColumHeaderView : Canvas
     {

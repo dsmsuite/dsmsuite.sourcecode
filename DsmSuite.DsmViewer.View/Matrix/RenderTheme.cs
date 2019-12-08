@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using DsmSuite.DsmViewer.View.ValueConverters;
 
-namespace DsmSuite.DsmViewer.View.CustomControls
+namespace DsmSuite.DsmViewer.View.Matrix
 {
     public class RenderTheme
     {
@@ -63,11 +62,15 @@ namespace DsmSuite.DsmViewer.View.CustomControls
         {
             int index = colorIndex*4;
             _brushes[index] = brush;
-            _brushes[index+1] = brush.Multiply(highlightFactorHovered);
-            _brushes[index+2] = brush.Multiply(highlightFactorSelected);
-            _brushes[index+3] = brush.Multiply(highlightFactorHovered * highlightFactorSelected);
+            _brushes[index+1] = GetHighlightBrush(brush, highlightFactorHovered);
+            _brushes[index+2] = GetHighlightBrush(brush, highlightFactorSelected);
+            _brushes[index+3] = GetHighlightBrush(brush, highlightFactorHovered * highlightFactorSelected);
         }
 
-
+        public static SolidColorBrush GetHighlightBrush(SolidColorBrush color, double multiplicationFactor)
+        {
+            float factor = (float)multiplicationFactor;
+            return new SolidColorBrush(Color.Multiply(color.Color, factor));
+        }
     }
 }

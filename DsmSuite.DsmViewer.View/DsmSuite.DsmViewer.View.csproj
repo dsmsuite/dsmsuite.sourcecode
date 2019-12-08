@@ -40,23 +40,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CustomControls\MatrixFrameworkElement.cs" />
-    <Compile Include="CustomControls\RenderedColumHeaderView.cs" />
-    <Compile Include="CustomControls\RenderedCellsView.cs" />
-    <Compile Include="CustomControls\RenderedCellView.cs" />
-    <Compile Include="CustomControls\RenderedColumHeaderItemView.cs" />
-    <Compile Include="CustomControls\RenderedRowHeaderView.cs" />
-    <Compile Include="CustomControls\RenderTheme.cs" />
-    <Compile Include="CustomControls\RenderedRowHeaderItemView.cs" />
-    <Compile Include="UserControls\CellView.xaml.cs">
-      <DependentUpon>CellView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\MatrixView.xaml.cs">
+    <Compile Include="Matrix\MatrixFrameworkElement.cs" />
+    <Compile Include="Matrix\RenderedColumHeaderView.cs" />
+    <Compile Include="Matrix\RenderedCellsView.cs" />
+    <Compile Include="Matrix\RenderedCellView.cs" />
+    <Compile Include="Matrix\RenderedColumHeaderItemView.cs" />
+    <Compile Include="Matrix\RenderedRowHeaderView.cs" />
+    <Compile Include="Matrix\RenderTheme.cs" />
+    <Compile Include="Matrix\RenderedRowHeaderItemView.cs" />
+    <Compile Include="Matrix\MatrixView.xaml.cs">
       <DependentUpon>MatrixView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ValueConverters\CellColorConverter.cs" />
-    <Compile Include="UserControls\ColumnHeaderView.xaml.cs">
-      <DependentUpon>ColumnHeaderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\InfoView.xaml.cs">
       <DependentUpon>InfoView.xaml</DependentUpon>
@@ -64,18 +57,7 @@
     <Compile Include="UserControls\ToolView.xaml.cs">
       <DependentUpon>ToolView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CellsView.xaml.cs">
-      <DependentUpon>CellsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\RowHeaderView.xaml.cs">
-      <DependentUpon>RowHeaderView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ValueConverters\ElementColorConverter.cs" />
-    <Compile Include="ValueConverters\DependencyWeightConverter.cs" />
-    <Compile Include="ValueConverters\ExpandedRotationConverter.cs" />
-    <Compile Include="ValueConverters\ExpandableIconConverter.cs" />
     <Compile Include="ValueConverters\SearchStateConverter.cs" />
-    <Compile Include="ValueConverters\SolidColorBrushMultiplier.cs" />
     <Compile Include="Settings\ViewerSettings.cs" />
     <Compile Include="Windows\ElementListView.xaml.cs">
       <DependentUpon>ElementListView.xaml</DependentUpon>
@@ -89,10 +71,6 @@
     <Compile Include="Windows\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
-    <Page Include="UserControls\CellView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\ElementListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,27 +107,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ColumnHeaderView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\InfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\MatrixView.xaml">
+    <Page Include="Matrix\MatrixView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ToolView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\CellsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\RowHeaderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

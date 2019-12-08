@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DsmSuite.DsmViewer.View.UserControls
+namespace DsmSuite.DsmViewer.View.Matrix
 {
     /// <summary>
     /// Interaction logic for MatrixView.xaml
