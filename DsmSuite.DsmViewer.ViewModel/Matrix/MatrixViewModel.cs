@@ -46,6 +46,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ShowElementRequiredInterfacesCommand = new RelayCommand<object>(ShowElementRequiredInterfacesExecute, ShowElementRequiredInterfacesCanExecute);
             ShowCellDetailMatrixCommand = mainViewModel.ShowCellDetailMatrixCommand;
 
+            CreateElementCommand = mainViewModel.CreateElementCommand;
+            DeleteElementCommand = mainViewModel.DeleteElementCommand;
+            MoveElementCommand = mainViewModel.MoveElementCommand;
+            RenameElementCommand = mainViewModel.RenameElementCommand;
+            CreateRelationCommand = mainViewModel.CreateRelationCommand;
+            DeleteRelationCommand = mainViewModel.DeleteRelationCommand;
+
             Providers = CreateProviderTree();
             Update();
             ZoomLevel = 1.0;
@@ -57,6 +64,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand ShowElementConsumersCommand { get; }
         public ICommand ShowElementProvidedInterfacesCommand { get; }
         public ICommand ShowElementRequiredInterfacesCommand { get; }
+        public ICommand CreateElementCommand { get; }
+        public ICommand DeleteElementCommand { get; }
+        public ICommand MoveElementCommand { get; }
+        public ICommand RenameElementCommand { get; }
+        public ICommand CreateRelationCommand { get; }
+        public ICommand DeleteRelationCommand { get; }
 
         public double ZoomLevel
         {

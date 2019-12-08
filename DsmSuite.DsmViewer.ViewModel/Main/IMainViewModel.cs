@@ -36,5 +36,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand ShowElementDetailMatrixCommand { get; }
         ICommand ShowElementContextMatrixCommand { get; }
         ICommand ShowCellDetailMatrixCommand { get; }
+
+        ICommand CreateElementCommand { get; }
+        ICommand DeleteElementCommand { get; }
+        ICommand MoveElementCommand { get; }
+        ICommand RenameElementCommand { get; }
+        ICommand CreateRelationCommand { get; }
+        ICommand DeleteRelationCommand { get; }
     }
 }

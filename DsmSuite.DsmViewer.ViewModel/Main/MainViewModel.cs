@@ -90,7 +90,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             MoveElementCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
             RenameElementCommand = new RelayCommand<object>(RenameElementExecute, RenameElementCanExecute);
             CreateRelationCommand = new RelayCommand<object>(CreateRelationExecute, CreateRelationCanExecute);
-            DeleteRelationCommand = new RelayCommand<object>(CreateRelationExecute, DeleteRelationCanExecute);
+            DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
 
             ModelFilename = "";
             Title = "DSM Viewer";
@@ -553,6 +553,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             string name = "Name";
             string type = "Type";
             _application.CreateElement(name, type, SelectedProvider.Element);
+            ActiveMatrix.Reload();
         }
 
         private bool CreateElementCanExecute(object parameter)
@@ -563,6 +564,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private void DeleteElementExecute(object parameter)
         {
             _application.DeleteElement(SelectedProvider.Element);
+            ActiveMatrix.Reload();
         }
 
         private bool DeleteElementCanExecute(object parameter)
@@ -574,6 +576,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             string newName = "NewName";
             _application.RenameElement(SelectedProvider.Element, newName);
+            ActiveMatrix.Reload();
         }
 
         private bool RenameElementCanExecute(object parameter)
@@ -585,6 +588,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             IDsmElement newParent = null;
             _application.MoveElement(SelectedProvider.Element, newParent);
+            ActiveMatrix.Reload();
         }
 
         private bool MoveElementCanExecute(object parameter)
@@ -597,6 +601,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             IDsmElement consumer = SelectedConsumer.Element;
             IDsmElement provider = SelectedProvider.Element;
             _application.CreateRelation(consumer, provider, "type", 1);
+            ActiveMatrix.Reload();
         }
 
         private bool CreateRelationCanExecute(object parameter)
@@ -608,6 +613,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             IDsmRelation relation = null;
             _application.DeleteRelation(relation);
+            ActiveMatrix.Reload();
         }
 
         private bool DeleteRelationCanExecute(object parameter)
