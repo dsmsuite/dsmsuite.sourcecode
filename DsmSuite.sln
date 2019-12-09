@@ -143,14 +143,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Common.Util.Test",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Common.Util", "DsmSuite.Common.Util\DsmSuite.Common.Util.csproj", "{C2EB943F-4BB8-47BB-BDC1-7F6B607FB977}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6307B4E4-16C2-46AC-92F8-FF7C792BD27A}"
-	ProjectSection(SolutionItems) = preProject
-		test.runsettings = test.runsettings
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AcceptanceTests", "AcceptanceTests", "{96FC2658-2782-4F0B-BAD0-AB693883E0DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.AcceptanceTests", "DsmSuite.AcceptanceTests\DsmSuite.AcceptanceTests.csproj", "{4365759E-FAF8-4E3D-A000-2E291BDAB23A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7656A058-A888-4638-9FF0-CFCB56D1323A}"
+	ProjectSection(SolutionItems) = preProject
+		test.runsettings = test.runsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
