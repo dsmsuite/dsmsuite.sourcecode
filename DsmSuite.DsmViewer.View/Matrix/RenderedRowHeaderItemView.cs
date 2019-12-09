@@ -44,9 +44,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
             DataContextChanged += OnDataContextChanged;
         }
 
-        protected override void OnMouseMove(MouseEventArgs e)
+        protected override void OnMouseLeave(MouseEventArgs e)
         {
-            base.OnMouseMove(e);
+            base.OnMouseLeave(e);
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DataObject data = new DataObject();
