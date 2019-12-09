@@ -243,5 +243,10 @@ namespace DsmSuite.DsmViewer.Application.Core
             MakeSnapshotAction action = new MakeSnapshotAction(_model, description);
             _actionManager.Execute(action);
         }
+
+        public IEnumerable<IAction> GetActions()
+        {
+            return _actionManager.GetUndoActions();
+        }
     }
 }

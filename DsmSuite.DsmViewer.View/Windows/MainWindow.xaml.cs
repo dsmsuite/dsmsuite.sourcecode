@@ -39,9 +39,19 @@ namespace DsmSuite.DsmViewer.View.Windows
             _mainViewModel.RelationCreateStarted += OnRelationCreateStarted;
             _mainViewModel.RelationEditStarted += OnRelationEditStarted;
             _mainViewModel.SnapshotMakeStarted += OnSnapshotMakeStarted;
+
+            _mainViewModel.ActionsVisible += OnActionsVisible;
+
             DataContext = _mainViewModel;
 
             OpenModelFile();
+        }
+
+        private void OnActionsVisible(object sender, ViewModel.Lists.ActionListViewModel viewModel)
+        {
+            ActionListView view = new ActionListView();
+            view.DataContext = viewModel;
+            view.Show();
         }
 
         private void OnSnapshotMakeStarted(object sender, ViewModel.Editing.SnapshotMakeViewModel viewModel)

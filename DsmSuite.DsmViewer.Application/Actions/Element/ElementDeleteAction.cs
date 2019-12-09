@@ -23,6 +23,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         }
 
         public override string Type => "Delete element";
-        public override string Details => "element={_element.Fullname}";
+        public override string Details => $"element={_element.Fullname}";
     }
 }

@@ -3,34 +3,34 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementMoveUpAction : ActionBase
+    public class ElementMoveDownAction : ActionBase
     {
         private readonly IDsmElement _currentElement;
-        private readonly IDsmElement _previousElement;
+        private readonly IDsmElement _nextElement;
 
-        public ElementMoveUpAction(IDsmModel model, IDsmElement element) : base(model)
+        public ElementMoveDownAction(IDsmModel model, IDsmElement element) : base(model)
         {
             _currentElement = element;
-            _previousElement = element?.PreviousSibling;
+            _nextElement = element?.NextSibling;
         }
 
         public override void Do()
         {
-            if (_currentElement != null && _previousElement != null)
+            if (_currentElement != null && _nextElement != null)
             {
-                Model.Swap(_currentElement, _previousElement);
+                Model.Swap(_currentElement, _nextElement);
             }
         }
 
         public override void Undo()
         {
-            if (_currentElement != null && _previousElement != null)
+            if (_currentElement != null && _nextElement != null)
             {
-                Model.Swap(_previousElement, _currentElement);
+                Model.Swap(_nextElement, _currentElement);
             }
         }
 
         public override string Type => $"Move down element";
-        public override string Details => "name={_currentElement.Fullname}";
+        public override string Details => $"name={_currentElement.Fullname}";
     }
 }

@@ -22,6 +22,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         }
 
         public override string Type => "Delete relation";
-        public override string Details => "todo";
+        public override string Details => $"relation={_relation.Id}";
     }
 }

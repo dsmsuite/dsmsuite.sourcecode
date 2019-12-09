@@ -65,6 +65,9 @@
     <Compile Include="Windows\ElementListView.xaml.cs">
       <DependentUpon>ElementListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ActionListView.xaml.cs">
+      <DependentUpon>ActionListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>
     </Compile>
@@ -85,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ElementListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ActionListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

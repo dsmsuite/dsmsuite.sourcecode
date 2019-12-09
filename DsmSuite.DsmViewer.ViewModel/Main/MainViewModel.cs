@@ -34,11 +34,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public event EventHandler<RelationCreateViewModel> RelationCreateStarted;
         public event EventHandler<RelationEditViewModel> RelationEditStarted;
         public event EventHandler<SnapshotMakeViewModel> SnapshotMakeStarted;
-        
 
         public event EventHandler<ReportViewModel> ReportCreated;
         public event EventHandler<ElementListViewModel> ElementsReportReady;
         public event EventHandler<RelationListViewModel> RelationsReportReady;
+
+        public event EventHandler<ActionListViewModel> ActionsVisible;
 
         private readonly IDsmApplication _application;
         private string _modelFilename;
@@ -680,9 +681,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             SnapshotMakeViewModel viewModel = new SnapshotMakeViewModel(_application);
             SnapshotMakeStarted?.Invoke(this, viewModel);
-
-            string description = "?";
-            _application.MakeSnapshot(description);
         }
 
         private bool MakeSnapshotCanExecute(object parameter)
@@ -692,7 +690,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ShowHistoryExecute(object parameter)
         {
-            
+            ActionListViewModel viewModel = new ActionListViewModel(_application);
+            ActionsVisible?.Invoke(this, viewModel);
         }
 
         private bool ShowHistoryCanExecute(object parameter)

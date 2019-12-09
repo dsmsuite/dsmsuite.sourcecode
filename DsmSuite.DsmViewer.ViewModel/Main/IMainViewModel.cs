@@ -35,6 +35,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         event EventHandler<ElementListViewModel> ElementsReportReady;
         event EventHandler<RelationListViewModel> RelationsReportReady;
 
+        event EventHandler<ActionListViewModel> ActionsVisible;
+
         ICommand ToggleElementExpandedCommand { get; }
         ICommand MoveUpElementCommand { get; }
         ICommand MoveDownElementCommand { get; }

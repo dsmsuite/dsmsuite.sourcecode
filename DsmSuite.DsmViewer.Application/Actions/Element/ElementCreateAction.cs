@@ -28,6 +28,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         }
 
         public override string Type => "Create element";
-        public override string Details => "name={_name} parent={_parent.Fullname} type={_type}";
+        public override string Details => $"name={_name} parent={_parent.Fullname} type={_type}";
     }
 }

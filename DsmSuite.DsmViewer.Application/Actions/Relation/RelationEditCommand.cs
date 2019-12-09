@@ -5,7 +5,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
     public class RelationEditAction : ActionBase
     {
-        private int? _relationId;
         private readonly IDsmRelation _relation;
         private readonly string _oldType;
         private readonly int _oldWeight;
@@ -34,6 +33,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         }
 
         public override string Type => "Edit relation";
-        public override string Details => "todo";
+        public override string Details => $"relation={_relation.Id}";
     }
 }

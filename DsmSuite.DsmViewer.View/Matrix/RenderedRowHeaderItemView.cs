@@ -44,9 +44,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
             DataContextChanged += OnDataContextChanged;
         }
 
-        protected override void OnMouseLeave(MouseEventArgs e)
+        protected override void OnMouseMove(MouseEventArgs e)
         {
-            base.OnMouseLeave(e);
+            base.OnMouseMove(e);
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DataObject data = new DataObject();
@@ -81,8 +81,14 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 IDsmElement element = (IDsmElement) e.Data.GetData(DataObjectName);
                 IDsmElement newParent = _viewModel.Element;
-                Tuple<IDsmElement, IDsmElement> moveParameter = new Tuple<IDsmElement, IDsmElement>(element, newParent);
-                _viewModel.MoveCommand.Execute(moveParameter);
+
+                if ((element != null) && 
+                    (newParent != null) && 
+                    (element != newParent)) // Not dragged on itself
+                {
+                    Tuple<IDsmElement, IDsmElement> moveParameter = new Tuple<IDsmElement, IDsmElement>(element,newParent);
+                    _viewModel.MoveCommand.Execute(moveParameter);
+                }
 
                 e.Effects = DragDropEffects.Move;
             }

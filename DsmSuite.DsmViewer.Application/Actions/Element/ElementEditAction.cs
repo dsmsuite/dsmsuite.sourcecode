@@ -31,6 +31,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         }
 
         public override string Type => "Edit element";
-        public override string Details => "element={_element.Fullname} name={_oldName} -> {_newName}  type={_oldType} -> {_newType}";
+        public override string Details => $"element={_element.Fullname} name={_oldName} -> {_newName}  type={_oldType} -> {_newType}";
     }
 }

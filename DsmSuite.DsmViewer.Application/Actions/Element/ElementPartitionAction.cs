@@ -34,6 +34,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         }
 
         public override string Type => "Partition element";
-        public override string Details => "name={_element.Fullname} algorithm={_algorithm}";
+        public override string Details => $"name={_element.Fullname} algorithm={_algorithm}";
     }
 }

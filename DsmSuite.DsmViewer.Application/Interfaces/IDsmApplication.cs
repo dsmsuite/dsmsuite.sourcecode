@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Interfaces
@@ -53,5 +54,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         void EditRelation(IDsmRelation relation, string type, int weight);
 
         void MakeSnapshot(string name);
+
+        IEnumerable<IAction> GetActions();
     }
 }
