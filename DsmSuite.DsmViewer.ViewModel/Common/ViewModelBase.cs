@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using DsmSuite.DsmViewer.ViewModel.Properties;
 
 namespace DsmSuite.DsmViewer.ViewModel.Common

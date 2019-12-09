@@ -22,6 +22,9 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom in" Command="{Binding ZoomInCommand}" Content="{StaticResource ZoomInIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>
              <Separator/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Create snapshot" Command="{Binding MakeSnapshotCommand}" Content="{StaticResource SnapshotIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Show history" Command="{Binding ShowHistoryCommand}" Content="{StaticResource HistoryIcon}"/>
+            <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding UndoText}" Command="{Binding UndoCommand}" Content="{StaticResource UndoIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding RedoText}" Command="{Binding RedoCommand}" Content="{StaticResource RedoIcon}"/>
             <Separator/>

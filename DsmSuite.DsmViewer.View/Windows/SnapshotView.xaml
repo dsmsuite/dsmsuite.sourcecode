@@ -1,4 +1,4 @@
-﻿<Window x:Class="DsmSuite.DsmViewer.View.Windows.ElementView"
+﻿<Window x:Class="DsmSuite.DsmViewer.View.Windows.SnapshotView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,10 +16,8 @@
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <Label Content="Name" Grid.Row="0" Grid.Column="0" Margin="5"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Margin="10" Text="{Binding Name}"/>
-        <Label Content="Type" Grid.Row="1" Grid.Column="0" Margin="5"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Type}"/>
+        <Label Content="Description" Grid.Row="0" Grid.Column="0" Margin="5"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="10" Text="{Binding Description}"/>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
             <Button Content="Ok" Margin="5" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
             <Button Content="Cancel" Margin="5" IsCancel="True" />

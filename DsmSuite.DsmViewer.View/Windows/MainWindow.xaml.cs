@@ -38,9 +38,17 @@ namespace DsmSuite.DsmViewer.View.Windows
             _mainViewModel.ElementEditStarted += OnElementEditStarted;
             _mainViewModel.RelationCreateStarted += OnRelationCreateStarted;
             _mainViewModel.RelationEditStarted += OnRelationEditStarted;
+            _mainViewModel.SnapshotMakeStarted += OnSnapshotMakeStarted;
             DataContext = _mainViewModel;
 
             OpenModelFile();
+        }
+
+        private void OnSnapshotMakeStarted(object sender, ViewModel.Editing.SnapshotMakeViewModel viewModel)
+        {
+            SnapshotView view = new SnapshotView();
+            view.DataContext = viewModel;
+            view.ShowDialog();
         }
 
         private void OnElementCreateStarted(object sender, ViewModel.Editing.ElementCreateViewModel viewModel)

@@ -5,11 +5,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 {
     public class SnapshotAction : ActionBase
     {
-        private readonly string _snapshotText;
+        private readonly string _description;
 
-        public SnapshotAction(IDsmModel model, string snapshotText) : base(model)
+        public SnapshotAction(IDsmModel model, string description) : base(model)
         {
-            _snapshotText = snapshotText;
+            _description = description;
         }
 
         public override void Do()
@@ -20,6 +20,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
         {
         }
 
-        public override string Description => $"Snapshot {_snapshotText}";
+        public override string Description => $"Snapshot {_description}";
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
+using DsmSuite.DsmViewer.Application.Actions.Snapshot;
 using DsmSuite.DsmViewer.Application.Import;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Queries;
@@ -234,6 +235,12 @@ namespace DsmSuite.DsmViewer.Application.Core
         public void EditRelation(IDsmRelation relation, string type, int weight)
         {
             RelationEditAction action = new RelationEditAction(_model, relation, type, weight);
+            _actionManager.Execute(action);
+        }
+
+        public void MakeSnapshot(string description)
+        {
+            SnapshotAction action = new SnapshotAction(_model, description);
             _actionManager.Execute(action);
         }
     }

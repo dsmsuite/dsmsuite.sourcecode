@@ -33,6 +33,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public event EventHandler<ElementEditViewModel> ElementEditStarted;
         public event EventHandler<RelationCreateViewModel> RelationCreateStarted;
         public event EventHandler<RelationEditViewModel> RelationEditStarted;
+        public event EventHandler<SnapshotMakeViewModel> SnapshotMakeStarted;
+        
 
         public event EventHandler<ReportViewModel> ReportCreated;
         public event EventHandler<ElementListViewModel> ElementsReportReady;
@@ -99,6 +101,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             CreateRelationCommand = new RelayCommand<object>(CreateRelationExecute, CreateRelationCanExecute);
             DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
 
+            MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
+            ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
+
             ModelFilename = "";
             Title = "DSM Viewer";
             ShowCycles = false;
@@ -158,6 +163,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand CreateRelationCommand { get; }
         public ICommand EditRelationCommand { get; }
         public ICommand DeleteRelationCommand { get; }
+
+        public ICommand MakeSnapshotCommand { get; }
+        public ICommand ShowHistoryCommand { get; }
 
         public string ModelFilename
         {
@@ -666,6 +674,30 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 }
             }
             return canExecute;
+        }
+
+        private void MakeSnapshotExecute(object parameter)
+        {
+            SnapshotMakeViewModel viewModel = new SnapshotMakeViewModel(_application);
+            SnapshotMakeStarted?.Invoke(this, viewModel);
+
+            string description = "?";
+            _application.MakeSnapshot(description);
+        }
+
+        private bool MakeSnapshotCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void ShowHistoryExecute(object parameter)
+        {
+            
+        }
+
+        private bool ShowHistoryCanExecute(object parameter)
+        {
+            return true;
         }
     }
 }
