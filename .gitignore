@@ -13,3 +13,4 @@ idloutput/
 *.db
 *.lastbuildstate
 *.bak
+results.xml

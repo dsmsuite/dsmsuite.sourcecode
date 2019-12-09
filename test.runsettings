@@ -17,15 +17,6 @@
     <TestAdaptersPaths>%SystemDrive%\Temp\foo;%SystemDrive%\Temp\bar</TestAdaptersPaths>
   </RunConfiguration>
 
-  <!-- Parameters used by tests at runtime -->
-  <TestRunParameters>
-    <Parameter name="webAppUrl" value="http://localhost" />
-    <Parameter name="webAppUserName" value="Admin" />
-    <Parameter name="webAppPassword" value="Password" />
-  </TestRunParameters>
-
-  <!-- Adapter Specific sections -->
-
   <!-- MSTest adapter -->
   <MSTest>
     <MapInconclusiveToFailed>True</MapInconclusiveToFailed>
