@@ -3,11 +3,11 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 {
-    public class SnapshotAction : ActionBase
+    public class MakeSnapshotAction : ActionBase
     {
         private readonly string _description;
 
-        public SnapshotAction(IDsmModel model, string description) : base(model)
+        public MakeSnapshotAction(IDsmModel model, string description) : base(model)
         {
             _description = description;
         }
@@ -20,6 +20,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
         {
         }
 
-        public override string Description => $"Snapshot {_description}";
+        public override string Type => "Make snapshot";
+        public override string Details => _description;
     }
 }

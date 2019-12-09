@@ -33,12 +33,12 @@
     <Compile Include="Actions\Element\ElementMoveAction.cs" />
     <Compile Include="Actions\Element\ElementEditAction.cs" />
     <Compile Include="Actions\Element\ElementPartitionAction.cs" />
-    <Compile Include="Actions\Element\ElementDownAction.cs" />
-    <Compile Include="Actions\Element\ElementUpAction.cs" />
+    <Compile Include="Actions\Element\ElementMoveDownAction.cs" />
+    <Compile Include="Actions\Element\ElementMoveUpAction.cs" />
     <Compile Include="Actions\Relation\RelationCreateAction.cs" />
     <Compile Include="Actions\Relation\RelationDeleteAction.cs" />
     <Compile Include="Actions\Relation\RelationEditCommand.cs" />
-    <Compile Include="Actions\Snapshot\SnapshotAction.cs" />
+    <Compile Include="Actions\Snapshot\MakeSnapshotAction.cs" />
     <Compile Include="Algorithm\Partitioner.cs" />
     <Compile Include="Algorithm\PartitioningAlgorithm.cs" />
     <Compile Include="Algorithm\Permutation.cs" />

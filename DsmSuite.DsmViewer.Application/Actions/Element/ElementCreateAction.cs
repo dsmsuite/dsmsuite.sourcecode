@@ -8,18 +8,18 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private IDsmElement _element;
         private readonly string _name;
         private readonly string _type;
-        private readonly int _parentId;
+        private readonly IDsmElement _parent;
         
-        public ElementCreateAction(IDsmModel model, string name, string type, int parentId) : base(model)
+        public ElementCreateAction(IDsmModel model, string name, string type, IDsmElement parent) : base(model)
         {
             _name = name;
             _type = type;
-            _parentId = parentId;
+            _parent = parent;
         }
 
         public override void Do()
         {
-            _element = Model.AddElement(_name, _type, _parentId);
+            _element = Model.AddElement(_name, _type, _parent.Id);
         }
 
         public override void Undo()
@@ -27,6 +27,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Model.RemoveElement(_element.Id);
         }
 
-        public override string Description => "Create element";
+        public override string Type => "Create element";
+        public override string Details => "name={_name} parent={_parent.Fullname} type={_type}";
     }
 }

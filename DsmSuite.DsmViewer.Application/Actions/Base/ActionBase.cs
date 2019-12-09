@@ -15,6 +15,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
 
         public abstract void Undo();
 
-        public abstract string Description { get; }
+        public abstract string Type { get; }
+        public abstract string Details { get; }
+
+        public string Description => $"{Type} : {Details}";
     }
 }

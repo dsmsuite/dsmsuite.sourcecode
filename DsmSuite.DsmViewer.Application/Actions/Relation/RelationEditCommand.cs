@@ -33,6 +33,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
              Model.EditRelation(_relation, _oldType, _oldWeight);
         }
 
-        public override string Description => "Edit relation";
+        public override string Type => "Edit relation";
+        public override string Details => "todo";
     }
 }

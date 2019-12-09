@@ -26,6 +26,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Model.ChangeParent(_element, _oldParent);
         }
 
-        public override string Description => "Move element";
+        public override string Type => "Move element";
+        public override string Details => "element={_element.Fullname} parent={_oldParent.Fullname} -> {_newParent.Fullname}";
     }
 }

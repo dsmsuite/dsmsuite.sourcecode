@@ -198,7 +198,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void CreateElement(string name, string type, IDsmElement parent)
         {
-            ElementCreateAction action = new ElementCreateAction(_model, name, type, parent.Id);
+            ElementCreateAction action = new ElementCreateAction(_model, name, type, parent);
             _actionManager.Execute(action);
         }
 
@@ -240,7 +240,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void MakeSnapshot(string description)
         {
-            SnapshotAction action = new SnapshotAction(_model, description);
+            MakeSnapshotAction action = new MakeSnapshotAction(_model, description);
             _actionManager.Execute(action);
         }
     }

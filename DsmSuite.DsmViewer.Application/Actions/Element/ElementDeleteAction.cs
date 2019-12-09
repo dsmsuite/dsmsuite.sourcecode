@@ -22,6 +22,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Model.UnremoveElement(_element.Id);
         }
 
-        public override string Description => "Delete element";
+        public override string Type => "Delete element";
+        public override string Details => "element={_element.Fullname}";
     }
 }

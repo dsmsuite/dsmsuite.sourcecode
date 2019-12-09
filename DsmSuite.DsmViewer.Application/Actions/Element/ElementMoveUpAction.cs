@@ -30,6 +30,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             }
         }
 
-        public override string Description => $"Move up element name={_currentElement.Fullname}";
+        public override string Type => $"Move up element";
+        public override string Details => "name={_currentElement.Fullname}";
     }
 }

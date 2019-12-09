@@ -21,6 +21,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             Model.UnremoveRelation(_relation.Id);
         }
 
-        public override string Description => "Delete relation";
+        public override string Type => "Delete relation";
+        public override string Details => "todo";
     }
 }

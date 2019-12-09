@@ -33,6 +33,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Model.ReorderChildren(_element, inverseVector);
         }
 
-        public override string Description => "Partition element";
+        public override string Type => "Partition element";
+        public override string Details => "name={_element.Fullname} algorithm={_algorithm}";
     }
 }

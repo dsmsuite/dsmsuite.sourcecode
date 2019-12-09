@@ -33,6 +33,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             }
         }
 
-        public override string Description => "Create relation";
+        public override string Type => "Create relation";
+        public override string Details => "todo";
     }
 }
