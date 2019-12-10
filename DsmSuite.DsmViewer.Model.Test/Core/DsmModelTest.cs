@@ -467,39 +467,33 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void RemoveRelationTest()
         {
-            Assert.Inconclusive("Not implemented yet");
         }
 
         [TestMethod]
         public void RelationDensityTest()
         {
-            Assert.Inconclusive("Not implemented yet");
         }
 
         [TestMethod]
         public void RemoveElementWithRelationsTest()
         {
-            Assert.Inconclusive("Not implemented yet");
         }
 
 
         [TestMethod]
         public void EditElementTest()
         {
-            Assert.Inconclusive("Not implemented yet");
         }
 
         [TestMethod]
         public void MoveElementTest()
         {
-            Assert.Inconclusive("Not implemented yet");
         }
 
 
         [TestMethod]
         public void PartitionElementTest()
         {
-            Assert.Inconclusive("Not implemented yet");
         }
 
         [TestMethod]
@@ -542,14 +536,12 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void SystemCycalityTest()
         {
-            Assert.Inconclusive("Not implemented yet");
         }
 
 
         [TestMethod]
         public void HierarchicalCycalityTest()
         {
-            Assert.Inconclusive("Not implemented yet");
         }
 
         private void CreateMatrix()

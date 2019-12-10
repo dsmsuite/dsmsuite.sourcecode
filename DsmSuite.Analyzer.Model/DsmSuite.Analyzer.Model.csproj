@@ -24,12 +24,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ElementsDataModel.cs" />
+    <Compile Include="Core\MetaDataModel.cs" />
+    <Compile Include="Core\RelationsDataModel.cs" />
     <Compile Include="Interface\IDsiMetaDataItem.cs" />
     <Compile Include="Data\DsiMetaDataItem.cs" />
     <Compile Include="Persistency\DsiModelFile.cs" />
     <Compile Include="Data\DsiElement.cs" />
     <Compile Include="Interface\IDsiDataModel.cs" />
-    <Compile Include="Core\DsiDataModel.cs" />
+    <Compile Include="Core\DataModel.cs" />
     <Compile Include="Interface\IDsiElement.cs" />
     <Compile Include="Interface\IDsiRelation.cs" />
     <Compile Include="Persistency\IDsiModelFileCallback.cs" />

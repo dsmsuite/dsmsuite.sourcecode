@@ -29,7 +29,7 @@ namespace DsmSuite.Analyzer.Cpp
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
                     Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
-                    DsiDataModel model = new DsiDataModel("Analyzer", Assembly.GetExecutingAssembly());
+                    DataModel model = new DataModel("Analyzer", Assembly.GetExecutingAssembly());
                     Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
                     analyzer.Analyze();
                     model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile);

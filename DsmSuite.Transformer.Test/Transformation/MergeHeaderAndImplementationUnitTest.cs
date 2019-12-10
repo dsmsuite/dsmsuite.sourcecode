@@ -12,7 +12,7 @@ namespace DsmSuite.Transformer.Test.Transformation
         [TestMethod]
         public void MergeWhenImplementationDependsOnHeaderFileWithSameName()
         {
-            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
+            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
 
             IDsiElement elementCpp = dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", "");
             IDsiElement elementH = dataModel.AddElement("namespace3.namespace4.element1Name.h", "class", "");
@@ -34,7 +34,7 @@ namespace DsmSuite.Transformer.Test.Transformation
         [TestMethod]
         public void DoNotMergeWhenImplementationDependsOnHeaderFileWithOtherName()
         {
-            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
+            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
 
             IDsiElement elementCpp = dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", "");
             IDsiElement elementH = dataModel.AddElement("namespace3.namespace4.ELEMENT1NAME.h", "class", "");
@@ -56,7 +56,7 @@ namespace DsmSuite.Transformer.Test.Transformation
         [TestMethod]
         public void DoNotMergeWhenImplementationDoesNotDependOnHeaderFileWithSameName()
         {
-            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
+            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
 
             dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", "");
             dataModel.AddElement("namespace3.namespace4.element1Name.h", "class", "");
