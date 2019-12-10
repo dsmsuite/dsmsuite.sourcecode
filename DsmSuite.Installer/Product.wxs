@@ -19,6 +19,9 @@
       <Component Id="DsmSuite.Analyzer.Util.Cpp.dll" Guid="38AC1CBA-8F80-40A3-A1EE-684A29974332">
         <File Id="DsmSuite.Analyzer.Util.Cpp.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Id="DsmSuite.Common.Model.Cpp.dll" Guid="BBBA1CD5-CE4C-439B-AEE7-AC4B6382FDFB">
+        <File Id="DsmSuite.Common.Model.Cpp.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="DsmSuite.Common.Util.Cpp.dll" Guid="A754691F-643C-4D3F-A1B1-87F079447FCF">
         <File Id="DsmSuite.Common.Util.Cpp.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -33,6 +36,9 @@
       </Component>
       <Component Id="DsmSuite.Analyzer.Util.DotNet.dll" Guid="977E042B-9680-42E9-99FE-91F14B240BA1">
         <File Id="DsmSuite.Analyzer.Util.DotNet.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="DsmSuite.Common.Model.DotNet.dll" Guid="8738227D-0914-4BDB-AEE8-6E1DE6C65657">
+        <File Id="DsmSuite.Common.Model.DotNet.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Common.Util.DotNet.dll" Guid="00BD08C4-8733-441A-A718-E39E49DE2D81">
         <File Id="DsmSuite.Common.Util.DotNet.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
@@ -61,6 +67,9 @@
       <Component Id="DsmSuite.Analyzer.Util.Jdeps.dll" Guid="02EB4E11-FF0E-4006-9BDE-A323CF3BF1CE">
         <File Id="DsmSuite.Analyzer.Util.Jdeps.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Id="DsmSuite.Common.Model.Jdeps.dll" Guid="FBC3F60A-6B46-4365-8BD6-D06E9615A3DA">
+        <File Id="DsmSuite.Common.Model.Jdeps.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="DsmSuite.Common.Util.Jdeps.dll" Guid="E75C3A3A-CE7D-44E4-B585-A0DFB0DC4D50">
         <File Id="DsmSuite.Common.Util.Jdeps.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -76,6 +85,9 @@
       <Component Id="DsmSuite.Analyzer.Util.Uml.dll" Guid="DC2DBE4B-3611-4FAF-A141-1B61F57952FB">
         <File Id="DsmSuite.Analyzer.Util.Uml.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Id="DsmSuite.Common.Model.Uml.dll" Guid="6A8D2F57-D5B2-44AF-B45E-C1A6CF0A381B">
+        <File Id="DsmSuite.Common.Model.Uml.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="DsmSuite.Common.Util.Uml.dll" Guid="1D6E11DB-B555-4B2A-996F-7F7D3ADC2DC8">
         <File Id="DsmSuite.Common.Util.Uml.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -90,6 +102,9 @@
       </Component>
       <Component Id="DsmSuite.Analyzer.Util.VisualStudio.dll" Guid="3E8F6209-4513-4DBE-A1C7-C46F90FD7DFF">
         <File Id="DsmSuite.Analyzer.Util.VisualStudio.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="DsmSuite.Common.Model.VisualStudio.dll" Guid="D8CB0B1B-B402-44D9-BFD4-7DBDFFE933A5">
+        <File Id="DsmSuite.Common.Model.VisualStudio.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Common.Util.VisualStudio.dll" Guid="9B4692A7-BB1F-4B40-8336-2A75B87D369A">
         <File Id="DsmSuite.Common.Util.VisualStudio.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
@@ -127,6 +142,9 @@
       <Component Id="DsmSuite.Analyzer.Util.Transformer.dll" Guid="D7C5AB42-78C1-45A2-8798-91D5CA109C29">
         <File Id="DsmSuite.Analyzer.Util.Transformer.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Id="DsmSuite.Common.Model.Transformer.dll" Guid="1A61C724-21A7-48C2-97F2-BC5D50109B1A">
+        <File Id="DsmSuite.Common.Model.Transformer.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="DsmSuite.Common.Util.Transformer.dll" Guid="3C94C337-3D9D-401B-AB73-2DF3F7103025">
         <File Id="DsmSuite.Common.Util.Transformer.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>      
@@ -151,7 +169,10 @@
       <Component Id="DsmSuite.DsmViewer.Model.dll" Guid="4F1F0718-89B7-4BF1-8AFD-97F6D62D553E">
         <File Id="DsmSuite.DsmViewer.Model.dll" Source="..\build\bin\DsmSuite.DsmViewer.Model.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="DsmSuite.Common.Util.dll" Guid="93B13A2D-50E4-45A1-8C33-3D73E1CCE750">
+      <Component Id="DsmSuite.Common.Model.DsmViewer.dll" Guid="3B784A87-08E5-4ED0-8730-1868228CD31F">
+        <File Id="DsmSuite.Common.Model.DsmViewer.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="DsmSuite.Common.Util.DsmViewer.dll" Guid="93B13A2D-50E4-45A1-8C33-3D73E1CCE750">
         <File Id="DsmSuite.Common.Util.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Model.DsmViewer.dll" Guid="4A933F4A-E039-4E1B-B8F7-855809B1B411">
@@ -201,6 +222,7 @@
       <ComponentRef Id="DsmSuite.Analyzer.Cpp.exe" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.Cpp.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Util.Cpp.dll" />
+      <ComponentRef Id="DsmSuite.Common.Model.Cpp.dll" />
       <ComponentRef Id="DsmSuite.Common.Util.Cpp.dll" />
     </Feature>
 
@@ -208,6 +230,7 @@
       <ComponentRef Id="DsmSuite.Analyzer.DotNet.exe" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.DotNet.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Util.DotNet.dll" />
+      <ComponentRef Id="DsmSuite.Common.Model.DotNet.dll" />
       <ComponentRef Id="DsmSuite.Common.Util.DotNet.dll" />
       <ComponentRef Id="Mono.Cecil.dll" />
       <ComponentRef Id="Mono.Cecil.Mdb.dll" />
@@ -219,6 +242,7 @@
       <ComponentRef Id="DsmSuite.Analyzer.Jdeps.exe" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.Jdeps.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Util.Jdeps.dll" />
+      <ComponentRef Id="DsmSuite.Common.Model.Jdeps.dll" />
       <ComponentRef Id="DsmSuite.Common.Util.Jdeps.dll" />
     </Feature>
 
@@ -226,6 +250,7 @@
       <ComponentRef Id="DsmSuite.Analyzer.Uml.exe" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.Uml.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Util.Uml.dll" />
+      <ComponentRef Id="DsmSuite.Common.Model.Uml.dll" />
       <ComponentRef Id="DsmSuite.Common.Util.Uml.dll" />
     </Feature>
 
@@ -233,7 +258,8 @@
       <ComponentRef Id="DsmSuite.Analyzer.VisualStudio.exe" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.VisualStudio.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Util.VisualStudio.dll" />
-      <ComponentRef Id="DsmSuite.Common.Util.VisualStudio.dll" />      
+      <ComponentRef Id="DsmSuite.Common.Model.VisualStudio.dll" />
+      <ComponentRef Id="DsmSuite.Common.Util.VisualStudio.dll" />
       <ComponentRef Id="Microsoft.Build.dll" />
       <ComponentRef Id="Microsoft.Build.Framework.dll" />
       <ComponentRef Id="Microsoft.Build.Utilities.Core.dll" />
@@ -247,6 +273,7 @@
       <ComponentRef Id="DsmSuite.Transformer.exe" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.Transformer.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Util.Transformer.dll" />
+      <ComponentRef Id="DsmSuite.Common.Model.Transformer.dll" />
       <ComponentRef Id="DsmSuite.Common.Util.Transformer.dll" />
     </Feature>
 
@@ -258,7 +285,8 @@
       <ComponentRef Id="DsmSuite.DsmViewer.Builder.exe" />
       <ComponentRef Id="DsmSuite.DsmViewer.Model.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.DsmViewer.dll" />
-      <ComponentRef Id="DsmSuite.Common.Util.dll" />
+      <ComponentRef Id="DsmSuite.Common.Model.DsmViewer.dll" />
+      <ComponentRef Id="DsmSuite.Common.Util.DsmViewer.dll" />
       <ComponentRef Id="ApplicationShortcut" />
     </Feature>
   </Product>
