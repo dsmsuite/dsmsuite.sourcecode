@@ -10,7 +10,7 @@ namespace DsmSuite.Analyzer.Model.Data
             Value = value;
         }
 
-        public string Name { get; set; }
-        public string Value { get; }
+        public string Name { get; }
+        public string Value { get; set; }
     }
 }

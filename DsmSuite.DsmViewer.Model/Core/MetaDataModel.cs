@@ -8,15 +8,14 @@ namespace DsmSuite.DsmViewer.Model.Core
 {
     public class MetaDataModel
     {
-        private readonly string _processStep;
-        private bool _isModified;
+        private readonly string _defaultGroupName;
 
         private readonly List<string> _metaDataGroupNames;
         private readonly Dictionary<string, List<IDsmMetaDataItem>> _metaDataGroups;
 
-        public MetaDataModel(string processStep, Assembly executingAssembly)
+        public MetaDataModel(string defaultGroupName, Assembly executingAssembly)
         {
-            _processStep = processStep;
+            _defaultGroupName = defaultGroupName;
 
             _metaDataGroupNames = new List<string>();
             _metaDataGroups = new Dictionary<string, List<IDsmMetaDataItem>>();
@@ -32,10 +31,10 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmMetaDataItem AddMetaData(string name, string value)
         {
-            Logger.LogDataModelMessage($"Add meta data group={_processStep} name={name} value={value}");
+            Logger.LogDataModelMessage($"Add meta data group={_defaultGroupName} name={name} value={value}");
 
             DsmMetaDataItem metaDataItem = new DsmMetaDataItem(name, value);
-            GetMetaDataGroupItemList(_processStep).Add(metaDataItem);
+            GetMetaDataGroupItemList(_defaultGroupName).Add(metaDataItem);
             return metaDataItem;
         }
 

@@ -3,38 +3,55 @@ using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Model.Data;
 using System.Reflection;
 using DsmSuite.Common.Util;
+using System.Linq;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
     public class MetaDataModel
     {
-        private readonly string _processStep;
+        private readonly string _defaultGroupName;
 
         private readonly List<string> _metaDataGroupNames;
-        private readonly Dictionary<string, List<IDsiMetaDataItem>> _metaDataGroups;
+        private readonly Dictionary<string, List<DsiMetaDataItem>> _metaDataGroups;
 
-        public MetaDataModel(string processStep, Assembly executingAssembly)
+        public MetaDataModel(string defaultGroupName, Assembly executingAssembly)
         {
-            _processStep = processStep;
+            _defaultGroupName = defaultGroupName;
 
             _metaDataGroupNames = new List<string>();
-            _metaDataGroups = new Dictionary<string, List<IDsiMetaDataItem>>();
+            _metaDataGroups = new Dictionary<string, List<DsiMetaDataItem>>();
 
-            AddMetaData("Executable", SystemInfo.GetExecutableInfo(executingAssembly));
-        }
-
-        public void AddMetaData(string name, string value)
-        {
-            Logger.LogDataModelMessage($"Add metadata group={_processStep} name={name} value={value}");
-
-            GetMetaDataGroupItemList(_processStep).Add(new DsiMetaDataItem(name, value));
+            AddMetaDataItem("Executable", SystemInfo.GetExecutableInfo(executingAssembly));
         }
 
         public void ImportMetaDataItem(string group, string name, string value)
         {
             Logger.LogDataModelMessage($"Import meta data group={group} name={name} value={value}");
 
-            GetMetaDataGroupItemList(group).Add(new DsiMetaDataItem(name, value));
+            DsiMetaDataItem item = FindItem(group, name);
+            if (item != null)
+            {
+                item.Value = value;
+            }
+            else
+            {
+                GetMetaDataGroupItemList(group).Add(new DsiMetaDataItem(name, value));
+            }
+        }
+
+        public void AddMetaDataItem(string name, string value)
+        {
+            Logger.LogDataModelMessage($"Add metadata group={_defaultGroupName} name={name} value={value}");
+
+            DsiMetaDataItem item = FindItem(_defaultGroupName, name);
+            if (item != null)
+            {
+                item.Value = value;
+            }
+            else
+            {
+                GetMetaDataGroupItemList(_defaultGroupName).Add(new DsiMetaDataItem(name, value));
+            }
         }
 
         public IEnumerable<string> GetMetaDataGroups()
@@ -47,15 +64,22 @@ namespace DsmSuite.Analyzer.Model.Core
             return GetMetaDataGroupItemList(group);
         }
 
-        private IList<IDsiMetaDataItem> GetMetaDataGroupItemList(string group)
+        private IList<DsiMetaDataItem> GetMetaDataGroupItemList(string group)
         {
             if (!_metaDataGroups.ContainsKey(group))
             {
                 _metaDataGroupNames.Add(group);
-                _metaDataGroups[group] = new List<IDsiMetaDataItem>();
+                _metaDataGroups[group] = new List<DsiMetaDataItem>();
             }
 
             return _metaDataGroups[group];
+        }
+
+        private DsiMetaDataItem FindItem(string groupName, string name)
+        {
+            return (from item in GetMetaDataGroupItemList(groupName)
+                    where item.Name == name
+                    select item).FirstOrDefault();
         }
     }
 }

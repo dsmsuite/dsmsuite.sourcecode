@@ -36,16 +36,16 @@ namespace DsmSuite.Analyzer.Model.Core
 
             foreach (string type in GetElementTypes())
             {
-                _metaDataModel.AddMetaData($"- '{type}' elements found", $"{GetElementTypeCount(type)}");
+                _metaDataModel.AddMetaDataItem($"- '{type}' elements found", $"{GetElementTypeCount(type)}");
             }
-            _metaDataModel.AddMetaData("Total elements found", $"{TotalElementCount}");
+            _metaDataModel.AddMetaDataItem("Total elements found", $"{TotalElementCount}");
 
             foreach (string type in GetRelationTypes())
             {
-                _metaDataModel.AddMetaData($"- '{type}' relations found", $"{GetRelationTypeCount(type)}");
+                _metaDataModel.AddMetaDataItem($"- '{type}' relations found", $"{GetRelationTypeCount(type)}");
             }
-            _metaDataModel.AddMetaData("Total relations found", $"{TotalRelationCount}");
-            _metaDataModel.AddMetaData("Total relations resolved", $"{ResolvedRelationCount} (confidence={ResolvedRelationPercentage:0.000} %)");
+            _metaDataModel.AddMetaDataItem("Total relations found", $"{TotalRelationCount}");
+            _metaDataModel.AddMetaDataItem("Total relations resolved", $"{ResolvedRelationCount} (confidence={ResolvedRelationPercentage:0.000} %)");
 
             DsiModelFile modelFile = new DsiModelFile(dsiFilename, this);
             modelFile.Save(compressFile, null);
@@ -53,7 +53,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void AddMetaData(string name, string value)
         {
-            _metaDataModel.AddMetaData(name, value);
+            _metaDataModel.AddMetaDataItem(name, value);
         }
 
         public void ImportMetaDataItem(string group, string name, string value)
