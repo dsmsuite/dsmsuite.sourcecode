@@ -24,6 +24,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ElementsDataModel.cs" />
+    <Compile Include="Core\MetaDataModel.cs" />
+    <Compile Include="Core\RelationsDataModel.cs" />
     <Compile Include="Interfaces\Vector.cs" />
     <Compile Include="Data\DsmMetaDataItem.cs" />
     <Compile Include="Core\DsmModel.cs" />
