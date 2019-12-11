@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DsmSuite.Common.Model.Interface;
+using System;
 using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Interfaces
@@ -14,10 +15,10 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress);
         void SaveModel(string dsmFilename, bool compressFile, IProgress<DsmProgressInfo> progress);
 
-        IDsmMetaDataItem AddMetaData(string group, string name, string value);
-        IDsmMetaDataItem AddMetaData(string itemName, string itemValue);
+        IMetaDataItem AddMetaData(string group, string name, string value);
+        IMetaDataItem AddMetaData(string itemName, string itemValue);
         IEnumerable<string> GetMetaDataGroups();
-        IEnumerable<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName);
+        IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
 
         IDsmElement AddElement(string name, string type, int? parentId);
         void RemoveElement(int id);

@@ -57,10 +57,8 @@
   <ItemGroup>
     <Compile Include="Core\DsiDataModelTest.cs" />
     <Compile Include="Core\ElementsDataModelTest.cs" />
-    <Compile Include="Core\MetaDataModelTest.cs" />
     <Compile Include="Core\RelationsDataModelTest.cs" />
     <Compile Include="Data\DsiElementTest.cs" />
-    <Compile Include="Data\DsiMetaDataItemTest.cs" />
     <Compile Include="Data\DsiRelationTest.cs" />
     <Compile Include="Persistency\DsiModelFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,6 +73,10 @@
     <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
       <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
       <Name>DsmSuite.Analyzer.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj">
+      <Project>{6e26eaa0-d0d6-41ab-9aed-61542f7edfc5}</Project>
+      <Name>DsmSuite.Common.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

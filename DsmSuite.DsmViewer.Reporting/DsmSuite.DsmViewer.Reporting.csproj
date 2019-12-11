@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="..\PropertySheets\DsmSuite.Common.props" />  
+  <Import Project="..\PropertySheets\DsmSuite.Common.props" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
@@ -30,6 +30,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj">
+      <Project>{6e26eaa0-d0d6-41ab-9aed-61542f7edfc5}</Project>
+      <Name>DsmSuite.Common.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DsmSuite.DsmViewer.Model\DsmSuite.DsmViewer.Model.csproj">
       <Project>{ae2405c6-54ca-43b1-bcf0-36b7010c0f0e}</Project>
       <Name>DsmSuite.DsmViewer.Model</Name>

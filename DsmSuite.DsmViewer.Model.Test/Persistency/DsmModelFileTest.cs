@@ -5,6 +5,9 @@ using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Model.Persistency;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DsmSuite.Common.Model.Core;
+using DsmSuite.Common.Model.Interface;
+using System;
 
 namespace DsmSuite.DsmViewer.Model.Test.Persistency
 {
@@ -35,7 +38,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
     {
         private readonly List<DsmElement> _rootElements = new List<DsmElement>();
         private readonly List<DsmRelation> _relations = new List<DsmRelation>();
-        private readonly Dictionary<string, List<IDsmMetaDataItem>> _metaData = new Dictionary<string, List<IDsmMetaDataItem>>();
+        private readonly Dictionary<string, List<IMetaDataItem>> _metaData = new Dictionary<string, List<IMetaDataItem>>();
 
         [TestInitialize()]
         public void MyTestInitialize()
@@ -205,16 +208,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
 
         private void FillModelData()
         {
-            _metaData["group1"] = new List<IDsmMetaDataItem>
+            _metaData["group1"] = new List<IMetaDataItem>
             {
-                new DsmMetaDataItem("item1", "value1"),
-                new DsmMetaDataItem("item2", "value2")
+                new MetaDataItem("item1", "value1"),
+                new MetaDataItem("item2", "value2")
             };
 
-            _metaData["group2"] = new List<IDsmMetaDataItem>
+            _metaData["group2"] = new List<IMetaDataItem>
             {
-                new DsmMetaDataItem("item3", "value3"),
-                new DsmMetaDataItem("item4", "value4")
+                new MetaDataItem("item3", "value3"),
+                new MetaDataItem("item4", "value4")
             };
 
             DsmElement a = new DsmElement(11, "a", "", 1, true);
@@ -247,16 +250,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             _relations.Add(new DsmRelation(98, c1.Id, a2.Id, "rc", 4));
         }
 
-        public IDsmMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
+        public IMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
         {
             if (!_metaData.ContainsKey(groupName))
             {
-                _metaData[groupName] = new List<IDsmMetaDataItem>();
+                _metaData[groupName] = new List<IMetaDataItem>();
             }
 
-            DsmMetaDataItem dsmMetaDataItem = new DsmMetaDataItem(name, value);
-            _metaData[groupName].Add(dsmMetaDataItem);
-            return dsmMetaDataItem;
+            MetaDataItem metaDataItem = new MetaDataItem(name, value);
+            _metaData[groupName].Add(metaDataItem);
+            return metaDataItem;
         }
 
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
@@ -291,15 +294,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return _metaData.Keys;
         }
 
-        public IEnumerable<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName)
+        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string group)
         {
-            if (_metaData.ContainsKey(groupName))
+            if (_metaData.ContainsKey(group))
             {
-                return _metaData[groupName];
+                return _metaData[group];
             }
             else
             {
-                return new List<IDsmMetaDataItem>();
+                return new List<IMetaDataItem>();
             }
         }
 
@@ -327,5 +330,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         {
             return _relations.Count;
         }
+
+
     }
 }

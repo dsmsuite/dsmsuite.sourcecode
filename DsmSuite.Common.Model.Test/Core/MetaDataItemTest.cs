@@ -1,5 +1,5 @@
-﻿using DsmSuite.Analyzer.Model.Data;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Common.Model.Core;
+using DsmSuite.Common.Model.Interface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.Analyzer.Model.Test.Data
@@ -8,9 +8,9 @@ namespace DsmSuite.Analyzer.Model.Test.Data
     public class DsiMetaDataItemTest
     {
         [TestMethod]
-        public void TestMetaDataItemConstructor()
+        public void When_ItemIsConstructed_Then_PropertiesAreSetAccordingArguments()
         {
-            IDsiMetaDataItem item = new DsiMetaDataItem("name", "value");
+            IMetaDataItem item = new MetaDataItem("name", "value");
             Assert.AreEqual("name", item.Name);
             Assert.AreEqual("value", item.Value);
         }

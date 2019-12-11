@@ -58,10 +58,13 @@
     <Compile Include="Data\DsmRelationTest.cs" />
     <Compile Include="Data\TypeRegistrationTest.cs" />
     <Compile Include="Persistency\DsmModelFileTest.cs" />
-    <Compile Include="Data\DsmMetaDataItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj">
+      <Project>{6e26eaa0-d0d6-41ab-9aed-61542f7edfc5}</Project>
+      <Name>DsmSuite.Common.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DsmSuite.DsmViewer.Model\DsmSuite.DsmViewer.Model.csproj">
       <Project>{ae2405c6-54ca-43b1-bcf0-36b7010c0f0e}</Project>
       <Name>DsmSuite.DsmViewer.Model</Name>

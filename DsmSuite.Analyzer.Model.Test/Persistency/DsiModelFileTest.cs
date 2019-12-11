@@ -5,6 +5,8 @@ using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Model.Persistency;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using DsmSuite.Common.Model.Core;
+using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.Analyzer.Model.Test.Persistency
 {
@@ -13,7 +15,7 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
     {
         private readonly List<IDsiElement> _elements = new List<IDsiElement>();
         private readonly List<IDsiRelation> _relations = new List<IDsiRelation>();
-        private readonly Dictionary<string, List<IDsiMetaDataItem>> _metaData = new Dictionary<string, List<IDsiMetaDataItem>>();
+        private readonly Dictionary<string, List<MetaDataItem>> _metaData = new Dictionary<string, List<MetaDataItem>>();
 
         [TestInitialize]
         public void TestInitialize()
@@ -91,16 +93,16 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
 
         private void FillModelData()
         {
-            _metaData["group1"] = new List<IDsiMetaDataItem>
+            _metaData["group1"] = new List<MetaDataItem>
             {
-                new DsiMetaDataItem("item1", "value1"),
-                new DsiMetaDataItem("item2", "value2")
+                new MetaDataItem("item1", "value1"),
+                new MetaDataItem("item2", "value2")
             };
 
-            _metaData["group2"] = new List<IDsiMetaDataItem>
+            _metaData["group2"] = new List<MetaDataItem>
             {
-                new DsiMetaDataItem("item3", "value3"),
-                new DsiMetaDataItem("item4", "value4")
+                new MetaDataItem("item3", "value3"),
+                new MetaDataItem("item4", "value4")
             };
 
             _elements.Add(new DsiElement(1, "a.a1", "elementtype1", "source1"));
@@ -115,10 +117,10 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
         {
             if (!_metaData.ContainsKey(groupName))
             {
-                _metaData[groupName] = new List<IDsiMetaDataItem>();
+                _metaData[groupName] = new List<MetaDataItem>();
             }
 
-            _metaData[groupName].Add(new DsiMetaDataItem(itemName, itemValue));
+            _metaData[groupName].Add(new MetaDataItem(itemName, itemValue));
         }
 
         public void ImportElement(int elementId, string name, string type, string source)
@@ -136,7 +138,7 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             return _metaData.Keys;
         }
 
-        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string group)
+        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string group)
         {
             if (_metaData.ContainsKey(group))
             {
@@ -144,7 +146,7 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             }
             else
             {
-                return new List<IDsiMetaDataItem>();
+                return new List<IMetaDataItem>();
             }
         }
 

@@ -10,48 +10,49 @@ namespace DsmSuite.Analyzer.Model.Core
     public class MetaDataModel
     {
         private readonly string _defaultGroupName;
-
+        private readonly Assembly _executingAssembly;
         private readonly List<string> _metaDataGroupNames;
         private readonly Dictionary<string, List<MetaDataItem>> _metaDataGroups;
 
         public MetaDataModel(string defaultGroupName, Assembly executingAssembly)
         {
             _defaultGroupName = defaultGroupName;
+            _executingAssembly = executingAssembly;
 
             _metaDataGroupNames = new List<string>();
             _metaDataGroups = new Dictionary<string, List<MetaDataItem>>();
 
-            AddMetaDataItem("Executable", SystemInfo.GetExecutableInfo(executingAssembly));
+            AddDefaultItems();
         }
 
-        public void ImportMetaDataItem(string group, string name, string value)
+        public void Clear()
         {
-            Logger.LogDataModelMessage($"Import meta data group={group} name={name} value={value}");
+            _metaDataGroupNames.Clear();
+            _metaDataGroups.Clear();
 
-            MetaDataItem item = FindItem(group, name);
+            AddDefaultItems();
+        }
+
+        public IMetaDataItem AddMetaDataItemToDefaultGroup(string name, string value)
+        {
+            return AddMetaDataItem(_defaultGroupName, name, value);
+        }
+
+        public IMetaDataItem AddMetaDataItem(string groupName, string name, string value)
+        {
+            Logger.LogDataModelMessage($"Add metadata group={groupName} name={name} value={value}");
+
+            MetaDataItem item = FindItem(groupName, name);
             if (item != null)
             {
                 item.Value = value;
             }
             else
             {
-                GetMetaDataGroupItemList(group).Add(new MetaDataItem(name, value));
+                item = new MetaDataItem(name, value);
+                GetMetaDataGroupItemList(groupName).Add(item);
             }
-        }
-
-        public void AddMetaDataItem(string name, string value)
-        {
-            Logger.LogDataModelMessage($"Add metadata group={_defaultGroupName} name={name} value={value}");
-
-            MetaDataItem item = FindItem(_defaultGroupName, name);
-            if (item != null)
-            {
-                item.Value = value;
-            }
-            else
-            {
-                GetMetaDataGroupItemList(_defaultGroupName).Add(new MetaDataItem(name, value));
-            }
+            return item;
         }
 
         public IEnumerable<string> GetMetaDataGroups()
@@ -59,20 +60,20 @@ namespace DsmSuite.Analyzer.Model.Core
             return _metaDataGroupNames;
         }
 
-        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string group)
+        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName)
         {
-            return GetMetaDataGroupItemList(group);
+            return GetMetaDataGroupItemList(groupName);
         }
 
-        private IList<MetaDataItem> GetMetaDataGroupItemList(string group)
+        private IList<MetaDataItem> GetMetaDataGroupItemList(string groupName)
         {
-            if (!_metaDataGroups.ContainsKey(group))
+            if (!_metaDataGroups.ContainsKey(groupName))
             {
-                _metaDataGroupNames.Add(group);
-                _metaDataGroups[group] = new List<MetaDataItem>();
+                _metaDataGroupNames.Add(groupName);
+                _metaDataGroups[groupName] = new List<MetaDataItem>();
             }
 
-            return _metaDataGroups[group];
+            return _metaDataGroups[groupName];
         }
 
         private MetaDataItem FindItem(string groupName, string name)
@@ -80,6 +81,11 @@ namespace DsmSuite.Analyzer.Model.Core
             return (from item in GetMetaDataGroupItemList(groupName)
                     where item.Name == name
                     select item).FirstOrDefault();
+        }
+
+        private void AddDefaultItems()
+        {
+            AddMetaDataItemToDefaultGroup("Executable", SystemInfo.GetExecutableInfo(_executingAssembly));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DsmSuite.Common.Model.Interface;
+using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.Model.Interface
 {
@@ -12,7 +13,7 @@ namespace DsmSuite.Analyzer.Model.Interface
 
         void AddMetaData(string name, string value);
         IEnumerable<string> GetMetaDataGroups();
-        IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string group);
+        IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string group);
 
         IDsiElement AddElement(string name, string type, string source);
         void RemoveElement(IDsiElement element);

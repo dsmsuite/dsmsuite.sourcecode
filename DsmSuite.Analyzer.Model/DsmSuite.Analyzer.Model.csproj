@@ -25,10 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ElementsDataModel.cs" />
-    <Compile Include="Core\MetaDataModel.cs" />
     <Compile Include="Core\RelationsDataModel.cs" />
-    <Compile Include="Interface\IDsiMetaDataItem.cs" />
-    <Compile Include="Data\DsiMetaDataItem.cs" />
     <Compile Include="Persistency\DsiModelFile.cs" />
     <Compile Include="Data\DsiElement.cs" />
     <Compile Include="Interface\IDsiDataModel.cs" />
@@ -43,6 +40,10 @@
     <ProjectReference Include="..\DsmSuite.Analyzer.Util\DsmSuite.Analyzer.Util.csproj">
       <Project>{b73fdffb-08d3-4573-a682-825c1a79fc54}</Project>
       <Name>DsmSuite.Analyzer.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj">
+      <Project>{6e26eaa0-d0d6-41ab-9aed-61542f7edfc5}</Project>
+      <Name>DsmSuite.Common.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
       <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>

@@ -70,7 +70,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             return null;
         }
 
-        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string group)
+        public IEnumerable<Common.Model.Interface.IMetaDataItem> GetMetaDataGroupItems(string group)
         {
             return null;
         }

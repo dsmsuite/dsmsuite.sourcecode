@@ -36,6 +36,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Core\MetaDataModelTest.cs" />
+    <Compile Include="Core\MetaDataItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

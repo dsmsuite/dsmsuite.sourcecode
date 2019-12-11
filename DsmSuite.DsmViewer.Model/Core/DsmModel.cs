@@ -6,6 +6,8 @@ using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Model.Persistency;
+using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
@@ -40,7 +42,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             Logger.LogDataModelMessage($"Save data model file={dsmFilename} compresss={compressFile}");
 
-            _metaDataModel.AddMetaData("Total elements found", $"{ElementCount}");
+            _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{ElementCount}");
 
             DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, this);
             dsmModelFile.Save(compressFile, progress);
@@ -72,19 +74,19 @@ namespace DsmSuite.DsmViewer.Model.Core
             _relationsDataModel.Clear();
         }
 
-        public IDsmMetaDataItem AddMetaData(string name, string value)
+        public IMetaDataItem AddMetaData(string name, string value)
         {
-            return _metaDataModel.AddMetaData(name, value);
+            return _metaDataModel.AddMetaDataItemToDefaultGroup(name, value);
         }
 
-        public IDsmMetaDataItem AddMetaData(string group, string name, string value)
+        public IMetaDataItem AddMetaData(string group, string name, string value)
         {
-            return _metaDataModel.AddMetaData(group, name, value);
+            return _metaDataModel.AddMetaDataItem(group, name, value);
         }
 
-        public IDsmMetaDataItem ImportMetaDataItem(string group, string name, string value)
+        public IMetaDataItem ImportMetaDataItem(string group, string name, string value)
         {
-            return _metaDataModel.ImportMetaDataItem(group, name, value);
+            return _metaDataModel.AddMetaDataItem(group, name, value);
         }
 
         public IEnumerable<string> GetMetaDataGroups()
@@ -92,7 +94,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _metaDataModel.GetMetaDataGroups();
         }
 
-        public IEnumerable<IDsmMetaDataItem> GetMetaDataGroupItems(string groupName)
+        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName)
         {
             return _metaDataModel.GetMetaDataGroupItems(groupName);
         }

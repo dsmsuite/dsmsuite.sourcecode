@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Xml;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.DsmViewer.Reporting
 {
@@ -20,7 +21,7 @@ namespace DsmSuite.DsmViewer.Reporting
                 AddHeader(3, group);
 
                 XmlNode tbody = CreateTable();
-                foreach (IDsmMetaDataItem item in Model.GetMetaDataGroupItems(group))
+                foreach (IMetaDataItem item in Model.GetMetaDataGroupItems(group))
                 {
                     string[] cells = { item.Name, ": " , item.Value };
                     AddTableRow(tbody, cells);

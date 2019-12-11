@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using DsmSuite.Analyzer.Model.Data;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Model.Persistency;
 using DsmSuite.Common.Util;
-using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
@@ -36,16 +34,16 @@ namespace DsmSuite.Analyzer.Model.Core
 
             foreach (string type in GetElementTypes())
             {
-                _metaDataModel.AddMetaDataItem($"- '{type}' elements found", $"{GetElementTypeCount(type)}");
+                _metaDataModel.AddMetaDataItemToDefaultGroup($"- '{type}' elements found", $"{GetElementTypeCount(type)}");
             }
-            _metaDataModel.AddMetaDataItem("Total elements found", $"{TotalElementCount}");
+            _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{TotalElementCount}");
 
             foreach (string type in GetRelationTypes())
             {
-                _metaDataModel.AddMetaDataItem($"- '{type}' relations found", $"{GetRelationTypeCount(type)}");
+                _metaDataModel.AddMetaDataItemToDefaultGroup($"- '{type}' relations found", $"{GetRelationTypeCount(type)}");
             }
-            _metaDataModel.AddMetaDataItem("Total relations found", $"{TotalRelationCount}");
-            _metaDataModel.AddMetaDataItem("Total relations resolved", $"{ResolvedRelationCount} (confidence={ResolvedRelationPercentage:0.000} %)");
+            _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations found", $"{TotalRelationCount}");
+            _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations resolved", $"{ResolvedRelationCount} (confidence={ResolvedRelationPercentage:0.000} %)");
 
             DsiModelFile modelFile = new DsiModelFile(dsiFilename, this);
             modelFile.Save(compressFile, null);
@@ -53,12 +51,12 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void AddMetaData(string name, string value)
         {
-            _metaDataModel.AddMetaDataItem(name, value);
+            _metaDataModel.AddMetaDataItemToDefaultGroup(name, value);
         }
 
         public void ImportMetaDataItem(string group, string name, string value)
         {
-            _metaDataModel.ImportMetaDataItem(group, name, value);
+            _metaDataModel.AddMetaDataItem(group, name, value);
         }
 
         public IEnumerable<string> GetMetaDataGroups()
@@ -66,7 +64,7 @@ namespace DsmSuite.Analyzer.Model.Core
             return _metaDataModel.GetMetaDataGroups();
         }
 
-        public IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string group)
+        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string group)
         {
             return _metaDataModel.GetMetaDataGroupItems(group);
         }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Xml;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.DsmViewer.Model.Persistency
 {
@@ -151,7 +152,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 writer.WriteStartElement(MetaDataGroupXmlNode);
                 writer.WriteAttributeString(MetaDataGroupNameXmlAttribute, group);
 
-                foreach (IDsmMetaDataItem metaDataItem in _callback.GetMetaDataGroupItems(group))
+                foreach (IMetaDataItem metaDataItem in _callback.GetMetaDataGroupItems(group))
                 {
                     writer.WriteStartElement(MetaDataXmlNode);
                     writer.WriteAttributeString(MetaDataItemNameXmlAttribute, metaDataItem.Name);

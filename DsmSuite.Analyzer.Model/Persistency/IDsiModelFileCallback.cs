@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
+using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.Analyzer.Model.Persistency
 {
@@ -10,7 +11,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
         void ImportRelation(int consumerId, int providerId, string type, int weight);
 
         IEnumerable<string> GetMetaDataGroups();
-        IEnumerable<IDsiMetaDataItem> GetMetaDataGroupItems(string group);
+        IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string group);
         IEnumerable<IDsiElement> GetElements();
         IEnumerable<IDsiRelation> GetRelations();
     }
