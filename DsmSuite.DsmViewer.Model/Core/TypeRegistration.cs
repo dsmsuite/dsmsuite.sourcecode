@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace DsmSuite.DsmViewer.Model.Data
+namespace DsmSuite.DsmViewer.Model.Core
 {
     /// <summary>
     /// Collection of relation or element types. There can be max 256 different types.

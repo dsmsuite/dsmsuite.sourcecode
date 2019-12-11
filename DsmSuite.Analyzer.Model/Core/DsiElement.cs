@@ -1,6 +1,6 @@
 using DsmSuite.Analyzer.Model.Interface;
 
-namespace DsmSuite.Analyzer.Model.Data
+namespace DsmSuite.Analyzer.Model.Core
 {
     /// <summary>
     /// Represents element of a component. Both the ElementId and Name uniquely identify an element.

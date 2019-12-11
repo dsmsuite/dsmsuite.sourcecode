@@ -24,17 +24,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\ElementsDataModel.cs" />
-    <Compile Include="Core\RelationsDataModel.cs" />
+    <Compile Include="Core\DsiElementsDataModel.cs" />
+    <Compile Include="Core\DsiRelationsDataModel.cs" />
     <Compile Include="Persistency\DsiModelFile.cs" />
-    <Compile Include="Data\DsiElement.cs" />
+    <Compile Include="Core\DsiElement.cs" />
     <Compile Include="Interface\IDsiDataModel.cs" />
-    <Compile Include="Core\DataModel.cs" />
+    <Compile Include="Core\DsiDataModel.cs" />
     <Compile Include="Interface\IDsiElement.cs" />
     <Compile Include="Interface\IDsiRelation.cs" />
     <Compile Include="Persistency\IDsiModelFileCallback.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\DsiRelation.cs" />
+    <Compile Include="Core\DsiRelation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DsmSuite.Analyzer.Util\DsmSuite.Analyzer.Util.csproj">

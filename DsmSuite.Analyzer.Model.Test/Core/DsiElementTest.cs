@@ -1,8 +1,8 @@
-﻿using DsmSuite.Analyzer.Model.Data;
+﻿using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.Analyzer.Model.Test.Data
+namespace DsmSuite.Analyzer.Model.Test.Core
 {
     [TestClass]
     public class DsiElementTest

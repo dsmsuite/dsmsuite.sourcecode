@@ -34,7 +34,7 @@ namespace DsmSuite.Transformer
                     }
                     else
                     {
-                        DataModel model = new DataModel("Transformer", Assembly.GetExecutingAssembly());
+                        DsiDataModel model = new DsiDataModel("Transformer", Assembly.GetExecutingAssembly());
                         model.Load(transformerSettings.InputFilename);
                         Transformation.Transformer transformer = new Transformation.Transformer(model, transformerSettings);
                         transformer.Transform();

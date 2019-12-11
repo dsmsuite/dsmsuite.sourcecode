@@ -1,17 +1,13 @@
 ﻿using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
-    public class RelationsDataModel
+    public class DsmRelationsDataModel
     {
-        private readonly ElementsDataModel _elementsDataModel;
+        private readonly DsmElementsDataModel _elementsDataModel;
         private readonly Dictionary<int /*relationId*/, IDsmRelation> _relationsById;
         private readonly Dictionary<int /*providerId*/, Dictionary<int /*consumerId*/, IDsmRelation>> _relationsByProvider;
         private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, IDsmRelation>> _relationsByConsumer;
@@ -20,7 +16,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, int /*weight*/>> _weights;
         private int _lastRelationId;
 
-        public RelationsDataModel(ElementsDataModel elementsDataModel)
+        public DsmRelationsDataModel(DsmElementsDataModel elementsDataModel)
         {
             _elementsDataModel = elementsDataModel;
 

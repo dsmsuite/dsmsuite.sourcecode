@@ -20,7 +20,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             analyzerSettings.SolutionGroups[0].SolutionFilenames.Add(Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln"));
             analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path=Path.Combine(TestData.TestDataDirectory, "DirExternal"), ResolveAs= "External" });
             analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings);
             analyzer.Analyze();
@@ -99,7 +99,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             analyzerSettings.RootDirectory = TestData.SolutionDirectory;
 
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings);
             analyzer.Analyze();

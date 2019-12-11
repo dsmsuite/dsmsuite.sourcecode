@@ -1,6 +1,6 @@
 ﻿using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Model.Data
+namespace DsmSuite.DsmViewer.Model.Core
 {
     /// <summary>
     /// Relation between two elements.

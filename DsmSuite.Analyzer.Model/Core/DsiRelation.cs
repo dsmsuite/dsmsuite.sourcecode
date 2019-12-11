@@ -1,6 +1,6 @@
 using DsmSuite.Analyzer.Model.Interface;
 
-namespace DsmSuite.Analyzer.Model.Data
+namespace DsmSuite.Analyzer.Model.Core
 {
     /// <summary>
     /// Represents a relation of a specific type between two elements

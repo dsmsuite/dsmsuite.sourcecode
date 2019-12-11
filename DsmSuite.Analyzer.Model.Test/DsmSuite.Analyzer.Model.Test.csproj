@@ -56,10 +56,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Core\DsiDataModelTest.cs" />
-    <Compile Include="Core\ElementsDataModelTest.cs" />
-    <Compile Include="Core\RelationsDataModelTest.cs" />
-    <Compile Include="Data\DsiElementTest.cs" />
-    <Compile Include="Data\DsiRelationTest.cs" />
+    <Compile Include="Core\DsiElementsDataModelTest.cs" />
+    <Compile Include="Core\DsiRelationsDataModelTest.cs" />
+    <Compile Include="Core\DsiElementTest.cs" />
+    <Compile Include="Core\DsiRelationTest.cs" />
     <Compile Include="Persistency\DsiModelFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -18,7 +18,7 @@ namespace DsmSuite.Analyzer.Jdeps.Test.Analysis
                 InputFilename = "example.dot",
             };
 
-            IDsiDataModel model = new DataModel("Test", Assembly.GetExecutingAssembly());
+            IDsiDataModel model = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
             Jdeps.Analysis.Analyzer analyzer = new Jdeps.Analysis.Analyzer(model, analyzerSettings);
             analyzer.Analyze();
 

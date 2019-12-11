@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
-using DsmSuite.Analyzer.Model.Data;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 using DsmSuite.Analyzer.Util;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
-    public class RelationsDataModel
+    public class DsiRelationsDataModel
     {
-        private readonly ElementsDataModel _elementsDataModel;
+        private readonly DsiElementsDataModel _elementsDataModel;
         private readonly Dictionary<int, List<IDsiRelation>> _relationsByConsumerId;
         private readonly Dictionary<string, int> _relationTypeCount;
         private int _relationCount;
 
-        public RelationsDataModel(ElementsDataModel elementsDataModel)
+        public DsiRelationsDataModel(DsiElementsDataModel elementsDataModel)
         {
             _elementsDataModel = elementsDataModel;
             _relationsByConsumerId = new Dictionary<int, List<IDsiRelation>>();

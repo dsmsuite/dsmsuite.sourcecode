@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DsmSuite.DsmViewer.Model.Data;
+using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Model.Persistency;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Model.Data
+namespace DsmSuite.DsmViewer.Model.Core
 {
     /// <summary>
     /// Represent an element in the dsm hierarchy.

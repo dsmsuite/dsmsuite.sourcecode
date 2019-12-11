@@ -3,7 +3,7 @@
 namespace DsmSuite.Analyzer.Model.Test.Core
 {
     [TestClass]
-    public class RelationsDataModelTest
+    public class DsiRelationsDataModelTest
     {
         [TestMethod]
         public void A()

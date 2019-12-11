@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Model.Persistency;
 using DsmSuite.Analyzer.Model.Core;
@@ -14,8 +12,8 @@ namespace DsmSuite.DsmViewer.Model.Core
     public class DsmModel : IDsmModel, IDsmModelFileCallback
     {
         private readonly MetaDataModel _metaDataModel;
-        private readonly ElementsDataModel _elementsDataModel;
-        private readonly RelationsDataModel _relationsDataModel;
+        private readonly DsmElementsDataModel _elementsDataModel;
+        private readonly DsmRelationsDataModel _relationsDataModel;
         private bool _isModified;
 
         public event EventHandler<bool> Modified;
@@ -23,8 +21,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         public DsmModel(string processStep, Assembly executingAssembly)
         {
             _metaDataModel = new MetaDataModel(processStep, executingAssembly);
-            _elementsDataModel = new ElementsDataModel();
-            _relationsDataModel = new RelationsDataModel(_elementsDataModel);
+            _elementsDataModel = new DsmElementsDataModel();
+            _relationsDataModel = new DsmRelationsDataModel(_elementsDataModel);
         }
 
         public void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress)

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using DsmSuite.DsmViewer.Model.Data;
+using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Algorithm

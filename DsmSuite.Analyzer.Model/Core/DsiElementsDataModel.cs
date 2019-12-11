@@ -1,21 +1,16 @@
-﻿using DsmSuite.Analyzer.Model.Data;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
-    public class ElementsDataModel
+    public class DsiElementsDataModel
     {
         private readonly Dictionary<string, IDsiElement> _elementsByName;
         private readonly Dictionary<int, IDsiElement> _elementsById;
         private readonly Dictionary<string, int> _elementTypeCount;
 
-        public ElementsDataModel()
+        public DsiElementsDataModel()
         {
             _elementsByName = new Dictionary<string, IDsiElement>();
             _elementsById = new Dictionary<int, IDsiElement>();

@@ -1,19 +1,18 @@
 ﻿using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Model.Data;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
-    public class ElementsDataModel
+    public class DsmElementsDataModel
     {
         private readonly Dictionary<int /*id*/, IDsmElement> _elementsById;
         private readonly Dictionary<int /*id*/, IDsmElement> _deletedElementsById;
         private readonly IList<IDsmElement> _rootElements;
         private int _lastElementId;
 
-        public ElementsDataModel()
+        public DsmElementsDataModel()
         {
             _elementsById = new Dictionary<int, IDsmElement>();
             _deletedElementsById = new Dictionary<int, IDsmElement>();

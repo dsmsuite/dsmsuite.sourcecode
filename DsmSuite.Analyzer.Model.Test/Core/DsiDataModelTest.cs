@@ -13,7 +13,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void AddingNewElementIncreasesElementCount()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             Assert.AreEqual(0, dataModel.TotalElementCount);
             IDsiElement element1 = dataModel.AddElement("element1Name", "class", "element1Source");
@@ -36,7 +36,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void AddingExistingElementDoesNotIncreaseElementCount()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             Assert.AreEqual(0, dataModel.TotalElementCount);
             IDsiElement element1 = dataModel.AddElement("elementName", "class", "elementSourceA");
@@ -51,7 +51,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void ElementCanBeFoundByName()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             dataModel.AddElement("element1Name", "class", "element1Source");
             dataModel.AddElement("element2Name", "class", "element2Source");
@@ -85,7 +85,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void ElementCanBeRemoved()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             IDsiElement consumer = dataModel.AddElement("consumerName", "class", "consumerSource");
             Assert.IsNotNull(consumer);
@@ -128,7 +128,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void RenamedElementCanBeFoundByName()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             dataModel.AddElement("element1Name", "class", "element1Source");
             dataModel.AddElement("element2Name", "enum", "element2Source");
@@ -157,7 +157,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void AddingAreRelationAddsItToTheConsumerElementAsProviderRelation()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             IDsiElement consumer = dataModel.AddElement("consumerName", "class", "consumerSource");
             Assert.IsNotNull(consumer);
@@ -194,7 +194,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         {
             string filename = "temp.dsi";
 
-            DataModel dataModel1 = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel1 = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             IDsiElement consumer = dataModel1.AddElement("consumerName", "class", "consumerSource");
             Assert.IsNotNull(consumer);
@@ -208,7 +208,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
 
             dataModel1.Save(filename, false);
 
-            DataModel dataModel2 = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel2 = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
             dataModel2.Load(filename);
 
             Assert.AreEqual(dataModel1.TotalElementCount, dataModel2.TotalElementCount);

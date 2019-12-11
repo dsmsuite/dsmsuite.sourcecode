@@ -12,7 +12,7 @@ namespace DsmSuite.Transformer.Test.Transformation
         [TestMethod]
         public void AddTransitiveRelations()
         {
-            DataModel dataModel = new DataModel("Test", Assembly.GetExecutingAssembly());
+            DsiDataModel dataModel = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
 
             IDsiElement element1 = dataModel.AddElement("element1Name", "class", "");
             Assert.IsNotNull(element1);
