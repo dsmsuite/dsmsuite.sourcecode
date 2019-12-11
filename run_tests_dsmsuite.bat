@@ -1,8 +1,8 @@
 vstest.console.exe build\bin\DsmSuite.Common.Util.Test.dll /Settings:test.runsettings /inIsolation
 vstest.console.exe build\bin\DsmSuite.Common.Model.Test.dll /Settings:test.runsettings /inIsolation
 
-rem vstest.console.exe build\bin\DsmSuite.Analyzer.Util.Test.dll /Settings:test.runsettings /inIsolation
-rem vstest.console.exe build\bin\DsmSuite.Analyzer.Model.Test.dll /Settings:test.runsettings /inIsolation
+vstest.console.exe build\bin\DsmSuite.Analyzer.Util.Test.dll /Settings:test.runsettings /inIsolation
+vstest.console.exe build\bin\DsmSuite.Analyzer.Model.Test.dll /Settings:test.runsettings /inIsolation
 
 rem vstest.console.exe build\bin\DsmSuite.Analyzer.Cpp.Test.dll /Settings:test.runsettings /inIsolation
 rem vstest.console.exe build\bin\DsmSuite.Analyzer.DotNet.Test.dll /Settings:test.runsettings /inIsolation
