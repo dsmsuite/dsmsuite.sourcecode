@@ -6,7 +6,7 @@ namespace DsmSuite.Common.Util.Test
     public class ElementNameTest
     {
         [TestMethod]
-        public void ElementNameDefaultConstructorTest()
+        public void When_ElementNameIsConstructedWithNoArgument_Then_ItsHasOneNamePartWhichIsAnEmptyString()
         {
             ElementName elementName = new ElementName();
             Assert.AreEqual("", elementName.FullName);
@@ -16,7 +16,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void ElementNameConstructorWithFullnameTest()
+        public void When_ElementNameIsConstructedWithSingleMultiPartArgument_Then_ItsHasMutipleNameParts()
         {
             ElementName elementName = new ElementName("a.b.c");
             Assert.AreEqual("a.b.c", elementName.FullName);
@@ -29,7 +29,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void ElementNameConstructorWithParentAndPartNameTest()
+        public void When_ElementNameIsConstructedWithTwoArguments_Then_ItsHasTheJoinedMultipleNameParts()
         {
             ElementName elementName = new ElementName("a.b", "c");
             Assert.AreEqual("a.b.c", elementName.FullName);
@@ -42,9 +42,10 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void ElementNameAddPartToEmptyElementNameTest()
+        public void Given_AnEmptyElementName_When_AddPartIsCalled_Then_ItsHasOneNamePart()
         {
             ElementName elementName = new ElementName();
+
             elementName.AddNamePart("a");
             Assert.AreEqual("a", elementName.FullName);
             Assert.AreEqual("", elementName.ParentName);
@@ -54,7 +55,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void ElementNameAddPartToNonEmptyElementNameTest()
+        public void Given_FilledElementName_When_AddPartIsCalled_Then_ItsHasOneAdditionalNamePart()
         {
             ElementName elementName = new ElementName("a.b");
             elementName.AddNamePart("c");

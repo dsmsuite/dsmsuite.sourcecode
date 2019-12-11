@@ -8,7 +8,7 @@ namespace DsmSuite.Common.Util.Test
     public class SystemInfoTest
     {
         [TestMethod]
-        public void TestGetExecutableInfo()
+        public void When_GetExecutableInfoIsCalled_Then_InfoContainingTheAssemblyNameIsReturned()
         {
             string executableInfo = SystemInfo.GetExecutableInfo(Assembly.GetExecutingAssembly());
             char[] itemSeparators = {'=', ' '};
@@ -16,6 +16,15 @@ namespace DsmSuite.Common.Util.Test
             Assert.IsTrue(elements.Length > 6); // Dependencing on locale PM/AM might be post fixed
 
             Assert.AreEqual("DsmSuite.Common.Util.Test", elements[0]);
+        }
+
+        [TestMethod]
+        public void When_GetExecutableInfoIsCalled_Then_InfoIdentifyingTheAssemblyVersionIsReturned()
+        {
+            string executableInfo = SystemInfo.GetExecutableInfo(Assembly.GetExecutingAssembly());
+            char[] itemSeparators = { '=', ' ' };
+            string[] elements = executableInfo.Split(itemSeparators);
+            Assert.IsTrue(elements.Length > 6); // Dependencing on locale PM/AM might be post fixed
 
             Assert.AreEqual("version", elements[1]);
 
@@ -36,6 +45,15 @@ namespace DsmSuite.Common.Util.Test
 
             int versionNumberPart3;
             Assert.IsTrue(int.TryParse(versionNumberItems[3], out versionNumberPart3));
+        }
+
+        [TestMethod]
+        public void When_GetExecutableInfoIsCalled_Then_InfoIdentifyingTheAssemblyBuildTimeStampIsReturned()
+        {
+            string executableInfo = SystemInfo.GetExecutableInfo(Assembly.GetExecutingAssembly());
+            char[] itemSeparators = { '=', ' ' };
+            string[] elements = executableInfo.Split(itemSeparators);
+            Assert.IsTrue(elements.Length > 6); // Dependencing on locale PM/AM might be post fixed
 
             Assert.AreEqual("build", elements[3]);
 
