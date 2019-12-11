@@ -1,13 +1,13 @@
 ﻿using DsmSuite.DsmViewer.Model.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer.Model.Test.Data
+namespace DsmSuite.DsmViewer.Model.Test.Core
 {
     [TestClass]
     public class ElementTest
     {
         [TestMethod]
-        public void TestElementConstructor()
+        public void When_ElementIsConstructed_Then_PropertiesAreSetAccordingArguments()
         {
             int elementId = 1;
             string elementName = "name1";

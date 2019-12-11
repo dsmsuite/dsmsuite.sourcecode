@@ -17,6 +17,13 @@ namespace DsmSuite.Analyzer.Model.Core
             _elementTypeCount = new Dictionary<string, int>();
         }
 
+        public void Clear()
+        {
+            _elementsByName.Clear();
+            _elementsById.Clear();
+            _elementTypeCount.Clear();
+        }
+
         public void ImportElement(int id, string name, string type, string source)
         {
             Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} source={source}");

@@ -1,13 +1,13 @@
 ﻿using DsmSuite.DsmViewer.Model.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer.Model.Test.Data
+namespace DsmSuite.DsmViewer.Model.Test.Core
 {
     [TestClass]
     public class RelationTest
     {
         [TestMethod]
-        public void TestRelationConstructor()
+        public void When_RelationIsConstructed_Then_PropertiesAreSetAccordingArguments()
         {
             int relationId = 1;
             int consumerId = 2;

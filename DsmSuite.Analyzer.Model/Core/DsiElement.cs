@@ -7,7 +7,8 @@ namespace DsmSuite.Analyzer.Model.Core
     /// </summary>
     public class DsiElement : IDsiElement
     {
-        public DsiElement(int id, string name, string type, string source){
+        public DsiElement(int id, string name, string type, string source)
+        {
             Id = id;
             Name = name;
             Type = type;

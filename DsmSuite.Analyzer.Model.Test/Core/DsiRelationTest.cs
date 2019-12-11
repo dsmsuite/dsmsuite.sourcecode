@@ -8,7 +8,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
     public class DsiRelationTest
     {
         [TestMethod]
-        public void TestRelationConstructor()
+        public void When_RelationIsConstructed_Then_PropertiesAreSetAccordingArguments()
         {
             IDsiRelation relation = new DsiRelation(1, 2, "type", 3);
             Assert.AreEqual(1, relation.ConsumerId);

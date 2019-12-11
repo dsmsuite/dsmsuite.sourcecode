@@ -54,9 +54,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Core\DsmModelTest.cs" />
-    <Compile Include="Data\DsmElementTest.cs" />
-    <Compile Include="Data\DsmRelationTest.cs" />
-    <Compile Include="Data\TypeRegistrationTest.cs" />
+    <Compile Include="Core\DsmElementTest.cs" />
+    <Compile Include="Core\DsmRelationTest.cs" />
+    <Compile Include="Core\TypeRegistrationTest.cs" />
     <Compile Include="Persistency\DsmModelFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
