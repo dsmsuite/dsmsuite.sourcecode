@@ -10,7 +10,7 @@ namespace DsmSuite.Common.Util
             return Resolve(path, filename);
         }
 
-        public static List<string> ResolveFiles(string path, List<string> filenames)
+        public static List<string> ResolveFiles(string path, IEnumerable<string> filenames)
         {
             List < string > resolvedFiles = new List<string>();
             foreach(string filename in filenames)

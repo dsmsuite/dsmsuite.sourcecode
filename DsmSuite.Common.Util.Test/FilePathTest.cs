@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace DsmSuite.Common.Util.Test
 {
@@ -20,6 +22,16 @@ namespace DsmSuite.Common.Util.Test
             string input = "TestFileCopy.txt";
             string output = FilePath.ResolveFile(path, input);
             Assert.AreEqual(@"C:\temp\TestFileCopy.txt", output);
+        }
+
+        [TestMethod]
+        public void When_ResolveFileIsCalledWithAnAbsolutePathAndMultipleFilenames_Then_TheResolvedAbsoluteFileNamesAreReturned()
+        {
+            string path = @"C:\temp";
+            string[] input = { "TestFileCopy.txt", "TestFileCopyAgain.txt" };
+            List<string> output = FilePath.ResolveFiles(path, input);
+            Assert.AreEqual(@"C:\temp\TestFileCopy.txt", output[0]);
+            Assert.AreEqual(@"C:\temp\TestFileCopyAgain.txt", output[1]);
         }
 
         [TestMethod]

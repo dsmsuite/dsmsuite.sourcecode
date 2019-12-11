@@ -97,6 +97,7 @@
   <PropertyGroup>
     <PostBuildEvent>mkdir c:\Temp\TestDir
 copy /Y $(ProjectDir)TestFile.txt c:\Temp\TestFileCopy.txt
+copy /Y $(ProjectDir)TestFile.txt c:\Temp\TestFileCopyAgain.txt
 copy /Y $(ProjectDir)TestFile.zip c:\Temp\TestFileCopy.zip</PostBuildEvent>
   </PropertyGroup>
 </Project>
