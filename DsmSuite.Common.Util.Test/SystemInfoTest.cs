@@ -13,7 +13,7 @@ namespace DsmSuite.Common.Util.Test
             string executableInfo = SystemInfo.GetExecutableInfo(Assembly.GetExecutingAssembly());
             char[] itemSeparators = {'=', ' '};
             string[] elements = executableInfo.Split(itemSeparators);
-            Assert.IsTrue(elements.Length > 6); // Dependencing on locale PM/AM might be post fixed
+            Assert.IsTrue(elements.Length >= 6); // Depending on locale PM/AM might be post fixed
 
             Assert.AreEqual("DsmSuite.Common.Util.Test", elements[0]);
         }
@@ -24,7 +24,7 @@ namespace DsmSuite.Common.Util.Test
             string executableInfo = SystemInfo.GetExecutableInfo(Assembly.GetExecutingAssembly());
             char[] itemSeparators = { '=', ' ' };
             string[] elements = executableInfo.Split(itemSeparators);
-            Assert.IsTrue(elements.Length > 6); // Dependencing on locale PM/AM might be post fixed
+            Assert.IsTrue(elements.Length >= 6); // Depending on locale PM/AM might be post fixed
 
             Assert.AreEqual("version", elements[1]);
 
@@ -53,7 +53,7 @@ namespace DsmSuite.Common.Util.Test
             string executableInfo = SystemInfo.GetExecutableInfo(Assembly.GetExecutingAssembly());
             char[] itemSeparators = { '=', ' ' };
             string[] elements = executableInfo.Split(itemSeparators);
-            Assert.IsTrue(elements.Length > 6); // Dependencing on locale PM/AM might be post fixed
+            Assert.IsTrue(elements.Length >= 6); // Depending on locale PM/AM might be post fixed
 
             Assert.AreEqual("build", elements[3]);
 
