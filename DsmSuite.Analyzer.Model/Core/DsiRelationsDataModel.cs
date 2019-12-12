@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 using DsmSuite.Analyzer.Util;
@@ -8,14 +9,14 @@ namespace DsmSuite.Analyzer.Model.Core
     public class DsiRelationsDataModel
     {
         private readonly DsiElementsDataModel _elementsDataModel;
-        private readonly Dictionary<int, List<IDsiRelation>> _relationsByConsumerId;
+        private readonly Dictionary<int, Dictionary<int, Dictionary<string, DsiRelation>>> _relationsByConsumerId;
         private readonly Dictionary<string, int> _relationTypeCount;
         private int _relationCount;
 
         public DsiRelationsDataModel(DsiElementsDataModel elementsDataModel)
         {
             _elementsDataModel = elementsDataModel;
-            _relationsByConsumerId = new Dictionary<int, List<IDsiRelation>>();
+            _relationsByConsumerId = new Dictionary<int, Dictionary<int, Dictionary<string, DsiRelation>>>();
             _relationTypeCount = new Dictionary<string, int>();
         }
 
@@ -30,38 +31,21 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             Logger.LogDataModelMessage("Import relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
 
-            _relationCount++;
-
-            IncrementRelationTypeCount(type);
-
-            if (!_relationsByConsumerId.ContainsKey(consumerId))
-            {
-                _relationsByConsumerId[consumerId] = new List<IDsiRelation>();
-            }
-            DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight);
-            _relationsByConsumerId[relation.ConsumerId].Add(relation);
+            AddOrUpdateRelation(consumerId, providerId, type, weight);
         }
-
+        
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
         {
             Logger.LogDataModelMessage("Add relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
 
-            _relationCount++;
+            DsiRelation relation = null;
 
             IDsiElement consumer = _elementsDataModel.FindElementByName(consumerName);
             IDsiElement provider = _elementsDataModel.FindElementByName(providerName);
-            IDsiRelation relation = null;
 
-            if (consumer != null && provider != null)
+            if ((consumer != null) && (provider != null))
             {
-                IncrementRelationTypeCount(type);
-
-                relation = new DsiRelation(consumer.Id, provider.Id, type, weight);
-                if (!_relationsByConsumerId.ContainsKey(consumer.Id))
-                {
-                    _relationsByConsumerId[consumer.Id] = new List<IDsiRelation>();
-                }
-                _relationsByConsumerId[consumer.Id].Add(relation);
+                relation = AddOrUpdateRelation(consumer.Id, provider.Id, type, weight);
             }
             else
             {
@@ -69,6 +53,25 @@ namespace DsmSuite.Analyzer.Model.Core
             }
 
             return relation;
+        }
+
+        private DsiRelation AddOrUpdateRelation(int consumerId, int providerId, string type, int weight)
+        {
+            Dictionary<string, DsiRelation> relations = GetRelations(consumerId, providerId);
+
+            IncrementRelationTypeCount(type);
+
+            if (relations.ContainsKey(type))
+            {
+                relations[type].Weight += weight;
+            }
+            else
+            {
+                _relationCount++;
+                relations[type] = new DsiRelation(consumerId, providerId, type, weight);
+            }
+
+            return relations[type];
         }
 
         public void SkipRelation(string consumerName, string providerName, string type, string context)
@@ -99,42 +102,34 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public ICollection<IDsiRelation> GetRelationsOfConsumer(int consumerId)
         {
+            List<IDsiRelation> relations = new List<IDsiRelation>();
             if (_relationsByConsumerId.ContainsKey(consumerId))
             {
-                return _relationsByConsumerId[consumerId];
+                foreach (Dictionary<string, DsiRelation> relations2 in _relationsByConsumerId[consumerId].Values)
+                {
+                    relations.AddRange(relations2.Values);
+                }
             }
-            else
-            {
-                return new List<IDsiRelation>();
-            }
+            return relations;
         }
 
         public IEnumerable<IDsiRelation> GetRelations()
         {
             List<IDsiRelation> relations = new List<IDsiRelation>();
-            foreach (List<IDsiRelation> consumerRelations in _relationsByConsumerId.Values)
+            foreach (Dictionary<int, Dictionary<string, DsiRelation>> consumerRelations in _relationsByConsumerId.Values)
             {
-                relations.AddRange(consumerRelations);
+                foreach (Dictionary<string, DsiRelation> relations2 in consumerRelations.Values)
+                {
+                    relations.AddRange(relations2.Values);
+                }
             }
             return relations;
         }
 
         public bool DoesRelationExist(int consumerId, int providerId)
         {
-            bool doesRelationExist = false;
-
-            if (_relationsByConsumerId.ContainsKey(consumerId))
-            {
-                foreach (IDsiRelation relation in _relationsByConsumerId[consumerId])
-                {
-                    if (relation.ProviderId == providerId)
-                    {
-                        doesRelationExist = true;
-                    }
-                }
-            }
-
-            return doesRelationExist;
+            return _relationsByConsumerId.ContainsKey(consumerId) &&
+                   _relationsByConsumerId[consumerId].ContainsKey(providerId);
         }
 
         public int TotalRelationCount => _relationCount;
@@ -143,16 +138,7 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             get
             {
-                int count = 0;
-
-                foreach (IDsiElement element in _elementsDataModel.GetElements())
-                {
-                    if (_relationsByConsumerId.ContainsKey(element.Id))
-                    {
-                        count += _relationsByConsumerId[element.Id].Count;
-                    }
-                }
-                return count;
+                return GetRelations().Count();
             }
         }
 
@@ -169,25 +155,25 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
 
-        public void RemoveRelationsForRemovedElements()
-        {
-            foreach (IDsiElement element in _elementsDataModel.GetElements())
-            {
-                if (_relationsByConsumerId.ContainsKey(element.Id))
-                {
-                    IDsiRelation[] relations = _relationsByConsumerId[element.Id].ToArray();
+        //public void RemoveRelationsForRemovedElements()
+        //{
+        //    foreach (IDsiElement element in _elementsDataModel.GetElements())
+        //    {
+        //        if (_relationsByConsumerId.ContainsKey(element.Id))
+        //        {
+        //            IDsiRelation[] relations = _relationsByConsumerId[element.Id].ToArray();
 
-                    foreach (IDsiRelation relation in relations)
-                    {
-                        if ((_elementsDataModel.FindElementById(relation.ConsumerId) == null) ||
-                            (_elementsDataModel.FindElementById(relation.ProviderId) == null))
-                        {
-                            _relationsByConsumerId[element.Id].Remove(relation);
-                        }
-                    }
-                }
-            }
-        }
+        //            foreach (IDsiRelation relation in relations)
+        //            {
+        //                if ((_elementsDataModel.FindElementById(relation.ConsumerId) == null) ||
+        //                    (_elementsDataModel.FindElementById(relation.ProviderId) == null))
+        //                {
+        //                    _relationsByConsumerId[element.Id].Remove(relation);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         private void IncrementRelationTypeCount(string type)
         {
@@ -196,6 +182,21 @@ namespace DsmSuite.Analyzer.Model.Core
                 _relationTypeCount[type] = 0;
             }
             _relationTypeCount[type]++;
+        }
+
+        private Dictionary<string, DsiRelation> GetRelations(int consumerId, int providerId)
+        {
+            if (!_relationsByConsumerId.ContainsKey(consumerId))
+            {
+                _relationsByConsumerId[consumerId] = new Dictionary<int, Dictionary<string, DsiRelation>>();
+            }
+
+            if (!_relationsByConsumerId[consumerId].ContainsKey(providerId))
+            {
+                _relationsByConsumerId[consumerId][providerId] = new Dictionary<string, DsiRelation>();
+            }
+
+            return _relationsByConsumerId[consumerId][providerId];
         }
     }
 }

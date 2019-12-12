@@ -164,7 +164,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void Cleanup()
         {
-            _relationsDataModel.RemoveRelationsForRemovedElements();
+            //_relationsDataModel.RemoveRelationsForRemovedElements();
         }
     }
 }

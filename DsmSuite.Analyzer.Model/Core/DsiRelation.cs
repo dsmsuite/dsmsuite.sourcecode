@@ -18,6 +18,6 @@ namespace DsmSuite.Analyzer.Model.Core
         public int ConsumerId { get; }
         public int ProviderId { get; }
         public string Type { get; }
-        public int Weight { get; }
+        public int Weight { get; set; }
     }
 }
