@@ -19,9 +19,18 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationTypeCount = new Dictionary<string, int>();
         }
 
+        public void Clear()
+        {
+            _relationsByConsumerId.Clear();
+            _relationTypeCount.Clear();
+            _relationCount = 0;
+        }
+
         public void ImportRelation(int consumerId, int providerId, string type, int weight)
         {
             Logger.LogDataModelMessage("Import relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
+
+            _relationCount++;
 
             IncrementRelationTypeCount(type);
 
