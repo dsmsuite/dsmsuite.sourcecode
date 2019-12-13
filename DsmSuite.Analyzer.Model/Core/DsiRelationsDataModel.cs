@@ -16,10 +16,11 @@ namespace DsmSuite.Analyzer.Model.Core
         public DsiRelationsDataModel(DsiElementsDataModel elementsDataModel)
         {
             _elementsDataModel = elementsDataModel;
+            _elementsDataModel.ElementRemoved += OnElementRemoved;
             _relationsByConsumerId = new Dictionary<int, Dictionary<int, Dictionary<string, DsiRelation>>>();
             _relationTypeCount = new Dictionary<string, int>();
         }
-
+        
         public void Clear()
         {
             _relationsByConsumerId.Clear();
@@ -172,26 +173,6 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
 
-        //public void RemoveRelationsForRemovedElements()
-        //{
-        //    foreach (IDsiElement element in _elementsDataModel.GetElements())
-        //    {
-        //        if (_relationsByConsumerId.ContainsKey(element.Id))
-        //        {
-        //            IDsiRelation[] relations = _relationsByConsumerId[element.Id].ToArray();
-
-        //            foreach (IDsiRelation relation in relations)
-        //            {
-        //                if ((_elementsDataModel.FindElementById(relation.ConsumerId) == null) ||
-        //                    (_elementsDataModel.FindElementById(relation.ProviderId) == null))
-        //                {
-        //                    _relationsByConsumerId[element.Id].Remove(relation);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
         private void IncrementRelationTypeCount(string type)
         {
             if (!_relationTypeCount.ContainsKey(type))
@@ -214,6 +195,27 @@ namespace DsmSuite.Analyzer.Model.Core
             }
 
             return _relationsByConsumerId[consumerId][providerId];
+        }
+
+        private void OnElementRemoved(object sender, int elementId)
+        {
+            if (_relationsByConsumerId.ContainsKey(elementId))
+            {
+                foreach (var relationsByProviderId in _relationsByConsumerId[elementId].Values)
+                {
+                    _relationCount -= relationsByProviderId.Count;
+                }
+                _relationsByConsumerId.Remove(elementId);
+            }
+
+            foreach (var relationsByProviderId in _relationsByConsumerId.Values)
+            {
+                if (relationsByProviderId.ContainsKey(elementId))
+                {
+                    _relationCount -= relationsByProviderId[elementId].Count;
+                    relationsByProviderId.Remove(elementId);
+                }
+            }
         }
     }
 }

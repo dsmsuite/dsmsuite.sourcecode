@@ -1,5 +1,6 @@
 ﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
+using System;
 using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.Model.Core
@@ -9,6 +10,8 @@ namespace DsmSuite.Analyzer.Model.Core
         private readonly Dictionary<string, IDsiElement> _elementsByName;
         private readonly Dictionary<int, IDsiElement> _elementsById;
         private readonly Dictionary<string, int> _elementTypeCount;
+
+        public event EventHandler<int> ElementRemoved;
 
         public DsiElementsDataModel()
         {
@@ -61,6 +64,8 @@ namespace DsmSuite.Analyzer.Model.Core
             string key = element.Name.ToLower();
             _elementsByName.Remove(key);
             _elementsById.Remove(element.Id);
+
+            ElementRemoved?.Invoke(this, element.Id);
         }
 
         public void RenameElement(IDsiElement element, string newName)
