@@ -27,11 +27,26 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationCount = 0;
         }
 
-        public void ImportRelation(int consumerId, int providerId, string type, int weight)
+        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight)
         {
             Logger.LogDataModelMessage("Import relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
 
-            AddOrUpdateRelation(consumerId, providerId, type, weight);
+            _relationCount++;
+
+            DsiRelation relation = null;
+
+            IDsiElement consumer = _elementsDataModel.FindElementById(consumerId);
+            IDsiElement provider = _elementsDataModel.FindElementById(providerId);
+
+            if ((consumer != null) && (provider != null))
+            {
+                relation = AddOrUpdateRelation(consumer.Id, provider.Id, type, weight);
+            }
+            else
+            {
+                AnalyzerLogger.LogDataModelRelationNotResolved(consumerId.ToString(), providerId.ToString());
+            }
+            return relation;
         }
         
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
@@ -39,6 +54,8 @@ namespace DsmSuite.Analyzer.Model.Core
             Logger.LogDataModelMessage("Add relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
 
             DsiRelation relation = null;
+
+            _relationCount++;
 
             IDsiElement consumer = _elementsDataModel.FindElementByName(consumerName);
             IDsiElement provider = _elementsDataModel.FindElementByName(providerName);
@@ -67,7 +84,6 @@ namespace DsmSuite.Analyzer.Model.Core
             }
             else
             {
-                _relationCount++;
                 relations[type] = new DsiRelation(consumerId, providerId, type, weight);
             }
 
