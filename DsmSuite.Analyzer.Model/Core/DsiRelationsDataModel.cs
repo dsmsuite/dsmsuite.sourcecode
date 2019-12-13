@@ -80,6 +80,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
             if (relations.ContainsKey(type))
             {
+                _relationCount--; // Revert previous increment when relation exists and just weight increased
                 relations[type].Weight += weight;
             }
             else
