@@ -2,6 +2,7 @@
 using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Test.Core
 {
@@ -16,7 +17,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
     /// --+----+------+------+------+------+------+------+
     ///   | a1 |      |      |      | 2    |      |      |
     /// a +----+------+------+------+------+------+------+
-    ///   | a2 |      |      |      | 3    |  4   |      |
+    ///   | a2 |  1   |      |      | 3    |  4   |      |
     /// -------+------+------+------+------+------+------+
     ///   | b1 | 1000 | 200  |      |      |      |      |
     /// b +----+------+------+------+------+------+------+
@@ -100,7 +101,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
-            Assert.AreEqual(8, model.GetRelationCount());
+            Assert.AreEqual(9, model.GetRelationCount());
 
             foreach(DsmElement element in _elementsDataModel.GetElements())
             {
@@ -113,7 +114,6 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
-            Assert.AreEqual(8, model.GetRelationCount());
 
             Assert.AreEqual(1000, model.GetDependencyWeight(_a1.Id, _b1.Id));
             Assert.AreEqual(200, model.GetDependencyWeight(_a2.Id, _b1.Id));
@@ -133,8 +133,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
-            Assert.AreEqual(8, model.GetRelationCount());
-
+            
             Assert.AreEqual(1000, model.GetDependencyWeight(_a1.Id, _b1.Id));
             Assert.AreEqual(200, model.GetDependencyWeight(_a2.Id, _b1.Id));
             Assert.AreEqual(30, model.GetDependencyWeight(_a1.Id, _b2.Id));
@@ -168,11 +167,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
-            Assert.AreEqual(8, model.GetRelationCount());
+            int relationCountBefore = model.GetRelationCount();
 
             IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
             model.RemoveRelation(relation.Id);
-            Assert.AreEqual(7, model.GetRelationCount());
+            Assert.AreEqual(relationCountBefore - 1, model.GetRelationCount());
         }
 
         [TestMethod]
@@ -180,14 +179,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
-            Assert.AreEqual(8, model.GetRelationCount());
 
             IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
             model.RemoveRelation(relation.Id);
-            Assert.AreEqual(7, model.GetRelationCount());
+            int relationCountBefore = model.GetRelationCount();
 
             model.UnremoveRelation(relation.Id);
-            Assert.AreEqual(8, model.GetRelationCount());
+            Assert.AreEqual(relationCountBefore + 1, model.GetRelationCount());
         }
 
         [TestMethod]
@@ -305,6 +303,83 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.IsFalse(model.IsCyclicDependency(_c1.Id, _c2.Id));
         }
 
+        [TestMethod]
+        public void Given_RelationExistsBetweenElements_When_FindRelations_Then_ReturnsRelationBwetweenTheElements()
+        {
+            DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
+            CreateElementRelations(model);
+
+            List<IDsmRelation> relations = model.FindRelations(_a, _b).OrderBy(x => x.Id).ToList();
+            Assert.AreEqual(4, relations.Count);
+            Assert.AreEqual(_a1.Id, relations[0].ConsumerId);
+            Assert.AreEqual(_b1.Id, relations[0].ProviderId);
+            Assert.AreEqual(1000, relations[0].Weight);
+
+            Assert.AreEqual(_a2.Id, relations[1].ConsumerId);
+            Assert.AreEqual(_b1.Id, relations[1].ProviderId);
+            Assert.AreEqual(200, relations[1].Weight);
+
+            Assert.AreEqual(_a1.Id, relations[2].ConsumerId);
+            Assert.AreEqual(_b2.Id, relations[2].ProviderId);
+            Assert.AreEqual(30, relations[2].Weight);
+
+            Assert.AreEqual(_a2.Id, relations[3].ConsumerId);
+            Assert.AreEqual(_b2.Id, relations[3].ProviderId);
+            Assert.AreEqual(4, relations[3].Weight);
+        }
+
+        [TestMethod]
+        public void Given_RelationExistsBetweenElements_When_FindRelationsWhereElementHasProviderRole_Then_ReturnsRelationFromConsumers()
+        {
+            DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
+            CreateElementRelations(model);
+
+            List<IDsmRelation> relations = model.FindRelationsWhereElementHasProviderRole(_a).OrderBy(x => x.Id).ToList();
+            Assert.AreEqual(3, relations.Count);
+
+            Assert.AreEqual(_b2.Id, relations[0].ConsumerId);
+            Assert.AreEqual(_a1.Id, relations[0].ProviderId);
+            Assert.AreEqual(2, relations[0].Weight);
+
+            Assert.AreEqual(_b2.Id, relations[1].ConsumerId);
+            Assert.AreEqual(_a2.Id, relations[1].ProviderId);
+            Assert.AreEqual(3, relations[1].Weight);
+
+            Assert.AreEqual(_c1.Id, relations[2].ConsumerId);
+            Assert.AreEqual(_a2.Id, relations[2].ProviderId);
+            Assert.AreEqual(4, relations[2].Weight);
+        }
+
+        [TestMethod]
+        public void Given_RelationExistsBetweenElements_When_FindRelationsWhereElementHasConsumerRole_Then_ReturnsRelationFromConsumers()
+        {
+            DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
+            CreateElementRelations(model);
+
+            List<IDsmRelation> relations = model.FindRelationsWhereElementHasConsumerRole(_a).OrderBy(x => x.Id).ToList();
+            Assert.AreEqual(5, relations.Count);
+
+            Assert.AreEqual(_a1.Id, relations[0].ConsumerId);
+            Assert.AreEqual(_b1.Id, relations[0].ProviderId);
+            Assert.AreEqual(1000, relations[0].Weight);
+
+            Assert.AreEqual(_a2.Id, relations[1].ConsumerId);
+            Assert.AreEqual(_b1.Id, relations[1].ProviderId);
+            Assert.AreEqual(200, relations[1].Weight);
+
+            Assert.AreEqual(_a1.Id, relations[2].ConsumerId);
+            Assert.AreEqual(_b2.Id, relations[2].ProviderId);
+            Assert.AreEqual(30, relations[2].Weight);
+
+            Assert.AreEqual(_a2.Id, relations[3].ConsumerId);
+            Assert.AreEqual(_b2.Id, relations[3].ProviderId);
+            Assert.AreEqual(4, relations[3].Weight);
+
+            Assert.AreEqual(_a1.Id, relations[4].ConsumerId);
+            Assert.AreEqual(_c2.Id, relations[4].ProviderId);
+            Assert.AreEqual(5, relations[4].Weight);
+        }
+
         private void CreateElementHierarchy()
         {
             _a = _elementsDataModel.ImportElement(11, "a", "", 1, false, null);
@@ -320,6 +395,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
         private void CreateElementRelations(DsmRelationsDataModel relationsDataModel)
         {
+            relationsDataModel.AddRelation(_a1.Id, _a2.Id, "", 1);
+
             relationsDataModel.AddRelation(_a1.Id, _b1.Id, "", 1000);
             relationsDataModel.AddRelation(_a2.Id, _b1.Id, "", 200);
             relationsDataModel.AddRelation(_a1.Id, _b2.Id, "", 30);

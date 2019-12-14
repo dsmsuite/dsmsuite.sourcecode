@@ -185,12 +185,12 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element)
         {
-            return _relationsDataModel.FindProviderRelations(element);
+            return _relationsDataModel.FindRelationsWhereElementHasProviderRole(element);
         }
 
         public IEnumerable<IDsmRelation> FindConsumerRelations(IDsmElement element)
         {
-            return _relationsDataModel.FindConsumerRelations(element);
+            return _relationsDataModel.FindRelationsWhereElementHasConsumerRole(element);
         }
 
         public IEnumerable<IDsmRelation> GetRelations()

@@ -121,8 +121,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
             IList<IDsmRelation> relations = new List<IDsmRelation>();
-            List<int> consumerIds = GetIdsOfElementAndItsChidren(consumer);
-            List<int> providerIds = GetIdsOfElementAndItsChidren(provider);
+            HashSet<int> consumerIds = GetIdsOfElementAndItsChidren(consumer);
+            HashSet<int> providerIds = GetIdsOfElementAndItsChidren(provider);
             foreach (int consumerId in consumerIds)
             {
                 foreach (int providerId in providerIds)
@@ -136,29 +136,41 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element)
+        public IEnumerable<IDsmRelation> FindRelationsWhereElementHasProviderRole(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
-            List<int> providerIds = GetIdsOfElementAndItsChidren(element);
+            HashSet<int> providerIds = GetIdsOfElementAndItsChidren(element);
             foreach (int providerId in providerIds)
             {
                 if (_relationsByProvider.ContainsKey(providerId))
                 {
-                    relations.AddRange(_relationsByProvider[providerId].Values);
+                    foreach (IDsmRelation relation in _relationsByProvider[providerId].Values)
+                    {
+                        if (!providerIds.Contains(relation.ConsumerId))
+                        {
+                            relations.Add(relation);
+                        }
+                    }
                 }
             }
             return relations;
         }
 
-        public IEnumerable<IDsmRelation> FindConsumerRelations(IDsmElement element)
+        public IEnumerable<IDsmRelation> FindRelationsWhereElementHasConsumerRole(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
-            List<int> consumerIds = GetIdsOfElementAndItsChidren(element);
+            HashSet<int> consumerIds = GetIdsOfElementAndItsChidren(element);
             foreach (int consumerId in consumerIds)
             {
                 if (_relationsByConsumer.ContainsKey(consumerId))
                 {
-                    relations.AddRange(_relationsByConsumer[consumerId].Values);
+                    foreach (IDsmRelation relation in _relationsByConsumer[consumerId].Values)
+                    {
+                        if (!consumerIds.Contains(relation.ProviderId))
+                        {
+                            relations.Add(relation);
+                        }
+                    }
                 }
             }
             return relations;
@@ -322,14 +334,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        private List<int> GetIdsOfElementAndItsChidren(IDsmElement element)
+        private HashSet<int> GetIdsOfElementAndItsChidren(IDsmElement element)
         {
-            List<int> ids = new List<int>();
+            HashSet<int> ids = new HashSet<int>();
             GetIdsOfElementAndItsChidren(element, ids);
             return ids;
         }
 
-        private void GetIdsOfElementAndItsChidren(IDsmElement element, List<int> ids)
+        private void GetIdsOfElementAndItsChidren(IDsmElement element, HashSet<int> ids)
         {
             ids.Add(element.Id);
 
