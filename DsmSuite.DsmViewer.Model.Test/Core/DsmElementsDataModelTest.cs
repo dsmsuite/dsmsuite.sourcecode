@@ -110,7 +110,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual("type", foundElement.Type);
             Assert.AreEqual(10, foundElement.Order);
             Assert.AreEqual(true, foundElement.IsExpanded);
-            Assert.AreEqual(null, foundElement.Parent);
+            Assert.IsNotNull(foundElement.Parent); // root element
+            Assert.IsNull(foundElement.Parent.Parent);
         }
 
         [TestMethod]
@@ -252,8 +253,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
 
+ 
         [TestMethod]
-        public void Given_AnElementIsInTheModel_When_RemoveElementIsCalled_Then_ElementAndItChildrenAreNotFoundAnymore()
+        public void Given_AnElementIsInTheModel_When_RemoveElementIsCalled_Then_ElementAndItsChildrenAreRemoved()
         {
             DsmElementsDataModel model = new DsmElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -262,39 +264,86 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(1, a.Id);
             IDsmElement a1 = model.AddElement("a1", "eta", a.Id);
             Assert.AreEqual(2, a1.Id);
+            IDsmElement a2 = model.AddElement("a2", "eta", a.Id);
+            Assert.AreEqual(3, a2.Id);
 
             IDsmElement b = model.AddElement("b", "", null);
-            Assert.AreEqual(3, b.Id);
+            Assert.AreEqual(4, b.Id);
             IDsmElement b1 = model.AddElement("b1", "etb", b.Id);
-            Assert.AreEqual(4, b1.Id);
-            IDsmElement b2 = model.AddElement("b2", "etb", b.Id);
-            Assert.AreEqual(5, b2.Id);
-            IDsmElement b3 = model.AddElement("b3", "etb", b.Id);
-            Assert.AreEqual(6, b3.Id);
-            Assert.AreEqual(6, model.TotalElementCount);
+            Assert.AreEqual(5, b1.Id);
+
+            Assert.AreEqual(5, model.TotalElementCount);
 
             List<IDsmElement> rootElementsBefore = model.GetRootElements().OrderBy(x => x.Id).ToList();
             Assert.AreEqual(2, rootElementsBefore.Count);
 
             Assert.AreEqual(a, rootElementsBefore[0]);
-            Assert.AreEqual(1, rootElementsBefore[0].Children.Count);
+            Assert.AreEqual(2, rootElementsBefore[0].Children.Count);
             Assert.AreEqual(a1, rootElementsBefore[0].Children[0]);
+            Assert.AreEqual(a2, rootElementsBefore[0].Children[1]);
 
             Assert.AreEqual(b, rootElementsBefore[1]);
-            Assert.AreEqual(3, rootElementsBefore[1].Children.Count);
+            Assert.AreEqual(1, rootElementsBefore[1].Children.Count);
             Assert.AreEqual(b1, rootElementsBefore[1].Children[0]);
-            Assert.AreEqual(b2, rootElementsBefore[1].Children[1]);
-            Assert.AreEqual(b3, rootElementsBefore[1].Children[2]);
 
-            model.RemoveElement(b.Id);
+            model.RemoveElement(a.Id);
+
             Assert.AreEqual(2, model.TotalElementCount);
+
+            List<IDsmElement> rootElementsAfter = model.GetRootElements().OrderBy(x => x.Id).ToList();
+            Assert.AreEqual(1, rootElementsAfter.Count);
+
+            Assert.AreEqual(b, rootElementsAfter[0]);
+            Assert.AreEqual(1, rootElementsAfter[0].Children.Count);
+            Assert.AreEqual(b1, rootElementsAfter[0].Children[0]);
+        }
+
+        [TestMethod]
+        public void Given_AnElementIsInTheModel_When_UnremoveElementIsCalled_Then_ElementAndItsChildrenAreRestored()
+        {
+            DsmElementsDataModel model = new DsmElementsDataModel();
+            Assert.AreEqual(0, model.TotalElementCount);
+
+            IDsmElement a = model.AddElement("a", "", null);
+            Assert.AreEqual(1, a.Id);
+            IDsmElement a1 = model.AddElement("a1", "eta", a.Id);
+            Assert.AreEqual(2, a1.Id);
+            IDsmElement a2 = model.AddElement("a2", "eta", a.Id);
+            Assert.AreEqual(3, a2.Id);
+
+            IDsmElement b = model.AddElement("b", "", null);
+            Assert.AreEqual(4, b.Id);
+            IDsmElement b1 = model.AddElement("b1", "etb", b.Id);
+            Assert.AreEqual(5, b1.Id);
+
+            Assert.AreEqual(5, model.TotalElementCount);
+
+            model.RemoveElement(a.Id);
+
+            Assert.AreEqual(2, model.TotalElementCount);
+
+            List<IDsmElement> rootElementsBefore = model.GetRootElements().OrderBy(x => x.Id).ToList();
+            Assert.AreEqual(1, rootElementsBefore.Count);
+
+            Assert.AreEqual(b, rootElementsBefore[0]);
+            Assert.AreEqual(1, rootElementsBefore[0].Children.Count);
+            Assert.AreEqual(b1, rootElementsBefore[0].Children[0]);
+
+            model.UnremoveElement(a.Id);
+
+            Assert.AreEqual(5, model.TotalElementCount);
 
             List<IDsmElement> rootElementsAfter = model.GetRootElements().OrderBy(x => x.Id).ToList();
             Assert.AreEqual(2, rootElementsAfter.Count);
 
             Assert.AreEqual(a, rootElementsAfter[0]);
-            Assert.AreEqual(1, rootElementsAfter[0].Children.Count);
+            Assert.AreEqual(2, rootElementsAfter[0].Children.Count);
             Assert.AreEqual(a1, rootElementsAfter[0].Children[0]);
+            Assert.AreEqual(a2, rootElementsAfter[0].Children[1]);
+
+            Assert.AreEqual(b, rootElementsAfter[1]);
+            Assert.AreEqual(1, rootElementsAfter[1].Children.Count);
+            Assert.AreEqual(b1, rootElementsAfter[1].Children[0]);
         }
 
         [TestMethod]
@@ -308,61 +357,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement a1 = model.AddElement("a1", "eta", a.Id);
             Assert.AreEqual(2, a1.Id);
             Assert.AreEqual(2, model.TotalElementCount);
+            Assert.AreEqual(1, a.Children.Count);
 
             a.IsExpanded = true;
 
             model.RemoveElement(a1.Id);
             Assert.AreEqual(1, model.TotalElementCount);
+            Assert.AreEqual(0, a.Children.Count);
 
             Assert.IsFalse(a.IsExpanded);
-        }
-
-        [TestMethod]
-        public void Given_AnElementIsInTheModel_When_UnremoveElementIsCalled_Then_ElementIsNotFoundAgain()
-        {
-            DsmElementsDataModel model = new DsmElementsDataModel();
-            Assert.AreEqual(0, model.TotalElementCount);
-
-            IDsmElement a = model.AddElement("a", "", null);
-            Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.AddElement("a1", "eta", a.Id);
-            Assert.AreEqual(2, a1.Id);
-
-            IDsmElement b = model.AddElement("b", "", null);
-            Assert.AreEqual(3, b.Id);
-            IDsmElement b1 = model.AddElement("b1", "etb", b.Id);
-            Assert.AreEqual(4, b1.Id);
-            IDsmElement b2 = model.AddElement("b2", "etb", b.Id);
-            Assert.AreEqual(5, b2.Id);
-            IDsmElement b3 = model.AddElement("b3", "etb", b.Id);
-            Assert.AreEqual(6, b3.Id);
-            Assert.AreEqual(6, model.TotalElementCount);
-
-            model.RemoveElement(b.Id);
-            Assert.AreEqual(2, model.TotalElementCount);
-
-            List<IDsmElement> rootElementsBefore = model.GetRootElements().OrderBy(x => x.Id).ToList();
-            Assert.AreEqual(2, rootElementsBefore.Count);
-
-            Assert.AreEqual(a, rootElementsBefore[0]);
-            Assert.AreEqual(1, rootElementsBefore[0].Children.Count);
-            Assert.AreEqual(a1, rootElementsBefore[0].Children[0]);
-
-            model.UnremoveElement(b.Id);
-            Assert.AreEqual(6, model.TotalElementCount);
-
-            List<IDsmElement> rootElementsAfter = model.GetRootElements().OrderBy(x => x.Id).ToList();
-            Assert.AreEqual(2, rootElementsAfter.Count);
-
-            Assert.AreEqual(a, rootElementsAfter[0]);
-            Assert.AreEqual(1, rootElementsAfter[0].Children.Count);
-            Assert.AreEqual(a1, rootElementsAfter[0].Children[0]);
-
-            Assert.AreEqual(b, rootElementsAfter[1]);
-            Assert.AreEqual(3, rootElementsAfter[1].Children.Count);
-            Assert.AreEqual(b1, rootElementsAfter[1].Children[0]);
-            Assert.AreEqual(b2, rootElementsAfter[1].Children[1]);
-            Assert.AreEqual(b3, rootElementsAfter[1].Children[2]);
         }
 
         [TestMethod]
