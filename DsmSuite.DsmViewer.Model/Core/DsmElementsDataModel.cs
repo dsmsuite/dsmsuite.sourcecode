@@ -113,6 +113,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _rootElements;
         }
 
+        public IEnumerable<IDsmElement> GetElements()
+        {
+            return _elementsById.Values;
+        }
+
         public int GetElementCount()
         {
             return _elementsById.Count;
