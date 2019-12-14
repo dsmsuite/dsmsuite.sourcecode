@@ -236,7 +236,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return ids;
         }
 
-        public void GetIdsOfElementAndItsChidren(IDsmElement element, List<int> ids)
+        private void GetIdsOfElementAndItsChidren(IDsmElement element, List<int> ids)
         {
             ids.Add(element.Id);
 
