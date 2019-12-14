@@ -8,8 +8,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
     {
         private readonly MatrixViewModel _matrixViewModel;
 
-        public ElementTreeItemViewModel(MatrixViewModel matrixViewModel, IDsmElement element, ElementRole role, int depth) :
-            base(matrixViewModel, element, role, depth)
+        public ElementTreeItemViewModel(MatrixViewModel matrixViewModel, IDsmElement element, ElementRole role) :
+            base(matrixViewModel, element, role)
         {
             _matrixViewModel = matrixViewModel;
             Children = new ObservableCollection<ElementTreeItemViewModel>();
@@ -76,7 +76,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             {
                 foreach (IDsmElement child in Element.Children)
                 {
-                    Children.Add(new ElementTreeItemViewModel(_matrixViewModel, child, Role, Depth + 1));
+                    Children.Add(new ElementTreeItemViewModel(_matrixViewModel, child, Role));
                 }
             }
             else

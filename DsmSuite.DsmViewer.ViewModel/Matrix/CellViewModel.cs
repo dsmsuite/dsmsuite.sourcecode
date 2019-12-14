@@ -19,24 +19,30 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             Row = row;
             Column = column;
 
-            _depth = 1;
+            _depth = 0;
             if (IdentityCell)
             {
                 _depth = provider.Depth;
             }
-            else if (provider.Element.Parent?.Id == consumer.Element.Parent?.Id)
+            else
             {
-                _depth = provider.Depth - 1;
+                if ((consumer.Element.Parent != null) &&
+                    (provider.Element.Parent != null) &&
+                    (consumer.Element.Parent.Id == provider.Element.Parent.Id))
+                {
+                    _depth = provider.Depth - 1; // Color of parent
+                }
+                else
+                {
+                    _depth = Math.Min(provider.Depth - 1, consumer.Depth - 1);
+                }
             }
-            else if (provider.Element.Parent != null && consumer.Element.Parent != null)
-            {
-                _depth = Math.Min(provider.Depth - 1, consumer.Depth - 1);
-            }
+
             Color = Math.Abs(_depth % 4);
 
             matrixViewModel.PropertyChanged += OnMainViewModelPropertyChanged;
         }
-       
+
         private void OnMainViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             MatrixViewModel viewModel = sender as MatrixViewModel;

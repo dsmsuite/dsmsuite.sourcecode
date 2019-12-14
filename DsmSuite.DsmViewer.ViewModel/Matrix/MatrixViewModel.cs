@@ -209,10 +209,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private ObservableCollection<ElementTreeItemViewModel> CreateProviderTree()
         {
             var rows = new ObservableCollection<ElementTreeItemViewModel>();
-            int depth = 0;
             foreach (IDsmElement provider in _selectedElements)
             {
-                ElementTreeItemViewModel viewModel = new ElementTreeItemViewModel(this, provider, ElementRole.Provider, depth);
+                ElementTreeItemViewModel viewModel = new ElementTreeItemViewModel(this, provider, ElementRole.Provider);
                 rows.Add(viewModel);
             }
             return rows;
@@ -259,7 +258,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             if (!treeViewItem.IsExpanded)
             {
-                leafElementViewModels.Add(new ElementViewModel(this, treeViewItem.Element, ElementRole.Consumer, treeViewItem.Element.Depth));
+                leafElementViewModels.Add(new ElementViewModel(this, treeViewItem.Element, ElementRole.Consumer));
             }
 
             foreach (ElementTreeItemViewModel child in treeViewItem.Children)
