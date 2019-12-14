@@ -28,7 +28,6 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             model.Clear();
 
             Assert.AreEqual(0, model.TotalElementCount);
-            Assert.AreEqual(0, model.GetElements().Count());
         }
 
         [TestMethod]

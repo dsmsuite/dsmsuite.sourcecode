@@ -25,11 +25,11 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void UnremoveElement(int id);
         int ElementCount { get; }
         void ChangeParent(IDsmElement element, IDsmElement parent);
-        void ReorderChildren(IDsmElement element, IVector permutationVector);
+        void ReorderChildren(IDsmElement element, IElementSequence sequence);
         IDsmElement NextSibling(IDsmElement element);
         IDsmElement PreviousSibling(IDsmElement element);
-        bool Swap(IDsmElement fisrt, IDsmElement second);
-        IEnumerable<IDsmElement> RootElements { get; }
+        bool Swap(IDsmElement first, IDsmElement second);
+        IEnumerable<IDsmElement> GetRootElements();
 
         IDsmElement GetElementById(int id);
         IDsmElement GetElementByFullname(string fullname);

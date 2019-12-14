@@ -15,9 +15,9 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             _model = model;
         }
 
-        public Vector Partition()
+        public IElementSequence Partition()
         {
-            Vector vector = new Vector(_element.Children.Count);
+            IElementSequence vector = new ElementSequence(_element.Children.Count);
             if (_element.Children.Count > 1)
             {
                 SquareMatrix matrix = BuildPartitionMatrix(_element.Children);

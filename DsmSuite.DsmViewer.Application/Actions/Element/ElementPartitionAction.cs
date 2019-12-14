@@ -8,7 +8,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
     {
         private readonly IDsmElement _element;
         private readonly  string _algorithm;
-        private Vector _vector;
+        private IElementSequence _vector;
 
         public ElementPartitionAction(IDsmModel model, IDsmElement element, string algorithm) : base(model)
         {
@@ -25,10 +25,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override void Undo()
         {
-            Vector inverseVector = new Vector(_vector.Size());
-            for (int i = 0; i < _vector.Size(); i++)
+            ElementSequence inverseVector = new ElementSequence(_vector.GetNumberOfElements());
+            for (int i = 0; i < _vector.GetNumberOfElements(); i++)
             {
-                inverseVector.Set(_vector.Get(i), i);
+                inverseVector.SetIndex(_vector.GetIndex(i), i);
             }
             Model.ReorderChildren(_element, inverseVector);
         }

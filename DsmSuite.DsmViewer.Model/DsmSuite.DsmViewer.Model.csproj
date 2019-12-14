@@ -26,7 +26,7 @@
   <ItemGroup>
     <Compile Include="Core\DsmElementsDataModel.cs" />
     <Compile Include="Core\DsmRelationsDataModel.cs" />
-    <Compile Include="Interfaces\Vector.cs" />
+    <Compile Include="Interfaces\IElementSequence.cs" />
     <Compile Include="Core\DsmModel.cs" />
     <Compile Include="Persistency\DsmModelFile.cs" />
     <Compile Include="Persistency\IDsmModelFileCallback.cs" />

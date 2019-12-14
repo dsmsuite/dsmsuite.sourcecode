@@ -32,9 +32,9 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
         /// Run the partition calculation
         /// </summary>
         /// <returns>The result in the form of a vector</returns>
-        public Vector Partition()
+        public IElementSequence Partition()
         {
-            Vector vector = new Vector(_sm.Size);
+            ElementSequence vector = new ElementSequence(_sm.Size);
 
             DoPartitioning(vector);
 
@@ -45,7 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
         /// the main partitioning algo.
         /// </summary>
         /// <param name="vector"></param>
-        void DoPartitioning(Vector vector)
+        void DoPartitioning(ElementSequence vector)
         {
             // Move all empty rows to the top - an save the index of the first non empty row (start)
             int start = MoveZeroRows(vector);
@@ -60,18 +60,18 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             ToBlockTriangular(vector, start, end);
         }
 
-        int MoveZeroRows(Vector vector)
+        int MoveZeroRows(ElementSequence vector)
         {
             int nextSwapRow = 0;
 
             // bubble zero rows to the top - starting from the bottom - to leave any rows already moved
             // by the user stay in place
 
-            int i = vector.Size() - 1;
+            int i = vector.GetNumberOfElements() - 1;
             while (i >= nextSwapRow)
             {
                 var allZero = true;
-                for (int j = 0; j < vector.Size() && allZero; j++)
+                for (int j = 0; j < vector.GetNumberOfElements() && allZero; j++)
                 {
                     if (i != j)  // the diagonal must obviously be ignored
                     {
@@ -98,9 +98,9 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             return nextSwapRow;
         }
 
-        int MoveFullRows(Vector vector, int start)
+        int MoveFullRows(ElementSequence vector, int start)
         {
-            int nextSwapRow = vector.Size() - 1;
+            int nextSwapRow = vector.GetNumberOfElements() - 1;
 
             // bubble complete rows to the bottom starting 'start'
             int i = start;
@@ -108,7 +108,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             while (i <= nextSwapRow)
             {
                 var allNonZero = true;
-                for (int j = 0; j < vector.Size() && allNonZero; j++)
+                for (int j = 0; j < vector.GetNumberOfElements() && allNonZero; j++)
                 {
                     if (i != j)
                     {
@@ -133,7 +133,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             return nextSwapRow;
         }
 
-        int MoveZeroColumns(Vector vector, int start, int end)
+        int MoveZeroColumns(ElementSequence vector, int start, int end)
         {
             int j = start;
             int nextSwap = end; //vector.Size - 1;
@@ -141,7 +141,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             while (j <= nextSwap)
             {
                 var allZeros = true;
-                for (int i = 0; i < vector.Size() && allZeros; i++)
+                for (int i = 0; i < vector.GetNumberOfElements() && allZeros; i++)
                 {
                     if (i != j)
                     {
@@ -175,12 +175,12 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
         /// <param name="i"></param>
         /// <param name="j"></param>
         /// <returns></returns>
-        int TrueMatrixValue(Vector vector, int i, int j)
+        int TrueMatrixValue(ElementSequence vector, int i, int j)
         {
-            return _sm.Get(vector.Get(i), vector.Get(j));
+            return _sm.Get(vector.GetIndex(i), vector.GetIndex(j));
         }
 
-        void ToBlockTriangular(Vector vector, int start, int end)
+        void ToBlockTriangular(ElementSequence vector, int start, int end)
         {
             bool doLoop;
 
@@ -188,7 +188,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
 
             // For holding Permutations already examined during one iteration of the outer while loop
             IDictionary<Permutation, object> permMap =
-                new Dictionary<Permutation, object>(vector.Size() * vector.Size() / 2);
+                new Dictionary<Permutation, object>(vector.GetNumberOfElements() * vector.GetNumberOfElements() / 2);
             do
             {
                 doLoop = false;
@@ -244,7 +244,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             while (doLoop);
         }
 
-        long Score(Vector vector)
+        long Score(ElementSequence vector)
         {
             // We're trying to maximise the number of empty cells in the upper triangle
             // filled in cells are pushed down - for a set of two orderings the one with the higher
@@ -254,13 +254,13 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             // calculate score for cells in upper triangle (TODO possible optimisation between start and end)
             long score = 0;
 
-            for (int i = 0; i < vector.Size() - 1; i++)
+            for (int i = 0; i < vector.GetNumberOfElements() - 1; i++)
             {
-                for (int j = i + 1; j < vector.Size(); j++)
+                for (int j = i + 1; j < vector.GetNumberOfElements(); j++)
                 {
                     if (TrueMatrixValue(vector, i, j) == 0)
                     {
-                        score += CellScore(i, j, vector.Size());
+                        score += CellScore(i, j, vector.GetNumberOfElements());
                     }
                 }
             }

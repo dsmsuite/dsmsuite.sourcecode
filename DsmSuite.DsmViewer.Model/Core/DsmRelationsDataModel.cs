@@ -121,8 +121,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
             IList<IDsmRelation> relations = new List<IDsmRelation>();
-            List<int> consumerIds = _elementsDataModel.GetIdsOfElementAndItsChidren(consumer);
-            List<int> providerIds = _elementsDataModel.GetIdsOfElementAndItsChidren(provider);
+            List<int> consumerIds = GetIdsOfElementAndItsChidren(consumer);
+            List<int> providerIds = GetIdsOfElementAndItsChidren(provider);
             foreach (int consumerId in consumerIds)
             {
                 foreach (int providerId in providerIds)
@@ -139,7 +139,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
-            List<int> providerIds = _elementsDataModel.GetIdsOfElementAndItsChidren(element);
+            List<int> providerIds = GetIdsOfElementAndItsChidren(element);
             foreach (int providerId in providerIds)
             {
                 if (_relationsByProvider.ContainsKey(providerId))
@@ -153,7 +153,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<IDsmRelation> FindConsumerRelations(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
-            List<int> consumerIds = _elementsDataModel.GetIdsOfElementAndItsChidren(element);
+            List<int> consumerIds = GetIdsOfElementAndItsChidren(element);
             foreach (int consumerId in consumerIds)
             {
                 if (_relationsByConsumer.ContainsKey(consumerId))
@@ -230,10 +230,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             int consumerId = relation.ConsumerId;
             int providerId = relation.ProviderId;
 
-            IDsmElement currentConsumer = _elementsDataModel.GetElementById(consumerId);
+            IDsmElement currentConsumer = _elementsDataModel.FindElementById(consumerId);
             while (currentConsumer != null)
             {
-                IDsmElement currentProvider = _elementsDataModel.GetElementById(providerId);
+                IDsmElement currentProvider = _elementsDataModel.FindElementById(providerId);
                 while (currentProvider != null)
                 {
                     modifyWeight(currentConsumer.Id, currentProvider.Id, relation.Weight);
@@ -319,6 +319,23 @@ namespace DsmSuite.DsmViewer.Model.Core
                 {
                     providerRelations.Remove(element.Id);
                 }
+            }
+        }
+
+        private List<int> GetIdsOfElementAndItsChidren(IDsmElement element)
+        {
+            List<int> ids = new List<int>();
+            GetIdsOfElementAndItsChidren(element, ids);
+            return ids;
+        }
+
+        private void GetIdsOfElementAndItsChidren(IDsmElement element, List<int> ids)
+        {
+            ids.Add(element.Id);
+
+            foreach (IDsmElement child in element.Children)
+            {
+                GetIdsOfElementAndItsChidren(child, ids);
             }
         }
     }

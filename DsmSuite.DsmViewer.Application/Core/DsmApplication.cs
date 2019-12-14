@@ -98,7 +98,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));
         }
 
-        public IEnumerable<IDsmElement> RootElements => _model.RootElements;
+        public IEnumerable<IDsmElement> RootElements => _model.GetRootElements();
 
         public bool IsModified => _model.IsModified;
 

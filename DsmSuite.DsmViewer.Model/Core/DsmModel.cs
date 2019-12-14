@@ -97,8 +97,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _metaDataModel.GetMetaDataGroupItems(groupName);
         }
 
-        public IEnumerable<IDsmElement> RootElements => _elementsDataModel.RootElements;
-
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
         {
             return _elementsDataModel.ImportElement(id, name, type, order, expanded, parentId);
@@ -116,7 +114,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void ChangeParent(IDsmElement element, IDsmElement parent)
         {
-            _elementsDataModel.ChangeParent(element, parent);
+            _elementsDataModel.ChangeElementParent(element, parent);
         }
 
         public void RemoveElement(int id)
@@ -145,16 +143,16 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsDataModel.AssignElementOrder();
         }
 
-        public int ElementCount => _elementsDataModel.ElementCount;
+        public int ElementCount => _elementsDataModel.TotalElementCount;
 
         public IDsmElement GetElementById(int id)
         {
-            return _elementsDataModel.GetElementById(id);
+            return _elementsDataModel.FindElementById(id);
         }
 
         public IDsmElement GetElementByFullname(string fullname)
         {
-            return _elementsDataModel.GetElementByFullname(fullname);
+            return _elementsDataModel.FindElementByFullname(fullname);
         }
 
         public IEnumerable<IDsmElement> SearchElements(string text)
@@ -222,9 +220,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.GetRelationCount();
         }
 
-        public void ReorderChildren(IDsmElement element, IVector permutationVector)
+        public void ReorderChildren(IDsmElement element, IElementSequence sequence)
         {
-            _elementsDataModel.ReorderChildren(element, permutationVector);
+            _elementsDataModel.ReorderChildren(element, sequence);
         }
 
         public bool Swap(IDsmElement element1, IDsmElement element2)

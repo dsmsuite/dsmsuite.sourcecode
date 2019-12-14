@@ -28,7 +28,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             if (applyPartitionAlgorithm)
             {
                 Logger.LogUserMessage("Partitioning full model. Please wait!");
-                foreach (IDsmElement element in _model.RootElements)
+                foreach (IDsmElement element in _model.GetRootElements())
                 {
                     Partition(element);
                 }
@@ -40,7 +40,7 @@ namespace DsmSuite.DsmViewer.Application.Import
         private void Partition(IDsmElement element)
         {
             Partitioner partitioner = new Partitioner(element, _model);
-            Vector vector = partitioner.Partition();
+            IElementSequence vector = partitioner.Partition();
             _model.ReorderChildren(element, vector);
 
             foreach (IDsmElement child in element.Children)

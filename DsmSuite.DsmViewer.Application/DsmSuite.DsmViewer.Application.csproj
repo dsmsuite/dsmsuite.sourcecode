@@ -27,6 +27,7 @@
   <ItemGroup>
     <Compile Include="Actions\Base\ActionBase.cs" />
     <Compile Include="Actions\Base\ActionManager.cs" />
+    <Compile Include="Algorithm\ElementSequence.cs" />
     <Compile Include="Import\IMetaDataItem.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Actions\Element\ElementCreateAction.cs" />

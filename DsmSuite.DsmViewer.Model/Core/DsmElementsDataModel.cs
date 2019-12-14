@@ -27,8 +27,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             _lastElementId = 0;
         }
 
-        public IEnumerable<IDsmElement> RootElements => _rootElements;
-
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
         {
             Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} order={order} expanded={expanded} parentId={parentId}");
@@ -55,7 +53,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 }
             }
 
-            IDsmElement element = GetElementByFullname(fullname);
+            IDsmElement element = FindElementByFullname(fullname);
             if (element == null)
             {
                 _lastElementId++;
@@ -75,7 +73,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        public void ChangeParent(IDsmElement element, IDsmElement parent)
+        public void ChangeElementParent(IDsmElement element, IDsmElement parent)
         {
             Logger.LogDataModelMessage($"Change element parent name={element.Name} from {element.Parent.Fullname} to {parent.Fullname}");
 
@@ -95,17 +93,8 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (_elementsById.ContainsKey(id))
             {
                 IDsmElement element = _elementsById[id];
-                DsmElement parent = element.Parent as DsmElement;
-                if (parent != null)
-                {
-                    parent.RemoveChild(element);
-                    if (!parent.HasChildren)
-                    {
-                        parent.IsExpanded = false;
-                    }
-                }
-
                 UnregisterElement(element);
+                CollapseParentWhenLastChildWillBeRemoved(element);
             }
         }
 
@@ -115,11 +104,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (_deletedElementsById.ContainsKey(id))
             {
                 IDsmElement element = _deletedElementsById[id];
-                RegisterElement(element);
+                ReregisterElement(element);
             }
         }
-
-
+        
         public IEnumerable<IDsmElement> GetRootElements()
         {
             return _rootElements;
@@ -145,14 +133,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        public int ElementCount => _elementsById.Count;
+        public int TotalElementCount => _elementsById.Count;
 
-        public IDsmElement GetElementById(int id)
+        public IDsmElement FindElementById(int id)
         {
             return _elementsById.ContainsKey(id) ? _elementsById[id] : null;
         }
 
-        public IDsmElement GetElementByFullname(string fullname)
+        public IDsmElement FindElementByFullname(string fullname)
         {
             IEnumerable<IDsmElement> elementWithName = from element in _elementsById.Values
                                                        where element.Fullname == fullname
@@ -168,7 +156,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                    select element;
         }
 
-        public void ReorderChildren(IDsmElement element, IVector permutationVector)
+        public void ReorderChildren(IDsmElement element, IElementSequence sequence)
         {
             DsmElement parent = element as DsmElement;
             if (parent != null)
@@ -180,9 +168,9 @@ namespace DsmSuite.DsmViewer.Model.Core
                     parent.RemoveChild(child);
                 }
 
-                for (int i = 0; i < permutationVector.Size(); i++)
+                for (int i = 0; i < sequence.GetNumberOfElements(); i++)
                 {
-                    parent.AddChild(clonedChildren[permutationVector.Get(i)]);
+                    parent.AddChild(clonedChildren[sequence.GetIndex(i)]);
                 }
             }
             AssignElementOrder();
@@ -227,23 +215,6 @@ namespace DsmSuite.DsmViewer.Model.Core
                 previous = element.PreviousSibling;
             }
             return previous;
-        }
-
-        public List<int> GetIdsOfElementAndItsChidren(IDsmElement element)
-        {
-            List<int> ids = new List<int>();
-            GetIdsOfElementAndItsChidren(element, ids);
-            return ids;
-        }
-
-        private void GetIdsOfElementAndItsChidren(IDsmElement element, List<int> ids)
-        {
-            ids.Add(element.Id);
-
-            foreach (IDsmElement child in element.Children)
-            {
-                GetIdsOfElementAndItsChidren(child, ids);
-            }
         }
 
         private IDsmElement AddElement(int id, string name, string type, int order, bool expanded, int? parentId)
@@ -311,5 +282,28 @@ namespace DsmSuite.DsmViewer.Model.Core
                 UnregisterElement(child);
             }
         }
+
+        private void ReregisterElement(IDsmElement element)
+        {
+            _elementsById[element.Id] = element;
+
+            foreach (IDsmElement child in element.Children)
+            {
+                ReregisterElement(child);
+            }
+        }
+
+        private void CollapseParentWhenLastChildWillBeRemoved(IDsmElement element)
+        {
+            DsmElement parent = element.Parent as DsmElement;
+            if (parent != null)
+            {
+                if (element.Parent?.Children.Count == 1)
+                {
+                    parent.IsExpanded = false;
+                }
+            }
+        }
+
     }
 }
