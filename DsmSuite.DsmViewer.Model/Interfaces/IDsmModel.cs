@@ -6,9 +6,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 {
     public interface IDsmModel
     {
-        event EventHandler<bool> Modified;
         string ModelFilename { get; }
-        bool IsModified { get; }
         bool IsCompressed { get; }
 
         void Clear();

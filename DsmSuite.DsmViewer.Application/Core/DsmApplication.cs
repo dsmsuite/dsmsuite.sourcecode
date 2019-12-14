@@ -26,7 +26,6 @@ namespace DsmSuite.DsmViewer.Application.Core
         public DsmApplication(IDsmModel model)
         {
             _model = model;
-            _model.Modified += OnModelModified;
 
             _actionManager = new ActionManager();
             _actionManager.ActionPerformed += OnActionPerformed;
@@ -36,7 +35,9 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         private void OnActionPerformed(object sender, EventArgs e)
         {
-            ActionPerformed?.Invoke(sender, e);
+            ActionPerformed?.Invoke(this, e);
+            IsModified = true;
+            Modified?.Invoke(this, IsModified);
         }
 
         public bool CanUndo()
@@ -69,11 +70,6 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Redo();
         }
 
-        private void OnModelModified(object sender, bool e)
-        {
-            Modified?.Invoke(sender,e);
-        }
-
         public void ImportModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile)
         {
             if (!File.Exists(dsmFilename) || overwriteDsmFile)
@@ -96,11 +92,13 @@ namespace DsmSuite.DsmViewer.Application.Core
         public async Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));
+            IsModified = false;
+            Modified?.Invoke(this, IsModified);
         }
 
         public IEnumerable<IDsmElement> RootElements => _model.GetRootElements();
 
-        public bool IsModified => _model.IsModified;
+        public bool IsModified { get; private set; }
 
         public string GetOverviewReport()
         {

@@ -14,9 +14,6 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly MetaDataModel _metaDataModel;
         private readonly DsmElementsDataModel _elementsDataModel;
         private readonly DsmRelationsDataModel _relationsDataModel;
-        private bool _isModified;
-
-        public event EventHandler<bool> Modified;
 
         public DsmModel(string processStep, Assembly executingAssembly)
         {
@@ -44,24 +41,10 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, this);
             dsmModelFile.Save(compressFile, progress);
-            IsModified = false;
             ModelFilename = dsmFilename;
         }
 
         public string ModelFilename { get; private set; }
-
-        public bool IsModified
-        {
-            get
-            {
-                return _isModified;
-            }
-            private set
-            {
-                _isModified = value;
-                Modified?.Invoke(this, _isModified);
-            }
-        }
 
         public bool IsCompressed { get; private set; }
 
