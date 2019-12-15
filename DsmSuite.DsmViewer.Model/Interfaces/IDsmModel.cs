@@ -37,8 +37,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void EditElement(IDsmElement relation, string name, string type);
         IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight);
         void EditRelation(IDsmRelation relation, string type, int weight);
-        void RemoveRelation(int relationId);
-        void UnremoveRelation(int relationId);
+        void RemoveRelation(IDsmRelation relation);
+        void UnremoveRelation(IDsmRelation relation);
         int GetDependencyWeight(int consumerId, int providerId);
         bool IsCyclicDependency(int consumerId, int providerId);
 

@@ -28,7 +28,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         {
             if (_relation != null)
             {
-                Model.RemoveRelation(_relation.Id);
+                Model.RemoveRelation(_relation);
             }
         }
 

@@ -87,18 +87,16 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        public void RemoveRelation(int relationId)
+        public void RemoveRelation(IDsmRelation relation)
         {
-            IDsmRelation relation = _relationsById[relationId];
             if (relation != null)
             {
                 UnregisterRelation(relation);
             }
         }
 
-        public void UnremoveRelation(int relationId)
+        public void UnremoveRelation(IDsmRelation relation)
         {
-            IDsmRelation relation = _deletedRelationsById[relationId];
             if (relation != null)
             {
                 RegisterRelation(relation);

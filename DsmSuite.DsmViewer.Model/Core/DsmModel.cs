@@ -158,14 +158,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             _relationsDataModel.EditRelation(relation, type, weight);
         }
 
-        public void RemoveRelation(int relationId)
+        public void RemoveRelation(IDsmRelation relation)
         {
-            _relationsDataModel.RemoveRelation(relationId);
+            _relationsDataModel.RemoveRelation(relation);
         }
 
-        public void UnremoveRelation(int relationId)
+        public void UnremoveRelation(IDsmRelation relation)
         {
-            _relationsDataModel.UnremoveRelation(relationId);
+            _relationsDataModel.UnremoveRelation(relation);
         }
 
         public int GetDependencyWeight(int consumerId, int providerId)
