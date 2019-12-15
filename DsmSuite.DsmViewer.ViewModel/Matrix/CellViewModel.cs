@@ -52,7 +52,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public bool Cyclic { get; }
         public int Row { get; }
         public int Column { get; }
-        public bool IdentityCell => Consumer.Id == Provider.Id;
 
         public int Color
         {
