@@ -90,6 +90,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             var providerLeafs = FindProviderLeafElementViewModels(Providers);
             Consumers = FindConsumerLeafElementViewModels(Providers);
             Dependencies = UpdateCells(providerLeafs, Consumers);
+            RestoreSelections(Providers);
         }
         
         public ElementViewModel SelectedConsumer
@@ -227,8 +228,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void AddProviderTreeChilderen(ElementTreeItemViewModel viewModel)
         {
-            RestoreSelections(viewModel);
-
             if (viewModel.Element.IsExpanded)
             {
                 foreach (IDsmElement child in viewModel.Element.Children)
@@ -244,16 +243,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
         }
 
-        private void RestoreSelections(ElementTreeItemViewModel viewModel)
+        private void RestoreSelections(ObservableCollection<ElementTreeItemViewModel> tree)
         {
-            if (viewModel.Id == _selectedConsumerId)
+            foreach (ElementTreeItemViewModel viewModel in tree)
             {
-                SelectedConsumer = viewModel;
-            }
+                if (viewModel.Id == _selectedConsumerId)
+                {
+                    SelectedConsumer = viewModel;
+                }
 
-            if (viewModel.Id == _selectedProviderId)
-            {
-                SelectedProvider = viewModel;
+                if (viewModel.Id == _selectedProviderId)
+                {
+                    SelectedProvider = viewModel;
+                }
+
+                RestoreSelections(viewModel.Children);
             }
         }
 
