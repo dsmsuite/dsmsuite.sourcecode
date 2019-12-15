@@ -19,8 +19,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
 
         IDsmElement AddElement(string name, string type, int? parentId);
-        void RemoveElement(int id);
-        void UnremoveElement(int id);
+        void RemoveElement(IDsmElement element);
+        void UnremoveElement(IDsmElement element);
         int ElementCount { get; }
         void ChangeParent(IDsmElement element, IDsmElement parent);
         void ReorderChildren(IDsmElement element, IElementSequence sequence);

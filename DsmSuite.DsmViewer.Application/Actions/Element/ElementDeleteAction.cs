@@ -14,12 +14,12 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override void Do()
         {
-            Model.RemoveElement(_element.Id);
+            Model.RemoveElement(_element);
         }
 
         public override void Undo()
         {
-            Model.UnremoveElement(_element.Id);
+            Model.UnremoveElement(_element);
         }
 
         public override string Type => "Delete element";

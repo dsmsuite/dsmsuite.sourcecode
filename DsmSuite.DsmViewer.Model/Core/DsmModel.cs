@@ -100,14 +100,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsDataModel.ChangeElementParent(element, parent);
         }
 
-        public void RemoveElement(int id)
+        public void RemoveElement(IDsmElement element)
         {
-            _elementsDataModel.RemoveElement(id);
+            _elementsDataModel.RemoveElement(element);
         }
 
-        public void UnremoveElement(int id)
+        public void UnremoveElement(IDsmElement element)
         {
-            _elementsDataModel.UnremoveElement(id);
+            _elementsDataModel.UnremoveElement(element);
         }
 
 

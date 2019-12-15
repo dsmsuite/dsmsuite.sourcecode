@@ -24,7 +24,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override void Undo()
         {
-            Model.RemoveElement(_element.Id);
+            Model.RemoveElement(_element);
         }
 
         public override string Type => "Create element";

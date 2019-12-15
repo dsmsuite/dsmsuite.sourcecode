@@ -22,7 +22,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsDataModel = elementsDataModel;
             _elementsDataModel.ElementRemoved += OnElementRemoved;
             _elementsDataModel.ElementUnremoved += OnElementUnremoved;
-            _elementsDataModel.ElementParentChanged += OnElementParentChanged;
 
             _relationsById = new Dictionary<int, IDsmRelation>();
             _relationsByProvider = new Dictionary<int, Dictionary<int, IDsmRelation>>();
@@ -31,9 +30,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _lastRelationId = 0;
             _weights = new Dictionary<int, Dictionary<int, int>>();
         }
-
-
-
+        
         public void Clear()
         {
             _relationsById.Clear();
@@ -192,6 +189,65 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsById.Values.Count;
         }
 
+        private void OnElementRemoved(object sender, IDsmElement element)
+        {
+            HashSet<int> elementIds = GetIdsOfElementAndItsChidren(element);
+
+            List<IDsmRelation> toBeRemovedRelations = new List<IDsmRelation>();
+             
+            foreach(IDsmRelation relation in _relationsById.Values)
+            {
+                if (elementIds.Contains(relation.ConsumerId) ||
+                    elementIds.Contains(relation.ProviderId))
+                {
+                    toBeRemovedRelations.Add(relation);
+                }
+            }
+
+            foreach(IDsmRelation relation in toBeRemovedRelations)
+            {
+                UnregisterRelation(relation);
+            }
+        }
+
+        private void OnElementUnremoved(object sender, IDsmElement element)
+        {
+            HashSet<int> elementIds = GetIdsOfElementAndItsChidren(element);
+
+            List<IDsmRelation> toBeUnremovedRelations = new List<IDsmRelation>();
+
+            foreach (IDsmRelation relation in _deletedRelationsById.Values)
+            {
+                if (elementIds.Contains(relation.ConsumerId) ||
+                    elementIds.Contains(relation.ProviderId))
+                {
+                    toBeUnremovedRelations.Add(relation);
+                }
+            }
+
+            foreach (IDsmRelation relation in toBeUnremovedRelations)
+            {
+                RegisterRelation(relation);
+            }
+        }
+       
+        private HashSet<int> GetIdsOfElementAndItsChidren(IDsmElement element)
+        {
+            HashSet<int> ids = new HashSet<int>();
+            GetIdsOfElementAndItsChidren(element, ids);
+            return ids;
+        }
+
+        private void GetIdsOfElementAndItsChidren(IDsmElement element, HashSet<int> ids)
+        {
+            ids.Add(element.Id);
+
+            foreach (IDsmElement child in element.Children)
+            {
+                GetIdsOfElementAndItsChidren(child, ids);
+            }
+        }
+
         private void RegisterRelation(IDsmRelation relation)
         {
             _relationsById[relation.Id] = relation;
@@ -235,12 +291,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             UpdateWeights(relation, RemoveWeight);
         }
 
-        /// <summary>
-        /// Delegate used to add or subtract dependency weights.
-        /// </summary>
-        /// <param name="consumerId"></param>
-        /// <param name="providerId"></param>
-        /// <param name="weight"></param>
         private delegate void ModifyWeight(int consumerId, int providerId, int weight);
 
         private void UpdateWeights(IDsmRelation relation, ModifyWeight modifyWeight)
@@ -307,67 +357,5 @@ namespace DsmSuite.DsmViewer.Model.Core
                 Logger.LogError($"No weight defined between consumerId={consumerId} and providerId={providerId}");
             }
         }
-
-        private void OnElementRemoved(object sender, int e)
-        {
-        }
-
-        private void OnElementUnremoved(object sender, int e)
-        {
-        }
-
-        private void OnElementParentChanged(object sender, Tuple<int, int, int> e)
-        {
-        }
-        
-        private void UnregisterConsumerRelations(int elementId)
-        {
-            if (_relationsByConsumer.ContainsKey(elementId))
-            {
-                _relationsByConsumer.Remove(elementId);
-            }
-
-            foreach (Dictionary<int, IDsmRelation> consumerRelations in _relationsByConsumer.Values)
-            {
-                if (consumerRelations.ContainsKey(elementId))
-                {
-                    consumerRelations.Remove(elementId);
-                }
-            }
-        }
-
-        private void UnregisterProviderRelations(int elementId)
-        {
-            if (_relationsByProvider.ContainsKey(elementId))
-            {
-                _relationsByProvider.Remove(elementId);
-            }
-
-            foreach (Dictionary<int, IDsmRelation> providerRelations in _relationsByProvider.Values)
-            {
-                if (providerRelations.ContainsKey(elementId))
-                {
-                    providerRelations.Remove(elementId);
-                }
-            }
-        }
-
-        private HashSet<int> GetIdsOfElementAndItsChidren(IDsmElement element)
-        {
-            HashSet<int> ids = new HashSet<int>();
-            GetIdsOfElementAndItsChidren(element, ids);
-            return ids;
-        }
-
-        private void GetIdsOfElementAndItsChidren(IDsmElement element, HashSet<int> ids)
-        {
-            ids.Add(element.Id);
-
-            foreach (IDsmElement child in element.Children)
-            {
-                GetIdsOfElementAndItsChidren(child, ids);
-            }
-        }
-
     }
 }

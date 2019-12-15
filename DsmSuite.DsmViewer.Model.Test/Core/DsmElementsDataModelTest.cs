@@ -286,7 +286,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(1, rootElementsBefore[1].Children.Count);
             Assert.AreEqual(b1, rootElementsBefore[1].Children[0]);
 
-            model.RemoveElement(a.Id);
+            model.RemoveElement(a);
 
             Assert.AreEqual(2, model.TotalElementCount);
 
@@ -318,7 +318,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(5, model.TotalElementCount);
 
-            model.RemoveElement(a.Id);
+            model.RemoveElement(a);
 
             Assert.AreEqual(2, model.TotalElementCount);
 
@@ -329,7 +329,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(1, rootElementsBefore[0].Children.Count);
             Assert.AreEqual(b1, rootElementsBefore[0].Children[0]);
 
-            model.UnremoveElement(a.Id);
+            model.UnremoveElement(a);
 
             Assert.AreEqual(5, model.TotalElementCount);
 
@@ -361,7 +361,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             a.IsExpanded = true;
 
-            model.RemoveElement(a1.Id);
+            model.RemoveElement(a1);
             Assert.AreEqual(1, model.TotalElementCount);
             Assert.AreEqual(0, a.Children.Count);
 
