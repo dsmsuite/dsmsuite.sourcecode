@@ -1,5 +1,6 @@
 ﻿using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,9 @@ namespace DsmSuite.DsmViewer.Model.Core
         public DsmRelationsDataModel(DsmElementsDataModel elementsDataModel)
         {
             _elementsDataModel = elementsDataModel;
+            _elementsDataModel.ElementRemoved += OnElementRemoved;
+            _elementsDataModel.ElementUnremoved += OnElementUnremoved;
+            _elementsDataModel.ElementParentChanged += OnElementParentChanged;
 
             _relationsById = new Dictionary<int, IDsmRelation>();
             _relationsByProvider = new Dictionary<int, Dictionary<int, IDsmRelation>>();
@@ -27,6 +31,8 @@ namespace DsmSuite.DsmViewer.Model.Core
             _lastRelationId = 0;
             _weights = new Dictionary<int, Dictionary<int, int>>();
         }
+
+
 
         public void Clear()
         {
@@ -302,34 +308,46 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        private void UnregisterConsumerRelations(IDsmElement element)
+        private void OnElementRemoved(object sender, int e)
         {
-            if (_relationsByConsumer.ContainsKey(element.Id))
+        }
+
+        private void OnElementUnremoved(object sender, int e)
+        {
+        }
+
+        private void OnElementParentChanged(object sender, Tuple<int, int, int> e)
+        {
+        }
+        
+        private void UnregisterConsumerRelations(int elementId)
+        {
+            if (_relationsByConsumer.ContainsKey(elementId))
             {
-                _relationsByConsumer.Remove(element.Id);
+                _relationsByConsumer.Remove(elementId);
             }
 
             foreach (Dictionary<int, IDsmRelation> consumerRelations in _relationsByConsumer.Values)
             {
-                if (consumerRelations.ContainsKey(element.Id))
+                if (consumerRelations.ContainsKey(elementId))
                 {
-                    consumerRelations.Remove(element.Id);
+                    consumerRelations.Remove(elementId);
                 }
             }
         }
 
-        private void UnregisterProviderRelations(IDsmElement element)
+        private void UnregisterProviderRelations(int elementId)
         {
-            if (_relationsByProvider.ContainsKey(element.Id))
+            if (_relationsByProvider.ContainsKey(elementId))
             {
-                _relationsByProvider.Remove(element.Id);
+                _relationsByProvider.Remove(elementId);
             }
 
             foreach (Dictionary<int, IDsmRelation> providerRelations in _relationsByProvider.Values)
             {
-                if (providerRelations.ContainsKey(element.Id))
+                if (providerRelations.ContainsKey(elementId))
                 {
-                    providerRelations.Remove(element.Id);
+                    providerRelations.Remove(elementId);
                 }
             }
         }
@@ -350,5 +368,6 @@ namespace DsmSuite.DsmViewer.Model.Core
                 GetIdsOfElementAndItsChidren(child, ids);
             }
         }
+
     }
 }

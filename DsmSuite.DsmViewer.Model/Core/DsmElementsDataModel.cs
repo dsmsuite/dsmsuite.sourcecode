@@ -1,5 +1,6 @@
 ﻿using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,10 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly Dictionary<int /*id*/, IDsmElement> _deletedElementsById;
         private int _lastElementId;
         private DsmElement _root;
+
+        public event EventHandler<int> ElementRemoved;
+        public event EventHandler<int> ElementUnremoved;
+        public event EventHandler<Tuple<int, int, int>> ElementParentChanged;
 
         public DsmElementsDataModel()
         {
@@ -83,6 +88,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 currentParent.RemoveChild(element);
                 newParent.AddChild(element);
+
+                Tuple<int, int, int> change = new Tuple<int, int, int>(element.Id, currentParent.Id, newParent.Id);
+                ElementParentChanged?.Invoke(this, change);
             }
         }
 
@@ -95,17 +103,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 IDsmElement element = _elementsById[id];
                 RemoveElementFromParent(element);
                 UnregisterElement(element);
-            }
-        }
-
-        private void RemoveElementFromParent(IDsmElement element)
-        {
-            DsmElement parent = element.Parent as DsmElement;
-            parent?.RemoveChild(element);
-
-            if (parent.Children.Count == 0)
-            {
-                parent.IsExpanded = false;
+                ElementRemoved?.Invoke(this, id);
             }
         }
 
@@ -118,6 +116,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 DsmElement parent = element.Parent as DsmElement;
                 parent.AddChild(element);
                 ReregisterElement(element);
+                ElementUnremoved?.Invoke(this, id);
             }
         }
         
@@ -309,6 +308,17 @@ namespace DsmSuite.DsmViewer.Model.Core
             foreach (IDsmElement child in element.Children)
             {
                 ReregisterElement(child);
+            }
+        }
+
+        private void RemoveElementFromParent(IDsmElement element)
+        {
+            DsmElement parent = element.Parent as DsmElement;
+            parent?.RemoveChild(element);
+
+            if (parent.Children.Count == 0)
+            {
+                parent.IsExpanded = false;
             }
         }
     }
