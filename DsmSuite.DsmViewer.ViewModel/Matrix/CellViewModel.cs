@@ -19,10 +19,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             Column = column;
             Color = color;
 
-            matrixViewModel.PropertyChanged += OnMainViewModelPropertyChanged;
+            matrixViewModel.PropertyChanged += OnMatrixModelPropertyChanged;
         }
 
-        private void OnMainViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnMatrixModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             MatrixViewModel viewModel = sender as MatrixViewModel;
             if (viewModel != null)
@@ -31,11 +31,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 {
                     case nameof(MatrixViewModel.SelectedProvider):
                     case nameof(MatrixViewModel.SelectedConsumer):
-                        IsSelected = (viewModel.SelectedProvider == Provider) || (viewModel.SelectedConsumer == Consumer);
+                        IsSelected = (viewModel.SelectedProvider?.Id == Provider.Id) || (viewModel.SelectedConsumer?.Id == Consumer.Id);
                         break;
                     case nameof(MatrixViewModel.HoveredProvider):
                     case nameof(MatrixViewModel.HoveredConsumer):
-                        IsHovered = (viewModel.HoveredProvider == Provider) || (viewModel.HoveredConsumer == Consumer);
+                        IsHovered = (viewModel.HoveredProvider?.Id == Provider.Id) || (viewModel.HoveredConsumer?.Id == Consumer.Id);
                         break;
                 }
             }

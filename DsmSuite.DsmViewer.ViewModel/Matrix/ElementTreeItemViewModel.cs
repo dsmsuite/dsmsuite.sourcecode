@@ -14,7 +14,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _matrixViewModel = matrixViewModel;
             Depth = depth;
             Children = new ObservableCollection<ElementTreeItemViewModel>();
-            UpdateChildren();
 
             MoveCommand = _matrixViewModel.MoveCommand;
             MoveUpCommand = _matrixViewModel.MoveUpCommand;
@@ -42,7 +41,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             set
             {
                 Element.IsExpanded = value;
-                UpdateChildren();
             }
         }
 
@@ -73,21 +71,5 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
 
         }
-        private void UpdateChildren()
-        {
-            if (Element.IsExpanded)
-            {
-                foreach (IDsmElement child in Element.Children)
-                {
-                    Children.Add(new ElementTreeItemViewModel(_matrixViewModel, child, Role, Depth + 1));
-                }
-            }
-            else
-            {
-                Children.Clear();
-            }
-        }
-
-
     }
 }

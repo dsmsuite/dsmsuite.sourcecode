@@ -377,13 +377,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ToggleElementExpandedExecute(object parameter)
         {
-            ActiveMatrix.SelectedProvider = ActiveMatrix.HoveredProvider;
+            ActiveMatrix.SelectProvider(ActiveMatrix.HoveredProvider);
             if ((SelectedProviderTreeItem != null) && (SelectedProviderTreeItem.IsExpandable))
             {
                 SelectedProviderTreeItem.IsExpanded = !SelectedProviderTreeItem.IsExpanded;
             }
 
-            ActiveMatrix.Update();
+            ActiveMatrix.Reload();
         }
 
         private bool ToggleElementExpandedCanExecute(object parameter)
@@ -544,7 +544,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 {
                     if (ActiveMatrix != null)
                     {
-                        ActiveMatrix.SelectedProvider = item;
+                        ActiveMatrix.SelectProvider(item);
                     }
                 }
                 else

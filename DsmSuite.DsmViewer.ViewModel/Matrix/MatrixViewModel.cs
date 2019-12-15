@@ -20,6 +20,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private ElementViewModel _selectedProvider;
         private ElementViewModel _hoveredConsumer;
         private ElementViewModel _hoveredProvider;
+        private int? _selectedConsumerId;
+        private int? _selectedProviderId;
         private ObservableCollection<ElementTreeItemViewModel> _providers;
         private IList<ElementViewModel> _consumers;
         private IList<IList<CellViewModel>> _dependencies;
@@ -57,8 +59,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             DeleteRelationCommand = mainViewModel.DeleteRelationCommand;
             EditRelationCommand = mainViewModel.EditRelationCommand;
 
-            Providers = CreateProviderTree();
-            Update();
+            Reload();
+
             ZoomLevel = 1.0;
         }
 
@@ -85,24 +87,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public void Reload()
         {
             Providers = CreateProviderTree();
-            Update();
-        }
-        
-        public void Update()
-        {
-            Providers = _providers; // To trigger update tree view
             var providerLeafs = FindProviderLeafElementViewModels(Providers);
             Consumers = FindConsumerLeafElementViewModels(Providers);
             Dependencies = UpdateCells(providerLeafs, Consumers);
         }
-
+        
         public ElementViewModel SelectedConsumer
         {
             get
             {
                 return _selectedConsumer;
             }
-            set
+            private set
             {
                 _selectedConsumer = value; OnPropertyChanged();
             }
@@ -114,7 +110,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             {
                 return _selectedProvider;
             }
-            set
+            private set
             {
                 _selectedProvider = value; OnPropertyChanged();
             }
@@ -124,18 +120,27 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             SelectedConsumer = consumer;
             SelectedProvider = null;
+
+            _selectedConsumerId = consumer.Id;
+            _selectedProviderId = null;
         }
 
         public void SelectProvider(ElementViewModel provider)
         {
             SelectedConsumer = null;
             SelectedProvider = provider;
+
+            _selectedConsumerId = null;
+            _selectedProviderId = provider.Id;
         }
 
         public void SelectCell(ElementViewModel consumer, ElementViewModel provider)
         {
             SelectedConsumer = consumer;
             SelectedProvider = provider;
+
+            _selectedConsumerId = consumer.Id;
+            _selectedProviderId = provider.Id;
         }
 
         public ElementViewModel HoveredConsumer
@@ -210,13 +215,46 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private ObservableCollection<ElementTreeItemViewModel> CreateProviderTree()
         {
             int depth = 0;
-            var rows = new ObservableCollection<ElementTreeItemViewModel>();
+            var rootViewModels = new ObservableCollection<ElementTreeItemViewModel>();
             foreach (IDsmElement provider in _selectedElements)
             {
                 ElementTreeItemViewModel viewModel = new ElementTreeItemViewModel(this, provider, ElementRole.Provider, depth);
-                rows.Add(viewModel);
+                rootViewModels.Add(viewModel);
+                AddProviderTreeChilderen(viewModel);
             }
-            return rows;
+            return rootViewModels;
+        }
+
+        private void AddProviderTreeChilderen(ElementTreeItemViewModel viewModel)
+        {
+            RestoreSelections(viewModel);
+
+            if (viewModel.Element.IsExpanded)
+            {
+                foreach (IDsmElement child in viewModel.Element.Children)
+                {
+                    ElementTreeItemViewModel childViewModel = new ElementTreeItemViewModel(this, child, ElementRole.Provider, viewModel.Depth + 1);
+                    viewModel.Children.Add(childViewModel);
+                    AddProviderTreeChilderen(childViewModel);
+                }
+            }
+            else
+            {
+                viewModel.Children.Clear();
+            }
+        }
+
+        private void RestoreSelections(ElementTreeItemViewModel viewModel)
+        {
+            if (viewModel.Id == _selectedConsumerId)
+            {
+                SelectedConsumer = viewModel;
+            }
+
+            if (viewModel.Id == _selectedProviderId)
+            {
+                SelectedProvider = viewModel;
+            }
         }
 
         private IList<ElementViewModel> FindProviderLeafElementViewModels(ObservableCollection<ElementTreeItemViewModel> tree)

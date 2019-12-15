@@ -24,7 +24,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _role = role;
             Depth = depth;
             Color = Math.Abs(Depth % 4);
-            matrixViewModel.PropertyChanged += OnMainViewModelPropertyChanged;
+            matrixViewModel.PropertyChanged += OnMatrixViewModelPropertyChanged;
         }
 
         public int Color
@@ -55,7 +55,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         public ElementRole Role => _role;
 
-        private void OnMainViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnMatrixViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             MatrixViewModel viewModel = sender as MatrixViewModel;
             if (viewModel != null)
@@ -65,25 +65,25 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     case nameof(MatrixViewModel.SelectedProvider):
                         if (_role == ElementRole.Provider)
                         {
-                            IsSelected = (viewModel.SelectedProvider == this);
+                            IsSelected = (viewModel.SelectedProvider?.Id == Id);
                         }
                         break;
                     case nameof(MatrixViewModel.HoveredProvider):
                         if (_role == ElementRole.Provider)
                         {
-                            IsHovered = (viewModel.HoveredProvider == this);
+                            IsHovered = (viewModel.HoveredProvider?.Id == Id);
                         }
                         break;
                     case nameof(MatrixViewModel.SelectedConsumer):
                         if (_role == ElementRole.Consumer)
                         {
-                            IsSelected = (viewModel.SelectedConsumer == this);
+                            IsSelected = (viewModel.SelectedConsumer?.Id == Id);
                         }
                         break;
                     case nameof(MatrixViewModel.HoveredConsumer):
                         if (_role == ElementRole.Consumer)
                         {
-                            IsHovered = (viewModel.HoveredConsumer == this);
+                            IsHovered = (viewModel.HoveredConsumer?.Id == Id);
                         }
                         break;
                 }
