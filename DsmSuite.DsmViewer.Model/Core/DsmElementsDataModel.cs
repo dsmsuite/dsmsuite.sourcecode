@@ -13,8 +13,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         private int _lastElementId;
         private DsmElement _root;
 
-        public event EventHandler<IDsmElement> ElementRemoved;
-        public event EventHandler<IDsmElement> ElementUnremoved;
+        public event EventHandler<IDsmElement> ElementUnregistered;
+        public event EventHandler<IDsmElement> ElementReregistered;
 
         public DsmElementsDataModel()
         {
@@ -86,9 +86,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             if ((currentParent != null) && (newParent != null))
             {
                 currentParent.RemoveChild(element);
-                ElementRemoved?.Invoke(this, element);
+                ElementUnregistered?.Invoke(this, element);
                 newParent.AddChild(element);
-                ElementUnremoved?.Invoke(this, element);
+                ElementReregistered?.Invoke(this, element);
             }
         }
 
@@ -100,7 +100,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 RemoveElementFromParent(element);
                 UnregisterElement(element);
-                ElementRemoved?.Invoke(this, element);
             }
         }
 
@@ -112,7 +111,6 @@ namespace DsmSuite.DsmViewer.Model.Core
                 DsmElement parent = element.Parent as DsmElement;
                 parent.AddChild(element);
                 ReregisterElement(element);
-                ElementUnremoved?.Invoke(this, element);
             }
         }
         
@@ -299,6 +297,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             _deletedElementsById[element.Id] = element;
             _elementsById.Remove(element.Id);
+            ElementUnregistered?.Invoke(this, element);
 
             foreach (IDsmElement child in element.Children)
             {
@@ -310,6 +309,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             _elementsById[element.Id] = element;
             _deletedElementsById.Remove(element.Id);
+            ElementReregistered?.Invoke(this, element);
 
             foreach (IDsmElement child in element.Children)
             {

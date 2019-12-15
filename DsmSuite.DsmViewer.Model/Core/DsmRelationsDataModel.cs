@@ -20,8 +20,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         public DsmRelationsDataModel(DsmElementsDataModel elementsDataModel)
         {
             _elementsDataModel = elementsDataModel;
-            _elementsDataModel.ElementRemoved += OnElementRemoved;
-            _elementsDataModel.ElementUnremoved += OnElementUnremoved;
+            _elementsDataModel.ElementUnregistered += OnElementUnregistered;
+            _elementsDataModel.ElementReregistered += OnElementReregistered;
 
             _relationsById = new Dictionary<int, IDsmRelation>();
             _relationsByProvider = new Dictionary<int, Dictionary<int, IDsmRelation>>();
@@ -187,43 +187,39 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsById.Values.Count;
         }
 
-        private void OnElementRemoved(object sender, IDsmElement element)
+        private void OnElementUnregistered(object sender, IDsmElement element)
         {
-            HashSet<int> elementIds = GetIdsOfElementAndItsChidren(element);
-
-            List<IDsmRelation> toBeRemovedRelations = new List<IDsmRelation>();
+            List<IDsmRelation> toBeRelationsUnregistered = new List<IDsmRelation>();
              
             foreach(IDsmRelation relation in _relationsById.Values)
             {
-                if (elementIds.Contains(relation.ConsumerId) ||
-                    elementIds.Contains(relation.ProviderId))
+                if ((element.Id == relation.ConsumerId) ||
+                    (element.Id == relation.ProviderId))
                 {
-                    toBeRemovedRelations.Add(relation);
+                    toBeRelationsUnregistered.Add(relation);
                 }
             }
 
-            foreach(IDsmRelation relation in toBeRemovedRelations)
+            foreach(IDsmRelation relation in toBeRelationsUnregistered)
             {
                 UnregisterRelation(relation);
             }
         }
 
-        private void OnElementUnremoved(object sender, IDsmElement element)
+        private void OnElementReregistered(object sender, IDsmElement element)
         {
-            HashSet<int> elementIds = GetIdsOfElementAndItsChidren(element);
-
-            List<IDsmRelation> toBeUnremovedRelations = new List<IDsmRelation>();
+            List<IDsmRelation> toBeRelationsReregistered = new List<IDsmRelation>();
 
             foreach (IDsmRelation relation in _deletedRelationsById.Values)
             {
-                if (elementIds.Contains(relation.ConsumerId) ||
-                    elementIds.Contains(relation.ProviderId))
+                if ((element.Id == relation.ConsumerId) ||
+                    (element.Id == relation.ProviderId))
                 {
-                    toBeUnremovedRelations.Add(relation);
+                    toBeRelationsReregistered.Add(relation);
                 }
             }
 
-            foreach (IDsmRelation relation in toBeUnremovedRelations)
+            foreach (IDsmRelation relation in toBeRelationsReregistered)
             {
                 RegisterRelation(relation);
             }
