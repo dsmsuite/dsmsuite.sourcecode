@@ -8,10 +8,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
     {
         private readonly MatrixViewModel _matrixViewModel;
 
-        public ElementTreeItemViewModel(MatrixViewModel matrixViewModel, IDsmElement element, ElementRole role) :
-            base(matrixViewModel, element, role)
+        public ElementTreeItemViewModel(MatrixViewModel matrixViewModel, IDsmElement element, ElementRole role, int depth) :
+            base(matrixViewModel, element, role, depth)
         {
             _matrixViewModel = matrixViewModel;
+            Depth = depth;
             Children = new ObservableCollection<ElementTreeItemViewModel>();
             UpdateChildren();
 
@@ -21,6 +22,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             PartitionCommand = _matrixViewModel.PartitionCommand;
             ToggleElementExpandedCommand = _matrixViewModel.ToggleElementExpandedCommand;
         }
+
+        public int Depth { get; }
 
         public ICommand MoveCommand { get; }
         public ICommand MoveUpCommand { get; }
@@ -76,7 +79,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             {
                 foreach (IDsmElement child in Element.Children)
                 {
-                    Children.Add(new ElementTreeItemViewModel(_matrixViewModel, child, Role));
+                    Children.Add(new ElementTreeItemViewModel(_matrixViewModel, child, Role, Depth + 1));
                 }
             }
             else

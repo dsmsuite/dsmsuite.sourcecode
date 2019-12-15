@@ -8,9 +8,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private int _color;
         private bool _isSelected;
         private bool _isHovered;
-        private readonly int _depth;
 
-        public CellViewModel(MatrixViewModel matrixViewModel, ElementViewModel consumer, ElementViewModel provider, int weight, bool cyclic, int row, int column)
+        public CellViewModel(MatrixViewModel matrixViewModel, ElementViewModel consumer, ElementViewModel provider, int weight, bool cyclic, int row, int column, int color)
         {
             Consumer = consumer;
             Provider = provider;
@@ -18,27 +17,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             Cyclic = cyclic;
             Row = row;
             Column = column;
-
-            _depth = 0;
-            if (IdentityCell)
-            {
-                _depth = provider.Depth;
-            }
-            else
-            {
-                if ((consumer.Element.Parent != null) &&
-                    (provider.Element.Parent != null) &&
-                    (consumer.Element.Parent.Id == provider.Element.Parent.Id))
-                {
-                    _depth = provider.Depth - 1; // Color of parent
-                }
-                else
-                {
-                    _depth = Math.Min(provider.Depth - 1, consumer.Depth - 1);
-                }
-            }
-
-            Color = Math.Abs(_depth % 4);
+            Color = color;
 
             matrixViewModel.PropertyChanged += OnMainViewModelPropertyChanged;
         }
@@ -95,7 +74,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private string GetDescription()
         {
-            return $"Consumer={Consumer.Fullname} Provider={Provider.Fullname} Weight={Weight} Depth={_depth}";
+            return $"Consumer={Consumer.Fullname} Provider={Provider.Fullname} Weight={Weight}";
         }
     }
 }

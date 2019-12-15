@@ -65,8 +65,6 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// </summary>
         IDsmElement LastChild { get; }
 
-        int Depth { get; }
-
         /// <summary>
         /// Is the element expanded in the viewer.
         /// </summary>

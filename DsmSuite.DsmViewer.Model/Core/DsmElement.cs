@@ -67,20 +67,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        public int Depth {
-            get
-            {
-                int depth = 0;
-                IDsmElement parent = Parent;
-                while (parent != null)
-                {
-                    depth++;
-                    parent = parent.Parent;
-                }
-                return depth;
-            }
-        }
-
         /// <summary>
         /// Is the element expanded in the viewer.
         /// </summary>

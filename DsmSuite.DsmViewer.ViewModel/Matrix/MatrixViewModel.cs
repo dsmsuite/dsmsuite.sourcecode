@@ -6,6 +6,7 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 using DsmSuite.DsmViewer.ViewModel.Main;
+using System;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
@@ -208,10 +209,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private ObservableCollection<ElementTreeItemViewModel> CreateProviderTree()
         {
+            int depth = 0;
             var rows = new ObservableCollection<ElementTreeItemViewModel>();
             foreach (IDsmElement provider in _selectedElements)
             {
-                ElementTreeItemViewModel viewModel = new ElementTreeItemViewModel(this, provider, ElementRole.Provider);
+                ElementTreeItemViewModel viewModel = new ElementTreeItemViewModel(this, provider, ElementRole.Provider, depth);
                 rows.Add(viewModel);
             }
             return rows;
@@ -258,7 +260,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             if (!treeViewItem.IsExpanded)
             {
-                leafElementViewModels.Add(new ElementViewModel(this, treeViewItem.Element, ElementRole.Consumer));
+                leafElementViewModels.Add(new ElementViewModel(this, treeViewItem.Element, ElementRole.Consumer, treeViewItem.Depth));
             }
 
             foreach (ElementTreeItemViewModel child in treeViewItem.Children)
@@ -280,7 +282,29 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 {
                     int weight = _application.GetDependencyWeight(consumer.Element, provider.Element);
                     bool cyclic = _application.IsCyclicDependency(consumer.Element, provider.Element);
-                    rowCellViewModels.Add(new CellViewModel(this, consumer, provider, weight, cyclic, row, column));
+
+                    int depth = 0;
+                    if (provider.Element.Id == consumer.Element.Id)
+                    {
+                        depth = provider.Depth;
+                    }
+                    else
+                    {
+                        if ((consumer.Element.Parent != null) &&
+                            (provider.Element.Parent != null) &&
+                            (consumer.Element.Parent.Id == provider.Element.Parent.Id))
+                        {
+                            depth = provider.Depth - 1; // Color of parent
+                        }
+                        else
+                        {
+                            depth = Math.Min(provider.Depth - 1, consumer.Depth - 1);
+                        }
+                    }
+
+                    int color = Math.Abs(depth % 4);
+
+                    rowCellViewModels.Add(new CellViewModel(this, consumer, provider, weight, cyclic, row, column, color));
                     column++;
                 }
                 cellViewModels.Add(rowCellViewModels);

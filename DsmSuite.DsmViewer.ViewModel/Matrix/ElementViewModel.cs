@@ -18,11 +18,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private bool _isSelected;
         private bool _isHovered;
 
-        public ElementViewModel(MatrixViewModel matrixViewModel, IDsmElement element, ElementRole role)
+        public ElementViewModel(MatrixViewModel matrixViewModel, IDsmElement element, ElementRole role, int depth)
         {
             _element = element;
             _role = role;
-            Depth = element.Depth;
+            Depth = depth;
             Color = Math.Abs(Depth % 4);
             matrixViewModel.PropertyChanged += OnMainViewModelPropertyChanged;
         }
