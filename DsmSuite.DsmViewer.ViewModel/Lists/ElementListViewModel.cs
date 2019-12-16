@@ -3,6 +3,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Windows.Input;
 using System.Windows;
+using System.Text;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
@@ -34,7 +35,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void CopyToClipboardExecute(object parameter)
         {
-            Clipboard.SetText("Copy elements");
+            StringBuilder builder = new StringBuilder();
+            foreach (ElementListItemViewModel viewModel in Elements)
+            {
+                builder.AppendLine($"{viewModel.Index}, {viewModel.ElementName}, {viewModel.ElementType}");
+            }
+            Clipboard.SetText(builder.ToString());
         }
     }
 }

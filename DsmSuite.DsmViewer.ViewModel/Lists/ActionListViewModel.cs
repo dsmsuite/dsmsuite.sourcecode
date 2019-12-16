@@ -4,6 +4,7 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Windows.Input;
 using System.Windows;
+using System.Text;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
@@ -43,7 +44,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void CopyToClipboardExecute(object parameter)
         {
-            Clipboard.SetText("Copy actions");
+            StringBuilder builder = new StringBuilder();
+            foreach(ActionListItemViewModel viewModel in Actions)
+            {
+                builder.AppendLine($"{viewModel.Index}, {viewModel.Action}, {viewModel.Details}");
+            }
+            Clipboard.SetText(builder.ToString());
         }
 
         private void ClearExecute(object parameter)

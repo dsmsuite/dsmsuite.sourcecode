@@ -3,6 +3,7 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Windows.Input;
 using System.Windows;
+using System.Text;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
@@ -34,7 +35,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void CopyToClipboardExecute(object parameter)
         {
-            Clipboard.SetText("Copy relations");
+            StringBuilder builder = new StringBuilder();
+            foreach (RelationListItemViewModel viewModel in Relations)
+            {
+                builder.AppendLine($"{viewModel.Index}, {viewModel.ConsumerName}, {viewModel.ProviderName}, {viewModel.RelationType}, {viewModel.RelationWeight}");
+            }
+            Clipboard.SetText(builder.ToString());
         }
     }
 }
