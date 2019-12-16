@@ -6,7 +6,11 @@
         mc:Ignorable="d"
         Title="{Binding Title}" Height="600" Width="600">
     <Grid>
-        <ListView Margin="10" ItemsSource="{Binding Relations}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListView Margin="10" Grid.Row="0" ItemsSource="{Binding Relations}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Index" Width="20" DisplayMemberBinding="{Binding Path=Index}" />
@@ -17,5 +21,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Copy to clipboard" Width="100"></Button>
+        </StackPanel>
     </Grid>
 </Window>

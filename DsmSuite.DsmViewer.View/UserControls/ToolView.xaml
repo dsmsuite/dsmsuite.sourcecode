@@ -4,12 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="800"
+             d:DesignHeight="30" d:DesignWidth="1000"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              ScrollViewer.VerticalScrollBarVisibility="Disabled"
              Loaded="ToolView_OnLoaded" Background="{StaticResource BackgroundColor}">
-    <Grid>
-        <ToolBar Style="{StaticResource ToolBar}">
+    <DockPanel>
+        <ToolBar Style="{StaticResource ToolBar}" DockPanel.Dock = "Left">
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Open model" Click="OpenButtonClick" Content="{StaticResource OpenIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Save model" Command="{Binding SaveFileCommand}" Content="{StaticResource SaveIcon}"/>
             <Separator/>
@@ -35,5 +35,8 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Next" Command="{Binding NavigateToNextCommand}" Content="{StaticResource ChevronRightIcon}"/>
             <Label Content="{Binding SearchResult}"/>
         </ToolBar>
-    </Grid>
+        <ToolBar Style="{StaticResource ToolBar}" DockPanel.Dock = "Right">
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Settings" Click="OpenButtonClick" Content="{StaticResource SettingsIcon}"/>
+        </ToolBar>
+    </DockPanel>
 </UserControl>
