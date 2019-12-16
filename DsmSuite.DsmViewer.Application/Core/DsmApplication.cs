@@ -248,5 +248,10 @@ namespace DsmSuite.DsmViewer.Application.Core
         {
             return _actionManager.GetUndoActions();
         }
+
+        public void ClearActions()
+        {
+            _actionManager.ClearAll();
+        }
     }
 }

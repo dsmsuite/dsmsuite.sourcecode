@@ -2,6 +2,8 @@
 using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
+using System.Windows.Input;
+using System.Windows;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
@@ -18,6 +20,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             _application.ActionPerformed += OnActionPerformed;
 
             UpdateActionList();
+            
+            CopyToClipboardCommand =  new RelayCommand<object>(CopyToClipboardExecute);
+            ClearCommand = new RelayCommand<object>(ClearExecute);
         }
 
         private void OnActionPerformed(object sender, System.EventArgs e)
@@ -31,6 +36,20 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         {
             get { return _actions; }
             set { _actions = value; OnPropertyChanged(); }
+        }
+
+        public ICommand CopyToClipboardCommand { get; }
+        public ICommand ClearCommand { get; }
+
+        private void CopyToClipboardExecute(object parameter)
+        {
+            Clipboard.SetText("Copy actions");
+        }
+
+        private void ClearExecute(object parameter)
+        {
+            _application.ClearActions();
+            UpdateActionList();
         }
 
         private void UpdateActionList()

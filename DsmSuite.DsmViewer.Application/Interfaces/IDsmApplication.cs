@@ -56,5 +56,6 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         void MakeSnapshot(string name);
 
         IEnumerable<IAction> GetActions();
+        void ClearActions();
     }
 }

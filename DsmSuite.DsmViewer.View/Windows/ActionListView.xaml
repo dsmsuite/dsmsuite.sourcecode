@@ -20,8 +20,8 @@
             </ListView.View>
         </ListView>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Copy to clipboard" Width="100"></Button>
-            <Button Content="Clear" Width="100"></Button>
+            <Button Content="Copy to clipboard" Width="100" Command="{Binding CopyToClipboardCommand}"/>
+            <Button Content="Clear" Width="100" Command="{Binding ClearCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

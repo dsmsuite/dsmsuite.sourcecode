@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
+using System.Windows.Input;
+using System.Windows;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
@@ -20,10 +22,19 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             }
 
             Relations = relationViewModels;
+
+            CopyToClipboardCommand = new RelayCommand<object>(CopyToClipboardExecute);
         }
 
         public string Title { get; }
 
         public List<RelationListItemViewModel> Relations { get; }
+
+        public ICommand CopyToClipboardCommand { get; }
+
+        private void CopyToClipboardExecute(object parameter)
+        {
+            Clipboard.SetText("Copy relations");
+        }
     }
 }
