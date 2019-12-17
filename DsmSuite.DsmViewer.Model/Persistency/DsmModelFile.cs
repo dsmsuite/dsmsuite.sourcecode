@@ -10,8 +10,9 @@ namespace DsmSuite.DsmViewer.Model.Persistency
     public class DsmModelFile
     {
         private const string RootXmlNode = "dsmmodel";
-        private const string ModelelementCountXmlAttribute = "elementCount";
-        private const string ModelrelationCountXmlAttribute = "relationCount";
+        private const string ModelElementCountXmlAttribute = "elementCount";
+        private const string ModelRelationCountXmlAttribute = "relationCount";
+        private const string ModelActionCountXmlAttribute = "actionCount";
 
         private const string MetaDataGroupXmlNode = "metadatagroup";
         private const string MetaDataGroupNameXmlAttribute = "name";
@@ -39,10 +40,18 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string RelationTypeXmlAttribute = "type";
         private const string RelationWeightXmlAttribute = "weight";
 
+        private const string ActionGroupXmlNode = "actions";
+
+        private const string ActionXmlNode = "action";
+        private const string ActionIdXmlAttribute = "id";
+        private const string ActionTypeXmlAttribute = "id";
+        private const string ActionDataXmlAttribute = "data";
+
         private readonly string _filename;
         private readonly IDsmModelFileCallback _callback;
         private int _totalElementCount;
         private int _totalRelationCount;
+        private int _totalActionCount;
         private int _totalItemCount;
         private int _progressItemCount;
         private int _progress;
@@ -88,6 +97,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     WriteMetaData(writer);
                     WriteElements(writer, progress);
                     WriteRelations(writer, progress);
+                    WriteActions(writer, progress);
                 }
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
@@ -107,6 +117,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                             ReadMetaData(xReader);
                             ReadElements(xReader, progress);
                             ReadRelations(xReader, progress);
+                            ReadActions(xReader, progress);
                             break;
                         case XmlNodeType.Text:
                             break;
@@ -120,10 +131,13 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private void WriteModelAttributes(XmlWriter writer)
         {
             _totalElementCount = _callback.GetElementCount();
-            writer.WriteAttributeString(ModelelementCountXmlAttribute, _totalElementCount.ToString());
+            writer.WriteAttributeString(ModelElementCountXmlAttribute, _totalElementCount.ToString());
 
             _totalRelationCount = _callback.GetRelationCount();
-            writer.WriteAttributeString(ModelrelationCountXmlAttribute, _totalRelationCount.ToString());
+            writer.WriteAttributeString(ModelRelationCountXmlAttribute, _totalRelationCount.ToString());
+
+            _totalActionCount = _callback.GetActionCount();
+            writer.WriteAttributeString(ModelActionCountXmlAttribute, _totalActionCount.ToString());
 
             _totalItemCount = _totalElementCount + _totalRelationCount;
         }
@@ -132,14 +146,16 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             if (xReader.Name == RootXmlNode)
             {
-                int? elementCount = ParseInt(xReader.GetAttribute(ModelelementCountXmlAttribute));
-                int? relationCount = ParseInt(xReader.GetAttribute(ModelrelationCountXmlAttribute));
+                int? elementCount = ParseInt(xReader.GetAttribute(ModelElementCountXmlAttribute));
+                int? relationCount = ParseInt(xReader.GetAttribute(ModelRelationCountXmlAttribute));
+                int? actionCount = ParseInt(xReader.GetAttribute(ModelActionCountXmlAttribute));
 
-                if (elementCount.HasValue && relationCount.HasValue)
+                if (elementCount.HasValue && relationCount.HasValue && actionCount.HasValue)
                 {
                     _totalElementCount = elementCount.Value;
                     _totalRelationCount = relationCount.Value;
-                    _totalItemCount = _totalElementCount + _totalRelationCount;
+                    _totalActionCount = actionCount.Value;
+                    _totalItemCount = _totalElementCount + _totalRelationCount + _totalActionCount;
                     _progressItemCount = 0;
                 }
             }
@@ -283,6 +299,46 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
             writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
             writer.WriteEndElement();
+        }
+
+        private void WriteActions(XmlWriter writer, IProgress<DsmProgressInfo> progress)
+        {
+            writer.WriteStartElement(ActionGroupXmlNode);
+            foreach (IDsmAction action in _callback.GetActions())
+            {
+                WriteActionData(writer, action, progress);
+            }
+            writer.WriteEndElement();
+        }
+
+        private void WriteActionData(XmlWriter writer, IDsmAction action, IProgress<DsmProgressInfo> progress)
+        {
+            _progressItemCount++;
+            UpdateProgress(progress);
+
+            writer.WriteStartElement(ActionXmlNode);
+            writer.WriteAttributeString(ActionIdXmlAttribute, action.Id.ToString());
+            writer.WriteAttributeString(ActionTypeXmlAttribute, action.Type);
+            writer.WriteAttributeString(ActionDataXmlAttribute, action.Data);
+            writer.WriteEndElement();
+        }
+
+        private void ReadActions(XmlReader xReader, IProgress<DsmProgressInfo> progress)
+        {
+            if (xReader.Name == ActionXmlNode)
+            {
+                int? id = ParseInt(xReader.GetAttribute(ActionIdXmlAttribute));
+                string type = xReader.GetAttribute(ActionTypeXmlAttribute);
+                string data = xReader.GetAttribute(ActionDataXmlAttribute);
+
+                if (id.HasValue)
+                {
+                    _callback.ImportAction(id.Value, type, data);
+                }
+
+                _progressItemCount++;
+                UpdateProgress(progress);
+            }
         }
 
         private void UpdateProgress(IProgress<DsmProgressInfo> progress)

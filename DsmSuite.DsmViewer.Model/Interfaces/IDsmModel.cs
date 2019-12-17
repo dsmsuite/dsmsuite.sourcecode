@@ -18,6 +18,10 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<string> GetMetaDataGroups();
         IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
 
+        IDsmAction AddAction(int id, string type, string data);
+        void ClearActions();
+        IEnumerable<IDsmAction> GetActions();
+
         IDsmElement AddElement(string name, string type, int? parentId);
         void RemoveElement(IDsmElement element);
         void UnremoveElement(IDsmElement element);

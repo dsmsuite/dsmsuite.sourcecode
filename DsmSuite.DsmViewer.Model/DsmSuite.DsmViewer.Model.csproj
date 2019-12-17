@@ -24,8 +24,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\DsmAction.cs" />
     <Compile Include="Core\DsmElementsDataModel.cs" />
     <Compile Include="Core\DsmRelationsDataModel.cs" />
+    <Compile Include="Interfaces\IDsmAction.cs" />
     <Compile Include="Interfaces\IElementSequence.cs" />
     <Compile Include="Core\DsmModel.cs" />
     <Compile Include="Persistency\DsmModelFile.cs" />

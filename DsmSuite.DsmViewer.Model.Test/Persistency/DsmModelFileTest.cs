@@ -262,6 +262,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return metaDataItem;
         }
 
+        public IDsmAction ImportAction(int id, string type, string data)
+        {
+            throw new NotImplementedException();
+        }
+
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
         {
             DsmElement element = new DsmElement(id, name, type, order, expanded);
@@ -306,6 +311,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             }
         }
 
+        public IEnumerable<IDsmAction> GetActions()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IDsmElement> GetRootElements()
         {
             return _rootElements;
@@ -331,6 +341,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return _relations.Count;
         }
 
-
+        public int GetActionCount()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
