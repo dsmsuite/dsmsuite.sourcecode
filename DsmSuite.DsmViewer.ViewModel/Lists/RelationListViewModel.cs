@@ -38,7 +38,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             StringBuilder builder = new StringBuilder();
             foreach (RelationListItemViewModel viewModel in Relations)
             {
-                builder.AppendLine($"{viewModel.Index}, {viewModel.ConsumerName}, {viewModel.ProviderName}, {viewModel.RelationType}, {viewModel.RelationWeight}");
+                builder.AppendLine($"{viewModel.Index, -5}, {viewModel.ConsumerName, -100} {viewModel.ProviderName, -100} {viewModel.RelationType, -30} {viewModel.RelationWeight, -10}");
             }
             Clipboard.SetText(builder.ToString());
         }

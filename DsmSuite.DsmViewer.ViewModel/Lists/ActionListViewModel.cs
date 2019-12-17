@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Windows.Input;
@@ -47,7 +46,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             StringBuilder builder = new StringBuilder();
             foreach(ActionListItemViewModel viewModel in Actions)
             {
-                builder.AppendLine($"{viewModel.Index}, {viewModel.Action}, {viewModel.Details}");
+                builder.AppendLine($"{viewModel.Index, -5}, {viewModel.Action, -30}, {viewModel.Details}");
             }
             Clipboard.SetText(builder.ToString());
         }

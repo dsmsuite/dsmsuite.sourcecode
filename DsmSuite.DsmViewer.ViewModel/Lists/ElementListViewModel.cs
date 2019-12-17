@@ -38,7 +38,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             StringBuilder builder = new StringBuilder();
             foreach (ElementListItemViewModel viewModel in Elements)
             {
-                builder.AppendLine($"{viewModel.Index}, {viewModel.ElementName}, {viewModel.ElementType}");
+                builder.AppendLine($"{viewModel.Index, -5} {viewModel.ElementName, -100} {viewModel.ElementType, -30}");
             }
             Clipboard.SetText(builder.ToString());
         }
