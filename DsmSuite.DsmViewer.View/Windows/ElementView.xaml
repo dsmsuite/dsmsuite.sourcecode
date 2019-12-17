@@ -4,25 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="150" Width="600">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="200" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
-            <RowDefinition Height="40" />
-            <RowDefinition Height="30" />
-        </Grid.RowDefinitions>
+        Title="{Binding Title}"
+        Height="150" 
+        Width="450"
+        Style="{StaticResource DialogWindow}">
+    <StackPanel Orientation="Vertical">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="340" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
 
-        <Label Content="Name" Grid.Row="0" Grid.Column="0" Margin="5"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Margin="10" Text="{Binding Name}"/>
-        <Label Content="Type" Grid.Row="1" Grid.Column="0" Margin="5"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Type}"/>
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-            <Button Content="Ok" Margin="5" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
-            <Button Content="Cancel" Margin="5" IsCancel="True" />
+            <Label Content="Name" Grid.Row="0" Grid.Column="0" Margin="5"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="10" Text="{Binding Name}"/>
+            <Label Content="Type" Grid.Row="1" Grid.Column="0" Margin="5"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Type}"/>
+        </Grid>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
+            <Button Style="{StaticResource DialogButton}" Content="Cancel" IsCancel="True" />
         </StackPanel>
-    </Grid>
+
+
+    </StackPanel>
 </Window>

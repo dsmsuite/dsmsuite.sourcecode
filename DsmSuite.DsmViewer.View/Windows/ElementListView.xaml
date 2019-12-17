@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="600" Width="600">
+        Title="{Binding Title}" 
+        Height="600" 
+        Width="800"
+        Style="{StaticResource DialogWindow}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -20,7 +23,7 @@
             </ListView.View>
         </ListView>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Copy to clipboard" Width="100" Command="{Binding CopyToClipboardCommand}"/>
+            <Button Style="{StaticResource DialogButton}" Content="Copy to clipboard" Command="{Binding CopyToClipboardCommand}"/>
         </StackPanel>        
     </Grid>
 </Window>

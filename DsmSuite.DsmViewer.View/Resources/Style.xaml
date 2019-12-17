@@ -12,7 +12,44 @@
     <Style x:Key="GridSplitterStyle" TargetType="GridSplitter">
         <Setter Property="Background" Value="{StaticResource BackgroundColor}" />
     </Style>
-    
+
+    <!-- Dialog styles -->
+    <Style x:Key="DialogButton" TargetType="Button">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource ButtonStandardColor}" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Background="{TemplateBinding Background}" Margin="1">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{StaticResource ButtonHoverColor}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{StaticResource ButtonDisabledColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DialogWindow" TargetType="Window">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Foreground" Value="{StaticResource ButtonStandardColor}" />
+    </Style>
+
     <!-- Toolbar styles -->
     <Style x:Key="ToolbarButton" TargetType="Button">
         <Setter Property="Foreground" Value="{StaticResource ButtonStandardColor}" />
@@ -90,7 +127,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="BorderThickness" Value="0" />
     </Style>
-    
+
     <Style x:Key="MatrixRowItemsStyle" TargetType="ListView">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="VerticalContentAlignment" Value="Top"/>

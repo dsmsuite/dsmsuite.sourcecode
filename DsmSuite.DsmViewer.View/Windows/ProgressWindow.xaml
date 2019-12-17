@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStyle="None"
-        Height="100" Width="600">
+        Height="100" 
+        Width="600"
+        Style="{StaticResource DialogWindow}">
     <StackPanel Orientation="Vertical">
         <TextBlock Text="{Binding Text}" Margin="10,10,10,0"/>
         <ProgressBar Value="{Binding ProgressValue}" Height="5" HorizontalAlignment="Stretch" Margin="10,10,10,0" Foreground="BlueViolet"/>
