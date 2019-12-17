@@ -336,10 +336,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                             (provider.Element.Parent != null) &&
                             (consumer.Element.Parent.Id == provider.Element.Parent.Id))
                         {
-                            depth = provider.Depth - 1; // Color of parent
-                        }
-                        else
-                        {
                             depth = Math.Min(provider.Depth - 1, consumer.Depth - 1);
                         }
                     }
