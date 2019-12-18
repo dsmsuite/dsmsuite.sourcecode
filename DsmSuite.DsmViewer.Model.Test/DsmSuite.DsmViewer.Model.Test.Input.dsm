@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<dsmmodel elementCount="9" relationCount="8">
+<dsmmodel elementCount="9" relationCount="8" actionCount="2">
   <metadatagroup name="group1">
     <metadata name="item1" value="value1" />
     <metadata name="item2" value="value2" />
@@ -29,4 +29,8 @@
     <relation id="97" from="16" to="13" type="rb" weight="2" />
     <relation id="98" from="18" to="13" type="rc" weight="4" />
   </relations>
+  <actions>
+    <action id="1" type="Action1" key1a="value1a" key1b="value1b" />
+    <action id="2" type="Action2" key2a="value2a" key2b="value2b" key2c="value2c" />
+  </actions>
 </dsmmodel>

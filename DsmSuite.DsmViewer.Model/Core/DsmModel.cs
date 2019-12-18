@@ -251,7 +251,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public int GetActionCount()
         {
-            throw new NotImplementedException();
+            return _actions.Count;
         }
     }
 }

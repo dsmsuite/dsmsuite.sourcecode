@@ -30,7 +30,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ElementNameXmlAttribute = "name";
         private const string ElementTypeXmlAttribute = "type";
         private const string ElementExpandedXmlAttribute = "expanded";
-        private const string ElementParentXmlAttribute  = "parent";
+        private const string ElementParentXmlAttribute = "parent";
 
         private const string RelationGroupXmlNode = "relations";
 
@@ -45,8 +45,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
         private const string ActionXmlNode = "action";
         private const string ActionIdXmlAttribute = "id";
-        private const string ActionTypeXmlAttribute = "id";
-        private const string ActionDataXmlAttribute = "data";
+        private const string ActionTypeXmlAttribute = "type";
 
         private readonly string _filename;
         private readonly IDsmModelFileCallback _callback;
@@ -210,7 +209,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
             writer.WriteEndElement();
         }
-        
+
         private void ReadElements(XmlReader xReader, IProgress<DsmProgressInfo> progress)
         {
             if (xReader.Name == ElementXmlNode)
@@ -331,18 +330,29 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             if (xReader.Name == ActionXmlNode)
             {
-                int? id = ParseInt(xReader.GetAttribute(ActionIdXmlAttribute));
-                string type = xReader.GetAttribute(ActionTypeXmlAttribute);
+                int? id = null;
+                string type = "";
 
-                if (id.HasValue && xReader.HasAttributes)
+                Dictionary<string, string> data = new Dictionary<string, string>();
+                while (xReader.MoveToNextAttribute())
                 {
-                    Dictionary<string, string> data = new Dictionary<string, string>();
-                    while (xReader.MoveToNextAttribute())
+                    switch (xReader.Name)
                     {
-                        data[xReader.Name] = xReader.Value;
+                        case ActionIdXmlAttribute:
+                            id = ParseInt(xReader.Value);
+                            break;
+                        case ActionTypeXmlAttribute:
+                            type = xReader.Value;
+                            break;
+                        default:
+                            data[xReader.Name] = xReader.Value;
+                            break;
                     }
-                    xReader.MoveToElement();
+                }
+                xReader.MoveToElement();
 
+                if (id.HasValue)
+                {
                     _callback.ImportAction(id.Value, type, data);
                 }
 
