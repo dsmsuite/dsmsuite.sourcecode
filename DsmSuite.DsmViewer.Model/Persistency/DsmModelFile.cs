@@ -272,7 +272,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
             writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
             writer.WriteAttributeString(ElementExpandedXmlAttribute, element.IsExpanded.ToString());
-            if (element.Parent != null)
+            if ((element.Parent != null) && (element.Parent.Id > 0))
             {
                 writer.WriteAttributeString(ElementParentXmlAttribute, element.Parent.Id.ToString());
             }
