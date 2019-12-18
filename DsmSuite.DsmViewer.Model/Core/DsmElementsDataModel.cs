@@ -92,25 +92,33 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        public void RemoveElement(IDsmElement element)
+        public void RemoveElement(int elementId)
         {
-            Logger.LogDataModelMessage($"Remove element id={element.Id}");
+            Logger.LogDataModelMessage($"Remove element id={elementId}");
 
-            if (_elementsById.ContainsKey(element.Id))
+            if (_elementsById.ContainsKey(elementId))
             {
-                RemoveElementFromParent(element);
-                UnregisterElement(element);
+                IDsmElement element = _elementsById[elementId];
+                if (element != null)
+                {
+                    RemoveElementFromParent(element);
+                    UnregisterElement(element);
+                }
             }
         }
 
-        public void UnremoveElement(IDsmElement element)
+        public void UnremoveElement(int elementId)
         {
-            Logger.LogDataModelMessage($"Restore element id={element.Id}");
-            if (_deletedElementsById.ContainsKey(element.Id))
+            Logger.LogDataModelMessage($"Restore element id={elementId}");
+            if (_deletedElementsById.ContainsKey(elementId))
             {
-                DsmElement parent = element.Parent as DsmElement;
-                parent.AddChild(element);
-                ReregisterElement(element);
+                IDsmElement element = _deletedElementsById[elementId];
+                if (element != null)
+                {
+                    DsmElement parent = element.Parent as DsmElement;
+                    parent.AddChild(element);
+                    ReregisterElement(element);
+                }
             }
         }
         

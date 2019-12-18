@@ -87,19 +87,27 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        public void RemoveRelation(IDsmRelation relation)
+        public void RemoveRelation(int relationId)
         {
-            if (relation != null)
+            if (_relationsById.ContainsKey(relationId))
             {
-                UnregisterRelation(relation);
+                IDsmRelation relation = _relationsById[relationId];
+                if (relation != null)
+                {
+                    UnregisterRelation(relation);
+                }
             }
         }
 
-        public void UnremoveRelation(IDsmRelation relation)
+        public void UnremoveRelation(int relationId)
         {
-            if (relation != null)
+            if (_deletedRelationsById.ContainsKey(relationId))
             {
-                RegisterRelation(relation);
+                IDsmRelation relation = _deletedRelationsById[relationId];
+                if (relation != null)
+                {
+                    RegisterRelation(relation);
+                }
             }
         }
 

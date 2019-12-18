@@ -126,14 +126,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsDataModel.ChangeElementParent(element, parent);
         }
 
-        public void RemoveElement(IDsmElement element)
+        public void RemoveElement(int elementId)
         {
-            _elementsDataModel.RemoveElement(element);
+            _elementsDataModel.RemoveElement(elementId);
         }
 
-        public void UnremoveElement(IDsmElement element)
+        public void UnremoveElement(int elementId)
         {
-            _elementsDataModel.UnremoveElement(element);
+            _elementsDataModel.UnremoveElement(elementId);
         }
 
 
@@ -184,14 +184,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             _relationsDataModel.EditRelation(relation, type, weight);
         }
 
-        public void RemoveRelation(IDsmRelation relation)
+        public void RemoveRelation(int relationId)
         {
-            _relationsDataModel.RemoveRelation(relation);
+            _relationsDataModel.RemoveRelation(relationId);
         }
 
-        public void UnremoveRelation(IDsmRelation relation)
+        public void UnremoveRelation(int relationId)
         {
-            _relationsDataModel.UnremoveRelation(relation);
+            _relationsDataModel.UnremoveRelation(relationId);
         }
 
         public int GetDependencyWeight(int consumerId, int providerId)

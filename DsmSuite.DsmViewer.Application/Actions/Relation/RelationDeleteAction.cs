@@ -13,12 +13,12 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public override void Do()
         {
-            Model.RemoveRelation(_relation);
+            Model.RemoveRelation(_relation.Id);
         }
 
         public override void Undo()
         {
-            Model.UnremoveRelation(_relation);
+            Model.UnremoveRelation(_relation.Id);
         }
 
         public override string Type => "Delete relation";
