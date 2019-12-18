@@ -289,7 +289,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
 
         public IDsmAction ImportAction(int id, string type, IDictionary<string, string> data)
         {
-            throw new NotImplementedException();
+            DsmAction action = new DsmAction(id, type, data);
+            _actions.Add(action);
+            return action;
         }
 
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
@@ -368,7 +370,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
 
         public int GetActionCount()
         {
-            throw new NotImplementedException();
+            return _actions.Count; 
         }
     }
 }
