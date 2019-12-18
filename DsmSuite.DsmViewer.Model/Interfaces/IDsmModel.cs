@@ -18,7 +18,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<string> GetMetaDataGroups();
         IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
 
-        IDsmAction AddAction(int id, string type, string data);
+        IDsmAction AddAction(int id, string type, IDictionary<string, string> data);
         void ClearActions();
         IEnumerable<IDsmAction> GetActions();
 

@@ -82,14 +82,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _metaDataModel.GetMetaDataGroupItems(groupName);
         }
 
-        public IDsmAction ImportAction(int id, string type, string data)
+        public IDsmAction ImportAction(int id, string type, IDictionary<string, string> data)
         {
             IDsmAction action = new DsmAction(id, type, data);
             _actions.Add(action);
             return action;
         }
 
-        public IDsmAction AddAction(int id, string type, string data)
+        public IDsmAction AddAction(int id, string type, IDictionary<string, string> data)
         {
             IDsmAction action = new DsmAction(id, type, data);
             _actions.Add(action);

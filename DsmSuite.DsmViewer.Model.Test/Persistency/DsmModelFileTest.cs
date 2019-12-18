@@ -39,6 +39,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         private readonly List<DsmElement> _rootElements = new List<DsmElement>();
         private readonly List<DsmRelation> _relations = new List<DsmRelation>();
         private readonly Dictionary<string, List<IMetaDataItem>> _metaData = new Dictionary<string, List<IMetaDataItem>>();
+        private readonly List<DsmAction> _actions = new List<DsmAction>();
 
         [TestInitialize()]
         public void MyTestInitialize()
@@ -189,6 +190,19 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual(a2.Id, _relations[7].ProviderId);
             Assert.AreEqual("rc", _relations[7].Type);
             Assert.AreEqual(4, _relations[7].Weight);
+
+            Assert.AreEqual(2, _actions.Count);
+
+            Assert.AreEqual(1, _actions[0].Id);
+            Assert.AreEqual("Action1", _actions[0].Type);
+            Assert.AreEqual("value1a", _actions[0].Data["key1a"]);
+            Assert.AreEqual("value1b", _actions[0].Data["key1b"]);
+
+            Assert.AreEqual(2, _actions[1].Id);
+            Assert.AreEqual("Action2", _actions[1].Type);
+            Assert.AreEqual("value2a", _actions[1].Data["key1a"]);
+            Assert.AreEqual("value2b", _actions[1].Data["key1b"]);
+            Assert.AreEqual("value2c", _actions[1].Data["key1c"]);
         }
 
         [TestMethod]
@@ -248,6 +262,17 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             _relations.Add(new DsmRelation(96, b2.Id, a1.Id, "rb", 1));
             _relations.Add(new DsmRelation(97, b2.Id, a2.Id, "rb", 2));
             _relations.Add(new DsmRelation(98, c1.Id, a2.Id, "rc", 4));
+
+            Dictionary<string, string> data1 = new Dictionary<string, string>();
+            data1["key1a"] = "value1a";
+            data1["key2b"] = "value1b";
+            _actions.Add(new DsmAction(1, "Action1", data1));
+
+            Dictionary<string, string> data2 = new Dictionary<string, string>();
+            data1["key2a"] = "value2a";
+            data1["key2b"] = "value2b";
+            data1["key2v"] = "value2c";
+            _actions.Add(new DsmAction(2, "Action2", data2));
         }
 
         public IMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
@@ -262,7 +287,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return metaDataItem;
         }
 
-        public IDsmAction ImportAction(int id, string type, string data)
+        public IDsmAction ImportAction(int id, string type, IDictionary<string, string> data)
         {
             throw new NotImplementedException();
         }

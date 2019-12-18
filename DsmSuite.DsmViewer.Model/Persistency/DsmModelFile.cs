@@ -4,6 +4,7 @@ using System.Xml;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.Common.Model.Interface;
+using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Persistency
 {
@@ -319,7 +320,10 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteStartElement(ActionXmlNode);
             writer.WriteAttributeString(ActionIdXmlAttribute, action.Id.ToString());
             writer.WriteAttributeString(ActionTypeXmlAttribute, action.Type);
-            writer.WriteAttributeString(ActionDataXmlAttribute, action.Data);
+            foreach (var d in action.Data)
+            {
+                writer.WriteAttributeString(d.Key, d.Value);
+            }
             writer.WriteEndElement();
         }
 
@@ -329,10 +333,16 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             {
                 int? id = ParseInt(xReader.GetAttribute(ActionIdXmlAttribute));
                 string type = xReader.GetAttribute(ActionTypeXmlAttribute);
-                string data = xReader.GetAttribute(ActionDataXmlAttribute);
 
-                if (id.HasValue)
+                if (id.HasValue && xReader.HasAttributes)
                 {
+                    Dictionary<string, string> data = new Dictionary<string, string>();
+                    while (xReader.MoveToNextAttribute())
+                    {
+                        data[xReader.Name] = xReader.Value;
+                    }
+                    xReader.MoveToElement();
+
                     _callback.ImportAction(id.Value, type, data);
                 }
 
