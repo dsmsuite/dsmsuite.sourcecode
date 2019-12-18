@@ -332,11 +332,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     }
                     else
                     {
-                        if ((consumer.Element.Parent != null) &&
-                            (provider.Element.Parent != null) &&
-                            (consumer.Element.Parent.Id == provider.Element.Parent.Id))
+                        if ((consumer.Element.Parent.Id == provider.Element.Parent.Id) &&
+                            (consumer.Depth == provider.Depth))
                         {
-                            depth = Math.Min(provider.Depth - 1, consumer.Depth - 1);
+                            depth = provider.Depth - 1;
                         }
                     }
 
