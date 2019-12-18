@@ -204,6 +204,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.IsCyclicDependency(consumerId, providerId);
         }
 
+        public IDsmRelation GetRelationById(int relationId)
+        {
+            return _relationsDataModel.GetRelationById(relationId);
+        }
+
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
             return _relationsDataModel.FindRelations(consumer, provider);

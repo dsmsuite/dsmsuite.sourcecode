@@ -127,6 +127,11 @@ namespace DsmSuite.DsmViewer.Model.Core
                    (GetDependencyWeight(providerId, consumerId) > 0);
         }
 
+        public IDsmRelation GetRelationById(int relationId)
+        {
+            return _relationsById.ContainsKey(relationId) ? _relationsById[relationId] : null;
+        }
+
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
             IList<IDsmRelation> relations = new List<IDsmRelation>();

@@ -6,34 +6,42 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementPartitionAction : ActionBase
     {
-        private readonly IDsmElement _element;
-        private readonly  string _algorithm;
+        private readonly int _elementId;
+        private readonly string _algorithm;
         private IElementSequence _vector;
 
         public ElementPartitionAction(IDsmModel model, IDsmElement element, string algorithm) : base(model)
         {
-            _element = element;
+            _elementId = element.Id;
             _algorithm = algorithm;
+
+            Type = "Partition element";
+            Details = $"name={element.Fullname} algorithm={algorithm}";
         }
 
         public override void Do()
         {
-            Partitioner partitioner = new Partitioner(_element, Model);
-            _vector = partitioner.Partition();
-            Model.ReorderChildren(_element, _vector);
+            IDsmElement element = Model.GetElementById(_elementId);
+            if (element != null)
+            {
+                Partitioner partitioner = new Partitioner(element, Model);
+                _vector = partitioner.Partition();
+                Model.ReorderChildren(element, _vector);
+            }
         }
 
         public override void Undo()
         {
-            ElementSequence inverseVector = new ElementSequence(_vector.GetNumberOfElements());
-            for (int i = 0; i < _vector.GetNumberOfElements(); i++)
+            IDsmElement element = Model.GetElementById(_elementId);
+            if (element != null)
             {
-                inverseVector.SetIndex(_vector.GetIndex(i), i);
+                ElementSequence inverseVector = new ElementSequence(_vector.GetNumberOfElements());
+                for (int i = 0; i < _vector.GetNumberOfElements(); i++)
+                {
+                    inverseVector.SetIndex(_vector.GetIndex(i), i);
+                }
+                Model.ReorderChildren(element, inverseVector);
             }
-            Model.ReorderChildren(_element, inverseVector);
         }
-
-        public override string Type => "Partition element";
-        public override string Details => $"name={_element.Fullname} algorithm={_algorithm}";
     }
 }

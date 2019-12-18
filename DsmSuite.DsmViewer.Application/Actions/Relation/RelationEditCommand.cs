@@ -5,7 +5,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
     public class RelationEditAction : ActionBase
     {
-        private readonly IDsmRelation _relation;
+        private int _relationId;
         private readonly string _oldType;
         private readonly int _oldWeight;
         private readonly string _newType;
@@ -13,26 +13,34 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public RelationEditAction(IDsmModel model, IDsmRelation relation, string type, int weight) : base(model)
         {
-            _relation = relation;
+            _relationId = relation.Id;
 
-            _oldType = _relation.Type;
-            _oldWeight = _relation.Weight;
+            _oldType = relation.Type;
+            _oldWeight = relation.Weight;
 
             _newType = type;
             _newWeight = weight;
+
+            Type = "Edit relation";
+            Details = $"relation={relation.Id}";
         }
 
         public override void Do()
         {
-             Model.EditRelation(_relation, _newType, _newWeight);
+            IDsmRelation relation = Model.GetRelationById(_relationId);
+            if (relation != null)
+            {
+                Model.EditRelation(relation, _newType, _newWeight);
+            }
         }
 
         public override void Undo()
         {
-             Model.EditRelation(_relation, _oldType, _oldWeight);
+            IDsmRelation relation = Model.GetRelationById(_relationId);
+            if (relation != null)
+            {
+                Model.EditRelation(relation, _oldType, _oldWeight);
+            }
         }
-
-        public override string Type => "Edit relation";
-        public override string Details => $"relation={_relation.Id}";
     }
 }

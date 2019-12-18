@@ -5,7 +5,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
     public class RelationCreateAction : ActionBase
     {
-        private IDsmRelation _relation;
+        private int? _relationId;
         private readonly int _consumerId;
         private readonly int _providerId;
         private readonly string _type;
@@ -17,22 +17,23 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _providerId = providerId;
             _type = type;
             _weight = weight;
+
+            Type = "Create relation";
+            Details = $"?";
         }
 
         public override void Do()
         {
-            _relation = Model.AddRelation(_consumerId, _providerId, _type, _weight);
+            IDsmRelation relation = Model.AddRelation(_consumerId, _providerId, _type, _weight);
+            _relationId = relation?.Id;
         }
 
         public override void Undo()
         {
-            if (_relation != null)
+            if (_relationId.HasValue)
             {
-                Model.RemoveRelation(_relation.Id);
+                Model.RemoveRelation(_relationId.Value);
             }
         }
-
-        public override string Type => "Create relation";
-        public override string Details => $"relation={_relation.Id}";
     }
 }

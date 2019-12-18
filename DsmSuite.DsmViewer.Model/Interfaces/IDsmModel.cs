@@ -45,6 +45,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void UnremoveRelation(int relationId);
         int GetDependencyWeight(int consumerId, int providerId);
         bool IsCyclicDependency(int consumerId, int providerId);
+        IDsmRelation GetRelationById(int relationId);
 
         IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
         IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element);

@@ -5,23 +5,24 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
     public class RelationDeleteAction : ActionBase
     {
-        private readonly IDsmRelation _relation;
+        private int _relationId;
+
         public RelationDeleteAction(IDsmModel model, IDsmRelation relation) : base(model)
         {
-            _relation = relation;
+            _relationId = relation.Id;
+
+            Type = "Delete relation";
+            Details = $"relation={relation.Id}";
         }
 
         public override void Do()
         {
-            Model.RemoveRelation(_relation.Id);
+            Model.RemoveRelation(_relationId);
         }
 
         public override void Undo()
         {
-            Model.UnremoveRelation(_relation.Id);
+            Model.UnremoveRelation(_relationId);
         }
-
-        public override string Type => "Delete relation";
-        public override string Details => $"relation={_relation.Id}";
     }
 }

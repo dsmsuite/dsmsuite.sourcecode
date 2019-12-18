@@ -154,9 +154,9 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public int TotalElementCount => _elementsById.Count;
 
-        public IDsmElement FindElementById(int id)
+        public IDsmElement FindElementById(int elementId)
         {
-            return _elementsById.ContainsKey(id) ? _elementsById[id] : null;
+            return _elementsById.ContainsKey(elementId) ? _elementsById[elementId] : null;
         }
 
         public IDsmElement FindElementByFullname(string fullname)

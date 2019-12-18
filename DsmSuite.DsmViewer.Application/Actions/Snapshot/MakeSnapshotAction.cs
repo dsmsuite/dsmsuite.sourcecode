@@ -10,6 +10,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
         public MakeSnapshotAction(IDsmModel model, string description) : base(model)
         {
             _description = description;
+
+            Type = "Make snapshot";
+            Details = _description;
         }
 
         public override void Do()
@@ -19,8 +22,5 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
         public override void Undo()
         {
         }
-
-        public override string Type => "Make snapshot";
-        public override string Details => _description;
     }
 }
