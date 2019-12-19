@@ -1,5 +1,4 @@
-﻿using System;
-using DsmSuite.DsmViewer.ViewModel.Common;
+﻿using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {

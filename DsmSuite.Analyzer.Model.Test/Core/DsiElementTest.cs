@@ -8,7 +8,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
     public class DsiElementTest
     {
         [TestMethod]
-        public void When_ElementIsConstructed_Then_PropertiesAreSetAccordingArguments()
+        public void WhenElementIsConstructedThenPropertiesAreSetAccordingArguments()
         {
             IDsiElement element = new DsiElement(1, "name", "type", "source");
             Assert.AreEqual(1, element.Id);

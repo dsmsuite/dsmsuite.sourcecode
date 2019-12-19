@@ -7,7 +7,6 @@ using DsmSuite.DsmViewer.Model.Persistency;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.Common.Model.Core;
 using DsmSuite.Common.Model.Interface;
-using System;
 
 namespace DsmSuite.DsmViewer.Model.Test.Persistency
 {

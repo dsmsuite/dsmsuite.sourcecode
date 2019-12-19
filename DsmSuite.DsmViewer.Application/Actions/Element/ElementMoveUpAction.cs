@@ -1,5 +1,4 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
-using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,47 +7,46 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementMoveUpAction : ActionBase
     {
-        public int Element { get; }
+        private readonly IDsmElement _element;
+
+        public ElementMoveUpAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
+        {
+            int id = GetInt(data, nameof(_element));
+            _element = model.GetElementById(id);
+            Debug.Assert(_element != null);
+        }
 
         public ElementMoveUpAction(IDsmModel model, IDsmElement element) : base(model)
         {
-            Element = element.Id;
-
-            ClassName = nameof(ElementMoveUpAction);
-            Title = $"Move up element";
-            Details = $"name={element.Fullname}";
+            _element = element;
+            Debug.Assert(_element != null);
         }
+
+        public override string ActionName => nameof(ElementMoveUpAction);
+        public override string Title => "Move up element";
+        public override string Description => $"element={_element.Fullname}";
 
         public override void Do()
         {
-            IDsmElement currentElement = Model.GetElementById(Element);
-            Debug.Assert(currentElement != null);
-
-            IDsmElement previousElement = currentElement?.PreviousSibling;
+            IDsmElement previousElement = _element?.PreviousSibling;
             Debug.Assert(previousElement != null);
 
-            Model.Swap(currentElement, previousElement);
+            Model.Swap(_element, previousElement);
         }
 
         public override void Undo()
         {
-            IDsmElement currentElement = Model.GetElementById(Element);
-            Debug.Assert(currentElement != null);
-
-            IDsmElement nextElement = currentElement?.NextSibling;
+            IDsmElement nextElement = _element?.NextSibling;
             Debug.Assert(nextElement != null);
 
-            Model.Swap(currentElement, nextElement);
+            Model.Swap(_element, nextElement);
         }
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            return null;
-        }
-
-        public override IAction Unpack(IReadOnlyDictionary<string, string> data)
-        {
-            return null;
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            SetInt(data, nameof(_element), _element.Id);
+            return data;
         }
     }
 }

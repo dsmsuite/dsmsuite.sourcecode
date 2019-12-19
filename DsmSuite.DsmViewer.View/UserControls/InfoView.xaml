@@ -8,6 +8,6 @@
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              ScrollViewer.VerticalScrollBarVisibility="Disabled"
              Loaded="InfoViewOnLoaded">
-    <Grid>
-    </Grid>
+    <Grid />
 </UserControl>
+

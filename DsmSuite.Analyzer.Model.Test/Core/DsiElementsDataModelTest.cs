@@ -10,14 +10,14 @@ namespace DsmSuite.Analyzer.Model.Test.Core
     public class DsiElementsDataModelTest
     {
         [TestMethod]
-        public void When_ModelIsConstructed_Then_ItIsEmpty()
+        public void WhenModelIsConstructedThenItIsEmpty()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
         }
 
         [TestMethod]
-        public void Given_ModelIsNotEmpty_When_ClearIsCalled_Then_ItIsEmpty()
+        public void GivenModelIsNotEmptyWhenClearIsCalledThenItIsEmpty()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -31,7 +31,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ModelIsEmpty_When_AddElementIsCalled_Then_ItsHasOneElement()
+        public void GivenModelIsEmptyWhenAddElementIsCalledThenItsHasOneElement()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -42,7 +42,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_AnElementIsInTheModel_When_AddElementIsCalledAgainForThatElement_Then_ItStillHasOneElement()
+        public void GivenAnElementIsInTheModelWhenAddElementIsCalledAgainForThatElementThenItStillHasOneElement()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -57,7 +57,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_AnElementIsInTheModel_When_AddElementIsCalledForAnotherElement_Then_ItHasTwoElement()
+        public void GivenAnElementIsInTheModelWhenAddElementIsCalledForAnotherElementThenItHasTwoElement()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -72,7 +72,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ModelIsEmpty_When_ImportElementIsCalled_Then_ItsHasOneElement()
+        public void GivenModelIsEmptyWhenImportElementIsCalledThenItsHasOneElement()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -82,7 +82,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_AnElementIsInTheModel_When_FindByIdIsCalledItsId_Then_ElementIsFound()
+        public void GivenAnElementIsInTheModelWhenFindByIdIsCalledItsIdThenElementIsFound()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -98,7 +98,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_AnElementIsInTheModel_When_FindByIdIsCalledWithAnotherId_Then_ElementIsNotFound()
+        public void GivenAnElementIsInTheModelWhenFindByIdIsCalledWithAnotherIdThenElementIsNotFound()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -110,7 +110,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_AnElementIsInTheModel_When_RemoveElementIsCalled_Then_ElementIsNotFoundAnymoreByItsId()
+        public void GivenAnElementIsInTheModelWhenRemoveElementIsCalledThenElementIsNotFoundAnymoreByItsId()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -126,7 +126,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_AnElementIsInTheModel_When_FindByIdIsCalledWithItsName_Then_ElementIsFound()
+        public void GivenAnElementIsInTheModelWhenFindByIdIsCalledWithItsNameThenElementIsFound()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -142,7 +142,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_AnElementIsInTheModel_When_FindByIdIsCalledWithAnotherName_Then_ElementIsNotFound()
+        public void GivenAnElementIsInTheModelWhenFindByIdIsCalledWithAnotherNameThenElementIsNotFound()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -154,7 +154,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_AnElementIsInTheModel_When_RemoveElementIsCalled_Then_ElementIsNotFoundAnymoreByItName()
+        public void GivenAnElementIsInTheModelWhenRemoveElementIsCalledThenElementIsNotFoundAnymoreByItName()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -170,7 +170,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void When_RenameElementIsCalled_Then_ItCanBeFoundUnderThatName()
+        public void WhenRenameElementIsCalledThenItCanBeFoundUnderThatName()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -191,7 +191,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void When_AddElementIsCalledUsingTwoDifferentTypes_Then_TwoElementTypesAreFound()
+        public void WhenAddElementIsCalledUsingTwoDifferentTypesThenTwoElementTypesAreFound()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
@@ -218,7 +218,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_MultipleElementAreInTheModel_When_GetElementsIsCalled_TheyAreAllReturned()
+        public void GivenMultipleElementAreInTheModelWhenGetElementsIsCalledTheyAreAllReturned()
         {
             DsiElementsDataModel model = new DsiElementsDataModel();
             Assert.AreEqual(0, model.TotalElementCount);

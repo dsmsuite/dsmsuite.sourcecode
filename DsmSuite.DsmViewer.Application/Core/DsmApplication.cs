@@ -11,7 +11,6 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Queries;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Reporting;
-using DsmSuite.DsmViewer.Application.Actions;
 
 namespace DsmSuite.DsmViewer.Application.Core
 {
@@ -91,14 +90,14 @@ namespace DsmSuite.DsmViewer.Application.Core
         public async Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
             await Task.Run(() => _model.LoadModel(dsmFilename, progress));
-            _actionStore.Load();
+            //_actionStore.Load();
             IsModified = false;
             Modified?.Invoke(this, IsModified);
         }
 
         public async Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
-            _actionStore.Save();
+            //_actionStore.Save();
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));
             IsModified = false;
             Modified?.Invoke(this, IsModified);
@@ -216,8 +215,10 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void EditElement(IDsmElement element, string name, string type)
         {
-            ElementEditAction action = new ElementEditAction(_model, element, name, type);
-            _actionManager.Execute(action);
+            ElementEditNameAction action1 = new ElementEditNameAction(_model, element, name);
+            _actionManager.Execute(action1);
+            ElementEditTypeAction action2 = new ElementEditTypeAction(_model, element, type);
+            _actionManager.Execute(action2);
         }
 
         public void MoveElement(IDsmElement element, IDsmElement newParent)
@@ -240,8 +241,10 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void EditRelation(IDsmRelation relation, string type, int weight)
         {
-            RelationEditAction action = new RelationEditAction(_model, relation, type, weight);
-            _actionManager.Execute(action);
+            RelationEditWeightAction action1 = new RelationEditWeightAction(_model, relation, weight);
+            _actionManager.Execute(action1);
+            RelationEditTypeAction action2 = new RelationEditTypeAction(_model, relation, type);
+            _actionManager.Execute(action2);
         }
 
         public void MakeSnapshot(string description)

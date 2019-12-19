@@ -76,6 +76,7 @@
   <ItemGroup>
     <None Include="DsmSuite.DsmViewer.Model.Test.Input.dsm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <Choose>

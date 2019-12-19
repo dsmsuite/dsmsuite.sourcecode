@@ -7,7 +7,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
     public class ElementTest
     {
         [TestMethod]
-        public void When_ElementIsConstructed_Then_PropertiesAreSetAccordingArguments()
+        public void WhenElementIsConstructedThenPropertiesAreSetAccordingArguments()
         {
             int elementId = 1;
             string elementName = "name1";

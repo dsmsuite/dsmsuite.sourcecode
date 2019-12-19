@@ -32,6 +32,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             Logger.LogInfo("Do :{action.Description}");
         }
 
+        public void Add(ActionBase action)
+        {
+            _undoActionStack.Push(action);
+        }
+
         public bool CanUndo()
         {
             return _undoActionStack.Count > 0;

@@ -41,20 +41,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public ICollection<GeneratedFileRelation> GeneratedFileRelations => _generatedFileRelations;
 
-        public IReadOnlyCollection<string> ProjectIncludeDirectories
-        {
-            get { return _includeResolveStrategy != null ? _includeResolveStrategy.ProjectIncludeDirectories : new List<string>(); }
-        }
+        public IReadOnlyCollection<string> ProjectIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.ProjectIncludeDirectories : new List<string>();
 
-        public IReadOnlyCollection<string> ExternalIncludeDirectories
-        {
-            get { return _includeResolveStrategy != null ? _includeResolveStrategy.ExternalIncludeDirectories : new List<string>(); }
-        }
+        public IReadOnlyCollection<string> ExternalIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.ExternalIncludeDirectories : new List<string>();
 
-        public IReadOnlyCollection<string> SystemIncludeDirectories
-        {
-            get { return _includeResolveStrategy != null ? _includeResolveStrategy.SystemIncludeDirectories : new List<string>(); }
-        }
+        public IReadOnlyCollection<string> SystemIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.SystemIncludeDirectories : new List<string>();
 
         public void Analyze()
         {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Interfaces

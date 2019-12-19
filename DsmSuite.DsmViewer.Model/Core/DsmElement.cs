@@ -178,7 +178,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         public void RemoveChild(IDsmElement child)
         {
             Children.Remove(child);
-            DsmElement c = child as DsmElement; // Do not reset parent so it can be restored
+            // Do not reset parent so it can be restored
         }
 
         public int CompareTo(object obj)

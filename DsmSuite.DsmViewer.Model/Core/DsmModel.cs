@@ -4,7 +4,7 @@ using System.Reflection;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Model.Persistency;
-using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Common.Model.Core;
 using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.DsmViewer.Model.Core
@@ -169,6 +169,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.SearchElements(text);
         }
 
+        public IDsmElement GetDeletedElementById(int id)
+        {
+            return _elementsDataModel.GetDeletedElementById(id);
+        }
+
         public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight)
         {
             return _relationsDataModel.ImportRelation(relationId, consumerId, providerId, type, weight);
@@ -207,6 +212,11 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IDsmRelation GetRelationById(int relationId)
         {
             return _relationsDataModel.GetRelationById(relationId);
+        }
+
+        public IDsmRelation GetDeletedRelationById(int relationId)
+        {
+            return _relationsDataModel.GetDeletedRelationById(relationId);
         }
 
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)

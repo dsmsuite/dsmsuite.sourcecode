@@ -7,7 +7,7 @@ namespace DsmSuite.DsmViewer.View.Windows
     /// <summary>
     /// Interaction logic for RelationView.xaml
     /// </summary>
-    public partial class RelationView : Window
+    public partial class RelationView
     {
         public RelationView()
         {

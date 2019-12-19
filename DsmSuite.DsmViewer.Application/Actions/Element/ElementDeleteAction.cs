@@ -1,41 +1,46 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
-using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementDeleteAction : ActionBase
     {
-        public int Element { get; private set; }
+        private readonly IDsmElement _element;
+
+        public ElementDeleteAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
+        {
+            int id = GetInt(data, nameof(_element));
+            _element = model.GetDeletedElementById(id);
+            Debug.Assert(_element != null);
+        }
 
         public ElementDeleteAction(IDsmModel model, IDsmElement element) : base(model)
         {
-            Element = element.Id;
-
-            ClassName = nameof(ElementDeleteAction);
-            Title = "Delete element";
-            Details = $"element={element.Fullname}";
+            _element = element;
+            Debug.Assert(_element != null);
         }
+
+        public override string ActionName => nameof(ElementDeleteAction);
+        public override string Title => "Delete element";
+        public override string Description => $"element={_element.Fullname}";
 
         public override void Do()
         {
-            Model.RemoveElement(Element);
+            Model.RemoveElement(_element.Id);
         }
 
         public override void Undo()
         {
-            Model.UnremoveElement(Element);
+            Model.UnremoveElement(_element.Id);
         }
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            return null;
-        }
-
-        public override IAction Unpack(IReadOnlyDictionary<string, string> data)
-        {
-            return null;
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            SetInt(data, nameof(_element), _element.Id);
+            return data;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.View
     /// </summary>
     public partial class App 
     {
-        private readonly string settingFile = "ViewerSettings.xml";
+        private readonly string _settingFile = "ViewerSettings.xml";
 
         public string[] CommandLineArguments { get; protected set; }
 
@@ -22,7 +22,7 @@ namespace DsmSuite.DsmViewer.View
 
             CommandLineArguments = e.Args;
 
-            FileInfo settingsFileInfo = new FileInfo(settingFile);
+            FileInfo settingsFileInfo = new FileInfo(_settingFile);
             if (settingsFileInfo.Exists)
             {
                 ViewerSettings viewerSettings = ViewerSettings.ReadFromFile(settingsFileInfo.FullName);

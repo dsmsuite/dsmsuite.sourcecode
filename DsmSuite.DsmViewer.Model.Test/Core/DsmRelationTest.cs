@@ -7,7 +7,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
     public class RelationTest
     {
         [TestMethod]
-        public void When_RelationIsConstructed_Then_PropertiesAreSetAccordingArguments()
+        public void WhenRelationIsConstructedThenPropertiesAreSetAccordingArguments()
         {
             int relationId = 1;
             int consumerId = 2;

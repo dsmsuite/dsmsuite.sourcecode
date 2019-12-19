@@ -2,13 +2,13 @@
 using DsmSuite.Common.Model.Interface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.Analyzer.Model.Test.Data
+namespace DsmSuite.Common.Model.Test.Core
 {
     [TestClass]
     public class DsiMetaDataItemTest
     {
         [TestMethod]
-        public void When_ItemIsConstructed_Then_PropertiesAreSetAccordingArguments()
+        public void WhenItemIsConstructedThenPropertiesAreSetAccordingArguments()
         {
             IMetaDataItem item = new MetaDataItem("name", "value");
             Assert.AreEqual("name", item.Name);

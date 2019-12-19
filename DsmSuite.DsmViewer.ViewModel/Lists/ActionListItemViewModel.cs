@@ -9,7 +9,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         {
             Index = index;
             Action = action.Title;
-            Details = action.Details;
+            Details = action.Description;
         }
 
         public int Index { get; }

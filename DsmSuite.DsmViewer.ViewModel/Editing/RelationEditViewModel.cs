@@ -19,7 +19,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing
             _application = application;
             _relation = relation;
 
-            Title = $"Edit relation";
+            Title = "Edit relation";
             Type = relation.Type;
             Weight = relation.Weight;
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);

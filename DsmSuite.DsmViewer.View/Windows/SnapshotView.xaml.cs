@@ -5,7 +5,7 @@ namespace DsmSuite.DsmViewer.View.Windows
     /// <summary>
     /// Interaction logic for SnapshotView.xaml
     /// </summary>
-    public partial class SnapshotView : Window
+    public partial class SnapshotView
     {
         public SnapshotView()
         {

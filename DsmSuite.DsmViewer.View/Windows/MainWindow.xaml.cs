@@ -49,43 +49,37 @@ namespace DsmSuite.DsmViewer.View.Windows
 
         private void OnActionsVisible(object sender, ViewModel.Lists.ActionListViewModel viewModel)
         {
-            ActionListView view = new ActionListView();
-            view.DataContext = viewModel;
+            ActionListView view = new ActionListView {DataContext = viewModel};
             view.Show();
         }
 
         private void OnSnapshotMakeStarted(object sender, ViewModel.Editing.SnapshotMakeViewModel viewModel)
         {
-            SnapshotView view = new SnapshotView();
-            view.DataContext = viewModel;
+            SnapshotView view = new SnapshotView {DataContext = viewModel};
             view.ShowDialog();
         }
 
         private void OnElementCreateStarted(object sender, ViewModel.Editing.ElementCreateViewModel viewModel)
         {
-            ElementView view = new ElementView();
-            view.DataContext = viewModel;
+            ElementView view = new ElementView {DataContext = viewModel};
             view.ShowDialog();
         }
 
         private void OnElementEditStarted(object sender, ViewModel.Editing.ElementEditViewModel viewModel)
         {
-            ElementView view = new ElementView();
-            view.DataContext = viewModel;
+            ElementView view = new ElementView {DataContext = viewModel};
             view.ShowDialog();
         }
 
         private void OnRelationCreateStarted(object sender, ViewModel.Editing.RelationCreateViewModel viewModel)
         {
-            RelationView view = new RelationView();
-            view.DataContext = viewModel;
+            RelationView view = new RelationView {DataContext = viewModel};
             view.ShowDialog();
         }
 
         private void OnRelationEditStarted(object sender, ViewModel.Editing.RelationEditViewModel viewModel)
         {
-            RelationView view = new RelationView();
-            view.DataContext = viewModel;
+            RelationView view = new RelationView {DataContext = viewModel};
             view.ShowDialog();
         }
 

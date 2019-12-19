@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
 namespace DsmSuite.Common.Util.Test
@@ -8,7 +7,7 @@ namespace DsmSuite.Common.Util.Test
     public class FilePathTest
     {
         [TestMethod]
-        public void When_ResolveFileIsCalledWithAnAbsoluteFilename_Then_TheAbsoluteFileNameIsReturned()
+        public void WhenResolveFileIsCalledWithAnAbsoluteFilenameThenTheAbsoluteFileNameIsReturned()
         {
             string input = @"C:\temp\TestFileCopy.txt";
             string output = FilePath.ResolveFile(null, input);
@@ -16,7 +15,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void When_ResolveFileIsCalledWithAnAbsolutePathAndFilename_Then_TheResolvedAbsoluteFileNameIsReturned()
+        public void WhenResolveFileIsCalledWithAnAbsolutePathAndFilenameThenTheResolvedAbsoluteFileNameIsReturned()
         {
             string path = @"C:\temp";
             string input = "TestFileCopy.txt";
@@ -25,7 +24,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void When_ResolveFileIsCalledWithAnAbsolutePathAndMultipleFilenames_Then_TheResolvedAbsoluteFileNamesAreReturned()
+        public void WhenResolveFileIsCalledWithAnAbsolutePathAndMultipleFilenamesThenTheResolvedAbsoluteFileNamesAreReturned()
         {
             string path = @"C:\temp";
             string[] input = { "TestFileCopy.txt", "TestFileCopyAgain.txt" };
@@ -35,7 +34,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void When_ResolveFileIsCalledWithAnAbsolutePathAndRelativeFilename_Then_TheResolvedAbsoluteFileNameIsReturned()
+        public void WhenResolveFileIsCalledWithAnAbsolutePathAndRelativeFilenameThenTheResolvedAbsoluteFileNameIsReturned()
         {
             string path = @"C:\temp\TestDir";
             string input = @"..\TestFileCopy.txt";

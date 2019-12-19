@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.DotNet.Test.Data
 {
-    public class MainType : BaseType, InterfaceA
+    public class MainType : BaseType, INterfaceA
     {
         delegate int MyDelegate(List<DelegateGenericParameter> parameter);
 

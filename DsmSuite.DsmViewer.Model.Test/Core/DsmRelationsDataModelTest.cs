@@ -52,14 +52,14 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void When_ModelIsConstructed_Then_ItIsEmpty()
+        public void WhenModelIsConstructedThenItIsEmpty()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             Assert.AreEqual(0, model.GetRelationCount());
         }
         
         [TestMethod]
-        public void Given_ModelIsNotEmpty_When_ClearIsCalled_Then_ItIsEmpty()
+        public void GivenModelIsNotEmptyWhenClearIsCalledThenItIsEmpty()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             Assert.AreEqual(0, model.GetRelationCount());
@@ -73,7 +73,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ModelIsEmpty_When_AddRelationIsCalled_Then_ItsHasOneRelation()
+        public void GivenModelIsEmptyWhenAddRelationIsCalledThenItsHasOneRelation()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             Assert.AreEqual(0, model.GetRelationCount());
@@ -85,7 +85,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ModelIsEmpty_When_ImportRelationIsCalled_Then_ItsHasOneRelation()
+        public void GivenModelIsEmptyWhenImportRelationIsCalledThenItsHasOneRelation()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             Assert.AreEqual(0, model.GetRelationCount());
@@ -97,20 +97,20 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ModelIsFilled_When_GetWeightWithSelf_Then_ReturnsZero()
+        public void GivenModelIsFilledWhenGetWeightWithSelfThenReturnsZero()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
             Assert.AreEqual(9, model.GetRelationCount());
 
-            foreach(DsmElement element in _elementsDataModel.GetElements())
+            foreach(IDsmElement element in _elementsDataModel.GetElements())
             {
                 Assert.AreEqual(0, model.GetDependencyWeight(element.Id, element.Id));
             }
         }
 
         [TestMethod]
-        public void Given_ModelIsFilled_When_GetWeightWithOther_Then_ReturnsCalculatedDerivedWeights()
+        public void GivenModelIsFilledWhenGetWeightWithOtherThenReturnsCalculatedDerivedWeights()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
@@ -129,7 +129,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ModelIsFilled_When_EditingRelationWeight_Then_UpdatesCalculatedDerivedWeights()
+        public void GivenModelIsFilledWhenEditingRelationWeightThenUpdatesCalculatedDerivedWeights()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
@@ -147,6 +147,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(1234, model.GetDependencyWeight(_a.Id, _b.Id));
 
             IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
+            Assert.IsNotNull(relation);
+
             model.EditRelation(relation, relation.Type, 5);
 
             Assert.AreEqual(1000, model.GetDependencyWeight(_a1.Id, _b1.Id));
@@ -163,24 +165,28 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ModelIsFilled_When_RemovingRelation_Then_ReducesRelationCount()
+        public void GivenModelIsFilledWhenRemovingRelationThenReducesRelationCount()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
             int relationCountBefore = model.GetRelationCount();
 
             IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
+            Assert.IsNotNull(relation);
+
             model.RemoveRelation(relation.Id);
             Assert.AreEqual(relationCountBefore - 1, model.GetRelationCount());
         }
 
         [TestMethod]
-        public void Given_ModelIsFilled_When_UnremovingRelation_Then_RestoresRelationCount()
+        public void GivenModelIsFilledWhenUnremovingRelationThenRestoresRelationCount()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
 
             IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
+            Assert.IsNotNull(relation);
+
             model.RemoveRelation(relation.Id);
             int relationCountBefore = model.GetRelationCount();
 
@@ -189,7 +195,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ModelIsFilled_When_RemovingRelation_Then_ReducesCalculatedDerivedWeights()
+        public void GivenModelIsFilledWhenRemovingRelationThenReducesCalculatedDerivedWeights()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
@@ -207,6 +213,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(1234, model.GetDependencyWeight(_a.Id, _b.Id));
 
             IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
+            Assert.IsNotNull(relation);
+
             model.RemoveRelation(relation.Id);
 
             Assert.AreEqual(1000, model.GetDependencyWeight(_a1.Id, _b1.Id));
@@ -223,7 +231,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ModelIsFilled_When_UnremovingRelation_Then_RestoresCalculatedDerivedWeights()
+        public void GivenModelIsFilledWhenUnremovingRelationThenRestoresCalculatedDerivedWeights()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
@@ -241,6 +249,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(1234, model.GetDependencyWeight(_a.Id, _b.Id));
 
             IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
+            Assert.IsNotNull(relation);
+
             model.RemoveRelation(relation.Id);
 
             Assert.AreEqual(1000, model.GetDependencyWeight(_a1.Id, _b1.Id));
@@ -271,7 +281,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_CycleExistsBetweenElements_When_IsCyclicDependency_Then_ReturnsTrue()
+        public void GivenCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsTrue()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
@@ -282,7 +292,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_NoCycleExistsBetweenElements_When_IsCyclicDependency_Then_ReturnsFalse()
+        public void GivenNoCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsFalse()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
@@ -293,7 +303,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_NoRelationExistsBetweenElements_When_IsCyclicDependency_Then_ReturnsFalse()
+        public void GivenNoRelationExistsBetweenElementsWhenIsCyclicDependencyThenReturnsFalse()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
@@ -304,7 +314,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_RelationExistsBetweenElements_When_FindRelations_Then_ReturnsRelationBwetweenTheElements()
+        public void GivenRelationExistsBetweenElementsWhenFindRelationsThenReturnsRelationBwetweenTheElements()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
@@ -329,7 +339,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_RelationExistsBetweenElements_When_FindRelationsWhereElementHasProviderRole_Then_ReturnsRelationFromConsumers()
+        public void GivenRelationExistsBetweenElementsWhenFindRelationsWhereElementHasProviderRoleThenReturnsRelationFromConsumers()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);
@@ -351,7 +361,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_RelationExistsBetweenElements_When_FindRelationsWhereElementHasConsumerRole_Then_ReturnsRelationFromConsumers()
+        public void GivenRelationExistsBetweenElementsWhenFindRelationsWhereElementHasConsumerRoleThenReturnsRelationFromConsumers()
         {
             DsmRelationsDataModel model = new DsmRelationsDataModel(_elementsDataModel);
             CreateElementRelations(model);

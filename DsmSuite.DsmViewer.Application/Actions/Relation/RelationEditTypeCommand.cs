@@ -5,16 +5,18 @@ using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
-    public class RelationDeleteAction : ActionBase
+    public class RelationEditTypeAction : ActionBase
     {
         private readonly IDsmRelation _relation;
         private readonly IDsmElement _consumer;
         private readonly IDsmElement _provider;
-
-        public RelationDeleteAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
+        private readonly string _old ;
+        private readonly string _new ;
+        
+        public RelationEditTypeAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
             int id = GetInt(data, nameof(_relation));
-            _relation = model.GetDeletedRelationById(id);
+            _relation = model.GetRelationById(id);
             Debug.Assert(_relation != null);
 
             _consumer = model.GetElementById(_relation.ConsumerId);
@@ -22,9 +24,12 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
             _provider = model.GetElementById(_relation.ProviderId);
             Debug.Assert(_provider != null);
+
+            _new = GetString(data, nameof(_new));
+            _old = GetString(data, nameof(_old));
         }
 
-        public RelationDeleteAction(IDsmModel model, IDsmRelation relation) : base(model)
+        public RelationEditTypeAction(IDsmModel model, IDsmRelation relation, string type) : base(model)
         {
             _relation = relation;
             Debug.Assert(_relation != null);
@@ -34,26 +39,31 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
             _provider = model.GetElementById(_relation.ProviderId);
             Debug.Assert(_provider != null);
+
+            _old = relation.Type;
+            _new = type;
         }
 
-        public override string ActionName => nameof(RelationDeleteAction);
-        public override string Title => "Delete relation";
-        public override string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_relation.Type}";
+        public override string ActionName => nameof(RelationEditTypeAction);
+        public override string Title => "Edit relation type";
+        public override string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_old}->{_new}";
 
         public override void Do()
         {
-            Model.RemoveRelation(_relation.Id);
+            Model.EditRelation(_relation, _new, _relation.Weight);
         }
 
         public override void Undo()
         {
-            Model.UnremoveRelation(_relation.Id);
+            Model.EditRelation(_relation, _old, _relation.Weight);
         }
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
-            SetInt(data, nameof(_relation), _relation.Id);
+            SetInt(data, nameof(Element), _relation.Id);
+            SetString(data, nameof(_new), _new);
+            SetString(data, nameof(_old), _old);
             return data;
         }
     }

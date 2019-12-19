@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
-using DsmSuite.Common.Model.Core;
-using DsmSuite.Common.Util;
+using System.Reflection;
 using DsmSuite.Common.Model.Interface;
+using DsmSuite.Common.Util;
 
-namespace DsmSuite.Analyzer.Model.Core
+namespace DsmSuite.Common.Model.Core
 {
     public class MetaDataModel
     {

@@ -1,12 +1,11 @@
 ﻿using System.Windows;
-using DsmSuite.DsmViewer.ViewModel.Editing;
 
 namespace DsmSuite.DsmViewer.View.Windows
 {
     /// <summary>
     /// Interaction logic for ElementEditView.xaml
     /// </summary>
-    public partial class ElementView : Window
+    public partial class ElementView
     {
         public ElementView()
         {

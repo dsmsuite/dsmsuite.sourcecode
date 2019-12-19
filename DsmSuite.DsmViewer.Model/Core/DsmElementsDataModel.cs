@@ -11,7 +11,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly Dictionary<int /*id*/, IDsmElement> _elementsById;
         private readonly Dictionary<int /*id*/, IDsmElement> _deletedElementsById;
         private int _lastElementId;
-        private DsmElement _root;
+        private readonly DsmElement _root;
 
         public event EventHandler<IDsmElement> ElementUnregistered;
         public event EventHandler<IDsmElement> ElementReregistered;
@@ -21,7 +21,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsById = new Dictionary<int, IDsmElement>();
             _deletedElementsById = new Dictionary<int, IDsmElement>();
             _lastElementId = 0;
-            _root = new DsmElement(0, "", "", 0, false);
+            _root = new DsmElement(0, "", "");
         }
 
         public void Clear()
@@ -113,9 +113,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (_deletedElementsById.ContainsKey(elementId))
             {
                 IDsmElement element = _deletedElementsById[elementId];
-                if (element != null)
+                DsmElement parent = element?.Parent as DsmElement;
+                if (parent != null)
                 {
-                    DsmElement parent = element.Parent as DsmElement;
                     parent.AddChild(element);
                     ReregisterElement(element);
                 }
@@ -173,6 +173,12 @@ namespace DsmSuite.DsmViewer.Model.Core
             return from element in _elementsById.Values
                    where element.Fullname.Contains(text)
                    select element;
+        }
+
+        public IDsmElement GetDeletedElementById(int id)
+        {
+            return _deletedElementsById.ContainsKey(id) ? _deletedElementsById[id] : null;
+
         }
 
         public void ReorderChildren(IDsmElement element, IElementSequence sequence)
@@ -288,11 +294,14 @@ namespace DsmSuite.DsmViewer.Model.Core
         private void RemoveElementFromParent(IDsmElement element)
         {
             DsmElement parent = element.Parent as DsmElement;
-            parent?.RemoveChild(element);
-
-            if (parent.Children.Count == 0)
+            if (parent != null)
             {
-                parent.IsExpanded = false;
+                parent.RemoveChild(element);
+
+                if (parent.Children.Count == 0)
+                {
+                    parent.IsExpanded = false;
+                }
             }
         }
 

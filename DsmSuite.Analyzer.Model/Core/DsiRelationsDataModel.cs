@@ -152,13 +152,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public int TotalRelationCount => _relationCount;
 
-        public int ResolvedRelationCount
-        {
-            get
-            {
-                return GetRelations().Count();
-            }
-        }
+        public int ResolvedRelationCount => GetRelations().Count();
 
         public double ResolvedRelationPercentage
         {

@@ -6,7 +6,7 @@ namespace DsmSuite.Common.Util.Test
     public class ElementNameTest
     {
         [TestMethod]
-        public void When_ElementNameIsConstructedWithNoArgument_Then_ItsHasOneNamePartWhichIsAnEmptyString()
+        public void WhenElementNameIsConstructedWithNoArgumentThenItsHasOneNamePartWhichIsAnEmptyString()
         {
             ElementName elementName = new ElementName();
             Assert.AreEqual("", elementName.FullName);
@@ -16,7 +16,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void When_ElementNameIsConstructedWithSingleMultiPartArgument_Then_ItsHasMutipleNameParts()
+        public void WhenElementNameIsConstructedWithSingleMultiPartArgumentThenItsHasMutipleNameParts()
         {
             ElementName elementName = new ElementName("a.b.c");
             Assert.AreEqual("a.b.c", elementName.FullName);
@@ -29,7 +29,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void When_ElementNameIsConstructedWithTwoArguments_Then_ItsHasTheJoinedMultipleNameParts()
+        public void WhenElementNameIsConstructedWithTwoArgumentsThenItsHasTheJoinedMultipleNameParts()
         {
             ElementName elementName = new ElementName("a.b", "c");
             Assert.AreEqual("a.b.c", elementName.FullName);
@@ -42,7 +42,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void Given_AnEmptyElementName_When_AddPartIsCalled_Then_ItsHasOneNamePart()
+        public void GivenAnEmptyElementNameWhenAddPartIsCalledThenItsHasOneNamePart()
         {
             ElementName elementName = new ElementName();
 
@@ -55,7 +55,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void Given_FilledElementName_When_AddPartIsCalled_Then_ItsHasOneAdditionalNamePart()
+        public void GivenFilledElementNameWhenAddPartIsCalledThenItsHasOneAdditionalNamePart()
         {
             ElementName elementName = new ElementName("a.b");
             elementName.AddNamePart("c");

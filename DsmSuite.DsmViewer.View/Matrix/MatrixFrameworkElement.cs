@@ -11,9 +11,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private static readonly float PixelsPerDip;
         private static readonly RotateTransform TextTransform;
         private static readonly double FontSize = 12;
-        private static readonly GlyphInfo[] m_glyphInfoTable;
-        private static List<ushort> m_glyphIndexesList = new List<ushort>();
-        private static List<double> m_advanceWidthsList = new List<double>();
+        private static readonly GlyphInfo[] MGlyphInfoTable;
+        private static readonly List<ushort> MGlyphIndexesList = new List<ushort>();
+        private static readonly List<double> MAdvanceWidthsList = new List<double>();
 
         private struct GlyphInfo
         {
@@ -34,13 +34,13 @@ namespace DsmSuite.DsmViewer.View.Matrix
             TextColor = new SolidColorBrush(Colors.Black);
             PixelsPerDip = 1.0f;
 
-            m_glyphInfoTable = new GlyphInfo[char.MaxValue];
+            MGlyphInfoTable = new GlyphInfo[char.MaxValue];
             foreach (var kvp in GlyphTypeface.CharacterToGlyphMap)
             {
                 char c = (char)kvp.Key;
                 var glyphIndex = kvp.Value;
                 double width = GlyphTypeface.AdvanceWidths[glyphIndex] * FontSize;
-                m_glyphInfoTable[c] = new GlyphInfo(glyphIndex, width);
+                MGlyphInfoTable[c] = new GlyphInfo(glyphIndex, width);
             }
 
             TextTransform = new RotateTransform { Angle = 90 };
@@ -60,23 +60,23 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 double totalWidth = 0;
 
-                m_glyphIndexesList.Clear();
-                m_advanceWidthsList.Clear();
+                MGlyphIndexesList.Clear();
+                MAdvanceWidthsList.Clear();
 
                 foreach (char c in text)
                 {
                     if (totalWidth < maxWidth)
                     {
-                        var info = m_glyphInfoTable[c];
-                        m_glyphIndexesList.Add(info.Index);
-                        m_advanceWidthsList.Add(info.Width);
+                        var info = MGlyphInfoTable[c];
+                        MGlyphIndexesList.Add(info.Index);
+                        MAdvanceWidthsList.Add(info.Width);
 
                         totalWidth += info.Width;
                     }
                 }
 
                 GlyphRun glyphRun = new GlyphRun(GlyphTypeface, 0, false, FontSize, PixelsPerDip,
-                    m_glyphIndexesList.ToArray(), location, m_advanceWidthsList.ToArray(),
+                    MGlyphIndexesList.ToArray(), location, MAdvanceWidthsList.ToArray(),
                     null, null, null, null, null, null);
 
                 dc.DrawGlyphRun(TextColor, glyphRun);

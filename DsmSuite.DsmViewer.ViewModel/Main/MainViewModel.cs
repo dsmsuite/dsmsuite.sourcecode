@@ -542,10 +542,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             {
                 if (element.Id == item.Id)
                 {
-                    if (ActiveMatrix != null)
-                    {
-                        ActiveMatrix.SelectProvider(item);
-                    }
+                    ActiveMatrix?.SelectProvider(item);
                 }
                 else
                 {
@@ -609,7 +606,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void EditRelationExecute(object parameter)
         {
-            bool canExecute = false;
             if ((SelectedConsumer != null) && (SelectedProvider != null))
             {
                 IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);

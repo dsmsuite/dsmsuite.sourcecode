@@ -1,5 +1,4 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
-using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,51 +7,58 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementMoveAction : ActionBase
     {
-        public int Element { get; }
-        public int OldParent { get; }
-        public int NewParent { get; }
+        private readonly IDsmElement _element;
+        private readonly IDsmElement _old;
+        private readonly IDsmElement _new;
+
+        public ElementMoveAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
+        {
+            int id = GetInt(data, nameof(_element));
+            _element = model.GetElementById(id);
+            Debug.Assert(_element != null);
+
+            int oldParentid = GetInt(data, nameof(_old));
+            _old = model.GetElementById(oldParentid);
+            Debug.Assert(_old != null);
+
+            int newParentId = GetInt(data, nameof(_new));
+            _new = model.GetElementById(newParentId);
+            Debug.Assert(_new != null);
+        }
 
         public ElementMoveAction(IDsmModel model, IDsmElement element, IDsmElement newParent) : base(model)
         {
-            Element = element.Id;
-            OldParent = element.Parent.Id;
-            NewParent = newParent.Id;
+            _element = element;
+            Debug.Assert(_element != null);
 
-            ClassName = nameof(ElementMoveAction);
-            Title = "Move element";
-            Details = $"element={element.Fullname} parent={element.Parent.Fullname} -> {newParent.Fullname}";
+            _old = element.Parent;
+            Debug.Assert(_old != null);
+
+            _new = newParent;
+            Debug.Assert(_new != null);
         }
+
+        public override string ActionName => nameof(ElementMoveAction);
+        public override string Title => "Move element";
+        public override string Description => $"element={_element.Fullname} parent={_old.Fullname}->{_new.Fullname}";
 
         public override void Do()
         {
-            IDsmElement element = Model.GetElementById(Element);
-            Debug.Assert(element != null);
-
-            IDsmElement newParent = Model.GetElementById(NewParent);
-            Debug.Assert(newParent != null);
-
-            Model.ChangeParent(element, newParent);
+            Model.ChangeParent(_element, _new);
         }
 
         public override void Undo()
         {
-            IDsmElement element = Model.GetElementById(Element);
-            Debug.Assert(element != null);
-
-            IDsmElement oldParent = Model.GetElementById(OldParent);
-            Debug.Assert(oldParent != null);
-
-            Model.ChangeParent(element, oldParent);
+            Model.ChangeParent(_element, _old);
         }
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            return null;
-        }
-
-        public override IAction Unpack(IReadOnlyDictionary<string, string> data)
-        {
-            return null;
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            SetInt(data, nameof(_element), _element.Id);
+            SetInt(data, nameof(_old), _old.Id);
+            SetInt(data, nameof(_new), _new.Id);
+            return data;
         }
     }
 }

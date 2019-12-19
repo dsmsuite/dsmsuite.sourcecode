@@ -1,6 +1,5 @@
 ﻿using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -127,9 +126,14 @@ namespace DsmSuite.DsmViewer.Model.Core
                    (GetDependencyWeight(providerId, consumerId) > 0);
         }
 
-        public IDsmRelation GetRelationById(int relationId)
+        public IDsmRelation GetRelationById(int id)
         {
-            return _relationsById.ContainsKey(relationId) ? _relationsById[relationId] : null;
+            return _relationsById.ContainsKey(id) ? _relationsById[id] : null;
+        }
+
+        public IDsmRelation GetDeletedRelationById(int id)
+        {
+            return _deletedRelationsById.ContainsKey(id) ? _deletedRelationsById[id] : null;
         }
 
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)

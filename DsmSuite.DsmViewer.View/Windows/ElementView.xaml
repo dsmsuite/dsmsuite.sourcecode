@@ -24,7 +24,7 @@
             <Label Content="Type" Grid.Row="1" Grid.Column="0" Margin="5"/>
             <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Type}"/>
         </Grid>
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
             <Button Style="{StaticResource DialogButton}" Content="Cancel" IsCancel="True" />
         </StackPanel>

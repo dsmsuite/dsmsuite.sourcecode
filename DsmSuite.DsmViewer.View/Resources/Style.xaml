@@ -80,8 +80,7 @@
     </Style>
 
     <!-- Column styles -->
-    <Style x:Key="ColumnHeaderContainerStyle" TargetType="Grid">
-    </Style>
+    <Style x:Key="ColumnHeaderContainerStyle" TargetType="Grid" />
 
     <Style x:Key="ColumnHeaderItemsStyle" TargetType="ListView">
         <Setter Property="BorderThickness" Value="0" />
@@ -99,7 +98,7 @@
 
     <Style x:Key="ColumnHeaderItemStyle" TargetType="StackPanel">
         <Setter Property="Orientation" Value="Horizontal" />
-        <Setter Property="Width" Value="{StaticResource MatrixCellSize}"></Setter>
+        <Setter Property="Width" Value="{StaticResource MatrixCellSize}" />
         <Setter Property="Margin" Value="1" />
     </Style>
 

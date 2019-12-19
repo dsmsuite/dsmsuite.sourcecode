@@ -1,11 +1,11 @@
-﻿using DsmSuite.Analyzer.Model.Core;
-using DsmSuite.Common.Model.Interface;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DsmSuite.Common.Model.Core;
+using DsmSuite.Common.Model.Interface;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.Analyzer.Model.Test.Core
+namespace DsmSuite.Common.Model.Test.Core
 {
     [TestClass]
     public class MetaDataModelTest
@@ -27,7 +27,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ItemNameNotUsedBefore_When_AddMetaDataItemIsCalled_Then_ItemIsAdded()
+        public void GivenItemNameNotUsedBeforeWhenAddMetaDataItemIsCalledThenItemIsAdded()
         {
             string defaultGroupName = "DefaultGroupName";
             MetaDataModel model = new MetaDataModel(defaultGroupName, Assembly.GetExecutingAssembly());
@@ -47,7 +47,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
         
         [TestMethod]
-        public void Given_ItemNamesNotUsedBefore_When_AddMetaDataItemToDefaultGroupIsCalledTwice_Then_TwoItemIAreAddedAndOrderIsMaintained()
+        public void GivenItemNamesNotUsedBeforeWhenAddMetaDataItemToDefaultGroupIsCalledTwiceThenTwoItemIAreAddedAndOrderIsMaintained()
         {
             string defaultGroupName = "DefaultGroupName";
             MetaDataModel model = new MetaDataModel(defaultGroupName, Assembly.GetExecutingAssembly());
@@ -73,7 +73,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void Given_ItemNameUsedBefore_When_AddMetaDataItemToDefaultGroupIsCalled_Then_ItemIsUpdated()
+        public void GivenItemNameUsedBeforeWhenAddMetaDataItemToDefaultGroupIsCalledThenItemIsUpdated()
         {
             string defaultGroupName = "DefaultGroupName";
             MetaDataModel model = new MetaDataModel(defaultGroupName, Assembly.GetExecutingAssembly());
@@ -96,7 +96,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void When_AddMetaDataItemIsCalled_Then_GroupIsAdded()
+        public void WhenAddMetaDataItemIsCalledThenGroupIsAdded()
         {
             string defaultGroupName = "DefaultGroupName";
             MetaDataModel model = new MetaDataModel(defaultGroupName, Assembly.GetExecutingAssembly());
@@ -115,7 +115,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void When_AddMetaDataItemIsCalled_Then_ItemIsAdded()
+        public void WhenAddMetaDataItemIsCalledThenItemIsAdded()
         {
             string defaultGroupName = "DefaultGroupName";
             MetaDataModel model = new MetaDataModel(defaultGroupName, Assembly.GetExecutingAssembly());
@@ -133,7 +133,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
 
 
         [TestMethod]
-        public void When_AddMetaDataItemIsCalledTwice_Then_TwoItemIAreAddedAndOrderIsMaintained()
+        public void WhenAddMetaDataItemIsCalledTwiceThenTwoItemIAreAddedAndOrderIsMaintained()
         {
             string defaultGroupName = "DefaultGroupName";
             MetaDataModel model = new MetaDataModel(defaultGroupName, Assembly.GetExecutingAssembly());

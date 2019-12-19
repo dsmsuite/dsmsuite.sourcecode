@@ -1,5 +1,4 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
-using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,67 +7,57 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementCreateAction : ActionBase
     {
-        public int Element { get; private set; }
-        public string Name { get; }
-        public string Type { get; }
-        public int? Parent { get; }
+        private IDsmElement _element;
+        private readonly string _name;
+        private readonly string _type;
+        private readonly IDsmElement _parent;
 
-        private ElementCreateAction(IDsmModel model, int id, string name, string type, int? parentId) : base(model)
+        public ElementCreateAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
-            Element = id;
-            Name = name;
-            Type = type;
-            Parent = parentId;
+            int id = GetInt(data, nameof(_element));
+            _element = model.GetElementById(id);
+            Debug.Assert(_element != null);
 
-            ClassName = nameof(ElementCreateAction);
-            base.Title = "Create element";
-            Details = $"name={name} parent={parentId} type={type}";
+            _name = GetString(data, nameof(_name));
+            _type = GetString(data, nameof(_type));
+
+            int? parentId = GetNullableInt( data, nameof(_parent));
+            if (parentId.HasValue)
+            {
+                _parent = model.GetElementById(parentId.Value);
+            }
         }
 
         public ElementCreateAction(IDsmModel model, string name, string type, IDsmElement parent) : base(model)
         {
-            Name = name;
-            Type = type;
-            Parent = parent?.Id;
-
-            ClassName = nameof(ElementCreateAction);
-            base.Title = "Create element";
-            Details = $"name={name} parent={parent.Fullname} type={type}";
+            _name = name;
+            _type = type;
+            _parent = parent;
         }
+
+        public override string ActionName => nameof(ElementCreateAction);
+        public override string Title => "Create element";
+        public override string Description => $"name={_name} type={_type} parent={_parent.Fullname}";
 
         public override void Do()
         {
-            IDsmElement element = Model.AddElement(Title, Type, Parent);
-            Debug.Assert(element != null);
-
-            Element = element.Id;
+            _element = Model.AddElement(_name, _type, _parent.Id);
+            Debug.Assert(_element != null);
         }
 
         public override void Undo()
         {
-            Model.RemoveElement(Element);
+            Model.RemoveElement(_element.Id);
         }
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
-
-            SetInt(data, nameof(Element), Element);
-            SetString(data, nameof(Name), Name);
-            SetString(data, nameof(Type), Type);
-            SetInt(data, nameof(Parent), Parent);
-
+            SetInt(data, nameof(_element), _element.Id);
+            SetString(data, nameof(_name), _name);
+            SetString(data, nameof(_type), _type);
+            SetNullableInt(data, nameof(_parent), _parent.Id);
             return data;
-        }
-
-        public override IAction Unpack(IReadOnlyDictionary<string, string> data)
-        {
-            int? id = GetInt(data, nameof(Element));
-            string name = GetString(data, nameof(Name));
-            string type = GetString(data, nameof(Type));
-            int? parentId = GetInt(data, nameof(Parent));
-
-            return new ElementCreateAction(Model, id.Value, name, type, parentId);
         }
     }
 }

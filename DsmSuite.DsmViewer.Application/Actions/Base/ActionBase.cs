@@ -12,19 +12,15 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
         }
 
         protected IDsmModel Model { get; }
+        public abstract string ActionName { get; }
+        public abstract string Title { get; }
+        public abstract string Description { get; }
 
         public abstract void Do();
 
         public abstract void Undo();
 
-        public string ClassName { get; protected set; }
-        public string Title { get; protected set; }
-        public string Details { get; protected set; }
-
-        public string Description => $"{Title} : {Details}";
-
         public abstract IReadOnlyDictionary<string, string> Pack();
-        public abstract IAction Unpack(IReadOnlyDictionary<string, string> data);
 
         protected void SetString(IDictionary<string, string> data, string key, string value)
         {
@@ -42,7 +38,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             return value;
         }
 
-        protected void SetInt(IDictionary<string, string> data, string key, int? value)
+        protected void SetInt(IDictionary<string, string> data, string key, int value)
+        {
+            data[key] = value.ToString();
+        }
+
+        protected int GetInt(IReadOnlyDictionary<string, string> data, string key)
+        {
+            return int.Parse(data[key]);
+        }
+
+        protected void SetNullableInt(IDictionary<string, string> data, string key, int? value)
         {
             if (value.HasValue)
             {
@@ -50,18 +56,16 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             }
         }
 
-        protected int? GetInt(IReadOnlyDictionary<string, string> data, string key)
+        protected int? GetNullableInt(IReadOnlyDictionary<string, string> data, string key)
         {
             int? value = null;
 
-            if (data.ContainsKey(key))
+            int number;
+            if (int.TryParse(data[key], out number))
             {
-                int number;
-                if (int.TryParse(data[key], out number))
-                {
-                    value = number;
-                }
+                value = number;
             }
+
             return value;
         }
     }

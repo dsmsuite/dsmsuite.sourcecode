@@ -6,23 +6,17 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
     public class ElementTreeItemViewModel : ElementViewModel
     {
-        private readonly MatrixViewModel _matrixViewModel;
-
         public ElementTreeItemViewModel(MatrixViewModel matrixViewModel, IDsmElement element, ElementRole role, int depth) :
             base(matrixViewModel, element, role, depth)
         {
-            _matrixViewModel = matrixViewModel;
-            Depth = depth;
             Children = new ObservableCollection<ElementTreeItemViewModel>();
 
-            MoveCommand = _matrixViewModel.MoveCommand;
-            MoveUpCommand = _matrixViewModel.MoveUpCommand;
-            MoveDownCommand = _matrixViewModel.MoveDownCommand;
-            PartitionCommand = _matrixViewModel.PartitionCommand;
-            ToggleElementExpandedCommand = _matrixViewModel.ToggleElementExpandedCommand;
+            MoveCommand = matrixViewModel.MoveCommand;
+            MoveUpCommand = matrixViewModel.MoveUpCommand;
+            MoveDownCommand = matrixViewModel.MoveDownCommand;
+            PartitionCommand = matrixViewModel.PartitionCommand;
+            ToggleElementExpandedCommand = matrixViewModel.ToggleElementExpandedCommand;
         }
-
-        public int Depth { get; }
 
         public ICommand MoveCommand { get; }
         public ICommand MoveUpCommand { get; }

@@ -8,7 +8,7 @@ namespace DsmSuite.Common.Util.Test
     public class SystemInfoTest
     {
         [TestMethod]
-        public void When_GetExecutableInfoIsCalled_Then_InfoContainingTheAssemblyNameIsReturned()
+        public void WhenGetExecutableInfoIsCalledThenInfoContainingTheAssemblyNameIsReturned()
         {
             string executableInfo = SystemInfo.GetExecutableInfo(Assembly.GetExecutingAssembly());
             char[] itemSeparators = {'=', ' '};
@@ -19,7 +19,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void When_GetExecutableInfoIsCalled_Then_InfoIdentifyingTheAssemblyVersionIsReturned()
+        public void WhenGetExecutableInfoIsCalledThenInfoIdentifyingTheAssemblyVersionIsReturned()
         {
             string executableInfo = SystemInfo.GetExecutableInfo(Assembly.GetExecutingAssembly());
             char[] itemSeparators = { '=', ' ' };
@@ -48,7 +48,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void When_GetExecutableInfoIsCalled_Then_InfoIdentifyingTheAssemblyBuildTimeStampIsReturned()
+        public void WhenGetExecutableInfoIsCalledThenInfoIdentifyingTheAssemblyBuildTimeStampIsReturned()
         {
             string executableInfo = SystemInfo.GetExecutableInfo(Assembly.GetExecutingAssembly());
             char[] itemSeparators = { '=', ' ' };

@@ -19,21 +19,21 @@ namespace DsmSuite.Common.Util.Test
         }
         
         [TestMethod]
-        public void Give_FileDoesNotExist_When_FileExistsIsCalled_Then_FalseIsReturned()
+        public void GiveFileDoesNotExistWhenFileExistsIsCalledThenFalseIsReturned()
         {
             CompressedFile<int> file = new CompressedFile<int>(NotExistingFilePath);
             Assert.IsFalse(file.FileExists);
         }
 
         [TestMethod]
-        public void Give_FileDoesNotExist_When_IsCompressedIsCalled_Then_FalseIsReturned()
+        public void GiveFileDoesNotExistWhenIsCompressedIsCalledThenFalseIsReturned()
         {
             CompressedFile<int> file = new CompressedFile<int>(NotExistingFilePath);
             Assert.IsFalse(file.IsCompressed);
         }
 
         [TestMethod]
-        public void Give_FileIsUncompressed_When_IsCompressedIsCalled_Then_FalseIsReturned()
+        public void GiveFileIsUncompressedWhenIsCompressedIsCalledThenFalseIsReturned()
         {
             CompressedFile<int> file = new CompressedFile<int>(UncompressedFilePath);
             Assert.IsTrue(file.FileExists);
@@ -41,7 +41,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void Give_FileIsCompressed_When_IsCompressedIsCalled_Then_TrueIsReturned()
+        public void GiveFileIsCompressedWhenIsCompressedIsCalledThenTrueIsReturned()
         {
             CompressedFile<int> file = new CompressedFile<int>(CompressedFilePath);
             Assert.IsTrue(file.FileExists);
@@ -49,7 +49,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void Give_FileIsUncompressed_When_ReadFileIsCalled_Then_TheContentIsReadCorrectly()
+        public void GiveFileIsUncompressedWhenReadFileIsCalledThenTheContentIsReadCorrectly()
         {
             CompressedFile<int> file = new CompressedFile<int>(UncompressedFilePath);
             Assert.IsTrue(file.FileExists);
@@ -65,7 +65,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void Give_FileIsCompressed_When_ReadFileIsCalled_Then_TheContentIsReadCorrectly()
+        public void GiveFileIsCompressedWhenReadFileIsCalledThenTheContentIsReadCorrectly()
         {
             CompressedFile<int> file = new CompressedFile<int>(CompressedFilePath);
             Assert.IsTrue(file.FileExists);
@@ -81,7 +81,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void When_ContentIsWrittenUncompressedToAFile_Then_TheReadBackContentIsIdentical()
+        public void WhenContentIsWrittenUncompressedToAFileThenTheReadBackContentIsIdentical()
         {
             string newPath = NewFilePath;
             CompressedFile<int> writtenFile = new CompressedFile<int>(newPath);
@@ -104,7 +104,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void When_ContentIsWrittenCompressedToAFile_Then_TheReadBackContentIsIdentical()
+        public void WhenContentIsWrittenCompressedToAFileThenTheReadBackContentIsIdentical()
         {
             string newPath = NewFilePath;
             CompressedFile<int> writtenFile = new CompressedFile<int>(newPath);
