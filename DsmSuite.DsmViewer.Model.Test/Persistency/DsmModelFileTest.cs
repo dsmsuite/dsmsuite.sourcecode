@@ -291,7 +291,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return metaDataItem;
         }
 
-        public IDsmAction ImportAction(int id, string type, IDictionary<string, string> data)
+        public IDsmAction ImportAction(int id, string type, IReadOnlyDictionary<string, string> data)
         {
             DsmAction action = new DsmAction(id, type, data);
             _actions.Add(action);

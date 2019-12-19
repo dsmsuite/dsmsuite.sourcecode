@@ -8,6 +8,6 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         string Type { get; }
 
-        IDictionary<string,string> Data { get; }
+        IReadOnlyDictionary<string,string> Data { get; }
     }
 }

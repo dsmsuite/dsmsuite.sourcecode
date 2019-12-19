@@ -11,6 +11,7 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Queries;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Reporting;
+using DsmSuite.DsmViewer.Application.Actions;
 
 namespace DsmSuite.DsmViewer.Application.Core
 {
@@ -18,6 +19,7 @@ namespace DsmSuite.DsmViewer.Application.Core
     {
         private readonly IDsmModel _model;
         private readonly ActionManager _actionManager;
+        private readonly ActionStore _actionStore;
         private readonly DsmQueries _queries;
 
         public event EventHandler<bool> Modified;
@@ -29,6 +31,8 @@ namespace DsmSuite.DsmViewer.Application.Core
 
             _actionManager = new ActionManager();
             _actionManager.ActionPerformed += OnActionPerformed;
+
+            _actionStore = new ActionStore(_model, _actionManager);
 
             _queries = new DsmQueries(model);
         }
@@ -87,12 +91,14 @@ namespace DsmSuite.DsmViewer.Application.Core
         public async Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
             await Task.Run(() => _model.LoadModel(dsmFilename, progress));
+            _actionStore.Load();
             IsModified = false;
             Modified?.Invoke(this, IsModified);
         }
 
         public async Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
+            _actionStore.Save();
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));
             IsModified = false;
             Modified?.Invoke(this, IsModified);

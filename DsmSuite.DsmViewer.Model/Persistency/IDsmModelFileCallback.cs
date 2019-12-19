@@ -7,7 +7,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
     public interface IDsmModelFileCallback
     {
         IMetaDataItem ImportMetaDataItem(string group, string name, string value);
-        IDsmAction ImportAction(int id, string type, IDictionary<string, string> data);
+        IDsmAction ImportAction(int id, string type, IReadOnlyDictionary<string, string> data);
         IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parent);
         IDsmRelation ImportRelation(int id, int consumer, int provider, string type, int weight);
 

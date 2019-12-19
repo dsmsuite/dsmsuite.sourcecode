@@ -18,6 +18,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             _redoActionStack = new Stack<ActionBase>();
         }
 
+        public IEnumerable<IAction> GetActions()
+        {
+            return _undoActionStack;
+        }
+
         public void Execute(ActionBase action)
         {
             _undoActionStack.Push(action);

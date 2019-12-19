@@ -8,7 +8,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         public ActionListItemViewModel(int index, IAction action)
         {
             Index = index;
-            Action = action.Type;
+            Action = action.Title;
             Details = action.Details;
         }
 

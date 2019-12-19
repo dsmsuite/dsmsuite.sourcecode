@@ -1,37 +1,74 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
     public class ElementCreateAction : ActionBase
     {
-        private int? _elementId;
-        private readonly string _name;
-        private readonly string _type;
-        private readonly IDsmElement _parent;
-        
+        public int Element { get; private set; }
+        public string Name { get; }
+        public string Type { get; }
+        public int? Parent { get; }
+
+        private ElementCreateAction(IDsmModel model, int id, string name, string type, int? parentId) : base(model)
+        {
+            Element = id;
+            Name = name;
+            Type = type;
+            Parent = parentId;
+
+            ClassName = nameof(ElementCreateAction);
+            base.Title = "Create element";
+            Details = $"name={name} parent={parentId} type={type}";
+        }
+
         public ElementCreateAction(IDsmModel model, string name, string type, IDsmElement parent) : base(model)
         {
-            _name = name;
-            _type = type;
-            _parent = parent;
+            Name = name;
+            Type = type;
+            Parent = parent?.Id;
 
-            Type = "Create element";
-            Details = $"name={_name} parent={_parent.Fullname} type={_type}";
+            ClassName = nameof(ElementCreateAction);
+            base.Title = "Create element";
+            Details = $"name={name} parent={parent.Fullname} type={type}";
         }
 
         public override void Do()
         {
-            IDsmElement element = Model.AddElement(_name, _type, _parent.Id);
-            _elementId = element?.Id;
+            IDsmElement element = Model.AddElement(Title, Type, Parent);
+            Debug.Assert(element != null);
+
+            Element = element.Id;
         }
 
         public override void Undo()
         {
-            if (_elementId.HasValue)
-            {
-                Model.RemoveElement(_elementId.Value);
-            }
+            Model.RemoveElement(Element);
+        }
+
+        public override IReadOnlyDictionary<string, string> Pack()
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            SetInt(data, nameof(Element), Element);
+            SetString(data, nameof(Name), Name);
+            SetString(data, nameof(Type), Type);
+            SetInt(data, nameof(Parent), Parent);
+
+            return data;
+        }
+
+        public override IAction Unpack(IReadOnlyDictionary<string, string> data)
+        {
+            int? id = GetInt(data, nameof(Element));
+            string name = GetString(data, nameof(Name));
+            string type = GetString(data, nameof(Type));
+            int? parentId = GetInt(data, nameof(Parent));
+
+            return new ElementCreateAction(Model, id.Value, name, type, parentId);
         }
     }
 }

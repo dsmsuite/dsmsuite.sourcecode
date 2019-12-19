@@ -1,46 +1,56 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
     public class RelationEditAction : ActionBase
     {
-        private int _relationId;
-        private readonly string _oldType;
-        private readonly int _oldWeight;
-        private readonly string _newType;
-        private readonly int _newWeight;
+        public int Relation { get; }
+        public string OldType { get; }
+        public int OldWeight { get; }
+        public string NewType { get; }
+        public int NewWeight { get; }
 
         public RelationEditAction(IDsmModel model, IDsmRelation relation, string type, int weight) : base(model)
         {
-            _relationId = relation.Id;
+            Relation = relation.Id;
 
-            _oldType = relation.Type;
-            _oldWeight = relation.Weight;
+            OldType = relation.Type;
+            OldWeight = relation.Weight;
 
-            _newType = type;
-            _newWeight = weight;
+            NewType = type;
+            NewWeight = weight;
 
-            Type = "Edit relation";
+            ClassName = nameof(RelationEditAction);
+            Title = "Edit relation";
             Details = $"relation={relation.Id}";
         }
 
         public override void Do()
         {
-            IDsmRelation relation = Model.GetRelationById(_relationId);
-            if (relation != null)
-            {
-                Model.EditRelation(relation, _newType, _newWeight);
-            }
+            IDsmRelation relation = Model.GetRelationById(Relation);
+            Debug.Assert(relation != null);
+            Model.EditRelation(relation, NewType, NewWeight);
         }
 
         public override void Undo()
         {
-            IDsmRelation relation = Model.GetRelationById(_relationId);
-            if (relation != null)
-            {
-                Model.EditRelation(relation, _oldType, _oldWeight);
-            }
+            IDsmRelation relation = Model.GetRelationById(Relation);
+            Debug.Assert(relation != null);
+            Model.EditRelation(relation, OldType, OldWeight);
+        }
+
+        public override IReadOnlyDictionary<string, string> Pack()
+        {
+            return null;
+        }
+
+        public override IAction Unpack(IReadOnlyDictionary<string, string> data)
+        {
+            return null;
         }
     }
 }
