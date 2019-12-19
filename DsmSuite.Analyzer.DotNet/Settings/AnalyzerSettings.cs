@@ -33,6 +33,9 @@ namespace DsmSuite.Analyzer.DotNet.Settings
             analyzerSettings.ExternalNames.Add("System.");
             analyzerSettings.ExternalNames.Add("Microsoft.");
             analyzerSettings.ExternalNames.Add("Interop/");
+            analyzerSettings.ExternalNames.Add("&lt;");
+            analyzerSettings.ExternalNames.Add("$");
+            analyzerSettings.ExternalNames.Add("_");
             return analyzerSettings;
         }
 
