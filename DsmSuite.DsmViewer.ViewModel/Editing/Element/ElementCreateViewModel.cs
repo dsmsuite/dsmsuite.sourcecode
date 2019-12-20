@@ -3,7 +3,7 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
-namespace DsmSuite.DsmViewer.ViewModel.Editing
+namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
 {
     public class ElementCreateViewModel : ViewModelBase
     {

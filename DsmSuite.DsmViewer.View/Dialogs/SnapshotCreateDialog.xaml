@@ -5,9 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStyle="None"        
-        Height="300"
-        Width="300">
-    <Grid>
-        
-    </Grid>
+        Height="140" 
+        Width="450">
+    <StackPanel Orientation="Vertical">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="340" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Add snapshot description" Margin="5"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Description" Margin="5"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Description}"/>
+        </Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
+            <Button Style="{StaticResource DialogButton}" Content="Cancel" IsCancel="True" />
+        </StackPanel>
+    </StackPanel>
 </Window>

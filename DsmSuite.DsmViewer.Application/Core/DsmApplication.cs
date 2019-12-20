@@ -213,12 +213,16 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Execute(action);
         }
 
-        public void EditElement(IDsmElement element, string name, string type)
+        public void EditElementName(IDsmElement element, string name)
         {
-            ElementEditNameAction action1 = new ElementEditNameAction(_model, element, name);
-            _actionManager.Execute(action1);
-            ElementEditTypeAction action2 = new ElementEditTypeAction(_model, element, type);
-            _actionManager.Execute(action2);
+            ElementEditNameAction action = new ElementEditNameAction(_model, element, name);
+            _actionManager.Execute(action);
+        }
+
+        public void EditElementType(IDsmElement element, string type)
+        {
+            ElementEditTypeAction action = new ElementEditTypeAction(_model, element, type);
+            _actionManager.Execute(action);
         }
 
         public void MoveElement(IDsmElement element, IDsmElement newParent)
@@ -239,12 +243,16 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Execute(action);
         }
 
-        public void EditRelation(IDsmRelation relation, string type, int weight)
+        public void EditRelationType(IDsmRelation relation, string type)
         {
-            RelationEditWeightAction action1 = new RelationEditWeightAction(_model, relation, weight);
-            _actionManager.Execute(action1);
-            RelationEditTypeAction action2 = new RelationEditTypeAction(_model, relation, type);
-            _actionManager.Execute(action2);
+            RelationEditTypeAction action = new RelationEditTypeAction(_model, relation, type);
+            _actionManager.Execute(action);
+        }
+
+        public void EditRelationWeight(IDsmRelation relation, int weight)
+        {
+            RelationEditWeightAction action = new RelationEditWeightAction(_model, relation, weight);
+            _actionManager.Execute(action);
         }
 
         public void MakeSnapshot(string description)

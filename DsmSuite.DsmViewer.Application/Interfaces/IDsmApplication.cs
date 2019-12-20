@@ -45,12 +45,14 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         void CreateElement(string name, string type, IDsmElement parent);
         void DeleteElement(IDsmElement element);
-        void EditElement(IDsmElement element, string name, string type);
+        void EditElementName(IDsmElement element, string name);
+        void EditElementType(IDsmElement element, string type);
         void MoveElement(IDsmElement element, IDsmElement newParent);
 
         void CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight);
         void DeleteRelation(IDsmRelation relation);
-        void EditRelation(IDsmRelation relation, string type, int weight);
+        void EditRelationType(IDsmRelation relation, string type);
+        void EditRelationWeight(IDsmRelation relation, int weight);
 
         void MakeSnapshot(string name);
 

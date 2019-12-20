@@ -2,7 +2,8 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.ViewModel.Common;
-using DsmSuite.DsmViewer.ViewModel.Editing;
+using DsmSuite.DsmViewer.ViewModel.Editing.Element;
+using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
@@ -27,9 +28,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         void NotifyRelationsReportReady(RelationListViewModel report);
 
         event EventHandler<ElementCreateViewModel> ElementCreateStarted;
-        event EventHandler<ElementEditViewModel> ElementEditStarted;
+        event EventHandler<ElementEditNameViewModel> ElementEditNameStarted;
+        event EventHandler<ElementEditTypeViewModel> ElementEditTypeStarted;
+
         event EventHandler<RelationCreateViewModel> RelationCreateStarted;
-        event EventHandler<RelationEditViewModel> RelationEditStarted;
+        event EventHandler<RelationEditWeightViewModel> RelationEditWeightStarted;
+        event EventHandler<RelationEditTypeViewModel> RelationEditTypeStarted;
 
         event EventHandler<ReportViewModel> ReportCreated;
         event EventHandler<ElementListViewModel> ElementsReportReady;
@@ -48,9 +52,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand CreateElementCommand { get; }
         ICommand DeleteElementCommand { get; }
         ICommand MoveElementCommand { get; }
-        ICommand EditElementCommand { get; }
+        ICommand EditElementNameCommand { get; }
+        ICommand EditElementTypeCommand { get; }
         ICommand CreateRelationCommand { get; }
-        ICommand EditRelationCommand { get; }
+        ICommand EditRelationWeightCommand { get; }
+        ICommand EditRelationTypeCommand { get; }
         ICommand DeleteRelationCommand { get; }
     }
 }

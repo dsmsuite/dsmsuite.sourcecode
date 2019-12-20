@@ -3,6 +3,10 @@ using System.Windows;
 using DsmSuite.DsmViewer.ViewModel.Main;
 using DsmSuite.DsmViewer.Application.Core;
 using DsmSuite.DsmViewer.Model.Core;
+using DsmSuite.DsmViewer.View.Dialogs;
+using DsmSuite.DsmViewer.ViewModel.Editing.Element;
+using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
+using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
 
 namespace DsmSuite.DsmViewer.View.Windows
 {
@@ -35,9 +39,13 @@ namespace DsmSuite.DsmViewer.View.Windows
             _mainViewModel.ProgressViewModel.BusyChanged += OnProgressViewModelBusyChanged;
 
             _mainViewModel.ElementCreateStarted += OnElementCreateStarted;
-            _mainViewModel.ElementEditStarted += OnElementEditStarted;
+            _mainViewModel.ElementEditNameStarted += OnElementEditNameStarted;
+            _mainViewModel.ElementEditTypeStarted += OnElementEditTypeStarted;
+
             _mainViewModel.RelationCreateStarted += OnRelationCreateStarted;
-            _mainViewModel.RelationEditStarted += OnRelationEditStarted;
+            _mainViewModel.RelationEditWeightStarted += OnRelationEditWeightStarted;
+            _mainViewModel.RelationEditTypeStarted += OnRelationEditTypeStarted;
+
             _mainViewModel.SnapshotMakeStarted += OnSnapshotMakeStarted;
 
             _mainViewModel.ActionsVisible += OnActionsVisible;
@@ -53,33 +61,45 @@ namespace DsmSuite.DsmViewer.View.Windows
             view.Show();
         }
 
-        private void OnSnapshotMakeStarted(object sender, ViewModel.Editing.SnapshotMakeViewModel viewModel)
+        private void OnSnapshotMakeStarted(object sender, SnapshotMakeViewModel viewModel)
         {
-            SnapshotView view = new SnapshotView {DataContext = viewModel};
+            SnapshotCreateDialog view = new SnapshotCreateDialog { DataContext = viewModel};
             view.ShowDialog();
         }
 
-        private void OnElementCreateStarted(object sender, ViewModel.Editing.ElementCreateViewModel viewModel)
+        private void OnElementCreateStarted(object sender, ElementCreateViewModel viewModel)
         {
-            ElementView view = new ElementView {DataContext = viewModel};
+            ElementCreateDialog view = new ElementCreateDialog { DataContext = viewModel};
             view.ShowDialog();
         }
 
-        private void OnElementEditStarted(object sender, ViewModel.Editing.ElementEditViewModel viewModel)
+        private void OnElementEditNameStarted(object sender, ElementEditNameViewModel viewModel)
         {
-            ElementView view = new ElementView {DataContext = viewModel};
+            ElementEditNameDialog view = new ElementEditNameDialog { DataContext = viewModel};
             view.ShowDialog();
         }
 
-        private void OnRelationCreateStarted(object sender, ViewModel.Editing.RelationCreateViewModel viewModel)
+        private void OnElementEditTypeStarted(object sender, ElementEditTypeViewModel viewModel)
         {
-            RelationView view = new RelationView {DataContext = viewModel};
+            ElementEditTypeDialog view = new ElementEditTypeDialog { DataContext = viewModel };
             view.ShowDialog();
         }
 
-        private void OnRelationEditStarted(object sender, ViewModel.Editing.RelationEditViewModel viewModel)
+        private void OnRelationCreateStarted(object sender, RelationCreateViewModel viewModel)
         {
-            RelationView view = new RelationView {DataContext = viewModel};
+            RelationCreateDialog view = new RelationCreateDialog { DataContext = viewModel};
+            view.ShowDialog();
+        }
+
+        private void OnRelationEditWeightStarted(object sender, RelationEditWeightViewModel viewModel)
+        {
+            RelationEditWeightDialog view = new RelationEditWeightDialog { DataContext = viewModel};
+            view.ShowDialog();
+        }
+
+        private void OnRelationEditTypeStarted(object sender, RelationEditTypeViewModel viewModel)
+        {
+            RelationEditTypeDialog view = new RelationEditTypeDialog { DataContext = viewModel };
             view.ShowDialog();
         }
 

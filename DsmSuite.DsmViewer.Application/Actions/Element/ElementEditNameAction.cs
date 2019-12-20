@@ -36,12 +36,12 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override void Do()
         {
-            Model.EditElement(_element, _new, _element.Type);
+            Model.EditElementName(_element, _new);
         }
 
         public override void Undo()
         {
-            Model.EditElement(_element, _old, _element.Type);
+            Model.EditElementName(_element, _old);
         }
 
         public override IReadOnlyDictionary<string, string> Pack()

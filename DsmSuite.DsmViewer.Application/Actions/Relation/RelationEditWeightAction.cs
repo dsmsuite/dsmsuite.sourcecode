@@ -50,12 +50,12 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public override void Do()
         {
-            Model.EditRelation(_relation, _relation.Type, _new);
+            Model.EditRelationWeight(_relation, _new);
         }
 
         public override void Undo()
         {
-            Model.EditRelation(_relation, _relation.Type, _old);
+            Model.EditRelationWeight(_relation, _old);
         }
 
         public override IReadOnlyDictionary<string, string> Pack()

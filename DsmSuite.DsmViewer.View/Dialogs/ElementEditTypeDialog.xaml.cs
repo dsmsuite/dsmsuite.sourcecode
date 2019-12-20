@@ -1,7 +1,7 @@
 ﻿
 using System.Windows;
 
-namespace DsmSuite.DsmViewer.View.Windows
+namespace DsmSuite.DsmViewer.View.Dialogs
 {
     /// <summary>
     /// Interaction logic for ElementEditTypeDialog.xaml

@@ -2,7 +2,7 @@
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
-namespace DsmSuite.DsmViewer.ViewModel.Editing
+namespace DsmSuite.DsmViewer.ViewModel.Editing.Snapshot
 {
     public class SnapshotMakeViewModel : ViewModelBase
     {

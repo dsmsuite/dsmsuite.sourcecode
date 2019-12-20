@@ -3,27 +3,23 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
-namespace DsmSuite.DsmViewer.ViewModel.Editing
+namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 {
-    public class RelationCreateViewModel : ViewModelBase
+    public class RelationEditTypeViewModel : ViewModelBase
     {
         private readonly IDsmApplication _application;
-        private readonly IDsmElement _consumer;
-        private readonly IDsmElement _provider;
+        private readonly IDsmRelation _relation;
         private string _type;
-        private int _weight;
 
         public ICommand AcceptChangeCommand { get; }
 
-        public RelationCreateViewModel(IDsmApplication application, IDsmElement consumer, IDsmElement provider)
+        public RelationEditTypeViewModel(IDsmApplication application, IDsmRelation relation)
         {
             _application = application;
-            _consumer = consumer;
-            _provider = provider;
+            _relation = relation;
 
-            Title = $"Create relation between {consumer.Fullname} and {provider.Fullname}";
-            Type = "";
-            Weight = 1;
+            Title = "Edit relation type";
+            Type = relation.Type;
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
@@ -35,20 +31,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing
             set { _type = value; OnPropertyChanged(); }
         }
 
-        public int Weight
-        {
-            get { return _weight; }
-            set { _weight = value; OnPropertyChanged(); }
-        }
-
         private void AcceptChangeExecute(object parameter)
         {
-            _application.CreateRelation(_consumer, _provider, Type, Weight);
+            _application.EditRelationType(_relation, Type);
         }
 
         private bool AcceptChangeCanExecute(object parameter)
         {
-            return Weight > 0;
+            return true;
         }
     }
 }

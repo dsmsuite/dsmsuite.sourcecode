@@ -112,9 +112,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.AddElement(name, type, parentId);
         }
 
-        public void EditElement(IDsmElement element, string name, string type)
+        public void EditElementName(IDsmElement element, string name)
         {
-            _elementsDataModel.EditElement(element, name, type);
+            _elementsDataModel.EditElementName(element, name);
+        }
+
+        public void EditElementType(IDsmElement element, string type)
+        {
+            _elementsDataModel.EditElementType(element, type);
         }
 
         public void ChangeParent(IDsmElement element, IDsmElement parent)
@@ -180,9 +185,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.AddRelation(consumerId, providerId, type, weight);
         }
 
-        public void EditRelation(IDsmRelation relation, string type, int weight)
+        public void EditRelationType(IDsmRelation relation, string type)
         {
-            _relationsDataModel.EditRelation(relation, type, weight);
+            _relationsDataModel.EditRelationType(relation, type);
+        }
+
+        public void EditRelationWeight(IDsmRelation relation, int weight)
+        {
+            _relationsDataModel.EditRelationWeight(relation, weight);
         }
 
         public void RemoveRelation(int relationId)

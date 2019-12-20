@@ -67,12 +67,20 @@ namespace DsmSuite.DsmViewer.Model.Core
             return element;
         }
 
-        public void EditElement(IDsmElement element, string name, string type)
+        public void EditElementName(IDsmElement element, string name)
         {
             DsmElement editedElement = element as DsmElement;
             if (editedElement != null)
             {
                 editedElement.Name = name;
+            }
+        }
+
+        public void EditElementType(IDsmElement element, string type)
+        {
+            DsmElement editedElement = element as DsmElement;
+            if (editedElement != null)
+            {
                 editedElement.Type = type;
             }
         }

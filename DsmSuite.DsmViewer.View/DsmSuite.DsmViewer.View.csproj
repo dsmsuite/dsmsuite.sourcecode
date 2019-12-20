@@ -71,9 +71,6 @@
     <Compile Include="Dialogs\ElementEditTypeDialog.xaml.cs">
       <DependentUpon>ElementEditTypeDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ElementView.xaml.cs">
-      <DependentUpon>ElementView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\ElementListView.xaml.cs">
       <DependentUpon>ElementListView.xaml</DependentUpon>
     </Compile>
@@ -95,14 +92,8 @@
     <Compile Include="Windows\RelationListView.xaml.cs">
       <DependentUpon>RelationListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\RelationView.xaml.cs">
-      <DependentUpon>RelationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\SnapshotView.xaml.cs">
-      <DependentUpon>SnapshotView.xaml</DependentUpon>
     </Compile>
     <Page Include="Dialogs\ElementCreateDialog.xaml">
       <SubType>Designer</SubType>
@@ -113,10 +104,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ElementEditTypeDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ElementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,15 +183,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\RelationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\ReportView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\SnapshotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

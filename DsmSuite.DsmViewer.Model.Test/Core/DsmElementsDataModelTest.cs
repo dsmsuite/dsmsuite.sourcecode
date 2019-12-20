@@ -176,7 +176,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement foundElementBefore = model.FindElementByFullname("a.c");
             Assert.IsNull(foundElementBefore);
 
-            model.EditElement(b, "c", b.Type);
+            model.EditElementName(b, "c");
 
             IDsmElement foundElementAfter = model.FindElementByFullname("a.c");
             Assert.IsNotNull(foundElementAfter);
@@ -195,7 +195,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.IsNotNull(foundElementBefore);
             Assert.AreEqual("type", foundElementBefore.Type);
 
-            model.EditElement(b, b.Name, "type1");
+            model.EditElementType(b, "type1");
 
             IDsmElement foundElementAfter = model.FindElementByFullname("a.b");
             Assert.IsNotNull(foundElementAfter);

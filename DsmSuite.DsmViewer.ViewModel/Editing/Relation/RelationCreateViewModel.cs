@@ -3,25 +3,27 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
-namespace DsmSuite.DsmViewer.ViewModel.Editing
+namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 {
-    public class RelationEditViewModel : ViewModelBase
+    public class RelationCreateViewModel : ViewModelBase
     {
         private readonly IDsmApplication _application;
-        private readonly IDsmRelation _relation;
+        private readonly IDsmElement _consumer;
+        private readonly IDsmElement _provider;
         private string _type;
         private int _weight;
 
         public ICommand AcceptChangeCommand { get; }
 
-        public RelationEditViewModel(IDsmApplication application, IDsmRelation relation)
+        public RelationCreateViewModel(IDsmApplication application, IDsmElement consumer, IDsmElement provider)
         {
             _application = application;
-            _relation = relation;
+            _consumer = consumer;
+            _provider = provider;
 
-            Title = "Edit relation";
-            Type = relation.Type;
-            Weight = relation.Weight;
+            Title = $"Create relation between {consumer.Fullname} and {provider.Fullname}";
+            Type = "";
+            Weight = 1;
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
@@ -41,7 +43,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing
 
         private void AcceptChangeExecute(object parameter)
         {
-            _application.EditRelation(_relation, Type, Weight);
+            _application.CreateRelation(_consumer, _provider, Type, Weight);
         }
 
         private bool AcceptChangeCanExecute(object parameter)

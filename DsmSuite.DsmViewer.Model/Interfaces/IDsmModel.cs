@@ -40,9 +40,11 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmElement GetDeletedElementById(int id);
 
         void AssignElementOrder();
-        void EditElement(IDsmElement element, string name, string type);
+        void EditElementName(IDsmElement element, string name);
+        void EditElementType(IDsmElement element, string type);
         IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight);
-        void EditRelation(IDsmRelation relation, string type, int weight);
+        void EditRelationType(IDsmRelation relation, string type);
+        void EditRelationWeight(IDsmRelation relation, int weight);
         void RemoveRelation(int relationId);
         void UnremoveRelation(int relationId);
         int GetDependencyWeight(int consumerId, int providerId);

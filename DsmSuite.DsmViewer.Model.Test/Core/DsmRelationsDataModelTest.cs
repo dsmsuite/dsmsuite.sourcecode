@@ -149,7 +149,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
 
-            model.EditRelation(relation, relation.Type, 5);
+            model.EditRelationWeight(relation, 5);
 
             Assert.AreEqual(1000, model.GetDependencyWeight(_a1.Id, _b1.Id));
             Assert.AreEqual(200, model.GetDependencyWeight(_a2.Id, _b1.Id));

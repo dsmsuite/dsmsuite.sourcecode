@@ -53,11 +53,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             CreateElementCommand = mainViewModel.CreateElementCommand;
             DeleteElementCommand = mainViewModel.DeleteElementCommand;
             MoveElementCommand = mainViewModel.MoveElementCommand;
-            EditElementCommand = mainViewModel.EditElementCommand;
+            EditElementNameCommand = mainViewModel.EditElementNameCommand;
+            EditElementTypeCommand = mainViewModel.EditElementTypeCommand;
 
             CreateRelationCommand = mainViewModel.CreateRelationCommand;
             DeleteRelationCommand = mainViewModel.DeleteRelationCommand;
-            EditRelationCommand = mainViewModel.EditRelationCommand;
+            EditRelationWeightCommand = mainViewModel.EditRelationWeightCommand;
+            EditRelationTypeCommand = mainViewModel.EditRelationTypeCommand;
 
             Reload();
 
@@ -73,11 +75,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand CreateElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
         public ICommand MoveElementCommand { get; }
-        public ICommand EditElementCommand { get; }
+        public ICommand EditElementNameCommand { get; }
+        public ICommand EditElementTypeCommand { get; }
         public ICommand CreateRelationCommand { get; }
         public ICommand DeleteRelationCommand { get; }
-        public ICommand EditRelationCommand { get; }
-
+        public ICommand EditRelationWeightCommand { get; }
+        public ICommand EditRelationTypeCommand { get; }
         public double ZoomLevel
         {
             get { return _zoomLevel; }
