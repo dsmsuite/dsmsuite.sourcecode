@@ -12,8 +12,6 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void Clear();
         void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress);
         void SaveModel(string dsmFilename, bool compressFile, IProgress<DsmProgressInfo> progress);
-        IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parent);
-        IDsmRelation ImportRelation(int id, int consumer, int provider, string type, int weight);
 
         IMetaDataItem AddMetaData(string group, string name, string value);
         IMetaDataItem AddMetaData(string itemName, string itemValue);
