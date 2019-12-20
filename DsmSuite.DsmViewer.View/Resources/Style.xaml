@@ -25,11 +25,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <StackPanel Background="{TemplateBinding Background}" Margin="1">
-                        <ContentPresenter Content="{TemplateBinding Content}"
+                    <Border BorderBrush="#FF000000" BorderThickness="1" CornerRadius="8">
+                        <StackPanel Background="{TemplateBinding Background}" Margin="1">
+                            <ContentPresenter Content="{TemplateBinding Content}"
                                           HorizontalAlignment="Center" 
                                           VerticalAlignment="Center" />
-                    </StackPanel>
+                        </StackPanel>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -42,6 +44,10 @@
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Foreground" Value="{StaticResource ButtonDisabledColor}"/>
             </Trigger>
+            <Trigger Property="IsDefault" Value="true">
+                <Setter Property="Background" Value="Blue"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
         </Style.Triggers>
     </Style>
 
@@ -50,6 +56,11 @@
         <Setter Property="Foreground" Value="{StaticResource ButtonStandardColor}" />
     </Style>
 
+    <Style x:Key="DialogSubTitle" TargetType="Label">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="Blue" />
+    </Style>
+    
     <!-- Toolbar styles -->
     <Style x:Key="ToolbarButton" TargetType="Button">
         <Setter Property="Foreground" Value="{StaticResource ButtonStandardColor}" />
