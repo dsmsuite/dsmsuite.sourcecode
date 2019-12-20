@@ -14,14 +14,14 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly MetaDataModel _metaDataModel;
         private readonly DsmElementsDataModel _elementsDataModel;
         private readonly DsmRelationsDataModel _relationsDataModel;
-        private readonly List<IDsmAction> _actions;
+        private readonly DsmActionsDataModel _actionsDataModel;
 
         public DsmModel(string processStep, Assembly executingAssembly)
         {
             _metaDataModel = new MetaDataModel(processStep, executingAssembly);
             _elementsDataModel = new DsmElementsDataModel();
             _relationsDataModel = new DsmRelationsDataModel(_elementsDataModel);
-            _actions = new List<IDsmAction>();
+            _actionsDataModel = new DsmActionsDataModel();
         }
 
         public void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress)
@@ -84,26 +84,22 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmAction ImportAction(int id, string type, IReadOnlyDictionary<string, string> data)
         {
-            IDsmAction action = new DsmAction(id, type, data);
-            _actions.Add(action);
-            return action;
+            return _actionsDataModel.ImportAction(id, type, data);
         }
 
         public IDsmAction AddAction(int id, string type, IReadOnlyDictionary<string, string> data)
         {
-            IDsmAction action = new DsmAction(id, type, data);
-            _actions.Add(action);
-            return action;
+            return _actionsDataModel.AddAction(id, type, data);
         }
 
         public void ClearActions()
         {
-            _actions.Clear();
+            _actionsDataModel.Clear();
         }
 
         public IEnumerable<IDsmAction> GetActions()
         {
-            return _actions;
+            return _actionsDataModel.GetActions();
         }
 
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
@@ -266,7 +262,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public int GetActionCount()
         {
-            return _actions.Count;
+            return _actionsDataModel.GetActionCount();
         }
     }
 }

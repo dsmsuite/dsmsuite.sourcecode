@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\DsmAction.cs" />
+    <Compile Include="Core\DsmActionsDataModel.cs" />
     <Compile Include="Core\DsmElementsDataModel.cs" />
     <Compile Include="Core\DsmRelationsDataModel.cs" />
     <Compile Include="Interfaces\IDsmAction.cs" />
