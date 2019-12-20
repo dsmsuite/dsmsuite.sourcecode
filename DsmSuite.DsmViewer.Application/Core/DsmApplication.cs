@@ -90,14 +90,14 @@ namespace DsmSuite.DsmViewer.Application.Core
         public async Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
             await Task.Run(() => _model.LoadModel(dsmFilename, progress));
-            //_actionStore.Load();
+            _actionStore.Load();
             IsModified = false;
             Modified?.Invoke(this, IsModified);
         }
 
         public async Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
-            //_actionStore.Save();
+            _actionStore.Save();
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));
             IsModified = false;
             Modified?.Invoke(this, IsModified);
