@@ -40,6 +40,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\SnapshotCreateDialog.xaml.cs">
+      <DependentUpon>SnapshotCreateDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Matrix\MatrixFrameworkElement.cs" />
     <Compile Include="Matrix\RenderedColumHeaderView.cs" />
     <Compile Include="Matrix\RenderedCellsView.cs" />
@@ -59,7 +62,16 @@
     </Compile>
     <Compile Include="ValueConverters\SearchStateConverter.cs" />
     <Compile Include="Settings\ViewerSettings.cs" />
-    <Compile Include="Windows\ElementView.xaml.cs">
+    <Compile Include="Dialogs\ElementCreateDialog.xaml.cs">
+      <DependentUpon>ElementCreateDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ElementEditNameDialog.xaml.cs">
+      <DependentUpon>ElementEditNameDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ElementEditTypeDialog.xaml.cs">
+      <DependentUpon>ElementEditTypeDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ElementView.xaml.cs">
       <DependentUpon>ElementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ElementListView.xaml.cs">
@@ -71,10 +83,19 @@
     <Compile Include="Windows\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\RelationCreateDialog.xaml.cs">
+      <DependentUpon>RelationCreateDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RelationEditTypeDialog.xaml.cs">
+      <DependentUpon>RelationEditTypeDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RelationEditWeightDialog.xaml.cs">
+      <DependentUpon>RelationEditWeightDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\RelationListView.xaml.cs">
       <DependentUpon>RelationListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\RelationView.xaml.cs">
+    <Compile Include="Dialogs\RelationView.xaml.cs">
       <DependentUpon>RelationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ReportView.xaml.cs">
@@ -83,7 +104,23 @@
     <Compile Include="Windows\SnapshotView.xaml.cs">
       <DependentUpon>SnapshotView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Windows\ElementView.xaml">
+    <Page Include="Dialogs\ElementCreateDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ElementEditNameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ElementEditTypeDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ElementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SnapshotCreateDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -143,11 +180,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\RelationCreateDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RelationEditTypeDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RelationEditWeightDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\RelationListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\RelationView.xaml">
+    <Page Include="Dialogs\RelationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
