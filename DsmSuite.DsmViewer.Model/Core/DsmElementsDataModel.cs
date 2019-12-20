@@ -9,6 +9,7 @@ namespace DsmSuite.DsmViewer.Model.Core
     public class DsmElementsDataModel
     {
         private readonly Dictionary<int /*id*/, IDsmElement> _elementsById;
+        private readonly Dictionary<int /*id*/, IDsmElement> _deletedElementsById;
         private int _lastElementId;
         private readonly DsmElement _root;
 
@@ -18,6 +19,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         public DsmElementsDataModel()
         {
             _elementsById = new Dictionary<int, IDsmElement>();
+            _deletedElementsById = new Dictionary<int, IDsmElement>();
             _lastElementId = 0;
             _root = new DsmElement(0, "", "");
         }
@@ -105,6 +107,20 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
+        public void UnremoveElement(int elementId)
+        {
+            Logger.LogDataModelMessage($"Restore element id={elementId}");
+            if (_deletedElementsById.ContainsKey(elementId))
+            {
+                IDsmElement element = _deletedElementsById[elementId];
+                DsmElement parent = element?.Parent as DsmElement;
+                if (parent != null)
+                {
+                    parent.AddChild(element);
+                    ReregisterElement(element);
+                }
+            }
+        }
         
         public IEnumerable<IDsmElement> GetRootElements()
         {
@@ -157,6 +173,12 @@ namespace DsmSuite.DsmViewer.Model.Core
             return from element in _elementsById.Values
                    where element.Fullname.Contains(text)
                    select element;
+        }
+
+        public IDsmElement GetDeletedElementById(int id)
+        {
+            return _deletedElementsById.ContainsKey(id) ? _deletedElementsById[id] : null;
+
         }
 
         public void ReorderChildren(IDsmElement element, IElementSequence sequence)
@@ -290,12 +312,25 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private void UnregisterElement(IDsmElement element)
         {
+            _deletedElementsById[element.Id] = element;
             _elementsById.Remove(element.Id);
             ElementUnregistered?.Invoke(this, element);
 
             foreach (IDsmElement child in element.Children)
             {
                 UnregisterElement(child);
+            }
+        }
+
+        private void ReregisterElement(IDsmElement element)
+        {
+            _elementsById[element.Id] = element;
+            _deletedElementsById.Remove(element.Id);
+            ElementReregistered?.Invoke(this, element);
+
+            foreach (IDsmElement child in element.Children)
+            {
+                ReregisterElement(child);
             }
         }
     }

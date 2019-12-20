@@ -94,20 +94,20 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(null, child3.NextSibling);
 
             parent.RemoveChild(child1);
-            Assert.AreEqual(null, child1.Parent);
+            Assert.AreEqual(parent, child1.Parent);
             Assert.AreEqual(2, parent.Children.Count);
             Assert.AreEqual(child2, parent.FirstChild);
             Assert.AreEqual(child2, parent.Children[0]);
             Assert.AreEqual(child3, parent.Children[1]);
 
             parent.RemoveChild(child2);
-            Assert.AreEqual(null, child2.Parent);
+            Assert.AreEqual(parent, child2.Parent);
             Assert.AreEqual(1, parent.Children.Count);
             Assert.AreEqual(child3, parent.FirstChild);
             Assert.AreEqual(child3, parent.Children[0]);
 
             parent.RemoveChild(child3);
-            Assert.AreEqual(null, child3.Parent);
+            Assert.AreEqual(parent, child3.Parent);
             Assert.AreEqual(0, parent.Children.Count);
         }
 

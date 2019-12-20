@@ -309,7 +309,55 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(b1, rootElementsAfter[0].Children[0]);
         }
 
-       [TestMethod]
+        [TestMethod]
+        public void GivenAnElementIsInTheModelWhenUnremoveElementIsCalledThenElementAndItsChildrenAreRestored()
+        {
+            DsmElementsDataModel model = new DsmElementsDataModel();
+            Assert.AreEqual(0, model.TotalElementCount);
+
+            IDsmElement a = model.AddElement("a", "", null);
+            Assert.AreEqual(1, a.Id);
+            IDsmElement a1 = model.AddElement("a1", "eta", a.Id);
+            Assert.AreEqual(2, a1.Id);
+            IDsmElement a2 = model.AddElement("a2", "eta", a.Id);
+            Assert.AreEqual(3, a2.Id);
+
+            IDsmElement b = model.AddElement("b", "", null);
+            Assert.AreEqual(4, b.Id);
+            IDsmElement b1 = model.AddElement("b1", "etb", b.Id);
+            Assert.AreEqual(5, b1.Id);
+
+            Assert.AreEqual(5, model.TotalElementCount);
+
+            model.RemoveElement(a.Id);
+
+            Assert.AreEqual(2, model.TotalElementCount);
+
+            List<IDsmElement> rootElementsBefore = model.GetRootElements().OrderBy(x => x.Id).ToList();
+            Assert.AreEqual(1, rootElementsBefore.Count);
+
+            Assert.AreEqual(b, rootElementsBefore[0]);
+            Assert.AreEqual(1, rootElementsBefore[0].Children.Count);
+            Assert.AreEqual(b1, rootElementsBefore[0].Children[0]);
+
+            model.UnremoveElement(a.Id);
+
+            Assert.AreEqual(5, model.TotalElementCount);
+
+            List<IDsmElement> rootElementsAfter = model.GetRootElements().OrderBy(x => x.Id).ToList();
+            Assert.AreEqual(2, rootElementsAfter.Count);
+
+            Assert.AreEqual(a, rootElementsAfter[0]);
+            Assert.AreEqual(2, rootElementsAfter[0].Children.Count);
+            Assert.AreEqual(a1, rootElementsAfter[0].Children[0]);
+            Assert.AreEqual(a2, rootElementsAfter[0].Children[1]);
+
+            Assert.AreEqual(b, rootElementsAfter[1]);
+            Assert.AreEqual(1, rootElementsAfter[1].Children.Count);
+            Assert.AreEqual(b1, rootElementsAfter[1].Children[0]);
+        }
+
+        [TestMethod]
         public void GivenAnElementIsInTheModelWhenRemoveElementIsCalledOnLastChildThenParentIsCollapsed()
         {
             DsmElementsDataModel model = new DsmElementsDataModel();

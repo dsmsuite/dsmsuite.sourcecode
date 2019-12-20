@@ -127,6 +127,12 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsDataModel.RemoveElement(elementId);
         }
 
+        public void UnremoveElement(int elementId)
+        {
+            _elementsDataModel.UnremoveElement(elementId);
+        }
+
+
         public IEnumerable<IDsmElement> GetRootElements()
         {
             return _elementsDataModel.GetRootElements();
@@ -159,6 +165,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.SearchElements(text);
         }
 
+        public IDsmElement GetDeletedElementById(int id)
+        {
+            return _elementsDataModel.GetDeletedElementById(id);
+        }
+
         public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight)
         {
             return _relationsDataModel.ImportRelation(relationId, consumerId, providerId, type, weight);
@@ -177,6 +188,11 @@ namespace DsmSuite.DsmViewer.Model.Core
         public void RemoveRelation(int relationId)
         {
             _relationsDataModel.RemoveRelation(relationId);
+        }
+
+        public void UnremoveRelation(int relationId)
+        {
+            _relationsDataModel.UnremoveRelation(relationId);
         }
 
         public int GetDependencyWeight(int consumerId, int providerId)

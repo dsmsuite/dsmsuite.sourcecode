@@ -174,15 +174,11 @@ namespace DsmSuite.DsmViewer.Model.Core
         /// <summary>
         /// Remove a child from the element.
         /// </summary>
-        /// <param name="child">The child to be removed</param>
+        /// <param name="child">The child to be added</param>
         public void RemoveChild(IDsmElement child)
         {
             Children.Remove(child);
-            DsmElement c = child as DsmElement;
-            if (c != null)
-            {
-                c._parent = null;
-            }
+            // Do not reset parent so it can be restored
         }
 
         public int CompareTo(object obj)
