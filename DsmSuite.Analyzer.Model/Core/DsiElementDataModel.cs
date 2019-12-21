@@ -2,10 +2,11 @@
 using DsmSuite.Common.Util;
 using System;
 using System.Collections.Generic;
+using DsmSuite.Analyzer.Model.Persistency;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
-    public class DsiElementsDataModel
+    public class DsiElementDataModel : IDsiElementModelFileCallback
     {
         private readonly Dictionary<string, IDsiElement> _elementsByName;
         private readonly Dictionary<int, IDsiElement> _elementsById;
@@ -13,7 +14,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public event EventHandler<int> ElementRemoved;
 
-        public DsiElementsDataModel()
+        public DsiElementDataModel()
         {
             _elementsByName = new Dictionary<string, IDsiElement>();
             _elementsById = new Dictionary<int, IDsiElement>();
@@ -27,7 +28,7 @@ namespace DsmSuite.Analyzer.Model.Core
             _elementTypeCount.Clear();
         }
 
-        public void ImportElement(int id, string name, string type, string source)
+        public IDsiElement ImportElement(int id, string name, string type, string source)
         {
             Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} source={source}");
 
@@ -35,6 +36,7 @@ namespace DsmSuite.Analyzer.Model.Core
             _elementsByName[element.Name] = element;
             _elementsById[element.Id] = element;
             IncrementElementTypeCount(element.Type);
+            return element;
         }
 
         public IDsiElement AddElement(string name, string type, string source)
@@ -94,7 +96,7 @@ namespace DsmSuite.Analyzer.Model.Core
             return _elementsByName.ContainsKey(key) ? _elementsByName[key] : null;
         }
 
-        public IEnumerable<IDsiElement> GetElements()
+        public IEnumerable<IDsiElement> GetExportedElements()
         {
             return _elementsById.Values;
         }

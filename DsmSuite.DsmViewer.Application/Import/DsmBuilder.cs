@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Model.Persistency;
+using DsmSuite.Common.Model.Interface;
+using DsmSuite.Common.Model.Persistency;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Algorithm;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Import
 {
-    public class DsmBuilder : IDsiModelFileCallback
+    public class DsmBuilder : IMetaDataModelFileCallback, IDsiElementModelFileCallback, IDsiRelationModelFileCallback
     {
         private readonly IDsmModel _model;
         private readonly Dictionary<int, int> _dsiToDsmMapping = new Dictionary<int, int>();
@@ -21,7 +23,7 @@ namespace DsmSuite.DsmViewer.Application.Import
         {
             _model.Clear();
 
-            DsiModelFile dsiModelFile = new DsiModelFile(dsiFilename, this);
+            DsiModelFile dsiModelFile = new DsiModelFile(dsiFilename, this, this, this);
             dsiModelFile.Load(null);
             if (applyPartitionAlgorithm)
             {
@@ -47,12 +49,12 @@ namespace DsmSuite.DsmViewer.Application.Import
             }
         }
 
-        public void ImportMetaDataItem(string group, string name, string value)
+        public IMetaDataItem ImportMetaDataItem(string group, string name, string value)
         {
-            _model.AddMetaData(group, name, value);
+            return _model.AddMetaData(group, name, value);
         }
 
-        public void ImportElement(int id, string fullname, string type, string source)
+        public IDsiElement ImportElement(int id, string fullname, string type, string source)
         {
             IDsmElement parent = null;
             ElementName elementName = new ElementName();
@@ -72,9 +74,10 @@ namespace DsmSuite.DsmViewer.Application.Import
                     _dsiToDsmMapping[id] = element.Id;
                 }
             }
+            return null;
         }
 
-        public void ImportRelation(int consumerId, int providerId, string type, int weight)
+        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight)
         {
             if (_dsiToDsmMapping.ContainsKey(consumerId) && _dsiToDsmMapping.ContainsKey(providerId))
             {
@@ -84,28 +87,27 @@ namespace DsmSuite.DsmViewer.Application.Import
             {
                 Logger.LogError($"Could not find consumer or provider of relation consumer={consumerId} provider={providerId}");
             }
+            return null;
         }
 
-        public IEnumerable<string> GetMetaDataGroups()
+        public IEnumerable<string> GetExportedMetaDataGroups()
         {
             return null;
         }
 
-        public IEnumerable<Common.Model.Interface.IMetaDataItem> GetMetaDataGroupItems(string group)
+        public IEnumerable<IMetaDataItem> GetExportedMetaDataGroupItems(string group)
         {
             return null;
         }
 
-        public IEnumerable<IDsiElement> GetElements()
+        public IEnumerable<IDsiElement> GetExportedElements()
         {
             return null;
         }
 
-        public IEnumerable<IDsiRelation> GetRelations()
+        public IEnumerable<IDsiRelation> GetExportedRelations()
         {
             return null;
         }
-
-
     }
 }

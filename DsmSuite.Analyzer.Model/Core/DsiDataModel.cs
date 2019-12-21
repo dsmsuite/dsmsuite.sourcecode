@@ -8,24 +8,24 @@ using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
-    public class DsiDataModel : IDsiDataModel, IDsiModelFileCallback
+    public class DsiDataModel : IDsiDataModel
     {
         private readonly MetaDataModel _metaDataModel;
-        private readonly DsiElementsDataModel _elementsDataModel;
-        private readonly DsiRelationsDataModel _relationsDataModel;
+        private readonly DsiElementDataModel _elementsDataModel;
+        private readonly DsiRelationDataModel _relationsDataModel;
 
         public DsiDataModel(string processStep, Assembly executingAssembly)
         {
             _metaDataModel = new MetaDataModel(processStep, executingAssembly);
-            _elementsDataModel = new DsiElementsDataModel();
-            _relationsDataModel = new DsiRelationsDataModel(_elementsDataModel);
+            _elementsDataModel = new DsiElementDataModel();
+            _relationsDataModel = new DsiRelationDataModel(_elementsDataModel);
         }
 
         public void Load(string dsiFilename)
         {
             Logger.LogDataModelMessage($"Load data model file={dsiFilename}");
 
-            DsiModelFile modelFile = new DsiModelFile(dsiFilename, this);
+            DsiModelFile modelFile = new DsiModelFile(dsiFilename, _metaDataModel, _elementsDataModel, _relationsDataModel);
             modelFile.Load(null);
         }
 
@@ -46,7 +46,7 @@ namespace DsmSuite.Analyzer.Model.Core
             _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations found", $"{TotalRelationCount}");
             _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations resolved", $"{ResolvedRelationCount} (confidence={ResolvedRelationPercentage:0.000} %)");
 
-            DsiModelFile modelFile = new DsiModelFile(dsiFilename, this);
+            DsiModelFile modelFile = new DsiModelFile(dsiFilename, _metaDataModel, _elementsDataModel, _relationsDataModel);
             modelFile.Save(compressFile, null);
         }
 
@@ -54,27 +54,7 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             _metaDataModel.AddMetaDataItemToDefaultGroup(name, value);
         }
-
-        public void ImportMetaDataItem(string group, string name, string value)
-        {
-            _metaDataModel.AddMetaDataItem(group, name, value);
-        }
-
-        public IEnumerable<string> GetMetaDataGroups()
-        {
-            return _metaDataModel.GetExportedMetaDataGroups();
-        }
-
-        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string group)
-        {
-            return _metaDataModel.GetExportedMetaDataGroupItems(group);
-        }
-        
-        public void ImportElement(int id, string name, string type, string source)
-        {
-            _elementsDataModel.ImportElement(id, name, type, source);
-        }
-        
+       
         public IDsiElement AddElement(string name, string type, string source)
         {
             return _elementsDataModel.AddElement(name, type, source);
@@ -102,7 +82,7 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public IEnumerable<IDsiElement> GetElements()
         {
-            return _elementsDataModel.GetElements();
+            return _elementsDataModel.GetExportedElements();
         }
 
         public ICollection<string> GetElementTypes()
@@ -117,11 +97,6 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public int TotalElementCount => _elementsDataModel.TotalElementCount;
         
-        public void ImportRelation(int consumerId, int providerId, string type, int weight)
-        {
-            _relationsDataModel.ImportRelation(consumerId, providerId, type, weight);
-        }
-
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
         {
             return _relationsDataModel.AddRelation(consumerName, providerName, type, weight, context);
@@ -162,10 +137,5 @@ namespace DsmSuite.Analyzer.Model.Core
         public int ResolvedRelationCount => _relationsDataModel.ResolvedRelationCount;
 
         public double ResolvedRelationPercentage => _relationsDataModel.ResolvedRelationPercentage;
-
-        public void Cleanup()
-        {
-            //_relationsDataModel.RemoveRelationsForRemovedElements();
-        }
     }
 }

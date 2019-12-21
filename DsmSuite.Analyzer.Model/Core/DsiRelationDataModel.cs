@@ -1,19 +1,20 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
+using DsmSuite.Analyzer.Model.Persistency;
 using DsmSuite.Common.Util;
 using DsmSuite.Analyzer.Util;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
-    public class DsiRelationsDataModel
+    public class DsiRelationDataModel : IDsiRelationModelFileCallback
     {
-        private readonly DsiElementsDataModel _elementsDataModel;
+        private readonly DsiElementDataModel _elementsDataModel;
         private readonly Dictionary<int, Dictionary<int, Dictionary<string, DsiRelation>>> _relationsByConsumerId;
         private readonly Dictionary<string, int> _relationTypeCount;
         private int _relationCount;
 
-        public DsiRelationsDataModel(DsiElementsDataModel elementsDataModel)
+        public DsiRelationDataModel(DsiElementDataModel elementsDataModel)
         {
             _elementsDataModel = elementsDataModel;
             _elementsDataModel.ElementRemoved += OnElementRemoved;
@@ -143,6 +144,12 @@ namespace DsmSuite.Analyzer.Model.Core
             }
             return relations;
         }
+
+        public IEnumerable<IDsiRelation> GetExportedRelations()
+        {
+            return GetRelations();
+        }
+
 
         public bool DoesRelationExist(int consumerId, int providerId)
         {

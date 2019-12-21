@@ -32,8 +32,6 @@ namespace DsmSuite.Transformer.Transformation
                 Console.Write("\r progress elements={0}", transformedElements);
             }
 
-            _model.Cleanup();
-
             Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 

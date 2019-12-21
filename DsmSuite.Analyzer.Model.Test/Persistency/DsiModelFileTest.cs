@@ -7,11 +7,12 @@ using System.Linq;
 using DsmSuite.Common.Model.Core;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Common.Model.Persistency;
 
 namespace DsmSuite.Analyzer.Model.Test.Persistency
 {
     [TestClass]
-    public class DsiModelFileTest : IDsiModelFileCallback
+    public class DsiModelFileTest : IMetaDataModelFileCallback, IDsiElementModelFileCallback, IDsiRelationModelFileCallback
     {
         private readonly List<IDsiElement> _elements = new List<IDsiElement>();
         private readonly List<IDsiRelation> _relations = new List<IDsiRelation>();
@@ -30,7 +31,7 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
         {
             string inputFilename = "DsmSuite.Analyzer.Model.Test.Input.dsi";
 
-            DsiModelFile modelFile = new DsiModelFile(inputFilename, this);
+            DsiModelFile modelFile = new DsiModelFile(inputFilename, this, this, this);
             modelFile.Load(null);
 
             Assert.AreEqual(2, _metaData.Count);
@@ -85,7 +86,7 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
 
             FillModelData();
 
-            DsiModelFile modelFile = new DsiModelFile(outputFilename, this);
+            DsiModelFile modelFile = new DsiModelFile(outputFilename, this, this, this);
             modelFile.Save(false, null);
 
             Assert.IsTrue(File.ReadAllBytes(outputFilename).SequenceEqual(File.ReadAllBytes(inputFilename)));
@@ -113,32 +114,38 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             _relations.Add(new DsiRelation(2, 3, "relationtype2", 200));
         }
 
-        public void ImportMetaDataItem(string groupName, string itemName, string itemValue)
+        public IMetaDataItem ImportMetaDataItem(string groupName, string itemName, string itemValue)
         {
             if (!_metaData.ContainsKey(groupName))
             {
                 _metaData[groupName] = new List<MetaDataItem>();
             }
 
-            _metaData[groupName].Add(new MetaDataItem(itemName, itemValue));
+            MetaDataItem item = new MetaDataItem(itemName, itemValue);
+            _metaData[groupName].Add(item);
+            return item;
         }
 
-        public void ImportElement(int elementId, string name, string type, string source)
+        public IDsiElement ImportElement(int elementId, string name, string type, string source)
         {
-            _elements.Add(new DsiElement(elementId, name, type, source));
+            DsiElement element = new DsiElement(elementId, name, type, source);
+            _elements.Add(element);
+            return element;
         }
 
-        public void ImportRelation(int consumerId, int providerId, string type, int weight)
+        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight)
         {
-            _relations.Add(new DsiRelation(consumerId, providerId, type, weight));
+            DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight);
+            _relations.Add(relation);
+            return relation;
         }
 
-        public IEnumerable<string> GetMetaDataGroups()
+        public IEnumerable<string> GetExportedMetaDataGroups()
         {
             return _metaData.Keys;
         }
 
-        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string group)
+        public IEnumerable<IMetaDataItem> GetExportedMetaDataGroupItems(string group)
         {
             if (_metaData.ContainsKey(group))
             {
@@ -150,12 +157,12 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             }
         }
 
-        public IEnumerable<IDsiElement> GetElements()
+        public IEnumerable<IDsiElement> GetExportedElements()
         {
             return _elements;
         }
 
-        public IEnumerable<IDsiRelation> GetRelations()
+        public IEnumerable<IDsiRelation> GetExportedRelations()
         {
             return _relations;
         }

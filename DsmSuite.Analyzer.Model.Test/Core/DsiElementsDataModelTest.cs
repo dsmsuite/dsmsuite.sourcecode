@@ -12,14 +12,14 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void WhenModelIsConstructedThenItIsEmpty()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
         }
 
         [TestMethod]
         public void GivenModelIsNotEmptyWhenClearIsCalledThenItIsEmpty()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", "source");
@@ -33,7 +33,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsEmptyWhenAddElementIsCalledThenItsHasOneElement()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsiElement element = model.AddElement("name", "type", "source");
@@ -44,7 +44,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenAddElementIsCalledAgainForThatElementThenItStillHasOneElement()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsiElement element1 = model.AddElement("name", "type", "source");
@@ -59,7 +59,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenAddElementIsCalledForAnotherElementThenItHasTwoElement()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsiElement element1 = model.AddElement("name1", "type", "source");
@@ -74,7 +74,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsEmptyWhenImportElementIsCalledThenItsHasOneElement()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", "source");
@@ -84,7 +84,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenFindByIdIsCalledItsIdThenElementIsFound()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", "source");
@@ -100,7 +100,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenFindByIdIsCalledWithAnotherIdThenElementIsNotFound()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", "source");
@@ -112,7 +112,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenRemoveElementIsCalledThenElementIsNotFoundAnymoreByItsId()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", "source");
@@ -128,7 +128,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenFindByIdIsCalledWithItsNameThenElementIsFound()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", "source");
@@ -144,7 +144,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenFindByIdIsCalledWithAnotherNameThenElementIsNotFound()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", "source");
@@ -156,7 +156,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenRemoveElementIsCalledThenElementIsNotFoundAnymoreByItName()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", "source");
@@ -172,7 +172,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void WhenRenameElementIsCalledThenItCanBeFoundUnderThatName()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsiElement element = model.AddElement("name", "type", "source");
@@ -193,7 +193,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void WhenAddElementIsCalledUsingTwoDifferentTypesThenTwoElementTypesAreFound()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsiElement element1 = model.AddElement("name1", "type1", "source1");
@@ -220,14 +220,14 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void GivenMultipleElementAreInTheModelWhenGetElementsIsCalledTheyAreAllReturned()
         {
-            DsiElementsDataModel model = new DsiElementsDataModel();
+            DsiElementDataModel model = new DsiElementDataModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name1", "type1", "source1");
             model.ImportElement(2, "name2", "type2", "source2");
             model.ImportElement(3, "name3", "type3", "source3");
 
-            List<IDsiElement> elements = model.GetElements().ToList();
+            List<IDsiElement> elements = model.GetExportedElements().ToList();
             Assert.AreEqual(3, elements.Count);
 
             Assert.AreEqual(1, elements[0].Id);

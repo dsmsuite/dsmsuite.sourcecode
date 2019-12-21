@@ -31,7 +31,6 @@
     <Compile Include="Actions\Element\ElementEditTypeAction.cs" />
     <Compile Include="Actions\Relation\RelationEditWeightAction.cs" />
     <Compile Include="Algorithm\ElementSequence.cs" />
-    <Compile Include="Import\IMetaDataItem.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Actions\Element\ElementCreateAction.cs" />
     <Compile Include="Actions\Element\ElementDeleteAction.cs" />
