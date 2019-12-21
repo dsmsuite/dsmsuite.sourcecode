@@ -10,7 +10,7 @@
         Style="{StaticResource DialogWindow}">
     <StackPanel Orientation="Vertical">
         <TextBlock Text="{Binding Text}" Margin="10,10,10,0"/>
-        <ProgressBar Value="{Binding ProgressValue}" Height="5" HorizontalAlignment="Stretch" Margin="10,10,10,0" Foreground="BlueViolet"/>
+        <ProgressBar Value="{Binding ProgressValue}" Height="5" HorizontalAlignment="Stretch" Margin="10,10,10,0" Foreground="{StaticResource ForegroundStandardColor}" />
         <TextBlock Text="{Binding ProgressText}" Margin="10,10,10,0"/>
     </StackPanel>
 </Window>

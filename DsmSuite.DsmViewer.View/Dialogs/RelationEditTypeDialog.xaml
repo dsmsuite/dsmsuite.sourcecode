@@ -2,12 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStyle="None"        
-        Height="140" 
+        Height="160" 
         Width="450">
-    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" FocusManager.FocusedElement="{Binding ElementName=TypeTextBox}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
+                <RowDefinition Height="50" />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -17,7 +17,7 @@
 
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Content="Change relation type" Margin="5"/>
             <Label Grid.Row="1" Grid.Column="0" Content="Type" Margin="5"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Type}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Type}" Name="TypeTextBox"/>
         </Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
