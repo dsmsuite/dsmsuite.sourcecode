@@ -6,6 +6,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
     public abstract class ActionBase : IAction
     {
+        protected ActionBase()
+        {
+        }
+
         protected ActionBase(IDsmModel model)
         {
             Model = model;
