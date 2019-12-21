@@ -45,7 +45,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void ClearHistory()
         {
-            // TODO:
+            _deletedRelationsById.Clear();
         }
 
         public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight, bool deleted)

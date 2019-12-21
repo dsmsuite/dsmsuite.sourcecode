@@ -20,7 +20,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void ClearHistory()
         {
-            // TODO:
+            _actions.Clear();
         }
 
         public IDsmAction ImportAction(int id, string type, IReadOnlyDictionary<string, string> data)

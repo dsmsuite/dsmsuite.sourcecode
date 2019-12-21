@@ -35,7 +35,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void ClearHistory()
         {
-
+            _deletedElementsById.Clear();
         }
 
         public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted)
