@@ -41,7 +41,7 @@
     <Compile Include="Actions\Element\ElementMoveDownAction.cs" />
     <Compile Include="Actions\Relation\RelationCreateAction.cs" />
     <Compile Include="Actions\Relation\RelationDeleteAction.cs" />
-    <Compile Include="Actions\Relation\RelationEditTypeCommand.cs" />
+    <Compile Include="Actions\Relation\RelationEditTypeAction.cs" />
     <Compile Include="Actions\Snapshot\MakeSnapshotAction.cs" />
     <Compile Include="Algorithm\Partitioner.cs" />
     <Compile Include="Algorithm\PartitioningAlgorithm.cs" />

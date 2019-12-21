@@ -31,11 +31,32 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Actions\Base\ActionBaseTest.cs" />
+    <Compile Include="Actions\Base\ActionManagerTest.cs" />
+    <Compile Include="Actions\Base\ActionStoreTest.cs" />
+    <Compile Include="Actions\Element\ElementCreateActionTest.cs" />
+    <Compile Include="Actions\Element\ElementDeleteActionTest.cs" />
+    <Compile Include="Actions\Element\ElementEditNameActionTest.cs" />
+    <Compile Include="Actions\Element\ElementEditTypeActionTest.cs" />
+    <Compile Include="Actions\Element\ElementMoveActionTest.cs" />
+    <Compile Include="Actions\Element\ElementMoveDownActionTest.cs" />
+    <Compile Include="Actions\Element\ElementMoveUpActionTest.cs" />
+    <Compile Include="Actions\Element\ElementPartitionActionTest.cs" />
+    <Compile Include="Actions\Relation\RelationCreateActionTest.cs" />
+    <Compile Include="Actions\Relation\RelationDeleteActionTest.cs" />
+    <Compile Include="Actions\Relation\RelationEditTypeActionTest.cs" />
+    <Compile Include="Actions\Relation\RelationEditWeightActionTest.cs" />
+    <Compile Include="Actions\Snapshot\MakeSnapshotActionTest.cs" />
+    <Compile Include="Algorithm\ElementSequenceTest.cs" />
+    <Compile Include="Algorithm\PermutationTest.cs" />
+    <Compile Include="Algorithm\SquareMatrixTest.cs" />
     <Compile Include="Import\DsmBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,6 +78,10 @@
       <Project>{ae2405c6-54ca-43b1-bcf0-36b7010c0f0e}</Project>
       <Name>DsmSuite.DsmViewer.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\" />
+    <Folder Include="Queries\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
