@@ -82,7 +82,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             Assert.AreEqual("c2", c2.Name);
             Assert.AreEqual("c.c2", c2.Fullname);
 
-            Assert.AreEqual(9, model.ElementCount);
+            Assert.AreEqual(9, model.GetElementCount());
 
             Assert.AreEqual(1000, model.GetDependencyWeight(a1.Id, b1.Id));
             Assert.AreEqual(200, model.GetDependencyWeight(a2.Id, b1.Id));

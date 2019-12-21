@@ -39,7 +39,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             Logger.LogDataModelMessage($"Save data model file={dsmFilename} compresss={compressFile}");
 
-            _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{ElementCount}");
+            _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{GetElementCount()}");
 
             DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel);
             dsmModelFile.Save(compressFile, progress);
@@ -136,8 +136,6 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             _elementsDataModel.AssignElementOrder();
         }
-
-        public int ElementCount => _elementsDataModel.TotalElementCount;
 
         public IDsmElement GetElementById(int id)
         {

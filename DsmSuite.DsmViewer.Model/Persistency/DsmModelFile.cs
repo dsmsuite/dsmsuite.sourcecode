@@ -300,7 +300,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             _progressItemCount++;
             UpdateProgress(progress);
 
-            foreach (IDsmElement child in element.Children)
+            foreach (IDsmElement child in element.ExportedChildren)
             {
                 WriteElementData(writer, child, progress);
             }

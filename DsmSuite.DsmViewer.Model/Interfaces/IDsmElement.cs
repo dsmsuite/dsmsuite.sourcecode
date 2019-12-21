@@ -42,30 +42,12 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// </summary>
         IList<IDsmElement> Children { get; }
 
+        IList<IDsmElement> ExportedChildren { get; }
+
         /// <summary>
         /// Parent of the element.
         /// </summary>
         IDsmElement Parent { get; }
-
-        /// <summary>
-        /// Get the previous element with the same parent.
-        /// </summary>
-        IDsmElement PreviousSibling { get; }
-
-        /// <summary>
-        /// Get the next element with the same parent.
-        /// </summary>
-        IDsmElement NextSibling { get; }
-
-        /// <summary>
-        /// Get the first child.
-        /// </summary>
-        IDsmElement FirstChild { get; }
-
-        /// <summary>
-        /// Get the last child.
-        /// </summary>
-        IDsmElement LastChild { get; }
 
         /// <summary>
         /// Is the element expanded in the viewer.

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Interfaces;
@@ -20,7 +21,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
 
         public IEnumerable<IAction> GetActions()
         {
-            return _undoActionStack;
+            return _undoActionStack.Reverse();
         }
 
         public void Execute(ActionBase action)

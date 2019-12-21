@@ -32,6 +32,8 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         bool IsFirstChild(IDsmElement element);
         bool IsLastChild(IDsmElement element);
+        IDsmElement NextSibling(IDsmElement element);
+        IDsmElement PreviousSibling(IDsmElement element);
         bool HasChildren(IDsmElement element);
         void Sort(IDsmElement element, string algorithm);
         void MoveUp(IDsmElement element);

@@ -18,6 +18,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             _actions.Clear();
         }
 
+        public void ClearHistory()
+        {
+            // TODO:
+        }
+
         public IDsmAction ImportAction(int id, string type, IReadOnlyDictionary<string, string> data)
         {
             IDsmAction action = new DsmAction(id, type, data);

@@ -43,6 +43,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             _weights.Clear();
         }
 
+        public void ClearHistory()
+        {
+            // TODO:
+        }
+
         public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight, bool deleted)
         {
             Logger.LogDataModelMessage("Import relation relationId={relationId} consumerId={consumerId} providerId={providerId} type={type} weight={weight}");

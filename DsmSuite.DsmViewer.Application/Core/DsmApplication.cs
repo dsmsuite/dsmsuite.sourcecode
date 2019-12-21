@@ -90,14 +90,14 @@ namespace DsmSuite.DsmViewer.Application.Core
         public async Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
             await Task.Run(() => _model.LoadModel(dsmFilename, progress));
-            //_actionStore.Load();
+            _actionStore.Load();
             IsModified = false;
             Modified?.Invoke(this, IsModified);
         }
 
         public async Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress)
         {
-            //_actionStore.Save();
+            _actionStore.Save();
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));
             IsModified = false;
             Modified?.Invoke(this, IsModified);
@@ -148,14 +148,24 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _queries.GetRelationConsumers(consumer, provider);
         }
 
+        public IDsmElement NextSibling(IDsmElement element)
+        {
+            return _model.NextSibling(element);
+        }
+
+        public IDsmElement PreviousSibling(IDsmElement element)
+        {
+            return _model.PreviousSibling(element);
+        }
+
         public bool IsFirstChild(IDsmElement element)
         {
-            return element?.PreviousSibling == null;
+            return _model.PreviousSibling(element) == null;
        }
 
         public bool IsLastChild(IDsmElement element)
         {
-            return element?.NextSibling == null;
+            return _model.NextSibling(element) == null;
         }
 
         public bool HasChildren(IDsmElement element)

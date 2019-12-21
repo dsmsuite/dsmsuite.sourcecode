@@ -25,7 +25,6 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmElement AddElement(string name, string type, int? parentId);
         void RemoveElement(int elementId);
         void UnremoveElement(int elementId);
-        int ElementCount { get; }
         void ChangeParent(IDsmElement element, IDsmElement parent);
         void ReorderChildren(IDsmElement element, IElementSequence sequence);
         IDsmElement NextSibling(IDsmElement element);

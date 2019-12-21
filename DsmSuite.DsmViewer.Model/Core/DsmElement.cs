@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Core
@@ -74,6 +75,51 @@ namespace DsmSuite.DsmViewer.Model.Core
         /// </summary>
         public bool IsExpanded { get; set; }
 
+        /// <summary>
+        /// Parent of the element.
+        /// </summary>
+        public IDsmElement Parent => _parent;
+
+        /// <summary>
+        /// Children of the element.
+        /// </summary>
+        public IList<IDsmElement> Children => _children.Where(child => child.IsDeleted == false).ToList();
+
+        public IList<IDsmElement> ExportedChildren => _children;
+
+        /// <summary>
+        /// Has the element any children.
+        /// </summary>
+        public bool HasChildren => Children.Count > 0;
+
+        /// <summary>
+        /// Add a child to the element.
+        /// </summary>
+        /// <param name="child">The child to be added</param>
+        public void AddChild(IDsmElement child)
+        {
+            _children.Add(child);
+            DsmElement c = child as DsmElement;
+            if (c != null)
+            {
+                c._parent = this;
+            }
+        }
+
+        /// <summary>
+        /// Remove a child from the element.
+        /// </summary>
+        /// <param name="child">The child to be added</param>
+        public void RemoveChild(IDsmElement child)
+        {
+            _children.Remove(child);
+            DsmElement c = child as DsmElement;
+            if (c != null)
+            {
+                c._parent = null;
+            }
+        }
+
         public bool Swap(IDsmElement element1, IDsmElement element2)
         {
             bool swapped = false;
@@ -90,97 +136,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
 
             return swapped;
-        }
-
-        /// <summary>
-        /// Get the previous element with the same parent.
-        /// </summary>
-        public IDsmElement PreviousSibling
-        {
-            get
-            {
-                IDsmElement previousSibling = null;
-                if (_parent != null)
-                {
-                    int index = _parent._children.IndexOf(this);
-
-                    if (index > 0)
-                    {
-                        previousSibling = _parent._children[index - 1];
-                    }
-                }
-                return previousSibling;
-            }
-        }
-
-        /// <summary>
-        /// Get the next element with the same parent.
-        /// </summary>
-        public IDsmElement NextSibling
-        {
-            get
-            {
-                IDsmElement nextSibling = null;
-                if (_parent != null)
-                {
-                    int index = _parent._children.IndexOf(this);
-
-                    if (index < Parent.Children.Count - 1)
-                    {
-                        nextSibling = _parent._children[index + 1];
-                    }
-                }
-                return nextSibling;
-            }
-        }
-
-        /// <summary>
-        /// Get the first child.
-        /// </summary>
-        public IDsmElement FirstChild => _children.Count > 0 ? _children[0] : null;
-
-        /// <summary>
-        /// Get the last child.
-        /// </summary>
-        public IDsmElement LastChild => _children.Count > 0 ? _children[_children.Count-1] : null;
-
-        /// <summary>
-        /// Children of the element.
-        /// </summary>
-        public IList<IDsmElement> Children => _children;
-
-        /// <summary>
-        /// Parent of the element.
-        /// </summary>
-        public IDsmElement Parent => _parent;
-
-        /// <summary>
-        /// Has the element any children.
-        /// </summary>
-        public bool HasChildren => Children.Count > 0;
-
-        /// <summary>
-        /// Add a child to the element.
-        /// </summary>
-        /// <param name="child">The child to be added</param>
-        public void AddChild(IDsmElement child)
-        {
-            Children.Add(child);
-            DsmElement c = child as DsmElement;
-            if (c != null)
-            {
-                c._parent = this;
-            }
-        }
-
-        /// <summary>
-        /// Remove a child from the element.
-        /// </summary>
-        /// <param name="child">The child to be added</param>
-        public void RemoveChild(IDsmElement child)
-        {
-            Children.Remove(child);
-            // Do not reset parent so it can be restored
         }
 
         public int CompareTo(object obj)

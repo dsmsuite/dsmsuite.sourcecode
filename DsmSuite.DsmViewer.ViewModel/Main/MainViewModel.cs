@@ -343,7 +343,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private bool MoveUpElementCanExecute(object parameter)
         {
             IDsmElement current = SelectedProvider?.Element;
-            IDsmElement previous = current?.PreviousSibling;
+            IDsmElement previous = _application.PreviousSibling(current);
             return (current != null) && (previous != null);
         }
 
@@ -355,7 +355,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private bool MoveDownElementCanExecute(object parameter)
         {
             IDsmElement current = SelectedProvider?.Element;
-            IDsmElement next = current?.NextSibling;
+            IDsmElement next = _application.NextSibling(current);
             return (current != null) && (next != null);
         }
 

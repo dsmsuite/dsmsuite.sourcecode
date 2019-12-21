@@ -28,7 +28,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override void Do()
         {
-            IDsmElement nextElement = _element?.NextSibling;
+            IDsmElement nextElement = Model.NextSibling(_element);
             Debug.Assert(nextElement != null);
 
             Model.Swap(_element, nextElement);
@@ -36,7 +36,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override void Undo()
         {
-            IDsmElement previousElement = _element?.PreviousSibling;
+            IDsmElement previousElement = Model.PreviousSibling(_element);
             Debug.Assert(previousElement != null);
 
             Model.Swap(previousElement, _element);
