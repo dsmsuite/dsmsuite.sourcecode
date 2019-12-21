@@ -7,6 +7,7 @@ using DsmSuite.DsmViewer.Model.Persistency;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.Common.Model.Core;
 using DsmSuite.Common.Model.Interface;
+using DsmSuite.Common.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Test.Persistency
 {
@@ -33,7 +34,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
     /// --+----+------+------+------+------+------+------+
     /// </summary>
     [TestClass]
-    public class DsmModelFileTest : IDsmModelFileCallback
+    public class DsmModelFileTest : IMetaDataModelFileCallback, IDsmElementModelFileCallback, IDsmRelationModelFileCallback, IDsmActionModelFileCallback
     {
         private readonly List<DsmElement> _rootElements = new List<DsmElement>();
         private readonly List<DsmRelation> _relations = new List<DsmRelation>();
@@ -49,7 +50,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         public void TestLoadModel()
         {
             string inputFile = "DsmSuite.DsmViewer.Model.Test.Input.dsm";
-            DsmModelFile readModelFile = new DsmModelFile(inputFile, this);
+            DsmModelFile readModelFile = new DsmModelFile(inputFile, this, this, this, this);
             readModelFile.Load(null);
             Assert.IsFalse(readModelFile.IsCompressedFile());
 
@@ -212,7 +213,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
 
             FillModelData();
 
-            DsmModelFile writtenModelFile = new DsmModelFile(outputFile, this);
+            DsmModelFile writtenModelFile = new DsmModelFile(outputFile, this, this, this, this);
             writtenModelFile.Save(false, null);
             Assert.IsFalse(writtenModelFile.IsCompressedFile());
 
@@ -324,12 +325,12 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return relation;
         }
 
-        public IEnumerable<string> GetMetaDataGroups()
+        public IEnumerable<string> GetExportedMetaDataGroups()
         {
             return _metaData.Keys;
         }
 
-        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string group)
+        public IEnumerable<IMetaDataItem> GetExportedMetaDataGroupItems(string group)
         {
             if (_metaData.ContainsKey(group))
             {
@@ -341,17 +342,17 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             }
         }
 
-        public IEnumerable<IDsmAction> GetActions()
+        public IEnumerable<IDsmAction> GetExportedActions()
         {
             return _actions;
         }
 
-        public IEnumerable<IDsmElement> GetRootElements()
+        public IEnumerable<IDsmElement> GetExportedRootElements()
         {
             return _rootElements;
         }
 
-        public int GetElementCount()
+        public int GetExportedElementCount()
         {
             int elementCount = _rootElements.Count;
             foreach (DsmElement rootElement in _rootElements)
@@ -361,17 +362,17 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return elementCount;
         }
 
-        public IEnumerable<IDsmRelation> GetRelations()
+        public IEnumerable<IDsmRelation> GetExportedRelations()
         {
             return _relations;
         }
 
-        public int GetRelationCount()
+        public int GetExportedRelationCount()
         {
             return _relations.Count;
         }
 
-        public int GetActionCount()
+        public int GetExportedActionCount()
         {
             return _actions.Count; 
         }

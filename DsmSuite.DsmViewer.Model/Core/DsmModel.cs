@@ -9,19 +9,19 @@ using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
-    public class DsmModel : IDsmModel, IDsmModelFileCallback
+    public class DsmModel : IDsmModel
     {
         private readonly MetaDataModel _metaDataModel;
-        private readonly DsmElementsDataModel _elementsDataModel;
-        private readonly DsmRelationsDataModel _relationsDataModel;
-        private readonly DsmActionsDataModel _actionsDataModel;
+        private readonly DsmElementModel _elementsDataModel;
+        private readonly DsmRelationModel _relationsDataModel;
+        private readonly DsmActionModel _actionsDataModel;
 
         public DsmModel(string processStep, Assembly executingAssembly)
         {
             _metaDataModel = new MetaDataModel(processStep, executingAssembly);
-            _elementsDataModel = new DsmElementsDataModel();
-            _relationsDataModel = new DsmRelationsDataModel(_elementsDataModel);
-            _actionsDataModel = new DsmActionsDataModel();
+            _elementsDataModel = new DsmElementModel();
+            _relationsDataModel = new DsmRelationModel(_elementsDataModel);
+            _actionsDataModel = new DsmActionModel();
         }
 
         public void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress)
@@ -29,7 +29,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             Logger.LogDataModelMessage($"Load data model file={dsmFilename}");
 
             Clear();
-            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, this);
+            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel);
             dsmModelFile.Load(progress);
             IsCompressed = dsmModelFile.IsCompressedFile();
             ModelFilename = dsmFilename;
@@ -41,7 +41,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{ElementCount}");
 
-            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, this);
+            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel);
             dsmModelFile.Save(compressFile, progress);
             ModelFilename = dsmFilename;
         }
@@ -67,24 +67,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _metaDataModel.AddMetaDataItem(group, name, value);
         }
 
-        public IMetaDataItem ImportMetaDataItem(string group, string name, string value)
-        {
-            return _metaDataModel.AddMetaDataItem(group, name, value);
-        }
-
         public IEnumerable<string> GetMetaDataGroups()
         {
-            return _metaDataModel.GetMetaDataGroups();
+            return _metaDataModel.GetExportedMetaDataGroups();
         }
 
         public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName)
         {
-            return _metaDataModel.GetMetaDataGroupItems(groupName);
-        }
-
-        public IDsmAction ImportAction(int id, string type, IReadOnlyDictionary<string, string> data)
-        {
-            return _actionsDataModel.ImportAction(id, type, data);
+            return _metaDataModel.GetExportedMetaDataGroupItems(groupName);
         }
 
         public IDsmAction AddAction(int id, string type, IReadOnlyDictionary<string, string> data)
@@ -99,12 +89,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IEnumerable<IDsmAction> GetActions()
         {
-            return _actionsDataModel.GetActions();
-        }
-
-        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
-        {
-            return _elementsDataModel.ImportElement(id, name, type, order, expanded, parentId);
+            return _actionsDataModel.GetExportedActions();
         }
 
         public IDsmElement AddElement(string name, string type, int? parentId)
@@ -136,16 +121,15 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             _elementsDataModel.UnremoveElement(elementId);
         }
-
-
+        
         public IEnumerable<IDsmElement> GetRootElements()
         {
-            return _elementsDataModel.GetRootElements();
+            return _elementsDataModel.GetExportedRootElements();
         }
 
         public int GetElementCount()
         {
-            return _elementsDataModel.GetElementCount();
+            return _elementsDataModel.GetExportedElementCount();
         }
 
         public void AssignElementOrder()
@@ -173,11 +157,6 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IDsmElement GetDeletedElementById(int id)
         {
             return _elementsDataModel.GetDeletedElementById(id);
-        }
-
-        public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight)
-        {
-            return _relationsDataModel.ImportRelation(relationId, consumerId, providerId, type, weight);
         }
 
         public IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight)
@@ -240,16 +219,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.FindRelationsWhereElementHasConsumerRole(element);
         }
 
-        public IEnumerable<IDsmRelation> GetRelations()
-        {
-            return _relationsDataModel.GetRelations();
-        }
-
-        public int GetRelationCount()
-        {
-            return _relationsDataModel.GetRelationCount();
-        }
-
         public void ReorderChildren(IDsmElement element, IElementSequence sequence)
         {
             _elementsDataModel.ReorderChildren(element, sequence);
@@ -272,7 +241,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public int GetActionCount()
         {
-            return _actionsDataModel.GetActionCount();
+            return _actionsDataModel.GetExportedActionCount();
         }
     }
 }

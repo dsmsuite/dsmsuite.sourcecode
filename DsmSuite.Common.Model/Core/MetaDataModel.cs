@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DsmSuite.Common.Model.Interface;
+using DsmSuite.Common.Model.Persistency;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Common.Model.Core
 {
-    public class MetaDataModel
+    public class MetaDataModel : IMetaDataModelFileCallback
     {
         private readonly string _defaultGroupName;
         private readonly Assembly _executingAssembly;
@@ -54,12 +56,12 @@ namespace DsmSuite.Common.Model.Core
             return item;
         }
 
-        public IEnumerable<string> GetMetaDataGroups()
+        public IEnumerable<string> GetExportedMetaDataGroups()
         {
             return _metaDataGroupNames;
         }
 
-        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName)
+        public IEnumerable<IMetaDataItem> GetExportedMetaDataGroupItems(string groupName)
         {
             return GetMetaDataGroupItemList(groupName);
         }
@@ -85,6 +87,23 @@ namespace DsmSuite.Common.Model.Core
         private void AddDefaultItems()
         {
             AddMetaDataItemToDefaultGroup("Executable", SystemInfo.GetExecutableInfo(_executingAssembly));
+        }
+
+        public IMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
+        {
+            Logger.LogDataModelMessage($"Import metadata group={groupName} name={name} value={value}");
+
+            MetaDataItem item = FindItem(groupName, name);
+            if (item != null)
+            {
+                item.Value = value;
+            }
+            else
+            {
+                item = new MetaDataItem(name, value);
+                GetMetaDataGroupItemList(groupName).Add(item);
+            }
+            return item;
         }
     }
 }

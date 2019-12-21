@@ -62,12 +62,12 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public IEnumerable<string> GetMetaDataGroups()
         {
-            return _metaDataModel.GetMetaDataGroups();
+            return _metaDataModel.GetExportedMetaDataGroups();
         }
 
         public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string group)
         {
-            return _metaDataModel.GetMetaDataGroupItems(group);
+            return _metaDataModel.GetExportedMetaDataGroupItems(group);
         }
         
         public void ImportElement(int id, string name, string type, string source)

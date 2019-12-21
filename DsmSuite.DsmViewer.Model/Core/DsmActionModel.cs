@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
-    public class DsmActionsDataModel
+    public class DsmActionModel : IDsmActionModelFileCallback
     {
         private readonly List<IDsmAction> _actions;
 
-        public DsmActionsDataModel()
+        public DsmActionModel()
         {
             _actions = new List<IDsmAction>();
         }
@@ -36,12 +37,12 @@ namespace DsmSuite.DsmViewer.Model.Core
             _actions.Clear();
         }
 
-        public IEnumerable<IDsmAction> GetActions()
+        public IEnumerable<IDsmAction> GetExportedActions()
         {
             return _actions;
         }
 
-        public int GetActionCount()
+        public int GetExportedActionCount()
         {
             return _actions.Count;
         }

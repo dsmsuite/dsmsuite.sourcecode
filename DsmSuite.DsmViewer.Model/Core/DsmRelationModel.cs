@@ -2,12 +2,13 @@
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
-    public class DsmRelationsDataModel
+    public class DsmRelationModel : IDsmRelationModelFileCallback
     {
-        private readonly DsmElementsDataModel _elementsDataModel;
+        private readonly DsmElementModel _elementsDataModel;
         private readonly Dictionary<int /*relationId*/, IDsmRelation> _relationsById;
         private readonly Dictionary<int /*providerId*/, Dictionary<int /*consumerId*/, IDsmRelation>> _relationsByProvider;
         private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, IDsmRelation>> _relationsByConsumer;
@@ -16,7 +17,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, int /*weight*/>> _weights;
         private int _lastRelationId;
 
-        public DsmRelationsDataModel(DsmElementsDataModel elementsDataModel)
+        public DsmRelationModel(DsmElementModel elementsDataModel)
         {
             _elementsDataModel = elementsDataModel;
             _elementsDataModel.ElementUnregistered += OnElementUnregistered;
@@ -206,12 +207,12 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public IEnumerable<IDsmRelation> GetRelations()
+        public IEnumerable<IDsmRelation> GetExportedRelations()
         {
             return _relationsById.Values.OrderBy(x => x.Id);
         }
 
-        public int GetRelationCount()
+        public int GetExportedRelationCount()
         {
             return _relationsById.Values.Count;
         }

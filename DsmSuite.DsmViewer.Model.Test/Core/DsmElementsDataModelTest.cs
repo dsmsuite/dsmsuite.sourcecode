@@ -37,14 +37,14 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void WhenModelIsConstructedThenItIsEmpty()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
         }
 
         [TestMethod]
         public void GivenModelIsNotEmptyWhenClearIsCalledThenItIsEmpty()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", 0, false, null);
@@ -58,7 +58,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsEmptyWhenAddElementIsCalledThenItsHasOneElement()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "type", null);
@@ -70,7 +70,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsEmptyWhenAddElementIsCalledTwiceThenItsHasTwoElements()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "type", null);
@@ -87,7 +87,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsEmptyWhenImportElementIsCalledThenItsHasOneElement()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", 0, false, null);
@@ -97,7 +97,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenFindByIdIsCalledItsIdThenElementIsFound()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", 10, true, null);
@@ -116,7 +116,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenFindByIdIsCalledWithAnotherIdThenElementIsNotFound()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             model.ImportElement(1, "name", "type", 10, true, null);
@@ -128,7 +128,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenFindByIdIsCalledWithItsNameThenElementIsFound()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null);
@@ -151,7 +151,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenFindByIdIsCalledWithAnotherNameThenElementIsNotFound()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null);
@@ -167,7 +167,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void WhenEditElementIsCalledToChangeNameThenItCanBeFoundUnderThatName()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null);
@@ -185,7 +185,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void WhenEditElementIsCalledToChangeTypeThenTypeIsChanged()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null);
@@ -205,7 +205,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void WhenChangeElementParentIsCalledThenItCanBeFoundAtTheNewLocation()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null);
@@ -227,7 +227,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenSearchIsCalledWithTextPartOfItsNameThenElementIsFound()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null);
@@ -250,7 +250,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenSearchIsCalledWithTextNotPartOfItsNameThenElementIsFound()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null);
@@ -268,7 +268,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenRemoveElementIsCalledThenElementAndItsChildrenAreRemoved()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "", null);
@@ -285,7 +285,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(5, model.TotalElementCount);
 
-            List<IDsmElement> rootElementsBefore = model.GetRootElements().OrderBy(x => x.Id).ToList();
+            List<IDsmElement> rootElementsBefore = model.GetExportedRootElements().OrderBy(x => x.Id).ToList();
             Assert.AreEqual(2, rootElementsBefore.Count);
 
             Assert.AreEqual(a, rootElementsBefore[0]);
@@ -301,7 +301,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(2, model.TotalElementCount);
 
-            List<IDsmElement> rootElementsAfter = model.GetRootElements().OrderBy(x => x.Id).ToList();
+            List<IDsmElement> rootElementsAfter = model.GetExportedRootElements().OrderBy(x => x.Id).ToList();
             Assert.AreEqual(1, rootElementsAfter.Count);
 
             Assert.AreEqual(b, rootElementsAfter[0]);
@@ -312,7 +312,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenUnremoveElementIsCalledThenElementAndItsChildrenAreRestored()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "", null);
@@ -333,7 +333,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(2, model.TotalElementCount);
 
-            List<IDsmElement> rootElementsBefore = model.GetRootElements().OrderBy(x => x.Id).ToList();
+            List<IDsmElement> rootElementsBefore = model.GetExportedRootElements().OrderBy(x => x.Id).ToList();
             Assert.AreEqual(1, rootElementsBefore.Count);
 
             Assert.AreEqual(b, rootElementsBefore[0]);
@@ -344,7 +344,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(5, model.TotalElementCount);
 
-            List<IDsmElement> rootElementsAfter = model.GetRootElements().OrderBy(x => x.Id).ToList();
+            List<IDsmElement> rootElementsAfter = model.GetExportedRootElements().OrderBy(x => x.Id).ToList();
             Assert.AreEqual(2, rootElementsAfter.Count);
 
             Assert.AreEqual(a, rootElementsAfter[0]);
@@ -360,7 +360,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenRemoveElementIsCalledOnLastChildThenParentIsCollapsed()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "", null);
@@ -382,7 +382,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenMultipleElementAreInTheModelWhenGetElementsIsCalledTheyAreAllReturned()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "", null);
@@ -406,7 +406,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c3 = model.AddElement("c3", "etc", c.Id);
             Assert.AreEqual(9, c3.Id);
 
-            List<IDsmElement> rootElements = model.GetRootElements().OrderBy(x => x.Id).ToList();
+            List<IDsmElement> rootElements = model.GetExportedRootElements().OrderBy(x => x.Id).ToList();
             Assert.AreEqual(3, rootElements.Count);
 
             Assert.AreEqual(a, rootElements[0]);
@@ -428,7 +428,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenMultipleElementAreInTheModelWhenSwapElementIsCalledOrderIsChanged()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "", null);
@@ -440,7 +440,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement a3 = model.AddElement("a3", "eta", a.Id);
             Assert.AreEqual(4, a3.Id);
 
-            List<IDsmElement> rootElementsBefore = model.GetRootElements().ToList();
+            List<IDsmElement> rootElementsBefore = model.GetExportedRootElements().ToList();
             Assert.AreEqual(1, rootElementsBefore.Count);
 
             Assert.AreEqual(a, rootElementsBefore[0]);
@@ -451,7 +451,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             model.Swap(a1, a2);
 
-            List<IDsmElement> rootElementsAfter = model.GetRootElements().ToList();
+            List<IDsmElement> rootElementsAfter = model.GetExportedRootElements().ToList();
             Assert.AreEqual(1, rootElementsAfter.Count);
 
             Assert.AreEqual(a, rootElementsAfter[0]);
@@ -464,7 +464,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenMultipleElementAreInTheModelWhenReorderElementIsCalledOrderIsChanged()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "", null);
@@ -478,7 +478,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement a4 = model.AddElement("a4", "eta", a.Id);
             Assert.AreEqual(5, a4.Id);
 
-            List<IDsmElement> rootElementsBefore = model.GetRootElements().ToList();
+            List<IDsmElement> rootElementsBefore = model.GetExportedRootElements().ToList();
             Assert.AreEqual(1, rootElementsBefore.Count);
 
             Assert.AreEqual(a, rootElementsBefore[0]);
@@ -491,7 +491,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Sequence sequence = new Sequence(rootElementsBefore[0].Children.Count);
             model.ReorderChildren(a, sequence);
 
-            List<IDsmElement> rootElementsAfter = model.GetRootElements().ToList();
+            List<IDsmElement> rootElementsAfter = model.GetExportedRootElements().ToList();
             Assert.AreEqual(1, rootElementsAfter.Count);
 
             Assert.AreEqual(a, rootElementsAfter[0]);
@@ -505,7 +505,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenMultipleElementAreInTheModelWhenAssignElementOrderIsCalledThenElementsHaveOrderSet()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "", null);
@@ -555,7 +555,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenMultipleElementAreInTheModelWhenNextSiblingIsCalledOnOtherElementThanTheLastThenNextElementIsReturned()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "", null);
@@ -575,7 +575,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenMultipleElementAreInTheModelWhenPreviousSiblingIsCalledOnOtherElementThanTheFirstThenPreviousElementIsReturned()
         {
-            DsmElementsDataModel model = new DsmElementsDataModel();
+            DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.TotalElementCount);
 
             IDsmElement a = model.AddElement("a", "", null);

@@ -26,6 +26,7 @@
   <ItemGroup>
     <Compile Include="Core\MetaDataItem.cs" />
     <Compile Include="Core\MetaDataModel.cs" />
+    <Compile Include="Persistency\IMetaDataModelFileCallback.cs" />
     <Compile Include="Interface\IMetaDataItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -35,5 +36,6 @@
       <Name>DsmSuite.Common.Util</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

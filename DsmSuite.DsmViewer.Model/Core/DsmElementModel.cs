@@ -3,10 +3,11 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
-    public class DsmElementsDataModel
+    public class DsmElementModel: IDsmElementModelFileCallback
     {
         private readonly Dictionary<int /*id*/, IDsmElement> _elementsById;
         private readonly Dictionary<int /*id*/, IDsmElement> _deletedElementsById;
@@ -16,7 +17,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         public event EventHandler<IDsmElement> ElementUnregistered;
         public event EventHandler<IDsmElement> ElementReregistered;
 
-        public DsmElementsDataModel()
+        public DsmElementModel()
         {
             _elementsById = new Dictionary<int, IDsmElement>();
             _deletedElementsById = new Dictionary<int, IDsmElement>();
@@ -130,7 +131,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
         
-        public IEnumerable<IDsmElement> GetRootElements()
+        public IEnumerable<IDsmElement> GetExportedRootElements()
         {
             return _root.Children;
         }
@@ -140,7 +141,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsById.Values;
         }
 
-        public int GetElementCount()
+        public int GetExportedElementCount()
         {
             return _elementsById.Count;
         }

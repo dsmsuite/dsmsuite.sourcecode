@@ -5,6 +5,7 @@ using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.Common.Model.Interface;
 using System.Collections.Generic;
+using DsmSuite.Common.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Persistency
 {
@@ -48,7 +49,10 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ActionTypeXmlAttribute = "type";
 
         private readonly string _filename;
-        private readonly IDsmModelFileCallback _callback;
+        private readonly IMetaDataModelFileCallback _metaDataModelCallback;
+        private readonly IDsmElementModelFileCallback _elementModelCallback;
+        private readonly IDsmRelationModelFileCallback _relationModelCallback;
+        private readonly IDsmActionModelFileCallback _actionModelCallback;
         private int _totalElementCount;
         private int _totalRelationCount;
         private int _totalActionCount;
@@ -56,10 +60,17 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private int _progressItemCount;
         private int _progress;
 
-        public DsmModelFile(string filename, IDsmModelFileCallback callback)
+        public DsmModelFile(string filename,
+                            IMetaDataModelFileCallback metaDataModelCallback,
+                            IDsmElementModelFileCallback elementModelCallback,
+                            IDsmRelationModelFileCallback relationModelCallback,
+                            IDsmActionModelFileCallback actionModelCallback)
         {
             _filename = filename;
-            _callback = callback;
+            _metaDataModelCallback = metaDataModelCallback;
+            _elementModelCallback = elementModelCallback;
+            _relationModelCallback = relationModelCallback;
+            _actionModelCallback = actionModelCallback;
         }
 
         public void Save(bool compressed, IProgress<DsmProgressInfo> progress)
@@ -130,13 +141,13 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
         private void WriteModelAttributes(XmlWriter writer)
         {
-            _totalElementCount = _callback.GetElementCount();
+            _totalElementCount = _elementModelCallback.GetExportedElementCount();
             writer.WriteAttributeString(ModelElementCountXmlAttribute, _totalElementCount.ToString());
 
-            _totalRelationCount = _callback.GetRelationCount();
+            _totalRelationCount = _relationModelCallback.GetExportedRelationCount();
             writer.WriteAttributeString(ModelRelationCountXmlAttribute, _totalRelationCount.ToString());
 
-            _totalActionCount = _callback.GetActionCount();
+            _totalActionCount = _actionModelCallback.GetExportedActionCount();
             writer.WriteAttributeString(ModelActionCountXmlAttribute, _totalActionCount.ToString());
 
             _totalItemCount = _totalElementCount + _totalRelationCount;
@@ -163,12 +174,12 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
         private void WriteMetaData(XmlWriter writer)
         {
-            foreach (string group in _callback.GetMetaDataGroups())
+            foreach (string group in _metaDataModelCallback.GetExportedMetaDataGroups())
             {
                 writer.WriteStartElement(MetaDataGroupXmlNode);
                 writer.WriteAttributeString(MetaDataGroupNameXmlAttribute, group);
 
-                foreach (IMetaDataItem metaDataItem in _callback.GetMetaDataGroupItems(group))
+                foreach (IMetaDataItem metaDataItem in _metaDataModelCallback.GetExportedMetaDataGroupItems(group))
                 {
                     writer.WriteStartElement(MetaDataXmlNode);
                     writer.WriteAttributeString(MetaDataItemNameXmlAttribute, metaDataItem.Name);
@@ -193,7 +204,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                         string value = xMetaDataReader.GetAttribute(MetaDataItemValueXmlAttribute);
                         if ((name != null) && (value != null))
                         {
-                            _callback.ImportMetaDataItem(group, name, value);
+                            _metaDataModelCallback.ImportMetaDataItem(group, name, value);
                         }
                     }
                 }
@@ -203,7 +214,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private void WriteElements(XmlWriter writer, IProgress<DsmProgressInfo> progress)
         {
             writer.WriteStartElement(ElementGroupXmlNode);
-            foreach (IDsmElement child in _callback.GetRootElements())
+            foreach (IDsmElement child in _elementModelCallback.GetExportedRootElements())
             {
                 WriteElementData(writer, child, progress);
             }
@@ -223,7 +234,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
                 if (id.HasValue && order.HasValue)
                 {
-                    _callback.ImportElement(id.Value, name, type, order.Value, expanded, parent);
+                    _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent);
                 }
 
                 _progressItemCount++;
@@ -234,7 +245,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private void WriteRelations(XmlWriter writer, IProgress<DsmProgressInfo> progress)
         {
             writer.WriteStartElement(RelationGroupXmlNode);
-            foreach (IDsmRelation relation in _callback.GetRelations())
+            foreach (IDsmRelation relation in _relationModelCallback.GetExportedRelations())
             {
                 WriteRelationData(writer, relation, progress);
             }
@@ -256,7 +267,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     provider.HasValue &&
                     weight.HasValue)
                 {
-                    _callback.ImportRelation(id.Value, consumer.Value, provider.Value, type, weight.Value);
+                    _relationModelCallback.ImportRelation(id.Value, consumer.Value, provider.Value, type, weight.Value);
                 }
 
                 _progressItemCount++;
@@ -304,7 +315,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private void WriteActions(XmlWriter writer, IProgress<DsmProgressInfo> progress)
         {
             writer.WriteStartElement(ActionGroupXmlNode);
-            foreach (IDsmAction action in _callback.GetActions())
+            foreach (IDsmAction action in _actionModelCallback.GetExportedActions())
             {
                 WriteActionData(writer, action, progress);
             }
@@ -353,7 +364,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
                 if (id.HasValue)
                 {
-                    _callback.ImportAction(id.Value, type, data);
+                    _actionModelCallback.ImportAction(id.Value, type, data);
                 }
 
                 _progressItemCount++;
