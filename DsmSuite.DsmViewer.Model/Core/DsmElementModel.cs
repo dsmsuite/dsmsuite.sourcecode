@@ -123,6 +123,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         public void UnremoveElement(int elementId)
         {
             Logger.LogDataModelMessage($"Restore element id={elementId}");
+
             if (_deletedElementsById.ContainsKey(elementId))
             {
                 DsmElement element = _deletedElementsById[elementId];

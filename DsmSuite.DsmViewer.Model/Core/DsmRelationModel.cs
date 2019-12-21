@@ -60,8 +60,16 @@ namespace DsmSuite.DsmViewer.Model.Core
             DsmRelation relation = null;
             if (consumerId != providerId)
             {
-                relation = new DsmRelation(relationId, consumerId, providerId, type, weight);
-                RegisterRelation(relation);
+                relation = new DsmRelation(relationId, consumerId, providerId, type, weight) { IsDeleted = deleted };
+                if (deleted)
+                {
+                    UnregisterRelation(relation);
+                }
+                else
+                {
+                    RegisterRelation(relation);
+                }
+
             }
             return relation;
         }
@@ -74,7 +82,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (consumerId != providerId)
             {
                 _lastRelationId++;
-                relation = new DsmRelation(_lastRelationId, consumerId, providerId, type, weight);
+                relation = new DsmRelation(_lastRelationId, consumerId, providerId, type, weight) { IsDeleted = false };
                 RegisterRelation(relation);
             }
             return relation;
@@ -169,7 +177,10 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (IDsmRelation relation in _relationsByConsumer[consumerId][providerId].Values)
                         {
-                            relations.Add(relation);
+                            if (!relation.IsDeleted)
+                            {
+                                relations.Add(relation);
+                            }
                         }
                     }
                 }
@@ -191,7 +202,10 @@ namespace DsmSuite.DsmViewer.Model.Core
                         {
                             if (!providerIds.Contains(relation.ConsumerId))
                             {
-                                relations.Add(relation);
+                                if (!relation.IsDeleted)
+                                {
+                                    relations.Add(relation);
+                                }
                             }
                         }
                     }
@@ -214,7 +228,10 @@ namespace DsmSuite.DsmViewer.Model.Core
                         {
                             if (!consumerIds.Contains(relation.ProviderId))
                             {
-                                relations.Add(relation);
+                                if (!relation.IsDeleted)
+                                {
+                                    relations.Add(relation);
+                                }
                             }
                         }
                     }
@@ -280,7 +297,10 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private void GetIdsOfElementAndItsChidren(IDsmElement element, HashSet<int> ids)
         {
-            ids.Add(element.Id);
+            if (!element.IsDeleted)
+            {
+                ids.Add(element.Id);
+            }
 
             foreach (IDsmElement child in element.Children)
             {
@@ -331,17 +351,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             _relationsById.Remove(relation.Id);
 
             _deletedRelationsById[relation.Id] = relation;
-
-            // TODO: Cleanup collection
-            if (!_relationsByProvider.ContainsKey(relation.ProviderId))
-            {
-                _relationsByProvider[relation.ProviderId].Remove(relation.ConsumerId);
-            }
-
-            if (!_relationsByConsumer.ContainsKey(relation.ConsumerId))
-            {
-                _relationsByConsumer[relation.ConsumerId].Remove(relation.ProviderId);
-            }
 
             UpdateWeights(relation, RemoveWeight);
         }
