@@ -10,8 +10,8 @@ namespace DsmSuite.DsmViewer.Model.Core
     {
         private readonly DsmElementModel _elementsDataModel;
         private readonly Dictionary<int /*relationId*/, IDsmRelation> _relationsById;
-        private readonly Dictionary<int /*providerId*/, Dictionary<int /*consumerId*/, IDsmRelation>> _relationsByProvider;
-        private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, IDsmRelation>> _relationsByConsumer;
+        private readonly Dictionary<int /*providerId*/, Dictionary<int /*consumerId*/, Dictionary<string /*type*/, IDsmRelation>>> _relationsByProvider;
+        private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, Dictionary<string /*type*/, IDsmRelation>>> _relationsByConsumer;
         private readonly Dictionary<int /*relationId*/, IDsmRelation> _deletedRelationsById;
 
         private readonly Dictionary<int /*consumerId*/, Dictionary<int /*providerId*/, int /*weight*/>> _weights;
@@ -24,8 +24,8 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsDataModel.ElementReregistered += OnElementReregistered;
 
             _relationsById = new Dictionary<int, IDsmRelation>();
-            _relationsByProvider = new Dictionary<int, Dictionary<int, IDsmRelation>>();
-            _relationsByConsumer = new Dictionary<int, Dictionary<int, IDsmRelation>>();
+            _relationsByProvider = new Dictionary<int, Dictionary<int, Dictionary<string, IDsmRelation>>>();
+            _relationsByConsumer = new Dictionary<int, Dictionary<int, Dictionary<string, IDsmRelation>>>();
             _deletedRelationsById = new Dictionary<int, IDsmRelation>();
             _lastRelationId = 0;
             _weights = new Dictionary<int, Dictionary<int, int>>();
@@ -160,7 +160,10 @@ namespace DsmSuite.DsmViewer.Model.Core
                 {
                     if (_relationsByConsumer.ContainsKey(consumerId) && _relationsByConsumer[consumerId].ContainsKey(providerId))
                     {
-                        relations.Add(_relationsByConsumer[consumerId][providerId]);
+                        foreach (IDsmRelation relation in _relationsByConsumer[consumerId][providerId].Values)
+                        {
+                            relations.Add(relation);
+                        }
                     }
                 }
             }
@@ -175,11 +178,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 if (_relationsByProvider.ContainsKey(providerId))
                 {
-                    foreach (IDsmRelation relation in _relationsByProvider[providerId].Values)
+                    foreach (Dictionary <string, IDsmRelation> relationPerType in _relationsByProvider[providerId].Values)
                     {
-                        if (!providerIds.Contains(relation.ConsumerId))
+                        foreach (IDsmRelation relation in relationPerType.Values)
                         {
-                            relations.Add(relation);
+                            if (!providerIds.Contains(relation.ConsumerId))
+                            {
+                                relations.Add(relation);
+                            }
                         }
                     }
                 }
@@ -195,11 +201,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 if (_relationsByConsumer.ContainsKey(consumerId))
                 {
-                    foreach (IDsmRelation relation in _relationsByConsumer[consumerId].Values)
+                    foreach (Dictionary<string, IDsmRelation> relationPerType in _relationsByConsumer[consumerId].Values)
                     {
-                        if (!consumerIds.Contains(relation.ProviderId))
+                        foreach (IDsmRelation relation in relationPerType.Values)
                         {
-                            relations.Add(relation);
+                            if (!consumerIds.Contains(relation.ProviderId))
+                            {
+                                relations.Add(relation);
+                            }
                         }
                     }
                 }
@@ -283,15 +292,27 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             if (!_relationsByProvider.ContainsKey(relation.ProviderId))
             {
-                _relationsByProvider[relation.ProviderId] = new Dictionary<int, IDsmRelation>();
+                _relationsByProvider[relation.ProviderId] = new Dictionary<int, Dictionary<string, IDsmRelation>>();
             }
-            _relationsByProvider[relation.ProviderId][relation.ConsumerId] = relation;
+
+            if (!_relationsByProvider[relation.ProviderId].ContainsKey(relation.ConsumerId))
+            {
+                _relationsByProvider[relation.ProviderId][relation.ConsumerId] = new Dictionary<string, IDsmRelation>();
+            }
+
+            _relationsByProvider[relation.ProviderId][relation.ConsumerId][relation.Type] = relation;
 
             if (!_relationsByConsumer.ContainsKey(relation.ConsumerId))
             {
-                _relationsByConsumer[relation.ConsumerId] = new Dictionary<int, IDsmRelation>();
+                _relationsByConsumer[relation.ConsumerId] = new Dictionary<int, Dictionary<string, IDsmRelation>>();
             }
-            _relationsByConsumer[relation.ConsumerId][relation.ProviderId] = relation;
+
+            if (!_relationsByConsumer[relation.ConsumerId].ContainsKey(relation.ProviderId))
+            {
+                _relationsByConsumer[relation.ConsumerId][relation.ProviderId] = new Dictionary<string, IDsmRelation>();
+            }
+
+            _relationsByConsumer[relation.ConsumerId][relation.ProviderId][relation.Type] = relation;
 
             UpdateWeights(relation, AddWeight);
         }
@@ -302,6 +323,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             _deletedRelationsById[relation.Id] = relation;
 
+            // TODO: Cleanup collection
             if (!_relationsByProvider.ContainsKey(relation.ProviderId))
             {
                 _relationsByProvider[relation.ProviderId].Remove(relation.ConsumerId);
