@@ -15,7 +15,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         
         public RelationEditTypeAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
-            int id = GetInt(data, nameof(_relation));
+            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            int id = attributes.GetInt(nameof(_relation));
             _relation = model.GetRelationById(id);
             Debug.Assert(_relation != null);
 
@@ -25,8 +26,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _provider = model.GetElementById(_relation.ProviderId);
             Debug.Assert(_provider != null);
 
-            _new = GetString(data, nameof(_new));
-            _old = GetString(data, nameof(_old));
+            _new = attributes.GetString(nameof(_new));
+            _old = attributes.GetString(nameof(_old));
         }
 
         public RelationEditTypeAction(IDsmModel model, IDsmRelation relation, string type) : base(model)
@@ -60,11 +61,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            SetInt(data, nameof(Element), _relation.Id);
-            SetString(data, nameof(_new), _new);
-            SetString(data, nameof(_old), _old);
-            return data;
+            ActionAttributes attributes = new ActionAttributes();
+            attributes.SetInt(nameof(Element), _relation.Id);
+            attributes.SetString(nameof(_new), _new);
+            attributes.SetString(nameof(_old), _old);
+            return attributes.GetData();
         }
     }
 }

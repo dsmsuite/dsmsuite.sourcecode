@@ -15,20 +15,21 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public RelationCreateAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
-            int id = GetInt(data, nameof(_relation));
+            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            int id = attributes.GetInt(nameof(_relation));
             _relation = model.GetRelationById(id);
             Debug.Assert(_relation != null);
 
-            int consumerId = GetInt(data, nameof(_consumer));
+            int consumerId = attributes.GetInt(nameof(_consumer));
             _consumer = model.GetElementById(consumerId);
             Debug.Assert(_consumer != null);
 
-            int providerId = GetInt(data, nameof(_provider));
+            int providerId = attributes.GetInt(nameof(_provider));
             _provider = model.GetElementById(providerId);
             Debug.Assert(_provider != null);
 
-            _type = GetString(data, nameof(_type));
-            _weight = GetInt(data, nameof(_weight));
+            _type = attributes.GetString(nameof(_type));
+            _weight = attributes.GetInt(nameof(_weight));
         }
 
         public RelationCreateAction(IDsmModel model, int consumerId, int providerId, string type, int weight) : base(model)
@@ -60,13 +61,13 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            SetInt(data, nameof(_relation), _relation.Id);
-            SetInt(data, nameof(_consumer), _consumer.Id);
-            SetInt(data, nameof(_provider), _provider.Id);
-            SetString(data, nameof(_type), _type);
-            SetInt(data, nameof(_weight), _weight);
-            return data;
+            ActionAttributes attributes = new ActionAttributes();
+            attributes.SetInt(nameof(_relation), _relation.Id);
+            attributes.SetInt(nameof(_consumer), _consumer.Id);
+            attributes.SetInt(nameof(_provider), _provider.Id);
+            attributes.SetString(nameof(_type), _type);
+            attributes.SetInt(nameof(_weight), _weight);
+            return attributes.GetData();
         }
     }
 }

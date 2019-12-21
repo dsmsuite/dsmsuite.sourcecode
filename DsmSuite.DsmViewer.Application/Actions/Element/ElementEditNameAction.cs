@@ -13,12 +13,13 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public ElementEditNameAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
-            int id = GetInt(data, nameof(_element));
+            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            int id = attributes.GetInt(nameof(_element));
             _element = model.GetElementById(id);
             Debug.Assert(_element != null);
 
-            _old = GetString(data, nameof(_old));
-            _new = GetString(data, nameof(_new));
+            _old = attributes.GetString(nameof(_old));
+            _new = attributes.GetString(nameof(_new));
         }
 
         public ElementEditNameAction(IDsmModel model, IDsmElement element, string name) : base(model)
@@ -46,11 +47,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            SetInt(data, nameof(_element), _element.Id);
-            SetString(data, nameof(_old), _old);
-            SetString(data, nameof(_new), _new);
-            return data;
+            ActionAttributes attributes = new ActionAttributes();
+            attributes.SetInt(nameof(_element), _element.Id);
+            attributes.SetString(nameof(_old), _old);
+            attributes.SetString(nameof(_new), _new);
+            return attributes.GetData();
         }
     }
 }

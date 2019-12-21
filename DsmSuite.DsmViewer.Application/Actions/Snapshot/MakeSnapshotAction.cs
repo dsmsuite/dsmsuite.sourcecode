@@ -10,7 +10,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 
         public MakeSnapshotAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
-            _name = GetString(data, nameof(_name));
+            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            _name = attributes.GetString(nameof(_name));
         }
 
         public MakeSnapshotAction(IDsmModel model, string name) : base(model)
@@ -32,9 +33,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            SetString(data, nameof(_name), _name);
-            return data;
+            ActionAttributes attributes = new ActionAttributes();
+            attributes.SetString(nameof(_name), _name);
+            return attributes.GetData();
         }
     }
 }

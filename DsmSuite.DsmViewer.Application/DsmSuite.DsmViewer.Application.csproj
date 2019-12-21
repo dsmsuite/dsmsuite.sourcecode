@@ -25,9 +25,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\Base\ActionAttributes.cs" />
     <Compile Include="Actions\Base\ActionStore.cs" />
     <Compile Include="Actions\Base\ActionBase.cs" />
     <Compile Include="Actions\Base\ActionManager.cs" />
+    <Compile Include="Actions\Base\ReadOnlyActionAttributes.cs" />
     <Compile Include="Actions\Element\ElementEditTypeAction.cs" />
     <Compile Include="Actions\Relation\RelationEditWeightAction.cs" />
     <Compile Include="Algorithm\ElementSequence.cs" />

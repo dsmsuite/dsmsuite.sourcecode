@@ -14,14 +14,15 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public ElementCreateAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
-            int id = GetInt(data, nameof(_element));
+            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            int id = attributes.GetInt(nameof(_element));
             _element = model.GetElementById(id);
             Debug.Assert(_element != null);
 
-            _name = GetString(data, nameof(_name));
-            _type = GetString(data, nameof(_type));
+            _name = attributes.GetString(nameof(_name));
+            _type = attributes.GetString(nameof(_type));
 
-            int? parentId = GetNullableInt( data, nameof(_parent));
+            int? parentId = attributes.GetNullableInt(nameof(_parent));
             if (parentId.HasValue)
             {
                 _parent = model.GetElementById(parentId.Value);
@@ -52,12 +53,12 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            SetInt(data, nameof(_element), _element.Id);
-            SetString(data, nameof(_name), _name);
-            SetString(data, nameof(_type), _type);
-            SetNullableInt(data, nameof(_parent), _parent.Id);
-            return data;
+            ActionAttributes attributes = new ActionAttributes();
+            attributes.SetInt(nameof(_element), _element.Id);
+            attributes.SetString(nameof(_name), _name);
+            attributes.SetString(nameof(_type), _type);
+            attributes.SetNullableInt(nameof(_parent), _parent.Id);
+            return attributes.GetData();
         }
     }
 }

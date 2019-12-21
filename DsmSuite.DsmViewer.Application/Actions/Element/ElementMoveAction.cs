@@ -13,15 +13,16 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public ElementMoveAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
-            int id = GetInt(data, nameof(_element));
+            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            int id = attributes.GetInt(nameof(_element));
             _element = model.GetElementById(id);
             Debug.Assert(_element != null);
 
-            int oldParentid = GetInt(data, nameof(_old));
+            int oldParentid = attributes.GetInt(nameof(_old));
             _old = model.GetElementById(oldParentid);
             Debug.Assert(_old != null);
 
-            int newParentId = GetInt(data, nameof(_new));
+            int newParentId = attributes.GetInt(nameof(_new));
             _new = model.GetElementById(newParentId);
             Debug.Assert(_new != null);
         }
@@ -54,11 +55,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            SetInt(data, nameof(_element), _element.Id);
-            SetInt(data, nameof(_old), _old.Id);
-            SetInt(data, nameof(_new), _new.Id);
-            return data;
+            ActionAttributes attributes = new ActionAttributes();
+            attributes.SetInt(nameof(_element), _element.Id);
+            attributes.SetInt(nameof(_old), _old.Id);
+            attributes.SetInt(nameof(_new), _new.Id);
+            return attributes.GetData();
         }
     }
 }

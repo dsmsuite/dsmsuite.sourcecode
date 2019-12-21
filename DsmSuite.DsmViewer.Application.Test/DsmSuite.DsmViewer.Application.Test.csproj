@@ -38,9 +38,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Actions\Base\ActionBaseTest.cs" />
+    <Compile Include="Actions\Base\ActionAttributesTest.cs" />
     <Compile Include="Actions\Base\ActionManagerTest.cs" />
     <Compile Include="Actions\Base\ActionStoreTest.cs" />
+    <Compile Include="Actions\Base\ReadOnlyActionAttributesTest.cs" />
     <Compile Include="Actions\Element\ElementCreateActionTest.cs" />
     <Compile Include="Actions\Element\ElementDeleteActionTest.cs" />
     <Compile Include="Actions\Element\ElementEditNameActionTest.cs" />

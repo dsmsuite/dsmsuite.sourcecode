@@ -15,7 +15,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public RelationEditWeightAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
-            int id = GetInt(data, nameof(_relation));
+            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            int id = attributes.GetInt(nameof(_relation));
             _relation = model.GetRelationById(id);
             Debug.Assert(_relation != null);
 
@@ -25,8 +26,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _provider = model.GetElementById(_relation.ProviderId);
             Debug.Assert(_provider != null);
 
-            _old = GetInt(data, nameof(_old));
-            _new = GetInt(data, nameof(_new));
+            _old = attributes.GetInt(nameof(_old));
+            _new = attributes.GetInt(nameof(_new));
         }
 
         public RelationEditWeightAction(IDsmModel model, IDsmRelation relation, int weight) : base(model)
@@ -60,11 +61,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            SetInt(data, nameof(Element), _relation.Id);
-            SetInt(data, nameof(_old), _old);
-            SetInt(data, nameof(_new), _new);
-            return data;
+            ActionAttributes attributes = new ActionAttributes();
+            attributes.SetInt(nameof(Element), _relation.Id);
+            attributes.SetInt(nameof(_old), _old);
+            attributes.SetInt(nameof(_new), _new);
+            return attributes.GetData();
         }
     }
 }

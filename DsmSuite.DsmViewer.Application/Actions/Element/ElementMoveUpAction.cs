@@ -11,7 +11,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public ElementMoveUpAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
-            int id = GetInt(data, nameof(_element));
+            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            int id = attributes.GetInt(nameof(_element));
             _element = model.GetElementById(id);
             Debug.Assert(_element != null);
         }
@@ -44,9 +45,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            SetInt(data, nameof(_element), _element.Id);
-            return data;
+            ActionAttributes attributes = new ActionAttributes();
+            attributes.SetInt(nameof(_element), _element.Id);
+            return attributes.GetData();
         }
     }
 }

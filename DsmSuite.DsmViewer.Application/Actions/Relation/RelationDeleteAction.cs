@@ -13,7 +13,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public RelationDeleteAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
         {
-            int id = GetInt(data, nameof(_relation));
+            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            int id = attributes.GetInt(nameof(_relation));
             _relation = model.GetDeletedRelationById(id);
             Debug.Assert(_relation != null);
 
@@ -52,9 +53,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public override IReadOnlyDictionary<string, string> Pack()
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            SetInt(data, nameof(_relation), _relation.Id);
-            return data;
+            ActionAttributes attributes = new ActionAttributes();
+            attributes.SetInt(nameof(_relation), _relation.Id);
+            return attributes.GetData();
         }
     }
 }
