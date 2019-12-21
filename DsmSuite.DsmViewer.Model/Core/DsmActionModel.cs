@@ -32,11 +32,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             return action;
         }
 
-        public void ClearActions()
-        {
-            _actions.Clear();
-        }
-
         public IEnumerable<IDsmAction> GetExportedActions()
         {
             return _actions;

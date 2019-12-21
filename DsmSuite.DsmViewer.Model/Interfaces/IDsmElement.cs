@@ -30,6 +30,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// </summary>
         string Fullname { get; }
 
+        bool IsDeleted { get; }
+
         /// <summary>
         /// Has the element any children.
         /// </summary>

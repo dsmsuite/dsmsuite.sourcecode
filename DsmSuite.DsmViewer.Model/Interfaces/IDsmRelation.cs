@@ -26,5 +26,7 @@
         /// Strength or weight of the relation
         /// </summary>
         int Weight { get; }
+
+        bool IsDeleted { get; }
     }
 }

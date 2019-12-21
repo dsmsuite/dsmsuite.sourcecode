@@ -32,5 +32,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         }
 
         public int Weight { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

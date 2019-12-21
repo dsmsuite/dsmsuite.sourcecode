@@ -90,7 +90,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.GetExportedRelationCount());
 
-            IDsmRelation relation = model.ImportRelation(1, _a.Id, _b.Id, "type", 1);
+            IDsmRelation relation = model.ImportRelation(1, _a.Id, _b.Id, "type", 1, false);
             Assert.IsNotNull(relation);
 
             Assert.AreEqual(1, model.GetExportedRelationCount());
@@ -392,15 +392,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
         private void CreateElementHierarchy()
         {
-            _a = _elementsDataModel.ImportElement(11, "a", "", 1, false, null);
-            _a1 = _elementsDataModel.ImportElement(12, "a1", "eta", 2, false, _a.Id);
-            _a2 = _elementsDataModel.ImportElement(13, "a2", "eta", 3, false, _a.Id);
-            _b = _elementsDataModel.ImportElement(14, "b", "", 4, false, null);
-            _b1 = _elementsDataModel.ImportElement(15, "b1", "etb", 5, false, _b.Id);
-            _b2 = _elementsDataModel.ImportElement(16, "b2", "etb", 6, false, _b.Id);
-            _c = _elementsDataModel.ImportElement(17, "c", "", 7, false, null);
-            _c1 = _elementsDataModel.ImportElement(18, "c1", "etc", 8, false, _c.Id);
-            _c2 = _elementsDataModel.ImportElement(19, "c2", "etc", 9, false, _c.Id);
+            _a = _elementsDataModel.ImportElement(11, "a", "", 1, false, null, false);
+            _a1 = _elementsDataModel.ImportElement(12, "a1", "eta", 2, false, _a.Id, false);
+            _a2 = _elementsDataModel.ImportElement(13, "a2", "eta", 3, false, _a.Id, false);
+            _b = _elementsDataModel.ImportElement(14, "b", "", 4, false, null, false);
+            _b1 = _elementsDataModel.ImportElement(15, "b1", "etb", 5, false, _b.Id, false);
+            _b2 = _elementsDataModel.ImportElement(16, "b2", "etb", 6, false, _b.Id, false);
+            _c = _elementsDataModel.ImportElement(17, "c", "", 7, false, null, false);
+            _c1 = _elementsDataModel.ImportElement(18, "c1", "etc", 8, false, _c.Id, false);
+            _c2 = _elementsDataModel.ImportElement(19, "c2", "etc", 9, false, _c.Id, false);
         }
 
         private void CreateElementRelations(DsmRelationModel relationsDataModel)

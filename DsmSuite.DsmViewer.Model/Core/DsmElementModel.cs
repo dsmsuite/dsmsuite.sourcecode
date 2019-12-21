@@ -32,7 +32,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _lastElementId = 0;
         }
 
-        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
+        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted)
         {
             Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} order={order} expanded={expanded} parentId={parentId}");
 

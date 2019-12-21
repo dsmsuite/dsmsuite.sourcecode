@@ -32,6 +32,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ElementTypeXmlAttribute = "type";
         private const string ElementExpandedXmlAttribute = "expanded";
         private const string ElementParentXmlAttribute = "parent";
+        private const string ElementDeletedXmlAttribute = "deleted";
 
         private const string RelationGroupXmlNode = "relations";
 
@@ -41,6 +42,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string RelationToXmlAttribute = "to";
         private const string RelationTypeXmlAttribute = "type";
         private const string RelationWeightXmlAttribute = "weight";
+        private const string RelationDeletedXmlAttribute = "deleted";
 
         private const string ActionGroupXmlNode = "actions";
 
@@ -231,10 +233,11 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 string type = xReader.GetAttribute(ElementTypeXmlAttribute);
                 bool expanded = ParseBool(xReader.GetAttribute(ElementExpandedXmlAttribute));
                 int? parent = ParseInt(xReader.GetAttribute(ElementParentXmlAttribute));
+                bool deleted = ParseBool(xReader.GetAttribute(ElementDeletedXmlAttribute));
 
                 if (id.HasValue && order.HasValue)
                 {
-                    _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent);
+                    _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent, deleted);
                 }
 
                 _progressItemCount++;
@@ -261,13 +264,14 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 int? provider = ParseInt(xReader.GetAttribute(RelationToXmlAttribute));
                 string type = xReader.GetAttribute(RelationTypeXmlAttribute);
                 int? weight = ParseInt(xReader.GetAttribute(RelationWeightXmlAttribute));
+                bool deleted = ParseBool(xReader.GetAttribute(RelationDeletedXmlAttribute));
 
                 if (id.HasValue &&
                     consumer.HasValue &&
                     provider.HasValue &&
                     weight.HasValue)
                 {
-                    _relationModelCallback.ImportRelation(id.Value, consumer.Value, provider.Value, type, weight.Value);
+                    _relationModelCallback.ImportRelation(id.Value, consumer.Value, provider.Value, type, weight.Value, deleted);
                 }
 
                 _progressItemCount++;
@@ -283,6 +287,10 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
             writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
             writer.WriteAttributeString(ElementExpandedXmlAttribute, element.IsExpanded.ToString());
+            if (element.IsDeleted)
+            {
+                writer.WriteAttributeString(ElementDeletedXmlAttribute, "true");
+            }
             if ((element.Parent != null) && (element.Parent.Id > 0))
             {
                 writer.WriteAttributeString(ElementParentXmlAttribute, element.Parent.Id.ToString());
@@ -309,6 +317,10 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
             writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
             writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
+            if (relation.IsDeleted)
+            {
+                writer.WriteAttributeString(RelationDeletedXmlAttribute, "true");
+            }
             writer.WriteEndElement();
         }
 

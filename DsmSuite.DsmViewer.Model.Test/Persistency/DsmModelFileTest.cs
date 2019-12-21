@@ -298,7 +298,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return action;
         }
 
-        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId)
+        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted)
         {
             DsmElement element = new DsmElement(id, name, type, order, expanded);
             if (!parentId.HasValue)
@@ -318,7 +318,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return element;
         }
 
-        public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight)
+        public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight, bool deleted)
         {
             DsmRelation relation = new DsmRelation(relationId, consumerId, providerId, type, weight);
             _relations.Add(relation);
