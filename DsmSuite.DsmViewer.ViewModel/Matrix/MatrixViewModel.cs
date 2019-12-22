@@ -338,7 +338,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                         if ((consumer.Element.Parent.Id == provider.Element.Parent.Id) &&
                             (consumer.Depth == provider.Depth))
                         {
-                            depth = provider.Depth - 1;
+                            depth = Math.Min(consumer.Depth - 1, provider.Depth - 1);
                         }
                     }
 
