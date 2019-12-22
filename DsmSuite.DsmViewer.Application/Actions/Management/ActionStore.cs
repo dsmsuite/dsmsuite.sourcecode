@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
 using DsmSuite.DsmViewer.Application.Actions.Snapshot;
@@ -66,7 +65,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
             _types[RelationEditTypeAction.TypeName] = typeof(RelationEditTypeAction);
             _types[RelationEditWeightAction.TypeName] = typeof(RelationEditWeightAction);
             _types[RelationDeleteAction.TypeName] = typeof(RelationDeleteAction);
-            _types[ElementCreateAction.TypeName] = typeof(ElementCreateAction);
             _types[MakeSnapshotAction.TypeName] = typeof(MakeSnapshotAction);
         }
     }
