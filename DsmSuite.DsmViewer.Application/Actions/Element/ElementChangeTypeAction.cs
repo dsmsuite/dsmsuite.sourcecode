@@ -6,16 +6,16 @@ using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementEditTypeAction : IAction
+    public class ElementChangeTypeAction : IAction
     {
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;
         private readonly string _old;
         private readonly string _new;
 
-        public const string TypeName = "eedittype";
+        public const string TypeName = "echangetype";
 
-        public ElementEditTypeAction(object[] args)
+        public ElementChangeTypeAction(object[] args)
         {
             Debug.Assert(args.Length == 2);
             _model = args[0] as IDsmModel;
@@ -32,7 +32,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _new = attributes.GetString(nameof(_new));
        }
 
-        public ElementEditTypeAction(IDsmModel model, IDsmElement element, string type)
+        public ElementChangeTypeAction(IDsmModel model, IDsmElement element, string type)
         {
             _model = model;
             Debug.Assert(_model != null);
@@ -45,17 +45,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         }
 
         public string Type => TypeName;
-        public string Title => "Edit element type";
+        public string Title => "Change element type";
         public string Description => $"element={_element.Fullname} type={_old}->{_new}";
 
         public void Do()
         {
-            _model.EditElementType(_element, _new);
+            _model.ChangeElementType(_element, _new);
         }
 
         public void Undo()
         {
-            _model.EditElementType(_element, _old);
+            _model.ChangeElementType(_element, _old);
         }
 
         public IReadOnlyDictionary<string, string> Data

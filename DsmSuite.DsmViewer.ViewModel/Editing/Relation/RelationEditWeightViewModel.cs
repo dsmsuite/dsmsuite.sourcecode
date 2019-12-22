@@ -33,7 +33,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 
         private void AcceptChangeExecute(object parameter)
         {
-            _application.EditRelationWeight(_relation, Weight);
+            _application.ChangeRelationWeight(_relation, Weight);
         }
 
         private bool AcceptChangeCanExecute(object parameter)

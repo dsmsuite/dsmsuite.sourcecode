@@ -55,15 +55,15 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
         {
             _types[ElementCreateAction.TypeName] = typeof(ElementCreateAction);
             _types[ElementDeleteAction.TypeName] = typeof(ElementDeleteAction);
-            _types[ElementEditNameAction.TypeName] = typeof(ElementEditNameAction);
-            _types[ElementEditTypeAction.TypeName] = typeof(ElementEditTypeAction);
-            _types[ElementMoveAction.TypeName] = typeof(ElementMoveAction);
+            _types[ElementChangeNameAction.TypeName] = typeof(ElementChangeNameAction);
+            _types[ElementChangeTypeAction.TypeName] = typeof(ElementChangeTypeAction);
+            _types[ElementChangeParentAction.TypeName] = typeof(ElementChangeParentAction);
             _types[ElementMoveDownAction.TypeName] = typeof(ElementMoveDownAction);
             _types[ElementMoveUpAction.TypeName] = typeof(ElementMoveUpAction);
             _types[ElementPartitionAction.TypeName] = typeof(ElementPartitionAction);
             _types[RelationCreateAction.TypeName] = typeof(RelationCreateAction);
-            _types[RelationEditTypeAction.TypeName] = typeof(RelationEditTypeAction);
-            _types[RelationEditWeightAction.TypeName] = typeof(RelationEditWeightAction);
+            _types[RelationChangeTypeAction.TypeName] = typeof(RelationChangeTypeAction);
+            _types[RelationChangeWeightAction.TypeName] = typeof(RelationChangeWeightAction);
             _types[RelationDeleteAction.TypeName] = typeof(RelationDeleteAction);
             _types[MakeSnapshotAction.TypeName] = typeof(MakeSnapshotAction);
         }

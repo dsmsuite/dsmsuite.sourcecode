@@ -35,8 +35,8 @@
                         <MenuItem Header="Move down" Command="{Binding MoveDownCommand}" />
                         <Separator />
                         <MenuItem Header="Create element" Command="{Binding CreateElementCommand}" />                        
-                        <MenuItem Header="Edit element name" Command="{Binding EditElementNameCommand}" />
-                        <MenuItem Header="Edit element type" Command="{Binding EditElementTypeCommand}" />
+                        <MenuItem Header="Change element name" Command="{Binding ChangeElementNameCommand}" />
+                        <MenuItem Header="Change element type" Command="{Binding ChangeElementTypeCommand}" />
                         <MenuItem Header="Delete element" Command="{Binding DeleteElementCommand}" />
                         <Separator />
                         <MenuItem Header="Show consumers" Command="{Binding ShowElementConsumersCommand}" />
@@ -53,8 +53,8 @@
                 <matrix:RenderedCellsView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Create relation" Command="{Binding CreateRelationCommand}" />                        
-                        <MenuItem Header="Edit relation weight" Command="{Binding EditRelationWeightCommand}" />
-                        <MenuItem Header="Edit relation type" Command="{Binding EditRelationTypeCommand}" />
+                        <MenuItem Header="Change relation weight" Command="{Binding ChangeRelationWeightCommand}" />
+                        <MenuItem Header="Change relation type" Command="{Binding ChangeRelationTypeCommand}" />
                         <MenuItem Header="Delete relation" Command="{Binding DeleteRelationCommand}" />
                         <Separator />
                         <MenuItem Header="Show relations" Command="{Binding ShowCellRelationsCommand}" />

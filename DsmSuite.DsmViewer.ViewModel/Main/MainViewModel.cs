@@ -103,13 +103,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             CreateElementCommand = new RelayCommand<object>(CreateElementExecute, CreateElementCanExecute);
             DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
             MoveElementCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
-            EditElementNameCommand = new RelayCommand<object>(EditElementNameExecute, EditElementNameCanExecute);
-            EditElementTypeCommand = new RelayCommand<object>(EditElementTypeExecute, EditElementTypeCanExecute);
+            ChangeElementNameCommand = new RelayCommand<object>(ChangeElementNameExecute, ChangeElementNameCanExecute);
+            ChangeElementTypeCommand = new RelayCommand<object>(ChangeElementTypeExecute, ChangeElementTypeCanExecute);
 
             CreateRelationCommand = new RelayCommand<object>(CreateRelationExecute, CreateRelationCanExecute);
             DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
-            EditRelationWeightCommand = new RelayCommand<object>(EditRelationWeightExecute, EditRelationWeightCanExecute);
-            EditRelationTypeCommand = new RelayCommand<object>(EditRelationTypeExecute, EditRelationTypeCanExecute);
+            ChangeRelationWeightCommand = new RelayCommand<object>(ChangeRelationWeightExecute, ChangeRelationWeightCanExecute);
+            ChangeRelationTypeCommand = new RelayCommand<object>(ChangeRelationTypeExecute, ChangeRelationTypeCanExecute);
 
             MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
             ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
@@ -169,12 +169,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand CreateElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
         public ICommand MoveElementCommand { get; }
-        public ICommand EditElementNameCommand { get; }
-        public ICommand EditElementTypeCommand { get; }
+        public ICommand ChangeElementNameCommand { get; }
+        public ICommand ChangeElementTypeCommand { get; }
         public ICommand CreateRelationCommand { get; }
         public ICommand DeleteRelationCommand { get; }
-        public ICommand EditRelationWeightCommand { get; }
-        public ICommand EditRelationTypeCommand { get; }
+        public ICommand ChangeRelationWeightCommand { get; }
+        public ICommand ChangeRelationTypeCommand { get; }
         public ICommand MakeSnapshotCommand { get; }
         public ICommand ShowHistoryCommand { get; }
 
@@ -589,24 +589,24 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return true;
         }
 
-        private void EditElementNameExecute(object parameter)
+        private void ChangeElementNameExecute(object parameter)
         {
             ElementEditNameViewModel elementEditViewModel = new ElementEditNameViewModel(_application, SelectedProvider.Element);
             ElementEditNameStarted?.Invoke(this, elementEditViewModel);
         }
 
-        private bool EditElementNameCanExecute(object parameter)
+        private bool ChangeElementNameCanExecute(object parameter)
         {
             return true;
         }
 
-        private void EditElementTypeExecute(object parameter)
+        private void ChangeElementTypeExecute(object parameter)
         {
             ElementEditTypeViewModel elementEditViewModel = new ElementEditTypeViewModel(_application, SelectedProvider.Element);
             ElementEditTypeStarted?.Invoke(this, elementEditViewModel);
         }
 
-        private bool EditElementTypeCanExecute(object parameter)
+        private bool ChangeElementTypeCanExecute(object parameter)
         {
             return true;
         }
@@ -616,7 +616,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             Tuple<IDsmElement, IDsmElement> moveParameter = parameter as Tuple<IDsmElement, IDsmElement>;
             if (moveParameter != null)
             {
-                _application.MoveElement(moveParameter.Item1, moveParameter.Item2);
+                _application.ChangeElementParent(moveParameter.Item1, moveParameter.Item2);
             }
         }
 
@@ -625,7 +625,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return true;
         }
 
-        private void EditRelationWeightExecute(object parameter)
+        private void ChangeRelationWeightExecute(object parameter)
         {
             if ((SelectedConsumer != null) && (SelectedProvider != null))
             {
@@ -639,7 +639,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             }
         }
 
-        private bool EditRelationWeightCanExecute(object parameter)
+        private bool ChangeRelationWeightCanExecute(object parameter)
         {
             bool canExecute = false;
             if ((SelectedConsumer != null) && (SelectedProvider != null))
@@ -653,7 +653,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return canExecute;
         }
 
-        private void EditRelationTypeExecute(object parameter)
+        private void ChangeRelationTypeExecute(object parameter)
         {
             if ((SelectedConsumer != null) && (SelectedProvider != null))
             {
@@ -667,7 +667,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             }
         }
 
-        private bool EditRelationTypeCanExecute(object parameter)
+        private bool ChangeRelationTypeCanExecute(object parameter)
         {
             bool canExecute = false;
             if ((SelectedConsumer != null) && (SelectedProvider != null))

@@ -88,29 +88,29 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relation;
         }
 
-        public void EditRelationType(IDsmRelation relation, string type)
+        public void ChangeRelationType(IDsmRelation relation, string type)
         {
-            DsmRelation editedRelation = relation as DsmRelation;
-            if (editedRelation != null)
+            DsmRelation changedRelation = relation as DsmRelation;
+            if (changedRelation != null)
             {
-                UnregisterRelation(editedRelation);
+                UnregisterRelation(changedRelation);
 
-                editedRelation.Type = type;
+                changedRelation.Type = type;
 
-                RegisterRelation(editedRelation);
+                RegisterRelation(changedRelation);
             }
         }
 
-        public void EditRelationWeight(IDsmRelation relation, int weight)
+        public void ChangeRelationWeight(IDsmRelation relation, int weight)
         {
-            DsmRelation editedRelation = relation as DsmRelation;
-            if (editedRelation != null)
+            DsmRelation changedRelation = relation as DsmRelation;
+            if (changedRelation != null)
             {
-                UnregisterRelation(editedRelation);
+                UnregisterRelation(changedRelation);
 
-                editedRelation.Weight = weight;
+                changedRelation.Weight = weight;
 
-                RegisterRelation(editedRelation);
+                RegisterRelation(changedRelation);
             }
         }
 

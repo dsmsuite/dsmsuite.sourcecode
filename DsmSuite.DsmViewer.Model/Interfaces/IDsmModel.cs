@@ -25,7 +25,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmElement AddElement(string name, string type, int? parentId);
         void RemoveElement(int elementId);
         void UnremoveElement(int elementId);
-        void ChangeParent(IDsmElement element, IDsmElement parent);
+        void ChangeElementParent(IDsmElement element, IDsmElement parent);
         void ReorderChildren(IDsmElement element, IElementSequence sequence);
         IDsmElement NextSibling(IDsmElement element);
         IDsmElement PreviousSibling(IDsmElement element);
@@ -39,11 +39,11 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmElement GetDeletedElementById(int id);
 
         void AssignElementOrder();
-        void EditElementName(IDsmElement element, string name);
-        void EditElementType(IDsmElement element, string type);
+        void ChangeElementName(IDsmElement element, string name);
+        void ChangeElementType(IDsmElement element, string type);
         IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight);
-        void EditRelationType(IDsmRelation relation, string type);
-        void EditRelationWeight(IDsmRelation relation, int weight);
+        void ChangeRelationType(IDsmRelation relation, string type);
+        void ChangeRelationWeight(IDsmRelation relation, int weight);
         void RemoveRelation(int relationId);
         void UnremoveRelation(int relationId);
         int GetDependencyWeight(int consumerId, int providerId);

@@ -6,16 +6,16 @@ using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementMoveAction : IAction
+    public class ElementChangeParentAction : IAction
     {
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;
         private readonly IDsmElement _old;
         private readonly IDsmElement _new;
 
-        public const string TypeName = "emove";
+        public const string TypeName = "echangeparent";
 
-        public ElementMoveAction(object[] args)
+        public ElementChangeParentAction(object[] args)
         {
             Debug.Assert(args.Length == 2);
             _model = args[0] as IDsmModel;
@@ -37,7 +37,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Debug.Assert(_new != null);
         }
 
-        public ElementMoveAction(IDsmModel model, IDsmElement element, IDsmElement newParent)
+        public ElementChangeParentAction(IDsmModel model, IDsmElement element, IDsmElement newParent)
         {
             _model = model;
             Debug.Assert(_model != null);
@@ -53,17 +53,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         }
 
         public string Type => TypeName;
-        public string Title => "Move element";
+        public string Title => "Change element parent";
         public string Description => $"element={_element.Fullname} parent={_old.Fullname}->{_new.Fullname}";
 
         public void Do()
         {
-            _model.ChangeParent(_element, _new);
+            _model.ChangeElementParent(_element, _new);
         }
 
         public void Undo()
         {
-            _model.ChangeParent(_element, _old);
+            _model.ChangeElementParent(_element, _old);
         }
 
         public IReadOnlyDictionary<string, string> Data

@@ -8,7 +8,7 @@ using DsmSuite.DsmViewer.Application.Actions.Element;
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
     [TestClass]
-    public class ElementEditTypeActionTest
+    public class ElementChangeTypeActionTest
     {
         private Mock<IDsmModel> _model;
         private Mock<IDsmElement> _element;
@@ -38,26 +38,26 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         [TestMethod]
         public void WhenDoActionThenElementTypeIsChangedDataModel()
         {
-            ElementEditTypeAction action = new ElementEditTypeAction(_model.Object, _element.Object, _newType);
+            ElementChangeTypeAction action = new ElementChangeTypeAction(_model.Object, _element.Object, _newType);
             action.Do();
 
-            _model.Verify(x => x.EditElementType(_element.Object, _newType), Times.Once());
+            _model.Verify(x => x.ChangeElementType(_element.Object, _newType), Times.Once());
         }
 
         [TestMethod]
         public void WhenUndoActionThenElementTypeIsRevertedDataModel()
         {
-            ElementEditTypeAction action = new ElementEditTypeAction(_model.Object, _element.Object, _newType);
+            ElementChangeTypeAction action = new ElementChangeTypeAction(_model.Object, _element.Object, _newType);
             action.Undo();
 
-            _model.Verify(x => x.EditElementType(_element.Object, _oldType), Times.Once());
+            _model.Verify(x => x.ChangeElementType(_element.Object, _oldType), Times.Once());
         }
 
         [TestMethod]
         public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
             object[] args = { _model.Object, _data };
-            ElementEditTypeAction action = new ElementEditTypeAction(args);
+            ElementChangeTypeAction action = new ElementChangeTypeAction(args);
 
             Assert.AreEqual(3, action.Data.Count);
             Assert.AreEqual(_elementId.ToString(), _data["element"]);

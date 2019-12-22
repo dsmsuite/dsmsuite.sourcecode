@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
-    public class RelationEditTypeAction : IAction
+    public class RelationChangeTypeAction : IAction
     {
         private readonly IDsmModel _model;
         private readonly IDsmRelation _relation;
@@ -15,9 +15,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         private readonly string _old ;
         private readonly string _new ;
 
-        public const string TypeName = "redittype";
+        public const string TypeName = "rchangetype";
 
-        public RelationEditTypeAction(object[] args)
+        public RelationChangeTypeAction(object[] args)
         {
             Debug.Assert(args.Length == 2);
             _model = args[0] as IDsmModel;
@@ -40,7 +40,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _old = attributes.GetString(nameof(_old));
         }
 
-        public RelationEditTypeAction(IDsmModel model, IDsmRelation relation, string type)
+        public RelationChangeTypeAction(IDsmModel model, IDsmRelation relation, string type)
         {
             _model = model;
             Debug.Assert(_model != null);
@@ -59,17 +59,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         }
 
         public string Type => TypeName;
-        public string Title => "Edit relation type";
+        public string Title => "Change relation type";
         public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_old}->{_new}";
 
         public void Do()
         {
-            _model.EditRelationType(_relation, _new);
+            _model.ChangeRelationType(_relation, _new);
         }
 
         public void Undo()
         {
-            _model.EditRelationType(_relation, _old);
+            _model.ChangeRelationType(_relation, _old);
         }
 
         public IReadOnlyDictionary<string, string> Data
@@ -77,7 +77,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             get
             {
                 ActionAttributes attributes = new ActionAttributes();
-                attributes.SetInt(nameof(Element), _relation.Id);
+                attributes.SetInt(nameof(_relation), _relation.Id);
                 attributes.SetString(nameof(_new), _new);
                 attributes.SetString(nameof(_old), _old);
                 return attributes.Data;

@@ -165,7 +165,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void WhenEditElementIsCalledToChangeNameThenItCanBeFoundUnderThatName()
+        public void WhenChangeElementIsCalledToChangeNameThenItCanBeFoundUnderThatName()
         {
             DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.GetElementCount());
@@ -176,14 +176,14 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement foundElementBefore = model.FindElementByFullname("a.c");
             Assert.IsNull(foundElementBefore);
 
-            model.EditElementName(b, "c");
+            model.ChangeElementName(b, "c");
 
             IDsmElement foundElementAfter = model.FindElementByFullname("a.c");
             Assert.IsNotNull(foundElementAfter);
         }
 
         [TestMethod]
-        public void WhenEditElementIsCalledToChangeTypeThenTypeIsChanged()
+        public void WhenChangeElementIsCalledToChangeTypeThenTypeIsChanged()
         {
             DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.GetElementCount());
@@ -195,7 +195,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.IsNotNull(foundElementBefore);
             Assert.AreEqual("type", foundElementBefore.Type);
 
-            model.EditElementType(b, "type1");
+            model.ChangeElementType(b, "type1");
 
             IDsmElement foundElementAfter = model.FindElementByFullname("a.b");
             Assert.IsNotNull(foundElementAfter);

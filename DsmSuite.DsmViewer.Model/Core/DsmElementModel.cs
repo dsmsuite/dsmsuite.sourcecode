@@ -74,21 +74,21 @@ namespace DsmSuite.DsmViewer.Model.Core
             return element;
         }
 
-        public void EditElementName(IDsmElement element, string name)
+        public void ChangeElementName(IDsmElement element, string name)
         {
-            DsmElement editedElement = element as DsmElement;
-            if (editedElement != null)
+            DsmElement changedElement = element as DsmElement;
+            if (changedElement != null)
             {
-                editedElement.Name = name;
+                changedElement.Name = name;
             }
         }
 
-        public void EditElementType(IDsmElement element, string type)
+        public void ChangeElementType(IDsmElement element, string type)
         {
-            DsmElement editedElement = element as DsmElement;
-            if (editedElement != null)
+            DsmElement changedElement = element as DsmElement;
+            if (changedElement != null)
             {
-                editedElement.Type = type;
+                changedElement.Type = type;
             }
         }
 

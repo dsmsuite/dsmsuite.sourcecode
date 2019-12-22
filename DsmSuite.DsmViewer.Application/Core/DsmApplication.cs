@@ -223,21 +223,21 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Execute(action);
         }
 
-        public void EditElementName(IDsmElement element, string name)
+        public void ChangeElementName(IDsmElement element, string name)
         {
-            ElementEditNameAction action = new ElementEditNameAction(_model, element, name);
+            ElementChangeNameAction action = new ElementChangeNameAction(_model, element, name);
             _actionManager.Execute(action);
         }
 
-        public void EditElementType(IDsmElement element, string type)
+        public void ChangeElementType(IDsmElement element, string type)
         {
-            ElementEditTypeAction action = new ElementEditTypeAction(_model, element, type);
+            ElementChangeTypeAction action = new ElementChangeTypeAction(_model, element, type);
             _actionManager.Execute(action);
         }
 
-        public void MoveElement(IDsmElement element, IDsmElement newParent)
+        public void ChangeElementParent(IDsmElement element, IDsmElement newParent)
         {
-            ElementMoveAction action = new ElementMoveAction(_model, element, newParent);
+            ElementChangeParentAction action = new ElementChangeParentAction(_model, element, newParent);
             _actionManager.Execute(action);
         }
         
@@ -253,15 +253,15 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Execute(action);
         }
 
-        public void EditRelationType(IDsmRelation relation, string type)
+        public void ChangeRelationType(IDsmRelation relation, string type)
         {
-            RelationEditTypeAction action = new RelationEditTypeAction(_model, relation, type);
+            RelationChangeTypeAction action = new RelationChangeTypeAction(_model, relation, type);
             _actionManager.Execute(action);
         }
 
-        public void EditRelationWeight(IDsmRelation relation, int weight)
+        public void ChangeRelationWeight(IDsmRelation relation, int weight)
         {
-            RelationEditWeightAction action = new RelationEditWeightAction(_model, relation, weight);
+            RelationChangeWeightAction action = new RelationChangeWeightAction(_model, relation, weight);
             _actionManager.Execute(action);
         }
 

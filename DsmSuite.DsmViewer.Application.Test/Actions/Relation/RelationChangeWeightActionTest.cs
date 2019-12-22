@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
 {
     [TestClass]
-    public class RelationEditTypeActionTest
+    public class RelationChangeWeightActionTest
     {
         private Mock<IDsmModel> _model;
         private Mock<IDsmRelation> _relation;
@@ -20,8 +20,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
         private const int _relationId = 1;
         private const int _consumerId = 2;
         private const int _providerId = 3;
-        private const string _oldType = "oldtype";
-        private const string _newType = "newtype";
+        private const int _oldWeight = 123;
+        private const int _newWeight = 456;
 
         [TestInitialize()]
         public void Setup()
@@ -34,32 +34,32 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             _relation.Setup(x => x.Id).Returns(_relationId);
             _relation.Setup(x => x.ConsumerId).Returns(_consumerId);
             _relation.Setup(x => x.ProviderId).Returns(_providerId);
-            _relation.Setup(x => x.Type).Returns(_oldType);
+            _relation.Setup(x => x.Weight).Returns(_oldWeight);
             _model.Setup(x => x.GetElementById(_consumerId)).Returns(_consumer.Object);
             _model.Setup(x => x.GetElementById(_providerId)).Returns(_provider.Object);
 
             _data = new Dictionary<string, string>();
             _data["relation"] = _relationId.ToString();
-            _data["old"] = _oldType;
-            _data["new"] = _newType;
+            _data["old"] = _oldWeight.ToString();
+            _data["new"] = _newWeight.ToString();
         }
 
         [TestMethod]
-        public void WhenDoActionThenRelationTypeIsChangedDataModel()
+        public void WhenDoActionThenRelationWeightIsChangedDataModel()
         {
-            RelationEditTypeAction action = new RelationEditTypeAction(_model.Object, _relation.Object, _newType);
+            RelationChangeWeightAction action = new RelationChangeWeightAction(_model.Object, _relation.Object, _newWeight);
             action.Do();
 
-            _model.Verify(x => x.EditRelationType(_relation.Object, _newType), Times.Once());
+            _model.Verify(x => x.ChangeRelationWeight(_relation.Object, _newWeight), Times.Once());
         }
 
         [TestMethod]
-        public void WhenUndoActionThenRelationTypeIsRevertedDataModel()
+        public void WhenUndoActionThenRelationWeightIsRevertedDataModel()
         {
-            RelationEditTypeAction action = new RelationEditTypeAction(_model.Object, _relation.Object, _newType);
+            RelationChangeWeightAction action = new RelationChangeWeightAction(_model.Object, _relation.Object, _newWeight);
             action.Undo();
 
-            _model.Verify(x => x.EditRelationType(_relation.Object, _oldType), Times.Once());
+            _model.Verify(x => x.ChangeRelationWeight(_relation.Object, _oldWeight), Times.Once());
         }
 
         [TestMethod]
@@ -68,12 +68,12 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             _model.Setup(x => x.GetRelationById(_relationId)).Returns(_relation.Object);
 
             object[] args = { _model.Object, _data };
-            RelationEditTypeAction action = new RelationEditTypeAction(args);
+            RelationChangeWeightAction action = new RelationChangeWeightAction(args);
 
             Assert.AreEqual(3, action.Data.Count);
             Assert.AreEqual(_relationId.ToString(), _data["relation"]);
-            Assert.AreEqual(_oldType, _data["old"]);
-            Assert.AreEqual(_newType, _data["new"]);
+            Assert.AreEqual(_oldWeight.ToString(), _data["old"]);
+            Assert.AreEqual(_newWeight.ToString(), _data["new"]);
         }
     }
 }

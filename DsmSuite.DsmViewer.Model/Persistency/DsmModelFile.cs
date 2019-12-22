@@ -49,7 +49,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ActionXmlNode = "action";
         private const string ActionIdXmlAttribute = "id";
         private const string ActionTypeXmlAttribute = "type";
-
+        private const string ActionDataXmlNode = "data";
         private readonly string _filename;
         private readonly IMetaDataModelFileCallback _metaDataModelCallback;
         private readonly IDsmElementModelFileCallback _elementModelCallback;
@@ -342,10 +342,12 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteStartElement(ActionXmlNode);
             writer.WriteAttributeString(ActionIdXmlAttribute, action.Id.ToString());
             writer.WriteAttributeString(ActionTypeXmlAttribute, action.Type);
+            writer.WriteStartElement(ActionDataXmlNode);
             foreach (var d in action.Data)
             {
                 writer.WriteAttributeString(d.Key, d.Value);
             }
+            writer.WriteEndElement();
             writer.WriteEndElement();
         }
 
@@ -353,26 +355,22 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             if (xReader.Name == ActionXmlNode)
             {
-                int? id = null;
-                string type = "";
-
+                int? id = ParseInt(xReader.GetAttribute(ActionIdXmlAttribute));
+                string type = xReader.GetAttribute(ActionTypeXmlAttribute);
                 Dictionary<string, string> data = new Dictionary<string, string>();
-                while (xReader.MoveToNextAttribute())
+
+                XmlReader xActionDataReader = xReader.ReadSubtree();
+                while (xActionDataReader.Read())
                 {
-                    switch (xReader.Name)
+                    if (xActionDataReader.Name == ActionDataXmlNode)
                     {
-                        case ActionIdXmlAttribute:
-                            id = ParseInt(xReader.Value);
-                            break;
-                        case ActionTypeXmlAttribute:
-                            type = xReader.Value;
-                            break;
-                        default:
+                        while (xActionDataReader.MoveToNextAttribute())
+                        {
                             data[xReader.Name] = xReader.Value;
-                            break;
+                        }
+                        xActionDataReader.MoveToElement();
                     }
                 }
-                xReader.MoveToElement();
 
                 if (id.HasValue)
                 {

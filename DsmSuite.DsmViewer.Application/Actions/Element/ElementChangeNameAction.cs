@@ -6,16 +6,16 @@ using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementEditNameAction : IAction
+    public class ElementChangeNameAction : IAction
     {
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;
         private readonly string _old;
         private readonly string _new;
 
-        public const string TypeName = "eeditname";
+        public const string TypeName = "echangename";
 
-        public ElementEditNameAction(object[] args)
+        public ElementChangeNameAction(object[] args)
         {
             Debug.Assert(args.Length == 2);
             _model = args[0] as IDsmModel;
@@ -32,7 +32,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _new = attributes.GetString(nameof(_new));
         }
 
-        public ElementEditNameAction(IDsmModel model, IDsmElement element, string name)
+        public ElementChangeNameAction(IDsmModel model, IDsmElement element, string name)
         {
             _model = model;
             Debug.Assert(_model != null);
@@ -45,17 +45,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         }
 
         public string Type => TypeName;
-        public string Title => "Edit element name";
+        public string Title => "Change element name";
         public string Description => $"element={_element.Fullname} name={_old}->{_new}";
 
         public void Do()
         {
-            _model.EditElementName(_element, _new);
+            _model.ChangeElementName(_element, _new);
         }
 
         public void Undo()
         {
-            _model.EditElementName(_element, _old);
+            _model.ChangeElementName(_element, _old);
         }
 
         public IReadOnlyDictionary<string, string> Data

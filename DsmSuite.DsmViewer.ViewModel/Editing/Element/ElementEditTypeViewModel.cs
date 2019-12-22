@@ -34,7 +34,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
 
         private void AcceptChangeExecute(object parameter)
         {
-            _application.EditElementType(_element, Type);
+            _application.ChangeElementType(_element, Type);
         }
 
         private bool AcceptChangeCanExecute(object parameter)

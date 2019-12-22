@@ -52,11 +52,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand CreateElementCommand { get; }
         ICommand DeleteElementCommand { get; }
         ICommand MoveElementCommand { get; }
-        ICommand EditElementNameCommand { get; }
-        ICommand EditElementTypeCommand { get; }
+        ICommand ChangeElementNameCommand { get; }
+        ICommand ChangeElementTypeCommand { get; }
         ICommand CreateRelationCommand { get; }
-        ICommand EditRelationWeightCommand { get; }
-        ICommand EditRelationTypeCommand { get; }
+        ICommand ChangeRelationWeightCommand { get; }
+        ICommand ChangeRelationTypeCommand { get; }
         ICommand DeleteRelationCommand { get; }
     }
 }

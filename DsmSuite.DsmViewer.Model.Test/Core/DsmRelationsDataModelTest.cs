@@ -129,7 +129,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void GivenModelIsFilledWhenEditingRelationWeightThenUpdatesCalculatedDerivedWeights()
+        public void GivenModelIsFilledWhenChangeRelationWeightThenUpdatesCalculatedDerivedWeights()
         {
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             CreateElementRelations(model);
@@ -149,7 +149,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
 
-            model.EditRelationWeight(relation, 5);
+            model.ChangeRelationWeight(relation, 5);
 
             Assert.AreEqual(1000, model.GetDependencyWeight(_a1.Id, _b1.Id));
             Assert.AreEqual(200, model.GetDependencyWeight(_a2.Id, _b1.Id));

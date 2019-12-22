@@ -34,10 +34,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             ToggleElementExpandedCommand = mainViewModel.ToggleElementExpandedCommand;
 
-            MoveCommand = mainViewModel.MoveElementCommand;
-            MoveUpCommand = mainViewModel.MoveUpElementCommand;
-            MoveDownCommand = mainViewModel.MoveDownElementCommand;
-            PartitionCommand = mainViewModel.PartitionElementCommand;
+            ChangeElementParentCommand = mainViewModel.MoveElementCommand;
+            MoveUpElementCommand = mainViewModel.MoveUpElementCommand;
+            MoveDownElementCommand = mainViewModel.MoveDownElementCommand;
+            PartitionElementCommand = mainViewModel.PartitionElementCommand;
 
             ShowCellRelationsCommand = new RelayCommand<object>(ShowCellRelationsExecute, ShowCellRelationsCanExecute);
             ShowCellConsumersCommand = new RelayCommand<object>(ShowCellConsumersExecute, ShowCellConsumersCanExecute);
@@ -53,13 +53,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             CreateElementCommand = mainViewModel.CreateElementCommand;
             DeleteElementCommand = mainViewModel.DeleteElementCommand;
             MoveElementCommand = mainViewModel.MoveElementCommand;
-            EditElementNameCommand = mainViewModel.EditElementNameCommand;
-            EditElementTypeCommand = mainViewModel.EditElementTypeCommand;
+            ChangeElementNameCommand = mainViewModel.ChangeElementNameCommand;
+            ChangeElementTypeCommand = mainViewModel.ChangeElementTypeCommand;
 
             CreateRelationCommand = mainViewModel.CreateRelationCommand;
             DeleteRelationCommand = mainViewModel.DeleteRelationCommand;
-            EditRelationWeightCommand = mainViewModel.EditRelationWeightCommand;
-            EditRelationTypeCommand = mainViewModel.EditRelationTypeCommand;
+            ChangeRelationWeightCommand = mainViewModel.ChangeRelationWeightCommand;
+            ChangeRelationTypeCommand = mainViewModel.ChangeRelationTypeCommand;
 
             Reload();
 
@@ -75,12 +75,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand CreateElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
         public ICommand MoveElementCommand { get; }
-        public ICommand EditElementNameCommand { get; }
-        public ICommand EditElementTypeCommand { get; }
+        public ICommand ChangeElementNameCommand { get; }
+        public ICommand ChangeElementTypeCommand { get; }
         public ICommand CreateRelationCommand { get; }
         public ICommand DeleteRelationCommand { get; }
-        public ICommand EditRelationWeightCommand { get; }
-        public ICommand EditRelationTypeCommand { get; }
+        public ICommand ChangeRelationWeightCommand { get; }
+        public ICommand ChangeRelationTypeCommand { get; }
         public double ZoomLevel
         {
             get { return _zoomLevel; }
@@ -189,10 +189,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             HoveredProvider = provider;
         }
 
-        public ICommand MoveCommand { get; }
-        public ICommand MoveUpCommand { get; }
-        public ICommand MoveDownCommand { get; }
-        public ICommand PartitionCommand { get; }
+        public ICommand ChangeElementParentCommand { get; }
+        public ICommand MoveUpElementCommand { get; }
+        public ICommand MoveDownElementCommand { get; }
+        public ICommand PartitionElementCommand { get; }
         public ICommand ShowElementDetailMatrixCommand { get; }
         public ICommand ShowElementContextMatrixCommand { get; }
         public ICommand ShowCellDetailMatrixCommand { get; }

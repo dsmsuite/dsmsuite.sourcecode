@@ -8,7 +8,7 @@ using DsmSuite.DsmViewer.Application.Actions.Element;
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
     [TestClass]
-    public class ElementEditNameActionTest
+    public class ElementChangeNameActionTest
     {
         private Mock<IDsmModel> _model;
         private Mock<IDsmElement> _element;
@@ -38,26 +38,26 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         [TestMethod]
         public void WhenDoActionThenElementNameIsChangedDataModel()
         {
-            ElementEditNameAction action = new ElementEditNameAction(_model.Object, _element.Object, _newName);
+            ElementChangeNameAction action = new ElementChangeNameAction(_model.Object, _element.Object, _newName);
             action.Do();
 
-            _model.Verify(x => x.EditElementName(_element.Object, _newName), Times.Once());
+            _model.Verify(x => x.ChangeElementName(_element.Object, _newName), Times.Once());
         }
 
         [TestMethod]
         public void WhenUndoActionThenElementNameIsRevertedDataModel()
         {
-            ElementEditNameAction action = new ElementEditNameAction(_model.Object, _element.Object, _newName);
+            ElementChangeNameAction action = new ElementChangeNameAction(_model.Object, _element.Object, _newName);
             action.Undo();
 
-            _model.Verify(x => x.EditElementName(_element.Object, _oldName), Times.Once());
+            _model.Verify(x => x.ChangeElementName(_element.Object, _oldName), Times.Once());
         }
 
         [TestMethod]
         public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
             object[] args = { _model.Object, _data };
-            ElementEditNameAction action = new ElementEditNameAction(args);
+            ElementChangeNameAction action = new ElementChangeNameAction(args);
 
             Assert.AreEqual(3, action.Data.Count);
             Assert.AreEqual(_elementId.ToString(), _data["element"]);
