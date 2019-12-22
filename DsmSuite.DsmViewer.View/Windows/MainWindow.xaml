@@ -6,8 +6,12 @@
         xmlns:userControls="clr-namespace:DsmSuite.DsmViewer.View.UserControls"
         xmlns:matrix="clr-namespace:DsmSuite.DsmViewer.View.Matrix"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="Auto" Width="Auto"
-        Loaded="MainWindow_OnLoaded" Background="{StaticResource BackgroundColor}">
+        Title="{Binding Title}" 
+        Height="Auto" 
+        Width="Auto"
+        Loaded="MainWindow_OnLoaded"
+        Background="{StaticResource BackgroundColor}" 
+        Icon="/DsmSuite.DsmViewer.View;component/Resources/empty.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
