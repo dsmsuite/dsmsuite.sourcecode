@@ -17,7 +17,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         {
             _model = model;
 
-            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int id = attributes.GetInt(nameof(_element));
             _element = model.GetDeletedElementById(id);
             Debug.Assert(_element != null);

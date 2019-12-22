@@ -13,7 +13,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 
         public MakeSnapshotAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
         {
-            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             _name = attributes.GetString(nameof(_name));
         }
 

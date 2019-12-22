@@ -21,7 +21,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         {
             _model = model;
 
-            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int id = attributes.GetInt(nameof(_relation));
             _relation = model.GetRelationById(id);
             Debug.Assert(_relation != null);

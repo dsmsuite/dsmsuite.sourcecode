@@ -6,7 +6,7 @@ using DsmSuite.DsmViewer.Application.Actions.Base;
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
 {
     [TestClass]
-    public class ReadOnlyActionAttributesTest
+    public class ActionReadOnlyAttributesTest
     {
         [TestMethod]
         public void GivenStringValueInDictionaryWhenGetStringIsCalledThenValueIsReturned()
@@ -18,7 +18,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
             data[key] = memberValue;
 
             string memberName = "_name";
-            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             Assert.AreEqual(memberValue, attributes.GetString(memberName));
         }
 
@@ -32,7 +32,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
             data[key] = memberValue.ToString();
 
             string memberName = "_name";
-            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             Assert.AreEqual(7, attributes.GetInt(memberName));
         }
 
@@ -46,7 +46,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
             data[key] = memberValue.ToString();
 
             string memberName = "_name";
-            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int? readValue = attributes.GetNullableInt(memberName);
             Assert.IsTrue(readValue.HasValue);
             Assert.AreEqual(7, readValue.Value);
@@ -60,7 +60,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
             string key = "name";
 
             string memberName = "_name";
-            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int? readValue = attributes.GetNullableInt(memberName);
             Assert.IsFalse(readValue.HasValue);
         }
@@ -80,7 +80,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
 
             string memberName1 = "_name1";
             string memberName2 = "_name2";
-            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             Assert.AreEqual(memberValue1, attributes.GetString(memberName1));
             Assert.AreEqual(memberValue2, attributes.GetInt(memberName2));
         }

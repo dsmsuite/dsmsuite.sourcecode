@@ -19,7 +19,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public RelationEditTypeAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
         {
-            ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int id = attributes.GetInt(nameof(_relation));
             _relation = model.GetRelationById(id);
             Debug.Assert(_relation != null);

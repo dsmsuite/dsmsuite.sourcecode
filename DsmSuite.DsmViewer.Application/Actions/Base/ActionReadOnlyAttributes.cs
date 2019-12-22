@@ -2,11 +2,11 @@
 
 namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
-    public class ReadOnlyActionAttributes
+    public class ActionReadOnlyAttributes
     {
         private readonly IReadOnlyDictionary<string, string> _data;
 
-        public ReadOnlyActionAttributes(IReadOnlyDictionary<string, string> data)
+        public ActionReadOnlyAttributes(IReadOnlyDictionary<string, string> data)
         {
             _data = data;
         }
