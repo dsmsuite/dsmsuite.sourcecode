@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
+using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
 {
@@ -13,6 +14,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
         private Mock<IDsmRelation> _relation;
         private Mock<IDsmElement> _consumer;
         private Mock<IDsmElement> _provider;
+
+        private Dictionary<string, string> _data;
 
         private const int _relationId = 1;
         private const int _consumerId = 2;
@@ -34,6 +37,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             _relation.Setup(x => x.Type).Returns(_oldType);
             _model.Setup(x => x.GetElementById(_consumerId)).Returns(_consumer.Object);
             _model.Setup(x => x.GetElementById(_providerId)).Returns(_provider.Object);
+
+            _data = new Dictionary<string, string>();
+            _data["relation"] = _relationId.ToString();
+            _data["old"] = _oldType;
+            _data["new"] = _newType;
         }
 
         [TestMethod]
@@ -52,6 +60,20 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             action.Undo();
 
             _model.Verify(x => x.EditRelationType(_relation.Object, _oldType), Times.Once());
+        }
+
+        [TestMethod]
+        public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
+        {
+            _model.Setup(x => x.GetRelationById(_relationId)).Returns(_relation.Object);
+
+            object[] args = { _model.Object, _data };
+            RelationEditTypeAction action = new RelationEditTypeAction(args);
+
+            Assert.AreEqual(3, action.Data.Count);
+            Assert.AreEqual(_relationId.ToString(), _data["relation"]);
+            Assert.AreEqual(_oldType, _data["old"]);
+            Assert.AreEqual(_newType, _data["new"]);
         }
     }
 }

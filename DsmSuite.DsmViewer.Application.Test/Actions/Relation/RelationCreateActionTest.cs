@@ -66,5 +66,21 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
 
             _model.Verify(x => x.RemoveRelation(_relationId), Times.Once());
         }
+
+        [TestMethod]
+        public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
+        {
+            _model.Setup(x => x.GetRelationById(_relationId)).Returns(_relation.Object);
+
+            object[] args = { _model.Object, _data };
+            RelationCreateAction action = new RelationCreateAction(args);
+
+            Assert.AreEqual(5, action.Data.Count);
+            Assert.AreEqual(_relationId.ToString(), _data["relation"]);
+            Assert.AreEqual(_consumerId.ToString(), _data["consumer"]);
+            Assert.AreEqual(_providerId.ToString(), _data["provider"]);
+            Assert.AreEqual(_type, _data["type"]);
+            Assert.AreEqual(_weight.ToString(), _data["weight"]); 
+        }
     }
 }
