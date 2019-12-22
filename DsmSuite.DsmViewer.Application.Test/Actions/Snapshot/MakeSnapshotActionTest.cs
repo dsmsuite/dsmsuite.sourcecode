@@ -1,14 +1,45 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DsmSuite.DsmViewer.Model.Interfaces;
+using System.Collections.Generic;
+using Moq;
+using DsmSuite.DsmViewer.Application.Actions.Snapshot;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Snapshot
 {
     [TestClass]
     public class MakeSnapshotActionTest
     {
-        [TestMethod]
-        public void TestMethod1()
+        private Mock<IDsmModel> _model;
+        private Dictionary<string, string> _data;
+        private const string _name = "name";
+
+        [TestInitialize()]
+        public void Setup()
         {
+            _model = new Mock<IDsmModel>();
+
+            _data = new Dictionary<string, string>();
+            _data["name"] = _name;
+        }
+
+        [TestMethod]
+        public void WhenCreatingNewActionThenActionAttributesMatch()
+        {
+            MakeSnapshotAction action = new MakeSnapshotAction(_model.Object, _name);
+
+            Assert.AreEqual(1, action.Data.Count);
+            Assert.AreEqual(_name, _data["name"]);
+        }
+
+        [TestMethod]
+        public void WhenLoadingExistingActionThenActionAttributesMatch()
+        {
+            object[] args = { _model.Object, _data };
+            MakeSnapshotAction action = new MakeSnapshotAction(args);
+
+            Assert.AreEqual(1, action.Data.Count);
+            Assert.AreEqual(_name, _data["name"]);
         }
     }
 }
