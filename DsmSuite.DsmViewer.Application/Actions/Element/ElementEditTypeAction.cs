@@ -15,13 +15,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public const string TypeName = "eedittype";
 
-        public ElementEditTypeAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
+        public ElementEditTypeAction(object[] args)
         {
-            _model = model;
+            Debug.Assert(args.Length == 2);
+            _model = args[0] as IDsmModel;
+            Debug.Assert(_model != null);
+            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+            Debug.Assert(data != null);
 
             ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int id = attributes.GetInt(nameof(_element));
-            _element = model.GetElementById(id);
+            _element = _model.GetElementById(id);
             Debug.Assert(_element != null);
 
             _old = attributes.GetString(nameof(_old));
@@ -31,6 +35,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public ElementEditTypeAction(IDsmModel model, IDsmElement element, string type)
         {
             _model = model;
+            Debug.Assert(_model != null);
+
             _element = element;
             Debug.Assert(_element != null);
 

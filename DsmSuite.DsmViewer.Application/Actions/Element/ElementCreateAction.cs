@@ -16,13 +16,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public const string TypeName = "ecreate";
 
-        public ElementCreateAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
+        public ElementCreateAction(object[] args)
         {
-            _model = model;
+            Debug.Assert(args.Length == 2);
+            _model = args[0] as IDsmModel;
+            Debug.Assert(_model != null);
+            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+            Debug.Assert(data != null);
 
             ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int id = attributes.GetInt(nameof(_element));
-            _element = model.GetElementById(id);
+            _element = _model.GetElementById(id);
             Debug.Assert(_element != null);
 
             _name = attributes.GetString(nameof(_name));
@@ -31,13 +35,15 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             int? parentId = attributes.GetNullableInt(nameof(_parent));
             if (parentId.HasValue)
             {
-                _parent = model.GetElementById(parentId.Value);
+                _parent = _model.GetElementById(parentId.Value);
             }
         }
 
         public ElementCreateAction(IDsmModel model, string name, string type, IDsmElement parent)
         {
             _model = model;
+            Debug.Assert(_model != null);
+
             _name = name;
             _type = type;
             _parent = parent;

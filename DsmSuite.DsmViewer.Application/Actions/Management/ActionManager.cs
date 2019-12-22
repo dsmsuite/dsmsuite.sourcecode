@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Interfaces;
 
-namespace DsmSuite.DsmViewer.Application.Actions.Base
+namespace DsmSuite.DsmViewer.Application.Actions.Management
 {
-    public class ActionManager
+    public class ActionManager : IActionManager
     {
         private readonly Stack<IAction> _undoActionStack;
         private readonly Stack<IAction> _redoActionStack;
@@ -99,9 +99,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             _redoActionStack.Clear();
         }
 
-        public IEnumerable<IAction> GetUndoActions()
+        public IEnumerable<IAction> GetActionsInReverseChronologicalOrder()
         {
             return _undoActionStack;
+        }
+
+        public IEnumerable<IAction> GetActionsInChronologicalOrder()
+        {
+            return _undoActionStack.Reverse();
         }
     }
 }

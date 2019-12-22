@@ -17,21 +17,25 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public const string TypeName = "rcreate";
 
-        public RelationCreateAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
+        public RelationCreateAction(object[] args)
         {
-            _model = model;
+            Debug.Assert(args.Length == 2);
+            _model = args[0] as IDsmModel;
+            Debug.Assert(_model != null);
+            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+            Debug.Assert(data != null);
 
             ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int id = attributes.GetInt(nameof(_relation));
-            _relation = model.GetRelationById(id);
+            _relation = _model.GetRelationById(id);
             Debug.Assert(_relation != null);
 
             int consumerId = attributes.GetInt(nameof(_consumer));
-            _consumer = model.GetElementById(consumerId);
+            _consumer = _model.GetElementById(consumerId);
             Debug.Assert(_consumer != null);
 
             int providerId = attributes.GetInt(nameof(_provider));
-            _provider = model.GetElementById(providerId);
+            _provider = _model.GetElementById(providerId);
             Debug.Assert(_provider != null);
 
             _type = attributes.GetString(nameof(_type));
@@ -41,6 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         public RelationCreateAction(IDsmModel model, int consumerId, int providerId, string type, int weight)
         {
             _model = model;
+            Debug.Assert(_model != null);
 
             _consumer = model.GetElementById(consumerId);
             Debug.Assert(_consumer != null);

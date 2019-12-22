@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
 using DsmSuite.DsmViewer.Application.Actions.Snapshot;
@@ -267,13 +267,13 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void MakeSnapshot(string description)
         {
-            MakeSnapshotAction action = new MakeSnapshotAction(description);
+            MakeSnapshotAction action = new MakeSnapshotAction(_model, description);
             _actionManager.Execute(action);
         }
 
         public IEnumerable<IAction> GetActions()
         {
-            return _actionManager.GetUndoActions();
+            return _actionManager.GetActionsInReverseChronologicalOrder();
         }
 
         public void ClearActions()

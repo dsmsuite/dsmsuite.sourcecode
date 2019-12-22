@@ -26,10 +26,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Base\ActionAttributes.cs" />
-    <Compile Include="Actions\Base\ActionStore.cs" />
-    <Compile Include="Actions\Base\ActionManager.cs" />
+    <Compile Include="Actions\Management\ActionStore.cs" />
+    <Compile Include="Actions\Management\ActionManager.cs" />
     <Compile Include="Actions\Base\ActionReadOnlyAttributes.cs" />
     <Compile Include="Actions\Element\ElementEditTypeAction.cs" />
+    <Compile Include="Actions\Management\IActionManager.cs" />
     <Compile Include="Actions\Relation\RelationEditWeightAction.cs" />
     <Compile Include="Algorithm\ElementSequence.cs" />
     <Compile Include="Interfaces\IAction.cs" />

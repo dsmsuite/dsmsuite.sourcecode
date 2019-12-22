@@ -13,19 +13,25 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public const string TypeName = "emovedown";
     
-        public ElementMoveDownAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
+        public ElementMoveDownAction(object[] args)
         {
-            _model = model;
+            Debug.Assert(args.Length == 2);
+            _model = args[0] as IDsmModel;
+            Debug.Assert(_model != null);
+            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+            Debug.Assert(data != null);
 
             ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int id = attributes.GetInt(nameof(_element));
-            _element = model.GetElementById(id);
+            _element = _model.GetElementById(id);
             Debug.Assert(_element != null);
         }
 
         public ElementMoveDownAction(IDsmModel model, IDsmElement element)
         {
             _model = model;
+            Debug.Assert(_model != null);
+
             _element = element;
             Debug.Assert(_element != null);
         }

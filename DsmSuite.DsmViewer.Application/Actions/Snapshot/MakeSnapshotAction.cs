@@ -2,6 +2,7 @@
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 {
@@ -11,13 +12,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 
         public const string TypeName = "snapshot";
 
-        public MakeSnapshotAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
+        public MakeSnapshotAction(object[] args)
         {
+            Debug.Assert(args.Length == 2);
+            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+            Debug.Assert(data  != null);
+
             ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             _name = attributes.GetString(nameof(_name));
         }
 
-        public MakeSnapshotAction(string name)
+        public MakeSnapshotAction(IDsmModel model, string name)
         {
             _name = name;
         }

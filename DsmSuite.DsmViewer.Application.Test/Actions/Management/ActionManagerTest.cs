@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Application.Actions.Management;
 using System.Collections.Generic;
 using Moq;
 using DsmSuite.DsmViewer.Application.Interfaces;
 
-namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
+namespace DsmSuite.DsmViewer.Application.Test.Actions.Management
 {
     [TestClass]
     public class ActionManagerTest
@@ -71,10 +71,25 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
             Mock<IAction> actionMock2 = new Mock<IAction>();
             manager.Execute(actionMock2.Object);
 
-            List<IAction> actions = manager.GetUndoActions().ToList();
+            List<IAction> actions = manager.GetActionsInReverseChronologicalOrder().ToList();
             Assert.AreEqual(2, actions.Count);
             Assert.AreEqual(actionMock2.Object, actions[0]);
             Assert.AreEqual(actionMock1.Object, actions[1]);
+        }
+
+        [TestMethod]
+        public void GivenTwoActionsWhereExecutedWhenActionRetrievedThenTheyAreReturnedInChronologicalOrder()
+        {
+            ActionManager manager = new ActionManager();
+            Mock<IAction> actionMock1 = new Mock<IAction>();
+            manager.Execute(actionMock1.Object);
+            Mock<IAction> actionMock2 = new Mock<IAction>();
+            manager.Execute(actionMock2.Object);
+
+            List<IAction> actions = manager.GetActionsInChronologicalOrder().ToList();
+            Assert.AreEqual(2, actions.Count);
+            Assert.AreEqual(actionMock1.Object, actions[0]);
+            Assert.AreEqual(actionMock2.Object, actions[1]);
         }
 
         [TestMethod]

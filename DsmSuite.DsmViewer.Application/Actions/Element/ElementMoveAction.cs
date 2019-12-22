@@ -15,27 +15,33 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public const string TypeName = "emove";
 
-        public ElementMoveAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
+        public ElementMoveAction(object[] args)
         {
-            _model = model;
+            Debug.Assert(args.Length == 2);
+            _model = args[0] as IDsmModel;
+            Debug.Assert(_model != null);
+            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+            Debug.Assert(data != null);
 
             ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int id = attributes.GetInt(nameof(_element));
-            _element = model.GetElementById(id);
+            _element = _model.GetElementById(id);
             Debug.Assert(_element != null);
 
             int oldParentid = attributes.GetInt(nameof(_old));
-            _old = model.GetElementById(oldParentid);
+            _old = _model.GetElementById(oldParentid);
             Debug.Assert(_old != null);
 
             int newParentId = attributes.GetInt(nameof(_new));
-            _new = model.GetElementById(newParentId);
+            _new = _model.GetElementById(newParentId);
             Debug.Assert(_new != null);
         }
 
         public ElementMoveAction(IDsmModel model, IDsmElement element, IDsmElement newParent)
         {
             _model = model;
+            Debug.Assert(_model != null);
+
             _element = element;
             Debug.Assert(_element != null);
 

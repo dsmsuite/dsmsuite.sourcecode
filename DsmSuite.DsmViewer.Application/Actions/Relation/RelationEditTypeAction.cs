@@ -17,17 +17,23 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public const string TypeName = "redittype";
 
-        public RelationEditTypeAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
+        public RelationEditTypeAction(object[] args)
         {
+            Debug.Assert(args.Length == 2);
+            _model = args[0] as IDsmModel;
+            Debug.Assert(_model != null);
+            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+            Debug.Assert(data != null);
+
             ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
             int id = attributes.GetInt(nameof(_relation));
-            _relation = model.GetRelationById(id);
+            _relation = _model.GetRelationById(id);
             Debug.Assert(_relation != null);
 
-            _consumer = model.GetElementById(_relation.ConsumerId);
+            _consumer = _model.GetElementById(_relation.ConsumerId);
             Debug.Assert(_consumer != null);
 
-            _provider = model.GetElementById(_relation.ProviderId);
+            _provider = _model.GetElementById(_relation.ProviderId);
             Debug.Assert(_provider != null);
 
             _new = attributes.GetString(nameof(_new));
@@ -37,6 +43,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         public RelationEditTypeAction(IDsmModel model, IDsmRelation relation, string type)
         {
             _model = model;
+            Debug.Assert(_model != null);
 
             _relation = relation;
             Debug.Assert(_relation != null);
