@@ -53,7 +53,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             IDsmElement nextElement = _model.NextSibling(_element);
             Debug.Assert(nextElement != null);
 
-            _model.Swap(_element, nextElement);
+            _model.Swap(nextElement, _element);
         }
 
         public IReadOnlyDictionary<string, string> Data
