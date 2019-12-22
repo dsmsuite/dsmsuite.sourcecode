@@ -30,7 +30,11 @@
     <relation id="98" from="18" to="13" type="rc" weight="4" />
   </relations>
   <actions>
-    <action id="1" type="Action1" key1a="value1a" key1b="value1b" />
-    <action id="2" type="Action2" key2a="value2a" key2b="value2b" key2c="value2c" />
+    <action id="1" type="Action1">
+      <data key1a="value1a" key1b="value1b" />
+    </action>
+    <action id="2" type="Action2">
+      <data key2a="value2a" key2b="value2b" key2c="value2c" />
+    </action>
   </actions>
 </dsmmodel>
