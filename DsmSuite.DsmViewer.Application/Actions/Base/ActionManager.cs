@@ -19,11 +19,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             _redoActionStack = new Stack<IAction>();
         }
 
-        public IEnumerable<IAction> GetActions()
-        {
-            return _undoActionStack.Reverse();
-        }
-
         public void Execute(IAction action)
         {
             _undoActionStack.Push(action);
@@ -98,7 +93,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             }
         }
 
-        public void ClearAll()
+        public void Clear()
         {
             _undoActionStack.Clear();
             _redoActionStack.Clear();

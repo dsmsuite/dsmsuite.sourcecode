@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
 using DsmSuite.DsmViewer.Application.Actions.Snapshot;
@@ -96,7 +97,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
         public void Save()
         {
             int index= 0;
-            foreach (IAction action in _actionManager.GetActions())
+            foreach (IAction action in _actionManager.GetUndoActions().Reverse())
             {
                 index++;
                 _model.AddAction(index, action.Type, action.Data);

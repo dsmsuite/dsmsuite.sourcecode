@@ -278,7 +278,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void ClearActions()
         {
-            _actionManager.ClearAll();
+            _actionManager.Clear();
         }
     }
 }
