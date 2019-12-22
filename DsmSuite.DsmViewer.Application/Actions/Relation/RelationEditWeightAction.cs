@@ -1,19 +1,23 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
-    public class RelationEditWeightAction : ActionBase
+    public class RelationEditWeightAction : IAction
     {
+        private readonly IDsmModel _model;
         private readonly IDsmRelation _relation;
         private readonly IDsmElement _consumer;
         private readonly IDsmElement _provider;
         private readonly int _old;
         private readonly int _new;
 
-        public RelationEditWeightAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
+        public const string TypeName = "reditweight";
+
+        public RelationEditWeightAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
         {
             ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
             int id = attributes.GetInt(nameof(_relation));
@@ -30,8 +34,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _new = attributes.GetInt(nameof(_new));
         }
 
-        public RelationEditWeightAction(IDsmModel model, IDsmRelation relation, int weight) : base(model)
+        public RelationEditWeightAction(IDsmModel model, IDsmRelation relation, int weight)
         {
+            _model = model;
+
             _relation = relation;
             Debug.Assert(_relation != null);
 
@@ -45,27 +51,30 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _new = weight;
         }
 
-        public override string ActionName => nameof(RelationEditWeightAction);
-        public override string Title => "Edit relation weight";
-        public override string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_relation.Type} weight={_old}->{_new}";
+        public string Type => TypeName;
+        public string Title => "Edit relation weight";
+        public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_relation.Type} weight={_old}->{_new}";
 
-        public override void Do()
+        public void Do()
         {
-            Model.EditRelationWeight(_relation, _new);
+            _model.EditRelationWeight(_relation, _new);
         }
 
-        public override void Undo()
+        public void Undo()
         {
-            Model.EditRelationWeight(_relation, _old);
+            _model.EditRelationWeight(_relation, _old);
         }
 
-        public override IReadOnlyDictionary<string, string> Pack()
+        public IReadOnlyDictionary<string, string> Data
         {
-            ActionAttributes attributes = new ActionAttributes();
-            attributes.SetInt(nameof(Element), _relation.Id);
-            attributes.SetInt(nameof(_old), _old);
-            attributes.SetInt(nameof(_new), _new);
-            return attributes.GetData();
+            get
+            {
+                ActionAttributes attributes = new ActionAttributes();
+                attributes.SetInt(nameof(Element), _relation.Id);
+                attributes.SetInt(nameof(_old), _old);
+                attributes.SetInt(nameof(_new), _new);
+                return attributes.Data;
+            }
         }
     }
 }

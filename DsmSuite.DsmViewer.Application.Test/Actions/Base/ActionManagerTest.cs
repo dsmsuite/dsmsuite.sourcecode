@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Application.Actions.Base;
 using System.Collections.Generic;
 using Moq;
+using DsmSuite.DsmViewer.Application.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
 {
@@ -29,7 +30,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         public void WhenActionIsExecutedThenActionIsExecuted()
         {
             ActionManager manager = new ActionManager();
-            Mock<ActionBase> actionMock = new Mock<ActionBase>();
+            Mock<IAction> actionMock = new Mock<IAction>();
             manager.Execute(actionMock.Object);
             actionMock.Verify(x => x.Do(), Times.Once());
         }
@@ -45,7 +46,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
                 eventFired = true;
             };
 
-            Mock<ActionBase> actionMock = new Mock<ActionBase>();
+            Mock<IAction> actionMock = new Mock<IAction>();
             manager.Execute(actionMock.Object);
 
             Assert.IsTrue(eventFired);
@@ -55,7 +56,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         public void WhenActionIsExecutedThenActionCanBeUndone()
         {
             ActionManager manager = new ActionManager();
-            Mock<ActionBase> actionMock = new Mock<ActionBase>();
+            Mock<IAction> actionMock = new Mock<IAction>();
             manager.Execute(actionMock.Object);
             Assert.IsTrue(manager.CanUndo());
             Assert.IsNotNull(manager.GetCurrentUndoAction());
@@ -65,7 +66,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         public void WhenActionIsAddedThenActionIsNotExecuted()
         {
             ActionManager manager = new ActionManager();
-            Mock<ActionBase> actionMock = new Mock<ActionBase>();
+            Mock<IAction> actionMock = new Mock<IAction>();
             manager.Add(actionMock.Object);
             actionMock.Verify(x => x.Do(), Times.Never());
         }
@@ -74,7 +75,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         public void WhenActionIsAddedThenActionCanBeUndone()
         {
             ActionManager manager = new ActionManager();
-            Mock<ActionBase> actionMock = new Mock<ActionBase>();
+            Mock<IAction> actionMock = new Mock<IAction>();
             manager.Add(actionMock.Object);
             Assert.IsTrue(manager.CanUndo());
             Assert.IsNotNull(manager.GetCurrentUndoAction());

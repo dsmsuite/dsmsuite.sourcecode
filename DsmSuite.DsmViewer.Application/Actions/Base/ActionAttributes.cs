@@ -11,27 +11,29 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             _data = new Dictionary<string, string>();
         }
 
-        public void SetString(string key, string value)
+        public void SetString(string memberName, string memberValue)
         {
-            _data[key] = value;
+            _data[RemoveUnderscore(memberName)] = memberValue;
         }
 
-        public void SetInt(string key, int value)
+        public void SetInt(string memberName, int memberValue)
         {
-            _data[key] = value.ToString();
+            _data[RemoveUnderscore(memberName)] = memberValue.ToString();
         }
 
-        public void SetNullableInt(string key, int? value)
+        public void SetNullableInt(string memberName, int? memberValue)
         {
-            if (value.HasValue)
+            if (memberValue.HasValue)
             {
-                _data[key] = value.Value.ToString();
+                _data[RemoveUnderscore(memberName)] = memberValue.Value.ToString();
             }
         }
 
-        public IReadOnlyDictionary<string, string> GetData()
+        public IReadOnlyDictionary<string, string> Data => _data;
+
+        private static string RemoveUnderscore(string memberName)
         {
-            return _data;
+            return memberName.Substring(1); 
         }
     }
 }

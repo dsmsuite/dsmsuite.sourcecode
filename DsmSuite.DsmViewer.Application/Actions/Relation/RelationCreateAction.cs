@@ -1,20 +1,26 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
-    public class RelationCreateAction : ActionBase
+    public class RelationCreateAction : IAction
     {
+        private readonly IDsmModel _model;
         private IDsmRelation _relation;
         private readonly IDsmElement _consumer;
         private readonly IDsmElement _provider;
         private readonly string _type;
         private readonly int _weight;
 
-        public RelationCreateAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
+        public const string TypeName = "rcreate";
+
+        public RelationCreateAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
         {
+            _model = model;
+
             ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
             int id = attributes.GetInt(nameof(_relation));
             _relation = model.GetRelationById(id);
@@ -32,8 +38,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _weight = attributes.GetInt(nameof(_weight));
         }
 
-        public RelationCreateAction(IDsmModel model, int consumerId, int providerId, string type, int weight) : base(model)
+        public RelationCreateAction(IDsmModel model, int consumerId, int providerId, string type, int weight)
         {
+            _model = model;
+
             _consumer = model.GetElementById(consumerId);
             Debug.Assert(_consumer != null);
 
@@ -44,30 +52,33 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _weight = weight;
         }
 
-        public override string ActionName => nameof(RelationCreateAction);
-        public override string Title => "Create relation";
-        public override string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_type} weight={_weight}";
+        public string Type => TypeName;
+        public string Title => "Create relation";
+        public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_type} weight={_weight}";
 
-        public override void Do()
+        public void Do()
         {
-            _relation = Model.AddRelation(_consumer.Id, _provider.Id, _type, _weight);
+            _relation = _model.AddRelation(_consumer.Id, _provider.Id, _type, _weight);
             Debug.Assert(_relation != null);
         }
 
-        public override void Undo()
+        public void Undo()
         {
-            Model.RemoveRelation(_relation.Id);
+            _model.RemoveRelation(_relation.Id);
         }
 
-        public override IReadOnlyDictionary<string, string> Pack()
+        public IReadOnlyDictionary<string, string> Data
         {
-            ActionAttributes attributes = new ActionAttributes();
-            attributes.SetInt(nameof(_relation), _relation.Id);
-            attributes.SetInt(nameof(_consumer), _consumer.Id);
-            attributes.SetInt(nameof(_provider), _provider.Id);
-            attributes.SetString(nameof(_type), _type);
-            attributes.SetInt(nameof(_weight), _weight);
-            return attributes.GetData();
+            get
+            {
+                ActionAttributes attributes = new ActionAttributes();
+                attributes.SetInt(nameof(_relation), _relation.Id);
+                attributes.SetInt(nameof(_consumer), _consumer.Id);
+                attributes.SetInt(nameof(_provider), _provider.Id);
+                attributes.SetString(nameof(_type), _type);
+                attributes.SetInt(nameof(_weight), _weight);
+                return attributes.Data;
+            }
         }
     }
 }

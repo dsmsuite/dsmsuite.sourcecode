@@ -8,15 +8,15 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
     public class ActionManager
     {
-        private readonly Stack<ActionBase> _undoActionStack;
-        private readonly Stack<ActionBase> _redoActionStack;
+        private readonly Stack<IAction> _undoActionStack;
+        private readonly Stack<IAction> _redoActionStack;
 
         public event EventHandler ActionPerformed;
 
         public ActionManager()
         {
-            _undoActionStack = new Stack<ActionBase>();
-            _redoActionStack = new Stack<ActionBase>();
+            _undoActionStack = new Stack<IAction>();
+            _redoActionStack = new Stack<IAction>();
         }
 
         public IEnumerable<IAction> GetActions()
@@ -24,7 +24,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             return _undoActionStack.Reverse();
         }
 
-        public void Execute(ActionBase action)
+        public void Execute(IAction action)
         {
             _undoActionStack.Push(action);
             _redoActionStack.Clear();
@@ -33,7 +33,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             Logger.LogInfo("Do :{action.Description}");
         }
 
-        public void Add(ActionBase action)
+        public void Add(IAction action)
         {
             _undoActionStack.Push(action);
         }
@@ -57,7 +57,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
         {
             if (_undoActionStack.Count > 0)
             {
-                ActionBase action = _undoActionStack.Pop();
+                IAction action = _undoActionStack.Pop();
                 if (action != null)
                 {
                     _redoActionStack.Push(action);
@@ -87,7 +87,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
         {
             if (_redoActionStack.Count > 0)
             {
-                ActionBase action = _redoActionStack.Pop();
+                IAction action = _redoActionStack.Pop();
                 if (action != null)
                 {
                     _undoActionStack.Push(action);

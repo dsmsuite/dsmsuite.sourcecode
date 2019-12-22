@@ -11,27 +11,33 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             _data = data;
         }
 
-        public string GetString(string key)
+        public string GetString(string memberName)
         {
-            return _data[key];
+            return _data[RemoveUnderscore(memberName)];
         }
 
-        public int GetInt(string key)
+        public int GetInt(string memberName)
         {
-            return int.Parse(_data[key]);
+            return int.Parse(_data[RemoveUnderscore(memberName)]);
         }
 
-        public int? GetNullableInt(string key)
+        public int? GetNullableInt(string memberName)
         {
             int? value = null;
 
             int number;
-            if (_data.ContainsKey(key) && int.TryParse(_data[key], out number))
+            if (_data.ContainsKey(RemoveUnderscore(memberName)) && 
+                int.TryParse(_data[RemoveUnderscore(memberName)], out number))
             {
                 value = number;
             }
 
             return value;
+        }
+
+        private static string RemoveUnderscore(string memberName)
+        {
+            return memberName.Substring(1);
         }
     }
 }

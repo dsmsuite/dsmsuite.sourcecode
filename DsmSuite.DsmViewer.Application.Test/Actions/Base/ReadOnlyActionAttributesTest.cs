@@ -13,12 +13,13 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
-            string key = "some_key";
-            string value = "some_value";
-            data[key] = value;
+            string key = "name";
+            string memberValue = "value";
+            data[key] = memberValue;
 
+            string memberName = "_name";
             ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
-            Assert.AreEqual(value, attributes.GetString(key));
+            Assert.AreEqual(memberValue, attributes.GetString(memberName));
         }
 
         [TestMethod]
@@ -26,12 +27,13 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
-            string key = "some_key";
-            int value = 7;
-            data[key] = value.ToString();
+            string key = "name";
+            int memberValue = 7;
+            data[key] = memberValue.ToString();
 
+            string memberName = "_name";
             ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
-            Assert.AreEqual(7, attributes.GetInt(key));
+            Assert.AreEqual(7, attributes.GetInt(memberName));
         }
 
         [TestMethod]
@@ -39,12 +41,13 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
-            string key = "some_key";
-            int value = 7;
-            data[key] = value.ToString();
+            string key = "name";
+            int memberValue = 7;
+            data[key] = memberValue.ToString();
 
+            string memberName = "_name";
             ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
-            int? readValue = attributes.GetNullableInt(key);
+            int? readValue = attributes.GetNullableInt(memberName);
             Assert.IsTrue(readValue.HasValue);
             Assert.AreEqual(7, readValue.Value);
         }
@@ -54,10 +57,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
-            string key = "some_key";
+            string key = "name";
 
+            string memberName = "_name";
             ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
-            int? readValue = attributes.GetNullableInt(key);
+            int? readValue = attributes.GetNullableInt(memberName);
             Assert.IsFalse(readValue.HasValue);
         }
 
@@ -66,17 +70,19 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
-            string key1 = "some_key1";
-            string value1 = "some_value1";
-            data[key1] = value1;
+            string key1 = "name1";
+            string memberValue1 = "some_value1";
+            data[key1] = memberValue1;
 
-            string key2 = "some_key2";
-            int value2 = 7;
-            data[key2] = value2.ToString();
+            string key2 = "name2";
+            int memberValue2 = 7;
+            data[key2] = memberValue2.ToString();
 
+            string memberName1 = "_name1";
+            string memberName2 = "_name2";
             ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
-            Assert.AreEqual(value1, attributes.GetString(key1));
-            Assert.AreEqual(value2, attributes.GetInt(key2));
+            Assert.AreEqual(memberValue1, attributes.GetString(memberName1));
+            Assert.AreEqual(memberValue2, attributes.GetInt(memberName2));
         }
     }
 }

@@ -1,17 +1,21 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
-    public class RelationDeleteAction : ActionBase
+    public class RelationDeleteAction : IAction
     {
+        private readonly IDsmModel _model;
         private readonly IDsmRelation _relation;
         private readonly IDsmElement _consumer;
         private readonly IDsmElement _provider;
 
-        public RelationDeleteAction(IDsmModel model, IReadOnlyDictionary<string, string> data) : base(model)
+        public const string TypeName = "rdelete";
+
+        public RelationDeleteAction(IDsmModel model, IReadOnlyDictionary<string, string> data)
         {
             ReadOnlyActionAttributes attributes = new ReadOnlyActionAttributes(data);
             int id = attributes.GetInt(nameof(_relation));
@@ -25,8 +29,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             Debug.Assert(_provider != null);
         }
 
-        public RelationDeleteAction(IDsmModel model, IDsmRelation relation) : base(model)
+        public RelationDeleteAction(IDsmModel model, IDsmRelation relation)
         {
+            _model = model;
+
             _relation = relation;
             Debug.Assert(_relation != null);
 
@@ -37,25 +43,28 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             Debug.Assert(_provider != null);
         }
 
-        public override string ActionName => nameof(RelationDeleteAction);
-        public override string Title => "Delete relation";
-        public override string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_relation.Type}";
+        public string Type => TypeName;
+        public string Title => "Delete relation";
+        public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_relation.Type}";
 
-        public override void Do()
+        public void Do()
         {
-            Model.RemoveRelation(_relation.Id);
+            _model.RemoveRelation(_relation.Id);
         }
 
-        public override void Undo()
+        public void Undo()
         {
-            Model.UnremoveRelation(_relation.Id);
+            _model.UnremoveRelation(_relation.Id);
         }
 
-        public override IReadOnlyDictionary<string, string> Pack()
+        public IReadOnlyDictionary<string, string> Data
         {
-            ActionAttributes attributes = new ActionAttributes();
-            attributes.SetInt(nameof(_relation), _relation.Id);
-            return attributes.GetData();
+            get
+            {
+                ActionAttributes attributes = new ActionAttributes();
+                attributes.SetInt(nameof(_relation), _relation.Id);
+                return attributes.Data;
+            }
         }
     }
 }

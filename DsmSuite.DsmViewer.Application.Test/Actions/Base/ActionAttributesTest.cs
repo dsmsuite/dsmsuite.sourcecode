@@ -13,14 +13,15 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         {
             ActionAttributes attributes = new ActionAttributes();
 
-            string key = "some_key";
-            string value = "some_value";
-            attributes.SetString(key, value);
+            string memberName = "_name";
+            string memberValue = "value";
+            attributes.SetString(memberName, memberValue);
 
-            IReadOnlyDictionary<string, string> data = attributes.GetData();
+            string key = "name";
+            IReadOnlyDictionary<string, string> data = attributes.Data;
             Assert.AreEqual(1, data.Count);
             Assert.IsTrue(data.ContainsKey(key));
-            Assert.AreEqual(value, data[key]);
+            Assert.AreEqual(memberValue, data[key]);
         }
 
         [TestMethod]
@@ -28,14 +29,15 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         {
             ActionAttributes attributes = new ActionAttributes();
 
-            string key = "some_key";
-            int value = 7;
-            attributes.SetInt(key, value);
+            string memberName = "_name";
+            int memberValue = 7;
+            attributes.SetInt(memberName, memberValue);
 
-            IReadOnlyDictionary<string, string> data = attributes.GetData();
+            string key = "name";
+            IReadOnlyDictionary<string, string> data = attributes.Data;
             Assert.AreEqual(1, data.Count);
             Assert.IsTrue(data.ContainsKey(key));
-            Assert.AreEqual(value.ToString(), data[key]);
+            Assert.AreEqual(memberValue.ToString(), data[key]);
         }
 
         [TestMethod]
@@ -43,14 +45,15 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         {
             ActionAttributes attributes = new ActionAttributes();
 
-            string key = "some_key";
-            int value = 7;
-            attributes.SetNullableInt(key, value);
+            string memberName = "_name";
+            int memberValue = 7;
+            attributes.SetNullableInt(memberName, memberValue);
 
-            IReadOnlyDictionary<string, string> data = attributes.GetData();
+            string key = "name";
+            IReadOnlyDictionary<string, string> data = attributes.Data;
             Assert.AreEqual(1, data.Count);
             Assert.IsTrue(data.ContainsKey(key));
-            Assert.AreEqual(value.ToString(), data[key]);
+            Assert.AreEqual(memberValue.ToString(), data[key]);
         }
 
         [TestMethod]
@@ -58,10 +61,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         {
             ActionAttributes attributes = new ActionAttributes();
 
-            string key = "some_key";
-            attributes.SetNullableInt(key, null);
+            string memberName = "_name";
+            attributes.SetNullableInt(memberName, null);
 
-            IReadOnlyDictionary<string, string> data = attributes.GetData();
+            string key = "name";
+            IReadOnlyDictionary<string, string> data = attributes.Data;
             Assert.AreEqual(0, data.Count);
         }
 
@@ -70,20 +74,22 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         {
             ActionAttributes attributes = new ActionAttributes();
 
-            string key1 = "some_key1";
-            string value1 = "some_value1";
-            attributes.SetString(key1, value1);
+            string memberName1 = "_name1";
+            string memberValue1 = "value1";
+            attributes.SetString(memberName1, memberValue1);
 
-            string key2 = "some_key2";
-            int value2 = 7;
-            attributes.SetInt(key2, value2);
+            string memberName2 = "_name2";
+            int memberValue2 = 7;
+            attributes.SetInt(memberName2, memberValue2);
 
-            IReadOnlyDictionary<string, string> data = attributes.GetData();
+            string key1 = "name1";
+            string key2 = "name2";
+            IReadOnlyDictionary<string, string> data = attributes.Data;
             Assert.AreEqual(2, data.Count);
             Assert.IsTrue(data.ContainsKey(key1));
-            Assert.AreEqual(value1, data[key1]);
+            Assert.AreEqual(memberValue1, data[key1]);
             Assert.IsTrue(data.ContainsKey(key2));
-            Assert.AreEqual(value2.ToString(), data[key2]);
+            Assert.AreEqual(memberValue2.ToString(), data[key2]);
         }
     }
 }

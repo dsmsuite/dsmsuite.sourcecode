@@ -24,67 +24,67 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             {
                 switch (action.Type)
                 {
-                    case nameof(ElementCreateAction):
+                    case ElementCreateAction.TypeName:
                         {
                             _actionManager.Add(new ElementCreateAction(_model, action.Data));
                         }
                         break;
-                    case nameof(ElementDeleteAction):
+                    case ElementDeleteAction.TypeName:
                         {
                             _actionManager.Add(new ElementDeleteAction(_model, action.Data));
                         }
                         break;
-                    case nameof(ElementEditNameAction):
+                    case ElementEditNameAction.TypeName:
                         {
                             _actionManager.Add(new ElementEditNameAction(_model, action.Data));
                         }
                         break;
-                    case nameof(ElementEditTypeAction):
+                    case ElementEditTypeAction.TypeName:
                         {
                             _actionManager.Add(new ElementEditTypeAction(_model, action.Data));
                         }
                         break;
-                    case nameof(ElementMoveAction):
+                    case ElementMoveAction.TypeName:
                         {
                             _actionManager.Add(new ElementMoveAction(_model, action.Data));
                         }
                         break;
-                    case nameof(ElementMoveDownAction):
+                    case ElementMoveDownAction.TypeName:
                         {
                             _actionManager.Add(new ElementMoveDownAction(_model, action.Data));
                         }
                         break;
-                    case nameof(ElementMoveUpAction):
+                    case ElementMoveUpAction.TypeName:
                         {
                             _actionManager.Add(new ElementMoveUpAction(_model, action.Data));
                         }
                         break;
-                    case nameof(ElementPartitionAction):
+                    case ElementPartitionAction.TypeName:
                         {
                             _actionManager.Add(new ElementPartitionAction(_model, action.Data));
                         }
                         break;
-                    case nameof(RelationCreateAction):
+                    case RelationCreateAction.TypeName:
                         {
                             _actionManager.Add(new RelationCreateAction(_model, action.Data));
                         }
                         break;
-                    case nameof(RelationEditTypeAction):
+                    case RelationEditTypeAction.TypeName:
                         {
                             _actionManager.Add(new RelationEditTypeAction(_model, action.Data));
                         }
                         break;
-                    case nameof(RelationEditWeightAction):
+                    case RelationEditWeightAction.TypeName:
                         {
                             _actionManager.Add(new RelationEditWeightAction(_model, action.Data));
                         }
                         break;
-                    case nameof(RelationDeleteAction):
+                    case RelationDeleteAction.TypeName:
                         {
                             _actionManager.Add(new RelationDeleteAction(_model, action.Data));
                         }
                         break;
-                    case nameof(MakeSnapshotAction):
+                    case MakeSnapshotAction.TypeName:
                         {
                             _actionManager.Add(new MakeSnapshotAction(_model, action.Data));
                         }
@@ -95,11 +95,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
 
         public void Save()
         {
-            int id = 0;
+            int index= 0;
             foreach (IAction action in _actionManager.GetActions())
             {
-                id++;
-                _model.AddAction(id, action.ActionName, action.Pack());
+                index++;
+                _model.AddAction(index, action.Type, action.Data);
             }
         }
 

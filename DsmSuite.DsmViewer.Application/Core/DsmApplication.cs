@@ -267,7 +267,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void MakeSnapshot(string description)
         {
-            MakeSnapshotAction action = new MakeSnapshotAction(_model, description);
+            MakeSnapshotAction action = new MakeSnapshotAction(description);
             _actionManager.Execute(action);
         }
 

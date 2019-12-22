@@ -4,10 +4,13 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 {
     public interface IAction
     {
-        string ActionName { get; }
+        string Type { get; }
         string Title { get; }
         string Description { get; }
 
-        IReadOnlyDictionary<string, string> Pack();
+        void Do();
+        void Undo();
+
+        IReadOnlyDictionary<string, string> Data { get; }
     }
 }
