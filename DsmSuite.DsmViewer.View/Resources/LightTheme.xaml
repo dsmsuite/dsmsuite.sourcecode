@@ -3,9 +3,9 @@
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="BackgroundColor" po:Freeze="True">White</SolidColorBrush>
-    <SolidColorBrush x:Key="ForegroundStandardColor" po:Freeze="True">#8a2be2</SolidColorBrush>
-    <SolidColorBrush x:Key="ForegroundHoverColor" po:Freeze="True">#6f1abd</SolidColorBrush>
-    <SolidColorBrush x:Key="ForegroundDisabledColor" po:Freeze="True">#909090</SolidColorBrush>
+    <SolidColorBrush x:Key="ForegroundStandardColor" po:Freeze="True">#1e4d7d</SolidColorBrush>
+    <SolidColorBrush x:Key="ForegroundHoverColor" po:Freeze="True">#194068</SolidColorBrush>
+    <SolidColorBrush x:Key="ForegroundDisabledColor" po:Freeze="True">#eef4fb</SolidColorBrush>
 
     <SolidColorBrush x:Key="MatrixColor1" po:Freeze="True">#D9E7F6</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColor2" po:Freeze="True">#F6E7D9</SolidColorBrush>
