@@ -52,7 +52,7 @@
             <matrix:RenderedCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <matrix:RenderedCellsView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Create relation" Command="{Binding CreateRelationCommand}" />                        
+                        <MenuItem Header="Create relation between leaf elements" Command="{Binding CreateRelationCommand}" />                        
                         <MenuItem Header="Change relation weight" Command="{Binding ChangeRelationWeightCommand}" />
                         <MenuItem Header="Change relation type" Command="{Binding ChangeRelationTypeCommand}" />
                         <MenuItem Header="Delete relation" Command="{Binding DeleteRelationCommand}" />

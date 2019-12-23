@@ -94,7 +94,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             UndoCommand = new RelayCommand<object>(UndoExecute, UndoCanExecute);
             RedoCommand = new RelayCommand<object>(RedoExecute, RedoCanExecute);
-            
+
             OverviewReportCommand = new RelayCommand<object>(OverviewReportExecute, OverviewReportCanExecute);
 
             NavigateToNextCommand = new RelayCommand<object>(NavigateToNextExecute, NavigateToNextCanExecute);
@@ -309,7 +309,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ShowElementContextMatrixExecute(object parameter)
         {
-            List<IDsmElement> selectedElements = new List<IDsmElement> {SelectedProvider?.Element};
+            List<IDsmElement> selectedElements = new List<IDsmElement> { SelectedProvider?.Element };
             selectedElements.AddRange(_application.GetElementConsumers(SelectedProvider?.Element));
             selectedElements.AddRange(_application.GetElementProviders(SelectedProvider?.Element));
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
@@ -419,7 +419,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void RedoExecute(object parameter)
         {
-            _application.Redo(); 
+            _application.Redo();
         }
 
         public string RedoText
@@ -692,7 +692,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool CreateRelationCanExecute(object parameter)
         {
-            return true;
+            bool canExecute = false;
+
+            if ((SelectedConsumer != null) &&
+                (SelectedConsumer.Element?.HasChildren == false) &&
+                (SelectedProvider != null) &&
+                (SelectedProvider.Element?.HasChildren == false))
+            {
+                canExecute = true;
+            }
+            return canExecute;
         }
 
         private void DeleteRelationExecute(object parameter)
