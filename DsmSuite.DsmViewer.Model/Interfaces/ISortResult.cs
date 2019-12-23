@@ -1,6 +1,6 @@
 ﻿namespace DsmSuite.DsmViewer.Model.Interfaces
 {
-    public interface IElementSequence
+    public interface ISortResult
     {
         int GetIndex(int currentIndex);
         int GetNumberOfElements();

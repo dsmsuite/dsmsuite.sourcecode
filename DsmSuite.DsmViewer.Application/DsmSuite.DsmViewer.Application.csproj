@@ -32,7 +32,9 @@
     <Compile Include="Actions\Element\ElementChangeTypeAction.cs" />
     <Compile Include="Actions\Management\IActionManager.cs" />
     <Compile Include="Actions\Relation\RelationChangeWeightAction.cs" />
-    <Compile Include="Algorithm\ElementSequence.cs" />
+    <Compile Include="Sorting\SortResult.cs" />
+    <Compile Include="Sorting\ISortAlgorithm.cs" />
+    <Compile Include="Sorting\SortAlgorithmFactory.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="Actions\Element\ElementCreateAction.cs" />
     <Compile Include="Actions\Element\ElementDeleteAction.cs" />
@@ -45,10 +47,10 @@
     <Compile Include="Actions\Relation\RelationDeleteAction.cs" />
     <Compile Include="Actions\Relation\RelationChangeTypeAction.cs" />
     <Compile Include="Actions\Snapshot\MakeSnapshotAction.cs" />
-    <Compile Include="Algorithm\Partitioner.cs" />
-    <Compile Include="Algorithm\PartitioningAlgorithm.cs" />
-    <Compile Include="Algorithm\Permutation.cs" />
-    <Compile Include="Algorithm\SquareMatrix.cs" />
+    <Compile Include="Sorting\PartitioningSortAlgorithm.cs" />
+    <Compile Include="Sorting\PartitioningCalculation.cs" />
+    <Compile Include="Sorting\Permutation.cs" />
+    <Compile Include="Sorting\SquareMatrix.cs" />
     <Compile Include="Core\DsmApplication.cs" />
     <Compile Include="Queries\DsmResolvedRelation.cs" />
     <Compile Include="Interfaces\IDsmResolvedRelation.cs" />

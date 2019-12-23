@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Algorithm
 {
-    public class ElementSequence : IElementSequence
+    public class SortResult : ISortResult
     {
         readonly int _numberOfElements;
         private readonly int[] _vector;
 
-        public ElementSequence(int numberOfElements)
+        public SortResult(int numberOfElements)
         {
             _numberOfElements = numberOfElements;
             _vector = new int[_numberOfElements];

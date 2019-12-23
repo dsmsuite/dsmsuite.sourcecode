@@ -26,7 +26,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void RemoveElement(int elementId);
         void UnremoveElement(int elementId);
         void ChangeElementParent(IDsmElement element, IDsmElement parent);
-        void ReorderChildren(IDsmElement element, IElementSequence sequence);
+        void ReorderChildren(IDsmElement element, ISortResult sortResult);
         IDsmElement NextSibling(IDsmElement element);
         IDsmElement PreviousSibling(IDsmElement element);
         bool Swap(IDsmElement first, IDsmElement second);

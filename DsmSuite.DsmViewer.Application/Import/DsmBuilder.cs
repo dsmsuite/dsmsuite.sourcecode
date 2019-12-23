@@ -39,9 +39,9 @@ namespace DsmSuite.DsmViewer.Application.Import
 
         private void Partition(IDsmElement element)
         {
-            Partitioner partitioner = new Partitioner(element, _model);
-            IElementSequence vector = partitioner.Partition();
-            _model.ReorderChildren(element, vector);
+            ISortAlgorithm algorithm =  SortAlgorithmFactory.CreateAlgorithm(_model, element, PartitionSortAlgorithm.AlgorithmName);
+            ISortResult sortResult = algorithm.Sort();
+            _model.ReorderChildren(element, sortResult);
 
             foreach (IDsmElement child in element.Children)
             {

@@ -9,7 +9,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
     [TestClass]
     public class DsmElementsDataModelTest
     {
-        class Sequence : IElementSequence
+        class Sequence : ISortResult
         {
             private readonly int _size;
 

@@ -192,7 +192,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _deletedElementsById.ContainsKey(id) ? _deletedElementsById[id] : null;
         }
 
-        public void ReorderChildren(IDsmElement element, IElementSequence sequence)
+        public void ReorderChildren(IDsmElement element, ISortResult sortResult)
         {
             DsmElement parent = element as DsmElement;
             if (parent != null)
@@ -204,9 +204,9 @@ namespace DsmSuite.DsmViewer.Model.Core
                     parent.RemoveChild(child);
                 }
 
-                for (int i = 0; i < sequence.GetNumberOfElements(); i++)
+                for (int i = 0; i < sortResult.GetNumberOfElements(); i++)
                 {
-                    parent.AddChild(clonedChildren[sequence.GetIndex(i)]);
+                    parent.AddChild(clonedChildren[sortResult.GetIndex(i)]);
                 }
             }
             AssignElementOrder();

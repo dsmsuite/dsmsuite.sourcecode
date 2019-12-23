@@ -29,7 +29,7 @@
     <Compile Include="Core\DsmElementModel.cs" />
     <Compile Include="Core\DsmRelationModel.cs" />
     <Compile Include="Interfaces\IDsmAction.cs" />
-    <Compile Include="Interfaces\IElementSequence.cs" />
+    <Compile Include="Interfaces\ISortResult.cs" />
     <Compile Include="Core\DsmModel.cs" />
     <Compile Include="Persistency\DsmModelFile.cs" />
     <Compile Include="Persistency\IDsmActionModelFileCallback.cs" />

@@ -15,7 +15,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
     /// are then processed using a distance score to push them below but as close as possible to the diagonal</para>
     /// <para>The result of the calculation is contained in the vector class which specifies how the new order of row indexes</para>
     /// </remarks>
-    class PartitioningAlgorithm
+    class PartitioningCalculation
     {
         readonly SquareMatrix _sm;
 
@@ -23,7 +23,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
         /// Constructor of calcualtion on a given n * n matrix
         /// </summary>
         /// <param name="matrix"></param>
-        public PartitioningAlgorithm(SquareMatrix matrix)
+        public PartitioningCalculation(SquareMatrix matrix)
         {
             _sm = matrix;
         }
@@ -32,9 +32,9 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
         /// Run the partition calculation
         /// </summary>
         /// <returns>The result in the form of a vector</returns>
-        public IElementSequence Partition()
+        public ISortResult Partition()
         {
-            ElementSequence vector = new ElementSequence(_sm.Size);
+            SortResult vector = new SortResult(_sm.Size);
 
             DoPartitioning(vector);
 
@@ -45,7 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
         /// the main partitioning algo.
         /// </summary>
         /// <param name="vector"></param>
-        void DoPartitioning(ElementSequence vector)
+        void DoPartitioning(SortResult vector)
         {
             // Move all empty rows to the top - an save the index of the first non empty row (start)
             int start = MoveZeroRows(vector);
@@ -60,7 +60,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             ToBlockTriangular(vector, start, end);
         }
 
-        int MoveZeroRows(ElementSequence vector)
+        int MoveZeroRows(SortResult vector)
         {
             int nextSwapRow = 0;
 
@@ -98,7 +98,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             return nextSwapRow;
         }
 
-        int MoveFullRows(ElementSequence vector, int start)
+        int MoveFullRows(SortResult vector, int start)
         {
             int nextSwapRow = vector.GetNumberOfElements() - 1;
 
@@ -133,7 +133,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             return nextSwapRow;
         }
 
-        int MoveZeroColumns(ElementSequence vector, int start, int end)
+        int MoveZeroColumns(SortResult vector, int start, int end)
         {
             int j = start;
             int nextSwap = end; //vector.Size - 1;
@@ -175,12 +175,12 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
         /// <param name="i"></param>
         /// <param name="j"></param>
         /// <returns></returns>
-        int TrueMatrixValue(ElementSequence vector, int i, int j)
+        int TrueMatrixValue(SortResult vector, int i, int j)
         {
             return _sm.Get(vector.GetIndex(i), vector.GetIndex(j));
         }
 
-        void ToBlockTriangular(ElementSequence vector, int start, int end)
+        void ToBlockTriangular(SortResult vector, int start, int end)
         {
             bool doLoop;
 
@@ -244,7 +244,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             while (doLoop);
         }
 
-        long Score(ElementSequence vector)
+        long Score(SortResult vector)
         {
             // We're trying to maximise the number of empty cells in the upper triangle
             // filled in cells are pushed down - for a set of two orderings the one with the higher

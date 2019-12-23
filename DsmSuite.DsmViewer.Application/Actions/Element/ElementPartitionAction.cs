@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;
         private readonly string _algorithm;
-        private IElementSequence _vector;
+        private ISortResult _reorderSequence;
 
         public const string TypeName = "epartition";
 
@@ -49,17 +49,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public void Do()
         {
-            Partitioner partitioner = new Partitioner(_element, _model);
-            _vector = partitioner.Partition();
-            _model.ReorderChildren(_element, _vector);
+            ISortAlgorithm sortAlgorithm = SortAlgorithmFactory.CreateAlgorithm(_model, _element, _algorithm);
+            _reorderSequence = sortAlgorithm.Sort();
+            _model.ReorderChildren(_element, _reorderSequence);
         }
 
         public void Undo()
         {
-            ElementSequence inverseVector = new ElementSequence(_vector.GetNumberOfElements());
-            for (int i = 0; i < _vector.GetNumberOfElements(); i++)
+            SortResult inverseVector = new SortResult(_reorderSequence.GetNumberOfElements());
+            for (int i = 0; i < _reorderSequence.GetNumberOfElements(); i++)
             {
-                inverseVector.SetIndex(_vector.GetIndex(i), i);
+                inverseVector.SetIndex(_reorderSequence.GetIndex(i), i);
             }
             _model.ReorderChildren(_element, inverseVector);
         }

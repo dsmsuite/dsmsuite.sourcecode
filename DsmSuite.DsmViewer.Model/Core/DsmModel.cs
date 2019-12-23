@@ -217,9 +217,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.FindRelationsWhereElementHasConsumerRole(element);
         }
 
-        public void ReorderChildren(IDsmElement element, IElementSequence sequence)
+        public void ReorderChildren(IDsmElement element, ISortResult sortResult)
         {
-            _elementsDataModel.ReorderChildren(element, sequence);
+            _elementsDataModel.ReorderChildren(element, sortResult);
         }
 
         public bool Swap(IDsmElement element1, IDsmElement element2)

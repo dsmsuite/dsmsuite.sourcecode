@@ -1,28 +1,34 @@
 ﻿using System.Collections.Generic;
 using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Algorithm
 {
-    internal class Partitioner
+    internal class PartitionSortAlgorithm : ISortAlgorithm
     {
-        private readonly DsmElement _element;
         private readonly IDsmModel _model;
+        private readonly DsmElement _element;
 
-        public Partitioner(IDsmElement element, IDsmModel model)
+        public const string AlgorithmName = "Partition";
+
+        public PartitionSortAlgorithm(object[] args)
         {
-            _element = element as DsmElement;
-            _model = model;
+            Debug.Assert(args.Length == 2);
+            _model = args[0] as IDsmModel;
+            Debug.Assert(_model != null);
+            _element = args[1] as DsmElement;
+            Debug.Assert(_element != null);
         }
 
-        public IElementSequence Partition()
+        public ISortResult Sort()
         {
-            IElementSequence vector = new ElementSequence(_element.Children.Count);
+            ISortResult vector = new SortResult(_element.Children.Count);
             if (_element.Children.Count > 1)
             {
                 SquareMatrix matrix = BuildPartitionMatrix(_element.Children);
 
-                PartitioningAlgorithm algorithm = new PartitioningAlgorithm(matrix);
+                PartitioningCalculation algorithm = new PartitioningCalculation(matrix);
 
                 vector = algorithm.Partition();
             }
@@ -30,7 +36,9 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             return vector;
         }
 
-        SquareMatrix BuildPartitionMatrix(IList<IDsmElement> nodes)
+        public string Name => AlgorithmName;
+
+        private SquareMatrix BuildPartitionMatrix(IList<IDsmElement> nodes)
         {
             SquareMatrix matrix = new SquareMatrix(nodes.Count);
 
