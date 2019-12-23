@@ -32,7 +32,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
         /// Run the partition calculation
         /// </summary>
         /// <returns>The result in the form of a vector</returns>
-        public ISortResult Partition()
+        public SortResult Partition()
         {
             SortResult vector = new SortResult(_sm.Size);
 

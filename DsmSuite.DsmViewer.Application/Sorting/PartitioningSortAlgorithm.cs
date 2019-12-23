@@ -21,9 +21,9 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             Debug.Assert(_element != null);
         }
 
-        public ISortResult Sort()
+        public SortResult Sort()
         {
-            ISortResult vector = new SortResult(_element.Children.Count);
+            SortResult vector = new SortResult(_element.Children.Count);
             if (_element.Children.Count > 1)
             {
                 SquareMatrix matrix = BuildPartitionMatrix(_element.Children);

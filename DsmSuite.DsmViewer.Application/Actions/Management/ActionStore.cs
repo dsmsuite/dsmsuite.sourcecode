@@ -44,6 +44,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
         public void Save()
         {
             int index= 0;
+            _model.ClearActions();
             foreach (IAction action in _actionManager.GetActionsInChronologicalOrder())
             {
                 index++;

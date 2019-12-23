@@ -279,6 +279,8 @@ namespace DsmSuite.DsmViewer.Application.Core
         public void ClearActions()
         {
             _actionManager.Clear();
+            IsModified = true;
+            Modified?.Invoke(this, IsModified);
         }
     }
 }

@@ -4,7 +4,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
 {
     public interface ISortAlgorithm
     {
-        ISortResult Sort();
+        SortResult Sort();
         string Name { get; }
     }
 }

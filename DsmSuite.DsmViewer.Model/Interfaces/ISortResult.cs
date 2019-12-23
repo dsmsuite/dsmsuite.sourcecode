@@ -4,5 +4,6 @@
     {
         int GetIndex(int currentIndex);
         int GetNumberOfElements();
+        bool IsValid { get; }
     }
 }

@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;
         private readonly string _algorithm;
-        private ISortResult _reorderSequence;
+        private string _order;
 
         public const string TypeName = "epartition";
 
@@ -29,7 +29,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _element = _model.GetElementById(id);
             Debug.Assert(_element != null);
 
-            _algorithm = attributes.GetString(nameof(Algorithm));
+            _algorithm = attributes.GetString(nameof(_algorithm));
+            _order= attributes.GetString(nameof(_order));
         }
 
         public ElementPartitionAction(IDsmModel model, IDsmElement element, string algorithm)
@@ -41,6 +42,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Debug.Assert(_element != null);
 
             _algorithm = algorithm;
+            _order = "";
         }
 
         public string Type => TypeName;
@@ -50,18 +52,16 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public void Do()
         {
             ISortAlgorithm sortAlgorithm = SortAlgorithmFactory.CreateAlgorithm(_model, _element, _algorithm);
-            _reorderSequence = sortAlgorithm.Sort();
-            _model.ReorderChildren(_element, _reorderSequence);
+            SortResult sortResult = sortAlgorithm.Sort();
+            _model.ReorderChildren(_element, sortResult);
+            _order = sortResult.Data;
         }
 
         public void Undo()
         {
-            SortResult inverseVector = new SortResult(_reorderSequence.GetNumberOfElements());
-            for (int i = 0; i < _reorderSequence.GetNumberOfElements(); i++)
-            {
-                inverseVector.SetIndex(_reorderSequence.GetIndex(i), i);
-            }
-            _model.ReorderChildren(_element, inverseVector);
+            SortResult sortResult = new SortResult(_order);
+            sortResult.InvertOrder();
+            _model.ReorderChildren(_element, sortResult);
         }
 
         public IReadOnlyDictionary<string, string> Data
@@ -71,6 +71,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
                 ActionAttributes attributes = new ActionAttributes();
                 attributes.SetInt(nameof(_element), _element.Id);
                 attributes.SetString(nameof(_algorithm), _algorithm);
+                attributes.SetString(nameof(_order), _order);
                 return attributes.Data;
             }
         }

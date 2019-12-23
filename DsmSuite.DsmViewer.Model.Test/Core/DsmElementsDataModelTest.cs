@@ -32,6 +32,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             {
                 return _size;
             }
+
+            public bool IsValid => true;
         }
 
         [TestMethod]
