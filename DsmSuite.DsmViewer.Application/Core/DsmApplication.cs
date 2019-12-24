@@ -11,6 +11,9 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Queries;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Reporting;
+using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.DsmViewer.Model.Core;
+using System.Reflection;
 
 namespace DsmSuite.DsmViewer.Application.Core
 {
@@ -73,18 +76,26 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Redo();
         }
 
-        public void ImportModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile)
+        public void ImportModel(string dsiFilename, string dsmFilename, bool autoPartition, bool overwriteDsmFile, bool compressDsmFile)
         {
+            string processStep = "Builder";
+            Assembly assembly = Assembly.GetEntryAssembly();
+            DsiDataModel dsiModel = new DsiDataModel(processStep, assembly);
+            dsiModel.Load(dsiFilename);
+            DsmModel dsmModel = new DsmModel(processStep, assembly);
+            DsmBuilder builder = new DsmBuilder(dsiModel, dsmModel);
+
             if (!File.Exists(dsmFilename) || overwriteDsmFile)
             {
-                DsmBuilder builder = new DsmBuilder(_model);
-                builder.Build(dsiFilename, dsmFilename, applyPartitionAlgorithm, compressDsmFile);
+                builder.Create(autoPartition);
             }
             else
             {
-                DsmUpdater updater = new DsmUpdater(_model);
-                updater.Update(dsiFilename, dsmFilename, compressDsmFile);
+                dsmModel.LoadModel(dsmFilename, null);
+                builder.Update();
             }
+
+            dsmModel.SaveModel(dsmFilename, compressDsmFile, null);
         }
 
         public async Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress)

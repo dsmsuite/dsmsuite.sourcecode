@@ -12,6 +12,8 @@ namespace DsmSuite.Analyzer.Model.Interface
         void Save(string dsiFilename, bool compressFile);
 
         void AddMetaData(string name, string value);
+        IEnumerable<string> GetMetaDataGroups();
+        IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
 
         IDsiElement AddElement(string name, string type, string source);
         void RemoveElement(IDsiElement element);

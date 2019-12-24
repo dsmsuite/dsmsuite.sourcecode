@@ -54,7 +54,17 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             _metaDataModel.AddMetaDataItemToDefaultGroup(name, value);
         }
-       
+
+        public IEnumerable<string> GetMetaDataGroups()
+        {
+            return _metaDataModel.GetExportedMetaDataGroups();
+        }
+
+        public IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName)
+        {
+            return _metaDataModel.GetExportedMetaDataGroupItems(groupName);
+        }
+
         public IDsiElement AddElement(string name, string type, string source)
         {
             return _elementsDataModel.AddElement(name, type, source);
