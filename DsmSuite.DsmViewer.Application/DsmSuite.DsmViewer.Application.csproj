@@ -41,7 +41,7 @@
     <Compile Include="Actions\Element\ElementDeleteAction.cs" />
     <Compile Include="Actions\Element\ElementChangeParentAction.cs" />
     <Compile Include="Actions\Element\ElementChangeNameAction.cs" />
-    <Compile Include="Actions\Element\ElementPartitionAction.cs" />
+    <Compile Include="Actions\Element\ElementSortAction.cs" />
     <Compile Include="Actions\Element\ElementMoveUpAction.cs" />
     <Compile Include="Actions\Element\ElementMoveDownAction.cs" />
     <Compile Include="Actions\Relation\RelationCreateAction.cs" />

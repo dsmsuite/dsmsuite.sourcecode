@@ -37,7 +37,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ChangeElementParentCommand = mainViewModel.MoveElementCommand;
             MoveUpElementCommand = mainViewModel.MoveUpElementCommand;
             MoveDownElementCommand = mainViewModel.MoveDownElementCommand;
-            PartitionElementCommand = mainViewModel.PartitionElementCommand;
+            SortElementCommand = mainViewModel.SortElementCommand;
 
             ShowCellRelationsCommand = new RelayCommand<object>(ShowCellRelationsExecute, ShowCellRelationsCanExecute);
             ShowCellConsumersCommand = new RelayCommand<object>(ShowCellConsumersExecute, ShowCellConsumersCanExecute);
@@ -192,7 +192,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand ChangeElementParentCommand { get; }
         public ICommand MoveUpElementCommand { get; }
         public ICommand MoveDownElementCommand { get; }
-        public ICommand PartitionElementCommand { get; }
+        public ICommand SortElementCommand { get; }
         public ICommand ShowElementDetailMatrixCommand { get; }
         public ICommand ShowElementContextMatrixCommand { get; }
         public ICommand ShowCellDetailMatrixCommand { get; }

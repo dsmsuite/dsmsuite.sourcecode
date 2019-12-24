@@ -187,8 +187,13 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void Sort(IDsmElement element, string algorithm)
         {
-            ElementPartitionAction action = new ElementPartitionAction(_model, element, algorithm);
+            ElementSortAction action = new ElementSortAction(_model, element, algorithm);
             _actionManager.Execute(action);
+        }
+
+        public IEnumerable<string> GetSupportedSortAlgorithms()
+        {
+            return SortAlgorithmFactory.GetSupportedAlgorithms();
         }
 
         public void MoveUp(IDsmElement element)
@@ -202,12 +207,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             ElementMoveDownAction action = new ElementMoveDownAction(_model, element);
             _actionManager.Execute(action);
         }
-
-        public IEnumerable<string> GetSupportedSortAlgorithms()
-        {
-            return SortAlgorithmFactory.GetSupportedAlgorithms();
-        }
-
+        
         public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
             return _model.GetDependencyWeight(consumer.Id, provider.Id);

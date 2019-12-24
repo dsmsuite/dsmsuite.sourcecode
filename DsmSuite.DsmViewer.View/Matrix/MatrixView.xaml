@@ -30,9 +30,9 @@
             <matrix:RenderedRowHeaderView x:Name="RowHeaderView" Height="Auto" HorizontalAlignment="Stretch">
                 <matrix:RenderedRowHeaderView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Partition" Command="{Binding PartitionCommand}" />
-                        <MenuItem Header="Move up" Command="{Binding MoveUpCommand}" />
-                        <MenuItem Header="Move down" Command="{Binding MoveDownCommand}" />
+                        <MenuItem Header="Sort" Command="{Binding SortElementCommand}" />
+                        <MenuItem Header="Move up" Command="{Binding MoveUpElementCommand}" />
+                        <MenuItem Header="Move down" Command="{Binding MoveDownElementCommand}" />
                         <Separator />
                         <MenuItem Header="Create element" Command="{Binding CreateElementCommand}" />                        
                         <MenuItem Header="Change element name" Command="{Binding ChangeElementNameCommand}" />

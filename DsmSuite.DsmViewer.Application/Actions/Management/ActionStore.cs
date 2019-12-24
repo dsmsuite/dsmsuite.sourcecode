@@ -61,7 +61,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
             _types[ElementChangeParentAction.TypeName] = typeof(ElementChangeParentAction);
             _types[ElementMoveDownAction.TypeName] = typeof(ElementMoveDownAction);
             _types[ElementMoveUpAction.TypeName] = typeof(ElementMoveUpAction);
-            _types[ElementPartitionAction.TypeName] = typeof(ElementPartitionAction);
+            _types[ElementSortAction.TypeName] = typeof(ElementSortAction);
             _types[RelationCreateAction.TypeName] = typeof(RelationCreateAction);
             _types[RelationChangeTypeAction.TypeName] = typeof(RelationChangeTypeAction);
             _types[RelationChangeWeightAction.TypeName] = typeof(RelationChangeWeightAction);

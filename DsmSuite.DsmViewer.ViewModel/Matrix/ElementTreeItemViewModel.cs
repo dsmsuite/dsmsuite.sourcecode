@@ -12,16 +12,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             Children = new ObservableCollection<ElementTreeItemViewModel>();
 
             MoveCommand = matrixViewModel.ChangeElementParentCommand;
-            MoveUpCommand = matrixViewModel.MoveUpElementCommand;
-            MoveDownCommand = matrixViewModel.MoveDownElementCommand;
-            PartitionCommand = matrixViewModel.PartitionElementCommand;
+            MoveUpElementCommand = matrixViewModel.MoveUpElementCommand;
+            MoveDownElementCommand = matrixViewModel.MoveDownElementCommand;
+            SortElementCommand = matrixViewModel.SortElementCommand;
             ToggleElementExpandedCommand = matrixViewModel.ToggleElementExpandedCommand;
         }
 
         public ICommand MoveCommand { get; }
-        public ICommand MoveUpCommand { get; }
-        public ICommand MoveDownCommand { get; }
-        public ICommand PartitionCommand { get; }
+        public ICommand MoveUpElementCommand { get; }
+        public ICommand MoveDownElementCommand { get; }
+        public ICommand SortElementCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
 
         public bool IsExpandable => Element.HasChildren;

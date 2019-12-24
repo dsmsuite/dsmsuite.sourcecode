@@ -9,7 +9,7 @@ using DsmSuite.DsmViewer.Application.Algorithm;
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
     [TestClass]
-    public class ElementPartitionActionTest
+    public class ElementSortActionTest
     {
         private Mock<IDsmModel> _model;
         private Mock<IDsmElement> _element;
@@ -57,7 +57,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         [TestMethod]
         public void WhenDoActionThenElementsChilderenAreSorted()
         {
-            ElementPartitionAction action = new ElementPartitionAction(_model.Object, _element.Object, _usedAlgorithm);
+            ElementSortAction action = new ElementSortAction(_model.Object, _element.Object, _usedAlgorithm);
             action.Do();
 
             _model.Verify(x => x.ReorderChildren(_element.Object, It.Is<SortResult>(i => i.Data == _sortResult)), Times.Once());
@@ -67,7 +67,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         public void WhenUndoActionThenElementsChilderenAreSortIsReverted()
         {
             object[] args = { _model.Object, _data };
-            ElementPartitionAction action = new ElementPartitionAction(args);
+            ElementSortAction action = new ElementSortAction(args);
             action.Undo();
 
             _model.Verify(x => x.ReorderChildren(_element.Object, It.Is<SortResult>(i => i.Data == _inverseSortResult)), Times.Once());
@@ -77,7 +77,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
             object[] args = { _model.Object, _data };
-            ElementPartitionAction action = new ElementPartitionAction(args);
+            ElementSortAction action = new ElementSortAction(args);
 
             Assert.AreEqual(3, action.Data.Count);
             Assert.AreEqual(_elementId.ToString(), _data["element"]);

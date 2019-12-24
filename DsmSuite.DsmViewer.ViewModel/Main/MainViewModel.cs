@@ -83,7 +83,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             MoveUpElementCommand = new RelayCommand<object>(MoveUpElementExecute, MoveUpElementCanExecute);
             MoveDownElementCommand = new RelayCommand<object>(MoveDownElementExecute, MoveDownElementCanExecute);
-            PartitionElementCommand = new RelayCommand<object>(PartitionElementExecute, PartitionElementCanExecute);
+            SortElementCommand = new RelayCommand<object>(SortElementExecute, SortElementCanExecute);
 
             ShowElementDetailMatrixCommand = new RelayCommand<object>(ShowElementDetailMatrixExecute, ShowElementDetailMatrixCanExecute);
             ShowElementContextMatrixCommand = new RelayCommand<object>(ShowElementContextMatrixExecute, ShowElementContextMatrixCanExecute);
@@ -166,7 +166,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         public ICommand MoveUpElementCommand { get; }
         public ICommand MoveDownElementCommand { get; }
-        public ICommand PartitionElementCommand { get; }
+        public ICommand SortElementCommand { get; }
         public ICommand ShowElementDetailMatrixCommand { get; }
         public ICommand ShowElementContextMatrixCommand { get; }
         public ICommand ShowCellDetailMatrixCommand { get; }
@@ -299,12 +299,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return IsLoaded;
         }
 
-        private void PartitionElementExecute(object parameter)
+        private void SortElementExecute(object parameter)
         {
             _application.Sort(SelectedProvider?.Element, SelectedSortAlgorithm);
         }
 
-        private bool PartitionElementCanExecute(object parameter)
+        private bool SortElementCanExecute(object parameter)
         {
             return _application.HasChildren(SelectedProvider?.Element);
         }

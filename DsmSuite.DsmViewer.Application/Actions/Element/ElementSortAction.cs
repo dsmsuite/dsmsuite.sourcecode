@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementPartitionAction : IAction
+    public class ElementSortAction : IAction
     {
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;
@@ -16,7 +16,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public const string TypeName = "epartition";
 
-        public ElementPartitionAction(object[] args)
+        public ElementSortAction(object[] args)
         {
             Debug.Assert(args.Length == 2);
             _model = args[0] as IDsmModel;
@@ -33,7 +33,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _order= attributes.GetString(nameof(_order));
         }
 
-        public ElementPartitionAction(IDsmModel model, IDsmElement element, string algorithm)
+        public ElementSortAction(IDsmModel model, IDsmElement element, string algorithm)
         {
             _model = model;
             Debug.Assert(_model != null);
