@@ -18,6 +18,7 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Move selected element up" Command="{Binding MoveUpElementCommand}" Content="{StaticResource UpIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Move selected element down" Command="{Binding MoveDownElementCommand}" Content="{StaticResource DownIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Sort selected element" Command="{Binding PartitionElementCommand}" Content="{StaticResource PartitionIcon}"/>
+            <ComboBox ItemsSource="{Binding SupportedSortAlgorithms}" SelectedItem="{Binding SelectedSortAlgorithm}" Width="80" />
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom in" Command="{Binding ZoomInCommand}" Content="{StaticResource ZoomInIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>
