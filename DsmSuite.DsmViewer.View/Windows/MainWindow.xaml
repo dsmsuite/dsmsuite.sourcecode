@@ -11,7 +11,7 @@
         Width="Auto"
         Loaded="MainWindow_OnLoaded"
         Background="{StaticResource BackgroundColor}" 
-        Icon="/DsmSuite.DsmViewer.View;component/Resources/empty.ico">
+        Icon="/DsmSuite.DsmViewer.View;component/Resources/DSM.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
