@@ -87,12 +87,12 @@ namespace DsmSuite.DsmViewer.Application.Core
 
             if (!File.Exists(dsmFilename) || overwriteDsmFile)
             {
-                builder.Create(autoPartition);
+                builder.CreateDsm(autoPartition);
             }
             else
             {
                 dsmModel.LoadModel(dsmFilename, null);
-                builder.Update();
+                builder.UpdateDsm();
             }
 
             dsmModel.SaveModel(dsmFilename, compressDsmFile, null);

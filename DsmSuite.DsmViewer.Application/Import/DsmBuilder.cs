@@ -20,7 +20,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             _dsmModel = dsmmodel;
         }
 
-        public void Create(bool autoPartition)
+        public void CreateDsm(bool autoPartition)
         {
             _dsmModel.Clear();
 
@@ -53,7 +53,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             _dsmModel.AssignElementOrder();
         }
 
-        public void Update()
+        public void UpdateDsm()
         {
             throw new NotImplementedException();
         }
