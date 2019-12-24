@@ -32,6 +32,7 @@
     <Compile Include="Actions\Element\ElementChangeTypeAction.cs" />
     <Compile Include="Actions\Management\IActionManager.cs" />
     <Compile Include="Actions\Relation\RelationChangeWeightAction.cs" />
+    <Compile Include="Sorting\AlphabeticalSortAlgorithm.cs" />
     <Compile Include="Sorting\SortResult.cs" />
     <Compile Include="Sorting\ISortAlgorithm.cs" />
     <Compile Include="Sorting\SortAlgorithmFactory.cs" />

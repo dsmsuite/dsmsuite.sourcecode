@@ -14,6 +14,7 @@ using DsmSuite.DsmViewer.Reporting;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.DsmViewer.Model.Core;
 using System.Reflection;
+using DsmSuite.DsmViewer.Application.Algorithm;
 
 namespace DsmSuite.DsmViewer.Application.Core
 {
@@ -204,7 +205,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public IEnumerable<string> GetSupportedSortAlgorithms()
         {
-            return new List<string> {"Partition"};
+            return SortAlgorithmFactory.GetSupportedAlgorithms();
         }
 
         public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)

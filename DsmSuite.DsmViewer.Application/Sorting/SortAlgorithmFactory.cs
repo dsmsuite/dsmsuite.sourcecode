@@ -1,4 +1,5 @@
-﻿using DsmSuite.DsmViewer.Model.Interfaces;
+﻿using DsmSuite.DsmViewer.Application.Sorting;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -33,9 +34,15 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             return algoritm;
         }
 
+        public static IEnumerable<string> GetSupportedAlgorithms()
+        {
+            return _algorithms.Keys;
+        }
+
         private static void RegisterAlgorithmTypes()
         {
             RegisterAlgorithm(PartitionSortAlgorithm.AlgorithmName, typeof(PartitionSortAlgorithm));
+            RegisterAlgorithm(AlphabeticalSortAlgorithm.AlgorithmName, typeof(AlphabeticalSortAlgorithm));
         }
     }
 }

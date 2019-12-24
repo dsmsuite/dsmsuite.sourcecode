@@ -36,9 +36,10 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         IDsmElement PreviousSibling(IDsmElement element);
         bool HasChildren(IDsmElement element);
         void Sort(IDsmElement element, string algorithm);
+        IEnumerable<string> GetSupportedSortAlgorithms();
         void MoveUp(IDsmElement element);
         void MoveDown(IDsmElement element);
-        IEnumerable<string> GetSupportedSortAlgorithms();
+
 
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
         bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider);

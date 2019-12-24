@@ -68,6 +68,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private readonly ProgressViewModel _progressViewModel;
         private string _redoText;
         private string _undoText;
+        private string _selectedSortAlgorithm;
 
         public MainViewModel(IDsmApplication application)
         {
@@ -120,6 +121,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             IsModified = false;
             IsLoaded = false;
             SearchText = "";
+            SelectedSortAlgorithm = SupportedSortAlgorithms[0];
 
             _progressViewModel = new ProgressViewModel();
         }
@@ -145,6 +147,17 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             get { return _reportText; }
             set { _reportText = value; OnPropertyChanged(); }
+        }
+
+        public List<string> SupportedSortAlgorithms
+        {
+            get { return _application.GetSupportedSortAlgorithms().ToList(); }
+        }
+
+        public string SelectedSortAlgorithm
+        {
+            get { return _selectedSortAlgorithm; }
+            set { _selectedSortAlgorithm = value; OnPropertyChanged(); }
         }
 
         public ICommand OpenFileCommand { get; }
@@ -288,7 +301,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void PartitionElementExecute(object parameter)
         {
-            _application.Sort(SelectedProvider?.Element, "Partition");
+            _application.Sort(SelectedProvider?.Element, SelectedSortAlgorithm);
         }
 
         private bool PartitionElementCanExecute(object parameter)
