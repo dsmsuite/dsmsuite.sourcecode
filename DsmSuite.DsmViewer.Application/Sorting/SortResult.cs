@@ -62,6 +62,12 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             _list[index2] = temp;
         }
 
+        public void SetIndex(int index, int value)
+        {
+            CheckIndex(index);
+            _list[index] = value;
+        }
+
         public int GetIndex(int index)
         {
             CheckIndex(index);

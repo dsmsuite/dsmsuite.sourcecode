@@ -26,9 +26,16 @@ namespace DsmSuite.DsmViewer.Application.Sorting
         public SortResult Sort()
         {
             SortResult vector = new SortResult(_element.Children.Count);
+
             if (_element.Children.Count > 1)
             {
-                List<IDsmElement> sortedChilderen = _element.Children.OrderBy(x => x.Name).ToList();
+                List<int> newOrder = _element.Children.OrderBy(x => x.Name).Select(x => x.Id).ToList();
+
+                for (int i=0; i< vector.GetNumberOfElements(); i++)
+                {
+                    int id = _element.Children[i].Id;
+                    vector.SetIndex(newOrder.IndexOf(id), i);
+                }
             }
 
             return vector;
