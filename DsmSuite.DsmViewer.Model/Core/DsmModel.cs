@@ -121,7 +121,12 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             _elementsDataModel.UnremoveElement(elementId);
         }
-        
+
+        public IEnumerable<IDsmElement> GetElements()
+        {
+            return _elementsDataModel.GetElements();
+        }
+
         public IEnumerable<IDsmElement> GetRootElements()
         {
             return _elementsDataModel.GetExportedRootElements();
@@ -200,6 +205,16 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IDsmRelation GetDeletedRelationById(int relationId)
         {
             return _relationsDataModel.GetDeletedRelationById(relationId);
+        }
+
+        public IEnumerable<IDsmRelation> GetRelations()
+        {
+            return _relationsDataModel.GetExportedRelations();
+        }
+
+        public IDsmRelation FindRelation(int consumerId, int providerId, string type)
+        {
+            return _relationsDataModel.FindRelation(consumerId, providerId, type);
         }
 
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)

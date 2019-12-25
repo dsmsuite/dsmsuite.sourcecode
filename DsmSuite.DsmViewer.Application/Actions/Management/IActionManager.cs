@@ -6,6 +6,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
     public interface IActionManager
     {
         void Add(IAction action);
+        void Execute(IAction action);
         IEnumerable<IAction> GetActionsInChronologicalOrder();
     }
 }

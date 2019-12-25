@@ -84,7 +84,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             DsiDataModel dsiModel = new DsiDataModel(processStep, assembly);
             dsiModel.Load(dsiFilename);
             DsmModel dsmModel = new DsmModel(processStep, assembly);
-            DsmBuilder builder = new DsmBuilder(dsiModel, dsmModel);
+            DsmBuilder builder = new DsmBuilder(dsiModel, dsmModel, _actionManager);
 
             if (!File.Exists(dsmFilename) || overwriteDsmFile)
             {

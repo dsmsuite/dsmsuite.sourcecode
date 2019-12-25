@@ -31,6 +31,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmElement PreviousSibling(IDsmElement element);
         bool Swap(IDsmElement first, IDsmElement second);
         IEnumerable<IDsmElement> GetRootElements();
+        IEnumerable<IDsmElement> GetElements();
 
         IDsmElement GetElementById(int id);
         IDsmElement GetElementByFullname(string fullname);
@@ -50,6 +51,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         bool IsCyclicDependency(int consumerId, int providerId);
         IDsmRelation GetRelationById(int relationId);
         IDsmRelation GetDeletedRelationById(int relationId);
+        IEnumerable<IDsmRelation> GetRelations();
+        IDsmRelation FindRelation(int consumerId, int providerId, string type);
         IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
         IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element);
         IEnumerable<IDsmRelation> FindConsumerRelations(IDsmElement element);
