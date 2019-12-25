@@ -362,6 +362,20 @@ namespace DsmSuite.DsmViewer.Model.Core
             relation.IsDeleted = true;
             _relationsById.Remove(relation.Id);
 
+            if (_relationsByProvider.ContainsKey(relation.ProviderId) &&
+                _relationsByProvider[relation.ProviderId].ContainsKey(relation.ConsumerId) &&
+                _relationsByProvider[relation.ProviderId][relation.ConsumerId].ContainsKey(relation.Type))
+            {
+                _relationsByProvider[relation.ProviderId][relation.ConsumerId].Remove(relation.Type);
+            }
+
+            if (_relationsByConsumer.ContainsKey(relation.ConsumerId) &&
+                _relationsByConsumer[relation.ConsumerId].ContainsKey(relation.ProviderId) &&
+                _relationsByConsumer[relation.ConsumerId][relation.ProviderId].ContainsKey(relation.Type))
+            {
+                _relationsByConsumer[relation.ConsumerId][relation.ProviderId].Remove(relation.Type);
+            }
+
             _deletedRelationsById[relation.Id] = relation;
 
             UpdateWeights(relation, RemoveWeight);
