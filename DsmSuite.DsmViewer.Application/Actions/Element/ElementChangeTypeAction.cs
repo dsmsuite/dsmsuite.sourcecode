@@ -48,9 +48,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public string Title => "Change element type";
         public string Description => $"element={_element.Fullname} type={_old}->{_new}";
 
-        public void Do()
+        public object Do()
         {
             _model.ChangeElementType(_element, _new);
+            return null;
         }
 
         public void Undo()

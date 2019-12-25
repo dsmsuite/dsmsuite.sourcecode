@@ -56,9 +56,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public string Title => "Change element parent";
         public string Description => $"element={_element.Fullname} parent={_old.Fullname}->{_new.Fullname}";
 
-        public void Do()
+        public object Do()
         {
             _model.ChangeElementParent(_element, _new);
+            return null;
         }
 
         public void Undo()

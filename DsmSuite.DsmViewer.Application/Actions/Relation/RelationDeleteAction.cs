@@ -54,9 +54,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         public string Title => "Delete relation";
         public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_relation.Type}";
 
-        public void Do()
+        public object Do()
         {
             _model.RemoveRelation(_relation.Id);
+            return null;
         }
 
         public void Undo()

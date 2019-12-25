@@ -48,9 +48,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public string Title => "Change element name";
         public string Description => $"element={_element.Fullname} name={_old}->{_new}";
 
-        public void Do()
+        public object Do()
         {
             _model.ChangeElementName(_element, _new);
+            return null;
         }
 
         public void Undo()

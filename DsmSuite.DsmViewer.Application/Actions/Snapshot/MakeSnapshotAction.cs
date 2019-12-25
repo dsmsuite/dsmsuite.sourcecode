@@ -31,8 +31,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
         public string Title => "Make snapshot";
         public string Description => $"name={_name}";
 
-        public void Do()
+        public object Do()
         {
+            return null;
         }
 
         public void Undo()

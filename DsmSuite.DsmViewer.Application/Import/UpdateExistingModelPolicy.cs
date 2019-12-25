@@ -5,6 +5,7 @@ using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
+using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Import
 {
@@ -37,8 +38,8 @@ namespace DsmSuite.DsmViewer.Application.Import
             if (element == null)
             {
                 ElementCreateAction action = new ElementCreateAction(_dsmModel, name, type, parent);
-                _actionManager.Execute(action);
-                element = action.CreatedElement;
+                element = _actionManager.Execute(action) as IDsmElement;
+                Debug.Assert(element != null);
             }
             else
             {
@@ -55,7 +56,8 @@ namespace DsmSuite.DsmViewer.Application.Import
             if (relation == null)
             {
                 RelationCreateAction action = new RelationCreateAction(_dsmModel, consumerId, providerId, type, weight);
-                _actionManager.Execute(action);
+                relation = _actionManager.Execute(action) as IDsmRelation;
+                Debug.Assert(relation != null);
             }
             else
             {

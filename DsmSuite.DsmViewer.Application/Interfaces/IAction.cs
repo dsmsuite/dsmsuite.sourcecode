@@ -8,7 +8,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         string Title { get; }
         string Description { get; }
 
-        void Do();
+        object Do();
         void Undo();
 
         IReadOnlyDictionary<string, string> Data { get; }

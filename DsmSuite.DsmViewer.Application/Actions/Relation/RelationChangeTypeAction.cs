@@ -62,9 +62,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         public string Title => "Change relation type";
         public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_old}->{_new}";
 
-        public void Do()
+        public object Do()
         {
             _model.ChangeRelationType(_relation, _new);
+            return null;
         }
 
         public void Undo()

@@ -40,12 +40,13 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public string Title => "Move down element";
         public string Description => $"element={_element.Fullname}";
 
-        public void Do()
+        public object Do()
         {
             IDsmElement nextElement = _model.NextSibling(_element);
             Debug.Assert(nextElement != null);
 
             _model.Swap(_element, nextElement);
+            return null;
         }
 
         public void Undo()

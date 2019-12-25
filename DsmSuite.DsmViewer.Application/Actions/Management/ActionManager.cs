@@ -19,13 +19,13 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
             _redoActionStack = new Stack<IAction>();
         }
 
-        public void Execute(IAction action)
+        public object Execute(IAction action)
         {
             _undoActionStack.Push(action);
             _redoActionStack.Clear();
-            action.Do();
+            object result = action.Do();
             ActionPerformed?.Invoke(this, EventArgs.Empty);
-            Logger.LogInfo("Do :{action.Description}");
+            return result;
         }
 
         public void Add(IAction action)

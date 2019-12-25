@@ -49,12 +49,13 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public string Title => "Partition element";
         public string Description => $"element={_element.Fullname} algorithm={_algorithm}";
 
-        public void Do()
+        public object Do()
         {
             ISortAlgorithm sortAlgorithm = SortAlgorithmFactory.CreateAlgorithm(_model, _element, _algorithm);
             SortResult sortResult = sortAlgorithm.Sort();
             _model.ReorderChildren(_element, sortResult);
             _order = sortResult.Data;
+            return null;
         }
 
         public void Undo()

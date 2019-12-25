@@ -51,7 +51,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             _dsmModel = new Mock<IDsmModel>();
 
-
             _actionManager = new Mock<IActionManager>();
 
             _createMetaDataItem = new Mock<IMetaDataItem>();
@@ -106,12 +105,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             IDsmElement foundElement = null;
             _dsmModel.Setup(x => x.GetElementByFullname(_elementFullName)).Returns(foundElement);
-            Mock<ElementCreateAction> action = new Mock<ElementCreateAction>();
-            //action.Setup(x => x.CreatedElement).Returns(_createdElement.Object);
+            _actionManager.Setup(x => x.Execute(It.IsAny<ElementCreateAction>())).Returns(_createdElement.Object);
 
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object);
             IDsmElement element = policy.ImportElement(_elementFullName, _elementName, _elementType, _elementParent.Object);
-            //Assert.AreEqual(_createdElement.Object, element);
+            Assert.AreEqual(_createdElement.Object, element);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<ElementCreateAction>()), Times.Once);
         }
@@ -148,10 +146,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             IDsmRelation foundRelation = null;
             _dsmModel.Setup(x => x.FindRelation(_consumerId, _providerId, _relationType)).Returns(foundRelation);
+            _actionManager.Setup(x => x.Execute(It.IsAny<RelationCreateAction>())).Returns(_createdRelation.Object);
 
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object);
             IDsmRelation relation = policy.ImportRelation(_consumerId, _providerId, _relationType, _relationWeight);
-            //Assert.AreEqual(_createdRelation.Object, relation);
+            Assert.AreEqual(_createdRelation.Object, relation);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<RelationCreateAction>()), Times.Once);
         }
@@ -180,7 +179,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             Assert.AreEqual(_existingRelation.Object, relation);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<RelationChangeWeightAction>()), Times.Once);
-
         }
 
         [TestMethod]

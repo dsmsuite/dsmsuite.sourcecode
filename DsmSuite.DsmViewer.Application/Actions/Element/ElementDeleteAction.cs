@@ -40,9 +40,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public string Title => "Delete element";
         public string Description => $"element={_element.Fullname}";
 
-        public void Do()
+        public object Do()
         {
             _model.RemoveElement(_element.Id);
+            return null;
         }
 
         public void Undo()
