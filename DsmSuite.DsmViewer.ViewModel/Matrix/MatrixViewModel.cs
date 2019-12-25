@@ -326,7 +326,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 foreach (ElementViewModel consumer in consumers)
                 {
                     int weight = _application.GetDependencyWeight(consumer.Element, provider.Element);
-                    bool cyclic = _application.IsCyclicDependency(consumer.Element, provider.Element);
+                    bool cyclic = _application.IsCyclicDependency(consumer.Element, provider.Element) &&
+                                  _application.ShowCycles;
 
                     int depth = 0;
                     if (provider.Element.Id == consumer.Element.Id)

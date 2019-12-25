@@ -38,6 +38,8 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionStore = new ActionStore(_model, _actionManager);
 
             _queries = new DsmQueries(model);
+
+            ShowCycles = true;
         }
 
         private void OnActionPerformed(object sender, EventArgs e)
@@ -76,6 +78,8 @@ namespace DsmSuite.DsmViewer.Application.Core
         {
             _actionManager.Redo();
         }
+
+        public bool ShowCycles { get; set; }
 
         public void ImportModel(string dsiFilename, string dsmFilename, bool autoPartition, bool overwriteDsmFile, bool compressDsmFile)
         {

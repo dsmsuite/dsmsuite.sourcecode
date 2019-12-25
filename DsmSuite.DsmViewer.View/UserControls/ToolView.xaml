@@ -37,7 +37,7 @@
             <Label Content="{Binding SearchResult}"/>
         </ToolBar>
         <ToolBar Style="{StaticResource ToolBar}" DockPanel.Dock = "Right">
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Settings" Click="OpenButtonClick" Content="{StaticResource SettingsIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Settings" Command="{Binding ShowSettingsCommand}" Content="{StaticResource SettingsIcon}"/>
         </ToolBar>
     </DockPanel>
 </UserControl>

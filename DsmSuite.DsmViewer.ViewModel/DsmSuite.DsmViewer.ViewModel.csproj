@@ -43,6 +43,7 @@
     <Compile Include="Lists\RelationListItemViewModel.cs" />
     <Compile Include="Main\ProgressViewModel.cs" />
     <Compile Include="Lists\RelationListViewModel.cs" />
+    <Compile Include="Main\SettingsViewModel.cs" />
     <Compile Include="Matrix\ElementTreeItemViewModel.cs" />
     <Compile Include="Matrix\ElementViewModel.cs" />
     <Compile Include="Main\IMainViewModel.cs" />

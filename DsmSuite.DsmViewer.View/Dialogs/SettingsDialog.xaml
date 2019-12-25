@@ -1,0 +1,28 @@
+﻿<Window x:Class="DsmSuite.DsmViewer.View.Dialogs.SettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None"        
+        Height="190" 
+        Width="450">
+    <StackPanel Orientation="Vertical" FocusManager.FocusedElement="{Binding ElementName=NameTextBox}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="340" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Content="Settings" Margin="5"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Show cycles" Margin="5"/>
+            <CheckBox Grid.Row="1" Grid.Column="1" Margin="10" IsChecked="{Binding ShowCycles, Mode=TwoWay}" HorizontalAlignment="Right"/>
+        </Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
+            <Button Style="{StaticResource DialogButton}" Content="Cancel" IsCancel="True" />
+        </StackPanel>
+    </StackPanel>
+</Window>

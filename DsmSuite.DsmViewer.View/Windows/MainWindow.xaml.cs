@@ -49,10 +49,16 @@ namespace DsmSuite.DsmViewer.View.Windows
             _mainViewModel.SnapshotMakeStarted += OnSnapshotMakeStarted;
 
             _mainViewModel.ActionsVisible += OnActionsVisible;
-
+            _mainViewModel.SettingsVisible += OnSettingsVisible;
             DataContext = _mainViewModel;
 
             OpenModelFile();
+        }
+
+        private void OnSettingsVisible(object sender, SettingsViewModel viewModel)
+        {
+            SettingsView view = new SettingsView { DataContext = viewModel };
+            view.ShowDialog();
         }
 
         private void OnActionsVisible(object sender, ViewModel.Lists.ActionListViewModel viewModel)

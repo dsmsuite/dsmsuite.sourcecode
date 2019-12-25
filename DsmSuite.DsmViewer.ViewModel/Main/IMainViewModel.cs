@@ -41,6 +41,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         event EventHandler<ActionListViewModel> ActionsVisible;
 
+        event EventHandler<SettingsViewModel> SettingsVisible;
+
         ICommand ToggleElementExpandedCommand { get; }
         ICommand MoveUpElementCommand { get; }
         ICommand MoveDownElementCommand { get; }

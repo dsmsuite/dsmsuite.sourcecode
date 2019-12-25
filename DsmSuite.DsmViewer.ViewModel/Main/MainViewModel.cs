@@ -47,6 +47,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         public event EventHandler<ActionListViewModel> ActionsVisible;
 
+        public event EventHandler<SettingsViewModel> SettingsVisible;
+
         private readonly IDsmApplication _application;
         private string _modelFilename;
         private string _title;
@@ -56,7 +58,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private SearchState _searchState;
         private string _searchResult;
 
-        private bool _showCycles;
         private bool _isModified;
         private bool _isLoaded;
         private readonly double _minZoom = 0.50;
@@ -114,10 +115,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
             ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
+            ShowSettingsCommand = new RelayCommand<object>(ShowSettingsExecute, ShowSettingsCanExecute);
 
             ModelFilename = "";
             Title = "DSM Viewer";
-            ShowCycles = false;
             IsModified = false;
             IsLoaded = false;
             SearchText = "";
@@ -190,17 +191,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand ChangeRelationTypeCommand { get; }
         public ICommand MakeSnapshotCommand { get; }
         public ICommand ShowHistoryCommand { get; }
+        public ICommand ShowSettingsCommand { get; }
 
         public string ModelFilename
         {
             get { return _modelFilename; }
             set { _modelFilename = value; OnPropertyChanged(); }
-        }
-
-        public bool ShowCycles
-        {
-            get { return _showCycles; }
-            set { _showCycles = value; OnPropertyChanged(); }
         }
 
         public bool IsModified
@@ -762,6 +758,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         }
 
         private bool ShowHistoryCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void ShowSettingsExecute(object parameter)
+        {
+            SettingsViewModel viewModel = new SettingsViewModel(_application);
+            SettingsVisible?.Invoke(this, viewModel);
+            ActiveMatrix?.Reload();
+        }
+
+        private bool ShowSettingsCanExecute(object parameter)
         {
             return true;
         }
