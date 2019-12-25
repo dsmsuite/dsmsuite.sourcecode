@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Actions.Element;
@@ -18,9 +15,10 @@ namespace DsmSuite.DsmViewer.Application.Import
         private readonly Dictionary<int, IDsmElement> _notFoundElements;
         private readonly Dictionary<int, IDsmRelation> _notFoundRelations;
 
-        public UpdateExistingModelPolicy(IDsmModel dsmmodel, IActionManager actionManager)
+        public UpdateExistingModelPolicy(IDsmModel dsmmodel, string dsmFilename, IActionManager actionManager)
         {
             _dsmModel = dsmmodel;
+            _dsmModel.LoadModel(dsmFilename, null);
             _actionManager = actionManager;
 
             _notFoundElements = _dsmModel.GetElements().ToDictionary(x => x.Id, x => x);
@@ -29,7 +27,7 @@ namespace DsmSuite.DsmViewer.Application.Import
 
         public IMetaDataItem ImportMetaDataItem(string group, string name, string value)
         {
-            return _dsmModel.AddMetaData(group, group, value);
+            return _dsmModel.AddMetaData(group, name, value);
         }
 
         public IDsmElement ImportElement(string fullname, string name, string type, IDsmElement parent)
@@ -39,7 +37,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             if (element == null)
             {
                 ElementCreateAction action = new ElementCreateAction(_dsmModel, name, type, parent);
-                _actionManager.Add(action);
+                _actionManager.Execute(action);
                 element = action.CreatedElement;
             }
             else
@@ -57,7 +55,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             if (relation == null)
             {
                 RelationCreateAction action = new RelationCreateAction(_dsmModel, consumerId, providerId, type, weight);
-                _actionManager.Add(action);
+                _actionManager.Execute(action);
             }
             else
             {
@@ -66,7 +64,7 @@ namespace DsmSuite.DsmViewer.Application.Import
                 if (relation.Weight != weight)
                 {
                     RelationChangeWeightAction action = new RelationChangeWeightAction(_dsmModel, relation, weight);
-                    _actionManager.Add(action);
+                    _actionManager.Execute(action);
                 }
             }
 
@@ -85,7 +83,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             foreach (IDsmElement element in _notFoundElements.Values)
             {
                 ElementDeleteAction action = new ElementDeleteAction(_dsmModel, element);
-                _actionManager.Add(action);
+                _actionManager.Execute(action);
             }
         }
 
@@ -94,7 +92,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             foreach (IDsmRelation relation in _notFoundRelations.Values)
             {
                 RelationDeleteAction action = new RelationDeleteAction(_dsmModel, relation);
-                _actionManager.Add(action);
+                _actionManager.Execute(action);
             }
         }
     }

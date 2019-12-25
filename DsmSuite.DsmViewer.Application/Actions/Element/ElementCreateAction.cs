@@ -52,7 +52,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public string Type => TypeName;
         public string Title => "Create element";
         public string Description => $"name={_name} type={_type} parent={_parent.Fullname}";
-        public IDsmElement CreatedElement => _element;
+        public virtual IDsmElement CreatedElement => _element; // Virtual for testabiity with Moq mocking framework
 
         public void Do()
         {

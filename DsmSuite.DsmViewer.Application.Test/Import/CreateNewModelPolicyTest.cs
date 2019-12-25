@@ -16,23 +16,20 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         Mock<IDsmModel> _dsmModel;
 
         Mock<IMetaDataItem> _createMetaDataItem;
+        private const string _metaDataGroup = "group";
+        private const string _metaDataItemName = "itemname";
+        private const string _metaDataItemValue = "itemvalue";
 
         Mock<IDsmElement> _existingElement;
         Mock<IDsmElement> _createdElement;
         Mock<IDsmElement> _elementParent;
         Mock<IDsmElement> _elementChild;
-
-        Mock<IDsmRelation> _createdRelation;
-
-        private const string _metaDataGroup = "group";
-        private const string _metaDataItemName = "itemname";
-        private const string _metaDataItemValue = "itemvalue";
-
         private const string _elementFullName = "a.b.c";
         private const string _elementName = "c";
         private const string _elementType = "etype";
         private const int _elementParentId = 1;
 
+        Mock<IDsmRelation> _createdRelation;
         private const int _consumerId = 2;
         private const int _providerId = 3;
         private const string _relationType = "rtype";
@@ -68,10 +65,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenMetaDataItemIsImportedThenMetaDataItemIsAddedToModel()
         {
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
-
             _dsmModel.Setup(x => x.AddMetaData(_metaDataGroup, _metaDataItemName, _metaDataItemValue)).Returns(_createMetaDataItem.Object);
 
+            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
             IMetaDataItem metaDataItem = policy.ImportMetaDataItem(_metaDataGroup, _metaDataItemName, _metaDataItemValue);
             Assert.AreEqual(_createMetaDataItem.Object, metaDataItem);
 
@@ -81,12 +77,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void GivenElementIsNotInModelWhenElementIsImportedThenElementIsAddedToModel()
         {
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
-
             IDsmElement foundElement = null;
             _dsmModel.Setup(x => x.GetElementByFullname(_elementFullName)).Returns(foundElement);
             _dsmModel.Setup(x => x.AddElement(_elementName, _elementType, _elementParentId)).Returns(_createdElement.Object);
 
+            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
             IDsmElement element = policy.ImportElement(_elementFullName, _elementName, _elementType, _elementParent.Object);
             Assert.AreEqual(_createdElement.Object, element);
 
@@ -96,11 +91,10 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void GivenElementIsInModelWhenElementIsImportedThenElementIsNotAddedAgainToModel()
         {
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
-
             IDsmElement foundElement = _existingElement.Object;
             _dsmModel.Setup(x => x.GetElementByFullname(_elementFullName)).Returns(foundElement);
- 
+
+            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
             IDsmElement element = policy.ImportElement(_elementFullName, _elementName, _elementType, _elementParent.Object);
             Assert.AreEqual(_existingElement.Object, element);
 
@@ -110,10 +104,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenRelationIsImportedThenRelationIsAddedToModel()
         {
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
-
             _dsmModel.Setup(x => x.AddRelation(_consumerId, _providerId, _relationType, _relationWeight)).Returns(_createdRelation.Object);
 
+            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
             IDsmRelation relation = policy.ImportRelation(_consumerId, _providerId, _relationType, _relationWeight);
             Assert.AreEqual(_createdRelation.Object, relation);
 

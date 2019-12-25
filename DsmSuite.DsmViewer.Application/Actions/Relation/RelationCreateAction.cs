@@ -60,7 +60,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         public string Type => TypeName;
         public string Title => "Create relation";
         public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_type} weight={_weight}";
-        public IDsmRelation CreatedRelation => _relation;
+        public virtual IDsmRelation CreatedRelation => _relation; // Virtual for testabiity with Moq mocking framework
 
         public void Do()
         {

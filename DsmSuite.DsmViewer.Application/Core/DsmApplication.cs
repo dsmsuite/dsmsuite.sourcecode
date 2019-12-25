@@ -92,8 +92,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             }
             else
             {
-                dsmModel.LoadModel(dsmFilename, null);
-                importPolicy = new UpdateExistingModelPolicy(dsmModel, _actionManager);
+                importPolicy = new UpdateExistingModelPolicy(dsmModel, dsmFilename, _actionManager);
             }
 
             DsmBuilder builder = new DsmBuilder(dsiModel, importPolicy);
