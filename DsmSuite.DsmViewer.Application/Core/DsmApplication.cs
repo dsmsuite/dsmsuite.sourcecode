@@ -84,18 +84,20 @@ namespace DsmSuite.DsmViewer.Application.Core
             DsiDataModel dsiModel = new DsiDataModel(processStep, assembly);
             dsiModel.Load(dsiFilename);
             DsmModel dsmModel = new DsmModel(processStep, assembly);
-            DsmBuilder builder = new DsmBuilder(dsiModel, dsmModel, _actionManager);
 
+            IImportPolicy importPolicy;
             if (!File.Exists(dsmFilename) || overwriteDsmFile)
             {
-                builder.CreateDsm(autoPartition);
+                importPolicy = new CreateNewModelPolicy(dsmModel, autoPartition);
             }
             else
             {
                 dsmModel.LoadModel(dsmFilename, null);
-                builder.UpdateDsm();
+                importPolicy = new UpdateExistingModelPolicy(dsmModel, _actionManager);
             }
 
+            DsmBuilder builder = new DsmBuilder(dsiModel, importPolicy);
+            builder.Build();
             dsmModel.SaveModel(dsmFilename, compressDsmFile, null);
         }
 

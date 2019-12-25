@@ -76,7 +76,9 @@
     <Compile Include="Algorithm\SortResultTest.cs" />
     <Compile Include="Algorithm\PermutationTest.cs" />
     <Compile Include="Algorithm\WeightsMatrixTest.cs" />
+    <Compile Include="Import\CreateNewModelPolicyTest.cs" />
     <Compile Include="Import\DsmBuilderTest.cs" />
+    <Compile Include="Import\UpdateExistingModelPolicyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\DsmResolvedRelationTest.cs" />
   </ItemGroup>
