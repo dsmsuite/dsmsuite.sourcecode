@@ -4,7 +4,8 @@ using Moq;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using System.Collections.Generic;
-using DsmSuite.DsmViewer.Application.Algorithm;
+using DsmSuite.DsmViewer.Application.Sorting;
+using DsmSuite.DsmViewer.Application.Test.Stubs;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
@@ -23,18 +24,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         private const string _usedAlgorithm = "MockedAlgorithm";
         private const string _sortResult = "2,0,1";
         private const string _inverseSortResult = "1,2,0";
-
-        public class StubbedSortAlgorithm : ISortAlgorithm
-        {
-            public StubbedSortAlgorithm(object[] args) { }
-
-            public string Name => "Stub";
-
-            public SortResult Sort()
-            {
-                return new SortResult(_sortResult);
-            }
-        }
 
         [TestInitialize()]
         public void Setup()

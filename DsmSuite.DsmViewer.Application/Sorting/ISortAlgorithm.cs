@@ -1,6 +1,6 @@
 ﻿using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Application.Algorithm
+namespace DsmSuite.DsmViewer.Application.Sorting
 {
     public interface ISortAlgorithm
     {

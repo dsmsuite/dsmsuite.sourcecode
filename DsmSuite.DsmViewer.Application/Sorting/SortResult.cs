@@ -2,7 +2,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System;
 
-namespace DsmSuite.DsmViewer.Application.Algorithm
+namespace DsmSuite.DsmViewer.Application.Sorting
 {
     public class SortResult : ISortResult
     {

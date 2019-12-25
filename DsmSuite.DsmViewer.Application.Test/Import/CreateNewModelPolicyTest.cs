@@ -3,8 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Application.Import;
+using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.Common.Model.Interface;
 using System.Collections.Generic;
+using DsmSuite.DsmViewer.Application.Test.Stubs;
 
 namespace DsmSuite.DsmViewer.Application.Test.Import
 {
@@ -51,6 +53,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _createdRelation = new Mock<IDsmRelation>();
 
             _elementParent.Setup(x => x.Id).Returns(_elementParentId);
+
+            SortAlgorithmFactory.RegisterAlgorithm(PartitionSortAlgorithm.AlgorithmName, typeof(StubbedSortAlgorithm));
         }
 
         [TestMethod]

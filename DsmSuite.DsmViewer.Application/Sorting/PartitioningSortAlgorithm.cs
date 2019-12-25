@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Diagnostics;
 
-namespace DsmSuite.DsmViewer.Application.Algorithm
+namespace DsmSuite.DsmViewer.Application.Sorting
 {
-    internal class PartitionSortAlgorithm : ISortAlgorithm
+    public class PartitionSortAlgorithm : ISortAlgorithm
     {
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;

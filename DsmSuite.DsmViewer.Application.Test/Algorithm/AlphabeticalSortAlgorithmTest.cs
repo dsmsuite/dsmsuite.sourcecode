@@ -4,7 +4,6 @@ using Moq;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Sorting;
-using DsmSuite.DsmViewer.Application.Algorithm;
 
 namespace DsmSuite.DsmViewer.Application.Test.Algorithm
 {

@@ -1,6 +1,6 @@
 ﻿using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.Common.Model.Interface;
-using DsmSuite.DsmViewer.Application.Algorithm;
+using DsmSuite.DsmViewer.Application.Sorting;
 
 namespace DsmSuite.DsmViewer.Application.Import
 {

@@ -1,5 +1,5 @@
 
-namespace DsmSuite.DsmViewer.Application.Algorithm
+namespace DsmSuite.DsmViewer.Application.Sorting
 {
     /// <summary>
     /// Represents a permutation of two values (order not important). 

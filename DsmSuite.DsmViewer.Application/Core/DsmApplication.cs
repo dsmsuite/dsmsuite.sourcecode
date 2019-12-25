@@ -9,12 +9,12 @@ using DsmSuite.DsmViewer.Application.Actions.Snapshot;
 using DsmSuite.DsmViewer.Application.Import;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Queries;
+using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Reporting;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.DsmViewer.Model.Core;
 using System.Reflection;
-using DsmSuite.DsmViewer.Application.Algorithm;
 
 namespace DsmSuite.DsmViewer.Application.Core
 {

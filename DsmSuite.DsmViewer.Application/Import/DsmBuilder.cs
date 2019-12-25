@@ -2,13 +2,7 @@
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Application.Algorithm;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System;
-using System.Linq;
-using DsmSuite.DsmViewer.Application.Actions.Management;
-using DsmSuite.DsmViewer.Application.Actions.Element;
-using DsmSuite.DsmViewer.Application.Actions.Relation;
 
 namespace DsmSuite.DsmViewer.Application.Import
 {

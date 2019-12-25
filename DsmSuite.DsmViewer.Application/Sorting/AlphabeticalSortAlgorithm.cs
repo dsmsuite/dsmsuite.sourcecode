@@ -1,6 +1,4 @@
-﻿using DsmSuite.DsmViewer.Application.Algorithm;
-using DsmSuite.DsmViewer.Model.Core;
-using DsmSuite.DsmViewer.Model.Interfaces;
+﻿using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;

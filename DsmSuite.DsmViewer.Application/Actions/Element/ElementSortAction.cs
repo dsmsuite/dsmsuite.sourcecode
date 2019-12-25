@@ -1,6 +1,6 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Application.Interfaces;
-using DsmSuite.DsmViewer.Application.Algorithm;
+using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
 using System.Diagnostics;
