@@ -72,6 +72,7 @@
     <Compile Include="Actions\Relation\RelationChangeTypeActionTest.cs" />
     <Compile Include="Actions\Relation\RelationChangeWeightActionTest.cs" />
     <Compile Include="Actions\Snapshot\MakeSnapshotActionTest.cs" />
+    <Compile Include="Algorithm\AlphabeticalSortAlgorithmTest.cs" />
     <Compile Include="Algorithm\SortResultTest.cs" />
     <Compile Include="Algorithm\PermutationTest.cs" />
     <Compile Include="Algorithm\SquareMatrixTest.cs" />

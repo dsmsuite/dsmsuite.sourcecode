@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace DsmSuite.DsmViewer.Application.Sorting
 {
-    internal class AlphabeticalSortAlgorithm : ISortAlgorithm
+    public class AlphabeticalSortAlgorithm : ISortAlgorithm
     {
         private readonly IDsmModel _model;
-        private readonly DsmElement _element;
+        private readonly IDsmElement _element;
 
         public const string AlgorithmName = "Alphabetical";
 
@@ -19,7 +19,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
             Debug.Assert(args.Length == 2);
             _model = args[0] as IDsmModel;
             Debug.Assert(_model != null);
-            _element = args[1] as DsmElement;
+            _element = args[1] as IDsmElement;
             Debug.Assert(_element != null);
         }
 
