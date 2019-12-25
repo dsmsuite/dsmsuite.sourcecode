@@ -4,7 +4,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
     /// <summary>
     /// Represents a permutation of two values (order not important). 
     /// </summary>
-    class Permutation
+    public class Permutation
     {
         readonly int _first;
         readonly int _second;
