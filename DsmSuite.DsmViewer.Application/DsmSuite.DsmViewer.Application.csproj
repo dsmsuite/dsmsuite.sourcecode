@@ -51,7 +51,7 @@
     <Compile Include="Sorting\PartitioningSortAlgorithm.cs" />
     <Compile Include="Sorting\PartitioningCalculation.cs" />
     <Compile Include="Sorting\Permutation.cs" />
-    <Compile Include="Sorting\SquareMatrix.cs" />
+    <Compile Include="Sorting\WeightsMatrix.cs" />
     <Compile Include="Core\DsmApplication.cs" />
     <Compile Include="Queries\DsmResolvedRelation.cs" />
     <Compile Include="Interfaces\IDsmResolvedRelation.cs" />

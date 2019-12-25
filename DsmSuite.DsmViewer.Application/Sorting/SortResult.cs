@@ -118,7 +118,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
         {
             if ((index < 0) || (index >= _list.Count))
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
         }
     }

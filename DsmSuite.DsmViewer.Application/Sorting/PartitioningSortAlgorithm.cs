@@ -26,7 +26,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
             SortResult vector = new SortResult(_element.Children.Count);
             if (_element.Children.Count > 1)
             {
-                SquareMatrix matrix = BuildPartitionMatrix(_element.Children);
+                WeightsMatrix matrix = BuildPartitionMatrix(_element.Children);
 
                 PartitioningCalculation algorithm = new PartitioningCalculation(matrix);
 
@@ -38,9 +38,9 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
 
         public string Name => AlgorithmName;
 
-        private SquareMatrix BuildPartitionMatrix(IList<IDsmElement> nodes)
+        private WeightsMatrix BuildPartitionMatrix(IList<IDsmElement> nodes)
         {
-            SquareMatrix matrix = new SquareMatrix(nodes.Count);
+            WeightsMatrix matrix = new WeightsMatrix(nodes.Count);
 
             for (int i = 0; i < nodes.Count; i++)
             {
@@ -54,7 +54,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
 
                         int weight = _model.GetDependencyWeight(consumer.Id, provider.Id);
 
-                        matrix.Set(i, j, weight > 0 ? 1 : 0);
+                        matrix.SetWeight(i, j, weight > 0 ? 1 : 0);
                     }
                 }
             }

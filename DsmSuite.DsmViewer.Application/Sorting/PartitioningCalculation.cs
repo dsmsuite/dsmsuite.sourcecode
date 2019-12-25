@@ -17,13 +17,13 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
     /// </remarks>
     class PartitioningCalculation
     {
-        readonly SquareMatrix _sm;
+        readonly WeightsMatrix _sm;
 
         /// <summary>
         /// Constructor of calcualtion on a given n * n matrix
         /// </summary>
         /// <param name="matrix"></param>
-        public PartitioningCalculation(SquareMatrix matrix)
+        public PartitioningCalculation(WeightsMatrix matrix)
         {
             _sm = matrix;
         }
@@ -177,7 +177,7 @@ namespace DsmSuite.DsmViewer.Application.Algorithm
         /// <returns></returns>
         int TrueMatrixValue(SortResult vector, int i, int j)
         {
-            return _sm.Get(vector.GetIndex(i), vector.GetIndex(j));
+            return _sm.GetWeight(vector.GetIndex(i), vector.GetIndex(j));
         }
 
         void ToBlockTriangular(SortResult vector, int start, int end)
