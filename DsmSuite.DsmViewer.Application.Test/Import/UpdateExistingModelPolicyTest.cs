@@ -9,6 +9,7 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
+using DsmSuite.DsmViewer.Application.Actions.Snapshot;
 
 namespace DsmSuite.DsmViewer.Application.Test.Import
 {
@@ -203,6 +204,16 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             policy.FinalizeImport();
 
             _dsmModel.Verify(x => x.AssignElementOrder(), Times.Once());
+        }
+
+        [TestMethod]
+        public void WhenImportIsFinalizedThenMakeTimeStampActionIsExecuted()
+        {
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object);
+
+            policy.FinalizeImport();
+
+            _actionManager.Verify(x => x.Execute(It.IsAny<MakeSnapshotAction>()), Times.Once);
         }
     }
 }

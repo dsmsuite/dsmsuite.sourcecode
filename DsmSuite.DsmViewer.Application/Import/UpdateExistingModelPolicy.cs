@@ -6,12 +6,14 @@ using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
 using System.Diagnostics;
+using DsmSuite.DsmViewer.Application.Actions.Snapshot;
 
 namespace DsmSuite.DsmViewer.Application.Import
 {
     public class UpdateExistingModelPolicy : IImportPolicy
     {
         private readonly IDsmModel _dsmModel;
+        private readonly string _dsmFilename;
         private readonly IActionManager _actionManager;
         private readonly Dictionary<int, IDsmElement> _notFoundElements;
         private readonly Dictionary<int, IDsmRelation> _notFoundRelations;
@@ -19,7 +21,8 @@ namespace DsmSuite.DsmViewer.Application.Import
         public UpdateExistingModelPolicy(IDsmModel dsmmodel, string dsmFilename, IActionManager actionManager)
         {
             _dsmModel = dsmmodel;
-            _dsmModel.LoadModel(dsmFilename, null);
+            _dsmFilename = dsmFilename;
+            _dsmModel.LoadModel(_dsmFilename, null);
             _actionManager = actionManager;
 
             _notFoundElements = _dsmModel.GetElements().ToDictionary(x => x.Id, x => x);
@@ -78,6 +81,8 @@ namespace DsmSuite.DsmViewer.Application.Import
             RemoveExistingElementsNotFoundAnymore();
             RemoveExistingRelationsNotFoundAnymore();
             _dsmModel.AssignElementOrder();
+
+            MakeSnapshot();
         }
 
         private void RemoveExistingElementsNotFoundAnymore()
@@ -96,6 +101,13 @@ namespace DsmSuite.DsmViewer.Application.Import
                 RelationDeleteAction action = new RelationDeleteAction(_dsmModel, relation);
                 _actionManager.Execute(action);
             }
+        }
+
+        private void MakeSnapshot()
+        {
+            string description = $"Import file={_dsmFilename}";
+            MakeSnapshotAction action = new MakeSnapshotAction(_dsmModel, description);
+            _actionManager.Execute(action);
         }
     }
 }
