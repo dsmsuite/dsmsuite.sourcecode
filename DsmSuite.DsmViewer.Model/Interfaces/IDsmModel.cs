@@ -11,8 +11,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         bool IsCompressed { get; }
 
         void Clear();
-        void LoadModel(string dsmFilename, IProgress<FileAccessProgressInfo> progress);
-        void SaveModel(string dsmFilename, bool compressFile, IProgress<FileAccessProgressInfo> progress);
+        void LoadModel(string dsmFilename, IProgress<ProgressInfo> progress);
+        void SaveModel(string dsmFilename, bool compressFile, IProgress<ProgressInfo> progress);
 
         IMetaDataItem AddMetaData(string group, string name, string value);
         IMetaDataItem AddMetaData(string itemName, string itemValue);

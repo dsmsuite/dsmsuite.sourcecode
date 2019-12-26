@@ -1,5 +1,6 @@
 ﻿using System;
 using DsmSuite.DsmViewer.ViewModel.Common;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -13,15 +14,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private int _progressValue;
         private string _progressText;
 
-        public void Update(int elementCount,
-                           int relationCount,
-                           int progress)
+        public void Update(ProgressInfo progress)
         {
-            ProgressValue = progress;
-            ProgressText = $"{progress} %";
-            Busy = (progress > 0) && (progress < 100);
-
-            Text = $"{Action} {elementCount} elements and {relationCount} relations";
+            Text = progress.ActionText;
+            ProgressText = progress.ProgressText;
+            ProgressValue = progress.Progress;
+            Busy = (progress.Progress > 0) && (progress.Progress < 100);
         }
 
         public string Action

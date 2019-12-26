@@ -25,8 +25,8 @@ namespace DsmSuite.DsmViewer.Builder.Settings
             {
                 LoggingEnabled = false,
                 InputFilename = "Input.dsi",
-                ApplyPartitioningAlgorithm = true,
-                OverwriteOutputFile = false,
+                ApplyPartitioningAlgorithm = false,
+                OverwriteOutputFile = true,
                 OutputFilename = "Output.dsm",
 
                 CompressOutputFile = true

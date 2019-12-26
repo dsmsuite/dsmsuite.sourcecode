@@ -27,10 +27,10 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             dataModel1.AddRelation(consumer.Name, provider1.Name, "relationType2", 2, "context");
             dataModel1.AddRelation(consumer.Name, provider2.Name, "relationType3", 3, "context");
 
-            dataModel1.Save(filename, false);
+            dataModel1.Save(filename, false, null);
 
             DsiModel dataModel2 = new DsiModel("Test", Assembly.GetExecutingAssembly());
-            dataModel2.Load(filename);
+            dataModel2.Load(filename, null);
 
             Assert.AreEqual(dataModel1.TotalElementCount, dataModel2.TotalElementCount);
             List<IDsiElement> dataModel1Elements = dataModel1.GetElements().ToList();

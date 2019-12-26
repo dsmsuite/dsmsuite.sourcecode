@@ -162,9 +162,19 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             return _elements;
         }
 
+        public int GetExportedElementCount()
+        {
+            return _elements.Count;
+        }
+
         public IEnumerable<IDsiRelation> GetExportedRelations()
         {
             return _relations;
+        }
+
+        public int GetExportedRelationCount()
+        {
+            return _relations.Count;
         }
     }
 }

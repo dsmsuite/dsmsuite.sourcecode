@@ -11,6 +11,8 @@ namespace DsmSuite.Analyzer.Model.Persistency
     public class DsiModelFile
     {
         private const string RootXmlNode = "dsimodel";
+        private const string ModelElementCountXmlAttribute = "elementCount";
+        private const string ModelRelationCountXmlAttribute = "relationCount";
 
         private const string MetaDataGroupXmlNode = "metadatagroup";
         private const string MetaDataGroupNameXmlAttribute = "name";
@@ -39,6 +41,13 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private readonly IDsiElementModelFileCallback _elementModelCallback;
         private readonly IDsiRelationModelFileCallback _relationModelCallback;
 
+        private int _totalElementCount;
+        private int _progressedElementCount;
+        private int _totalRelationCount;
+        private int _progressedRelationCount;
+        private int _progress;
+        private string _progressActionText;
+
         public DsiModelFile(string filename, 
                             IMetaDataModelFileCallback metaDataModelCallback,
                             IDsiElementModelFileCallback elementModelCallback,
@@ -50,19 +59,19 @@ namespace DsmSuite.Analyzer.Model.Persistency
             _relationModelCallback = relationModelCallback;
         }
 
-        public void Save(bool compressed, IProgress<int> progress)
+        public void Save(bool compressed, IProgress<ProgressInfo> progress)
         {
-            CompressedFile<int> modelFile = new CompressedFile<int>(_filename);
+            CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             modelFile.WriteFile(WriteDsiXml, progress, compressed);
         }
 
-        public void Load(IProgress<int> progress)
+        public void Load(IProgress<ProgressInfo> progress)
         {
-            CompressedFile<int> modelFile = new CompressedFile<int>(_filename);
+            CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             modelFile.ReadFile(ReadDsiXml, progress);
         }
 
-        private void WriteDsiXml(Stream stream, IProgress<int> progress)
+        private void WriteDsiXml(Stream stream, IProgress<ProgressInfo> progress)
         {
             XmlWriterSettings settings = new XmlWriterSettings
             {
@@ -76,15 +85,16 @@ namespace DsmSuite.Analyzer.Model.Persistency
 
                 writer.WriteStartElement(RootXmlNode, "urn:dsi-schema");
                 {
+                    WriteModelAttributes(writer);
                     WriteMetaData(writer);
-                    WriteElements(writer);
-                    WriteRelations(writer);
+                    WriteElements(writer, progress);
+                    WriteRelations(writer, progress);
                 }
                 writer.WriteEndDocument();
             }
         }
 
-        private void ReadDsiXml(Stream stream, IProgress<int> progress)
+        private void ReadDsiXml(Stream stream, IProgress<ProgressInfo> progress)
         {
             XmlReader xReader = XmlReader.Create(stream);
             while (xReader.Read())
@@ -92,9 +102,10 @@ namespace DsmSuite.Analyzer.Model.Persistency
                 switch (xReader.NodeType)
                 {
                     case XmlNodeType.Element:
-                        ReadMetaData(xReader);
-                        ReadElement(xReader);
-                        ReadRelation(xReader);
+                        ReadModelAttributes(xReader);
+                        ReadMetaDataGroup(xReader);
+                        ReadElement(xReader, progress);
+                        ReadRelation(xReader, progress);
                         break;
                     case XmlNodeType.Text:
                         break;
@@ -103,30 +114,63 @@ namespace DsmSuite.Analyzer.Model.Persistency
                 }
             }
         }
-        
-        private void WriteMetaData(XmlWriter writer)
-        {
-            foreach (string groupName in _metaDataModelCallback.GetExportedMetaDataGroups())
-            {
-                writer.WriteStartElement(MetaDataGroupXmlNode);
-                writer.WriteAttributeString(MetaDataGroupNameXmlAttribute, groupName);
 
-                foreach (IMetaDataItem metaDataItem in _metaDataModelCallback.GetExportedMetaDataGroupItems(groupName))
+        private void WriteModelAttributes(XmlWriter writer)
+        {
+            _totalElementCount = _elementModelCallback.GetExportedElementCount();
+            writer.WriteAttributeString(ModelElementCountXmlAttribute, _totalElementCount.ToString());
+            _progressedElementCount = 0;
+
+            _totalRelationCount = _relationModelCallback.GetExportedRelationCount();
+            writer.WriteAttributeString(ModelRelationCountXmlAttribute, _totalRelationCount.ToString());
+            _progressedRelationCount = 0;
+        }
+
+        private void ReadModelAttributes(XmlReader xReader)
+        {
+            if (xReader.Name == RootXmlNode)
+            {
+                int? elementCount = ParseInt(xReader.GetAttribute(ModelElementCountXmlAttribute));
+                int? relationCount = ParseInt(xReader.GetAttribute(ModelRelationCountXmlAttribute));
+
+                if (elementCount.HasValue && relationCount.HasValue)
                 {
-                    writer.WriteStartElement(MetaDataXmlNode);
-                    writer.WriteAttributeString(MetaDataItemNameXmlAttribute, metaDataItem.Name);
-                    writer.WriteAttributeString(MetaDataItemValueXmlAttribute, metaDataItem.Value);
-                    writer.WriteEndElement();
+                    _totalElementCount = elementCount.Value;
+                    _progressedElementCount = 0;
+                    _totalRelationCount = relationCount.Value;
+                    _progressedRelationCount = 0;
                 }
-                writer.WriteEndElement();
             }
         }
 
-        private void ReadMetaData(XmlReader xReader)
+        private void WriteMetaData(XmlWriter writer)
+        {
+            foreach (string group in _metaDataModelCallback.GetExportedMetaDataGroups())
+            {
+                WriteMetaDataGroup(writer, group);
+            }
+        }
+
+        private void WriteMetaDataGroup(XmlWriter writer, string group)
+        {
+            writer.WriteStartElement(MetaDataGroupXmlNode);
+            writer.WriteAttributeString(MetaDataGroupNameXmlAttribute, group);
+
+            foreach (IMetaDataItem metaDataItem in _metaDataModelCallback.GetExportedMetaDataGroupItems(group))
+            {
+                writer.WriteStartElement(MetaDataXmlNode);
+                writer.WriteAttributeString(MetaDataItemNameXmlAttribute, metaDataItem.Name);
+                writer.WriteAttributeString(MetaDataItemValueXmlAttribute, metaDataItem.Value);
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+        }
+
+        private void ReadMetaDataGroup(XmlReader xReader)
         {
             if (xReader.Name == MetaDataGroupXmlNode)
             {
-                string groupName = xReader.GetAttribute(MetaDataGroupNameXmlAttribute);
+                string group = xReader.GetAttribute(MetaDataGroupNameXmlAttribute);
                 XmlReader xMetaDataReader = xReader.ReadSubtree();
                 while (xMetaDataReader.Read())
                 {
@@ -136,70 +180,136 @@ namespace DsmSuite.Analyzer.Model.Persistency
                         string value = xMetaDataReader.GetAttribute(MetaDataItemValueXmlAttribute);
                         if ((name != null) && (value != null))
                         {
-                            _metaDataModelCallback.ImportMetaDataItem(groupName, name, value);
+                            _metaDataModelCallback.ImportMetaDataItem(group, name, value);
                         }
                     }
                 }
             }
         }
-        
-        private void WriteElements(XmlWriter writer)
+
+        private void WriteElements(XmlWriter writer, IProgress<ProgressInfo> progress)
         {
             writer.WriteStartElement(ElementGroupXmlNode);
             foreach (IDsiElement element in _elementModelCallback.GetExportedElements())
             {
-                writer.WriteStartElement(ElementXmlNode);
-                writer.WriteAttributeString(ElementIdXmlAttribute, element.Id.ToString());
-                writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
-                writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
-                writer.WriteAttributeString(ElementSourceXmlAttribute, element.Source);
-                writer.WriteEndElement();
+                WriteElement(writer, element, progress);
             }
             writer.WriteEndElement();
         }
 
-        private void ReadElement(XmlReader xReader)
+        private void WriteElement(XmlWriter writer, IDsiElement element, IProgress<ProgressInfo> progress)
+        {
+            writer.WriteStartElement(ElementXmlNode);
+            writer.WriteAttributeString(ElementIdXmlAttribute, element.Id.ToString());
+            writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
+            writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
+            writer.WriteAttributeString(ElementSourceXmlAttribute, element.Source);
+            writer.WriteEndElement();
+
+            _progressedElementCount++;
+            UpdateProgress(progress);
+        }
+
+        private void ReadElement(XmlReader xReader, IProgress<ProgressInfo> progress)
         {
             if (xReader.Name == ElementXmlNode)
             {
-                int id;
-                int.TryParse(xReader.GetAttribute(ElementIdXmlAttribute), out id);
+                int? id = ParseInt(xReader.GetAttribute(ElementIdXmlAttribute));
                 string name = xReader.GetAttribute(ElementNameXmlAttribute);
                 string type = xReader.GetAttribute(ElementTypeXmlAttribute);
                 string source = xReader.GetAttribute(ElementSourceXmlAttribute);
-                _elementModelCallback.ImportElement(id, name, type, source);
+
+                if (id.HasValue)
+                {
+                    _elementModelCallback.ImportElement(id.Value, name, type, source);
+                }
+
+                _progressedElementCount++;
+                UpdateProgress(progress);
             }
         }
 
-        private void WriteRelations(XmlWriter writer)
+        private void WriteRelations(XmlWriter writer, IProgress<ProgressInfo> progress)
         {
             writer.WriteStartElement(RelationGroupXmlNode);
             foreach (IDsiRelation relation in _relationModelCallback.GetExportedRelations())
             {
-                writer.WriteStartElement(RelationXmlNode);
-                writer.WriteAttributeString(RelationFromXmlAttribute, relation.ConsumerId.ToString());
-                writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
-                writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
-                writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
-                writer.WriteEndElement();
+                WriteRelation(writer, relation, progress);
             }
             writer.WriteEndElement();
         }
 
-        private void ReadRelation(XmlReader xReader)
+        private void WriteRelation(XmlWriter writer, IDsiRelation relation, IProgress<ProgressInfo> progress)
+        {
+            writer.WriteStartElement(RelationXmlNode);
+            writer.WriteAttributeString(RelationFromXmlAttribute, relation.ConsumerId.ToString());
+            writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
+            writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
+            writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
+            writer.WriteEndElement();
+
+            _progressedRelationCount++;
+            UpdateProgress(progress);
+        }
+
+        private void ReadRelation(XmlReader xReader, IProgress<ProgressInfo> progress)
         {
             if (xReader.Name == RelationXmlNode)
             {
-                int consumerId;
-                int.TryParse(xReader.GetAttribute(RelationFromXmlAttribute), out consumerId);
-                int providerId;
-                int.TryParse(xReader.GetAttribute(RelationToXmlAttribute), out providerId);
+                int? consumerId = ParseInt(xReader.GetAttribute(RelationFromXmlAttribute));
+                int? providerId = ParseInt(xReader.GetAttribute(RelationToXmlAttribute));
                 string type = xReader.GetAttribute(RelationTypeXmlAttribute);
-                int weight;
-                int.TryParse(xReader.GetAttribute(RelationWeightXmlAttribute), out weight);
+                int? weight = ParseInt(xReader.GetAttribute(RelationWeightXmlAttribute));
 
-                _relationModelCallback.ImportRelation(consumerId, providerId, type, weight);
+                if (consumerId.HasValue && providerId.HasValue && weight.HasValue)
+                {
+                    _relationModelCallback.ImportRelation(consumerId.Value, providerId.Value, type, weight.Value);
+                }
+
+                _progressedRelationCount++;
+                UpdateProgress(progress);
             }
+        }
+
+        private void UpdateProgress(IProgress<ProgressInfo> progress)
+        {
+            if (progress != null)
+            {
+                int totalItemCount = _totalElementCount + _totalRelationCount;
+                int progressedItemCount = _progressedElementCount + _progressedRelationCount;
+
+                int currentProgress = 0;
+                if (totalItemCount > 0)
+                {
+                    currentProgress = progressedItemCount * 100 / totalItemCount;
+                }
+
+                if (_progress != currentProgress)
+                {
+                    _progress = currentProgress;
+
+                    ProgressInfo progressInfoInfo = new ProgressInfo
+                    {
+                        ActionText = _progressActionText,
+                        ProgressText = $"Elements {_progressedElementCount}/{_totalElementCount} Relations={_progressedRelationCount}/{_totalRelationCount}",
+                        Progress = _progress
+                    };
+
+                    progress.Report(progressInfoInfo);
+                }
+            }
+        }
+
+        private int? ParseInt(string value)
+        {
+            int? result = null;
+
+            int parsedValued;
+            if (int.TryParse(value, out parsedValued))
+            {
+                result = parsedValued;
+            }
+            return result;
         }
     }
 }

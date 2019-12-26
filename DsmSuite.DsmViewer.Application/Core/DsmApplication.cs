@@ -87,7 +87,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             string processStep = "Builder";
             Assembly assembly = Assembly.GetEntryAssembly();
             DsiModel dsiModel = new DsiModel(processStep, assembly);
-            dsiModel.Load(dsiFilename);
+            dsiModel.Load(dsiFilename, null);
             DsmModel dsmModel = new DsmModel(processStep, assembly);
 
             IImportPolicy importPolicy;
@@ -105,7 +105,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             dsmModel.SaveModel(dsmFilename, compressDsmFile, null);
         }
 
-        public async Task OpenModel(string dsmFilename, Progress<FileAccessProgressInfo> progress)
+        public async Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress)
         {
             await Task.Run(() => _model.LoadModel(dsmFilename, progress));
             _actionStore.Load();
@@ -113,7 +113,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             Modified?.Invoke(this, IsModified);
         }
 
-        public async Task SaveModel(string dsmFilename, Progress<FileAccessProgressInfo> progress)
+        public async Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress)
         {
             _actionStore.Save();
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));

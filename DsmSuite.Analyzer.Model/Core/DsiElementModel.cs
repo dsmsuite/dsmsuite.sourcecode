@@ -101,6 +101,11 @@ namespace DsmSuite.Analyzer.Model.Core
             return _elementsById.Values;
         }
 
+        public int GetExportedElementCount()
+        {
+            return _elementsById.Count;
+        }
+
         public ICollection<string> GetElementTypes()
         {
             return _elementTypeCount.Keys;

@@ -5,6 +5,7 @@ using DsmSuite.Analyzer.Model.Persistency;
 using DsmSuite.Common.Model.Core;
 using DsmSuite.Common.Util;
 using DsmSuite.Common.Model.Interface;
+using System;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
@@ -21,15 +22,15 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationsDataModel = new DsiRelationModel(_elementsDataModel);
         }
 
-        public void Load(string dsiFilename)
+        public void Load(string dsiFilename, IProgress<ProgressInfo> progress)
         {
             Logger.LogDataModelMessage($"Load data model file={dsiFilename}");
 
             DsiModelFile modelFile = new DsiModelFile(dsiFilename, _metaDataModel, _elementsDataModel, _relationsDataModel);
-            modelFile.Load(null);
+            modelFile.Load(progress);
         }
 
-        public void Save(string dsiFilename, bool compressFile)
+        public void Save(string dsiFilename, bool compressFile, IProgress<ProgressInfo> progress)
         {
             Logger.LogDataModelMessage($"Save data model file={dsiFilename} compresss={compressFile}");
 
@@ -47,7 +48,7 @@ namespace DsmSuite.Analyzer.Model.Core
             _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations resolved", $"{ResolvedRelationCount} (confidence={ResolvedRelationPercentage:0.000} %)");
 
             DsiModelFile modelFile = new DsiModelFile(dsiFilename, _metaDataModel, _elementsDataModel, _relationsDataModel);
-            modelFile.Save(compressFile, null);
+            modelFile.Save(compressFile, progress);
         }
 
         public void AddMetaData(string name, string value)

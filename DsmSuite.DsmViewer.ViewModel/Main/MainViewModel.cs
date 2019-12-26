@@ -240,9 +240,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private async void OpenFileExecute(object parameter)
         {
-            var progress = new Progress<FileAccessProgressInfo>(p =>
+            var progress = new Progress<ProgressInfo>(p =>
             {
-                _progressViewModel.Update(p.ElementCount, p.RelationCount, p.Progress);
+                _progressViewModel.Update(p);
             });
 
             _progressViewModel.Action = "Reading";
@@ -272,9 +272,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private async void SaveFileExecute(object parameter)
         {
-            var progress = new Progress<FileAccessProgressInfo>(p =>
+            var progress = new Progress<ProgressInfo>(p =>
             {
-                _progressViewModel.Update(p.ElementCount, p.RelationCount, p.Progress);
+                _progressViewModel.Update(p);
             });
 
             _progressViewModel.Action = "Reading";

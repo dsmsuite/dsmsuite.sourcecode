@@ -37,7 +37,7 @@ namespace DsmSuite.Analyzer.Jdeps
                         DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
                         Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
                         analyzer.Analyze();
-                        model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile);
+                        model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
                     }
                 }
             }

@@ -56,11 +56,13 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private readonly IDsmRelationModelFileCallback _relationModelCallback;
         private readonly IDsmActionModelFileCallback _actionModelCallback;
         private int _totalElementCount;
+        private int _progressedElementCount;
         private int _totalRelationCount;
+        private int _progressedRelationCount;
         private int _totalActionCount;
-        private int _totalItemCount;
-        private int _progressItemCount;
+        private int _progressedActionCount;
         private int _progress;
+        private string _progressActionText;
 
         public DsmModelFile(string filename,
                             IMetaDataModelFileCallback metaDataModelCallback,
@@ -75,25 +77,27 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             _actionModelCallback = actionModelCallback;
         }
 
-        public void Save(bool compressed, IProgress<FileAccessProgressInfo> progress)
+        public void Save(bool compressed, IProgress<ProgressInfo> progress)
         {
-            CompressedFile<FileAccessProgressInfo> modelFile = new CompressedFile<FileAccessProgressInfo>(_filename);
+            _progressActionText = "Saving model";
+            CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             modelFile.WriteFile(WriteDsmXml, progress, compressed);
         }
 
-        public void Load(IProgress<FileAccessProgressInfo> progress)
+        public void Load(IProgress<ProgressInfo> progress)
         {
-            CompressedFile<FileAccessProgressInfo> modelFile = new CompressedFile<FileAccessProgressInfo>(_filename);
+            _progressActionText = "Loading model";
+            CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             modelFile.ReadFile(ReadDsmXml, progress);
         }
 
         public bool IsCompressedFile()
         {
-            CompressedFile<FileAccessProgressInfo> modelFile = new CompressedFile<FileAccessProgressInfo>(_filename);
+            CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             return modelFile.IsCompressed;
         }
 
-        private void WriteDsmXml(Stream stream, IProgress<FileAccessProgressInfo> progress)
+        private void WriteDsmXml(Stream stream, IProgress<ProgressInfo> progress)
         {
             XmlWriterSettings settings = new XmlWriterSettings
             {
@@ -117,7 +121,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
         }
 
-        private void ReadDsmXml(Stream stream, IProgress<FileAccessProgressInfo> progress)
+        private void ReadDsmXml(Stream stream, IProgress<ProgressInfo> progress)
         {
             using (XmlReader xReader = XmlReader.Create(stream))
             {
@@ -127,10 +131,10 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     {
                         case XmlNodeType.Element:
                             ReadModelAttributes(xReader);
-                            ReadMetaData(xReader);
-                            ReadElements(xReader, progress);
-                            ReadRelations(xReader, progress);
-                            ReadActions(xReader, progress);
+                            ReadMetaDataGroup(xReader);
+                            ReadElement(xReader, progress);
+                            ReadRelation(xReader, progress);
+                            ReadAction(xReader, progress);
                             break;
                         case XmlNodeType.Text:
                             break;
@@ -145,14 +149,15 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             _totalElementCount = _elementModelCallback.GetExportedElementCount();
             writer.WriteAttributeString(ModelElementCountXmlAttribute, _totalElementCount.ToString());
+            _progressedElementCount = 0;
 
             _totalRelationCount = _relationModelCallback.GetExportedRelationCount();
             writer.WriteAttributeString(ModelRelationCountXmlAttribute, _totalRelationCount.ToString());
+            _progressedRelationCount = 0;
 
             _totalActionCount = _actionModelCallback.GetExportedActionCount();
             writer.WriteAttributeString(ModelActionCountXmlAttribute, _totalActionCount.ToString());
-
-            _totalItemCount = _totalElementCount + _totalRelationCount;
+            _progressedActionCount = 0;
         }
 
         private void ReadModelAttributes(XmlReader xReader)
@@ -166,10 +171,11 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 if (elementCount.HasValue && relationCount.HasValue && actionCount.HasValue)
                 {
                     _totalElementCount = elementCount.Value;
+                    _progressedElementCount = 0;
                     _totalRelationCount = relationCount.Value;
+                    _progressedRelationCount = 0;
                     _totalActionCount = actionCount.Value;
-                    _totalItemCount = _totalElementCount + _totalRelationCount + _totalActionCount;
-                    _progressItemCount = 0;
+                    _progressedActionCount = 0;
                 }
             }
         }
@@ -178,21 +184,26 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             foreach (string group in _metaDataModelCallback.GetExportedMetaDataGroups())
             {
-                writer.WriteStartElement(MetaDataGroupXmlNode);
-                writer.WriteAttributeString(MetaDataGroupNameXmlAttribute, group);
-
-                foreach (IMetaDataItem metaDataItem in _metaDataModelCallback.GetExportedMetaDataGroupItems(group))
-                {
-                    writer.WriteStartElement(MetaDataXmlNode);
-                    writer.WriteAttributeString(MetaDataItemNameXmlAttribute, metaDataItem.Name);
-                    writer.WriteAttributeString(MetaDataItemValueXmlAttribute, metaDataItem.Value);
-                    writer.WriteEndElement();
-                }
-                writer.WriteEndElement();
+                WriteMetaDataGroup(writer, group);
             }
         }
 
-        private void ReadMetaData(XmlReader xReader)
+        private void WriteMetaDataGroup(XmlWriter writer, string group)
+        {
+            writer.WriteStartElement(MetaDataGroupXmlNode);
+            writer.WriteAttributeString(MetaDataGroupNameXmlAttribute, group);
+
+            foreach (IMetaDataItem metaDataItem in _metaDataModelCallback.GetExportedMetaDataGroupItems(group))
+            {
+                writer.WriteStartElement(MetaDataXmlNode);
+                writer.WriteAttributeString(MetaDataItemNameXmlAttribute, metaDataItem.Name);
+                writer.WriteAttributeString(MetaDataItemValueXmlAttribute, metaDataItem.Value);
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+        }
+
+        private void ReadMetaDataGroup(XmlReader xReader)
         {
             if (xReader.Name == MetaDataGroupXmlNode)
             {
@@ -213,17 +224,44 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
         }
 
-        private void WriteElements(XmlWriter writer, IProgress<FileAccessProgressInfo> progress)
+        private void WriteElements(XmlWriter writer, IProgress<ProgressInfo> progress)
         {
             writer.WriteStartElement(ElementGroupXmlNode);
             foreach (IDsmElement child in _elementModelCallback.GetExportedRootElements())
             {
-                WriteElementData(writer, child, progress);
+                WriteElement(writer, child, progress);
             }
             writer.WriteEndElement();
         }
 
-        private void ReadElements(XmlReader xReader, IProgress<FileAccessProgressInfo> progress)
+        private void WriteElement(XmlWriter writer, IDsmElement element, IProgress<ProgressInfo> progress)
+        {
+            writer.WriteStartElement(ElementXmlNode);
+            writer.WriteAttributeString(ElementIdXmlAttribute, element.Id.ToString());
+            writer.WriteAttributeString(ElementOrderXmlAttribute, element.Order.ToString());
+            writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
+            writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
+            writer.WriteAttributeString(ElementExpandedXmlAttribute, element.IsExpanded.ToString());
+            if (element.IsDeleted)
+            {
+                writer.WriteAttributeString(ElementDeletedXmlAttribute, "true");
+            }
+            if ((element.Parent != null) && (element.Parent.Id > 0))
+            {
+                writer.WriteAttributeString(ElementParentXmlAttribute, element.Parent.Id.ToString());
+            }
+            writer.WriteEndElement();
+
+            _progressedElementCount++;
+            UpdateProgress(progress);
+
+            foreach (IDsmElement child in element.ExportedChildren)
+            {
+                WriteElement(writer, child, progress);
+            }
+        }
+
+        private void ReadElement(XmlReader xReader, IProgress<ProgressInfo> progress)
         {
             if (xReader.Name == ElementXmlNode)
             {
@@ -240,22 +278,40 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent, deleted);
                 }
 
-                _progressItemCount++;
+                _progressedElementCount++;
                 UpdateProgress(progress);
             }
         }
 
-        private void WriteRelations(XmlWriter writer, IProgress<FileAccessProgressInfo> progress)
+        private void WriteRelations(XmlWriter writer, IProgress<ProgressInfo> progress)
         {
             writer.WriteStartElement(RelationGroupXmlNode);
             foreach (IDsmRelation relation in _relationModelCallback.GetExportedRelations())
             {
-                WriteRelationData(writer, relation, progress);
+                WriteRelation(writer, relation, progress);
             }
             writer.WriteEndElement();
         }
 
-        private void ReadRelations(XmlReader xReader, IProgress<FileAccessProgressInfo> progress)
+        private void WriteRelation(XmlWriter writer, IDsmRelation relation, IProgress<ProgressInfo> progress)
+        {
+            writer.WriteStartElement(RelationXmlNode);
+            writer.WriteAttributeString(RelationIdXmlAttribute, relation.Id.ToString());
+            writer.WriteAttributeString(RelationFromXmlAttribute, relation.ConsumerId.ToString());
+            writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
+            writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
+            writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
+            if (relation.IsDeleted)
+            {
+                writer.WriteAttributeString(RelationDeletedXmlAttribute, "true");
+            }
+            writer.WriteEndElement();
+
+            _progressedRelationCount++;
+            UpdateProgress(progress);
+        }
+
+        private void ReadRelation(XmlReader xReader, IProgress<ProgressInfo> progress)
         {
             if (xReader.Name == RelationXmlNode)
             {
@@ -274,71 +330,23 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     _relationModelCallback.ImportRelation(id.Value, consumer.Value, provider.Value, type, weight.Value, deleted);
                 }
 
-                _progressItemCount++;
+                _progressedRelationCount++;
                 UpdateProgress(progress);
             }
         }
-
-        private void WriteElementData(XmlWriter writer, IDsmElement element, IProgress<FileAccessProgressInfo> progress)
-        {
-            writer.WriteStartElement(ElementXmlNode);
-            writer.WriteAttributeString(ElementIdXmlAttribute, element.Id.ToString());
-            writer.WriteAttributeString(ElementOrderXmlAttribute, element.Order.ToString());
-            writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
-            writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
-            writer.WriteAttributeString(ElementExpandedXmlAttribute, element.IsExpanded.ToString());
-            if (element.IsDeleted)
-            {
-                writer.WriteAttributeString(ElementDeletedXmlAttribute, "true");
-            }
-            if ((element.Parent != null) && (element.Parent.Id > 0))
-            {
-                writer.WriteAttributeString(ElementParentXmlAttribute, element.Parent.Id.ToString());
-            }
-            writer.WriteEndElement();
-
-            _progressItemCount++;
-            UpdateProgress(progress);
-
-            foreach (IDsmElement child in element.ExportedChildren)
-            {
-                WriteElementData(writer, child, progress);
-            }
-        }
-
-        private void WriteRelationData(XmlWriter writer, IDsmRelation relation, IProgress<FileAccessProgressInfo> progress)
-        {
-            _progressItemCount++;
-            UpdateProgress(progress);
-
-            writer.WriteStartElement(RelationXmlNode);
-            writer.WriteAttributeString(RelationIdXmlAttribute, relation.Id.ToString());
-            writer.WriteAttributeString(RelationFromXmlAttribute, relation.ConsumerId.ToString());
-            writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
-            writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
-            writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
-            if (relation.IsDeleted)
-            {
-                writer.WriteAttributeString(RelationDeletedXmlAttribute, "true");
-            }
-            writer.WriteEndElement();
-        }
-
-        private void WriteActions(XmlWriter writer, IProgress<FileAccessProgressInfo> progress)
+        
+        private void WriteActions(XmlWriter writer, IProgress<ProgressInfo> progress)
         {
             writer.WriteStartElement(ActionGroupXmlNode);
             foreach (IDsmAction action in _actionModelCallback.GetExportedActions())
             {
-                WriteActionData(writer, action, progress);
+                WriteAction(writer, action, progress);
             }
             writer.WriteEndElement();
         }
 
-        private void WriteActionData(XmlWriter writer, IDsmAction action, IProgress<FileAccessProgressInfo> progress)
+        private void WriteAction(XmlWriter writer, IDsmAction action, IProgress<ProgressInfo> progress)
         {
-            _progressItemCount++;
-            UpdateProgress(progress);
-
             writer.WriteStartElement(ActionXmlNode);
             writer.WriteAttributeString(ActionIdXmlAttribute, action.Id.ToString());
             writer.WriteAttributeString(ActionTypeXmlAttribute, action.Type);
@@ -349,9 +357,12 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
             writer.WriteEndElement();
             writer.WriteEndElement();
+
+            _progressedActionCount++;
+            UpdateProgress(progress);
         }
 
-        private void ReadActions(XmlReader xReader, IProgress<FileAccessProgressInfo> progress)
+        private void ReadAction(XmlReader xReader, IProgress<ProgressInfo> progress)
         {
             if (xReader.Name == ActionXmlNode)
             {
@@ -377,29 +388,32 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     _actionModelCallback.ImportAction(id.Value, type, data);
                 }
 
-                _progressItemCount++;
+                _progressedActionCount++;
                 UpdateProgress(progress);
             }
         }
 
-        private void UpdateProgress(IProgress<FileAccessProgressInfo> progress)
+        private void UpdateProgress(IProgress<ProgressInfo> progress)
         {
             if (progress != null)
             {
+                int totalItemCount = _totalElementCount + _totalRelationCount + _totalActionCount;
+                int progressedItemCount = _progressedElementCount + _progressedRelationCount + _progressedActionCount;
+
                 int currentProgress = 0;
-                if (_totalItemCount > 0)
+                if (totalItemCount > 0)
                 {
-                    currentProgress = _progressItemCount * 100 / _totalItemCount;
+                    currentProgress = progressedItemCount * 100 / totalItemCount;
                 }
 
                 if (_progress != currentProgress)
                 {
                     _progress = currentProgress;
 
-                    FileAccessProgressInfo progressInfoInfo = new FileAccessProgressInfo
+                    ProgressInfo progressInfoInfo = new ProgressInfo
                     {
-                        ElementCount = _totalElementCount,
-                        RelationCount = _totalRelationCount,
+                        ActionText = _progressActionText,
+                        ProgressText = $"Elements {_progressedElementCount}/{_totalElementCount} Relations={_progressedRelationCount}/{_totalRelationCount} Actions={_progressedActionCount}/{_totalActionCount}",
                         Progress = _progress
                     };
 

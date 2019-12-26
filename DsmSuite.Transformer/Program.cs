@@ -35,10 +35,10 @@ namespace DsmSuite.Transformer
                     else
                     {
                         DsiModel model = new DsiModel("Transformer", Assembly.GetExecutingAssembly());
-                        model.Load(transformerSettings.InputFilename);
+                        model.Load(transformerSettings.InputFilename, null);
                         Transformation.Transformer transformer = new Transformation.Transformer(model, transformerSettings);
                         transformer.Transform();
-                        model.Save(transformerSettings.OutputFilename, transformerSettings.CompressOutputFile);
+                        model.Save(transformerSettings.OutputFilename, transformerSettings.CompressOutputFile, null);
                     }
                 }
             }

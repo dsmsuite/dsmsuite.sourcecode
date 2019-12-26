@@ -1,4 +1,6 @@
 ﻿using DsmSuite.Common.Model.Interface;
+using DsmSuite.Common.Util;
+using System;
 using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.Model.Interface
@@ -8,8 +10,8 @@ namespace DsmSuite.Analyzer.Model.Interface
     /// </summary>
     public interface IDsiModel
     {
-        void Load(string dsiFilename);
-        void Save(string dsiFilename, bool compressFile);
+        void Load(string dsiFilename,IProgress<ProgressInfo> progress);
+        void Save(string dsiFilename, bool compressFile, IProgress<ProgressInfo> progress);
 
         void AddMetaData(string name, string value);
         IEnumerable<string> GetMetaDataGroups();

@@ -13,8 +13,8 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         bool ShowCycles { get; set; }
         void ImportModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile);
-        Task OpenModel(string dsmFilename, Progress<FileAccessProgressInfo> progress);
-        Task SaveModel(string dsmFilename, Progress<FileAccessProgressInfo> progress);
+        Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress);
+        Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress);
         bool IsModified { get; }
         bool CanUndo();
         string GetUndoActionDescription();
