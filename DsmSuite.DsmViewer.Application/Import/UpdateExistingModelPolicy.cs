@@ -7,6 +7,7 @@ using DsmSuite.Common.Model.Interface;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
 using System.Diagnostics;
 using DsmSuite.DsmViewer.Application.Actions.Snapshot;
+using System;
 
 namespace DsmSuite.DsmViewer.Application.Import
 {
@@ -105,7 +106,8 @@ namespace DsmSuite.DsmViewer.Application.Import
 
         private void MakeSnapshot()
         {
-            string description = $"Import file={_dsmFilename}";
+            string timestamp = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss");
+            string description = $"Import file={_dsmFilename} time={timestamp}";
             MakeSnapshotAction action = new MakeSnapshotAction(_dsmModel, description);
             _actionManager.Execute(action);
         }
