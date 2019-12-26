@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStyle="None"        
         Height="190" 
-        Width="450">
+        Width="450"
+        Style="{StaticResource DialogWindow}">        
     <StackPanel Orientation="Vertical" FocusManager.FocusedElement="{Binding ElementName=NameTextBox}">
         <Grid>
             <Grid.RowDefinitions>

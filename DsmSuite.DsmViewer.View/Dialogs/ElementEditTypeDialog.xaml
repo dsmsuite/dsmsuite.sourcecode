@@ -6,7 +6,8 @@
         mc:Ignorable="d"
         WindowStyle="None"
         Height="160" 
-        Width="450">
+        Width="450"
+        Style="{StaticResource DialogWindow}">
     <StackPanel Orientation="Vertical" FocusManager.FocusedElement="{Binding ElementName=TypeTextBox}">
         <Grid>
             <Grid.RowDefinitions>
