@@ -177,7 +177,10 @@
       </Component>
       <Component Id="DsmSuite.Analyzer.Model.DsmViewer.dll" Guid="4A933F4A-E039-4E1B-B8F7-855809B1B411">
         <File Id="DsmSuite.Analyzer.Model.DsmViewer.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>      
+      </Component>
+      <Component Id="DsmSuite.Analyzer.Util.DsmViewer.dll" Guid="DA76C043-AAA7-4B9B-9186-51C61433B996">
+        <File Id="DsmSuite.Analyzer.Util.DsmViewer.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
     </ComponentGroup>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -284,9 +287,10 @@
       <ComponentRef Id="DsmSuite.DsmViewer.Reporting.dll" />
       <ComponentRef Id="DsmSuite.DsmViewer.Builder.exe" />
       <ComponentRef Id="DsmSuite.DsmViewer.Model.dll" />
-      <ComponentRef Id="DsmSuite.Analyzer.Model.DsmViewer.dll" />
       <ComponentRef Id="DsmSuite.Common.Model.DsmViewer.dll" />
       <ComponentRef Id="DsmSuite.Common.Util.DsmViewer.dll" />
+      <ComponentRef Id="DsmSuite.Analyzer.Model.DsmViewer.dll" />
+      <ComponentRef Id="DsmSuite.Analyzer.Util.DsmViewer.dll" />
       <ComponentRef Id="ApplicationShortcut" />
     </Feature>
   </Product>

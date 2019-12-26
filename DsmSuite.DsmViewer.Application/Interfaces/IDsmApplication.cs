@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.Application.Interfaces
 {
@@ -12,8 +13,8 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         bool ShowCycles { get; set; }
         void ImportModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile);
-        Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress);
-        Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress);
+        Task OpenModel(string dsmFilename, Progress<FileAccessProgressInfo> progress);
+        Task SaveModel(string dsmFilename, Progress<FileAccessProgressInfo> progress);
         bool IsModified { get; }
         bool CanUndo();
         string GetUndoActionDescription();

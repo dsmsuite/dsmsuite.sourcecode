@@ -67,6 +67,10 @@
       <Project>{6e26eaa0-d0d6-41ab-9aed-61542f7edfc5}</Project>
       <Name>DsmSuite.Common.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
+      <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
+      <Name>DsmSuite.Common.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DsmSuite.DsmViewer.Model\DsmSuite.DsmViewer.Model.csproj">
       <Project>{ae2405c6-54ca-43b1-bcf0-36b7010c0f0e}</Project>
       <Name>DsmSuite.DsmViewer.Model</Name>

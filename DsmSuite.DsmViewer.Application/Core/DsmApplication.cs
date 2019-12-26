@@ -15,6 +15,7 @@ using DsmSuite.DsmViewer.Reporting;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.DsmViewer.Model.Core;
 using System.Reflection;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.Application.Core
 {
@@ -104,7 +105,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             dsmModel.SaveModel(dsmFilename, compressDsmFile, null);
         }
 
-        public async Task OpenModel(string dsmFilename, Progress<DsmProgressInfo> progress)
+        public async Task OpenModel(string dsmFilename, Progress<FileAccessProgressInfo> progress)
         {
             await Task.Run(() => _model.LoadModel(dsmFilename, progress));
             _actionStore.Load();
@@ -112,7 +113,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             Modified?.Invoke(this, IsModified);
         }
 
-        public async Task SaveModel(string dsmFilename, Progress<DsmProgressInfo> progress)
+        public async Task SaveModel(string dsmFilename, Progress<FileAccessProgressInfo> progress)
         {
             _actionStore.Save();
             await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));

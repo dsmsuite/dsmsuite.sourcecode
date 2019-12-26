@@ -75,25 +75,25 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             _actionModelCallback = actionModelCallback;
         }
 
-        public void Save(bool compressed, IProgress<DsmProgressInfo> progress)
+        public void Save(bool compressed, IProgress<FileAccessProgressInfo> progress)
         {
-            CompressedFile<DsmProgressInfo> modelFile = new CompressedFile<DsmProgressInfo>(_filename);
+            CompressedFile<FileAccessProgressInfo> modelFile = new CompressedFile<FileAccessProgressInfo>(_filename);
             modelFile.WriteFile(WriteDsmXml, progress, compressed);
         }
 
-        public void Load(IProgress<DsmProgressInfo> progress)
+        public void Load(IProgress<FileAccessProgressInfo> progress)
         {
-            CompressedFile<DsmProgressInfo> modelFile = new CompressedFile<DsmProgressInfo>(_filename);
+            CompressedFile<FileAccessProgressInfo> modelFile = new CompressedFile<FileAccessProgressInfo>(_filename);
             modelFile.ReadFile(ReadDsmXml, progress);
         }
 
         public bool IsCompressedFile()
         {
-            CompressedFile<DsmProgressInfo> modelFile = new CompressedFile<DsmProgressInfo>(_filename);
+            CompressedFile<FileAccessProgressInfo> modelFile = new CompressedFile<FileAccessProgressInfo>(_filename);
             return modelFile.IsCompressed;
         }
 
-        private void WriteDsmXml(Stream stream, IProgress<DsmProgressInfo> progress)
+        private void WriteDsmXml(Stream stream, IProgress<FileAccessProgressInfo> progress)
         {
             XmlWriterSettings settings = new XmlWriterSettings
             {
@@ -117,7 +117,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
         }
 
-        private void ReadDsmXml(Stream stream, IProgress<DsmProgressInfo> progress)
+        private void ReadDsmXml(Stream stream, IProgress<FileAccessProgressInfo> progress)
         {
             using (XmlReader xReader = XmlReader.Create(stream))
             {
@@ -213,7 +213,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
         }
 
-        private void WriteElements(XmlWriter writer, IProgress<DsmProgressInfo> progress)
+        private void WriteElements(XmlWriter writer, IProgress<FileAccessProgressInfo> progress)
         {
             writer.WriteStartElement(ElementGroupXmlNode);
             foreach (IDsmElement child in _elementModelCallback.GetExportedRootElements())
@@ -223,7 +223,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteEndElement();
         }
 
-        private void ReadElements(XmlReader xReader, IProgress<DsmProgressInfo> progress)
+        private void ReadElements(XmlReader xReader, IProgress<FileAccessProgressInfo> progress)
         {
             if (xReader.Name == ElementXmlNode)
             {
@@ -245,7 +245,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
         }
 
-        private void WriteRelations(XmlWriter writer, IProgress<DsmProgressInfo> progress)
+        private void WriteRelations(XmlWriter writer, IProgress<FileAccessProgressInfo> progress)
         {
             writer.WriteStartElement(RelationGroupXmlNode);
             foreach (IDsmRelation relation in _relationModelCallback.GetExportedRelations())
@@ -255,7 +255,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteEndElement();
         }
 
-        private void ReadRelations(XmlReader xReader, IProgress<DsmProgressInfo> progress)
+        private void ReadRelations(XmlReader xReader, IProgress<FileAccessProgressInfo> progress)
         {
             if (xReader.Name == RelationXmlNode)
             {
@@ -279,7 +279,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
         }
 
-        private void WriteElementData(XmlWriter writer, IDsmElement element, IProgress<DsmProgressInfo> progress)
+        private void WriteElementData(XmlWriter writer, IDsmElement element, IProgress<FileAccessProgressInfo> progress)
         {
             writer.WriteStartElement(ElementXmlNode);
             writer.WriteAttributeString(ElementIdXmlAttribute, element.Id.ToString());
@@ -306,7 +306,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
         }
 
-        private void WriteRelationData(XmlWriter writer, IDsmRelation relation, IProgress<DsmProgressInfo> progress)
+        private void WriteRelationData(XmlWriter writer, IDsmRelation relation, IProgress<FileAccessProgressInfo> progress)
         {
             _progressItemCount++;
             UpdateProgress(progress);
@@ -324,7 +324,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteEndElement();
         }
 
-        private void WriteActions(XmlWriter writer, IProgress<DsmProgressInfo> progress)
+        private void WriteActions(XmlWriter writer, IProgress<FileAccessProgressInfo> progress)
         {
             writer.WriteStartElement(ActionGroupXmlNode);
             foreach (IDsmAction action in _actionModelCallback.GetExportedActions())
@@ -334,7 +334,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteEndElement();
         }
 
-        private void WriteActionData(XmlWriter writer, IDsmAction action, IProgress<DsmProgressInfo> progress)
+        private void WriteActionData(XmlWriter writer, IDsmAction action, IProgress<FileAccessProgressInfo> progress)
         {
             _progressItemCount++;
             UpdateProgress(progress);
@@ -351,7 +351,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteEndElement();
         }
 
-        private void ReadActions(XmlReader xReader, IProgress<DsmProgressInfo> progress)
+        private void ReadActions(XmlReader xReader, IProgress<FileAccessProgressInfo> progress)
         {
             if (xReader.Name == ActionXmlNode)
             {
@@ -382,7 +382,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
         }
 
-        private void UpdateProgress(IProgress<DsmProgressInfo> progress)
+        private void UpdateProgress(IProgress<FileAccessProgressInfo> progress)
         {
             if (progress != null)
             {
@@ -396,7 +396,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 {
                     _progress = currentProgress;
 
-                    DsmProgressInfo progressInfoInfo = new DsmProgressInfo
+                    FileAccessProgressInfo progressInfoInfo = new FileAccessProgressInfo
                     {
                         ElementCount = _totalElementCount,
                         RelationCount = _totalRelationCount,

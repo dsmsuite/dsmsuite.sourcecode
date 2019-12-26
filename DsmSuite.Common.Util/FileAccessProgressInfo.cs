@@ -1,6 +1,6 @@
-﻿namespace DsmSuite.DsmViewer.Model.Interfaces
+﻿namespace DsmSuite.Common.Util
 {
-    public class DsmProgressInfo
+    public class FileAccessProgressInfo
     {
         public int ElementCount;
         public int RelationCount;

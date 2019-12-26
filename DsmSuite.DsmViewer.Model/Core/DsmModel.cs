@@ -24,7 +24,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _actionsDataModel = new DsmActionModel();
         }
 
-        public void LoadModel(string dsmFilename, IProgress<DsmProgressInfo> progress)
+        public void LoadModel(string dsmFilename, IProgress<FileAccessProgressInfo> progress)
         {
             Logger.LogDataModelMessage($"Load data model file={dsmFilename}");
 
@@ -35,7 +35,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             ModelFilename = dsmFilename;
         }
 
-        public void SaveModel(string dsmFilename, bool compressFile, IProgress<DsmProgressInfo> progress)
+        public void SaveModel(string dsmFilename, bool compressFile, IProgress<FileAccessProgressInfo> progress)
         {
             Logger.LogDataModelMessage($"Save data model file={dsmFilename} compresss={compressFile}");
 

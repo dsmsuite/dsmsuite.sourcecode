@@ -11,6 +11,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Editing.Element;
 using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
 using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -239,7 +240,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private async void OpenFileExecute(object parameter)
         {
-            var progress = new Progress<DsmProgressInfo>(p =>
+            var progress = new Progress<FileAccessProgressInfo>(p =>
             {
                 _progressViewModel.Update(p.ElementCount, p.RelationCount, p.Progress);
             });
@@ -271,7 +272,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private async void SaveFileExecute(object parameter)
         {
-            var progress = new Progress<DsmProgressInfo>(p =>
+            var progress = new Progress<FileAccessProgressInfo>(p =>
             {
                 _progressViewModel.Update(p.ElementCount, p.RelationCount, p.Progress);
             });

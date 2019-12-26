@@ -34,7 +34,6 @@
     <Compile Include="Persistency\DsmModelFile.cs" />
     <Compile Include="Persistency\IDsmActionModelFileCallback.cs" />
     <Compile Include="Persistency\IDsmElementModelFileCallback.cs" />
-    <Compile Include="Interfaces\DsmProgressInfo.cs" />
     <Compile Include="Interfaces\IDsmModel.cs" />
     <Compile Include="Interfaces\IDsmElement.cs" />
     <Compile Include="Interfaces\IDsmRelation.cs" />

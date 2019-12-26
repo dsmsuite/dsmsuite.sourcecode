@@ -26,6 +26,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileAccessProgressInfo.cs" />
     <Compile Include="ElementName.cs" />
     <Compile Include="FilePath.cs" />
     <Compile Include="Logger.cs" />
