@@ -13,10 +13,10 @@ namespace DsmSuite.Transformer.Transformation
     public class MoveElementsAction : Action
     {
         private const string ActionName = "Move elements according specified rules";
-        private readonly IDsiDataModel _model;
+        private readonly IDsiModel _model;
         private readonly List<MoveElementRule> _transformationRules;
 
-        public MoveElementsAction(IDsiDataModel model, MoveElementsSettings moveElementsSettings) :
+        public MoveElementsAction(IDsiModel model, MoveElementsSettings moveElementsSettings) :
             base(ActionName, moveElementsSettings.Enabled)
         {
             _model = model;

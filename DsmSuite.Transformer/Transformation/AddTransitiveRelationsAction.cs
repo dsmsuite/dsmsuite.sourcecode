@@ -8,11 +8,11 @@ namespace DsmSuite.Transformer.Transformation
     public class AddTransitiveRelationsAction : Action
     {
         private const string ActionName = "Add transitive relations between elements";
-        private readonly IDsiDataModel _model;
+        private readonly IDsiModel _model;
         private readonly Dictionary<string, HashSet<IDsiElement>> _directProviders;
         private readonly Dictionary<string, HashSet<IDsiElement>> _transitiveProviders;
 
-        public AddTransitiveRelationsAction(IDsiDataModel model, bool enabled) :
+        public AddTransitiveRelationsAction(IDsiModel model, bool enabled) :
            base(ActionName, enabled)
         {
             _model = model;

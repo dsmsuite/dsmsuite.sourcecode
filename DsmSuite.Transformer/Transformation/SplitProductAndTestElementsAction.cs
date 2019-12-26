@@ -10,10 +10,10 @@ namespace DsmSuite.Transformer.Transformation
     class SplitProductAndTestElementsAction : Action
     {
         private const string ActionName = "Split test and product code in two separate linked hierarchies";
-        private readonly IDsiDataModel _model;
+        private readonly IDsiModel _model;
         private readonly SplitProductAndTestElementsSettings _splitProductAndTestElementsSettings;
 
-        public SplitProductAndTestElementsAction(IDsiDataModel model, SplitProductAndTestElementsSettings splitProductAndTestElementsSettings) :
+        public SplitProductAndTestElementsAction(IDsiModel model, SplitProductAndTestElementsSettings splitProductAndTestElementsSettings) :
             base(ActionName, splitProductAndTestElementsSettings.Enabled)
         {
             _model = model;

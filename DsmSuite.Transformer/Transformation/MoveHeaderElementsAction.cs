@@ -8,9 +8,9 @@ namespace DsmSuite.Transformer.Transformation
     public class MoveHeaderElementsAction : Action
     {
         private const string ActionName = "Move C/C++ header file element near to implementation file element";
-        private readonly IDsiDataModel _model;
+        private readonly IDsiModel _model;
 
-        public MoveHeaderElementsAction(IDsiDataModel model, bool enabled) :
+        public MoveHeaderElementsAction(IDsiModel model, bool enabled) :
             base(ActionName, enabled)
         {
             _model = model;

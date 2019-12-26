@@ -21,7 +21,7 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
                 ExternalNames = new List<string>()
             };
 
-            IDsiDataModel model = new DsiDataModel("Test", Assembly.GetExecutingAssembly());
+            IDsiModel model = new DsiModel("Test", Assembly.GetExecutingAssembly());
             DotNet.Analysis.Analyzer analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings);
             analyzer.Analyze();
 

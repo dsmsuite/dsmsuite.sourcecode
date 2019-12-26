@@ -6,7 +6,7 @@ using DsmSuite.Analyzer.Model.Persistency;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
-    public class DsiElementDataModel : IDsiElementModelFileCallback
+    public class DsiElementModel : IDsiElementModelFileCallback
     {
         private readonly Dictionary<string, IDsiElement> _elementsByName;
         private readonly Dictionary<int, IDsiElement> _elementsById;
@@ -14,7 +14,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public event EventHandler<int> ElementRemoved;
 
-        public DsiElementDataModel()
+        public DsiElementModel()
         {
             _elementsByName = new Dictionary<string, IDsiElement>();
             _elementsById = new Dictionary<int, IDsiElement>();

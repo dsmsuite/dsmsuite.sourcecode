@@ -34,7 +34,7 @@ namespace DsmSuite.Analyzer.Uml
                     }
                     else
                     {
-                        DsiDataModel model = new DsiDataModel("Analyzer", Assembly.GetExecutingAssembly());
+                        DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
                         Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
                         analyzer.Analyze();
                         model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile);

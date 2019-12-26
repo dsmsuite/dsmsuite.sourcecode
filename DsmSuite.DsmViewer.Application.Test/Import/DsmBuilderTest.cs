@@ -50,7 +50,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         private const int _dsmElementIdE = 11;
         private const string _dsmElementNameE = "e";
 
-        Mock<IDsiDataModel> _dsiModel;
+        Mock<IDsiModel> _dsiModel;
         Mock<IImportPolicy> _importPolicy;
 
         Mock<IMetaDataItem> _metaDataItem1;
@@ -73,7 +73,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestInitialize]
         public void TestInitialize()
         {
-            _dsiModel = new Mock<IDsiDataModel>();
+            _dsiModel = new Mock<IDsiModel>();
             _importPolicy = new Mock<IImportPolicy>();
 
             List<string> metaDataGroups = new List<string>() { _metaDataGroup };

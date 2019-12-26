@@ -8,17 +8,17 @@ using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
-    public class DsiDataModel : IDsiDataModel
+    public class DsiModel : IDsiModel
     {
         private readonly MetaDataModel _metaDataModel;
-        private readonly DsiElementDataModel _elementsDataModel;
-        private readonly DsiRelationDataModel _relationsDataModel;
+        private readonly DsiElementModel _elementsDataModel;
+        private readonly DsiRelationModel _relationsDataModel;
 
-        public DsiDataModel(string processStep, Assembly executingAssembly)
+        public DsiModel(string processStep, Assembly executingAssembly)
         {
             _metaDataModel = new MetaDataModel(processStep, executingAssembly);
-            _elementsDataModel = new DsiElementDataModel();
-            _relationsDataModel = new DsiRelationDataModel(_elementsDataModel);
+            _elementsDataModel = new DsiElementModel();
+            _relationsDataModel = new DsiRelationModel(_elementsDataModel);
         }
 
         public void Load(string dsiFilename)

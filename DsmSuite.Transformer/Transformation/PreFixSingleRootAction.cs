@@ -7,9 +7,9 @@ namespace DsmSuite.Transformer.Transformation
     public class PreFixSingleRootAction : Action
     {
         private const string ActionName = "Prefix all elements with root";
-        private readonly IDsiDataModel _model;
+        private readonly IDsiModel _model;
 
-        public PreFixSingleRootAction(IDsiDataModel model, bool enabled) :
+        public PreFixSingleRootAction(IDsiModel model, bool enabled) :
             base(ActionName, enabled)
         {
             _model = model;

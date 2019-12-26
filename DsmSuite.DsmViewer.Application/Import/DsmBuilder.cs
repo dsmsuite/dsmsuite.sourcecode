@@ -8,11 +8,11 @@ namespace DsmSuite.DsmViewer.Application.Import
 {
     public class DsmBuilder
     {
-        private readonly IDsiDataModel _dsiModel;
+        private readonly IDsiModel _dsiModel;
         private readonly IImportPolicy _importPolicy;
         private readonly Dictionary<int, int> _dsiToDsmMapping;
 
-        public DsmBuilder(IDsiDataModel dsiModel, IImportPolicy importPolicy)
+        public DsmBuilder(IDsiModel dsiModel, IImportPolicy importPolicy)
         {
             _dsiModel = dsiModel;
             _importPolicy = importPolicy;

@@ -6,7 +6,7 @@ namespace DsmSuite.Analyzer.Model.Interface
     /// <summary>
     /// Interface to the data model. An interface has been introduced to improve testability.
     /// </summary>
-    public interface IDsiDataModel
+    public interface IDsiModel
     {
         void Load(string dsiFilename);
         void Save(string dsiFilename, bool compressFile);

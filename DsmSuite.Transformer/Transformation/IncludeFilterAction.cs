@@ -10,10 +10,10 @@ namespace DsmSuite.Transformer.Transformation
     public class IncludeFilterAction : Action
     {
         private const string ActionName = "Include filter";
-        private readonly IDsiDataModel _model;
+        private readonly IDsiModel _model;
         private readonly List<string> _names;
 
-        public IncludeFilterAction(IDsiDataModel model, IncludeFilterSettings includeFilterSettings) :
+        public IncludeFilterAction(IDsiModel model, IncludeFilterSettings includeFilterSettings) :
             base(ActionName, includeFilterSettings.Enabled)
         {
             _model = model;

@@ -7,14 +7,14 @@ using DsmSuite.Analyzer.Util;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
-    public class DsiRelationDataModel : IDsiRelationModelFileCallback
+    public class DsiRelationModel : IDsiRelationModelFileCallback
     {
-        private readonly DsiElementDataModel _elementsDataModel;
+        private readonly DsiElementModel _elementsDataModel;
         private readonly Dictionary<int, Dictionary<int, Dictionary<string, DsiRelation>>> _relationsByConsumerId;
         private readonly Dictionary<string, int> _relationTypeCount;
         private int _relationCount;
 
-        public DsiRelationDataModel(DsiElementDataModel elementsDataModel)
+        public DsiRelationModel(DsiElementModel elementsDataModel)
         {
             _elementsDataModel = elementsDataModel;
             _elementsDataModel.ElementRemoved += OnElementRemoved;
