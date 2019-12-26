@@ -33,9 +33,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Management
 
             store.Save();
 
-            model.Verify(x => x.AddAction(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Exactly(2));
-            model.Verify(x => x.AddAction(1, ElementMoveUpAction.TypeName, It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Once());
-            model.Verify(x => x.AddAction(2, ElementMoveDownAction.TypeName, It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Once());
+            model.Verify(x => x.AddAction(It.IsAny<string>(), It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Exactly(2));
+            model.Verify(x => x.AddAction(ElementMoveUpAction.TypeName, It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Once());
+            model.Verify(x => x.AddAction(ElementMoveDownAction.TypeName, It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Once());
         }
 
         [TestMethod]

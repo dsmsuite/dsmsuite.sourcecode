@@ -16,16 +16,18 @@
     <!-- Dialog styles -->
     <Style x:Key="DialogButton" TargetType="Button">
         <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Width" Value="100" />
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="5" />
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="1" CornerRadius="8">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
                         <ContentPresenter Content="{TemplateBinding Content}"
                                           HorizontalAlignment="Center" 
                                           VerticalAlignment="Center" />
@@ -35,74 +37,32 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsDefault" Value="true">
-                <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
-                <Setter Property="Background" Value="{StaticResource ForegroundStandardColor}" />
-                <Setter Property="Foreground" Value="{StaticResource BackgroundColor}"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundAccentedColor}"/>
             </Trigger>
-            <Trigger Property="IsDefault" Value="false">
-                <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
-                <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
-                <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundHoverColor}"/>
+                <Setter Property="FontSize" Value="13" />
             </Trigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsDefault" Value="True" />
-                    <Condition Property="IsMouseOver" Value="True" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="BorderBrush" Value="{StaticResource ForegroundHoverColor}"/>
-                    <Setter Property="Background" Value="{StaticResource ForegroundHoverColor}"/>
-                    <Setter Property="Foreground" Value="{StaticResource BackgroundColor}"/>
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsDefault" Value="False" />
-                    <Condition Property="IsMouseOver" Value="True" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="BorderBrush" Value="{StaticResource ForegroundHoverColor}"/>
-                    <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
-                    <Setter Property="Foreground" Value="{StaticResource ForegroundHoverColor}"/>
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsDefault" Value="True" />
-                    <Condition Property="IsEnabled" Value="False" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="BorderBrush" Value="{StaticResource ForegroundDisabledColor}"/>
-                    <Setter Property="Background" Value="{StaticResource ForegroundDisabledColor}"/>
-                    <Setter Property="Foreground" Value="{StaticResource BackgroundColor}"/>
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsDefault" Value="False" />
-                    <Condition Property="IsEnabled" Value="False" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="BorderBrush" Value="{StaticResource ForegroundDisabledColor}"/>
-                    <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
-                    <Setter Property="Foreground" Value="{StaticResource ForegroundDisabledColor}"/>
-                </MultiTrigger.Setters>
-            </MultiTrigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundDisabledColor}"/>
+            </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="DialogWindow" TargetType="Window">
-        <Setter Property="Background" Value="{StaticResource BackgroundColor}" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
     </Style>
 
     <Style x:Key="DialogSubTitle" TargetType="Label">
         <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
     </Style>
 
     <!-- Toolbar styles -->
     <Style x:Key="ToolbarButton" TargetType="Button">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="Width" Value="{StaticResource StandardButtonSize}" />
