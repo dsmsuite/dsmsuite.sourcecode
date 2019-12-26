@@ -252,14 +252,27 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
+        public IEnumerable<IDsmRelation> GetRelations()
+        {
+            return _relationsById.Values;
+        }
+
+        public int GetRelationCount()
+        {
+            return _relationsById.Values.Count;
+        }
+
         public IEnumerable<IDsmRelation> GetExportedRelations()
         {
-            return _relationsById.Values.OrderBy(x => x.Id);
+            List<IDsmRelation> exportedRelations = new List<IDsmRelation>();
+            exportedRelations.AddRange(_relationsById.Values);
+            exportedRelations.AddRange(_deletedRelationsById.Values);
+            return exportedRelations.OrderBy(x => x.Id);
         }
 
         public int GetExportedRelationCount()
         {
-            return _relationsById.Values.Count;
+            return _relationsById.Values.Count + _deletedRelationsById.Values.Count;
         }
 
         private void OnElementUnregistered(object sender, IDsmElement element)

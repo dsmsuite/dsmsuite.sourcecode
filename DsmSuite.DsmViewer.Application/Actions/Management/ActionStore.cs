@@ -23,7 +23,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
             RegisterActionTypes();
         }
 
-        public void Load()
+        public void LoadFromModel()
         {
             foreach (IDsmAction action in _model.GetActions())
             {
@@ -41,9 +41,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
             }
         }
 
-        public void Save()
+        public void SaveToModel()
         {
-            _model.ClearActions();
             foreach (IAction action in _actionManager.GetActionsInChronologicalOrder())
             {
                 _model.AddAction(action.Type, action.Data);

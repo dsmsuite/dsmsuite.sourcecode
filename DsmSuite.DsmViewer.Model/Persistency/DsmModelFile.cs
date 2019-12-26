@@ -79,14 +79,14 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
         public void Save(bool compressed, IProgress<ProgressInfo> progress)
         {
-            _progressActionText = "Saving model";
+            _progressActionText = "Saving dsm model";
             CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             modelFile.WriteFile(WriteDsmXml, progress, compressed);
         }
 
         public void Load(IProgress<ProgressInfo> progress)
         {
-            _progressActionText = "Loading model";
+            _progressActionText = "Loading dsm model";
             CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             modelFile.ReadFile(ReadDsmXml, progress);
         }

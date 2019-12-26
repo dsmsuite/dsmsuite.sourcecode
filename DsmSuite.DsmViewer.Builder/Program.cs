@@ -5,6 +5,7 @@ using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Core;
 using DsmSuite.DsmViewer.Builder.Settings;
 using DsmSuite.DsmViewer.Model.Core;
+using System;
 
 namespace DsmSuite.DsmViewer.Builder
 {
@@ -40,9 +41,19 @@ namespace DsmSuite.DsmViewer.Builder
                     }
                     else
                     {
+                        var progress = new Progress<ProgressInfo>(p =>
+                        {
+                            Program.Update(p);
+                        });
+
                         DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
                         DsmApplication application = new DsmApplication(model);
-                        application.ImportModel(builderSettings.InputFilename, builderSettings.OutputFilename, builderSettings.ApplyPartitioningAlgorithm, builderSettings.OverwriteOutputFile, builderSettings.CompressOutputFile);
+                        application.ImportModel(builderSettings.InputFilename, 
+                                                builderSettings.OutputFilename, 
+                                                builderSettings.ApplyPartitioningAlgorithm, 
+                                                builderSettings.OverwriteOutputFile, 
+                                                builderSettings.CompressOutputFile,
+                                                progress);
                     }
                 }
             }
@@ -51,6 +62,11 @@ namespace DsmSuite.DsmViewer.Builder
 
             stopWatch.Stop();
             Logger.LogUserMessage($" total elapsed time = {stopWatch.Elapsed}");
+        }
+
+        private static void Update(ProgressInfo progress)
+        {
+            Console.Write($"\r {progress.ActionText} progress={progress.Progress:000}%");
         }
     }
 }

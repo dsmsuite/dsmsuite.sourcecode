@@ -21,7 +21,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 {
     public class DsmApplication : IDsmApplication
     {
-        private readonly IDsmModel _model;
+        private readonly IDsmModel _dsmModel;
         private readonly ActionManager _actionManager;
         private readonly ActionStore _actionStore;
         private readonly DsmQueries _queries;
@@ -29,16 +29,16 @@ namespace DsmSuite.DsmViewer.Application.Core
         public event EventHandler<bool> Modified;
         public event EventHandler ActionPerformed;
 
-        public DsmApplication(IDsmModel model)
+        public DsmApplication(IDsmModel dsmModel)
         {
-            _model = model;
+            _dsmModel = dsmModel;
 
             _actionManager = new ActionManager();
             _actionManager.ActionPerformed += OnActionPerformed;
 
-            _actionStore = new ActionStore(_model, _actionManager);
+            _actionStore = new ActionStore(_dsmModel, _actionManager);
 
-            _queries = new DsmQueries(model);
+            _queries = new DsmQueries(dsmModel);
 
             ShowCycles = true;
         }
@@ -82,52 +82,52 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public bool ShowCycles { get; set; }
 
-        public void ImportModel(string dsiFilename, string dsmFilename, bool autoPartition, bool overwriteDsmFile, bool compressDsmFile)
+        public void ImportModel(string dsiFilename, string dsmFilename, bool autoPartition, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress)
         {
             string processStep = "Builder";
             Assembly assembly = Assembly.GetEntryAssembly();
             DsiModel dsiModel = new DsiModel(processStep, assembly);
-            dsiModel.Load(dsiFilename, null);
-            DsmModel dsmModel = new DsmModel(processStep, assembly);
+            dsiModel.Load(dsiFilename, progress);
 
             IImportPolicy importPolicy;
             if (!File.Exists(dsmFilename) || overwriteDsmFile)
             {
-                importPolicy = new CreateNewModelPolicy(dsmModel, autoPartition);
+                importPolicy = new CreateNewModelPolicy(_dsmModel, autoPartition);
             }
             else
             {
-                importPolicy = new UpdateExistingModelPolicy(dsmModel, dsmFilename, _actionManager);
+                importPolicy = new UpdateExistingModelPolicy(_dsmModel, dsmFilename, _actionManager, progress);
             }
 
             DsmBuilder builder = new DsmBuilder(dsiModel, importPolicy);
             builder.Build();
-            dsmModel.SaveModel(dsmFilename, compressDsmFile, null);
+            _actionStore.SaveToModel();
+            _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);
         }
 
         public async Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress)
         {
-            await Task.Run(() => _model.LoadModel(dsmFilename, progress));
-            _actionStore.Load();
+            await Task.Run(() => _dsmModel.LoadModel(dsmFilename, progress));
+            _actionStore.LoadFromModel();
             IsModified = false;
             Modified?.Invoke(this, IsModified);
         }
 
         public async Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress)
         {
-            _actionStore.Save();
-            await Task.Run(() => _model.SaveModel(dsmFilename, _model.IsCompressed, progress));
+            _actionStore.SaveToModel();
+            await Task.Run(() => _dsmModel.SaveModel(dsmFilename, _dsmModel.IsCompressed, progress));
             IsModified = false;
             Modified?.Invoke(this, IsModified);
         }
 
-        public IEnumerable<IDsmElement> RootElements => _model.GetRootElements();
+        public IEnumerable<IDsmElement> RootElements => _dsmModel.GetRootElements();
 
         public bool IsModified { get; private set; }
 
         public string GetOverviewReport()
         {
-            OverviewReport report = new OverviewReport(_model);
+            OverviewReport report = new OverviewReport(_dsmModel);
             return report.WriteReport();
         }
 
@@ -153,7 +153,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
-            return _model.FindRelations(consumer, provider);
+            return _dsmModel.FindRelations(consumer, provider);
         }
 
         public IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider)
@@ -168,22 +168,22 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public IDsmElement NextSibling(IDsmElement element)
         {
-            return _model.NextSibling(element);
+            return _dsmModel.NextSibling(element);
         }
 
         public IDsmElement PreviousSibling(IDsmElement element)
         {
-            return _model.PreviousSibling(element);
+            return _dsmModel.PreviousSibling(element);
         }
 
         public bool IsFirstChild(IDsmElement element)
         {
-            return _model.PreviousSibling(element) == null;
+            return _dsmModel.PreviousSibling(element) == null;
        }
 
         public bool IsLastChild(IDsmElement element)
         {
-            return _model.NextSibling(element) == null;
+            return _dsmModel.NextSibling(element) == null;
         }
 
         public bool HasChildren(IDsmElement element)
@@ -193,7 +193,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void Sort(IDsmElement element, string algorithm)
         {
-            ElementSortAction action = new ElementSortAction(_model, element, algorithm);
+            ElementSortAction action = new ElementSortAction(_dsmModel, element, algorithm);
             _actionManager.Execute(action);
         }
 
@@ -204,88 +204,88 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void MoveUp(IDsmElement element)
         {
-            ElementMoveUpAction action = new ElementMoveUpAction(_model, element);
+            ElementMoveUpAction action = new ElementMoveUpAction(_dsmModel, element);
             _actionManager.Execute(action);
         }
 
         public void MoveDown(IDsmElement element)
         {
-            ElementMoveDownAction action = new ElementMoveDownAction(_model, element);
+            ElementMoveDownAction action = new ElementMoveDownAction(_dsmModel, element);
             _actionManager.Execute(action);
         }
         
         public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
-            return _model.GetDependencyWeight(consumer.Id, provider.Id);
+            return _dsmModel.GetDependencyWeight(consumer.Id, provider.Id);
         }
 
         public bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider)
         {
-            return _model.IsCyclicDependency(consumer.Id, provider.Id);
+            return _dsmModel.IsCyclicDependency(consumer.Id, provider.Id);
         }
 
         public IEnumerable<IDsmElement> SearchElements(string text)
         {
-            return _model.SearchElements(text);
+            return _dsmModel.SearchElements(text);
         }
 
         public void CreateElement(string name, string type, IDsmElement parent)
         {
-            ElementCreateAction action = new ElementCreateAction(_model, name, type, parent);
+            ElementCreateAction action = new ElementCreateAction(_dsmModel, name, type, parent);
             _actionManager.Execute(action);
         }
 
         public void DeleteElement(IDsmElement element)
         {
-            ElementDeleteAction action = new ElementDeleteAction(_model, element);
+            ElementDeleteAction action = new ElementDeleteAction(_dsmModel, element);
             _actionManager.Execute(action);
         }
 
         public void ChangeElementName(IDsmElement element, string name)
         {
-            ElementChangeNameAction action = new ElementChangeNameAction(_model, element, name);
+            ElementChangeNameAction action = new ElementChangeNameAction(_dsmModel, element, name);
             _actionManager.Execute(action);
         }
 
         public void ChangeElementType(IDsmElement element, string type)
         {
-            ElementChangeTypeAction action = new ElementChangeTypeAction(_model, element, type);
+            ElementChangeTypeAction action = new ElementChangeTypeAction(_dsmModel, element, type);
             _actionManager.Execute(action);
         }
 
         public void ChangeElementParent(IDsmElement element, IDsmElement newParent)
         {
-            ElementChangeParentAction action = new ElementChangeParentAction(_model, element, newParent);
+            ElementChangeParentAction action = new ElementChangeParentAction(_dsmModel, element, newParent);
             _actionManager.Execute(action);
         }
         
         public void CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
         {
-            RelationCreateAction action = new RelationCreateAction(_model, consumer.Id, provider.Id, type, weight);
+            RelationCreateAction action = new RelationCreateAction(_dsmModel, consumer.Id, provider.Id, type, weight);
             _actionManager.Execute(action);
         }
 
         public void DeleteRelation(IDsmRelation relation)
         {
-            RelationDeleteAction action = new RelationDeleteAction(_model, relation);
+            RelationDeleteAction action = new RelationDeleteAction(_dsmModel, relation);
             _actionManager.Execute(action);
         }
 
         public void ChangeRelationType(IDsmRelation relation, string type)
         {
-            RelationChangeTypeAction action = new RelationChangeTypeAction(_model, relation, type);
+            RelationChangeTypeAction action = new RelationChangeTypeAction(_dsmModel, relation, type);
             _actionManager.Execute(action);
         }
 
         public void ChangeRelationWeight(IDsmRelation relation, int weight)
         {
-            RelationChangeWeightAction action = new RelationChangeWeightAction(_model, relation, weight);
+            RelationChangeWeightAction action = new RelationChangeWeightAction(_dsmModel, relation, weight);
             _actionManager.Execute(action);
         }
 
         public void MakeSnapshot(string description)
         {
-            MakeSnapshotAction action = new MakeSnapshotAction(_model, description);
+            MakeSnapshotAction action = new MakeSnapshotAction(_dsmModel, description);
             _actionManager.Execute(action);
         }
 

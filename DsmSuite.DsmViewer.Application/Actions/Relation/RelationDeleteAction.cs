@@ -29,9 +29,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             Debug.Assert(_relation != null);
 
             _consumer = _model.GetElementById(_relation.ConsumerId);
+            if (_consumer == null)
+            {
+                _consumer = _model.GetDeletedElementById(_relation.ConsumerId);
+            }
             Debug.Assert(_consumer != null);
 
             _provider = _model.GetElementById(_relation.ProviderId);
+            if (_provider == null)
+            {
+                _provider = _model.GetDeletedElementById(_relation.ProviderId);
+            }
             Debug.Assert(_provider != null);
         }
 

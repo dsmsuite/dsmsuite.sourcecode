@@ -31,7 +31,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Management
             model.Setup(x => x.GetElementById(2)).Returns(element2.Object);
             manager.Setup(x => x.GetActionsInChronologicalOrder()).Returns(managerActions);
 
-            store.Save();
+            store.SaveToModel();
 
             model.Verify(x => x.AddAction(It.IsAny<string>(), It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Exactly(2));
             model.Verify(x => x.AddAction(ElementMoveUpAction.TypeName, It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Once());
@@ -70,7 +70,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Management
             model.Setup(x => x.GetElementById(1)).Returns(element1.Object);
             model.Setup(x => x.GetElementById(2)).Returns(element2.Object);
 
-            store.Load();
+            store.LoadFromModel();
 
             manager.Verify(x => x.Add(It.IsAny<ElementMoveDownAction>()), Times.Once());
             manager.Verify(x => x.Add(It.IsAny<ElementMoveUpAction>()), Times.Once());

@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         event EventHandler ActionPerformed;
 
         bool ShowCycles { get; set; }
-        void ImportModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile);
+        void ImportModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
         Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress);
         Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress);
         bool IsModified { get; }

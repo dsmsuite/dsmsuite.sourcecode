@@ -169,13 +169,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             CreateElementRelations(model);
-            int relationCountBefore = model.GetExportedRelationCount();
+            int relationCountBefore = model.GetRelationCount();
 
             IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
 
             model.RemoveRelation(relation.Id);
-            Assert.AreEqual(relationCountBefore - 1, model.GetExportedRelationCount());
+            Assert.AreEqual(relationCountBefore - 1, model.GetRelationCount());
         }
 
         [TestMethod]
@@ -188,10 +188,10 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.IsNotNull(relation);
 
             model.RemoveRelation(relation.Id);
-            int relationCountBefore = model.GetExportedRelationCount();
+            int relationCountBefore = model.GetRelationCount();
 
             model.UnremoveRelation(relation.Id);
-            Assert.AreEqual(relationCountBefore + 1, model.GetExportedRelationCount());
+            Assert.AreEqual(relationCountBefore + 1, model.GetRelationCount());
         }
 
         [TestMethod]

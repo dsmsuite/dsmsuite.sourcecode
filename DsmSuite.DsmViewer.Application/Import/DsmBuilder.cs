@@ -85,7 +85,10 @@ namespace DsmSuite.DsmViewer.Application.Import
                 string type = dsiRelation.Type;
                 int weight = dsiRelation.Weight;
 
-                _importPolicy.ImportRelation(consumerId, providerId, type, weight);
+                if (consumerId != providerId)
+                {
+                    _importPolicy.ImportRelation(consumerId, providerId, type, weight);
+                }
             }
             else
             {

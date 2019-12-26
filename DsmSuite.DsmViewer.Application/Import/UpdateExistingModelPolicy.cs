@@ -8,6 +8,7 @@ using DsmSuite.DsmViewer.Application.Actions.Relation;
 using System.Diagnostics;
 using DsmSuite.DsmViewer.Application.Actions.Snapshot;
 using System;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.Application.Import
 {
@@ -19,11 +20,11 @@ namespace DsmSuite.DsmViewer.Application.Import
         private readonly Dictionary<int, IDsmElement> _notFoundElements;
         private readonly Dictionary<int, IDsmRelation> _notFoundRelations;
 
-        public UpdateExistingModelPolicy(IDsmModel dsmmodel, string dsmFilename, IActionManager actionManager)
+        public UpdateExistingModelPolicy(IDsmModel dsmmodel, string dsmFilename, IActionManager actionManager, IProgress<ProgressInfo> progress)
         {
             _dsmModel = dsmmodel;
             _dsmFilename = dsmFilename;
-            _dsmModel.LoadModel(_dsmFilename, null);
+            _dsmModel.LoadModel(_dsmFilename, progress);
             _actionManager = actionManager;
 
             _notFoundElements = _dsmModel.GetElements().ToDictionary(x => x.Id, x => x);
@@ -79,8 +80,11 @@ namespace DsmSuite.DsmViewer.Application.Import
 
         public void FinalizeImport()
         {
-            RemoveExistingElementsNotFoundAnymore();
+            // Remove relations before elements to ensure that elements can be resolved 
+            // in RelationDeleteElement
             RemoveExistingRelationsNotFoundAnymore();
+            RemoveExistingElementsNotFoundAnymore();
+
             _dsmModel.AssignElementOrder();
 
             MakeSnapshot();

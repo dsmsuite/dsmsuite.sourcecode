@@ -209,7 +209,12 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IEnumerable<IDsmRelation> GetRelations()
         {
-            return _relationsDataModel.GetExportedRelations();
+            return _relationsDataModel.GetRelations();
+        }
+
+        public int GetRelationCount()
+        {
+            return _relationsDataModel.GetRelationCount();
         }
 
         public IDsmRelation FindRelation(int consumerId, int providerId, string type)

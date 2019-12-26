@@ -152,7 +152,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public int GetExportedRelationCount()
         {
-            return _relationsByConsumerId.Count;
+            return GetRelations().Count();
         }
 
         public bool DoesRelationExist(int consumerId, int providerId)

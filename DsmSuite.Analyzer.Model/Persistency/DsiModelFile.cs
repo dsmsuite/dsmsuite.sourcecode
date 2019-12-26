@@ -61,12 +61,14 @@ namespace DsmSuite.Analyzer.Model.Persistency
 
         public void Save(bool compressed, IProgress<ProgressInfo> progress)
         {
+            _progressActionText = "Saving dsi model";
             CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             modelFile.WriteFile(WriteDsiXml, progress, compressed);
         }
 
         public void Load(IProgress<ProgressInfo> progress)
         {
+            _progressActionText = "Loading dsi model";
             CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             modelFile.ReadFile(ReadDsiXml, progress);
         }

@@ -7,47 +7,50 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 {
     public interface IDsmModel
     {
+        // CLeanup
+        void Clear();
+
+        // Model persistency
         string ModelFilename { get; }
         bool IsCompressed { get; }
-
-        void Clear();
         void LoadModel(string dsmFilename, IProgress<ProgressInfo> progress);
         void SaveModel(string dsmFilename, bool compressFile, IProgress<ProgressInfo> progress);
 
+        // Meta data
         IMetaDataItem AddMetaData(string group, string name, string value);
         IMetaDataItem AddMetaData(string itemName, string itemValue);
         IEnumerable<string> GetMetaDataGroups();
         IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
 
-        IDsmAction AddAction(string type, IReadOnlyDictionary<string, string> data);
-        void ClearActions();
-        IEnumerable<IDsmAction> GetActions();
-
+        // Element editing
         IDsmElement AddElement(string name, string type, int? parentId);
         void RemoveElement(int elementId);
         void UnremoveElement(int elementId);
+        void ChangeElementName(IDsmElement element, string name);
+        void ChangeElementType(IDsmElement element, string type);
         void ChangeElementParent(IDsmElement element, IDsmElement parent);
         void ReorderChildren(IDsmElement element, ISortResult sortResult);
         IDsmElement NextSibling(IDsmElement element);
         IDsmElement PreviousSibling(IDsmElement element);
         bool Swap(IDsmElement first, IDsmElement second);
+        void AssignElementOrder();
+
+        // Element queries
+        IDsmElement GetElementById(int id);
+        IDsmElement GetDeletedElementById(int id);
+        IDsmElement GetElementByFullname(string fullname);
+        IEnumerable<IDsmElement> SearchElements(string text);
         IEnumerable<IDsmElement> GetRootElements();
         IEnumerable<IDsmElement> GetElements();
 
-        IDsmElement GetElementById(int id);
-        IDsmElement GetElementByFullname(string fullname);
-        IEnumerable<IDsmElement> SearchElements(string text);
-
-        IDsmElement GetDeletedElementById(int id);
-
-        void AssignElementOrder();
-        void ChangeElementName(IDsmElement element, string name);
-        void ChangeElementType(IDsmElement element, string type);
+        // Relation editing
         IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight);
         void ChangeRelationType(IDsmRelation relation, string type);
         void ChangeRelationWeight(IDsmRelation relation, int weight);
         void RemoveRelation(int relationId);
         void UnremoveRelation(int relationId);
+
+        // Relation queries
         int GetDependencyWeight(int consumerId, int providerId);
         bool IsCyclicDependency(int consumerId, int providerId);
         IDsmRelation GetRelationById(int relationId);
@@ -57,5 +60,10 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
         IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element);
         IEnumerable<IDsmRelation> FindConsumerRelations(IDsmElement element);
+
+        // Actions
+        IDsmAction AddAction(string type, IReadOnlyDictionary<string, string> data);
+        void ClearActions();
+        IEnumerable<IDsmAction> GetActions();
     }
 }
