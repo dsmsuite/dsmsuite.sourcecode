@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.Windows.Media;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 using DsmSuite.DsmViewer.ViewModel.Main;
-using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
 {
@@ -17,15 +15,16 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
         private readonly IMainViewModel _mainViewModel;
         private readonly IDsmApplication _application;
         private readonly IList<IDsmElement> _selectedElements;
-        private ObservableCollection<ImprovedElementTreeItemViewModel> _providers;
-        private IList<IDsmElement> _leafElements;
-        private IList<List<Color>> _cellColors;
-        private IList<List<int>> _cellWeights;
+        private ObservableCollection<MatrixElementViewModel> _providers;
+        private List<MatrixElementViewModel> _leafElements;
+        private List<List<DsmColor>> _cellColors;
+        private List<List<int>> _cellWeights;
+        private List<int> _columnElementIds;
+        private List<DsmColor> _columnColors;
         private int? _selectedRow;
         private int? _selectedColumn;
         private int? _hoveredRow;
         private int? _hoveredColumn;
-        private int _matrixSize;
 
         public ImprovedMatrixViewModel(IMainViewModel mainViewModel, IDsmApplication application, IList<IDsmElement> selectedElements)
         {
@@ -65,74 +64,20 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
             Reload();
 
             ZoomLevel = 1.0;
-
         }
 
         public void Reload()
         {
             Providers = CreateProviderTree();
             _leafElements = FindLeafElements();
-
+            DefineColumnColors();
+            DefineColumnContent();
             DefineCellColors();
             DefineCellContent();
         }
 
-        private IList<IDsmElement> FindLeafElements()
-        {
-            List<IDsmElement> leafElements = new List<IDsmElement>();
 
-            foreach (IDsmElement selectedElement in _selectedElements)
-            {
-                FindLeafElements(leafElements, selectedElement);
-            }
-
-            return leafElements;
-        }
-
-        private void FindLeafElements(IList<IDsmElement> leafElements, IDsmElement element)
-        {
-            if (!element.IsExpanded)
-            {
-                leafElements.Add(element);
-            }
-
-            foreach (IDsmElement childElement in element.Children)
-            {
-                FindLeafElements(leafElements, childElement);
-            }
-        }
-
-        private ObservableCollection<ImprovedElementTreeItemViewModel> CreateProviderTree()
-        {
-            int depth = 0;
-            var rootViewModels = new ObservableCollection<ImprovedElementTreeItemViewModel>();
-            foreach (IDsmElement provider in _selectedElements)
-            {
-                ImprovedElementTreeItemViewModel viewModel = new ImprovedElementTreeItemViewModel(this, provider, ElementRole.Provider, depth);
-                rootViewModels.Add(viewModel);
-                AddProviderTreeChilderen(viewModel);
-            }
-            return rootViewModels;
-        }
-
-        private void AddProviderTreeChilderen(ImprovedElementTreeItemViewModel viewModel)
-        {
-            if (viewModel.IsExpanded)
-            {
-                foreach (IDsmElement child in viewModel.Element.Children)
-                {
-                    ImprovedElementTreeItemViewModel childViewModel = new ImprovedElementTreeItemViewModel(this, child, ElementRole.Provider, viewModel.Depth + 1);
-                    viewModel.Children.Add(childViewModel);
-                    AddProviderTreeChilderen(childViewModel);
-                }
-            }
-            else
-            {
-                viewModel.Children.Clear();
-            }
-        }
-
-        public ObservableCollection<ImprovedElementTreeItemViewModel> Providers
+        public ObservableCollection<MatrixElementViewModel> Providers
         {
             get { return _providers; }
             private set { _providers = value; OnPropertyChanged(); }
@@ -168,28 +113,64 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
         public ICommand ShowCellDetailMatrixCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
 
+        public void SelectRow(int row)
+        {
+            SelectedRow = row;
+            SelectedColumn = null;
+        }
+
+        public void SelectColumn(int column)
+        {
+            SelectedRow = null;
+            SelectedColumn = column;
+        }
+
+        public void SelectCell(int row, int columnn)
+        {
+            SelectedRow = row;
+            SelectedColumn = columnn;
+        }
+
         public int? SelectedRow
         {
             get { return _selectedRow; }
-            set { _selectedRow = value; OnPropertyChanged(); }
+            private set { _selectedRow = value; OnPropertyChanged(); }
         }
 
         public int? SelectedColumn
         {
             get { return _selectedColumn; }
-            set { _selectedColumn = value; OnPropertyChanged(); }
+            private set { _selectedColumn = value; OnPropertyChanged(); }
+        }
+
+        public void HoverRow(int row)
+        {
+            HoveredRow = row;
+            HoveredColumn = null;
+        }
+
+        public void HoverColumn(int column)
+        {
+            HoveredRow = null;
+            HoveredColumn = column;
+        }
+
+        public void HoverCell(int row, int columnn)
+        {
+            HoveredRow = row;
+            HoveredColumn = columnn;
         }
 
         public int? HoveredRow
         {
             get { return _hoveredRow; }
-            set { _hoveredRow = value; OnPropertyChanged(); }
+            private set { _hoveredRow = value; OnPropertyChanged(); }
         }
 
         public int? HoveredColumn
         {
             get { return _hoveredColumn; }
-            set { _hoveredColumn = value; OnPropertyChanged(); }
+            private set { _hoveredColumn = value; OnPropertyChanged(); }
         }
 
         private IDsmElement SelectedConsumer
@@ -200,7 +181,7 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
                 if (_selectedColumn.HasValue)
 
                 {
-                    selectedConsumer = _leafElements[_selectedColumn.Value];
+                    selectedConsumer = _leafElements[_selectedColumn.Value].Element;
                 }
                 return selectedConsumer;
             }
@@ -214,11 +195,19 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
                 if (_selectedRow.HasValue)
 
                 {
-                    selectedProvider = _leafElements[_selectedRow.Value];
+                    selectedProvider = _leafElements[_selectedRow.Value].Element;
                 }
                 return selectedProvider;
             }
         }
+
+        public IReadOnlyList<IList<DsmColor>> CellColors => _cellColors;
+
+        public IReadOnlyList<IReadOnlyList<int>> CellWeights => _cellWeights;
+
+        public IReadOnlyList<int> ColumnElementIds => _columnElementIds;
+
+        public IReadOnlyList<DsmColor> ColumnColors => _columnColors;
 
         private void ShowCellConsumersExecute(object parameter)
         {
@@ -229,7 +218,6 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
             ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
-
 
         private bool ShowCellConsumersCanExecute(object parameter)
         {
@@ -321,8 +309,8 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
                 _cellWeights.Add(new List<int>());
                 for (int column = 0; column < size; column++)
                 {
-                    IDsmElement consumer = _leafElements[column];
-                    IDsmElement provider = _leafElements[row];
+                    IDsmElement consumer = _leafElements[column].Element;
+                    IDsmElement provider = _leafElements[row].Element;
                     int weight = _application.GetDependencyWeight(consumer, provider);
                     _cellWeights[row].Add(weight);
                 }
@@ -333,16 +321,15 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
         {
             int size = _leafElements.Count;
 
-            _cellColors = new List<List<Color>>();
-
+            _cellColors = new List<List<DsmColor>>();
 
             // Define back ground color
             for (int row = 0; row < size; row++)
             {
-                _cellColors.Add(new List<Color>());
+                _cellColors.Add(new List<DsmColor>());
                 for (int column = 0; column < size; column++)
                 {
-                    _cellColors[row].Add(Colors.White);
+                    _cellColors[row].Add(DsmColor.Background);
                 }
             }
 
@@ -350,28 +337,26 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
             int d = 0;
             for (int row = 0; row < size; row++)
             {
-                int depth = 0;
+                int leafElements = 0;
+                CountLeafElements(_leafElements[row].Element, ref leafElements);
 
-                if (depth > d)
+                if (leafElements > 0)
                 {
-                    int leafElements = 0;
 
-                    CountLeafElements(_leafElements[row], ref leafElements);
                     for (int rowDelta = 0; rowDelta < leafElements; rowDelta++)
                     {
                         for (int columnDelta = 0; columnDelta < leafElements; columnDelta++)
                         {
-                            _cellColors[row + rowDelta][row + columnDelta] = Colors.Red;
+                            _cellColors[row + rowDelta][row + columnDelta] = GetRowColor(_leafElements[row].Depth - 1);
                         }
                     }
                 }
-                d = depth;
             }
 
-            // Define dialog color
+            // Define diagonal color
             for (int row = 0; row < size; row++)
             {
-                _cellColors[row][row] = Colors.Yellow;
+                _cellColors[row][row] = GetRowColor(_leafElements[row].Depth);
             }
 
             // Define cycle color
@@ -379,11 +364,11 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
             {
                 for (int column = 0; column < size; column++)
                 {
-                    IDsmElement consumer = _leafElements[column];
-                    IDsmElement provider = _leafElements[row];
+                    IDsmElement consumer = _leafElements[column].Element;
+                    IDsmElement provider = _leafElements[row].Element;
                     if (_application.IsCyclicDependency(consumer, provider) && _application.ShowCycles)
                     {
-                        _cellColors[row][column] = Colors.Green;
+                        _cellColors[row][column] = DsmColor.AccentColor;
                     }
                 }
             }
@@ -406,5 +391,104 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
         }
 
 
+        private void DefineColumnColors()
+        {
+            _columnColors = new List<DsmColor>();
+            foreach (MatrixElementViewModel provider in _leafElements)
+            {
+                _columnColors.Add(provider.Color);
+            }
+        }
+
+        private void DefineColumnContent()
+        {
+            _columnElementIds = new List<int>();
+            foreach (MatrixElementViewModel provider in _leafElements)
+            {
+                _columnElementIds.Add(provider.Element.Id);
+            }
+        }
+
+        private List<MatrixElementViewModel> FindLeafElements()
+        {
+            List<MatrixElementViewModel> leafElements = new List<MatrixElementViewModel>();
+
+            foreach (MatrixElementViewModel selectedElement in Providers)
+            {
+                FindLeafElements(leafElements, selectedElement);
+            }
+
+            return leafElements;
+        }
+
+        private void FindLeafElements(List<MatrixElementViewModel> leafElements, MatrixElementViewModel element)
+        {
+            if (!element.IsExpanded)
+            {
+                leafElements.Add(element);
+            }
+
+            foreach (MatrixElementViewModel childElement in element.Children)
+            {
+                FindLeafElements(leafElements, childElement);
+            }
+        }
+
+        private ObservableCollection<MatrixElementViewModel> CreateProviderTree()
+        {
+            int depth = 0;
+            var rootViewModels = new ObservableCollection<MatrixElementViewModel>();
+            foreach (IDsmElement provider in _selectedElements)
+            {
+                DsmColor color = GetRowColor(depth);
+                MatrixElementViewModel viewModel = new MatrixElementViewModel(this, provider, depth, color);
+                rootViewModels.Add(viewModel);
+                AddProviderTreeChilderen(viewModel);
+            }
+            return rootViewModels;
+        }
+
+        private static DsmColor GetRowColor(int depth)
+        {
+            DsmColor color;
+            switch (depth % 4)
+            {
+                case 0:
+                    color = DsmColor.StandardColor1;
+                    break;
+                case 1:
+                    color = DsmColor.StandardColor2;
+                    break;
+                case 2:
+                    color = DsmColor.StandardColor3;
+                    break;
+                case 3:
+                    color = DsmColor.StandardColor4;
+                    break;
+                default:
+                    color = DsmColor.Background;
+                    break;
+            }
+            return color;
+        }
+
+        private void AddProviderTreeChilderen(MatrixElementViewModel viewModel)
+        {
+            if (viewModel.IsExpanded)
+            {
+                foreach (IDsmElement child in viewModel.Element.Children)
+                {
+                    int depth = viewModel.Depth + 1;
+                    DsmColor color = GetRowColor(depth);
+                    MatrixElementViewModel childViewModel = new MatrixElementViewModel(this, child, depth, color);
+                    viewModel.Children.Add(childViewModel);
+                    AddProviderTreeChilderen(childViewModel);
+                }
+            }
+            else
+            {
+                viewModel.Children.Clear();
+            }
+        }
     }
 }
