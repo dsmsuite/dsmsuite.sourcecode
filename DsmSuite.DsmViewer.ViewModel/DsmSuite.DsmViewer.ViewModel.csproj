@@ -36,6 +36,7 @@
     <Compile Include="Editing\Relation\RelationEditTypeViewModel.cs" />
     <Compile Include="Editing\Relation\RelationEditWeightViewModel.cs" />
     <Compile Include="Editing\Snapshot\SnapshotMakeViewModel.cs" />
+    <Compile Include="ImprovedMatrix\ImprovedElementTreeItemViewModel.cs" />
     <Compile Include="ImprovedMatrix\ImprovedMatrixViewModel.cs" />
     <Compile Include="Lists\ActionListItemViewModel.cs" />
     <Compile Include="Lists\ActionListViewModel.cs" />

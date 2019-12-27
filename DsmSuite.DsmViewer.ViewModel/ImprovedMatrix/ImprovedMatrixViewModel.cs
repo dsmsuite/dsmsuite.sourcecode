@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Media;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
+using DsmSuite.DsmViewer.ViewModel.Lists;
 using DsmSuite.DsmViewer.ViewModel.Main;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
 
@@ -19,6 +17,8 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
         private readonly IMainViewModel _mainViewModel;
         private readonly IDsmApplication _application;
         private readonly IList<IDsmElement> _selectedElements;
+        private ObservableCollection<ImprovedElementTreeItemViewModel> _providers;
+        private IList<IDsmElement> _leafElements;
         private IList<List<Color>> _cellColors;
         private IList<List<int>> _cellWeights;
         private int? _selectedRow;
@@ -29,8 +29,9 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
 
         public ImprovedMatrixViewModel(IMainViewModel mainViewModel, IDsmApplication application, IList<IDsmElement> selectedElements)
         {
-            _cellColors = new List<List<Color>>();
-            _cellWeights = new List<List<int>>();
+            _mainViewModel = mainViewModel;
+            _application = application;
+            _selectedElements = selectedElements;
 
             ToggleElementExpandedCommand = mainViewModel.ToggleElementExpandedCommand;
 
@@ -69,8 +70,72 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
 
         public void Reload()
         {
+            Providers = CreateProviderTree();
+            _leafElements = FindLeafElements();
+
             DefineCellColors();
             DefineCellContent();
+        }
+
+        private IList<IDsmElement> FindLeafElements()
+        {
+            List<IDsmElement> leafElements = new List<IDsmElement>();
+
+            foreach (IDsmElement selectedElement in _selectedElements)
+            {
+                FindLeafElements(leafElements, selectedElement);
+            }
+
+            return leafElements;
+        }
+
+        private void FindLeafElements(IList<IDsmElement> leafElements, IDsmElement element)
+        {
+            if (!element.IsExpanded)
+            {
+                leafElements.Add(element);
+            }
+
+            foreach (IDsmElement childElement in element.Children)
+            {
+                FindLeafElements(leafElements, childElement);
+            }
+        }
+
+        private ObservableCollection<ImprovedElementTreeItemViewModel> CreateProviderTree()
+        {
+            int depth = 0;
+            var rootViewModels = new ObservableCollection<ImprovedElementTreeItemViewModel>();
+            foreach (IDsmElement provider in _selectedElements)
+            {
+                ImprovedElementTreeItemViewModel viewModel = new ImprovedElementTreeItemViewModel(this, provider, ElementRole.Provider, depth);
+                rootViewModels.Add(viewModel);
+                AddProviderTreeChilderen(viewModel);
+            }
+            return rootViewModels;
+        }
+
+        private void AddProviderTreeChilderen(ImprovedElementTreeItemViewModel viewModel)
+        {
+            if (viewModel.IsExpanded)
+            {
+                foreach (IDsmElement child in viewModel.Element.Children)
+                {
+                    ImprovedElementTreeItemViewModel childViewModel = new ImprovedElementTreeItemViewModel(this, child, ElementRole.Provider, viewModel.Depth + 1);
+                    viewModel.Children.Add(childViewModel);
+                    AddProviderTreeChilderen(childViewModel);
+                }
+            }
+            else
+            {
+                viewModel.Children.Clear();
+            }
+        }
+
+        public ObservableCollection<ImprovedElementTreeItemViewModel> Providers
+        {
+            get { return _providers; }
+            private set { _providers = value; OnPropertyChanged(); }
         }
 
         public double ZoomLevel
@@ -127,14 +192,42 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
             set { _hoveredColumn = value; OnPropertyChanged(); }
         }
 
+        private IDsmElement SelectedConsumer
+        {
+            get
+            {
+                IDsmElement selectedConsumer = null;
+                if (_selectedColumn.HasValue)
+
+                {
+                    selectedConsumer = _leafElements[_selectedColumn.Value];
+                }
+                return selectedConsumer;
+            }
+        }
+
+        private IDsmElement SelectedProvider
+        {
+            get
+            {
+                IDsmElement selectedProvider = null;
+                if (_selectedRow.HasValue)
+
+                {
+                    selectedProvider = _leafElements[_selectedRow.Value];
+                }
+                return selectedProvider;
+            }
+        }
+
         private void ShowCellConsumersExecute(object parameter)
         {
-            //string title = $"Consumers in relations between consumer {SelectedConsumer.Element.Fullname} and provider {SelectedProvider.Element.Fullname}";
+            string title = $"Consumers in relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
 
-            //var elements = _application.GetRelationConsumers(SelectedConsumer.Element, SelectedProvider.Element);
+            var elements = _application.GetRelationConsumers(SelectedConsumer, SelectedProvider);
 
-            //ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
-            //_mainViewModel.NotifyElementsReportReady(elementListViewModel);
+            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
+            _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
 
 
@@ -145,12 +238,12 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
 
         private void ShowCellProvidersExecute(object parameter)
         {
-            //string title = $"Providers in relations between consumer {SelectedConsumer.Element.Fullname} and provider {SelectedProvider.Element.Fullname}";
+            string title = $"Providers in relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
 
-            //var elements = _application.GetRelationProviders(SelectedConsumer.Element, SelectedProvider.Element);
+            var elements = _application.GetRelationProviders(SelectedConsumer, SelectedProvider);
 
-            //ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
-            //_mainViewModel.NotifyElementsReportReady(elementListViewModel);
+            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
+            _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
 
         private bool ShowCellProvidersCanExecute(object parameter)
@@ -160,12 +253,12 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
 
         private void ShowElementConsumersExecute(object parameter)
         {
-            //string title = $"Consumers of {SelectedProvider.Element.Fullname}";
+            string title = $"Consumers of {SelectedProvider.Fullname}";
 
-            //var elements = _application.GetElementConsumers(SelectedProvider.Element);
+            var elements = _application.GetElementConsumers(SelectedProvider);
 
-            //ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
-            //_mainViewModel.NotifyElementsReportReady(elementListViewModel);
+            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
+            _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
 
         private bool ShowConsumersCanExecute(object parameter)
@@ -175,12 +268,12 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
 
         private void ShowProvidedInterfacesExecute(object parameter)
         {
-            //string title = $"Provided interface of {SelectedProvider.Element.Fullname}";
+            string title = $"Provided interface of {SelectedProvider.Fullname}";
 
-            //var elements = _application.GetElementProvidedElements(SelectedProvider.Element);
+            var elements = _application.GetElementProvidedElements(SelectedProvider);
 
-            //ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
-            //_mainViewModel.NotifyElementsReportReady(elementListViewModel);
+            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
+            _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
 
         private bool ShowElementProvidedInterfacesCanExecute(object parameter)
@@ -190,12 +283,12 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
 
         private void ShowElementRequiredInterfacesExecute(object parameter)
         {
-            //string title = $"Required interface of {SelectedProvider.Element.Fullname}";
+            string title = $"Required interface of {SelectedProvider.Fullname}";
 
-            //var elements = _application.GetElementProviders(SelectedProvider.Element);
+            var elements = _application.GetElementProviders(SelectedProvider);
 
-            //ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
-            //_mainViewModel.NotifyElementsReportReady(elementListViewModel);
+            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
+            _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
 
         private bool ShowElementRequiredInterfacesCanExecute(object parameter)
@@ -205,12 +298,12 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
 
         private void ShowCellRelationsExecute(object parameter)
         {
-            //string title = $"Relations between consumer {SelectedConsumer.Element.Fullname} and provider {SelectedProvider.Element.Fullname}";
+            string title = $"Relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
 
-            //var relations = _application.FindResolvedRelations(SelectedConsumer.Element, SelectedProvider.Element);
+            var relations = _application.FindResolvedRelations(SelectedConsumer, SelectedProvider);
 
-            //RelationListViewModel relationsListViewModel = new RelationListViewModel(title, relations);
-            //_mainViewModel.NotifyRelationsReportReady(relationsListViewModel);
+            RelationListViewModel relationsListViewModel = new RelationListViewModel(title, relations);
+            _mainViewModel.NotifyRelationsReportReady(relationsListViewModel);
         }
 
         private bool ShowCellRelationsCanExecute(object parameter)
@@ -220,15 +313,16 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
 
         private void DefineCellContent()
         {
-            int size = _selectedElements.Count;
+            _cellWeights = new List<List<int>>();
+            int size = _leafElements.Count;
 
             for (int row = 0; row < size; row++)
             {
                 _cellWeights.Add(new List<int>());
                 for (int column = 0; column < size; column++)
                 {
-                    IDsmElement consumer = _selectedElements[column];
-                    IDsmElement provider = _selectedElements[row];
+                    IDsmElement consumer = _leafElements[column];
+                    IDsmElement provider = _leafElements[row];
                     int weight = _application.GetDependencyWeight(consumer, provider);
                     _cellWeights[row].Add(weight);
                 }
@@ -237,7 +331,10 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
 
         private void DefineCellColors()
         {
-            int size = _selectedElements.Count;
+            int size = _leafElements.Count;
+
+            _cellColors = new List<List<Color>>();
+
 
             // Define back ground color
             for (int row = 0; row < size; row++)
@@ -259,7 +356,7 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
                 {
                     int leafElements = 0;
 
-                    CountLeafElements(_selectedElements[row], ref leafElements);
+                    CountLeafElements(_leafElements[row], ref leafElements);
                     for (int rowDelta = 0; rowDelta < leafElements; rowDelta++)
                     {
                         for (int columnDelta = 0; columnDelta < leafElements; columnDelta++)
@@ -282,8 +379,8 @@ namespace DsmSuite.DsmViewer.ViewModel.ImprovedMatrix
             {
                 for (int column = 0; column < size; column++)
                 {
-                    IDsmElement consumer = _selectedElements[column];
-                    IDsmElement provider = _selectedElements[row];
+                    IDsmElement consumer = _leafElements[column];
+                    IDsmElement provider = _leafElements[row];
                     if (_application.IsCyclicDependency(consumer, provider) && _application.ShowCycles)
                     {
                         _cellColors[row][column] = Colors.Green;
