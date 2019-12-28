@@ -10,6 +10,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 {
     public class RenderedRowHeaderItemView : MatrixFrameworkElement
     {
+        private readonly MatrixViewModel _matrixViewModel;
         private static readonly string DataObjectName = "Element";
         private static readonly string BlackRightPointingTriangle = '\u25B6'.ToString();
         private static readonly string BlackDownPointingTriangle = '\u25BC'.ToString();
@@ -36,11 +37,14 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 Brushes.Black);
         }
 
-        public RenderedRowHeaderItemView(RenderTheme renderTheme)
+        public RenderedRowHeaderItemView(MatrixViewModel matrixViewModel, RenderTheme renderTheme)
         {
+            _matrixViewModel = matrixViewModel;
+            _matrixViewModel.PropertyChanged += OnMatrixViewModelPropertyChanged;
             _renderTheme = renderTheme;
-            AllowDrop = true;
 
+            AllowDrop = true;
+            
             DataContextChanged += OnDataContextChanged;
         }
 
@@ -101,14 +105,18 @@ namespace DsmSuite.DsmViewer.View.Matrix
             if (_viewModel != null)
             {
                 ToolTip = _viewModel.Description;
-                _viewModel.PropertyChanged += OnViewModelPropertyChanged;
             }
         }
 
-        private void OnViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public void Redraw()
         {
-            if ((e.PropertyName == nameof(ElementTreeItemViewModel.IsHovered)) ||
-                (e.PropertyName == nameof(ElementTreeItemViewModel.IsSelected)))
+            InvalidateVisual();
+        }
+
+        private void OnMatrixViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if ((e.PropertyName == nameof(MatrixViewModel.SelectedRow)) ||
+                (e.PropertyName == nameof(MatrixViewModel.HoveredRow)))
             {
                 InvalidateVisual();
             }
@@ -118,8 +126,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             if ((_viewModel != null) && (ActualWidth > 2.0) && (ActualHeight > 2.0))
             {
-                SolidColorBrush background = _renderTheme.GetBackground(_viewModel.Color, false, _viewModel.IsHovered,
-                    _viewModel.IsSelected);
+                bool isHovered = _matrixViewModel.HoveredProviderTreeItem == _viewModel;
+                bool isSelected = _matrixViewModel.SelectedProviderTreeItem == _viewModel;
+                SolidColorBrush background = _renderTheme.GetBackground(_viewModel.Color, isHovered, isSelected);
                 Rect backgroundRect = new Rect(1.0, 1.0, ActualWidth - 2.0, ActualHeight - 2.0);
                 dc.DrawRectangle(background, null, backgroundRect);
 

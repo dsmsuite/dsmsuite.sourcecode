@@ -47,11 +47,9 @@
     <Compile Include="Dialogs\SnapshotCreateDialog.xaml.cs">
       <DependentUpon>SnapshotCreateDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Matrix\MatrixCellsView.cs" />
+    <Compile Include="Matrix\MatrixColumnHeaderView.cs" />
     <Compile Include="Matrix\MatrixFrameworkElement.cs" />
-    <Compile Include="Matrix\RenderedColumHeaderView.cs" />
-    <Compile Include="Matrix\RenderedCellsView.cs" />
-    <Compile Include="Matrix\RenderedCellView.cs" />
-    <Compile Include="Matrix\RenderedColumHeaderItemView.cs" />
     <Compile Include="Matrix\RenderedRowHeaderView.cs" />
     <Compile Include="Matrix\RenderTheme.cs" />
     <Compile Include="Matrix\RenderedRowHeaderItemView.cs" />

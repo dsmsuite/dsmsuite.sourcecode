@@ -6,7 +6,6 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 using DsmSuite.DsmViewer.ViewModel.Main;
-using System;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
@@ -16,15 +15,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private readonly IMainViewModel _mainViewModel;
         private readonly IDsmApplication _application;
         private readonly IEnumerable<IDsmElement> _selectedElements;
-        private ElementViewModel _selectedConsumer;
-        private ElementViewModel _selectedProvider;
-        private ElementViewModel _hoveredConsumer;
-        private ElementViewModel _hoveredProvider;
+        private ObservableCollection<ElementTreeItemViewModel> _providers;
+        private List<ElementTreeItemViewModel> _leafViewModels;
+        private int? _selectedRow;
+        private int? _selectedColumn;
+        private int? _hoveredRow;
+        private int? _hoveredColumn;
+        private int _matrixSize;
+
+        private List<List<MatrixColor>> _cellColors;
+        private List<List<int>> _cellWeights;
+        private List<MatrixColor> _columnColors;
+        private List<int> _columnElementIds;
+        
         private int? _selectedConsumerId;
         private int? _selectedProviderId;
-        private ObservableCollection<ElementTreeItemViewModel> _providers;
-        private IList<ElementViewModel> _consumers;
-        private IList<IList<CellViewModel>> _dependencies;
 
         public MatrixViewModel(IMainViewModel mainViewModel, IDsmApplication application, IEnumerable<IDsmElement> selectedElements)
         {
@@ -81,114 +86,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand DeleteRelationCommand { get; }
         public ICommand ChangeRelationWeightCommand { get; }
         public ICommand ChangeRelationTypeCommand { get; }
-        public double ZoomLevel
-        {
-            get { return _zoomLevel; }
-            set { _zoomLevel = value; OnPropertyChanged(); }
-        }
-
-        public void Reload()
-        {
-            Providers = CreateProviderTree();
-            var providerLeafs = FindProviderLeafElementViewModels(Providers);
-            Consumers = FindConsumerLeafElementViewModels(Providers);
-            Dependencies = UpdateCells(providerLeafs, Consumers);
-            RestoreSelections(Providers);
-        }
-        
-        public ElementViewModel SelectedConsumer
-        {
-            get
-            {
-                return _selectedConsumer;
-            }
-            private set
-            {
-                _selectedConsumer = value; OnPropertyChanged();
-            }
-        }
-
-        public ElementViewModel SelectedProvider
-        {
-            get
-            {
-                return _selectedProvider;
-            }
-            private set
-            {
-                _selectedProvider = value; OnPropertyChanged();
-            }
-        }
-
-        public void SelectConsumer(ElementViewModel consumer)
-        {
-            SelectedConsumer = consumer;
-            SelectedProvider = null;
-
-            _selectedConsumerId = consumer.Id;
-            _selectedProviderId = null;
-        }
-
-        public void SelectProvider(ElementViewModel provider)
-        {
-            SelectedConsumer = null;
-            SelectedProvider = provider;
-
-            _selectedConsumerId = null;
-            _selectedProviderId = provider.Id;
-        }
-
-        public void SelectCell(ElementViewModel consumer, ElementViewModel provider)
-        {
-            SelectedConsumer = consumer;
-            SelectedProvider = provider;
-
-            _selectedConsumerId = consumer.Id;
-            _selectedProviderId = provider.Id;
-        }
-
-        public ElementViewModel HoveredConsumer
-        {
-            get
-            {
-                return _hoveredConsumer;
-            }
-            private set
-            {
-                _hoveredConsumer = value; OnPropertyChanged();
-            }
-        }
-
-        public ElementViewModel HoveredProvider
-        {
-            get
-            {
-                return _hoveredProvider;
-            }
-            private set
-            {
-                _hoveredProvider = value; OnPropertyChanged();
-            }
-        }
-
-        public void HoverConsumer(ElementViewModel consumer)
-        {
-            HoveredConsumer = consumer;
-            HoveredProvider = null;
-        }
-
-        public void HoverProvider(ElementViewModel provider)
-        {
-            HoveredConsumer = null;
-            HoveredProvider = provider;
-        }
-
-        public void HoverCell(ElementViewModel consumer, ElementViewModel provider)
-        {
-            HoveredConsumer = consumer;
-            HoveredProvider = provider;
-        }
-
         public ICommand ChangeElementParentCommand { get; }
         public ICommand MoveUpElementCommand { get; }
         public ICommand MoveDownElementCommand { get; }
@@ -198,22 +95,228 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand ShowCellDetailMatrixCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
 
+        public int MatrixSize
+        {
+            get { return _matrixSize; }
+            set { _matrixSize = value; OnPropertyChanged(); }
+        }
+
         public ObservableCollection<ElementTreeItemViewModel> Providers
         {
             get { return _providers; }
             private set { _providers = value; OnPropertyChanged(); }
         }
 
-        public IList<ElementViewModel> Consumers
+        public IReadOnlyList<MatrixColor> ColumnColors => _columnColors;
+        public IReadOnlyList<int> ColumnElementIds => _columnElementIds;
+        public IReadOnlyList<IList<MatrixColor>> CellColors => _cellColors;
+        public IReadOnlyList<IReadOnlyList<int>> CellWeights => _cellWeights;
+
+        public double ZoomLevel
         {
-            get { return _consumers; }
-            private set { _consumers = value; OnPropertyChanged(); }
+            get { return _zoomLevel; }
+            set { _zoomLevel = value; OnPropertyChanged(); }
         }
 
-        public IList<IList<CellViewModel>> Dependencies
+        public void NavigateToSelectedElement(IDsmElement element)
         {
-            get { return _dependencies; }
-            private set { _dependencies = value; OnPropertyChanged(); }
+            ExpandElement(element);
+            SelectElement(element);
+        }
+
+        private void SelectElement(IDsmElement element)
+        {
+            SelectElement(Providers, element);
+        }
+
+        private void SelectElement(IEnumerable<ElementTreeItemViewModel> tree, IDsmElement element)
+        {
+            // TODO
+        }
+
+        private void ExpandElement(IDsmElement element)
+        {
+            IDsmElement current = element.Parent;
+            while (current != null)
+            {
+                current.IsExpanded = true;
+                current = current.Parent;
+            }
+            Reload();
+        }
+
+        public void Reload()
+        {
+            BackupSelectionBeforeReload();
+            Providers = CreateProviderTree();
+            _leafViewModels = FindLeafElements();
+            DefineColumnColors();
+            DefineColumnContent();
+            DefineCellColors();
+            DefineCellContent();
+            MatrixSize = _leafViewModels.Count;
+            RestoreSelectionAfterReload();
+        }
+        
+        public void SelectRow(int? row)
+        {
+            SelectedRow = row;
+            SelectedColumn = null;
+        }
+
+        public void SelectColumn(int? column)
+        {
+            SelectedRow = null;
+            SelectedColumn = column;
+            ColumnTooltip = null;
+            if (column.HasValue)
+            {
+                IDsmElement element = _leafViewModels[column.Value].Element;
+                if (element != null)
+                {
+                    ColumnTooltip = $"{element.Order}] {element.Fullname}";
+                }
+            }
+        }
+
+        public string ColumnTooltip { get; private set; }
+        public string CellToolTip { get; private set; }
+
+        public void SelectCell(int? row, int? columnn)
+        {
+            SelectedRow = row;
+            SelectedColumn = columnn;
+        }
+
+        public int? SelectedRow
+        {
+            get { return _selectedRow; }
+            private set { _selectedRow = value; OnPropertyChanged(); }
+        }
+
+        public int? SelectedColumn
+        {
+            get { return _selectedColumn; }
+            private set { _selectedColumn = value; OnPropertyChanged(); }
+        }
+
+        public void HoverRow(int? row)
+        {
+            HoveredRow = row;
+            HoveredColumn = null;
+        }
+
+        public void HoverColumn(int? column)
+        {
+            HoveredRow = null;
+            HoveredColumn = column;
+        }
+
+        public void HoverCell(int? row, int? columnn)
+        {
+            HoveredRow = row;
+            HoveredColumn = columnn;
+        }
+
+        public int? HoveredRow
+        {
+            get { return _hoveredRow; }
+            private set { _hoveredRow = value; OnPropertyChanged(); }
+        }
+
+        public int? HoveredColumn
+        {
+            get { return _hoveredColumn; }
+            private set { _hoveredColumn = value; OnPropertyChanged(); }
+        }
+
+        public IDsmElement SelectedConsumer
+        {
+            get
+            {
+                IDsmElement selectedConsumer = null;
+                if (SelectedColumn.HasValue)
+                {
+                    selectedConsumer = _leafViewModels[SelectedColumn.Value].Element;
+                }
+                return selectedConsumer;
+            }
+        }
+
+        public IDsmElement SelectedProvider
+        {
+            get
+            {
+                return SelectedProviderTreeItem?.Element;
+            }
+        }
+
+        private ElementTreeItemViewModel _selectedProviderTreeItem;
+
+        public void SelectProviderTreeItem(ElementTreeItemViewModel selectedProviderTreeItem)
+        {
+            SelectCell(null, null);
+            for (int row = 0; row < _leafViewModels.Count; row++)
+            {
+                if (_leafViewModels[row] == selectedProviderTreeItem)
+                {
+                    SelectRow(row);
+                }
+            }
+            _selectedProviderTreeItem = selectedProviderTreeItem;
+        }
+
+        public ElementTreeItemViewModel SelectedProviderTreeItem
+        {
+            get
+            {
+                ElementTreeItemViewModel selectedProviderTreeItem;
+
+                if (SelectedRow.HasValue)
+                {
+                    selectedProviderTreeItem = _leafViewModels[SelectedRow.Value];
+                }
+                else
+                {
+                    selectedProviderTreeItem = _selectedProviderTreeItem;
+                }
+
+                return selectedProviderTreeItem;
+            }
+        }
+
+        private ElementTreeItemViewModel _hoveredProviderTreeItem;
+
+        public void HoverProviderTreeItem(ElementTreeItemViewModel hoveredProviderTreeItem)
+        {
+            HoverCell(null, null);
+            for (int row = 0; row < _leafViewModels.Count; row++)
+            {
+                if (_leafViewModels[row] == hoveredProviderTreeItem)
+                {
+                    HoverRow(row);
+                }
+            }
+            _hoveredProviderTreeItem = hoveredProviderTreeItem;
+        }
+
+        public ElementTreeItemViewModel HoveredProviderTreeItem
+        {
+            get
+            {
+                ElementTreeItemViewModel hoveredProviderTreeItem;
+
+                if (HoveredRow.HasValue)
+                {
+                    hoveredProviderTreeItem = _leafViewModels[HoveredRow.Value];
+                }
+                else
+                {
+                    hoveredProviderTreeItem = _hoveredProviderTreeItem;
+                }
+
+                return hoveredProviderTreeItem;
+            }
         }
 
         private ObservableCollection<ElementTreeItemViewModel> CreateProviderTree()
@@ -222,7 +325,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             var rootViewModels = new ObservableCollection<ElementTreeItemViewModel>();
             foreach (IDsmElement provider in _selectedElements)
             {
-                ElementTreeItemViewModel viewModel = new ElementTreeItemViewModel(this, provider, ElementRole.Provider, depth);
+                ElementTreeItemViewModel viewModel = new ElementTreeItemViewModel(this, provider, depth);
                 rootViewModels.Add(viewModel);
                 AddProviderTreeChilderen(viewModel);
             }
@@ -235,7 +338,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             {
                 foreach (IDsmElement child in viewModel.Element.Children)
                 {
-                    ElementTreeItemViewModel childViewModel = new ElementTreeItemViewModel(this, child, ElementRole.Provider, viewModel.Depth + 1);
+                    ElementTreeItemViewModel childViewModel = new ElementTreeItemViewModel(this, child, viewModel.Depth + 1);
                     viewModel.Children.Add(childViewModel);
                     AddProviderTreeChilderen(childViewModel);
                 }
@@ -246,120 +349,157 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
         }
 
-        private void RestoreSelections(ObservableCollection<ElementTreeItemViewModel> tree)
+        private List<ElementTreeItemViewModel> FindLeafElements()
         {
-            foreach (ElementTreeItemViewModel viewModel in tree)
+            List<ElementTreeItemViewModel> leafElements = new List<ElementTreeItemViewModel>();
+
+            foreach (ElementTreeItemViewModel selectedElement in Providers)
             {
-                if (viewModel.Id == _selectedConsumerId)
+                FindLeafElements(leafElements, selectedElement);
+            }
+
+            return leafElements;
+        }
+
+        private void FindLeafElements(List<ElementTreeItemViewModel> leafElements, ElementTreeItemViewModel element)
+        {
+            if (!element.IsExpanded)
+            {
+                leafElements.Add(element);
+            }
+
+            foreach (ElementTreeItemViewModel childElement in element.Children)
+            {
+                FindLeafElements(leafElements, childElement);
+            }
+        }
+
+        private void DefineCellColors()
+        {
+            int size = _leafViewModels.Count;
+
+            _cellColors = new List<List<MatrixColor>>();
+
+            // Define background color
+            for (int row = 0; row < size; row++)
+            {
+                _cellColors.Add(new List<MatrixColor>());
+                for (int column = 0; column < size; column++)
                 {
-                    SelectedConsumer = viewModel;
+                    _cellColors[row].Add(MatrixColor.Background);
                 }
+            }
 
-                if (viewModel.Id == _selectedProviderId)
+            // Define expanded block color
+            for (int row = 0; row < size; row++)
+            {
+                IDsmElement element = _leafViewModels[row].Element;
+
+                if (_application.IsFirstChild(element))
                 {
-                    SelectedProvider = viewModel;
-                }
+                    int leafElements = 0;
+                    CountLeafElements(element.Parent, ref leafElements);
 
-                RestoreSelections(viewModel.Children);
-            }
-        }
-
-        private IList<ElementViewModel> FindProviderLeafElementViewModels(ObservableCollection<ElementTreeItemViewModel> tree)
-        {
-            List<ElementViewModel> leafElementViewModels = new List<ElementViewModel>();
-
-            foreach (ElementTreeItemViewModel treeViewItem in tree)
-            {
-                FindProviderLeafElementViewModels(leafElementViewModels, treeViewItem);
-            }
-
-            return leafElementViewModels;
-        }
-
-        private void FindProviderLeafElementViewModels(IList<ElementViewModel> leafElementViewModels, ElementTreeItemViewModel treeViewItem)
-        {
-            if (!treeViewItem.IsExpanded)
-            {
-                leafElementViewModels.Add(treeViewItem);
-            }
-
-            foreach (ElementTreeItemViewModel child in treeViewItem.Children)
-            {
-                FindProviderLeafElementViewModels(leafElementViewModels, child);
-            }
-        }
-
-        private IList<ElementViewModel> FindConsumerLeafElementViewModels(IList<ElementTreeItemViewModel> tree)
-        {
-            List<ElementViewModel> leafElementViewModels = new List<ElementViewModel>();
-
-            foreach (ElementTreeItemViewModel treeViewItem in tree)
-            {
-                FindConsumerLeafElementViewModels(leafElementViewModels, treeViewItem);
-            }
-
-            return leafElementViewModels;
-        }
-
-        private void FindConsumerLeafElementViewModels(IList<ElementViewModel> leafElementViewModels, ElementTreeItemViewModel treeViewItem)
-        {
-            if (!treeViewItem.IsExpanded)
-            {
-                leafElementViewModels.Add(new ElementViewModel(this, treeViewItem.Element, ElementRole.Consumer, treeViewItem.Depth));
-            }
-
-            foreach (ElementTreeItemViewModel child in treeViewItem.Children)
-            {
-                FindConsumerLeafElementViewModels(leafElementViewModels, child);
-            }
-        }
-
-        private IList<IList<CellViewModel>> UpdateCells(IList<ElementViewModel> providers, IList<ElementViewModel> consumers)
-        {
-            List<IList<CellViewModel>> cellViewModels = new List<IList<CellViewModel>>();
-
-            int row = 0;
-            foreach (ElementViewModel provider in providers)
-            {
-                int column = 0;
-                List<CellViewModel> rowCellViewModels = new List<CellViewModel>();
-                foreach (ElementViewModel consumer in consumers)
-                {
-                    int weight = _application.GetDependencyWeight(consumer.Element, provider.Element);
-                    bool cyclic = _application.IsCyclicDependency(consumer.Element, provider.Element) &&
-                                  _application.ShowCycles;
-
-                    int depth = 0;
-                    if (provider.Element.Id == consumer.Element.Id)
+                    if (leafElements > 0) 
                     {
-                        depth = provider.Depth;
-                    }
-                    else
-                    {
-                        if ((consumer.Element.Parent.Id == provider.Element.Parent.Id) &&
-                            (consumer.Depth == provider.Depth))
+                        int parentDepth = _leafViewModels[row].Depth - 1;
+                        MatrixColor expandedColor = MatrixColorConverter.GetColor(parentDepth);
+
+                        int begin = row;
+                        int end = row + leafElements;
+
+                        for (int i = begin; i < end; i++)
                         {
-                            depth = Math.Min(consumer.Depth - 1, provider.Depth - 1);
+                            for (int columnDelta = begin; columnDelta < end; columnDelta++)
+                            {
+                                _cellColors[i][columnDelta] = expandedColor;
+                            }
                         }
                     }
-
-                    int color = Math.Abs(depth % 4);
-
-                    rowCellViewModels.Add(new CellViewModel(this, consumer, provider, weight, cyclic, row, column, color));
-                    column++;
                 }
-                cellViewModels.Add(rowCellViewModels);
-                row++;
             }
 
-            return cellViewModels;
+            // Define diagonal color
+            for (int row = 0; row < size; row++)
+            {
+                int depth = _leafViewModels[row].Depth;
+                MatrixColor dialogColor = MatrixColorConverter.GetColor(depth);
+                _cellColors[row][row] = dialogColor;
+            }
+
+            // Define cycle color
+            for (int row = 0; row < size; row++)
+            {
+                for (int column = 0; column < size; column++)
+                {
+                    IDsmElement consumer = _leafViewModels[column].Element;
+                    IDsmElement provider = _leafViewModels[row].Element;
+                    if (_application.IsCyclicDependency(consumer, provider) && _application.ShowCycles)
+                    {
+                        _cellColors[row][column] = MatrixColor.Highlight;
+                    }
+                }
+            }
         }
+
+        private void CountLeafElements(IDsmElement element, ref int count)
+        {
+            if (!element.IsExpanded)
+            {
+                count++;
+            }
+            else
+            {
+                foreach (IDsmElement child in element.Children)
+                {
+                    CountLeafElements(child, ref count);
+                }
+            }
+        }
+
+        private void DefineColumnColors()
+        {
+            _columnColors = new List<MatrixColor>();
+            foreach (ElementTreeItemViewModel provider in _leafViewModels)
+            {
+                _columnColors.Add(provider.Color);
+            }
+        }
+
+        private void DefineColumnContent()
+        {
+            _columnElementIds = new List<int>();
+            foreach (ElementTreeItemViewModel provider in _leafViewModels)
+            {
+                _columnElementIds.Add(provider.Element.Order);
+            }
+        }
+
+        private void DefineCellContent()
+        {
+            _cellWeights = new List<List<int>>();
+            int size = _leafViewModels.Count;
+
+            for (int row = 0; row < size; row++)
+            {
+                _cellWeights.Add(new List<int>());
+                for (int column = 0; column < size; column++)
+                {
+                    IDsmElement consumer = _leafViewModels[column].Element;
+                    IDsmElement provider = _leafViewModels[row].Element;
+                    int weight = _application.GetDependencyWeight(consumer, provider);
+                    _cellWeights[row].Add(weight);
+                }
+            }
+        }
+
+
 
         private void ShowCellConsumersExecute(object parameter)
         {
-            string title = $"Consumers in relations between consumer {SelectedConsumer.Element.Fullname} and provider {SelectedProvider.Element.Fullname}";
+            string title = $"Consumers in relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
 
-            var elements = _application.GetRelationConsumers(SelectedConsumer.Element, SelectedProvider.Element);
+            var elements = _application.GetRelationConsumers(SelectedConsumer, SelectedProvider);
 
             ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
@@ -373,9 +513,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowCellProvidersExecute(object parameter)
         {
-            string title = $"Providers in relations between consumer {SelectedConsumer.Element.Fullname} and provider {SelectedProvider.Element.Fullname}";
+            string title = $"Providers in relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
 
-            var elements = _application.GetRelationProviders(SelectedConsumer.Element, SelectedProvider.Element);
+            var elements = _application.GetRelationProviders(SelectedConsumer, SelectedProvider);
 
             ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
@@ -388,9 +528,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowElementConsumersExecute(object parameter)
         {
-            string title = $"Consumers of {SelectedProvider.Element.Fullname}";
+            string title = $"Consumers of {SelectedProvider.Fullname}";
 
-            var elements = _application.GetElementConsumers(SelectedProvider.Element);
+            var elements = _application.GetElementConsumers(SelectedProvider);
 
             ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
@@ -403,14 +543,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowProvidedInterfacesExecute(object parameter)
         {
-            string title = $"Provided interface of {SelectedProvider.Element.Fullname}";
+            string title = $"Provided interface of {SelectedProvider.Fullname}";
 
-            var elements = _application.GetElementProvidedElements(SelectedProvider.Element);
+            var elements = _application.GetElementProvidedElements(SelectedProvider);
 
             ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
-        
+
         private bool ShowElementProvidedInterfacesCanExecute(object parameter)
         {
             return true;
@@ -418,9 +558,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowElementRequiredInterfacesExecute(object parameter)
         {
-            string title = $"Required interface of {SelectedProvider.Element.Fullname}";
+            string title = $"Required interface of {SelectedProvider.Fullname}";
 
-            var elements = _application.GetElementProviders(SelectedProvider.Element);
+            var elements = _application.GetElementProviders(SelectedProvider);
 
             ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
@@ -433,17 +573,39 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowCellRelationsExecute(object parameter)
         {
-            string title = $"Relations between consumer {SelectedConsumer.Element.Fullname} and provider {SelectedProvider.Element.Fullname}";
+            string title = $"Relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
 
-            var relations = _application.FindResolvedRelations(SelectedConsumer.Element, SelectedProvider.Element);
+            var relations = _application.FindResolvedRelations(SelectedConsumer, SelectedProvider);
 
             RelationListViewModel relationsListViewModel = new RelationListViewModel(title, relations);
             _mainViewModel.NotifyRelationsReportReady(relationsListViewModel);
         }
-        
+
         private bool ShowCellRelationsCanExecute(object parameter)
         {
             return true;
+        }
+
+        private void BackupSelectionBeforeReload()
+        {
+            _selectedConsumerId = SelectedConsumer?.Id;
+            _selectedProviderId = SelectedProvider?.Id;
+        }
+
+        private void RestoreSelectionAfterReload()
+        {
+            for (int i = 0; i < _leafViewModels.Count; i++)
+            {
+                if (_selectedProviderId.HasValue && (_selectedProviderId.Value == _leafViewModels[i].Id))
+                {
+                    SelectRow(i);
+                }
+
+                if (_selectedConsumerId.HasValue && (_selectedConsumerId.Value == _leafViewModels[i].Id))
+                {
+                    SelectColumn(i);
+                }
+            }
         }
     }
 }

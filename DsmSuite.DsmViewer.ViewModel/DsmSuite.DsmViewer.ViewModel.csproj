@@ -36,9 +36,6 @@
     <Compile Include="Editing\Relation\RelationEditTypeViewModel.cs" />
     <Compile Include="Editing\Relation\RelationEditWeightViewModel.cs" />
     <Compile Include="Editing\Snapshot\SnapshotMakeViewModel.cs" />
-    <Compile Include="ImprovedMatrix\DsmColor.cs" />
-    <Compile Include="ImprovedMatrix\MatrixElementViewModel.cs" />
-    <Compile Include="ImprovedMatrix\ImprovedMatrixViewModel.cs" />
     <Compile Include="Lists\ActionListItemViewModel.cs" />
     <Compile Include="Lists\ActionListViewModel.cs" />
     <Compile Include="Lists\ElementListItemViewModel.cs" />
@@ -48,10 +45,10 @@
     <Compile Include="Lists\RelationListViewModel.cs" />
     <Compile Include="Main\SettingsViewModel.cs" />
     <Compile Include="Matrix\ElementTreeItemViewModel.cs" />
-    <Compile Include="Matrix\ElementViewModel.cs" />
     <Compile Include="Main\IMainViewModel.cs" />
     <Compile Include="Main\MainViewModel.cs" />
-    <Compile Include="Matrix\CellViewModel.cs" />
+    <Compile Include="Matrix\MatrixColor.cs" />
+    <Compile Include="Matrix\MatrixColorConverter.cs" />
     <Compile Include="Matrix\MatrixViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

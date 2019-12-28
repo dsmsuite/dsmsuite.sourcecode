@@ -133,11 +133,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             IsModified = e;
         }
 
-        public ElementViewModel SelectedConsumer => ActiveMatrix?.SelectedConsumer;
+        public IDsmElement SelectedConsumer => ActiveMatrix?.SelectedConsumer;
 
-        public ElementViewModel SelectedProvider => ActiveMatrix?.SelectedProvider;
+        public IDsmElement SelectedProvider => ActiveMatrix?.SelectedProvider;
 
-        public ElementTreeItemViewModel SelectedProviderTreeItem => ActiveMatrix?.SelectedProvider as ElementTreeItemViewModel;
+        public ElementTreeItemViewModel SelectedProviderTreeItem => ActiveMatrix?.SelectedProviderTreeItem;
 
         public MatrixViewModel ActiveMatrix
         {
@@ -298,17 +298,17 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void SortElementExecute(object parameter)
         {
-            _application.Sort(SelectedProvider?.Element, SelectedSortAlgorithm);
+            _application.Sort(SelectedProvider, SelectedSortAlgorithm);
         }
 
         private bool SortElementCanExecute(object parameter)
         {
-            return _application.HasChildren(SelectedProvider?.Element);
+            return _application.HasChildren(SelectedProvider);
         }
 
         private void ShowElementDetailMatrixExecute(object parameter)
         {
-            List<IDsmElement> selectedElements = new List<IDsmElement> { SelectedProvider?.Element };
+            List<IDsmElement> selectedElements = new List<IDsmElement> { SelectedProvider };
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
 
@@ -319,9 +319,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ShowElementContextMatrixExecute(object parameter)
         {
-            List<IDsmElement> selectedElements = new List<IDsmElement> { SelectedProvider?.Element };
-            selectedElements.AddRange(_application.GetElementConsumers(SelectedProvider?.Element));
-            selectedElements.AddRange(_application.GetElementProviders(SelectedProvider?.Element));
+            List<IDsmElement> selectedElements = new List<IDsmElement> { SelectedProvider };
+            selectedElements.AddRange(_application.GetElementConsumers(SelectedProvider));
+            selectedElements.AddRange(_application.GetElementProviders(SelectedProvider));
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
 
@@ -334,8 +334,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             List<IDsmElement> selectedElements = new List<IDsmElement>
             {
-                SelectedProvider?.Element,
-                SelectedConsumer?.Element
+                SelectedProvider,
+                SelectedConsumer
             };
             ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
         }
@@ -347,24 +347,24 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void MoveUpElementExecute(object parameter)
         {
-            _application.MoveUp(SelectedProvider?.Element);
+            _application.MoveUp(SelectedProvider);
         }
 
         private bool MoveUpElementCanExecute(object parameter)
         {
-            IDsmElement current = SelectedProvider?.Element;
+            IDsmElement current = SelectedProvider;
             IDsmElement previous = _application.PreviousSibling(current);
             return (current != null) && (previous != null);
         }
 
         private void MoveDownElementExecute(object parameter)
         {
-            _application.MoveDown(SelectedProvider?.Element);
+            _application.MoveDown(SelectedProvider);
         }
 
         private bool MoveDownElementCanExecute(object parameter)
         {
-            IDsmElement current = SelectedProvider?.Element;
+            IDsmElement current = SelectedProvider;
             IDsmElement next = _application.NextSibling(current);
             return (current != null) && (next != null);
         }
@@ -397,7 +397,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ToggleElementExpandedExecute(object parameter)
         {
-            ActiveMatrix.SelectProvider(ActiveMatrix.HoveredProvider);
+            ActiveMatrix.SelectProviderTreeItem(ActiveMatrix.HoveredProviderTreeItem);
             if ((SelectedProviderTreeItem != null) && (SelectedProviderTreeItem.IsExpandable))
             {
                 SelectedProviderTreeItem.IsExpanded = !SelectedProviderTreeItem.IsExpanded;
@@ -535,8 +535,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             if (_foundElementIndex.HasValue)
             {
                 IDsmElement foundElement = _foundElements[_foundElementIndex.Value];
-                ExpandElement(foundElement);
-                SelectElement(ActiveMatrix.Providers, foundElement);
+                ActiveMatrix?.NavigateToSelectedElement(foundElement);
             }
         }
 
@@ -544,33 +543,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             return _foundElements.Count > 0 && _foundElementIndex > 0;
         }
-
-        private void ExpandElement(IDsmElement element)
-        {
-            IDsmElement current = element.Parent;
-            while (current != null)
-            {
-                current.IsExpanded = true;
-                current = current.Parent;
-            }
-            ActiveMatrix?.Reload();
-        }
-
-        private void SelectElement(IEnumerable<ElementTreeItemViewModel> providers, IDsmElement element)
-        {
-            foreach (ElementTreeItemViewModel item in providers)
-            {
-                if (element.Id == item.Id)
-                {
-                    ActiveMatrix?.SelectProvider(item);
-                }
-                else
-                {
-                    SelectElement(item.Children, element);
-                }
-            }
-        }
-
+        
         private void OnActionPerformed(object sender, EventArgs e)
         {
             UndoText = $"Undo {_application.GetUndoActionDescription()}";
@@ -580,7 +553,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void CreateElementExecute(object parameter)
         {
-            ElementCreateViewModel elementCreateViewModel = new ElementCreateViewModel(_application, SelectedProvider.Element);
+            ElementCreateViewModel elementCreateViewModel = new ElementCreateViewModel(_application, SelectedProvider);
             ElementCreateStarted?.Invoke(this, elementCreateViewModel);
         }
 
@@ -591,7 +564,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void DeleteElementExecute(object parameter)
         {
-            _application.DeleteElement(SelectedProvider.Element);
+            _application.DeleteElement(SelectedProvider);
         }
 
         private bool DeleteElementCanExecute(object parameter)
@@ -601,7 +574,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ChangeElementNameExecute(object parameter)
         {
-            ElementEditNameViewModel elementEditViewModel = new ElementEditNameViewModel(_application, SelectedProvider.Element);
+            ElementEditNameViewModel elementEditViewModel = new ElementEditNameViewModel(_application, SelectedProvider);
             ElementEditNameStarted?.Invoke(this, elementEditViewModel);
         }
 
@@ -612,7 +585,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ChangeElementTypeExecute(object parameter)
         {
-            ElementEditTypeViewModel elementEditViewModel = new ElementEditTypeViewModel(_application, SelectedProvider.Element);
+            ElementEditTypeViewModel elementEditViewModel = new ElementEditTypeViewModel(_application, SelectedProvider);
             ElementEditTypeStarted?.Invoke(this, elementEditViewModel);
         }
 
@@ -639,7 +612,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             if ((SelectedConsumer != null) && (SelectedProvider != null))
             {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
                 IDsmRelation relation = relations.FirstOrDefault();
                 if (relation != null)
                 {
@@ -654,7 +627,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             bool canExecute = false;
             if ((SelectedConsumer != null) && (SelectedProvider != null))
             {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
                 if (relations.Count() == 1)
                 {
                     canExecute = true;
@@ -667,7 +640,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             if ((SelectedConsumer != null) && (SelectedProvider != null))
             {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
                 IDsmRelation relation = relations.FirstOrDefault();
                 if (relation != null)
                 {
@@ -682,7 +655,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             bool canExecute = false;
             if ((SelectedConsumer != null) && (SelectedProvider != null))
             {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
                 if (relations.Count() == 1)
                 {
                     canExecute = true;
@@ -693,10 +666,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void CreateRelationExecute(object parameter)
         {
-            IDsmElement consumer = SelectedConsumer.Element;
-            IDsmElement provider = SelectedProvider.Element;
-
-            RelationCreateViewModel relationCreateViewModel = new RelationCreateViewModel(_application, consumer, provider);
+            RelationCreateViewModel relationCreateViewModel = new RelationCreateViewModel(_application, SelectedConsumer, SelectedProvider);
             RelationCreateStarted?.Invoke(this, relationCreateViewModel);
         }
 
@@ -705,9 +675,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             bool canExecute = false;
 
             if ((SelectedConsumer != null) &&
-                (SelectedConsumer.Element?.HasChildren == false) &&
+                (SelectedConsumer.HasChildren == false) &&
                 (SelectedProvider != null) &&
-                (SelectedProvider.Element?.HasChildren == false))
+                (SelectedProvider.HasChildren == false))
             {
                 canExecute = true;
             }
@@ -718,7 +688,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             if ((SelectedConsumer != null) && (SelectedProvider != null))
             {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
                 IDsmRelation relation = relations.FirstOrDefault();
                 if (relation != null)
                 {
@@ -732,7 +702,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             bool canExecute = false;
             if ((SelectedConsumer != null) && (SelectedProvider != null))
             {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer.Element, SelectedProvider.Element);
+                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
                 if (relations.Count() == 1)
                 {
                     canExecute = true;

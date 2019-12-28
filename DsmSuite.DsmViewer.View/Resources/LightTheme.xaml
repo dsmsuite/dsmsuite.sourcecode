@@ -8,6 +8,7 @@
     <SolidColorBrush x:Key="ForegroundStandardColor" po:Freeze="True">#64524b</SolidColorBrush>
     <SolidColorBrush x:Key="ForegroundDisabledColor" po:Freeze="True">#a4948e</SolidColorBrush>
 
+    <SolidColorBrush x:Key="MatrixColorBackground" po:Freeze="True">#dddcdb</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColor1" po:Freeze="True">#f1d9cf</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColor2" po:Freeze="True">#cfd1cc</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColor3" po:Freeze="True">#bab8b7</SolidColorBrush>

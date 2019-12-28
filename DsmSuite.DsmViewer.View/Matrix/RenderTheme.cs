@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
+using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
@@ -17,31 +18,57 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         public double MatrixCellSize { get; }
         public double MatrixHeaderHeight { get; }
-        public SolidColorBrush GetBackground(int color, bool cyclic, bool isHovered, bool isSelected)
+
+        public SolidColorBrush GetBackground(MatrixColor color, bool isHovered, bool isSelected)
         {
             UpdateBrushes();
 
-            int index = cyclic ? 16 : (color * 4);
+            int colorIndex;
+            switch (color)
+            {
+                case MatrixColor.Background:
+                    colorIndex = 0;
+                    break;
+                case MatrixColor.Color1:
+                    colorIndex = 4;
+                    break;
+                case MatrixColor.Color2:
+                    colorIndex = 8;
+                    break;
+                case MatrixColor.Color3:
+                    colorIndex = 12;
+                    break;
+                case MatrixColor.Color4:
+                    colorIndex = 16;
+                    break;
+                case MatrixColor.Highlight:
+                    colorIndex = 20;
+                    break;
+                default:
+                    colorIndex = 0;
+                    break;
+            }
 
             if (isHovered)
             {
-                index += 1;
+                colorIndex += 1;
             }
 
             if (isSelected)
             {
-                index += 2;
+                colorIndex += 2;
             }
 
-            return _brushes[index];
+            return _brushes[colorIndex];
         }
 
         private void UpdateBrushes()
         {
             if (_brushes == null)
             {
-                _brushes = new SolidColorBrush[20];
+                _brushes = new SolidColorBrush[24];
 
+                SolidColorBrush brushBackground = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorBackground");
                 SolidColorBrush brush1 = (SolidColorBrush)_frameworkElement.FindResource("MatrixColor1");
                 SolidColorBrush brush2 = (SolidColorBrush)_frameworkElement.FindResource("MatrixColor2");
                 SolidColorBrush brush3 = (SolidColorBrush)_frameworkElement.FindResource("MatrixColor3");
@@ -50,11 +77,12 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 double highlightFactorHovered = (double)_frameworkElement.FindResource("HighlightFactorHovered");
                 double highlightFactorSelected = (double)_frameworkElement.FindResource("HighlightFactorSelected");
 
-                SetBrush(0, brush1, highlightFactorHovered, highlightFactorSelected);
-                SetBrush(1, brush2, highlightFactorHovered, highlightFactorSelected);
-                SetBrush(2, brush3, highlightFactorHovered, highlightFactorSelected);
-                SetBrush(3, brush4, highlightFactorHovered, highlightFactorSelected);
-                SetBrush(4, brushCyclic, highlightFactorHovered, highlightFactorSelected);
+                SetBrush(0, brushBackground, highlightFactorHovered, highlightFactorSelected);
+                SetBrush(1, brush1, highlightFactorHovered, highlightFactorSelected);
+                SetBrush(2, brush2, highlightFactorHovered, highlightFactorSelected);
+                SetBrush(3, brush3, highlightFactorHovered, highlightFactorSelected);
+                SetBrush(4, brush4, highlightFactorHovered, highlightFactorSelected);
+                SetBrush(5, brushCyclic, highlightFactorHovered, highlightFactorSelected);
             }
         }
 
