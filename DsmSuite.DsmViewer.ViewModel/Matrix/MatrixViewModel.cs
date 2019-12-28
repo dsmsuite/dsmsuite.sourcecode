@@ -27,7 +27,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private List<List<int>> _cellWeights;
         private List<MatrixColor> _columnColors;
         private List<int> _columnElementIds;
-        
+
         private int? _selectedConsumerId;
         private int? _selectedProviderId;
 
@@ -157,7 +157,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             MatrixSize = _leafViewModels.Count;
             RestoreSelectionAfterReload();
         }
-        
+
         public void SelectRow(int? row)
         {
             SelectedRow = row;
@@ -168,18 +168,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             SelectedRow = null;
             SelectedColumn = column;
-            ColumnTooltip = null;
-            if (column.HasValue)
-            {
-                IDsmElement element = _leafViewModels[column.Value].Element;
-                if (element != null)
-                {
-                    ColumnTooltip = $"{element.Order}] {element.Fullname}";
-                }
-            }
         }
 
-        public string ColumnTooltip { get; private set; }
+        private string _columnTooltip;
+
+        public string ColumnTooltip
+        {
+            get { return _columnTooltip; }
+            set { _columnTooltip = value; OnPropertyChanged(); }
+        }
+
 
         public void SelectCell(int? row, int? columnn)
         {
@@ -209,6 +207,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             HoveredRow = null;
             HoveredColumn = column;
+            UpdateTooltip(column);
         }
 
         public void HoverCell(int? row, int? columnn)
@@ -359,7 +358,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     int leafElements = 0;
                     CountLeafElements(element.Parent, ref leafElements);
 
-                    if (leafElements > 0) 
+                    if (leafElements > 0)
                     {
                         int parentDepth = _leafViewModels[row].Depth - 1;
                         MatrixColor expandedColor = MatrixColorConverter.GetColor(parentDepth);
@@ -563,6 +562,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 if (_selectedConsumerId.HasValue && (_selectedConsumerId.Value == _leafViewModels[i].Id))
                 {
                     SelectColumn(i);
+                }
+            }
+        }
+
+        private void UpdateTooltip(int? column)
+        {
+            if (column.HasValue)
+            {
+                IDsmElement element = _leafViewModels[column.Value].Element;
+                if (element != null)
+                {
+                    ColumnTooltip = $"{element.Order}] {element.Fullname}";
                 }
             }
         }
