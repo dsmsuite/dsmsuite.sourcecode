@@ -92,9 +92,10 @@ namespace DsmSuite.DsmViewer.Model.Core
         /// </summary>
         public bool HasChildren => Children.Count > 0;
 
-        public int DirectChildCount => Children.Count;
-
-        public int TotalChildCount
+        /// <summary>
+        /// Given an indication of the element size based on the total number of recursive children
+        /// </summary>
+        public int Size
         {
             get
             {
