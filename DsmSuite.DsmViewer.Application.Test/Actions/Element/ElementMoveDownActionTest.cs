@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using DsmSuite.DsmViewer.Application.Actions.Element;
@@ -16,7 +15,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 
         private Dictionary<string, string> _data;
 
-        private const int _elementId = 1;
+        private const int ElementId = 1;
 
         [TestInitialize()]
         public void Setup()
@@ -25,10 +24,12 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             _element = new Mock<IDsmElement>();
             _nextElement = new Mock<IDsmElement>();
             _element.Setup(x => x.Id).Returns(1);
-            _model.Setup(x => x.GetElementById(_elementId)).Returns(_element.Object);
+            _model.Setup(x => x.GetElementById(ElementId)).Returns(_element.Object);
 
-            _data = new Dictionary<string, string>();
-            _data["element"] = _elementId.ToString();
+            _data = new Dictionary<string, string>
+            {
+                ["element"] = ElementId.ToString()
+            };
         }
 
         [TestMethod]
@@ -60,7 +61,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             ElementMoveDownAction action = new ElementMoveDownAction(args);
 
             Assert.AreEqual(1, action.Data.Count);
-            Assert.AreEqual(_elementId.ToString(), _data["element"]);
+            Assert.AreEqual(ElementId.ToString(), _data["element"]);
         }
     }
 }

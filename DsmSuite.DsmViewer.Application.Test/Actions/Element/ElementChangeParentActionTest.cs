@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using System.Collections.Generic;
@@ -17,9 +16,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 
         private Dictionary<string, string> _data;
 
-        private const int _elementId = 1;
-        private const int _oldParentId = 2;
-        private const int _newParentId= 3;
+        private const int ElementId = 1;
+        private const int OldParentId = 2;
+        private const int NewParentId= 3;
 
         [TestInitialize()]
         public void Setup()
@@ -29,19 +28,21 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             _oldParent = new Mock<IDsmElement>();
             _newParent = new Mock<IDsmElement>();
 
-            _element.Setup(x => x.Id).Returns(_elementId);
+            _element.Setup(x => x.Id).Returns(ElementId);
             _element.Setup(x => x.Parent).Returns(_oldParent.Object);
-            _oldParent.Setup(x => x.Id).Returns(_oldParentId);
-            _newParent.Setup(x => x.Id).Returns(_newParentId);
+            _oldParent.Setup(x => x.Id).Returns(OldParentId);
+            _newParent.Setup(x => x.Id).Returns(NewParentId);
 
-            _model.Setup(x => x.GetElementById(_elementId)).Returns(_element.Object);
-            _model.Setup(x => x.GetElementById(_oldParentId)).Returns(_oldParent.Object);
-            _model.Setup(x => x.GetElementById(_newParentId)).Returns(_newParent.Object);
+            _model.Setup(x => x.GetElementById(ElementId)).Returns(_element.Object);
+            _model.Setup(x => x.GetElementById(OldParentId)).Returns(_oldParent.Object);
+            _model.Setup(x => x.GetElementById(NewParentId)).Returns(_newParent.Object);
 
-            _data = new Dictionary<string, string>();
-            _data["element"] = _elementId.ToString();
-            _data["old"] = _oldParentId.ToString();
-            _data["new"] = _newParentId.ToString();
+            _data = new Dictionary<string, string>
+            {
+                ["element"] = ElementId.ToString(),
+                ["old"] = OldParentId.ToString(),
+                ["new"] = NewParentId.ToString()
+            };
         }
 
         [TestMethod]
@@ -69,9 +70,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             ElementChangeParentAction action = new ElementChangeParentAction(args);
 
             Assert.AreEqual(3, action.Data.Count);
-            Assert.AreEqual(_elementId.ToString(), _data["element"]);
-            Assert.AreEqual(_oldParentId.ToString(), _data["old"]);
-            Assert.AreEqual(_newParentId.ToString(), _data["new"]);
+            Assert.AreEqual(ElementId.ToString(), _data["element"]);
+            Assert.AreEqual(OldParentId.ToString(), _data["old"]);
+            Assert.AreEqual(NewParentId.ToString(), _data["new"]);
         }
     }
 }

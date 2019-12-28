@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using System.Collections.Generic;
@@ -15,9 +14,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 
         private Dictionary<string, string> _data;
 
-        private const int _elementId = 1;
-        private const string _oldName = "oldname";
-        private const string _newName = "newname";
+        private const int ElementId = 1;
+        private const string OldName = "oldname";
+        private const string NewName = "newname";
 
         [TestInitialize()]
         public void Setup()
@@ -25,32 +24,34 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             _model = new Mock<IDsmModel>();
             _element = new Mock<IDsmElement>();
 
-            _element.Setup(x => x.Id).Returns(_elementId);
-            _element.Setup(x => x.Name).Returns(_oldName);
-            _model.Setup(x => x.GetElementById(_elementId)).Returns(_element.Object);
+            _element.Setup(x => x.Id).Returns(ElementId);
+            _element.Setup(x => x.Name).Returns(OldName);
+            _model.Setup(x => x.GetElementById(ElementId)).Returns(_element.Object);
 
-            _data = new Dictionary<string, string>();
-            _data["element"] = _elementId.ToString();
-            _data["old"] = _oldName;
-            _data["new"] = _newName;
+            _data = new Dictionary<string, string>
+            {
+                ["element"] = ElementId.ToString(),
+                ["old"] = OldName,
+                ["new"] = NewName
+            };
         }
 
         [TestMethod]
         public void WhenDoActionThenElementNameIsChangedDataModel()
         {
-            ElementChangeNameAction action = new ElementChangeNameAction(_model.Object, _element.Object, _newName);
+            ElementChangeNameAction action = new ElementChangeNameAction(_model.Object, _element.Object, NewName);
             action.Do();
 
-            _model.Verify(x => x.ChangeElementName(_element.Object, _newName), Times.Once());
+            _model.Verify(x => x.ChangeElementName(_element.Object, NewName), Times.Once());
         }
 
         [TestMethod]
         public void WhenUndoActionThenElementNameIsRevertedDataModel()
         {
-            ElementChangeNameAction action = new ElementChangeNameAction(_model.Object, _element.Object, _newName);
+            ElementChangeNameAction action = new ElementChangeNameAction(_model.Object, _element.Object, NewName);
             action.Undo();
 
-            _model.Verify(x => x.ChangeElementName(_element.Object, _oldName), Times.Once());
+            _model.Verify(x => x.ChangeElementName(_element.Object, OldName), Times.Once());
         }
 
         [TestMethod]
@@ -60,9 +61,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             ElementChangeNameAction action = new ElementChangeNameAction(args);
 
             Assert.AreEqual(3, action.Data.Count);
-            Assert.AreEqual(_elementId.ToString(), _data["element"]);
-            Assert.AreEqual(_oldName, _data["old"]);
-            Assert.AreEqual(_newName, _data["new"]);
+            Assert.AreEqual(ElementId.ToString(), _data["element"]);
+            Assert.AreEqual(OldName, _data["old"]);
+            Assert.AreEqual(NewName, _data["new"]);
         }
     }
 }

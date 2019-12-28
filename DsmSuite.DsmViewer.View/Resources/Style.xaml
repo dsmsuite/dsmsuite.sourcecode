@@ -64,7 +64,6 @@
     <Style x:Key="ToolbarButton" TargetType="Button">
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="Width" Value="{StaticResource StandardButtonSize}" />
         <Style.Triggers>

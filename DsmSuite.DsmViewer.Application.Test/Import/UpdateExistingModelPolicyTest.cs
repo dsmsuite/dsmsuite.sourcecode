@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using DsmSuite.DsmViewer.Application.Import;
@@ -18,34 +17,33 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
     {
         Mock<IDsmModel> _dsmModel;
 
-        private const string _dsmFilename = "file.dsm";
+        private const string DsmFilename = "file.dsm";
             
         Mock<IActionManager> _actionManager;
 
         Mock<IMetaDataItem> _createMetaDataItem;
-        private const string _metaDataGroup = "group";
-        private const string _metaDataItemName = "itemname";
-        private const string _metaDataItemValue = "itemvalue";
+        private const string MetaDataGroup = "group";
+        private const string MetaDataItemName = "itemname";
+        private const string MetaDataItemValue = "itemvalue";
 
         Mock<IDsmElement> _existingElement;
         Mock<IDsmElement> _createdElement;
         Mock<IDsmElement> _elementParent;
-        Mock<IDsmElement> _elementChild;
-        private const int _elementId = 1;
-        private const string _elementFullName = "a.b.c";
-        private const string _elementName = "c";
-        private const string _elementType = "etype";
-        private const int _elementParentId = 2;
+        private const int ElementId = 1;
+        private const string ElementFullName = "a.b.c";
+        private const string ElementName = "c";
+        private const string ElementType = "etype";
+        private const int ElementParentId = 2;
 
         Mock<IDsmRelation> _existingRelation;
         Mock<IDsmRelation> _createdRelation;
         Mock<IDsmElement> _consumer;
         Mock<IDsmElement> _provider;
-        private const int _consumerId = 3;
-        private const int _providerId = 4;
-        private const string _relationType = "rtype";
-        private const int _relationWeight = 4;
-        private const int _newRelationWeight = 5;
+        private const int ConsumerId = 3;
+        private const int ProviderId = 4;
+        private const string RelationType = "rtype";
+        private const int RelationWeight = 4;
+        private const int NewRelationWeight = 5;
 
         [TestInitialize]
         public void TestInitialize()
@@ -57,25 +55,24 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _createMetaDataItem = new Mock<IMetaDataItem>();
 
             _existingElement = new Mock<IDsmElement>();
-            _existingElement.Setup(x => x.Id).Returns(_elementId);
+            _existingElement.Setup(x => x.Id).Returns(ElementId);
             _createdElement = new Mock<IDsmElement>();
             _elementParent = new Mock<IDsmElement>();
-            _elementParent.Setup(x => x.Id).Returns(_elementParentId);
-            _elementChild = new Mock<IDsmElement>();
+            _elementParent.Setup(x => x.Id).Returns(ElementParentId);
             _consumer = new Mock<IDsmElement>();
-            _consumer.Setup(x => x.Id).Returns(_consumerId);
+            _consumer.Setup(x => x.Id).Returns(ConsumerId);
             _provider = new Mock<IDsmElement>();
-            _provider.Setup(x => x.Id).Returns(_providerId);
+            _provider.Setup(x => x.Id).Returns(ProviderId);
 
-            _dsmModel.Setup(x => x.GetElementById(_consumerId)).Returns(_consumer.Object);
-            _dsmModel.Setup(x => x.GetElementById(_providerId)).Returns(_provider.Object);
+            _dsmModel.Setup(x => x.GetElementById(ConsumerId)).Returns(_consumer.Object);
+            _dsmModel.Setup(x => x.GetElementById(ProviderId)).Returns(_provider.Object);
 
             _existingRelation = new Mock<IDsmRelation>();
-            _existingRelation.Setup(x => x.Id).Returns(_providerId);
-            _existingRelation.Setup(x => x.ConsumerId).Returns(_consumerId);
-            _existingRelation.Setup(x => x.ProviderId).Returns(_providerId);
-            _existingRelation.Setup(x => x.Type).Returns(_relationType);
-            _existingRelation.Setup(x => x.Weight).Returns(_relationWeight);
+            _existingRelation.Setup(x => x.Id).Returns(ProviderId);
+            _existingRelation.Setup(x => x.ConsumerId).Returns(ConsumerId);
+            _existingRelation.Setup(x => x.ProviderId).Returns(ProviderId);
+            _existingRelation.Setup(x => x.Type).Returns(RelationType);
+            _existingRelation.Setup(x => x.Weight).Returns(RelationWeight);
 
             _createdRelation = new Mock<IDsmRelation>();
         }
@@ -83,33 +80,33 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenPolicyIsConstructedThenModelIsLoaded()
         {
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
 
-            _dsmModel.Verify(x => x.LoadModel(_dsmFilename, null), Times.Once());
+            _dsmModel.Verify(x => x.LoadModel(DsmFilename, null), Times.Once());
         }
 
         [TestMethod]
         public void WhenMetaDataItemIsImportedThenMetaDataItemIsAddedToModel()
         {
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
 
-            _dsmModel.Setup(x => x.AddMetaData(_metaDataGroup, _metaDataItemName, _metaDataItemValue)).Returns(_createMetaDataItem.Object);
+            _dsmModel.Setup(x => x.AddMetaData(MetaDataGroup, MetaDataItemName, MetaDataItemValue)).Returns(_createMetaDataItem.Object);
 
-            IMetaDataItem metaDataItem = policy.ImportMetaDataItem(_metaDataGroup, _metaDataItemName, _metaDataItemValue);
+            IMetaDataItem metaDataItem = policy.ImportMetaDataItem(MetaDataGroup, MetaDataItemName, MetaDataItemValue);
             Assert.AreEqual(_createMetaDataItem.Object, metaDataItem);
 
-            _dsmModel.Verify(x => x.AddMetaData(_metaDataGroup, _metaDataItemName, _metaDataItemValue), Times.Once());
+            _dsmModel.Verify(x => x.AddMetaData(MetaDataGroup, MetaDataItemName, MetaDataItemValue), Times.Once());
         }
 
         [TestMethod]
         public void GivenElementIsNotInModelWhenElementIsImportedThenElementCreateActionIsExecuted()
         {
             IDsmElement foundElement = null;
-            _dsmModel.Setup(x => x.GetElementByFullname(_elementFullName)).Returns(foundElement);
+            _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
             _actionManager.Setup(x => x.Execute(It.IsAny<ElementCreateAction>())).Returns(_createdElement.Object);
 
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
-            IDsmElement element = policy.ImportElement(_elementFullName, _elementName, _elementType, _elementParent.Object);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
+            IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object);
             Assert.AreEqual(_createdElement.Object, element);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<ElementCreateAction>()), Times.Once);
@@ -119,10 +116,10 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         public void GivenElementIsInModelWhenElementIsImportedThenNoActionIsTaken()
         {
             IDsmElement foundElement = _existingElement.Object;
-            _dsmModel.Setup(x => x.GetElementByFullname(_elementFullName)).Returns(foundElement);
+            _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
 
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
-            IDsmElement element = policy.ImportElement(_elementFullName, _elementName, _elementType, _elementParent.Object);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
+            IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object);
             Assert.AreEqual(_existingElement.Object, element);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<IAction>()), Times.Never);
@@ -132,11 +129,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         public void GivenElementIsInModelButNotImportedAgainWhenImportIsFinalizedThenElementDeleteActionIsExecuted()
         {
             IDsmElement foundElement = _existingElement.Object;
-            _dsmModel.Setup(x => x.GetElementByFullname(_elementFullName)).Returns(foundElement);
+            _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
             List<IDsmElement> elements = new List<IDsmElement>() { _existingElement.Object };
             _dsmModel.Setup(x => x.GetElements()).Returns(elements);
 
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
             policy.FinalizeImport();
 
             _actionManager.Verify(x => x.Execute(It.IsAny<ElementDeleteAction>()), Times.Once);
@@ -146,11 +143,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         public void GivenRelationIsNotInModelWhenRelationIsImportedThenRelationCreateActionIsExecuted()
         {
             IDsmRelation foundRelation = null;
-            _dsmModel.Setup(x => x.FindRelation(_consumerId, _providerId, _relationType)).Returns(foundRelation);
+            _dsmModel.Setup(x => x.FindRelation(ConsumerId, ProviderId, RelationType)).Returns(foundRelation);
             _actionManager.Setup(x => x.Execute(It.IsAny<RelationCreateAction>())).Returns(_createdRelation.Object);
 
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
-            IDsmRelation relation = policy.ImportRelation(_consumerId, _providerId, _relationType, _relationWeight);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
+            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight);
             Assert.AreEqual(_createdRelation.Object, relation);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<RelationCreateAction>()), Times.Once);
@@ -160,10 +157,10 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         public void GivenRelationIsInModelWithTheSameWeightWhenRelationIsImportedThenNoActionIsTaken()
         {
             IDsmRelation foundRelation = _existingRelation.Object;
-            _dsmModel.Setup(x => x.FindRelation(_consumerId, _providerId, _relationType)).Returns(foundRelation);
+            _dsmModel.Setup(x => x.FindRelation(ConsumerId, ProviderId, RelationType)).Returns(foundRelation);
 
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
-            IDsmRelation relation = policy.ImportRelation(_consumerId, _providerId, _relationType, _relationWeight);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
+            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight);
             Assert.AreEqual(_existingRelation.Object, relation);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<IAction>()), Times.Never);
@@ -173,10 +170,10 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         public void GivenRelationIsInModelWithTheOtherWeightWhenRelationIsImportedThenRelationUpdateWeigthActionIsExecuted()
         {
             IDsmRelation foundRelation = _existingRelation.Object;
-            _dsmModel.Setup(x => x.FindRelation(_consumerId, _providerId, _relationType)).Returns(foundRelation);
+            _dsmModel.Setup(x => x.FindRelation(ConsumerId, ProviderId, RelationType)).Returns(foundRelation);
 
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
-            IDsmRelation relation = policy.ImportRelation(_consumerId, _providerId, _relationType, _newRelationWeight);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
+            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, NewRelationWeight);
             Assert.AreEqual(_existingRelation.Object, relation);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<RelationChangeWeightAction>()), Times.Once);
@@ -186,11 +183,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         public void GivenRelationIsInModelButNotImportedAgainWhenImportIsFinalizedThenRelationDeleteActionIsExecuted()
         {
             IDsmRelation foundRelation = _existingRelation.Object;
-            _dsmModel.Setup(x => x.FindRelation(_consumerId, _providerId, _relationType)).Returns(foundRelation);
+            _dsmModel.Setup(x => x.FindRelation(ConsumerId, ProviderId, RelationType)).Returns(foundRelation);
             List<IDsmRelation> relations = new List<IDsmRelation>() { _existingRelation.Object };
             _dsmModel.Setup(x => x.GetRelations()).Returns(relations);
 
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
             policy.FinalizeImport();
 
             _actionManager.Verify(x => x.Execute(It.IsAny<RelationDeleteAction>()), Times.Once);
@@ -199,7 +196,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenImportIsFinalizedThenElementOrderIsAssigned()
         {
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
 
             policy.FinalizeImport();
 
@@ -209,7 +206,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenImportIsFinalizedThenMakeTimeStampActionIsExecuted()
         {
-            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, _dsmFilename, _actionManager.Object, null);
+            UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
 
             policy.FinalizeImport();
 

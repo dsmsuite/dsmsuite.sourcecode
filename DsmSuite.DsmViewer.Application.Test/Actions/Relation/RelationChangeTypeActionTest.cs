@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
@@ -17,11 +16,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
 
         private Dictionary<string, string> _data;
 
-        private const int _relationId = 1;
-        private const int _consumerId = 2;
-        private const int _providerId = 3;
-        private const string _oldType = "oldtype";
-        private const string _newType = "newtype";
+        private const int RelationId = 1;
+        private const int ConsumerId = 2;
+        private const int ProviderId = 3;
+        private const string OldType = "oldtype";
+        private const string NewType = "newtype";
 
         [TestInitialize()]
         public void Setup()
@@ -31,49 +30,51 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             _consumer = new Mock<IDsmElement>();
             _provider = new Mock<IDsmElement>();
 
-            _relation.Setup(x => x.Id).Returns(_relationId);
-            _relation.Setup(x => x.ConsumerId).Returns(_consumerId);
-            _relation.Setup(x => x.ProviderId).Returns(_providerId);
-            _relation.Setup(x => x.Type).Returns(_oldType);
-            _model.Setup(x => x.GetElementById(_consumerId)).Returns(_consumer.Object);
-            _model.Setup(x => x.GetElementById(_providerId)).Returns(_provider.Object);
+            _relation.Setup(x => x.Id).Returns(RelationId);
+            _relation.Setup(x => x.ConsumerId).Returns(ConsumerId);
+            _relation.Setup(x => x.ProviderId).Returns(ProviderId);
+            _relation.Setup(x => x.Type).Returns(OldType);
+            _model.Setup(x => x.GetElementById(ConsumerId)).Returns(_consumer.Object);
+            _model.Setup(x => x.GetElementById(ProviderId)).Returns(_provider.Object);
 
-            _data = new Dictionary<string, string>();
-            _data["relation"] = _relationId.ToString();
-            _data["old"] = _oldType;
-            _data["new"] = _newType;
+            _data = new Dictionary<string, string>
+            {
+                ["relation"] = RelationId.ToString(),
+                ["old"] = OldType,
+                ["new"] = NewType
+            };
         }
 
         [TestMethod]
         public void WhenDoActionThenRelationTypeIsChangedDataModel()
         {
-            RelationChangeTypeAction action = new RelationChangeTypeAction(_model.Object, _relation.Object, _newType);
+            RelationChangeTypeAction action = new RelationChangeTypeAction(_model.Object, _relation.Object, NewType);
             action.Do();
 
-            _model.Verify(x => x.ChangeRelationType(_relation.Object, _newType), Times.Once());
+            _model.Verify(x => x.ChangeRelationType(_relation.Object, NewType), Times.Once());
         }
 
         [TestMethod]
         public void WhenUndoActionThenRelationTypeIsRevertedDataModel()
         {
-            RelationChangeTypeAction action = new RelationChangeTypeAction(_model.Object, _relation.Object, _newType);
+            RelationChangeTypeAction action = new RelationChangeTypeAction(_model.Object, _relation.Object, NewType);
             action.Undo();
 
-            _model.Verify(x => x.ChangeRelationType(_relation.Object, _oldType), Times.Once());
+            _model.Verify(x => x.ChangeRelationType(_relation.Object, OldType), Times.Once());
         }
 
         [TestMethod]
         public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
-            _model.Setup(x => x.GetRelationById(_relationId)).Returns(_relation.Object);
+            _model.Setup(x => x.GetRelationById(RelationId)).Returns(_relation.Object);
 
             object[] args = { _model.Object, _data };
             RelationChangeTypeAction action = new RelationChangeTypeAction(args);
 
             Assert.AreEqual(3, action.Data.Count);
-            Assert.AreEqual(_relationId.ToString(), _data["relation"]);
-            Assert.AreEqual(_oldType, _data["old"]);
-            Assert.AreEqual(_newType, _data["new"]);
+            Assert.AreEqual(RelationId.ToString(), _data["relation"]);
+            Assert.AreEqual(OldType, _data["old"]);
+            Assert.AreEqual(NewType, _data["new"]);
         }
     }
 }

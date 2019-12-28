@@ -6,26 +6,26 @@ namespace DsmSuite.DsmViewer.Application.Sorting
 {
     public class SortAlgorithmFactory
     {
-        private static Dictionary<string, Type> _algorithms;
+        private static readonly Dictionary<string, Type> Algorithms;
 
         static SortAlgorithmFactory()
         {
-            _algorithms = new Dictionary<string, Type>();
+            Algorithms = new Dictionary<string, Type>();
             RegisterAlgorithmTypes();
         }
 
         public static void RegisterAlgorithm(string name, Type algorithm)
         {
-            _algorithms[name] = algorithm;
+            Algorithms[name] = algorithm;
         }
 
         public static ISortAlgorithm CreateAlgorithm(IDsmModel model, IDsmElement element, string algorithName)
         {
             ISortAlgorithm algoritm = null;
 
-            if (_algorithms.ContainsKey(algorithName))
+            if (Algorithms.ContainsKey(algorithName))
             {
-                Type type = _algorithms[algorithName];
+                Type type = Algorithms[algorithName];
                 object[] args = { model , element };
                 object argumentList = args;
                 algoritm = Activator.CreateInstance(type, argumentList) as ISortAlgorithm;
@@ -35,7 +35,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
 
         public static IEnumerable<string> GetSupportedAlgorithms()
         {
-            return _algorithms.Keys;
+            return Algorithms.Keys;
         }
 
         private static void RegisterAlgorithmTypes()

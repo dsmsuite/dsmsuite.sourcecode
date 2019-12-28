@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Application.Actions.Base;
 using System.Collections.Generic;
 
@@ -64,7 +63,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
             string memberName = "_name";
             attributes.SetNullableInt(memberName, null);
 
-            string key = "name";
             IReadOnlyDictionary<string, string> data = attributes.Data;
             Assert.AreEqual(0, data.Count);
         }

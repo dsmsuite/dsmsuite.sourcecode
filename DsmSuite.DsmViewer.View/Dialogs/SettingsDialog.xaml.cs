@@ -5,7 +5,7 @@ namespace DsmSuite.DsmViewer.View.Dialogs
     /// <summary>
     /// Interaction logic for SettingsView.xaml
     /// </summary>
-    public partial class SettingsView : Window
+    public partial class SettingsView
     {
         public SettingsView()
         {

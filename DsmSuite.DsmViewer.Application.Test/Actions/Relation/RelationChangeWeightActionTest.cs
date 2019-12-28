@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
@@ -17,11 +16,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
 
         private Dictionary<string, string> _data;
 
-        private const int _relationId = 1;
-        private const int _consumerId = 2;
-        private const int _providerId = 3;
-        private const int _oldWeight = 123;
-        private const int _newWeight = 456;
+        private const int RelationId = 1;
+        private const int ConsumerId = 2;
+        private const int ProviderId = 3;
+        private const int OldWeight = 123;
+        private const int NewWeight = 456;
 
         [TestInitialize()]
         public void Setup()
@@ -31,49 +30,51 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             _consumer = new Mock<IDsmElement>();
             _provider = new Mock<IDsmElement>();
 
-            _relation.Setup(x => x.Id).Returns(_relationId);
-            _relation.Setup(x => x.ConsumerId).Returns(_consumerId);
-            _relation.Setup(x => x.ProviderId).Returns(_providerId);
-            _relation.Setup(x => x.Weight).Returns(_oldWeight);
-            _model.Setup(x => x.GetElementById(_consumerId)).Returns(_consumer.Object);
-            _model.Setup(x => x.GetElementById(_providerId)).Returns(_provider.Object);
+            _relation.Setup(x => x.Id).Returns(RelationId);
+            _relation.Setup(x => x.ConsumerId).Returns(ConsumerId);
+            _relation.Setup(x => x.ProviderId).Returns(ProviderId);
+            _relation.Setup(x => x.Weight).Returns(OldWeight);
+            _model.Setup(x => x.GetElementById(ConsumerId)).Returns(_consumer.Object);
+            _model.Setup(x => x.GetElementById(ProviderId)).Returns(_provider.Object);
 
-            _data = new Dictionary<string, string>();
-            _data["relation"] = _relationId.ToString();
-            _data["old"] = _oldWeight.ToString();
-            _data["new"] = _newWeight.ToString();
+            _data = new Dictionary<string, string>
+            {
+                ["relation"] = RelationId.ToString(),
+                ["old"] = OldWeight.ToString(),
+                ["new"] = NewWeight.ToString()
+            };
         }
 
         [TestMethod]
         public void WhenDoActionThenRelationWeightIsChangedDataModel()
         {
-            RelationChangeWeightAction action = new RelationChangeWeightAction(_model.Object, _relation.Object, _newWeight);
+            RelationChangeWeightAction action = new RelationChangeWeightAction(_model.Object, _relation.Object, NewWeight);
             action.Do();
 
-            _model.Verify(x => x.ChangeRelationWeight(_relation.Object, _newWeight), Times.Once());
+            _model.Verify(x => x.ChangeRelationWeight(_relation.Object, NewWeight), Times.Once());
         }
 
         [TestMethod]
         public void WhenUndoActionThenRelationWeightIsRevertedDataModel()
         {
-            RelationChangeWeightAction action = new RelationChangeWeightAction(_model.Object, _relation.Object, _newWeight);
+            RelationChangeWeightAction action = new RelationChangeWeightAction(_model.Object, _relation.Object, NewWeight);
             action.Undo();
 
-            _model.Verify(x => x.ChangeRelationWeight(_relation.Object, _oldWeight), Times.Once());
+            _model.Verify(x => x.ChangeRelationWeight(_relation.Object, OldWeight), Times.Once());
         }
 
         [TestMethod]
         public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
-            _model.Setup(x => x.GetRelationById(_relationId)).Returns(_relation.Object);
+            _model.Setup(x => x.GetRelationById(RelationId)).Returns(_relation.Object);
 
             object[] args = { _model.Object, _data };
             RelationChangeWeightAction action = new RelationChangeWeightAction(args);
 
             Assert.AreEqual(3, action.Data.Count);
-            Assert.AreEqual(_relationId.ToString(), _data["relation"]);
-            Assert.AreEqual(_oldWeight.ToString(), _data["old"]);
-            Assert.AreEqual(_newWeight.ToString(), _data["new"]);
+            Assert.AreEqual(RelationId.ToString(), _data["relation"]);
+            Assert.AreEqual(OldWeight.ToString(), _data["old"]);
+            Assert.AreEqual(NewWeight.ToString(), _data["new"]);
         }
     }
 }

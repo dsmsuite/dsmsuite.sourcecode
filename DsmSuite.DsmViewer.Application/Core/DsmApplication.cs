@@ -13,7 +13,6 @@ using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Reporting;
 using DsmSuite.Analyzer.Model.Core;
-using DsmSuite.DsmViewer.Model.Core;
 using System.Reflection;
 using DsmSuite.Common.Util;
 

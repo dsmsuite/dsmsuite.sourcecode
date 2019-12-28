@@ -4,7 +4,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
     public class ActionAttributes
     {
-        Dictionary<string, string> _data;
+        readonly Dictionary<string, string> _data;
 
         public ActionAttributes()
         {

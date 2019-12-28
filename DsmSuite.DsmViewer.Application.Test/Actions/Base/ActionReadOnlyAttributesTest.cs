@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Actions.Base;
 
@@ -56,8 +55,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         public void GivenNullableIntNotInDictionaryWhenGetNullableIntIsCalledThenNullValueIsReturned()
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
-
-            string key = "name";
 
             string memberName = "_name";
             ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
@@ -10,10 +9,10 @@ namespace DsmSuite.DsmViewer.Application.Test.Algorithm
     [TestClass]
     public class AlphabeticalSortAlgorithmTest
     {
-        private const string _nameA = "a";
-        private const string _nameB = "b";
-        private const string _nameC = "c";
-        private const string _nameD = "d";
+        private const string NameA = "a";
+        private const string NameB = "b";
+        private const string NameC = "c";
+        private const string NameD = "d";
 
         [TestMethod]
         public void GivenNonSortedElementLIstWhenSortedAlpabeticallyThemElementsAreInAlphabeticalOrder()
@@ -22,16 +21,16 @@ namespace DsmSuite.DsmViewer.Application.Test.Algorithm
 
             Mock<IDsmElement> a = new Mock<IDsmElement>();
             a.Setup(x => x.Id).Returns(34);
-            a.Setup(x => x.Name).Returns(_nameA);
+            a.Setup(x => x.Name).Returns(NameA);
             Mock<IDsmElement> b = new Mock<IDsmElement>();
             b.Setup(x => x.Id).Returns(45);
-            b.Setup(x => x.Name).Returns(_nameB);
+            b.Setup(x => x.Name).Returns(NameB);
             Mock<IDsmElement> c = new Mock<IDsmElement>();
             c.Setup(x => x.Id).Returns(12);
-            c.Setup(x => x.Name).Returns(_nameC);
+            c.Setup(x => x.Name).Returns(NameC);
             Mock<IDsmElement> d = new Mock<IDsmElement>();
             d.Setup(x => x.Id).Returns(23);
-            d.Setup(x => x.Name).Returns(_nameD);
+            d.Setup(x => x.Name).Returns(NameD);
             List<IDsmElement> children = new List<IDsmElement> { c.Object, d.Object, a.Object, b.Object };
 
             Mock<IDsmElement> parent = new Mock<IDsmElement>();

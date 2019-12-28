@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -12,8 +11,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private readonly MatrixTheme _theme;
         private Rect _rect;
         private int? _hoveredColumn;
-        private double _pitch;
-        private double _offset;
+        private readonly double _pitch;
+        private readonly double _offset;
 
         public MatrixColumnHeaderView()
         {
@@ -29,7 +28,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             MouseLeave += OnMouseLeave;
         }
 
-        private void OnDataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             _viewModel = DataContext as MatrixViewModel;
             if (_viewModel != null)

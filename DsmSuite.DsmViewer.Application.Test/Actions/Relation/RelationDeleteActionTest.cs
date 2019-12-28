@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
@@ -17,9 +16,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
 
         private Dictionary<string, string> _data;
 
-        private const int _relationId = 1;
-        private const int _consumerId = 2;
-        private const int _providerId = 3;
+        private const int RelationId = 1;
+        private const int ConsumerId = 2;
+        private const int ProviderId = 3;
 
         [TestInitialize()]
         public void Setup()
@@ -29,14 +28,16 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             _consumer = new Mock<IDsmElement>();
             _provider = new Mock<IDsmElement>();
 
-            _relation.Setup(x => x.Id).Returns(_relationId);
-            _relation.Setup(x => x.ConsumerId).Returns(_consumerId);
-            _relation.Setup(x => x.ProviderId).Returns(_providerId);
-            _model.Setup(x => x.GetElementById(_consumerId)).Returns(_consumer.Object);
-            _model.Setup(x => x.GetElementById(_providerId)).Returns(_provider.Object);
+            _relation.Setup(x => x.Id).Returns(RelationId);
+            _relation.Setup(x => x.ConsumerId).Returns(ConsumerId);
+            _relation.Setup(x => x.ProviderId).Returns(ProviderId);
+            _model.Setup(x => x.GetElementById(ConsumerId)).Returns(_consumer.Object);
+            _model.Setup(x => x.GetElementById(ProviderId)).Returns(_provider.Object);
 
-            _data = new Dictionary<string, string>();
-            _data["relation"] = _relationId.ToString();
+            _data = new Dictionary<string, string>
+            {
+                ["relation"] = RelationId.ToString()
+            };
         }
 
         [TestMethod]
@@ -45,7 +46,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             RelationDeleteAction action = new RelationDeleteAction(_model.Object, _relation.Object);
             action.Do();
 
-            _model.Verify(x => x.RemoveRelation(_relationId), Times.Once());
+            _model.Verify(x => x.RemoveRelation(RelationId), Times.Once());
         }
 
         [TestMethod]
@@ -54,19 +55,19 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             RelationDeleteAction action = new RelationDeleteAction(_model.Object, _relation.Object);
             action.Undo();
 
-            _model.Verify(x => x.UnremoveRelation(_relationId), Times.Once());
+            _model.Verify(x => x.UnremoveRelation(RelationId), Times.Once());
         }
 
         [TestMethod]
         public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
-            _model.Setup(x => x.GetDeletedRelationById(_relationId)).Returns(_relation.Object);
+            _model.Setup(x => x.GetDeletedRelationById(RelationId)).Returns(_relation.Object);
 
             object[] args = { _model.Object, _data };
             RelationDeleteAction action = new RelationDeleteAction(args);
 
             Assert.AreEqual(1, action.Data.Count);
-            Assert.AreEqual(_relationId.ToString(), _data["relation"]);
+            Assert.AreEqual(RelationId.ToString(), _data["relation"]);
         }
     }
 }

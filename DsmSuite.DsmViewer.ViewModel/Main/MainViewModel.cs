@@ -672,16 +672,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool CreateRelationCanExecute(object parameter)
         {
-            bool canExecute = false;
-
-            if ((SelectedConsumer != null) &&
-                (SelectedConsumer.HasChildren == false) &&
-                (SelectedProvider != null) &&
-                (SelectedProvider.HasChildren == false))
-            {
-                canExecute = true;
-            }
-            return canExecute;
+           return (SelectedConsumer != null) &&
+                  (SelectedConsumer.HasChildren == false) &&
+                  (SelectedProvider != null) &&
+                  (SelectedProvider.HasChildren == false);
         }
 
         private void DeleteRelationExecute(object parameter)

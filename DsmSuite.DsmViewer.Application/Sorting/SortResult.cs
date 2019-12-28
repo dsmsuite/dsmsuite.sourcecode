@@ -6,7 +6,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
 {
     public class SortResult : ISortResult
     {
-        private List<int> _list = new List<int>();
+        private readonly List<int> _list = new List<int>();
 
         public SortResult(string data)
         {
@@ -14,10 +14,10 @@ namespace DsmSuite.DsmViewer.Application.Sorting
 
             _list.Clear();
 
-            for (int i = 0; i < items.Length; i++)
+            foreach (string item in items)
             {
-                int value = 0;
-                if (int.TryParse(items[i], out value))
+                int value;
+                if (int.TryParse(item, out value))
                 {
                     _list.Add(value);
                 }
@@ -97,9 +97,9 @@ namespace DsmSuite.DsmViewer.Application.Sorting
             get
             {
                 HashSet<int> set = new HashSet<int>();
-                for (int i = 0; i < _list.Count; i++)
+                foreach (int value in _list)
                 {
-                    set.Add(_list[i]);
+                    set.Add(value);
                 }
 
                 bool valid = true;

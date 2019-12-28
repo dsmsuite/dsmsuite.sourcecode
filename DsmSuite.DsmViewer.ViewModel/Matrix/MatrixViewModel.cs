@@ -180,7 +180,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         }
 
         public string ColumnTooltip { get; private set; }
-        public string CellToolTip { get; private set; }
 
         public void SelectCell(int? row, int? columnn)
         {
@@ -243,13 +242,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
         }
 
-        public IDsmElement SelectedProvider
-        {
-            get
-            {
-                return SelectedProviderTreeItem?.Element;
-            }
-        }
+        public IDsmElement SelectedProvider => SelectedProviderTreeItem?.Element;
 
         private ElementTreeItemViewModel _selectedProviderTreeItem;
 
@@ -266,24 +259,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _selectedProviderTreeItem = selectedProviderTreeItem;
         }
 
-        public ElementTreeItemViewModel SelectedProviderTreeItem
-        {
-            get
-            {
-                ElementTreeItemViewModel selectedProviderTreeItem;
-
-                if (SelectedRow.HasValue)
-                {
-                    selectedProviderTreeItem = _leafViewModels[SelectedRow.Value];
-                }
-                else
-                {
-                    selectedProviderTreeItem = _selectedProviderTreeItem;
-                }
-
-                return selectedProviderTreeItem;
-            }
-        }
+        public ElementTreeItemViewModel SelectedProviderTreeItem => SelectedRow.HasValue ? _leafViewModels[SelectedRow.Value] : _selectedProviderTreeItem;
 
         private ElementTreeItemViewModel _hoveredProviderTreeItem;
 
@@ -300,24 +276,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _hoveredProviderTreeItem = hoveredProviderTreeItem;
         }
 
-        public ElementTreeItemViewModel HoveredProviderTreeItem
-        {
-            get
-            {
-                ElementTreeItemViewModel hoveredProviderTreeItem;
-
-                if (HoveredRow.HasValue)
-                {
-                    hoveredProviderTreeItem = _leafViewModels[HoveredRow.Value];
-                }
-                else
-                {
-                    hoveredProviderTreeItem = _hoveredProviderTreeItem;
-                }
-
-                return hoveredProviderTreeItem;
-            }
-        }
+        public ElementTreeItemViewModel HoveredProviderTreeItem => HoveredRow.HasValue ? _leafViewModels[HoveredRow.Value] : _hoveredProviderTreeItem;
 
         private ObservableCollection<ElementTreeItemViewModel> CreateProviderTree()
         {
