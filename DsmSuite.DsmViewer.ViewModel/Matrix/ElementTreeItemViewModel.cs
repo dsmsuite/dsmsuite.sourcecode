@@ -29,7 +29,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public int Order => Element.Order;
         public string Name => Element.Name;
         public string Fullname => Element.Fullname;
-        public string Description => $"[{Element.Order}] {Element.Fullname}";
+        public string Description => $"[{Element.Order}] {Element.Fullname} size={Element.TotalChildCount}";
 
         public ICommand MoveCommand { get; }
         public ICommand MoveUpElementCommand { get; }

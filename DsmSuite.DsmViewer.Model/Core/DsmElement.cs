@@ -92,6 +92,18 @@ namespace DsmSuite.DsmViewer.Model.Core
         /// </summary>
         public bool HasChildren => Children.Count > 0;
 
+        public int DirectChildCount => Children.Count;
+
+        public int TotalChildCount
+        {
+            get
+            {
+                int count = 0;
+                CountChildern(this, ref count);
+                return count;
+            }
+        }
+
         /// <summary>
         /// Add a child to the element.
         /// </summary>
@@ -142,6 +154,16 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             DsmElement element = obj as DsmElement;
             return Id.CompareTo(element?.Id);
+        }
+
+        private void CountChildern(IDsmElement element, ref int count)
+        {
+            count++;
+
+            foreach (IDsmElement child in element.Children)
+            {
+                CountChildern(child, ref count);
+            }
         }
     }
 }
