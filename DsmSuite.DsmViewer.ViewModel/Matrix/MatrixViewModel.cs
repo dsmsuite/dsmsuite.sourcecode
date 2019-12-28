@@ -170,14 +170,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             SelectedColumn = column;
         }
 
-        private string _columnTooltip;
+        private string _columnHeaderTooltip;
 
-        public string ColumnTooltip
+        public string ColumnHeaderTooltip
         {
-            get { return _columnTooltip; }
-            set { _columnTooltip = value; OnPropertyChanged(); }
+            get { return _columnHeaderTooltip; }
+            set { _columnHeaderTooltip = value; OnPropertyChanged(); }
         }
 
+        private string _cellTooltip;
+
+        public string CellTooltip
+        {
+            get { return _cellTooltip; }
+            set { _cellTooltip = value; OnPropertyChanged(); }
+        }
 
         public void SelectCell(int? row, int? columnn)
         {
@@ -207,13 +214,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             HoveredRow = null;
             HoveredColumn = column;
-            UpdateTooltip(column);
+            UpdateColumnHeaderTooltip(column);
         }
 
         public void HoverCell(int? row, int? columnn)
         {
             HoveredRow = row;
             HoveredColumn = columnn;
+            UpdateCellTooltip(row, columnn);
         }
 
         public int? HoveredRow
@@ -566,14 +574,30 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
         }
 
-        private void UpdateTooltip(int? column)
+        private void UpdateColumnHeaderTooltip(int? column)
         {
             if (column.HasValue)
             {
                 IDsmElement element = _leafViewModels[column.Value].Element;
                 if (element != null)
                 {
-                    ColumnTooltip = $"{element.Order}] {element.Fullname}";
+                    ColumnHeaderTooltip = $"[{element.Order}] {element.Fullname}";
+                }
+            }
+        }
+
+        private void UpdateCellTooltip(int? row, int? column)
+        {
+            if (row.HasValue && column.HasValue)
+            {
+                IDsmElement consumer = _leafViewModels[column.Value].Element;
+                IDsmElement provider = _leafViewModels[row.Value].Element;
+
+                if ((consumer != null) && (provider != null))
+                {
+                    int weight = _application.GetDependencyWeight(consumer, provider);
+
+                    CellTooltip = $"[{consumer.Order}] {consumer.Fullname} to [{consumer.Order}] {consumer.Fullname} weight={weight}";
                 }
             }
         }
