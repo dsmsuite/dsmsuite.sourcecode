@@ -8,7 +8,7 @@ using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
-    public class RenderedRowHeaderItemView : MatrixFrameworkElement
+    public class MatrixRowHeaderItemView : MatrixFrameworkElement
     {
         private readonly MatrixViewModel _matrixViewModel;
         private static readonly string DataObjectName = "Element";
@@ -17,10 +17,10 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private static readonly FormattedText BlackRightPointingTriangleFormattedText;
         private static readonly FormattedText BlackDownPointingTriangleFormattedText;
 
-        private readonly RenderTheme _renderTheme;
+        private readonly MatrixTheme _theme;
         private ElementTreeItemViewModel _viewModel;
 
-        static RenderedRowHeaderItemView()
+        static MatrixRowHeaderItemView()
         {
             BlackRightPointingTriangleFormattedText = new FormattedText(BlackRightPointingTriangle,
                 CultureInfo.CurrentCulture,
@@ -37,11 +37,11 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 Brushes.Black);
         }
 
-        public RenderedRowHeaderItemView(MatrixViewModel matrixViewModel, RenderTheme renderTheme)
+        public MatrixRowHeaderItemView(MatrixViewModel matrixViewModel, MatrixTheme theme)
         {
             _matrixViewModel = matrixViewModel;
             _matrixViewModel.PropertyChanged += OnMatrixViewModelPropertyChanged;
-            _renderTheme = renderTheme;
+            _theme = theme;
 
             AllowDrop = true;
             
@@ -128,7 +128,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 bool isHovered = _matrixViewModel.HoveredProviderTreeItem == _viewModel;
                 bool isSelected = _matrixViewModel.SelectedProviderTreeItem == _viewModel;
-                SolidColorBrush background = _renderTheme.GetBackground(_viewModel.Color, isHovered, isSelected);
+                SolidColorBrush background = _theme.GetBackground(_viewModel.Color, isHovered, isSelected);
                 Rect backgroundRect = new Rect(1.0, 1.0, ActualWidth - 2.0, ActualHeight - 2.0);
                 dc.DrawRectangle(background, null, backgroundRect);
 

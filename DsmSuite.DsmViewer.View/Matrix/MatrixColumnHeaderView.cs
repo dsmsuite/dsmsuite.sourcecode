@@ -9,7 +9,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
     public class MatrixColumnHeaderView : MatrixFrameworkElement
     {
         private MatrixViewModel _viewModel;
-        private readonly RenderTheme _renderTheme;
+        private readonly MatrixTheme _theme;
         private Rect _rect;
         private int? _hoveredColumn;
         private double _pitch;
@@ -17,10 +17,10 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         public MatrixColumnHeaderView()
         {
-            _renderTheme = new RenderTheme(this);
-            _rect = new Rect(new Size(_renderTheme.MatrixCellSize, _renderTheme.MatrixHeaderHeight));
+            _theme = new MatrixTheme(this);
+            _rect = new Rect(new Size(_theme.MatrixCellSize, _theme.MatrixHeaderHeight));
             _hoveredColumn = null;
-            _pitch = _renderTheme.MatrixCellSize + 2.0;
+            _pitch = _theme.MatrixCellSize + 2.0;
             _offset = 1.0;
 
             DataContextChanged += OnDataContextChanged;
@@ -84,7 +84,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     bool isHovered = _viewModel.HoveredColumn.HasValue && (column == _viewModel.HoveredColumn.Value);
                     bool isSelected = _viewModel.SelectedColumn.HasValue && (column == _viewModel.SelectedColumn.Value);
                     MatrixColor color = _viewModel.ColumnColors[column];
-                    SolidColorBrush background = _renderTheme.GetBackground(color, isHovered, isSelected);
+                    SolidColorBrush background = _theme.GetBackground(color, isHovered, isSelected);
 
                     dc.DrawRectangle(background, null, _rect);
 
@@ -93,8 +93,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     DrawRotatedText(dc, location, id.ToString(), _rect.Width - 2.0);
                 }
 
-                Height = _renderTheme.MatrixHeaderHeight + 2.0;
-                Width = _renderTheme.MatrixCellSize * matrixSize + 2.0;
+                Height = _theme.MatrixHeaderHeight + 2.0;
+                Width = _theme.MatrixCellSize * matrixSize + 2.0;
             }
         }
         

@@ -27,8 +27,8 @@
         </Canvas>
         <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="5" Style="{StaticResource GridSplitterStyle}"/>
         <Canvas x:Name="RowHeaderViewCanvas"  Grid.Row="1" Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" ClipToBounds="True">
-            <matrix:RenderedRowHeaderView x:Name="RowHeaderView" Height="Auto" HorizontalAlignment="Stretch">
-                <matrix:RenderedRowHeaderView.ContextMenu>
+            <matrix:MatrixRowHeaderView x:Name="RowHeaderView" Height="Auto" HorizontalAlignment="Stretch">
+                <matrix:MatrixRowHeaderView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Sort" Command="{Binding SortElementCommand}" />
                         <MenuItem Header="Move up" Command="{Binding MoveUpElementCommand}" />
@@ -45,8 +45,8 @@
                         <Separator />
                         <MenuItem Header="Show detail matrix" Command="{Binding ShowElementDetailMatrixCommand}" />
                         <MenuItem Header="Show context matrix" Command="{Binding ShowElementContextMatrixCommand}" />                    </ContextMenu>
-                </matrix:RenderedRowHeaderView.ContextMenu>
-            </matrix:RenderedRowHeaderView>
+                </matrix:MatrixRowHeaderView.ContextMenu>
+            </matrix:MatrixRowHeaderView>
         </Canvas>
         <ScrollViewer Grid.Row="1" Grid.Column="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="CellsViewOnScrollChanged">
             <matrix:MatrixCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top">

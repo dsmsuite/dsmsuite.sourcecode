@@ -5,14 +5,14 @@ using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
-    public class RenderedRowHeaderView : Canvas
+    public class MatrixRowHeaderView : Canvas
     {
         private MatrixViewModel _matrixViewModel;
-        private readonly RenderTheme _renderTheme;
+        private readonly MatrixTheme _theme;
 
-        public RenderedRowHeaderView()
+        public MatrixRowHeaderView()
         {
-            _renderTheme = new RenderTheme(this);
+            _theme = new MatrixTheme(this);
 
             DataContextChanged += OnDataContextChanged;
             SizeChanged += OnSizeChanged;
@@ -52,7 +52,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            RenderedRowHeaderItemView headerItemView = e.Source as RenderedRowHeaderItemView;
+            MatrixRowHeaderItemView headerItemView = e.Source as MatrixRowHeaderItemView;
             if (headerItemView != null)
             {
                 Point pt = e.GetPosition(headerItemView);
@@ -89,7 +89,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             foreach (var child in Children)
             {
-                RenderedRowHeaderItemView renderedRowHeaderItemView = child as RenderedRowHeaderItemView;
+                MatrixRowHeaderItemView renderedRowHeaderItemView = child as MatrixRowHeaderItemView;
                 renderedRowHeaderItemView?.Redraw();
             }
         }
@@ -105,7 +105,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 {
                     Rect rect = GetCalculatedSize(elementViewModel, y);
 
-                    RenderedRowHeaderItemView elementView = new RenderedRowHeaderItemView(_matrixViewModel, _renderTheme)
+                    MatrixRowHeaderItemView elementView = new MatrixRowHeaderItemView(_matrixViewModel, _theme)
                     {
                         Height = rect.Height,
                         Width = rect.Width
@@ -131,7 +131,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 Rect rect = GetCalculatedSize(child, y);
 
-                RenderedRowHeaderItemView elementView = new RenderedRowHeaderItemView(_matrixViewModel, _renderTheme)
+                MatrixRowHeaderItemView elementView = new MatrixRowHeaderItemView(_matrixViewModel, _theme)
                 {
                     Height = rect.Height,
                     Width = rect.Width
@@ -149,7 +149,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         private ElementTreeItemViewModel GetElementViewModel(object source)
         {
-            RenderedRowHeaderItemView headerItemView = source as RenderedRowHeaderItemView;
+            MatrixRowHeaderItemView headerItemView = source as MatrixRowHeaderItemView;
             return headerItemView?.DataContext as ElementTreeItemViewModel;
         }
 
@@ -160,7 +160,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 int leafElementCount = viewModel.LeafElementCount;
 
-                double pitch = _renderTheme.MatrixCellSize + 2.0;
+                double pitch = _theme.MatrixCellSize + 2.0;
                 if (viewModel.IsExpanded)
                 {
                     double x = viewModel.Depth * 26.0;

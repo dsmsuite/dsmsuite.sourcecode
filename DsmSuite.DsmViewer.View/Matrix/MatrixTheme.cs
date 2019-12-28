@@ -4,12 +4,12 @@ using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
-    public class RenderTheme
+    public class MatrixTheme
     {
         private SolidColorBrush[] _brushes;
         private readonly FrameworkElement _frameworkElement;
 
-        public RenderTheme(FrameworkElement frameworkElement)
+        public MatrixTheme(FrameworkElement frameworkElement)
         {
             _frameworkElement = frameworkElement;
             MatrixCellSize = (double)_frameworkElement.FindResource("MatrixCellSize");
