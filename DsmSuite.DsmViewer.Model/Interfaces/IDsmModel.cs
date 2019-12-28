@@ -42,6 +42,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<IDsmElement> SearchElements(string text);
         IEnumerable<IDsmElement> GetRootElements();
         IEnumerable<IDsmElement> GetElements();
+        int GetRecursiveChildCount(IDsmElement element);
 
         // Relation editing
         IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight);

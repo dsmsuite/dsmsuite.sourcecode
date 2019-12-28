@@ -190,6 +190,11 @@ namespace DsmSuite.DsmViewer.Application.Core
             return element?.Children.Count > 0;
         }
 
+        public int GetRecursiveChildCount(IDsmElement element)
+        {
+            return _dsmModel.GetRecursiveChildCount(element);
+        }
+
         public void Sort(IDsmElement element, string algorithm)
         {
             ElementSortAction action = new ElementSortAction(_dsmModel, element, algorithm);

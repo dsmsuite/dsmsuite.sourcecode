@@ -127,6 +127,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.GetElements();
         }
 
+        public int GetRecursiveChildCount(IDsmElement element)
+        {
+            return _elementsDataModel.GetRecursiveChildCount(element);
+        }
+
         public IEnumerable<IDsmElement> GetRootElements()
         {
             return _elementsDataModel.GetExportedRootElements();
