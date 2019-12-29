@@ -110,7 +110,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                                 X = 1.0 + column * _pitch,
                                 Y = 14.0 + row * _pitch
                             };
-                            DrawText(dc, location, weight.ToString(), _rect.Width - 2.0);
+                            DrawText(dc, weight.ToString(), location, _theme.TextColor,_rect.Width - 2.0);
                         }
                     }
                 }

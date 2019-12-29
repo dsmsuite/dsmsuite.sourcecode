@@ -7,7 +7,6 @@ namespace DsmSuite.DsmViewer.View.Matrix
     public class MatrixFrameworkElement : FrameworkElement
     {
         private static readonly GlyphTypeface GlyphTypeface;
-        private static readonly SolidColorBrush TextColor;
         private static readonly float PixelsPerDip;
         private static readonly RotateTransform TextTransform;
         private static readonly double FontSize = 12;
@@ -18,7 +17,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private struct GlyphInfo
         {
             public readonly ushort Index;
-            public readonly double Width; // Pre-computed with font size for now
+            public readonly double Width; 
 
             public GlyphInfo(ushort glyphIndex, double width) : this()
             {
@@ -31,7 +30,6 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             Typeface typeface = new Typeface(new FontFamily("Segoe UI"), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
             typeface.TryGetGlyphTypeface(out GlyphTypeface);
-            TextColor = new SolidColorBrush(Colors.Black);
             PixelsPerDip = 1.0f;
 
             MGlyphInfoTable = new GlyphInfo[char.MaxValue];
@@ -46,15 +44,15 @@ namespace DsmSuite.DsmViewer.View.Matrix
             TextTransform = new RotateTransform { Angle = 90 };
         }
 
-        protected void DrawRotatedText(DrawingContext dc, Point location, string text, double maxWidth)
+        protected void DrawRotatedText(DrawingContext dc, string text, Point location, SolidColorBrush color,  double maxWidth)
         {
             Point rotatedLocation = new Point(-location.Y, -location.X);
             dc.PushTransform(TextTransform);
-            DrawText(dc, rotatedLocation, text, maxWidth);
+            DrawText(dc, text, rotatedLocation, color, maxWidth);
             dc.Pop();
         }
 
-        protected void DrawText(DrawingContext dc, Point location, string text, double maxWidth)
+        protected void DrawText(DrawingContext dc, string text, Point location, SolidColorBrush color, double maxWidth)
         {
             if (text.Length > 0)
             {
@@ -79,7 +77,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     MGlyphIndexesList.ToArray(), location, MAdvanceWidthsList.ToArray(),
                     null, null, null, null, null, null);
 
-                dc.DrawGlyphRun(TextColor, glyphRun);
+                dc.DrawGlyphRun(color, glyphRun);
             }
         }
     }

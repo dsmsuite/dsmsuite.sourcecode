@@ -35,6 +35,7 @@
     <Compile Include="Import\CreateNewModelPolicy.cs" />
     <Compile Include="Import\IImportPolicy.cs" />
     <Compile Include="Import\UpdateExistingModelPolicy.cs" />
+    <Compile Include="Metrics\DsmMetrics.cs" />
     <Compile Include="Sorting\AlphabeticalSortAlgorithm.cs" />
     <Compile Include="Sorting\SortResult.cs" />
     <Compile Include="Sorting\ISortAlgorithm.cs" />

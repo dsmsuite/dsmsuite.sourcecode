@@ -93,7 +93,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
                     int id = _viewModel.ColumnElementIds[column];
                     Point location = new Point(_rect.X + 10.0, _rect.Y - 5.0);
-                    DrawRotatedText(dc, location, id.ToString(), _rect.Width - 2.0);
+                    DrawRotatedText(dc, id.ToString(), location, _theme.TextColor, _rect.Width - 2.0);
                 }
 
                 Height = _theme.MatrixHeaderHeight + 2.0;
