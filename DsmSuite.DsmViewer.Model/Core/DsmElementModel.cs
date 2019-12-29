@@ -183,7 +183,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<IDsmElement> SearchElements(string text)
         {
             return from element in _elementsById.Values
-                   where element.Fullname.Contains(text) && !element.IsDeleted
+                   where element.Fullname.ToLower().Contains(text.ToLower()) && !element.IsDeleted
                    select element;
         }
 

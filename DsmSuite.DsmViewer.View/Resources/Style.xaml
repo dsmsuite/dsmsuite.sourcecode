@@ -79,16 +79,18 @@
 
     <Style x:Key="ToolbarComboBox" TargetType="ComboBox">
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
     </Style>
 
     <Style x:Key="ToolbarTextBox" TargetType="TextBox">
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
     </Style>
 
     <Style x:Key="ToolbarLabel" TargetType="Label">
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     
     <Style x:Key="ToolBar" TargetType="ToolBar">

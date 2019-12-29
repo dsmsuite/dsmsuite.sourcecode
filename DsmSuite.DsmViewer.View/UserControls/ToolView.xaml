@@ -11,7 +11,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="30" />
         </Grid.ColumnDefinitions>
         <ToolBar Grid.Column="0" Style="{StaticResource ToolBar}">
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Open model" Click="OpenButtonClick" Content="{StaticResource OpenIcon}"/>
@@ -33,11 +33,12 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding UndoText}" Command="{Binding UndoCommand}" Content="{StaticResource UndoIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding RedoText}" Command="{Binding RedoCommand}" Content="{StaticResource RedoIcon}"/>
             <Separator/>
-            <TextBox Style="{StaticResource ToolbarTextBox}" Width="300" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateConverter}}" />
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Previous" Command="{Binding NavigateToPreviousCommand}" Content="{StaticResource ChevronLeftIcon}"/>
-            <Label Style="{StaticResource ToolbarLabel}" Content="{Binding SearchResult}" Width="80" HorizontalContentAlignment="Center"/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Next" Command="{Binding NavigateToNextCommand}" Content="{StaticResource ChevronRightIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show overview report" Command="{Binding OverviewReportCommand}" Content="{StaticResource ReportIcon}"/>
+            <Separator/>
+            <TextBox Style="{StaticResource ToolbarTextBox}" Width="400" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateConverter}}" />
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Navigate to previous found element" Command="{Binding NavigateToPreviousCommand}" Content="{StaticResource ChevronLeftIcon}"/>
+            <Label Style="{StaticResource ToolbarLabel}" Content="{Binding SearchResult}" Width="80"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Navigate to next found element" Command="{Binding NavigateToNextCommand}" Content="{StaticResource ChevronRightIcon}"/>
             <Separator/>
         </ToolBar>
         <Button Grid.Column="1" Style="{StaticResource ToolbarButton}" ToolTip="Settings" Command="{Binding ShowSettingsCommand}" Content="{StaticResource SettingsIcon}" DockPanel.Dock="Right" Width="24"/>
