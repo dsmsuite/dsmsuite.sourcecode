@@ -131,7 +131,17 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void SelectElement(IEnumerable<ElementTreeItemViewModel> tree, IDsmElement element)
         {
-            // TODO
+            foreach (ElementTreeItemViewModel treeItem in tree)
+            {
+                if (treeItem.Id == element.Id)
+                {
+                    SelectProviderTreeItem(treeItem);
+                }
+                else
+                {
+                    SelectElement(treeItem.Children, element);
+                }
+            }
         }
 
         private void ExpandElement(IDsmElement element)
