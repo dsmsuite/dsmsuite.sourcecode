@@ -7,4 +7,6 @@
                     ManyMatchesBrush="{StaticResource SearchManyMatchesTextColor}" />
     <valueConverters:SearchStateToVisibilityConverter x:Key="SearchStateToVisibilityConverter" />
     <valueConverters:MetricsExpandedToButtonContentConverter x:Key="MetricsExpandedToButtonContentConverter" />
+    <valueConverters:MetricsExpandedToViewWidthConverter x:Key="MetricsExpandedToViewWidthConverter" 
+                    ViewWidth="100"/>
 </ResourceDictionary>

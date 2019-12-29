@@ -17,7 +17,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         public MatrixRowMetricsView()
         {
             _theme = new MatrixTheme(this);
-            _rect = new Rect(new Size(_theme.MatrixInfoViewWidth, _theme.MatrixCellSize));
+            _rect = new Rect(new Size(_theme.MatrixMetricsViewWidth, _theme.MatrixCellSize));
             _hoveredRow = null;
             _pitch = _theme.MatrixCellSize + 2.0;
             _offset = 1.0;

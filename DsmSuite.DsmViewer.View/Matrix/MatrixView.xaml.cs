@@ -16,6 +16,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             Canvas.SetLeft(ColumnHeaderView, -e.HorizontalOffset);
             Canvas.SetTop(RowHeaderView, -e.VerticalOffset);
+            Canvas.SetTop(RowMetricsView, -e.VerticalOffset);
         }
     }
 }

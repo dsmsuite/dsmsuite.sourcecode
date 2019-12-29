@@ -1,13 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <sys:Double x:Key="StandardButtonSize">24</sys:Double>
     <sys:Double x:Key="ExpandButtonSize">20</sys:Double>
     <sys:Double x:Key="MatrixCellSize">24</sys:Double>
     <sys:Double x:Key="MatrixHeaderHeight">60</sys:Double>
-    <sys:Double x:Key="MatrixInfoViewWidth">60</sys:Double>
+    <sys:Double x:Key="MatrixMetricsViewWidth">100</sys:Double>
     
     <!-- GridSplitter style -->
     <Style x:Key="GridSplitterStyle" TargetType="GridSplitter">
