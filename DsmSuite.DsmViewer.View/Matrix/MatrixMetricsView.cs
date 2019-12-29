@@ -5,20 +5,20 @@ using System.Windows.Media;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
-    public class MatrixColumnHeaderView : MatrixFrameworkElement
+    public class MatrixMetricsView : MatrixFrameworkElement
     {
         private MatrixViewModel _viewModel;
         private readonly MatrixTheme _theme;
         private Rect _rect;
-        private int? _hoveredColumn;
+        private int? _hoveredRow;
         private readonly double _pitch;
         private readonly double _offset;
 
-        public MatrixColumnHeaderView()
+        public MatrixMetricsView()
         {
             _theme = new MatrixTheme(this);
-            _rect = new Rect(new Size(_theme.MatrixCellSize, _theme.MatrixHeaderHeight));
-            _hoveredColumn = null;
+            _rect = new Rect(new Size(_theme.MatrixInfoViewWidth, _theme.MatrixCellSize));
+            _hoveredRow = null;
             _pitch = _theme.MatrixCellSize + 2.0;
             _offset = 1.0;
 
@@ -40,11 +40,11 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            int column = GetHoveredColumn(e.GetPosition(this));
-            if (_hoveredColumn != column)
+            int row = GetHoveredRow(e.GetPosition(this));
+            if (_hoveredRow != row)
             {
-                _hoveredColumn = column;
-                _viewModel.HoverColumn(column);
+                _hoveredRow = row;
+                _viewModel.HoverRow(row);
             }
         }
 
@@ -55,8 +55,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            int column = GetHoveredColumn(e.GetPosition(this));
-            _viewModel.SelectColumn(column);
+            int row = GetHoveredRow(e.GetPosition(this));
+            _viewModel.SelectRow(row);
         }
 
         private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -79,32 +79,32 @@ namespace DsmSuite.DsmViewer.View.Matrix
             if (_viewModel != null)
             {
                 int matrixSize = _viewModel.MatrixSize;
-                for (int column = 0; column < matrixSize; column++)
+                for (int row = 0; row < matrixSize; row++)
                 {
-                    _rect.X = _offset + column * _pitch;
-                    _rect.Y = 0;
+                    _rect.X = 0;
+                    _rect.Y = _offset + row * _pitch;
 
-                    bool isHovered = _viewModel.HoveredColumn.HasValue && (column == _viewModel.HoveredColumn.Value);
-                    bool isSelected = _viewModel.SelectedColumn.HasValue && (column == _viewModel.SelectedColumn.Value);
-                    MatrixColor color = _viewModel.ColumnColors[column];
+                    bool isHovered = _viewModel.HoveredRow.HasValue && (row == _viewModel.HoveredRow.Value);
+                    bool isSelected = _viewModel.SelectedRow.HasValue && (row == _viewModel.SelectedRow.Value);
+                    MatrixColor color = _viewModel.ColumnColors[row];
                     SolidColorBrush background = _theme.GetBackground(color, isHovered, isSelected);
 
                     dc.DrawRectangle(background, null, _rect);
 
-                    string content = _viewModel.ColumnElementIds[column].ToString();
-                    Point location = new Point(_rect.X + 10.0, _rect.Y - 5.0);
-                    DrawRotatedText(dc, content, location, _theme.TextColor, _rect.Width - 2.0);
+                    string content =  "todo";
+                    Point location = new Point(_rect.X + 20.0, _rect.Y + 15.0);
+                    DrawText(dc, content, location, _theme.TextColor, _rect.Width - 2.0);
                 }
 
                 Height = _theme.MatrixHeaderHeight + 2.0;
                 Width = _theme.MatrixCellSize * matrixSize + 2.0;
             }
         }
-        
-        private int GetHoveredColumn(Point location)
+
+        private int GetHoveredRow(Point location)
         {
-            double column = (location.X - _offset) / _pitch;
-            return (int)column;
+            double row = (location.Y - _offset) / _pitch;
+            return (int)row;
         }
     }
 

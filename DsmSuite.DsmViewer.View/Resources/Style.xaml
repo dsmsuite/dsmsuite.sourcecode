@@ -7,7 +7,8 @@
     <sys:Double x:Key="ExpandButtonSize">20</sys:Double>
     <sys:Double x:Key="MatrixCellSize">24</sys:Double>
     <sys:Double x:Key="MatrixHeaderHeight">60</sys:Double>
-
+    <sys:Double x:Key="MatrixInfoViewWidth">60</sys:Double>
+    
     <!-- GridSplitter style -->
     <Style x:Key="GridSplitterStyle" TargetType="GridSplitter">
         <Setter Property="Background" Value="{StaticResource BackgroundColor}" />

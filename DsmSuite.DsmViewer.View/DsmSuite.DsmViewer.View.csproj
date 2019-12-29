@@ -51,6 +51,7 @@
     <Compile Include="Matrix\MatrixColumnHeaderView.cs" />
     <Compile Include="Matrix\MatrixFrameworkElement.cs" />
     <Compile Include="Matrix\MatrixRowHeaderView.cs" />
+    <Compile Include="Matrix\MatrixMetricsView.cs" />
     <Compile Include="Matrix\MatrixTheme.cs" />
     <Compile Include="Matrix\MatrixRowHeaderItemView.cs" />
     <Compile Include="Matrix\MatrixView.xaml.cs">

@@ -15,6 +15,7 @@ using DsmSuite.DsmViewer.Reporting;
 using DsmSuite.Analyzer.Model.Core;
 using System.Reflection;
 using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.Application.Metrics;
 
 namespace DsmSuite.DsmViewer.Application.Core
 {
@@ -24,6 +25,7 @@ namespace DsmSuite.DsmViewer.Application.Core
         private readonly ActionManager _actionManager;
         private readonly ActionStore _actionStore;
         private readonly DsmQueries _queries;
+        private readonly DsmMetrics _metrics;
 
         public event EventHandler<bool> Modified;
         public event EventHandler ActionPerformed;
@@ -38,6 +40,8 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionStore = new ActionStore(_dsmModel, _actionManager);
 
             _queries = new DsmQueries(dsmModel);
+
+            _metrics = new DsmMetrics(dsmModel);
 
             ShowCycles = true;
         }

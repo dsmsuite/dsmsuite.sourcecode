@@ -132,16 +132,16 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 Rect backgroundRect = new Rect(1.0, 1.0, ActualWidth - 2.0, ActualHeight - 2.0);
                 dc.DrawRectangle(background, null, backgroundRect);
 
-                string text = _viewModel.Name + " - " + _viewModel.Order;
+                string content = _viewModel.Name + " - " + _viewModel.Order;
                 if (_viewModel.IsExpanded)
                 {
                     Point textLocation = new Point(backgroundRect.X + 10.0, backgroundRect.Y - 20.0);
-                    DrawRotatedText(dc, text, textLocation, _theme.TextColor, backgroundRect.Height - 20.0);
+                    DrawRotatedText(dc, content, textLocation, _theme.TextColor, backgroundRect.Height - 20.0);
                 }
                 else
                 {
                     Point textLocation = new Point(backgroundRect.X + 20.0, backgroundRect.Y + 15.0);
-                    DrawText(dc, text, textLocation, _theme.TextColor, backgroundRect.Width - 25.0);
+                    DrawText(dc, content, textLocation, _theme.TextColor, backgroundRect.Width - 25.0);
                 }
 
                 Point expanderLocation = new Point(backgroundRect.X + 1.0, backgroundRect.Y + 1.0);
