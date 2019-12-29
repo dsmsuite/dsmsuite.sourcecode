@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace DsmSuite.DsmViewer.View.ValueConverters
 {
-    public class SearchStateConverter : IValueConverter
+    public class SearchStateToColorConverter : IValueConverter
     {
         public SolidColorBrush NoMatchBrush { get; set; }
         public SolidColorBrush OneMatchBrush { get; set; }

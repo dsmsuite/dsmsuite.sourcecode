@@ -118,12 +118,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
             ShowSettingsCommand = new RelayCommand<object>(ShowSettingsExecute, ShowSettingsCanExecute);
 
-            ModelFilename = "";
-            Title = "DSM Viewer";
-            IsModified = false;
-            IsLoaded = false;
-            SearchText = "";
-            SelectedSortAlgorithm = SupportedSortAlgorithms[0];
+            _modelFilename = "";
+            _title = "DSM Viewer";
+            _isModified = false;
+            _isLoaded = false;
+
+            _searchText = "";
+            _searchState = SearchState.NoMatch;
+
+            _selectedSortAlgorithm = SupportedSortAlgorithms[0];
 
             _progressViewModel = new ProgressViewModel();
         }
@@ -503,7 +506,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             bool canExecute = false;
 
-            if (_foundElements.Count > 0)
+            if (_foundElements != null && _foundElements.Count > 0)
             {
                 if (_foundElementIndex.HasValue)
                 {
@@ -541,7 +544,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool NavigateToPreviousCanExecute(object parameter)
         {
-            return _foundElements.Count > 0 && _foundElementIndex > 0;
+            return _foundElements != null && _foundElements.Count > 0 && _foundElementIndex > 0;
         }
         
         private void OnActionPerformed(object sender, EventArgs e)

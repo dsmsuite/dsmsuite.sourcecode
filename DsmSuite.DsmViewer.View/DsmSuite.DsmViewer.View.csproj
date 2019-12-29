@@ -63,7 +63,7 @@
     <Compile Include="UserControls\ToolView.xaml.cs">
       <DependentUpon>ToolView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValueConverters\SearchStateConverter.cs" />
+    <Compile Include="ValueConverters\SearchStateToColorConverter.cs" />
     <Compile Include="Settings\ViewerSettings.cs" />
     <Compile Include="Dialogs\ElementCreateDialog.xaml.cs">
       <DependentUpon>ElementCreateDialog.xaml</DependentUpon>
@@ -74,6 +74,7 @@
     <Compile Include="Dialogs\ElementEditTypeDialog.xaml.cs">
       <DependentUpon>ElementEditTypeDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValueConverters\SearchStateToVisibilityConverter.cs" />
     <Compile Include="Windows\ElementListView.xaml.cs">
       <DependentUpon>ElementListView.xaml</DependentUpon>
     </Compile>
