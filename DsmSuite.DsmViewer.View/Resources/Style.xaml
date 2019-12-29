@@ -91,6 +91,19 @@
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
     </Style>
 
+    <Style x:Key="DialogTextBoxWithValidation" TargetType="TextBox">
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <AdornedElementPlaceholder/>
+                        <TextBlock Text="{Binding [0].ErrorContent}" Foreground="{StaticResource ErrorTextColor}"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="DialogSubTitle" TargetType="Label">
         <Setter Property="FontSize" Value="18" />
         <Setter Property="FontWeight" Value="Bold"/>

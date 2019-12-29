@@ -66,6 +66,8 @@
     <Compile Include="UserControls\ToolView.xaml.cs">
       <DependentUpon>ToolView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\ElementNameMustBeNonEmptyRule.cs" />
+    <Compile Include="Validation\WeightMustBePositiveNumberRule.cs" />
     <Compile Include="ValueConverters\MetricsExpandedToButtonContentConverter.cs" />
     <Compile Include="ValueConverters\SearchStateToColorConverter.cs" />
     <Compile Include="Settings\ViewerSettings.cs" />
