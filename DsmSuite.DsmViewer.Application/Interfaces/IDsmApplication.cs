@@ -47,7 +47,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
 
         IEnumerable<IDsmElement> SearchElements(string text);
-
+        IDsmElement GetElementByFullname(string fullname);
         void CreateElement(string name, string type, IDsmElement parent);
         void DeleteElement(IDsmElement element);
         void ChangeElementName(IDsmElement element, string name);

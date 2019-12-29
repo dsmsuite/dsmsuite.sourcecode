@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
@@ -47,7 +48,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
 
         private bool AcceptChangeCanExecute(object parameter)
         {
-            return Name.Length > 0;
+            ElementName elementName = new ElementName(_element.Fullname);
+            elementName.AddNamePart(Name);
+            return (Name.Length > 0) && (_application.GetElementByFullname(elementName.FullName) == null);
         }
     }
 }

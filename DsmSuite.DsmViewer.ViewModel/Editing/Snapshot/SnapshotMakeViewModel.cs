@@ -35,7 +35,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Snapshot
 
         private bool AcceptChangeCanExecute(object parameter)
         {
-            return true;
+            return Description.Length > 0;
         }
     }
 }

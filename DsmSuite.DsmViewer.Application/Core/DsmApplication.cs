@@ -232,6 +232,11 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.SearchElements(text);
         }
 
+        public IDsmElement GetElementByFullname(string text)
+        {
+            return _dsmModel.GetElementByFullname(text);
+        }
+
         public void CreateElement(string name, string type, IDsmElement parent)
         {
             ElementCreateAction action = new ElementCreateAction(_dsmModel, name, type, parent);
