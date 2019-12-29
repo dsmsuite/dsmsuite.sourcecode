@@ -463,7 +463,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             if (count == 0)
             {
                 SearchState = SearchState.NoMatch;
-                SearchResult = SearchText.Length > 0 ? "No elements found" : "";
+                SearchResult = SearchText.Length > 0 ? "None found" : "";
             }
             else if (count == 1)
             {
@@ -473,12 +473,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                     SearchText = foundElement.Fullname;
                 }
                 SearchState = SearchState.OneMatch;
-                SearchResult = "1 element found";
+                SearchResult = "1 found";
             }
             else if (count > 1)
             {
                 SearchState = SearchState.ManyMatches;
-                SearchResult = $"{count} elements found";
+                SearchResult = $"{count} found";
             }
         }
 

@@ -8,6 +8,11 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
 {
     public class SearchStateConverter : IValueConverter
     {
+        public SolidColorBrush NoMatchBrush { get; set; }
+        public SolidColorBrush OneMatchBrush { get; set; }
+        public SolidColorBrush ManyMatchesBrush { get; set; }
+
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             SolidColorBrush brush;
@@ -15,16 +20,16 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
             switch(searchState)
             {
                 case SearchState.NoMatch:
-                    brush = new SolidColorBrush(Colors.Red);
-                    break;
-                case SearchState.ManyMatches:
-                    brush = new SolidColorBrush(Colors.DarkGray);
+                    brush = NoMatchBrush;
                     break;
                 case SearchState.OneMatch:
-                    brush = new SolidColorBrush(Colors.Black);
+                    brush = OneMatchBrush;
+                    break;
+                case SearchState.ManyMatches:
+                    brush = ManyMatchesBrush;
                     break;
                 default:
-                    brush = new SolidColorBrush(Colors.LightGray);
+                    brush = NoMatchBrush;
                     break;
             }
             return brush;

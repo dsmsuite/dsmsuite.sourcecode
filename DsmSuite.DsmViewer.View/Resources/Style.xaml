@@ -76,6 +76,17 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="ToolbarComboBox" TargetType="ComboBox">
+        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+    </Style>
+
+    <Style x:Key="ToolbarTextBox" TargetType="TextBox">
+    </Style>
+
+    <Style x:Key="ToolbarLabel" TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+    </Style>
+    
     <Style x:Key="ToolBar" TargetType="ToolBar">
         <Setter Property="Background" Value="{StaticResource BackgroundColor}" />
         <Setter Property="OverflowMode" Value="Never" />

@@ -18,7 +18,7 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Move selected element up" Command="{Binding MoveUpElementCommand}" Content="{StaticResource UpIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Move selected element down" Command="{Binding MoveDownElementCommand}" Content="{StaticResource DownIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Sort selected element" Command="{Binding SortElementCommand}" Content="{StaticResource PartitionIcon}"/>
-            <ComboBox ToolTip="Used sort algoritm" ItemsSource="{Binding SupportedSortAlgorithms}" SelectedItem="{Binding SelectedSortAlgorithm}" Width="80" />
+            <ComboBox Style="{StaticResource ToolbarComboBox}" ToolTip="Used sort algoritm" ItemsSource="{Binding SupportedSortAlgorithms}" SelectedItem="{Binding SelectedSortAlgorithm}" Width="80" />
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom in" Command="{Binding ZoomInCommand}" Content="{StaticResource ZoomInIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>
@@ -29,12 +29,12 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding UndoText}" Command="{Binding UndoCommand}" Content="{StaticResource UndoIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding RedoText}" Command="{Binding RedoCommand}" Content="{StaticResource RedoIcon}"/>
             <Separator/>
+            <TextBox Style="{StaticResource ToolbarTextBox}" Width="300" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateConverter}}" />
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Previous" Command="{Binding NavigateToPreviousCommand}" Content="{StaticResource ChevronLeftIcon}"/>
+            <Label Style="{StaticResource ToolbarLabel}" Content="{Binding SearchResult}" Width="80" HorizontalContentAlignment="Center"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Next" Command="{Binding NavigateToNextCommand}" Content="{StaticResource ChevronRightIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show overview report" Command="{Binding OverviewReportCommand}" Content="{StaticResource ReportIcon}"/>
             <Separator/>
-            <TextBox Width="300" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateConverter}}" />
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Previous" Command="{Binding NavigateToPreviousCommand}" Content="{StaticResource ChevronLeftIcon}"/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Next" Command="{Binding NavigateToNextCommand}" Content="{StaticResource ChevronRightIcon}"/>
-            <Label Content="{Binding SearchResult}"/>
         </ToolBar>
         <ToolBar Style="{StaticResource ToolBar}" DockPanel.Dock = "Right">
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Settings" Command="{Binding ShowSettingsCommand}" Content="{StaticResource SettingsIcon}"/>

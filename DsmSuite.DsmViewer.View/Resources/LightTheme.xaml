@@ -3,6 +3,9 @@
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="TextColor" po:Freeze="True">#4b3d38</SolidColorBrush>
+    <SolidColorBrush x:Key="SearchNoMatchTextColor" po:Freeze="True">#d24432</SolidColorBrush>
+    <SolidColorBrush x:Key="SearchOneMatchTextColor" po:Freeze="True">#4b3d38</SolidColorBrush>
+    <SolidColorBrush x:Key="SearchManyMatchesTextColor" po:Freeze="True">#938a87</SolidColorBrush>
     
     <SolidColorBrush x:Key="BackgroundColor" po:Freeze="True">#f6f5f4</SolidColorBrush>
     <SolidColorBrush x:Key="ForegroundHoverColor" po:Freeze="True">#322925</SolidColorBrush>
