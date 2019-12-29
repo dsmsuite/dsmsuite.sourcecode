@@ -22,6 +22,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private int? _hoveredRow;
         private int? _hoveredColumn;
         private int _matrixSize;
+        private bool _isMetricsViewExpanded;
 
         private List<List<MatrixColor>> _cellColors;
         private List<List<int>> _cellWeights;
@@ -66,6 +67,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ChangeRelationWeightCommand = mainViewModel.ChangeRelationWeightCommand;
             ChangeRelationTypeCommand = mainViewModel.ChangeRelationTypeCommand;
 
+            ToggleMetricsViewExpandedCommand = new RelayCommand<object>(ToggleMetricsViewExpandedExecute, ToggleMetricsViewExpandedCanExecute);
+
             Reload();
 
             ZoomLevel = 1.0;
@@ -94,11 +97,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand ShowElementContextMatrixCommand { get; }
         public ICommand ShowCellDetailMatrixCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
+        public ICommand ToggleMetricsViewExpandedCommand { get; }
 
         public int MatrixSize
         {
             get { return _matrixSize; }
             set { _matrixSize = value; OnPropertyChanged(); }
+        }
+
+        public bool IsMetricsViewExpanded
+        {
+            get { return _isMetricsViewExpanded; }
+            set { _isMetricsViewExpanded = value; OnPropertyChanged(); }
         }
 
         public ObservableCollection<ElementTreeItemViewModel> Providers
@@ -558,6 +568,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         }
 
         private bool ShowCellRelationsCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void ToggleMetricsViewExpandedExecute(object parameter)
+        {
+            IsMetricsViewExpanded = !IsMetricsViewExpanded;
+        }
+
+        private bool ToggleMetricsViewExpandedCanExecute(object parameter)
         {
             return true;
         }

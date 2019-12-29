@@ -51,6 +51,9 @@
     <Compile Include="Matrix\MatrixColumnHeaderView.cs" />
     <Compile Include="Matrix\MatrixFrameworkElement.cs" />
     <Compile Include="Matrix\MatrixRowHeaderView.cs" />
+    <Compile Include="Matrix\MatrixRowMetricsSelectorView.xaml.cs">
+      <DependentUpon>MatrixRowMetricsSelectorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Matrix\MatrixRowMetricsView.cs" />
     <Compile Include="Matrix\MatrixTheme.cs" />
     <Compile Include="Matrix\MatrixRowHeaderItemView.cs" />
@@ -63,6 +66,7 @@
     <Compile Include="UserControls\ToolView.xaml.cs">
       <DependentUpon>ToolView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValueConverters\MetricsExpandedToButtonContentConverter.cs" />
     <Compile Include="ValueConverters\SearchStateToColorConverter.cs" />
     <Compile Include="Settings\ViewerSettings.cs" />
     <Compile Include="Dialogs\ElementCreateDialog.xaml.cs">
@@ -115,6 +119,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\SnapshotCreateDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Matrix\MatrixRowMetricsSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

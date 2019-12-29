@@ -12,24 +12,24 @@ namespace DsmSuite.DsmViewer.View.Matrix
     {
         private readonly MatrixViewModel _matrixViewModel;
         private static readonly string DataObjectName = "Element";
-        private static readonly string BlackRightPointingTriangle = '\u25B6'.ToString();
-        private static readonly string BlackDownPointingTriangle = '\u25BC'.ToString();
-        private static readonly FormattedText BlackRightPointingTriangleFormattedText;
-        private static readonly FormattedText BlackDownPointingTriangleFormattedText;
+        private static readonly string RightPointingTriangle = '\u25B6'.ToString();
+        private static readonly string DownPointingTriangle = '\u25BC'.ToString();
+        private static readonly FormattedText RightPointingTriangleFormattedText;
+        private static readonly FormattedText DownPointingTriangleFormattedText;
 
         private readonly MatrixTheme _theme;
         private ElementTreeItemViewModel _viewModel;
 
         static MatrixRowHeaderItemView()
         {
-            BlackRightPointingTriangleFormattedText = new FormattedText(BlackRightPointingTriangle,
+            RightPointingTriangleFormattedText = new FormattedText(RightPointingTriangle,
                 CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
                 new Typeface("Verdana"),
                 10,
                 Brushes.Black);
 
-            BlackDownPointingTriangleFormattedText = new FormattedText(BlackDownPointingTriangle,
+            DownPointingTriangleFormattedText = new FormattedText(DownPointingTriangle,
                 CultureInfo.GetCultureInfo("en-us"),
                 FlowDirection.LeftToRight,
                 new Typeface("Verdana"),
@@ -155,8 +155,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 dc.DrawText(
                     _viewModel.IsExpanded
-                        ? BlackDownPointingTriangleFormattedText
-                        : BlackRightPointingTriangleFormattedText, location);
+                        ? DownPointingTriangleFormattedText
+                        : RightPointingTriangleFormattedText, location);
             }
         }
     }

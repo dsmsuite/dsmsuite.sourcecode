@@ -15,6 +15,42 @@
     </Style>
 
     <!-- Dialog styles -->
+    <Style x:Key="ArrowButton" TargetType="Button">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsDefault" Value="true">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundAccentedColor}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundHoverColor}"/>
+                <Setter Property="FontSize" Value="13" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundDisabledColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!-- Dialog styles -->
     <Style x:Key="DialogButton" TargetType="Button">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />

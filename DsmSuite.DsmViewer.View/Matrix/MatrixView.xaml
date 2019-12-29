@@ -22,6 +22,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <matrix:MatrixRowMetricsSelectorView Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         <Canvas x:Name="ColumnHeaderCanvas" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="{StaticResource MatrixHeaderHeight}" ClipToBounds="True">
             <matrix:MatrixColumnHeaderView x:Name="ColumnHeaderView"  Height="{StaticResource MatrixHeaderHeight}" Width="Auto" />
         </Canvas>

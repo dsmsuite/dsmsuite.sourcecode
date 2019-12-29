@@ -6,4 +6,5 @@
                     OneMatchBrush="{StaticResource SearchOneMatchTextColor}"
                     ManyMatchesBrush="{StaticResource SearchManyMatchesTextColor}" />
     <valueConverters:SearchStateToVisibilityConverter x:Key="SearchStateToVisibilityConverter" />
+    <valueConverters:MetricsExpandedToButtonContentConverter x:Key="MetricsExpandedToButtonContentConverter" />
 </ResourceDictionary>
