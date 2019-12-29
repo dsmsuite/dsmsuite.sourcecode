@@ -29,6 +29,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private List<MatrixColor> _columnColors;
         private List<int> _columnElementIds;
         private List<int> _metrics;
+        private List<bool> _rowIsProvider;
+        private List<bool> _rowIsConsumer;
 
         private int? _selectedConsumerId;
         private int? _selectedProviderId;
@@ -172,6 +174,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             BackupSelectionBeforeReload();
             Providers = CreateProviderTree();
             _leafViewModels = FindLeafElements();
+            DefineProviderRows();
+            DefineConsumerRows();
             DefineColumnColors();
             DefineColumnContent();
             DefineCellColors();
@@ -185,6 +189,51 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             SelectedRow = row;
             SelectedColumn = null;
+            UpdateProviderRows();
+            UpdateConsumerRows();
+        }
+
+        private void DefineProviderRows()
+        {
+            _rowIsProvider = new List<bool>();
+            for (int row = 0; row < _leafViewModels.Count; row++)
+            {
+                _rowIsProvider.Add(false);
+            }
+        }
+
+        private void DefineConsumerRows()
+        {
+            _rowIsConsumer = new List<bool>();
+            for (int row = 0; row < _leafViewModels.Count; row++)
+            {
+                _rowIsConsumer.Add(false);
+            }
+        }
+
+        public IReadOnlyList<bool> RowIsProvider => _rowIsProvider;
+        public IReadOnlyList<bool> RowIsConsumer => _rowIsConsumer;
+
+        private void UpdateProviderRows()
+        {
+            if (SelectedRow.HasValue)
+            {
+                for (int i = 0; i < _leafViewModels.Count; i++)
+                {
+                    _rowIsProvider[i] = _cellWeights[i][SelectedRow.Value] > 0;
+                }
+            }
+        }
+
+        private void UpdateConsumerRows()
+        {
+            if (SelectedRow.HasValue)
+            {
+                for (int i = 0; i < _leafViewModels.Count; i++)
+                {
+                    _rowIsConsumer[i] = _cellWeights[SelectedRow.Value][i] > 0;
+                }
+            }
         }
 
         public void SelectColumn(int? column)
@@ -213,6 +262,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             SelectedRow = row;
             SelectedColumn = columnn;
+            UpdateProviderRows();
+            UpdateConsumerRows();
         }
 
         public int? SelectedRow
