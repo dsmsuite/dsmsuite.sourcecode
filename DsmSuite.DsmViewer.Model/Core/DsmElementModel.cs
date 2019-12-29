@@ -29,7 +29,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             _elementsById.Clear();
             _deletedElementsById.Clear();
-            _root.Children.Clear();
+            _root.RemoveAllChildren();
             _lastElementId = 0;
         }
 

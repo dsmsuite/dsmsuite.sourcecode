@@ -133,6 +133,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
+        public void RemoveAllChildren()
+        {
+            _children.Clear();
+        }
+
         public bool Swap(IDsmElement element1, IDsmElement element2)
         {
             bool swapped = false;
