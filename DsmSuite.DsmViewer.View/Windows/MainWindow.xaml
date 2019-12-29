@@ -14,7 +14,7 @@
         Icon="/DsmSuite.DsmViewer.View;component/Resources/DSM.ico">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="24" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <userControls:ToolView Grid.Row="0"/>

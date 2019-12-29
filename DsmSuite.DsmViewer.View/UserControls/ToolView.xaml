@@ -7,9 +7,13 @@
              d:DesignHeight="30" d:DesignWidth="1000"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              ScrollViewer.VerticalScrollBarVisibility="Disabled"
-             Loaded="ToolView_OnLoaded" Background="{StaticResource BackgroundColor}">
-    <DockPanel>
-        <ToolBar Style="{StaticResource ToolBar}" DockPanel.Dock = "Left">
+             Loaded="ToolView_OnLoaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="24" />
+        </Grid.ColumnDefinitions>
+        <ToolBar Grid.Column="0" Style="{StaticResource ToolBar}">
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Open model" Click="OpenButtonClick" Content="{StaticResource OpenIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Save model" Command="{Binding SaveFileCommand}" Content="{StaticResource SaveIcon}"/>
             <Separator/>
@@ -22,7 +26,7 @@
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom in" Command="{Binding ZoomInCommand}" Content="{StaticResource ZoomInIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>
-             <Separator/>
+            <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Create snapshot" Command="{Binding MakeSnapshotCommand}" Content="{StaticResource SnapshotIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show history" Command="{Binding ShowHistoryCommand}" Content="{StaticResource HistoryIcon}"/>
             <Separator/>
@@ -36,8 +40,6 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show overview report" Command="{Binding OverviewReportCommand}" Content="{StaticResource ReportIcon}"/>
             <Separator/>
         </ToolBar>
-        <ToolBar Style="{StaticResource ToolBar}" DockPanel.Dock = "Right">
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Settings" Command="{Binding ShowSettingsCommand}" Content="{StaticResource SettingsIcon}"/>
-        </ToolBar>
-    </DockPanel>
+        <Button Grid.Column="1" Style="{StaticResource ToolbarButton}" ToolTip="Settings" Command="{Binding ShowSettingsCommand}" Content="{StaticResource SettingsIcon}" DockPanel.Dock="Right" Width="24"/>
+    </Grid>
 </UserControl>

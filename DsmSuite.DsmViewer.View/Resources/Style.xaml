@@ -64,6 +64,7 @@
     <Style x:Key="ToolbarButton" TargetType="Button">
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="Width" Value="{StaticResource StandardButtonSize}" />
         <Style.Triggers>
@@ -78,13 +79,16 @@
 
     <Style x:Key="ToolbarComboBox" TargetType="ComboBox">
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <Style x:Key="ToolbarTextBox" TargetType="TextBox">
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <Style x:Key="ToolbarLabel" TargetType="Label">
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
     
     <Style x:Key="ToolBar" TargetType="ToolBar">
