@@ -105,6 +105,10 @@ namespace DsmSuite.DsmViewer.View.Matrix
                         int weight = _viewModel.CellWeights[row][column];
                         if (weight > 0)
                         {
+                            if (weight > 9999)
+                            {
+                                weight = 9999;
+                            }
                             Point location = new Point
                             {
                                 X = 1.0 + column * _pitch,

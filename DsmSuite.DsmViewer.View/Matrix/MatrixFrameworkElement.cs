@@ -9,7 +9,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private static readonly GlyphTypeface GlyphTypeface;
         private static readonly float PixelsPerDip;
         private static readonly RotateTransform TextTransform;
-        private static readonly double FontSize = 12;
+        private static readonly double FontSize = 11;
         private static readonly GlyphInfo[] MGlyphInfoTable;
         private static readonly List<ushort> MGlyphIndexesList = new List<ushort>();
         private static readonly List<double> MAdvanceWidthsList = new List<double>();
