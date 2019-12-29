@@ -289,7 +289,22 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _selectedProviderTreeItem = selectedProviderTreeItem;
         }
 
-        public ElementTreeItemViewModel SelectedProviderTreeItem => SelectedRow.HasValue ? _leafViewModels[SelectedRow.Value] : _selectedProviderTreeItem;
+        public ElementTreeItemViewModel SelectedProviderTreeItem
+        {
+            get
+            {
+                ElementTreeItemViewModel selectedProviderTreeItem;
+                if (SelectedRow.HasValue && (SelectedRow.Value < _leafViewModels.Count))
+                {
+                    selectedProviderTreeItem = _leafViewModels[SelectedRow.Value];
+                }
+                else
+                {
+                    selectedProviderTreeItem = _selectedProviderTreeItem;
+                }
+                return selectedProviderTreeItem;
+            }
+        }
 
         private ElementTreeItemViewModel _hoveredProviderTreeItem;
 
