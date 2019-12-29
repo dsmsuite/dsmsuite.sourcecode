@@ -28,6 +28,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private List<List<int>> _cellWeights;
         private List<MatrixColor> _columnColors;
         private List<int> _columnElementIds;
+        private List<int> _metrics;
 
         private int? _selectedConsumerId;
         private int? _selectedProviderId;
@@ -121,6 +122,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public IReadOnlyList<int> ColumnElementIds => _columnElementIds;
         public IReadOnlyList<IList<MatrixColor>> CellColors => _cellColors;
         public IReadOnlyList<IReadOnlyList<int>> CellWeights => _cellWeights;
+        public IReadOnlyList<int> Metrics => _metrics;
 
         public double ZoomLevel
         {
@@ -174,6 +176,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             DefineColumnContent();
             DefineCellColors();
             DefineCellContent();
+            DefineMetrics();
             MatrixSize = _leafViewModels.Count;
             RestoreSelectionAfterReload();
         }
@@ -479,7 +482,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
         }
 
-
+        private void DefineMetrics()
+        {
+            _metrics = new List<int>();
+            foreach (ElementTreeItemViewModel provider in _leafViewModels)
+            {
+                int size = _application.GetElementSize(provider.Element);
+                _metrics.Add(size);
+            }
+        }
 
         private void ShowCellConsumersExecute(object parameter)
         {

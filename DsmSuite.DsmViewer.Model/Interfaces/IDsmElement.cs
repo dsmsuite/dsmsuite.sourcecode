@@ -37,8 +37,6 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// </summary>
         bool HasChildren { get; }
 
-        int Size { get; }
-
         /// <summary>
         /// Children of the element.
         /// </summary>

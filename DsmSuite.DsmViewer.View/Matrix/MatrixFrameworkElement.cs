@@ -17,7 +17,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private struct GlyphInfo
         {
             public readonly ushort Index;
-            public readonly double Width; 
+            public readonly double Width;
 
             public GlyphInfo(ushort glyphIndex, double width) : this()
             {
@@ -44,7 +44,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             TextTransform = new RotateTransform { Angle = 90 };
         }
 
-        protected void DrawRotatedText(DrawingContext dc, string text, Point location, SolidColorBrush color,  double maxWidth)
+        protected void DrawRotatedText(DrawingContext dc, string text, Point location, SolidColorBrush color, double maxWidth)
         {
             Point rotatedLocation = new Point(-location.Y, -location.X);
             dc.PushTransform(TextTransform);
@@ -79,6 +79,17 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
                 dc.DrawGlyphRun(color, glyphRun);
             }
+        }
+        protected double MeasureText(string text)
+        {
+            double totalWidth = 0;
+
+            foreach (char c in text)
+            {
+                var info = MGlyphInfoTable[c];
+                totalWidth += info.Width;
+            }
+            return totalWidth;
         }
     }
 }

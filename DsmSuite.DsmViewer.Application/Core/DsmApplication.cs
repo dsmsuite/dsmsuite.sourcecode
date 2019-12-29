@@ -308,5 +308,10 @@ namespace DsmSuite.DsmViewer.Application.Core
             IsModified = true;
             Modified?.Invoke(this, IsModified);
         }
+
+        public int GetElementSize(IDsmElement elenent)
+        {
+            return _metrics.GetElementSize(elenent);
+        }
     }
 }

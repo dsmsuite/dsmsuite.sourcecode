@@ -6,13 +6,13 @@ using DsmSuite.DsmViewer.ViewModel.Matrix;
 namespace DsmSuite.DsmViewer.View.Matrix
 {
     /// <summary>
-    /// Interaction logic for MatrixRowMetricsSelectorView.xaml
+    /// Interaction logic for MatrixTopCornerView.xaml
     /// </summary>
-    public partial class MatrixRowMetricsSelectorView
+    public partial class MatrixTopCornerView
     {
         private MatrixViewModel _viewModel;
 
-        public MatrixRowMetricsSelectorView()
+        public MatrixTopCornerView()
         {
             InitializeComponent();
 

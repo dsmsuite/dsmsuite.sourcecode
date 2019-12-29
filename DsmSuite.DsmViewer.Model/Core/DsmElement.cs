@@ -93,19 +93,6 @@ namespace DsmSuite.DsmViewer.Model.Core
         public bool HasChildren => Children.Count > 0;
 
         /// <summary>
-        /// Given an indication of the element size based on the total number of recursive children
-        /// </summary>
-        public int Size
-        {
-            get
-            {
-                int count = 0;
-                CountChildern(this, ref count);
-                return count;
-            }
-        }
-
-        /// <summary>
         /// Add a child to the element.
         /// </summary>
         /// <param name="child">The child to be added</param>
@@ -160,16 +147,6 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             DsmElement element = obj as DsmElement;
             return Id.CompareTo(element?.Id);
-        }
-
-        private void CountChildern(IDsmElement element, ref int count)
-        {
-            count++;
-
-            foreach (IDsmElement child in element.Children)
-            {
-                CountChildern(child, ref count);
-            }
         }
     }
 }

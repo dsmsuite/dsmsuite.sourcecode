@@ -11,5 +11,22 @@ namespace DsmSuite.DsmViewer.Application.Metrics
         {
             _model = model;
         }
+
+        public int GetElementSize(IDsmElement elenent)
+        {
+            int count = 0;
+            CountChildern(elenent, ref count);
+            return count;
+        }
+
+        private void CountChildern(IDsmElement element, ref int count)
+        {
+            count++;
+
+            foreach (IDsmElement child in element.Children)
+            {
+                CountChildern(child, ref count);
+            }
+        }
     }
 }

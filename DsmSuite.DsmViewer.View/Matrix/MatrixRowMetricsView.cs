@@ -91,8 +91,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
                     dc.DrawRectangle(background, null, _rect);
 
-                    string content =  "todo";
-                    Point location = new Point(_rect.X + 20.0, _rect.Y + 15.0);
+                    string content = _viewModel.Metrics[row].ToString();
+                    double textWidth = MeasureText(content);
+                    Point location = new Point(_rect.X + _rect.Width - 15.0 - textWidth, _rect.Y + 15.0);
                     DrawText(dc, content, location, _theme.TextColor, _rect.Width - 2.0);
                 }
 

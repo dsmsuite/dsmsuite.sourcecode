@@ -50,9 +50,12 @@
     <Compile Include="Matrix\MatrixCellsView.cs" />
     <Compile Include="Matrix\MatrixColumnHeaderView.cs" />
     <Compile Include="Matrix\MatrixFrameworkElement.cs" />
+    <Compile Include="Matrix\MatrixMetricsSelectorView.xaml.cs">
+      <DependentUpon>MatrixMetricsSelectorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Matrix\MatrixRowHeaderView.cs" />
-    <Compile Include="Matrix\MatrixRowMetricsSelectorView.xaml.cs">
-      <DependentUpon>MatrixRowMetricsSelectorView.xaml</DependentUpon>
+    <Compile Include="Matrix\MatrixTopCornerView.xaml.cs">
+      <DependentUpon>MatrixTopCornerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Matrix\MatrixRowMetricsView.cs" />
     <Compile Include="Matrix\MatrixTheme.cs" />
@@ -125,7 +128,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Matrix\MatrixRowMetricsSelectorView.xaml">
+    <Page Include="Matrix\MatrixMetricsSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Matrix\MatrixTopCornerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
