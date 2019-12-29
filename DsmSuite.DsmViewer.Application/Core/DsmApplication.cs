@@ -305,6 +305,7 @@ namespace DsmSuite.DsmViewer.Application.Core
         public void ClearActions()
         {
             _actionManager.Clear();
+            _dsmModel.ClearActions();
             IsModified = true;
             Modified?.Invoke(this, IsModified);
         }
