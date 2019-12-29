@@ -398,8 +398,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             for (int row = 0; row < size; row++)
             {
                 IDsmElement element = _leafViewModels[row].Element;
+                int elementDepth = _leafViewModels[row].Depth;
 
-                if (_application.IsFirstChild(element))
+                if (_application.IsFirstChild(element) && (elementDepth > 1))
                 {
                     int leafElements = 0;
                     CountLeafElements(element.Parent, ref leafElements);
