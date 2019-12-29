@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
-    public class MatrixMetricsView : MatrixFrameworkElement
+    public class MatrixRowMetricsView : MatrixFrameworkElement
     {
         private MatrixViewModel _viewModel;
         private readonly MatrixTheme _theme;
@@ -14,7 +14,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private readonly double _pitch;
         private readonly double _offset;
 
-        public MatrixMetricsView()
+        public MatrixRowMetricsView()
         {
             _theme = new MatrixTheme(this);
             _rect = new Rect(new Size(_theme.MatrixInfoViewWidth, _theme.MatrixCellSize));
