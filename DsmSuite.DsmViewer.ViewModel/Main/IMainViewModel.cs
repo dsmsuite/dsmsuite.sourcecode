@@ -23,7 +23,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
     public interface IMainViewModel : INotifyPropertyChanged
     {
-        void NotifyReportCreated(ReportViewModel report);
         void NotifyElementsReportReady(ElementListViewModel report);
         void NotifyRelationsReportReady(RelationListViewModel report);
 

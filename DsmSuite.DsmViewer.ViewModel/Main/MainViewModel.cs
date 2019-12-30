@@ -17,11 +17,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 {
     public class MainViewModel : ViewModelBase, IMainViewModel
     {
-        public void NotifyReportCreated(ReportViewModel report)
-        {
-            ReportCreated?.Invoke(this, report);
-        }
-
         public void NotifyElementsReportReady(ElementListViewModel report)
         {
             ElementsReportReady?.Invoke(this, report);
