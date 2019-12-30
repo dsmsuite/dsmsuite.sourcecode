@@ -21,6 +21,9 @@
     <SolidColorBrush x:Key="MatrixColor4" po:Freeze="True">#ced3de</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColorCyclic" po:Freeze="True">#ffdb58</SolidColorBrush>
 
+    <SolidColorBrush x:Key="MatrixColorConsumer" po:Freeze="True">#a4ab47</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColorProvider" po:Freeze="True">#90c1d7</SolidColorBrush>
+    
     <sys:Double x:Key="HighlightFactorHovered" >1.1</sys:Double>
     <sys:Double x:Key="HighlightFactorSelected" >1.2</sys:Double>
 </ResourceDictionary>

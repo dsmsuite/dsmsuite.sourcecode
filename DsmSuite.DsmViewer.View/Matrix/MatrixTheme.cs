@@ -16,12 +16,16 @@ namespace DsmSuite.DsmViewer.View.Matrix
             MatrixHeaderHeight = (double)_frameworkElement.FindResource("MatrixHeaderHeight");
             MatrixMetricsViewWidth = (double)_frameworkElement.FindResource("MatrixMetricsViewWidth");
             TextColor = (SolidColorBrush)_frameworkElement.FindResource("TextColor");
+            MatrixColorConsumer = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorConsumer");
+            MatrixColorProvider = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorProvider");
         }
 
         public double MatrixCellSize { get; }
         public double MatrixHeaderHeight { get; }
         public double MatrixMetricsViewWidth { get; }
         public SolidColorBrush TextColor { get; }
+        public SolidColorBrush MatrixColorConsumer { get; }
+        public SolidColorBrush MatrixColorProvider { get; }
 
         public SolidColorBrush GetBackground(MatrixColor color, bool isHovered, bool isSelected)
         {

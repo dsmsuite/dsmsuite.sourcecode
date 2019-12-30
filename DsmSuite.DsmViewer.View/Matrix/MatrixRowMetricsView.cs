@@ -97,14 +97,18 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     Point texLocation = new Point(_rect.X + _rect.Width - 30.0 - textWidth, _rect.Y + 15.0);
                     DrawText(dc, content, texLocation, _theme.TextColor, _rect.Width - 2.0);
 
-                    Point indicatorLocation = new Point(_rect.X + _rect.Width - 15.0, _rect.Y + 15.0);
+                    Rect rect2 = new Rect(new Size(5.0, _theme.MatrixCellSize))
+                    {
+                        X = _rect.X + _rect.Width - 5.0,
+                        Y = _rect.Y
+                    };
                     if (_viewModel.RowIsConsumer[row])
                     {
-                        DrawText(dc, "→", indicatorLocation, _theme.TextColor, _rect.Width - 2.0);
+                        dc.DrawRectangle(_theme.MatrixColorConsumer, null, rect2);
                     }
                     if (_viewModel.RowIsProvider[row])
                     {
-                        DrawText(dc, "←", indicatorLocation, _theme.TextColor, _rect.Width - 2.0);
+                        dc.DrawRectangle(_theme.MatrixColorProvider, null, rect2);
                     }
                 }
 
