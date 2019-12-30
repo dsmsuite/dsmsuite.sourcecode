@@ -53,7 +53,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         ICommand CreateElementCommand { get; }
         ICommand DeleteElementCommand { get; }
-        ICommand MoveElementCommand { get; }
+        ICommand ChangeElementParentCommand { get; }
         ICommand ChangeElementNameCommand { get; }
         ICommand ChangeElementTypeCommand { get; }
         ICommand CreateRelationCommand { get; }

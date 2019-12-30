@@ -126,8 +126,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             if ((_viewModel != null) && (ActualWidth > 2.0) && (ActualHeight > 2.0))
             {
-                bool isHovered = _matrixViewModel.HoveredProviderTreeItem == _viewModel;
-                bool isSelected = _matrixViewModel.SelectedProviderTreeItem == _viewModel;
+                bool isHovered = _matrixViewModel.HoveredTreeItem == _viewModel;
+                bool isSelected = _matrixViewModel.SelectedTreeItem == _viewModel;
                 SolidColorBrush background = _theme.GetBackground(_viewModel.Color, isHovered, isSelected);
                 Rect backgroundRect = new Rect(1.0, 1.0, ActualWidth - 2.0, ActualHeight - 2.0);
                 dc.DrawRectangle(background, null, backgroundRect);

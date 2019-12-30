@@ -105,7 +105,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             CreateElementCommand = new RelayCommand<object>(CreateElementExecute, CreateElementCanExecute);
             DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
-            MoveElementCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
+            ChangeElementParentCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
             ChangeElementNameCommand = new RelayCommand<object>(ChangeElementNameExecute, ChangeElementNameCanExecute);
             ChangeElementTypeCommand = new RelayCommand<object>(ChangeElementTypeExecute, ChangeElementTypeCanExecute);
 
@@ -140,7 +140,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         public IDsmElement SelectedProvider => ActiveMatrix?.SelectedProvider;
 
-        public ElementTreeItemViewModel SelectedProviderTreeItem => ActiveMatrix?.SelectedProviderTreeItem;
+        public ElementTreeItemViewModel SelectedProviderTreeItem => ActiveMatrix?.SelectedTreeItem;
 
         public MatrixViewModel ActiveMatrix
         {
@@ -186,7 +186,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         public ICommand CreateElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
-        public ICommand MoveElementCommand { get; }
+        public ICommand ChangeElementParentCommand { get; }
         public ICommand ChangeElementNameCommand { get; }
         public ICommand ChangeElementTypeCommand { get; }
         public ICommand CreateRelationCommand { get; }
@@ -400,7 +400,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ToggleElementExpandedExecute(object parameter)
         {
-            ActiveMatrix.SelectProviderTreeItem(ActiveMatrix.HoveredProviderTreeItem);
+            ActiveMatrix.SelectTreeItem(ActiveMatrix.HoveredTreeItem);
             if ((SelectedProviderTreeItem != null) && (SelectedProviderTreeItem.IsExpandable))
             {
                 SelectedProviderTreeItem.IsExpanded = !SelectedProviderTreeItem.IsExpanded;

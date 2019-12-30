@@ -41,13 +41,13 @@ namespace DsmSuite.DsmViewer.View.Matrix
             ElementTreeItemViewModel elementViewModel = GetElementViewModel(e.Source);
             if (elementViewModel != null)
             {
-                _matrixViewModel?.HoverProviderTreeItem(elementViewModel);
+                _matrixViewModel?.HoverTreeItem(elementViewModel);
             }
         }
 
         private void OnMouseLeave(object sender, MouseEventArgs e)
         {
-            _matrixViewModel?.HoverProviderTreeItem(null);
+            _matrixViewModel?.HoverTreeItem(null);
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -67,13 +67,13 @@ namespace DsmSuite.DsmViewer.View.Matrix
             ElementTreeItemViewModel elementViewModel = GetElementViewModel(e.Source);
             if (elementViewModel != null)
             {
-                _matrixViewModel?.SelectProviderTreeItem(elementViewModel);
+                _matrixViewModel?.SelectTreeItem(elementViewModel);
             }
         }
 
         private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(MatrixViewModel.Providers))
+            if (e.PropertyName == nameof(MatrixViewModel.ElementViewModelTree))
             {
                 CreateChildViews();
             }
@@ -99,9 +99,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
             double y = 0.0;
 
             Children.Clear();
-            if (_matrixViewModel?.Providers != null)
+            if (_matrixViewModel?.ElementViewModelTree != null)
             {
-                foreach (ElementTreeItemViewModel elementViewModel in _matrixViewModel.Providers)
+                foreach (ElementTreeItemViewModel elementViewModel in _matrixViewModel.ElementViewModelTree)
                 {
                     Rect rect = GetCalculatedSize(elementViewModel, y);
 
