@@ -110,6 +110,10 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     {
                         dc.DrawRectangle(_theme.MatrixColorProvider, null, rect2);
                     }
+                    if (_viewModel.RowIsProvider[row] && _viewModel.RowIsConsumer[row])
+                    {
+                        dc.DrawRectangle(_theme.MatrixColorCycle, null, rect2);
+                    }
                 }
 
                 Height = _theme.MatrixHeaderHeight + 2.0;
