@@ -242,8 +242,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             SelectedRow = row;
             SelectedColumn = null;
-            UpdateProviderRows();
-            UpdateConsumerRows();
         }
 
         public void SelectColumn(int? column)
@@ -256,8 +254,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             SelectedRow = row;
             SelectedColumn = columnn;
-            UpdateProviderRows();
-            UpdateConsumerRows();
         }
 
         public int? SelectedRow
@@ -276,6 +272,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             HoveredRow = row;
             HoveredColumn = null;
+            UpdateProviderRows();
+            UpdateConsumerRows();
         }
 
         public void HoverColumn(int? column)
@@ -290,6 +288,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             HoveredRow = row;
             HoveredColumn = columnn;
             UpdateCellTooltip(row, columnn);
+            UpdateProviderRows();
+            UpdateConsumerRows();
         }
 
         public int? HoveredRow
@@ -708,11 +708,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void UpdateProviderRows()
         {
-            if (SelectedRow.HasValue)
+            if (HoveredRow.HasValue)
             {
                 for (int i = 0; i < _elementViewModelLeafs.Count; i++)
                 {
-                    _rowIsProvider[i] = _cellWeights[i][SelectedRow.Value] > 0;
+                    _rowIsProvider[i] = _cellWeights[i][HoveredRow.Value] > 0;
                 }
             }
         }
@@ -728,11 +728,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void UpdateConsumerRows()
         {
-            if (SelectedRow.HasValue)
+            if (HoveredRow.HasValue)
             {
                 for (int i = 0; i < _elementViewModelLeafs.Count; i++)
                 {
-                    _rowIsConsumer[i] = _cellWeights[SelectedRow.Value][i] > 0;
+                    _rowIsConsumer[i] = _cellWeights[HoveredRow.Value][i] > 0;
                 }
             }
         }
