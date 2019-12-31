@@ -133,8 +133,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 dc.DrawText(
                     _viewModel.IsExpanded
-                        ? _theme.DownPointingTriangleFormattedText
-                        : _theme.RightPointingTriangleFormattedText, location);
+                        ? _theme.DownArrowFormattedText
+                        : _theme.RightArrowFormattedText, location);
             }
         }
     }

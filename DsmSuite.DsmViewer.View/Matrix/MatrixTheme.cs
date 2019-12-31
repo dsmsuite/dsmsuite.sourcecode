@@ -9,8 +9,6 @@ namespace DsmSuite.DsmViewer.View.Matrix
     {
         private SolidColorBrush[] _brushes;
         private readonly FrameworkElement _frameworkElement;
-        private static readonly string RightPointingTriangle = '\u25B6'.ToString();
-        private static readonly string DownPointingTriangle = '\u25BC'.ToString();
 
         public MatrixTheme(FrameworkElement frameworkElement)
         {
@@ -29,14 +27,14 @@ namespace DsmSuite.DsmViewer.View.Matrix
             UpArrow = (string)_frameworkElement.FindResource("UpArrow");
             DownArrow = (string)_frameworkElement.FindResource("DownArrow");
 
-            RightPointingTriangleFormattedText = new FormattedText(RightPointingTriangle,
+            RightArrowFormattedText = new FormattedText(RightArrow,
                 CultureInfo.GetCultureInfo("en-us"),
                 FlowDirection.LeftToRight,
                 new Typeface("Verdana"),
                 10,
                 TextColor);
 
-            DownPointingTriangleFormattedText = new FormattedText(DownPointingTriangle,
+            DownArrowFormattedText = new FormattedText(DownArrow,
                 CultureInfo.GetCultureInfo("en-us"),
                 FlowDirection.LeftToRight,
                 new Typeface("Verdana"),
@@ -55,8 +53,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
         public string RightArrow { get; }
         public string UpArrow { get; }
         public string DownArrow { get; }
-        public FormattedText RightPointingTriangleFormattedText { get; }
-        public FormattedText DownPointingTriangleFormattedText { get; }
+        public FormattedText RightArrowFormattedText { get; }
+        public FormattedText DownArrowFormattedText { get; }
 
         public SolidColorBrush GetBackground(MatrixColor color, bool isHovered, bool isSelected)
         {
