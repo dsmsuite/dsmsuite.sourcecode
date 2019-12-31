@@ -40,6 +40,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private string _columnHeaderTooltip;
         private string _cellTooltip;
 
+        private List<string> _metricTypes;
+        private int _selectedMetricTypeIndex;
+        private string _selectedMetricType;
+
         public MatrixViewModel(IMainViewModel mainViewModel, IDsmApplication application, IEnumerable<IDsmElement> selectedElements)
         {
             _mainViewModel = mainViewModel;
@@ -76,9 +80,24 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             ToggleMetricsViewExpandedCommand = new RelayCommand<object>(ToggleMetricsViewExpandedExecute, ToggleMetricsViewExpandedCanExecute);
 
+            PreviousMetricCommand = new RelayCommand<object>(PreviousMetricExecute, PreviousMetricCanExecute);
+            NextMetricCommand = new RelayCommand<object>(NextMetricExecute, NextMetricCanExecute);
+
             Reload();
 
             ZoomLevel = 1.0;
+
+            _metricTypes = new List<string>()
+            {
+                "Elements",
+                "Fan in",
+                "Fan out",
+                "Relation density",
+                "System cycles",
+                "Hierarchical cycles"
+            };
+            _selectedMetricTypeIndex = 0;
+            SelectedMetricType = _metricTypes[_selectedMetricTypeIndex];
         }
 
         public ICommand ToggleElementExpandedCommand { get; }
@@ -109,7 +128,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand ShowCellProvidersCommand { get; }
         public ICommand ShowCellDetailMatrixCommand { get; }
 
+        public ICommand PreviousMetricCommand { get; }
+        public ICommand NextMetricCommand { get; }
+
         public ICommand ToggleMetricsViewExpandedCommand { get; }
+
+        public string SelectedMetricType
+        {
+            get { return _selectedMetricType; }
+            set { _selectedMetricType = value; OnPropertyChanged(); }
+        }
 
         public int MatrixSize
         {
@@ -217,13 +245,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             UpdateProviderRows();
             UpdateConsumerRows();
         }
-        
+
         public void SelectColumn(int? column)
         {
             SelectedRow = null;
             SelectedColumn = column;
         }
-        
+
         public void SelectCell(int? row, int? columnn)
         {
             SelectedRow = row;
@@ -296,13 +324,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             get { return _columnHeaderTooltip; }
             set { _columnHeaderTooltip = value; OnPropertyChanged(); }
         }
-        
+
         public string CellTooltip
         {
             get { return _cellTooltip; }
             set { _cellTooltip = value; OnPropertyChanged(); }
         }
-         
+
         private ObservableCollection<ElementTreeItemViewModel> CreateElementViewModelTree()
         {
             int depth = 0;
@@ -497,7 +525,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
             _mainViewModel.NotifyElementsReportReady(elementListViewModel);
         }
-        
+
         private bool ShowCellConsumersCanExecute(object parameter)
         {
             return true;
@@ -587,7 +615,29 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             return true;
         }
-        
+
+        private void PreviousMetricExecute(object parameter)
+        {
+            _selectedMetricTypeIndex--;
+            SelectedMetricType = _metricTypes[_selectedMetricTypeIndex];
+        }
+
+        private bool PreviousMetricCanExecute(object parameter)
+        {
+            return _selectedMetricTypeIndex > 0;
+        }
+
+        private void NextMetricExecute(object parameter)
+        {
+            _selectedMetricTypeIndex++;
+            SelectedMetricType = _metricTypes[_selectedMetricTypeIndex];
+        }
+
+        private bool NextMetricCanExecute(object parameter)
+        {
+            return _selectedMetricTypeIndex < _metricTypes.Count - 1;
+        }
+
         private void UpdateColumnHeaderTooltip(int? column)
         {
             if (column.HasValue)

@@ -19,6 +19,11 @@ namespace DsmSuite.DsmViewer.View.Matrix
             MatrixColorConsumer = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorConsumer");
             MatrixColorProvider = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorProvider");
             MatrixColorCycle = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorCyclic");
+
+            LeftArrow = (string)_frameworkElement.FindResource("LeftArrow");
+            RightArrow = (string)_frameworkElement.FindResource("RightArrow");
+            UpArrow = (string)_frameworkElement.FindResource("UpArrow");
+            DownArrow = (string)_frameworkElement.FindResource("DownArrow");
         }
 
         public double MatrixCellSize { get; }
@@ -28,6 +33,10 @@ namespace DsmSuite.DsmViewer.View.Matrix
         public SolidColorBrush MatrixColorConsumer { get; }
         public SolidColorBrush MatrixColorProvider { get; }
         public SolidColorBrush MatrixColorCycle { get; }
+        public string LeftArrow { get; }
+        public string RightArrow { get; }
+        public string UpArrow { get; }
+        public string DownArrow { get; }
 
         public SolidColorBrush GetBackground(MatrixColor color, bool isHovered, bool isSelected)
         {

@@ -124,6 +124,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             _selectedSortAlgorithm = SupportedSortAlgorithms[0];
 
             _progressViewModel = new ProgressViewModel();
+
+            ActiveMatrix = new MatrixViewModel(this, _application, new List<IDsmElement>());
         }
 
         private void OnModelModified(object sender, bool e)
@@ -141,6 +143,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             get { return _activeMatrix; }
             set { _activeMatrix = value; OnPropertyChanged(); }
+        }
+
+        private bool _isMetricsViewExpanded;
+
+        public bool IsMetricsViewExpanded
+        {
+            get { return _isMetricsViewExpanded; }
+            set { _isMetricsViewExpanded = value; OnPropertyChanged(); }
         }
 
         public string ReportText

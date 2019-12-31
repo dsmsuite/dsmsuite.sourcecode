@@ -6,7 +6,7 @@
              xmlns:matrix="clr-namespace:DsmSuite.DsmViewer.View.Matrix"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid DataContext="{Binding ActiveMatrix}">
+    <Grid DataContext="{Binding ActiveMatrix}" Visibility="{Binding MatrixSize, Converter={StaticResource MatrixSizeToVisbilityConverter}}">
         <Grid.LayoutTransform>
             <ScaleTransform CenterX="0" 
                                 CenterY="0"

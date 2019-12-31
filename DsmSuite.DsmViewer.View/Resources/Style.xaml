@@ -6,7 +6,12 @@
     <sys:Double x:Key="ExpandButtonSize">20</sys:Double>
     <sys:Double x:Key="MatrixCellSize">24</sys:Double>
     <sys:Double x:Key="MatrixHeaderHeight">60</sys:Double>
-    <sys:Double x:Key="MatrixMetricsViewWidth">100</sys:Double>
+    <sys:Double x:Key="MatrixMetricsViewWidth">150</sys:Double>
+
+    <sys:String x:Key="LeftArrow">&#x25C0;</sys:String>
+    <sys:String x:Key="RightArrow">&#x25B6;</sys:String>
+    <sys:String x:Key="UpArrow">&#x25B2;</sys:String>
+    <sys:String x:Key="DownArrow">&#x25BC;</sys:String>
     
     <!-- GridSplitter style -->
     <Style x:Key="GridSplitterStyle" TargetType="GridSplitter">
