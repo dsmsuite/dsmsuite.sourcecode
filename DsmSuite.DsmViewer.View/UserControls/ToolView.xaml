@@ -36,9 +36,9 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show overview report" Command="{Binding OverviewReportCommand}" Content="{StaticResource ReportIcon}"/>
             <Separator/>
             <TextBox Style="{StaticResource ToolbarTextBox}" ToolTip="Enter text to search for elements"  Width="400" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Navigate to previous found element" Name="NavigatePreviousButton" Command="{Binding NavigateToPreviousCommand}" Content="{StaticResource ChevronLeftIcon}" Visibility="{Binding SearchState, Converter={StaticResource SearchStateToVisibilityConverter}}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Navigate to previous found element" Name="NavigatePreviousButton" Command="{Binding NavigateToPreviousCommand}" Content="{StaticResource ChevronLeftIcon}" Visibility="{Binding SearchState, FallbackValue=Collapsed, Converter={StaticResource SearchStateToVisibilityConverter}}"/>
             <Label Style="{StaticResource ToolbarLabel}" Content="{Binding SearchResult}" Width="80"/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Navigate to next found element" Name="NavigateNextButton" Command="{Binding NavigateToNextCommand}" Content="{StaticResource ChevronRightIcon}" Visibility="{Binding SearchState, Converter={StaticResource SearchStateToVisibilityConverter}}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Navigate to next found element" Name="NavigateNextButton" Command="{Binding NavigateToNextCommand}" Content="{StaticResource ChevronRightIcon}" Visibility="{Binding SearchState, FallbackValue=Collapsed, Converter={StaticResource SearchStateToVisibilityConverter}}"/>
             <Separator/>
         </ToolBar>
         <Button Grid.Column="1" Style="{StaticResource ToolbarButton}" ToolTip="Settings" Command="{Binding ShowSettingsCommand}" Content="{StaticResource SettingsIcon}" DockPanel.Dock="Right" Width="24"/>
