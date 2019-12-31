@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Windows;
 using System.Windows.Media;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
 
@@ -8,10 +9,13 @@ namespace DsmSuite.DsmViewer.View.Matrix
     {
         private SolidColorBrush[] _brushes;
         private readonly FrameworkElement _frameworkElement;
+        private static readonly string RightPointingTriangle = '\u25B6'.ToString();
+        private static readonly string DownPointingTriangle = '\u25BC'.ToString();
 
         public MatrixTheme(FrameworkElement frameworkElement)
         {
             _frameworkElement = frameworkElement;
+
             MatrixCellSize = (double)_frameworkElement.FindResource("MatrixCellSize");
             MatrixHeaderHeight = (double)_frameworkElement.FindResource("MatrixHeaderHeight");
             MatrixMetricsViewWidth = (double)_frameworkElement.FindResource("MatrixMetricsViewWidth");
@@ -24,6 +28,20 @@ namespace DsmSuite.DsmViewer.View.Matrix
             RightArrow = (string)_frameworkElement.FindResource("RightArrow");
             UpArrow = (string)_frameworkElement.FindResource("UpArrow");
             DownArrow = (string)_frameworkElement.FindResource("DownArrow");
+
+            RightPointingTriangleFormattedText = new FormattedText(RightPointingTriangle,
+                CultureInfo.GetCultureInfo("en-us"),
+                FlowDirection.LeftToRight,
+                new Typeface("Verdana"),
+                10,
+                TextColor);
+
+            DownPointingTriangleFormattedText = new FormattedText(DownPointingTriangle,
+                CultureInfo.GetCultureInfo("en-us"),
+                FlowDirection.LeftToRight,
+                new Typeface("Verdana"),
+                10,
+                TextColor);
         }
 
         public double MatrixCellSize { get; }
@@ -37,6 +55,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
         public string RightArrow { get; }
         public string UpArrow { get; }
         public string DownArrow { get; }
+        public FormattedText RightPointingTriangleFormattedText { get; }
+        public FormattedText DownPointingTriangleFormattedText { get; }
 
         public SolidColorBrush GetBackground(MatrixColor color, bool isHovered, bool isSelected)
         {
@@ -107,11 +127,11 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         private void SetBrush(int colorIndex, SolidColorBrush brush, double highlightFactorHovered, double highlightFactorSelected)
         {
-            int index = colorIndex*4;
+            int index = colorIndex * 4;
             _brushes[index] = brush;
-            _brushes[index+1] = GetHighlightBrush(brush, highlightFactorHovered);
-            _brushes[index+2] = GetHighlightBrush(brush, highlightFactorSelected);
-            _brushes[index+3] = GetHighlightBrush(brush, highlightFactorHovered * highlightFactorSelected);
+            _brushes[index + 1] = GetHighlightBrush(brush, highlightFactorHovered);
+            _brushes[index + 2] = GetHighlightBrush(brush, highlightFactorSelected);
+            _brushes[index + 3] = GetHighlightBrush(brush, highlightFactorHovered * highlightFactorSelected);
         }
 
         public static SolidColorBrush GetHighlightBrush(SolidColorBrush color, double multiplicationFactor)

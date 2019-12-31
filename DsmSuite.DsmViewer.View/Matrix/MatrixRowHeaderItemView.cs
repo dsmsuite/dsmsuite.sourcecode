@@ -12,30 +12,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
     {
         private readonly MatrixViewModel _matrixViewModel;
         private static readonly string DataObjectName = "Element";
-        private static readonly string RightPointingTriangle = '\u25B6'.ToString();
-        private static readonly string DownPointingTriangle = '\u25BC'.ToString();
-        private static readonly FormattedText RightPointingTriangleFormattedText;
-        private static readonly FormattedText DownPointingTriangleFormattedText;
-
         private readonly MatrixTheme _theme;
         private ElementTreeItemViewModel _viewModel;
-
-        static MatrixRowHeaderItemView()
-        {
-            RightPointingTriangleFormattedText = new FormattedText(RightPointingTriangle,
-                CultureInfo.CurrentCulture,
-                FlowDirection.LeftToRight,
-                new Typeface("Verdana"),
-                10,
-                Brushes.Black);
-
-            DownPointingTriangleFormattedText = new FormattedText(DownPointingTriangle,
-                CultureInfo.GetCultureInfo("en-us"),
-                FlowDirection.LeftToRight,
-                new Typeface("Verdana"),
-                10,
-                Brushes.Black);
-        }
 
         public MatrixRowHeaderItemView(MatrixViewModel matrixViewModel, MatrixTheme theme)
         {
@@ -155,8 +133,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 dc.DrawText(
                     _viewModel.IsExpanded
-                        ? DownPointingTriangleFormattedText
-                        : RightPointingTriangleFormattedText, location);
+                        ? _theme.DownPointingTriangleFormattedText
+                        : _theme.RightPointingTriangleFormattedText, location);
             }
         }
     }
