@@ -7,7 +7,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
     public class ElementTreeItemViewModel : ViewModelBase
     {
-        public ElementTreeItemViewModel(MatrixViewModel matrixViewModel, IDsmElement element, int depth)
+        public ElementTreeItemViewModel(IMatrixViewModel matrixViewModel, IDsmElement element, int depth)
         {
             Children = new ObservableCollection<ElementTreeItemViewModel>();
             Element = element;

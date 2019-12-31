@@ -9,7 +9,7 @@ using DsmSuite.DsmViewer.ViewModel.Main;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
-    public class MatrixViewModel : ViewModelBase
+    public class MatrixViewModel : ViewModelBase, IMatrixViewModel
     {
         private double _zoomLevel;
         private readonly IMainViewModel _mainViewModel;

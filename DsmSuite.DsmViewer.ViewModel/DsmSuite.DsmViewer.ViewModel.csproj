@@ -47,6 +47,7 @@
     <Compile Include="Matrix\ElementTreeItemViewModel.cs" />
     <Compile Include="Main\IMainViewModel.cs" />
     <Compile Include="Main\MainViewModel.cs" />
+    <Compile Include="Matrix\IMatrixViewModel.cs" />
     <Compile Include="Matrix\MatrixColor.cs" />
     <Compile Include="Matrix\MatrixColorConverter.cs" />
     <Compile Include="Matrix\MatrixViewModel.cs" />
