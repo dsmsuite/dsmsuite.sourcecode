@@ -7,6 +7,8 @@ using DsmSuite.DsmViewer.View.Dialogs;
 using DsmSuite.DsmViewer.ViewModel.Editing.Element;
 using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
 using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
+using DsmSuite.DsmViewer.ViewModel.Settings;
+using SettingsView = DsmSuite.DsmViewer.View.Settings.SettingsView;
 
 namespace DsmSuite.DsmViewer.View.Windows
 {

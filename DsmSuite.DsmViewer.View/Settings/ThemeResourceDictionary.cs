@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using DsmSuite.DsmViewer.ViewModel.Settings;
 
 namespace DsmSuite.DsmViewer.View.Settings
 {

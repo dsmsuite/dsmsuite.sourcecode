@@ -64,7 +64,6 @@
     <Compile Include="Matrix\MatrixView.xaml.cs">
       <DependentUpon>MatrixView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings\Theme.cs" />
     <Compile Include="Settings\ThemeResourceDictionary.cs" />
     <Compile Include="UserControls\InfoView.xaml.cs">
       <DependentUpon>InfoView.xaml</DependentUpon>
@@ -78,7 +77,6 @@
     <Compile Include="ValueConverters\MetricsExpandedToButtonContentConverter.cs" />
     <Compile Include="ValueConverters\MetricsExpandedToViewWidthConverter.cs" />
     <Compile Include="ValueConverters\SearchStateToColorConverter.cs" />
-    <Compile Include="Settings\ViewerSettings.cs" />
     <Compile Include="Dialogs\ElementCreateDialog.xaml.cs">
       <DependentUpon>ElementCreateDialog.xaml</DependentUpon>
     </Compile>
@@ -113,7 +111,7 @@
     <Compile Include="Windows\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\SettingsDialog.xaml.cs">
+    <Compile Include="Settings\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Dialogs\ElementCreateDialog.xaml">
@@ -224,7 +222,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\SettingsDialog.xaml">
+    <Page Include="Settings\SettingsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -276,6 +274,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\DSM.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

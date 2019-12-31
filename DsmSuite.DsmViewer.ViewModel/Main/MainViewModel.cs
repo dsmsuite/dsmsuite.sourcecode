@@ -12,6 +12,7 @@ using DsmSuite.DsmViewer.ViewModel.Editing.Element;
 using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
 using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
 using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.ViewModel.Settings;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {

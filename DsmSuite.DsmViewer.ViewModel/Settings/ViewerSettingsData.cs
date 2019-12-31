@@ -2,22 +2,24 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DsmSuite.DsmViewer.View.Settings
+namespace DsmSuite.DsmViewer.ViewModel.Settings
 {
     /// <summary>
     /// Settings used by dsm builder. Persisted in XML format using serialization.
     /// </summary>
     [Serializable]
-    public class ViewerSettings
+    public class ViewerSettingsData
     {
         private bool _loggingEnabled;
+        private bool _showCycles;
         private Theme _theme;
 
-        public static ViewerSettings CreateDefault()
+        public static ViewerSettingsData CreateDefault()
         {
-            ViewerSettings settings = new ViewerSettings
+            ViewerSettingsData settings = new ViewerSettingsData
             {
                 LoggingEnabled = false,
+                ShowCycles = false,
                 Theme = Theme.Light,
             };
 
@@ -30,16 +32,22 @@ namespace DsmSuite.DsmViewer.View.Settings
             set { _loggingEnabled = value; }
         }
 
+        public bool ShowCycles
+        {
+            get { return _showCycles; }
+            set { _showCycles = value; }
+        }
+
         public Theme Theme
         {
             get { return _theme; }
             set { _theme = value; }
         }
 
-        public static void WriteToFile(string filename, ViewerSettings viewerSettings)
+        public static void WriteToFile(string filename, ViewerSettingsData viewerSettings)
         {
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings() { Indent = true };
-            XmlSerializer serializer = new XmlSerializer(typeof(ViewerSettings));
+            XmlSerializer serializer = new XmlSerializer(typeof(ViewerSettingsData));
 
             using (XmlWriter xmlWriter = XmlWriter.Create(filename, xmlWriterSettings))
             {
@@ -47,14 +55,14 @@ namespace DsmSuite.DsmViewer.View.Settings
             }
         }
 
-        public static ViewerSettings ReadFromFile(string filename)
+        public static ViewerSettingsData ReadFromFile(string filename)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(ViewerSettings));
+            XmlSerializer serializer = new XmlSerializer(typeof(ViewerSettingsData));
 
-            ViewerSettings viewerSettings;
+            ViewerSettingsData viewerSettings;
             using (XmlReader reader = XmlReader.Create(filename))
             {
-                viewerSettings = (ViewerSettings)serializer.Deserialize(reader);
+                viewerSettings = (ViewerSettingsData)serializer.Deserialize(reader);
             }
 
             return viewerSettings;

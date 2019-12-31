@@ -5,6 +5,7 @@ using DsmSuite.DsmViewer.ViewModel.Common;
 using DsmSuite.DsmViewer.ViewModel.Editing.Element;
 using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
 using DsmSuite.DsmViewer.ViewModel.Lists;
+using DsmSuite.DsmViewer.ViewModel.Settings;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {

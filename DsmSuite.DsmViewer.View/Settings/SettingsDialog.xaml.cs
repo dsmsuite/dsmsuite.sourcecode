@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DsmSuite.DsmViewer.View.Dialogs
+namespace DsmSuite.DsmViewer.View.Settings
 {
     /// <summary>
     /// Interaction logic for SettingsView.xaml

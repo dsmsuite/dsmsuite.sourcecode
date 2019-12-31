@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DsmSuite.DsmViewer.View.Settings
+namespace DsmSuite.DsmViewer.ViewModel.Settings
 {
     [Serializable]
     public enum Theme
