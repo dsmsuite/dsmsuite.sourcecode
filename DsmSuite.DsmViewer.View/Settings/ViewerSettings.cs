@@ -11,12 +11,14 @@ namespace DsmSuite.DsmViewer.View.Settings
     public class ViewerSettings
     {
         private bool _loggingEnabled;
+        private Theme _theme;
 
         public static ViewerSettings CreateDefault()
         {
             ViewerSettings settings = new ViewerSettings
             {
                 LoggingEnabled = false,
+                Theme = Theme.Light,
             };
 
             return settings;
@@ -27,14 +29,21 @@ namespace DsmSuite.DsmViewer.View.Settings
             get { return _loggingEnabled; }
             set { _loggingEnabled = value; }
         }
-        public static void WriteToFile(string filename, ViewerSettings builderSettings)
+
+        public Theme Theme
+        {
+            get { return _theme; }
+            set { _theme = value; }
+        }
+
+        public static void WriteToFile(string filename, ViewerSettings viewerSettings)
         {
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings() { Indent = true };
             XmlSerializer serializer = new XmlSerializer(typeof(ViewerSettings));
 
             using (XmlWriter xmlWriter = XmlWriter.Create(filename, xmlWriterSettings))
             {
-                serializer.Serialize(xmlWriter, builderSettings);
+                serializer.Serialize(xmlWriter, viewerSettings);
             }
         }
 
@@ -42,13 +51,13 @@ namespace DsmSuite.DsmViewer.View.Settings
         {
             XmlSerializer serializer = new XmlSerializer(typeof(ViewerSettings));
 
-            ViewerSettings builderSettings;
+            ViewerSettings viewerSettings;
             using (XmlReader reader = XmlReader.Create(filename))
             {
-                builderSettings = (ViewerSettings)serializer.Deserialize(reader);
+                viewerSettings = (ViewerSettings)serializer.Deserialize(reader);
             }
 
-            return builderSettings;
+            return viewerSettings;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -12,9 +13,31 @@ namespace DsmSuite.DsmViewer.View
     /// </summary>
     public partial class App 
     {
-        private readonly string _settingFile = "ViewerSettings.xml";
+        public static Theme Skin { get; set; } = Theme.Dark;
 
         public string[] CommandLineArguments { get; protected set; }
+
+        static App()
+        {
+            string applicationSettingsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DsmSuite");
+            if (!Directory.Exists(applicationSettingsFolder))
+            {
+                Directory.CreateDirectory(applicationSettingsFolder);
+            }
+
+            string settingsFilePath = Path.Combine(applicationSettingsFolder, "ViewerSettings.xml");
+            FileInfo settingsFileInfo = new FileInfo(settingsFilePath);
+            if (!settingsFileInfo.Exists)
+            {
+                ViewerSettings.WriteToFile(settingsFilePath, ViewerSettings.CreateDefault());
+            }
+            else
+            {
+                ViewerSettings viewerSettings = ViewerSettings.ReadFromFile(settingsFileInfo.FullName);
+                Logger.EnableLogging(Assembly.GetExecutingAssembly(), viewerSettings.LoggingEnabled);
+                Skin = viewerSettings.Theme;
+            }
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -22,12 +45,7 @@ namespace DsmSuite.DsmViewer.View
 
             CommandLineArguments = e.Args;
 
-            FileInfo settingsFileInfo = new FileInfo(_settingFile);
-            if (settingsFileInfo.Exists)
-            {
-                ViewerSettings viewerSettings = ViewerSettings.ReadFromFile(settingsFileInfo.FullName);
-                Logger.EnableLogging(Assembly.GetExecutingAssembly(), viewerSettings.LoggingEnabled);
-            }
+
             
             PresentationTraceSources.Refresh();
             PresentationTraceSources.DataBindingSource.Listeners.Add(new LoggingTraceListener());

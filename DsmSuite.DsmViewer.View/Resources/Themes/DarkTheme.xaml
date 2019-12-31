@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="TextColor" po:Freeze="True">#4b3d38</SolidColorBrush>
+    <SolidColorBrush x:Key="ErrorTextColor" po:Freeze="True">#d24432</SolidColorBrush>
+    <SolidColorBrush x:Key="SearchNoMatchTextColor" po:Freeze="True">#d24432</SolidColorBrush>
+    <SolidColorBrush x:Key="SearchOneMatchTextColor" po:Freeze="True">#4b3d38</SolidColorBrush>
+    <SolidColorBrush x:Key="SearchManyMatchesTextColor" po:Freeze="True">#938a87</SolidColorBrush>
+
+    <SolidColorBrush x:Key="BackgroundColor" po:Freeze="True">#ff0000</SolidColorBrush>
+    <SolidColorBrush x:Key="ForegroundHoverColor" po:Freeze="True">#322925</SolidColorBrush>
+    <SolidColorBrush x:Key="ForegroundAccentedColor" po:Freeze="True">#4b3d38</SolidColorBrush>
+    <SolidColorBrush x:Key="ForegroundStandardColor" po:Freeze="True">#64524b</SolidColorBrush>
+    <SolidColorBrush x:Key="ForegroundDisabledColor" po:Freeze="True">#c8bebb</SolidColorBrush>
+
+    <SolidColorBrush x:Key="MatrixColorBackground" po:Freeze="True">#dddcdb</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColor1" po:Freeze="True">#f1d9cf</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColor2" po:Freeze="True">#cfd1cc</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColor3" po:Freeze="True">#bab8b7</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColor4" po:Freeze="True">#ced3de</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColorCyclic" po:Freeze="True">#ffdb58</SolidColorBrush>
+
+    <SolidColorBrush x:Key="MatrixColorConsumer" po:Freeze="True">#a4ab47</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColorProvider" po:Freeze="True">#90c1d7</SolidColorBrush>
+
+    <sys:Double x:Key="HighlightFactorHovered" >1.1</sys:Double>
+    <sys:Double x:Key="HighlightFactorSelected" >1.2</sys:Double>
+</ResourceDictionary>
