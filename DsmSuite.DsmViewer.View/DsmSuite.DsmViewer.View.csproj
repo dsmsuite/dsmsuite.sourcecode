@@ -50,6 +50,7 @@
     <Compile Include="Matrix\MatrixCellsView.cs" />
     <Compile Include="Matrix\MatrixColumnHeaderView.cs" />
     <Compile Include="Matrix\MatrixFrameworkElement.cs" />
+    <Compile Include="Matrix\MatrixIndicatorView.cs" />
     <Compile Include="Matrix\MatrixMetricsSelectorView.xaml.cs">
       <DependentUpon>MatrixMetricsSelectorView.xaml</DependentUpon>
     </Compile>
