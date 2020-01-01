@@ -536,10 +536,24 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             switch (_selectedMetricType)
             {
                 case MetricType.NumberOfElements:
-                    foreach (ElementTreeItemViewModel provider in _elementViewModelLeafs)
+                    foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
-                        int size = _application.GetElementSize(provider.Element);
-                        _metrics.Add(size);
+                        int metric = _application.GetElementSize(viewModel.Element);
+                        _metrics.Add(metric);
+                    }
+                    break;
+                case MetricType.IngoingRelations:
+                    foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
+                    {
+                        int metric = _application.FindProviderRelations(viewModel.Element).Count();
+                        _metrics.Add(metric);
+                    }
+                    break;
+                case MetricType.OutgoingRelations:
+                    foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
+                    {
+                         int metric = _application.FindConsumerRelations(viewModel.Element).Count();
+                        _metrics.Add(metric);
                     }
                     break;
                 default:

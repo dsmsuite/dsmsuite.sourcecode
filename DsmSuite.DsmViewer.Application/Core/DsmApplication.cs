@@ -159,6 +159,16 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.FindRelations(consumer, provider);
         }
 
+        public IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element)
+        {
+            return _dsmModel.FindProviderRelations(element);
+        }
+
+        public IEnumerable<IDsmRelation> FindConsumerRelations(IDsmElement element)
+        {
+            return _dsmModel.FindConsumerRelations(element);
+        }
+
         public IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider)
         {
             return _queries.GetRelationProviders(consumer, provider);
