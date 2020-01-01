@@ -303,20 +303,18 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public double GetHierarchicalCycalityPercentage(IDsmElement element)
+        public int GetHierarchicalCycleCount(IDsmElement element)
         {
-            int cellCount = 0;
             int cyclesCount = 0;
-            CountCycles(element, CycleType.Hierarchical, ref cellCount, ref cyclesCount);
-            return (cellCount > 0) ? (cyclesCount * 100.0 / cellCount) : 0.0;
+            CountCycles(element, CycleType.Hierarchical, ref cyclesCount);
+            return cyclesCount / 2;
         }
         
-        public double GetSystemCycalityPercentage(IDsmElement element)
+        public int GetSystemCycleCount(IDsmElement element)
         {
-            int cellCount = 0;
             int cyclesCount = 0;
-            CountCycles(element, CycleType.System, ref cellCount, ref cyclesCount);
-            return (cellCount > 0) ? (cyclesCount * 100.0 / cellCount) : 0.0;
+            CountCycles(element, CycleType.System, ref cyclesCount);
+            return cyclesCount / 2;
         }
 
         public IEnumerable<IDsmRelation> GetRelations()
@@ -547,13 +545,12 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        private void CountCycles(IDsmElement element, CycleType cycleType, ref int cellCount, ref int cycleCount)
+        private void CountCycles(IDsmElement element, CycleType cycleType, ref int cycleCount)
         {
             foreach (IDsmElement consumer in element.Children)
             {
                 foreach (IDsmElement provider in element.Children)
                 {
-                    cellCount++;
                     if (IsCyclicDependency(consumer.Id, provider.Id) == cycleType)
                     {
                         cycleCount++;
@@ -563,7 +560,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             foreach (IDsmElement child in element.Children)
             {
-                CountCycles(child, cycleType, ref cellCount, ref cycleCount);
+                CountCycles(child, cycleType, ref cycleCount);
             }
         }
     }

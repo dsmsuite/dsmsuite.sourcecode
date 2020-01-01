@@ -34,8 +34,8 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider);
         IEnumerable<IDsmElement> GetElementConsumers(IDsmElement element);
         IEnumerable<IDsmElement> GetRelationConsumers(IDsmElement consumer, IDsmElement provider);
-        double GetHierarchicalCycalityPercentage(IDsmElement element);
-        double GetSystemCycalityPercentage(IDsmElement element);
+        int GetHierarchicalCycleCount(IDsmElement element);
+        int GetSystemCycleCount(IDsmElement element);
         bool IsFirstChild(IDsmElement element);
         bool IsLastChild(IDsmElement element);
         IDsmElement NextSibling(IDsmElement element);

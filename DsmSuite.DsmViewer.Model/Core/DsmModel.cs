@@ -247,14 +247,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.FindInternalRelations(element);
         }
 
-        public double GetHierarchicalCycalityPercentage(IDsmElement element)
+        public int GetHierarchicalCycleCount(IDsmElement element)
         {
-            return _relationsDataModel.GetHierarchicalCycalityPercentage(element);
+            return _relationsDataModel.GetHierarchicalCycleCount(element);
         }
 
-        public double GetSystemCycalityPercentage(IDsmElement element)
+        public int GetSystemCycleCount(IDsmElement element)
         {
-            return _relationsDataModel.GetSystemCycalityPercentage(element);
+            return _relationsDataModel.GetSystemCycleCount(element);
         }
 
         public void ReorderChildren(IDsmElement element, ISortResult sortResult)

@@ -573,10 +573,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 case MetricType.HierarchicalCycles:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
-                        double metric = _application.GetHierarchicalCycalityPercentage(viewModel.Element);
-                        if (metric > 0.0001)
+                        int metric = _application.GetHierarchicalCycleCount(viewModel.Element);
+                        if (metric > 0)
                         {
-                            _metrics.Add($"{metric:0.0000}%");
+                            _metrics.Add(metric.ToString());
                         }
                         else
                         {
@@ -587,10 +587,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 case MetricType.SystemCycles:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
-                        double metric = _application.GetSystemCycalityPercentage(viewModel.Element);
-                        if (metric > 0.0001)
+                        int metric = _application.GetSystemCycleCount(viewModel.Element);
+                        if (metric > 0)
                         {
-                            _metrics.Add($"{metric:0.0000}%");
+                            _metrics.Add(metric.ToString());
                         }
                         else
                         {
