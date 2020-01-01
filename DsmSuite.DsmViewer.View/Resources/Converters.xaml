@@ -8,7 +8,7 @@
     <valueConverters:SearchStateToVisibilityConverter x:Key="SearchStateToVisibilityConverter" />
     <valueConverters:MetricsExpandedToButtonContentConverter x:Key="MetricsExpandedToButtonContentConverter" />
     <valueConverters:MetricsExpandedToViewWidthConverter x:Key="MetricsExpandedToViewWidthConverter" 
-                    ViewWidth="150"/>
+                    ViewWidth="120"/>
     <valueConverters:MatrixSizeToVisbilityConverter x:Key="MatrixSizeToVisbilityConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 </ResourceDictionary>

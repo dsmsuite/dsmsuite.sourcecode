@@ -141,6 +141,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             {
                 _selectedMetricTypeName = value;
                 _selectedMetricType = _metricTypeNames.FirstOrDefault(x => x.Value == _selectedMetricTypeName).Key;
+                Reload();
                 OnPropertyChanged();
             }
         }
@@ -532,10 +533,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private void DefineMetrics()
         {
             _metrics = new List<int>();
-            foreach (ElementTreeItemViewModel provider in _elementViewModelLeafs)
+            switch (_selectedMetricType)
             {
-                int size = _application.GetElementSize(provider.Element);
-                _metrics.Add(size);
+                case MetricType.NumberOfElements:
+                    foreach (ElementTreeItemViewModel provider in _elementViewModelLeafs)
+                    {
+                        int size = _application.GetElementSize(provider.Element);
+                        _metrics.Add(size);
+                    }
+                    break;
+                default:
+                    foreach (ElementTreeItemViewModel provider in _elementViewModelLeafs)
+                    {
+                        _metrics.Add(0);
+                    }
+                    break;
             }
         }
 
