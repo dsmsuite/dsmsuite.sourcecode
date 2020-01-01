@@ -87,6 +87,21 @@ namespace DsmSuite.DsmViewer.Application.Queries
             return elements;
         }
 
+        public IEnumerable<IDsmResolvedRelation> FindIngoingRelations(IDsmElement element)
+        {
+            return ResolveRelations(_model.FindIngoingRelations(element));
+        }
+
+        public IEnumerable<IDsmResolvedRelation> FindOutgoingRelations(IDsmElement element)
+        {
+            return ResolveRelations(_model.FindOutgoingRelations(element));
+        }
+
+        public IEnumerable<IDsmResolvedRelation> FindInternalRelations(IDsmElement element)
+        {
+            return ResolveRelations(_model.FindInternalRelations(element));
+        }
+
         private IEnumerable<IDsmResolvedRelation> ResolveRelations(IEnumerable<IDsmRelation> relations)
         {
             List<IDsmResolvedRelation> resolvedRelations = new List<IDsmResolvedRelation>();

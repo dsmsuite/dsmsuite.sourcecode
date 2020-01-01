@@ -45,9 +45,13 @@
                             <MenuItem Header="Change element type" Command="{Binding ChangeElementTypeCommand}" />
                             <MenuItem Header="Delete element" Command="{Binding DeleteElementCommand}" />
                             <Separator />
-                            <MenuItem Header="Show consumers" Command="{Binding ShowElementConsumersCommand}" />
-                            <MenuItem Header="Show provided interface" Command="{Binding ShowElementProvidedInterfacesCommand}" />
-                            <MenuItem Header="Show required interface" Command="{Binding ShowElementRequiredInterfacesCommand}" />
+                            <MenuItem Header="Show ingoing relations" Command="{Binding ShowElementIngoingRelationsCommand}" />
+                            <MenuItem Header="Show outgoing relations" Command="{Binding ShowElementOutgoingRelationCommand}" />
+                            <MenuItem Header="Show internal relations" Command="{Binding ShowElementinternalRelationsCommand}" />
+                            <Separator />
+                            <MenuItem Header="Show element consumers" Command="{Binding ShowElementConsumersCommand}" />
+                            <MenuItem Header="Show element interface" Command="{Binding ShowElementProvidedInterfacesCommand}" />
+                            <MenuItem Header="Show element providers" Command="{Binding ShowElementRequiredInterfacesCommand}" />
                             <Separator />
                             <MenuItem Header="Show detail matrix" Command="{Binding ShowElementDetailMatrixCommand}" />
                             <MenuItem Header="Show context matrix" Command="{Binding ShowElementContextMatrixCommand}" />

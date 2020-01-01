@@ -64,6 +64,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ChangeElementParentCommand = mainViewModel.ChangeElementParentCommand;
             DeleteElementCommand = mainViewModel.DeleteElementCommand;
 
+            ShowElementIngoingRelationsCommand = new RelayCommand<object>(ShowElementIngoingRelationsExecute, ShowElementIngoingRelationsCanExecute);
+            ShowElementOutgoingRelationCommand = new RelayCommand<object>(ShowElementOutgoingRelationExecute, ShowElementOutgoingRelationCanExecute);
+            ShowElementinternalRelationsCommand = new RelayCommand<object>(ShowElementinternalRelationsExecute, ShowElementinternalRelationsCanExecute);
+
             ShowElementConsumersCommand = new RelayCommand<object>(ShowElementConsumersExecute, ShowConsumersCanExecute);
             ShowElementProvidedInterfacesCommand = new RelayCommand<object>(ShowProvidedInterfacesExecute, ShowElementProvidedInterfacesCanExecute);
             ShowElementRequiredInterfacesCommand = new RelayCommand<object>(ShowElementRequiredInterfacesExecute, ShowElementRequiredInterfacesCanExecute);
@@ -112,6 +116,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand ChangeElementTypeCommand { get; }
         public ICommand ChangeElementParentCommand { get; }
         public ICommand DeleteElementCommand { get; }
+
+        public ICommand ShowElementIngoingRelationsCommand { get; }
+        public ICommand ShowElementOutgoingRelationCommand { get; }
+        public ICommand ShowElementinternalRelationsCommand { get; }
 
         public ICommand ShowElementConsumersCommand { get; }
         public ICommand ShowElementProvidedInterfacesCommand { get; }
@@ -596,6 +604,42 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             return true;
         }
 
+        private void ShowElementIngoingRelationsExecute(object parameter)
+        {
+            string title = $"Ingoing relations of {SelectedProvider.Fullname}";
+            var relations = _application.FindIngoingRelations(SelectedProvider);
+            _mainViewModel.NotifyRelationsReportReady(title, relations);
+        }
+
+        private bool ShowElementIngoingRelationsCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void ShowElementOutgoingRelationExecute(object parameter)
+        {
+            string title = $"Outgoing relations of {SelectedProvider.Fullname}";
+            var relations = _application.FindOutgoingRelations(SelectedProvider);
+            _mainViewModel.NotifyRelationsReportReady(title, relations);
+        }
+
+        private bool ShowElementOutgoingRelationCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void ShowElementinternalRelationsExecute(object parameter)
+        {
+            string title = $"Internal relations of {SelectedProvider.Fullname}";
+            var relations = _application.FindInternalRelations(SelectedProvider);
+            _mainViewModel.NotifyRelationsReportReady(title, relations);
+        }
+
+        private bool ShowElementinternalRelationsCanExecute(object parameter)
+        {
+            return true;
+        }
+        
         private void ShowElementConsumersExecute(object parameter)
         {
             string title = $"Consumers of {SelectedProvider.Fullname}";
