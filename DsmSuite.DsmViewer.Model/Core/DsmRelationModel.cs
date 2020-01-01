@@ -225,7 +225,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public IEnumerable<IDsmRelation> FindRelationsWhereElementHasProviderRole(IDsmElement element)
+        public IEnumerable<IDsmRelation> FindIngoingRelations(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
             HashSet<int> providerIds = GetIdsOfElementAndItsChidren(element);
@@ -251,7 +251,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public IEnumerable<IDsmRelation> FindRelationsWhereElementHasConsumerRole(IDsmElement element)
+        public IEnumerable<IDsmRelation> FindOutgoingRelations(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
             HashSet<int> consumerIds = GetIdsOfElementAndItsChidren(element);
@@ -264,6 +264,32 @@ namespace DsmSuite.DsmViewer.Model.Core
                         foreach (DsmRelation relation in relationPerType.Values)
                         {
                             if (!consumerIds.Contains(relation.ProviderId))
+                            {
+                                if (!relation.IsDeleted)
+                                {
+                                    relations.Add(relation);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return relations;
+        }
+
+        public IEnumerable<IDsmRelation> FindInternalRelations(IDsmElement element)
+        {
+            List<IDsmRelation> relations = new List<IDsmRelation>();
+            HashSet<int> consumerIds = GetIdsOfElementAndItsChidren(element);
+            foreach (int consumerId in consumerIds)
+            {
+                if (_relationsByConsumer.ContainsKey(consumerId))
+                {
+                    foreach (Dictionary<string, DsmRelation> relationPerType in _relationsByConsumer[consumerId].Values)
+                    {
+                        foreach (DsmRelation relation in relationPerType.Values)
+                        {
+                            if (consumerIds.Contains(relation.ProviderId))
                             {
                                 if (!relation.IsDeleted)
                                 {

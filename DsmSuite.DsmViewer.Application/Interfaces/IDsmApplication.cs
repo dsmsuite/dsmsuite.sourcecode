@@ -28,8 +28,9 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         IEnumerable<IDsmElement> GetElementProviders(IDsmElement element);
         IEnumerable<IDsmResolvedRelation> FindResolvedRelations(IDsmElement consumer, IDsmElement provider);
         IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
-        IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element);
-        IEnumerable<IDsmRelation> FindConsumerRelations(IDsmElement element);
+        IEnumerable<IDsmRelation> FindIngoingRelations(IDsmElement element);
+        IEnumerable<IDsmRelation> FindOutgoingRelations(IDsmElement element);
+        IEnumerable<IDsmRelation> FindInternalRelations(IDsmElement element);
         IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider);
         IEnumerable<IDsmElement> GetElementConsumers(IDsmElement element);
         IEnumerable<IDsmElement> GetRelationConsumers(IDsmElement consumer, IDsmElement provider);

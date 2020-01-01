@@ -545,14 +545,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 case MetricType.IngoingRelations:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
-                        int metric = _application.FindProviderRelations(viewModel.Element).Count();
+                        int metric = _application.FindIngoingRelations(viewModel.Element).Count();
                         _metrics.Add(metric);
                     }
                     break;
                 case MetricType.OutgoingRelations:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
-                         int metric = _application.FindConsumerRelations(viewModel.Element).Count();
+                         int metric = _application.FindOutgoingRelations(viewModel.Element).Count();
+                        _metrics.Add(metric);
+                    }
+                    break;
+                case MetricType.InternalRelations:
+                    foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
+                    {
+                        int metric = _application.FindInternalRelations(viewModel.Element).Count();
                         _metrics.Add(metric);
                     }
                     break;

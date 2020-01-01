@@ -232,14 +232,19 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.FindRelations(consumer, provider);
         }
 
-        public IEnumerable<IDsmRelation> FindProviderRelations(IDsmElement element)
+        public IEnumerable<IDsmRelation> FindIngoingRelations(IDsmElement element)
         {
-            return _relationsDataModel.FindRelationsWhereElementHasProviderRole(element);
+            return _relationsDataModel.FindIngoingRelations(element);
         }
 
-        public IEnumerable<IDsmRelation> FindConsumerRelations(IDsmElement element)
+        public IEnumerable<IDsmRelation> FindOutgoingRelations(IDsmElement element)
         {
-            return _relationsDataModel.FindRelationsWhereElementHasConsumerRole(element);
+            return _relationsDataModel.FindOutgoingRelations(element);
+        }
+
+        public IEnumerable<IDsmRelation> FindInternalRelations(IDsmElement element)
+        {
+            return _relationsDataModel.FindInternalRelations(element);
         }
 
         public void ReorderChildren(IDsmElement element, ISortResult sortResult)

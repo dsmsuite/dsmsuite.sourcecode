@@ -28,7 +28,7 @@ namespace DsmSuite.DsmViewer.Application.Queries
 
         public IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element)
         {
-            var relations = ResolveRelations(_model.FindProviderRelations(element))
+            var relations = ResolveRelations(_model.FindIngoingRelations(element))
                 .OrderBy(x => x.ProviderElement.Fullname)
                 .GroupBy(x => x.ProviderElement.Fullname)
                 .Select(x => x.FirstOrDefault())
@@ -41,7 +41,7 @@ namespace DsmSuite.DsmViewer.Application.Queries
 
         public IEnumerable<IDsmElement> GetElementProviders(IDsmElement element)
         {
-            var relations = ResolveRelations(_model.FindConsumerRelations(element))
+            var relations = ResolveRelations(_model.FindOutgoingRelations(element))
                 .OrderBy(x => x.ProviderElement.Fullname)
                 .GroupBy(x => x.ProviderElement.Fullname)
                 .Select(x => x.FirstOrDefault())
@@ -54,7 +54,7 @@ namespace DsmSuite.DsmViewer.Application.Queries
 
         public IEnumerable<IDsmElement> GetElementConsumers(IDsmElement element)
         {
-            var relations = ResolveRelations(_model.FindProviderRelations(element))
+            var relations = ResolveRelations(_model.FindIngoingRelations(element))
                 .OrderBy(x => x.ConsumerElement.Fullname)
                 .GroupBy(x => x.ConsumerElement.Fullname)
                 .Select(x => x.FirstOrDefault())
