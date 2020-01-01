@@ -18,14 +18,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 {
     public class MainViewModel : ViewModelBase, IMainViewModel
     {
-        public void NotifyElementsReportReady(ElementListViewModel report)
+        public void NotifyElementsReportReady(string title, IEnumerable<IDsmElement> elements)
         {
-            ElementsReportReady?.Invoke(this, report);
+            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
+            ElementsReportReady?.Invoke(this, elementListViewModel);
         }
 
-        public void NotifyRelationsReportReady(RelationListViewModel report)
+        public void NotifyRelationsReportReady(string title, IEnumerable<IDsmResolvedRelation> relations)
         {
-            RelationsReportReady?.Invoke(this, report);
+            RelationListViewModel viewModel = new RelationListViewModel(title, relations);
+            RelationsReportReady?.Invoke(this, viewModel);
         }
 
         public event EventHandler<ElementCreateViewModel> ElementCreateStarted;

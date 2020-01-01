@@ -528,11 +528,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private void ShowCellConsumersExecute(object parameter)
         {
             string title = $"Consumers in relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
-
             var elements = _application.GetRelationConsumers(SelectedConsumer, SelectedProvider);
-
-            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
-            _mainViewModel.NotifyElementsReportReady(elementListViewModel);
+            _mainViewModel.NotifyElementsReportReady(title, elements);
         }
 
         private bool ShowCellConsumersCanExecute(object parameter)
@@ -543,11 +540,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private void ShowCellProvidersExecute(object parameter)
         {
             string title = $"Providers in relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
-
             var elements = _application.GetRelationProviders(SelectedConsumer, SelectedProvider);
-
-            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
-            _mainViewModel.NotifyElementsReportReady(elementListViewModel);
+            _mainViewModel.NotifyElementsReportReady(title, elements);
         }
 
         private bool ShowCellProvidersCanExecute(object parameter)
@@ -558,11 +552,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private void ShowElementConsumersExecute(object parameter)
         {
             string title = $"Consumers of {SelectedProvider.Fullname}";
-
             var elements = _application.GetElementConsumers(SelectedProvider);
-
-            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
-            _mainViewModel.NotifyElementsReportReady(elementListViewModel);
+            _mainViewModel.NotifyElementsReportReady(title, elements);
         }
 
         private bool ShowConsumersCanExecute(object parameter)
@@ -573,11 +564,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private void ShowProvidedInterfacesExecute(object parameter)
         {
             string title = $"Provided interface of {SelectedProvider.Fullname}";
-
             var elements = _application.GetElementProvidedElements(SelectedProvider);
-
-            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
-            _mainViewModel.NotifyElementsReportReady(elementListViewModel);
+            _mainViewModel.NotifyElementsReportReady(title, elements);
         }
 
         private bool ShowElementProvidedInterfacesCanExecute(object parameter)
@@ -588,11 +576,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private void ShowElementRequiredInterfacesExecute(object parameter)
         {
             string title = $"Required interface of {SelectedProvider.Fullname}";
-
             var elements = _application.GetElementProviders(SelectedProvider);
-
-            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
-            _mainViewModel.NotifyElementsReportReady(elementListViewModel);
+            _mainViewModel.NotifyElementsReportReady(title, elements);
         }
 
         private bool ShowElementRequiredInterfacesCanExecute(object parameter)
@@ -603,11 +588,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private void ShowCellRelationsExecute(object parameter)
         {
             string title = $"Relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
-
             var relations = _application.FindResolvedRelations(SelectedConsumer, SelectedProvider);
-
-            RelationListViewModel relationsListViewModel = new RelationListViewModel(title, relations);
-            _mainViewModel.NotifyRelationsReportReady(relationsListViewModel);
+            _mainViewModel.NotifyRelationsReportReady(title, relations);
         }
 
         private bool ShowCellRelationsCanExecute(object parameter)
