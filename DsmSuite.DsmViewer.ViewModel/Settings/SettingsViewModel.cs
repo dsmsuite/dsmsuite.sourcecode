@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
@@ -14,23 +15,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         private readonly IDsmApplication _application;
         private bool _showCycles;
         private bool _loggingEnabled;
-        private readonly List<string> _supportedThemeNames;
         private string _selectedThemeName;
+
+        private readonly Dictionary<Theme, string> _supportedThemes;
 
         public SettingsViewModel(IDsmApplication application)
         {
             _application = application;
-
-            _supportedThemeNames = new List<string>()
-            {
-                LightThemeName,
-                HighContrastThemeName,
-                DarkThemeName
-            };
+            _supportedThemes = new Dictionary<Theme, string>();
+            _supportedThemes[Theme.Dark] = DarkThemeName;
+            _supportedThemes[Theme.HighContrast] = HighContrastThemeName;
+            _supportedThemes[Theme.Light] = LightThemeName;
 
             LoggingEnabled = ViewerSetting.LoggingEnabled;
             ShowCycles = ViewerSetting.ShowCycles;
-            SelectedThemeName = ThemeToString(ViewerSetting.Theme);
+            SelectedThemeName = _supportedThemes[ViewerSetting.Theme];
 
             _application.ShowCycles = ShowCycles;
 
@@ -59,7 +58,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             }
         }
 
-        public List<string> SupportedThemeNames => _supportedThemeNames;
+        public List<string> SupportedThemeNames => _supportedThemes.Values.ToList();
 
         public string SelectedThemeName
         {
@@ -75,7 +74,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         {
             ViewerSetting.LoggingEnabled = LoggingEnabled;
             ViewerSetting.ShowCycles = ShowCycles;
-            ViewerSetting.Theme = StringToTheme(SelectedThemeName);
+            ViewerSetting.Theme = _supportedThemes.FirstOrDefault(x => x.Value == SelectedThemeName).Key;
 
             _application.ShowCycles = ShowCycles;
         }
@@ -83,36 +82,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         private bool AcceptChangeCanExecute(object parameter)
         {
             return true;
-        }
-
-        private static string ThemeToString(Theme theme)
-        {
-            switch (theme)
-            {
-                case Theme.Dark:
-                    return DarkThemeName;
-                case Theme.HighContrast:
-                    return HighContrastThemeName;
-                case Theme.Light:
-                    return LightThemeName;
-                default:
-                    return LightThemeName;
-            }
-        }
-
-        private static Theme StringToTheme(string text)
-        {
-            switch (text)
-            {
-                case DarkThemeName:
-                    return Theme.Dark;
-                case HighContrastThemeName:
-                    return Theme.HighContrast;
-                case LightThemeName:
-                    return Theme.Light;
-                default:
-                    return Theme.Light;
-            }
         }
     }
 }
