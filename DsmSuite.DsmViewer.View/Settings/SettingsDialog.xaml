@@ -20,11 +20,11 @@
             </Grid.ColumnDefinitions>
 
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Content="Settings" Margin="5"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="Show cycles" Margin="5"/>
+            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Show cycles" Margin="5"/>
             <CheckBox Grid.Row="1" Grid.Column="1" Margin="10" IsChecked="{Binding ShowCycles, Mode=TwoWay}" HorizontalAlignment="Left"/>
-            <Label Grid.Row="2" Grid.Column="0" Content="Enable logging" Margin="5"/>
+            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Enable logging" Margin="5"/>
             <CheckBox Grid.Row="2" Grid.Column="1" Margin="10" IsChecked="{Binding LoggingEnabled, Mode=TwoWay}" HorizontalAlignment="Left"/>
-            <Label Grid.Row="3" Grid.Column="0" Content="Theme" Margin="5"/>
+            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Theme" Margin="5"/>
             <ComboBox Grid.Row="3" Grid.Column="1" Margin="10" Width="100" ItemsSource="{Binding SupportedThemeNames}" SelectedItem="{Binding SelectedThemeName}" HorizontalAlignment="Left"/>
         </Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
