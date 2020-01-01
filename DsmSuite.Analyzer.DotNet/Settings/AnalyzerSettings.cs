@@ -15,7 +15,7 @@ namespace DsmSuite.Analyzer.DotNet.Settings
     {
         private bool _loggingEnabled;
         private string _assemblyDirectory;
-        private List<string> _externalNames;
+        private List<string> _ignoredNames;
         private string _outputFilename;
         private bool _compressOutputFile;
 
@@ -25,17 +25,21 @@ namespace DsmSuite.Analyzer.DotNet.Settings
             {
                 LoggingEnabled = true,
                 AssemblyDirectory = "",
-                ExternalNames = new List<string>(),
+                IgnoredNames = new List<string>(),
                 OutputFilename = "Output.dsi",
                 CompressOutputFile = true
             };
 
-            analyzerSettings.ExternalNames.Add("System.");
-            analyzerSettings.ExternalNames.Add("Microsoft.");
-            analyzerSettings.ExternalNames.Add("Interop/");
-            analyzerSettings.ExternalNames.Add("&lt;");
-            analyzerSettings.ExternalNames.Add("$");
-            analyzerSettings.ExternalNames.Add("_");
+            // Ignore Microsoft stuff
+            analyzerSettings.IgnoredNames.Add("^System.");
+            analyzerSettings.IgnoredNames.Add("^Microsoft.");
+
+            // Ignore COM/C++ Interop stuff
+            analyzerSettings.IgnoredNames.Add("^Interop");
+
+            // Ignore anonymousness classes
+            analyzerSettings.IgnoredNames.Add("&lt;");
+            analyzerSettings.IgnoredNames.Add("^_");
             return analyzerSettings;
         }
 
@@ -51,10 +55,10 @@ namespace DsmSuite.Analyzer.DotNet.Settings
             set { _assemblyDirectory = value; }
         }
 
-        public List<string> ExternalNames
+        public List<string> IgnoredNames
         {
-            get { return _externalNames; }
-            set { _externalNames = value; }
+            get { return _ignoredNames; }
+            set { _ignoredNames = value; }
         }
 
         public string OutputFilename

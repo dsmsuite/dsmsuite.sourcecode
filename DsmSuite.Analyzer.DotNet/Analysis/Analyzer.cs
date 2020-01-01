@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
@@ -425,7 +427,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         private void RegisterType(FileInfo assemblyFileInfo, TypeDefinition typeDecl)
         {
             string typeName = typeDecl.GetElementType().ToString();
-            if (!IsExternal(typeName))
+            if (!Ignore(typeName))
             {
                 if (
                     _model.AddElement(typeDecl.GetElementType().ToString(), DetermineType(typeDecl),
@@ -446,7 +448,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 string providerName = providerType.GetElementType().ToString();
 
                 if (!providerType.ContainsGenericParameter &&
-                    !IsExternal(providerName))
+                    !Ignore(providerName))
                 {
                     _model.AddRelation(consumerName, providerName, type, 1, context);
                 }
@@ -462,18 +464,21 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             }
         }
 
-        private bool IsExternal(string providerName)
+        private bool Ignore(string providerName)
         {
-            bool isExternalType = false;
+            bool ignore = false;
 
-            foreach (string externalName in _analyzerSettings.ExternalNames)
+            foreach (string ignoredName in _analyzerSettings.IgnoredNames)
             {
-                if (providerName.StartsWith(externalName))
+                Regex regex = new Regex(ignoredName);
+                Match match = regex.Match(providerName);
+                if (match.Success)
                 {
-                    isExternalType = true;
+                    Logger.LogInfo($"Ignored {providerName} due to {ignoredName}");
+                    ignore = true;
                 }
             }
-            return isExternalType;
+            return ignore;
         }
     }
 }

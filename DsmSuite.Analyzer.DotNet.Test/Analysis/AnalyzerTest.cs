@@ -18,7 +18,7 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
             {
                 LoggingEnabled = true,
                 AssemblyDirectory = TestData.RootDirectory,
-                ExternalNames = new List<string>()
+                IgnoredNames = new List<string>()
             };
 
             IDsiModel model = new DsiModel("Test", Assembly.GetExecutingAssembly());
