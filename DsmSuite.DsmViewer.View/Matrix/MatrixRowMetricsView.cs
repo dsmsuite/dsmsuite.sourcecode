@@ -92,7 +92,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
                     dc.DrawRectangle(background, null, _rect);
 
-                    string content = _viewModel.Metrics[row].ToString();
+                    string content = _viewModel.Metrics[row];
                     double textWidth = MeasureText(content);
                     Point texLocation = new Point(_rect.X + _rect.Width - 30.0 - textWidth, _rect.Y + 15.0);
                     DrawText(dc, content, texLocation, _theme.TextColor, _rect.Width - 2.0);

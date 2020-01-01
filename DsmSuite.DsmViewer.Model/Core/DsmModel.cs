@@ -247,6 +247,16 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.FindInternalRelations(element);
         }
 
+        public double GetHierarchicalCycalityPercentage(IDsmElement element)
+        {
+            return _relationsDataModel.GetHierarchicalCycalityPercentage(element);
+        }
+
+        public double GetSystemCycalityPercentage(IDsmElement element)
+        {
+            return _relationsDataModel.GetSystemCycalityPercentage(element);
+        }
+
         public void ReorderChildren(IDsmElement element, ISortResult sortResult)
         {
             _elementsDataModel.ReorderChildren(element, sortResult);

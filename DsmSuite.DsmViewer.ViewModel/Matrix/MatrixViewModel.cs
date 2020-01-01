@@ -1,12 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.ViewModel.Lists;
 using DsmSuite.DsmViewer.ViewModel.Main;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
@@ -32,7 +31,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private List<List<int>> _cellWeights;
         private List<MatrixColor> _columnColors;
         private List<int> _columnElementIds;
-        private List<int> _metrics;
+        private List<string> _metrics;
         private List<bool> _rowIsProvider;
         private List<bool> _rowIsConsumer;
 
@@ -176,7 +175,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public IReadOnlyList<int> ColumnElementIds => _columnElementIds;
         public IReadOnlyList<IList<MatrixColor>> CellColors => _cellColors;
         public IReadOnlyList<IReadOnlyList<int>> CellWeights => _cellWeights;
-        public IReadOnlyList<int> Metrics => _metrics;
+        public IReadOnlyList<string> Metrics => _metrics;
         public IReadOnlyList<bool> RowIsProvider => _rowIsProvider;
         public IReadOnlyList<bool> RowIsConsumer => _rowIsConsumer;
 
@@ -540,41 +539,70 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void DefineMetrics()
         {
-            _metrics = new List<int>();
+            _metrics = new List<string>();
             switch (_selectedMetricType)
             {
                 case MetricType.NumberOfElements:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
                         int metric = _application.GetElementSize(viewModel.Element);
-                        _metrics.Add(metric);
+                        _metrics.Add(metric.ToString());
                     }
                     break;
                 case MetricType.IngoingRelations:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
                         int metric = _application.FindIngoingRelations(viewModel.Element).Count();
-                        _metrics.Add(metric);
+                        _metrics.Add(metric.ToString());
                     }
                     break;
                 case MetricType.OutgoingRelations:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
                          int metric = _application.FindOutgoingRelations(viewModel.Element).Count();
-                        _metrics.Add(metric);
+                        _metrics.Add(metric.ToString());
                     }
                     break;
                 case MetricType.InternalRelations:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
                         int metric = _application.FindInternalRelations(viewModel.Element).Count();
-                        _metrics.Add(metric);
+                        _metrics.Add(metric.ToString());
                     }
                     break;
-                default:
-                    foreach (ElementTreeItemViewModel provider in _elementViewModelLeafs)
+                case MetricType.HierarchicalCycles:
+                    foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
-                        _metrics.Add(0);
+                        double metric = _application.GetHierarchicalCycalityPercentage(viewModel.Element);
+                        if (metric > 0.0001)
+                        {
+                            _metrics.Add($"{metric:0.0000}%");
+                        }
+                        else
+                        {
+                            _metrics.Add("-");
+                        }
+                    }
+                    break;
+                case MetricType.SystemCycles:
+                    foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
+                    {
+                        double metric = _application.GetSystemCycalityPercentage(viewModel.Element);
+                        if (metric > 0.0001)
+                        {
+                            _metrics.Add($"{metric:0.0000}%");
+                        }
+                        else
+                        {
+                            _metrics.Add("-");
+                        }
+                    }
+                    break;
+
+                default:
+                    foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
+                    {
+                        _metrics.Add("");
                     }
                     break;
             }

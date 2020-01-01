@@ -62,6 +62,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<IDsmRelation> FindIngoingRelations(IDsmElement element);
         IEnumerable<IDsmRelation> FindOutgoingRelations(IDsmElement element);
         IEnumerable<IDsmRelation> FindInternalRelations(IDsmElement element);
+        double GetHierarchicalCycalityPercentage(IDsmElement element);
+        double GetSystemCycalityPercentage(IDsmElement element);
         // Actions
         IDsmAction AddAction(string type, IReadOnlyDictionary<string, string> data);
         void ClearActions();

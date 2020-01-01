@@ -184,6 +184,16 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _queries.GetRelationConsumers(consumer, provider);
         }
 
+        public double GetHierarchicalCycalityPercentage(IDsmElement element)
+        {
+            return _dsmModel.GetHierarchicalCycalityPercentage(element);
+        }
+
+        public double GetSystemCycalityPercentage(IDsmElement element)
+        {
+            return _dsmModel.GetSystemCycalityPercentage(element);
+        }
+ 
         public IDsmElement NextSibling(IDsmElement element)
         {
             return _dsmModel.NextSibling(element);
