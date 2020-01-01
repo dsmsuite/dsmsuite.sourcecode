@@ -7,7 +7,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Button Content="{StaticResource LeftArrow}" Style="{StaticResource ArrowButton}" ToolTip="Select previous metric" Command="{Binding PreviousMetricCommand}"/>
-        <TextBlock Text="{Binding SelectedMetricType}" Foreground="{StaticResource TextColor}" Width="80" TextWrapping="Wrap" TextAlignment="Center"/>
+        <TextBlock Text="{Binding SelectedMetricTypeName}" Foreground="{StaticResource TextColor}" Width="80" TextWrapping="Wrap" TextAlignment="Center"/>
         <Button Content="{StaticResource RightArrow}" Style="{StaticResource ArrowButton}" ToolTip="Select next metric" Command="{Binding NextMetricCommand}"/>
     </StackPanel>
 </UserControl>

@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.NetworkInformation;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
@@ -40,9 +42,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private string _columnHeaderTooltip;
         private string _cellTooltip;
 
-        private List<string> _metricTypes;
-        private int _selectedMetricTypeIndex;
-        private string _selectedMetricType;
+        private readonly Dictionary<MetricType, string> _metricTypeNames;
+        private string _selectedMetricTypeName;
+        private MetricType _selectedMetricType;
 
         public MatrixViewModel(IMainViewModel mainViewModel, IDsmApplication application, IEnumerable<IDsmElement> selectedElements)
         {
@@ -87,17 +89,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             ZoomLevel = 1.0;
 
-            _metricTypes = new List<string>()
-            {
-                "Elements",
-                "Fan in",
-                "Fan out",
-                "Relation density",
-                "System cycles",
-                "Hierarchical cycles"
-            };
-            _selectedMetricTypeIndex = 0;
-            SelectedMetricType = _metricTypes[_selectedMetricTypeIndex];
+            _metricTypeNames = new Dictionary<MetricType, string>();
+            _metricTypeNames[MetricType.NumberOfElements] = "Internal Elements";
+            _metricTypeNames[MetricType.IngoingRelations] = "Ingoing Relations";
+            _metricTypeNames[MetricType.OutgoingRelations] = "Outgoing Relations";
+            _metricTypeNames[MetricType.InternalRelations] = "Internal Relations";
+            _metricTypeNames[MetricType.HierarchicalCycles] = "Hierarchical Cycles";
+            _metricTypeNames[MetricType.SystemCycles] = "System Cycles";
+
+            _selectedMetricType = MetricType.NumberOfElements;
+            SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
         }
 
         public ICommand ToggleElementExpandedCommand { get; }
@@ -133,10 +134,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         public ICommand ToggleMetricsViewExpandedCommand { get; }
 
-        public string SelectedMetricType
+        public string SelectedMetricTypeName
         {
-            get { return _selectedMetricType; }
-            set { _selectedMetricType = value; OnPropertyChanged(); }
+            get { return _selectedMetricTypeName; }
+            set
+            {
+                _selectedMetricTypeName = value;
+                _selectedMetricType = _metricTypeNames.FirstOrDefault(x => x.Value == _selectedMetricTypeName).Key;
+                OnPropertyChanged();
+            }
         }
 
         public int MatrixSize
@@ -329,6 +335,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             get { return _cellTooltip; }
             set { _cellTooltip = value; OnPropertyChanged(); }
+        }
+
+        public IEnumerable<string> MetricTypes
+        {
+            get
+            {
+                return _metricTypeNames.Values;
+            }
         }
 
         private ObservableCollection<ElementTreeItemViewModel> CreateElementViewModelTree()
@@ -609,24 +623,24 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void PreviousMetricExecute(object parameter)
         {
-            _selectedMetricTypeIndex--;
-            SelectedMetricType = _metricTypes[_selectedMetricTypeIndex];
+            _selectedMetricType--;
+            SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
         }
 
         private bool PreviousMetricCanExecute(object parameter)
         {
-            return _selectedMetricTypeIndex > 0;
+            return _selectedMetricType != MetricType.NumberOfElements;
         }
 
         private void NextMetricExecute(object parameter)
         {
-            _selectedMetricTypeIndex++;
-            SelectedMetricType = _metricTypes[_selectedMetricTypeIndex];
+            _selectedMetricType++;
+            SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
         }
 
         private bool NextMetricCanExecute(object parameter)
         {
-            return _selectedMetricTypeIndex < _metricTypes.Count - 1;
+            return _selectedMetricType != MetricType.SystemCycles;
         }
 
         private void UpdateColumnHeaderTooltip(int? column)

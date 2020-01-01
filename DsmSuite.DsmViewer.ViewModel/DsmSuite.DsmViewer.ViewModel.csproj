@@ -45,6 +45,7 @@
     <Compile Include="Lists\RelationListViewModel.cs" />
     <Compile Include="Main\ReportViewModel.cs" />
     <Compile Include="Main\SearchState.cs" />
+    <Compile Include="Matrix\MetricType.cs" />
     <Compile Include="Settings\SettingsViewModel.cs" />
     <Compile Include="Matrix\ElementTreeItemViewModel.cs" />
     <Compile Include="Main\IMainViewModel.cs" />
