@@ -21,8 +21,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         public DsmRelationModel(DsmElementModel elementsDataModel)
         {
             _elementsDataModel = elementsDataModel;
-            _elementsDataModel.ElementUnregistered += OnElementUnregistered;
-            _elementsDataModel.ElementReregistered += OnElementReregistered;
+            _elementsDataModel.UnregisterElementRelations += OnUnregisterElementRelations;
+            _elementsDataModel.ReregisterElementRelations += OnReregisterElementRelations;
 
             _relationsById = new Dictionary<int, DsmRelation>();
             _relationsByProvider = new Dictionary<int, Dictionary<int, Dictionary<string, DsmRelation>>>();
@@ -300,7 +300,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsById.Values.Count + _deletedRelationsById.Values.Count;
         }
 
-        private void OnElementUnregistered(object sender, IDsmElement element)
+        private void OnUnregisterElementRelations(object sender, IDsmElement element)
         {
             List<DsmRelation> toBeRelationsUnregistered = new List<DsmRelation>();
              
@@ -319,7 +319,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        private void OnElementReregistered(object sender, IDsmElement element)
+        private void OnReregisterElementRelations(object sender, IDsmElement element)
         {
             List<DsmRelation> toBeRelationsReregistered = new List<DsmRelation>();
 

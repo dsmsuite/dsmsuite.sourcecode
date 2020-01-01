@@ -14,8 +14,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         private int _lastElementId;
         private readonly DsmElement _root;
 
-        public event EventHandler<IDsmElement> ElementUnregistered;
-        public event EventHandler<IDsmElement> ElementReregistered;
+        public event EventHandler<IDsmElement> UnregisterElementRelations;
+        public event EventHandler<IDsmElement> ReregisterElementRelations;
 
         public DsmElementModel()
         {
@@ -100,10 +100,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             DsmElement newParent = parent as DsmElement;
             if ((currentParent != null) && (newParent != null))
             {
+                UnregisterElementRelations?.Invoke(this, element);
                 currentParent.RemoveChild(element);
-                ElementUnregistered?.Invoke(this, element);
                 newParent.AddChild(element);
-                ElementReregistered?.Invoke(this, element);
+                ReregisterElementRelations?.Invoke(this, element);
             }
         }
 
@@ -337,10 +337,11 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private void UnregisterElement(DsmElement element)
         {
+            UnregisterElementRelations?.Invoke(this, element);
+
             element.IsDeleted = true;
             _deletedElementsById[element.Id] = element;
             _elementsById.Remove(element.Id);
-            ElementUnregistered?.Invoke(this, element);
 
             foreach (IDsmElement child in element.ExportedChildren)
             {
@@ -359,7 +360,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _deletedElementsById.Remove(element.Id);
             element.IsDeleted = false;
 
-            ElementReregistered?.Invoke(this, element);
+            ReregisterElementRelations?.Invoke(this, element);
         }
     }
 }
