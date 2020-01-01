@@ -19,7 +19,8 @@
     <SolidColorBrush x:Key="MatrixColor2" po:Freeze="True">#302E33</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColor3" po:Freeze="True">#454748</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColor4" po:Freeze="True">#312C21</SolidColorBrush>
-    <SolidColorBrush x:Key="MatrixColorCyclic" po:Freeze="True">#ffdb58</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColorHierarchicalCycle" po:Freeze="True">#ffdb58</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColorSystemCycle" po:Freeze="True">#FA9A50</SolidColorBrush>
 
     <SolidColorBrush x:Key="MatrixColorConsumer" po:Freeze="True">#a4ab47</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColorProvider" po:Freeze="True">#90c1d7</SolidColorBrush>

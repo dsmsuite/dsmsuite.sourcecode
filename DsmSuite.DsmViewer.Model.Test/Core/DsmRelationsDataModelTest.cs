@@ -23,9 +23,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
     /// b +----+------+------+------+------+------+------+
     ///   | b2 |  30  | 4    |      |      |      |      |
     /// --+----+------+------+------+------+------+------+
-    ///   | c1 |      |      |      |      |      |      |
+    ///   | c1 |      |      |      |      |      | 1    |
     /// c +----+------+------+------+------+------+------+
-    ///   | c2 |  5   |      |      |      |      |      |
+    ///   | c2 |  5   |      |      |      | 1    |      |
     /// --+----+------+------+------+------+------+------+
     /// </summary>
     /// 
@@ -101,7 +101,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             CreateElementRelations(model);
-            Assert.AreEqual(9, model.GetExportedRelationCount());
+            Assert.AreEqual(11, model.GetExportedRelationCount());
 
             foreach(IDsmElement element in _elementsDataModel.GetElements())
             {
@@ -281,14 +281,36 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void GivenCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsTrue()
+        public void GivenNoCyclicRelationExistsBetweenElementsWhenIsCyclicDependencyThenReturnsCycleTypeNone()
+        {
+            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
+            CreateElementRelations(model);
+
+            Assert.AreEqual(0, model.GetDependencyWeight(_b1.Id, _b2.Id));
+            Assert.AreEqual(0, model.GetDependencyWeight(_b2.Id, _b1.Id));
+            Assert.AreEqual(CycleType.None, model.IsCyclicDependency(_b1.Id, _b2.Id));
+        }
+
+        [TestMethod]
+        public void GivenDirectCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsCycleTypeSystem()
+        {
+            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
+            CreateElementRelations(model);
+
+            Assert.AreEqual(1, model.GetDirectDependencyWeight(_c1.Id, _c2.Id));
+            Assert.AreEqual(1, model.GetDirectDependencyWeight(_c2.Id, _c1.Id));
+            Assert.AreEqual(CycleType.System, model.IsCyclicDependency(_c1.Id, _c2.Id));
+        }
+
+        [TestMethod]
+        public void GivenIndirectCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsCycleTypeHierarchical()
         {
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             CreateElementRelations(model);
 
             Assert.AreEqual(1234, model.GetDependencyWeight(_a.Id, _b.Id));
             Assert.AreEqual(5, model.GetDependencyWeight(_b.Id, _a.Id));
-            Assert.IsTrue(model.IsCyclicDependency(_a.Id, _b.Id));
+            Assert.AreEqual(CycleType.Hierarchical, model.IsCyclicDependency(_a.Id, _b.Id));
         }
 
         [TestMethod]
@@ -299,19 +321,10 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(5, model.GetDependencyWeight(_a1.Id, _c2.Id));
             Assert.AreEqual(0, model.GetDependencyWeight(_c2.Id, _a1.Id));
-            Assert.IsFalse(model.IsCyclicDependency(_a1.Id, _c2.Id));
+            Assert.AreEqual(CycleType.None, model.IsCyclicDependency(_a1.Id, _c2.Id));
         }
 
-        [TestMethod]
-        public void GivenNoRelationExistsBetweenElementsWhenIsCyclicDependencyThenReturnsFalse()
-        {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
 
-            Assert.AreEqual(0, model.GetDependencyWeight(_c1.Id, _c2.Id));
-            Assert.AreEqual(0, model.GetDependencyWeight(_c2.Id, _c1.Id));
-            Assert.IsFalse(model.IsCyclicDependency(_c1.Id, _c2.Id));
-        }
 
         [TestMethod]
         public void GivenRelationExistsBetweenElementsWhenFindRelationsThenReturnsRelationBwetweenTheElements()
@@ -417,6 +430,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             relationsDataModel.AddRelation(_b2.Id, _a1.Id, "", 2);
             relationsDataModel.AddRelation(_b2.Id, _a2.Id, "", 3);
             relationsDataModel.AddRelation(_c1.Id, _a2.Id, "", 4);
+
+            relationsDataModel.AddRelation(_c1.Id, _c2.Id, "", 1);
+            relationsDataModel.AddRelation(_c2.Id, _c1.Id, "", 1);
         }
     }
 }

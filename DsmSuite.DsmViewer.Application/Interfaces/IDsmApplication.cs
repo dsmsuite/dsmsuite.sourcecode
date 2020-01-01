@@ -44,8 +44,8 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
 
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
-        bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
-
+        int GetDirectDependencyWeight(IDsmElement consumer, IDsmElement provider);
+        CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
         IEnumerable<IDsmElement> SearchElements(string text);
         IDsmElement GetElementByFullname(string fullname);
         void CreateElement(string name, string type, IDsmElement parent);

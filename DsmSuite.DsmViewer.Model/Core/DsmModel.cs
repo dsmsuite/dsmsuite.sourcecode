@@ -192,7 +192,12 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.GetDependencyWeight(consumerId, providerId);
         }
 
-        public bool IsCyclicDependency(int consumerId, int providerId)
+        public int GetDirectDependencyWeight(int consumerId, int providerId)
+        {
+            return _relationsDataModel.GetDirectDependencyWeight(consumerId, providerId);
+        }
+
+        public CycleType IsCyclicDependency(int consumerId, int providerId)
         {
             return _relationsDataModel.IsCyclicDependency(consumerId, providerId);
         }

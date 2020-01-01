@@ -20,7 +20,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
             TextColor = (SolidColorBrush)_frameworkElement.FindResource("TextColor");
             MatrixColorConsumer = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorConsumer");
             MatrixColorProvider = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorProvider");
-            MatrixColorCycle = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorCyclic");
+            MatrixColorSystemCycle = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorSystemCycle");
+            MatrixColorHierarchicalCycle = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorHierarchicalCycle");
 
             LeftArrow = (string)_frameworkElement.FindResource("LeftArrow");
             RightArrow = (string)_frameworkElement.FindResource("RightArrow");
@@ -48,7 +49,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
         public SolidColorBrush TextColor { get; }
         public SolidColorBrush MatrixColorConsumer { get; }
         public SolidColorBrush MatrixColorProvider { get; }
-        public SolidColorBrush MatrixColorCycle { get; }
+        public SolidColorBrush MatrixColorHierarchicalCycle { get; }
+        public SolidColorBrush MatrixColorSystemCycle { get; }
         public string LeftArrow { get; }
         public string RightArrow { get; }
         public string UpArrow { get; }
@@ -78,8 +80,11 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 case MatrixColor.Color4:
                     colorIndex = 16;
                     break;
-                case MatrixColor.Highlight:
+                case MatrixColor.HierarchicalCycle:
                     colorIndex = 20;
+                    break;
+                case MatrixColor.SystemCycle:
+                    colorIndex = 24;
                     break;
                 default:
                     colorIndex = 0;
@@ -103,14 +108,15 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             if (_brushes == null)
             {
-                _brushes = new SolidColorBrush[24];
+                _brushes = new SolidColorBrush[28];
 
                 SolidColorBrush brushBackground = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorBackground");
                 SolidColorBrush brush1 = (SolidColorBrush)_frameworkElement.FindResource("MatrixColor1");
                 SolidColorBrush brush2 = (SolidColorBrush)_frameworkElement.FindResource("MatrixColor2");
                 SolidColorBrush brush3 = (SolidColorBrush)_frameworkElement.FindResource("MatrixColor3");
                 SolidColorBrush brush4 = (SolidColorBrush)_frameworkElement.FindResource("MatrixColor4");
-                SolidColorBrush brushCyclic = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorCyclic");
+                SolidColorBrush brushHierarchicalCycle = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorHierarchicalCycle");
+                SolidColorBrush brushSystemCycle = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorSystemCycle");
                 double highlightFactorHovered = (double)_frameworkElement.FindResource("HighlightFactorHovered");
                 double highlightFactorSelected = (double)_frameworkElement.FindResource("HighlightFactorSelected");
 
@@ -119,7 +125,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 SetBrush(2, brush2, highlightFactorHovered, highlightFactorSelected);
                 SetBrush(3, brush3, highlightFactorHovered, highlightFactorSelected);
                 SetBrush(4, brush4, highlightFactorHovered, highlightFactorSelected);
-                SetBrush(5, brushCyclic, highlightFactorHovered, highlightFactorSelected);
+                SetBrush(5, brushHierarchicalCycle, highlightFactorHovered, highlightFactorSelected);
+                SetBrush(6, brushSystemCycle, highlightFactorHovered, highlightFactorSelected);
             }
         }
 

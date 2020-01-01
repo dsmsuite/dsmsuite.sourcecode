@@ -88,7 +88,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     {
                         if (_viewModel.RowIsProvider[row])
                         {
-                            dc.DrawRectangle(_theme.MatrixColorCycle, null, _rect);
+                            dc.DrawRectangle(_theme.MatrixColorHierarchicalCycle, null, _rect);
                         }
                         else
                         {

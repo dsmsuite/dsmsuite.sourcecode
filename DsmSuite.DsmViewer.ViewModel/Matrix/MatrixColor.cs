@@ -7,6 +7,7 @@
         Color2,
         Color3,
         Color4,
-        Highlight
+        HierarchicalCycle,
+        SystemCycle
     }
 }

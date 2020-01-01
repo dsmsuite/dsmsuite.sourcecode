@@ -28,6 +28,7 @@
     <Compile Include="Core\DsmActionModel.cs" />
     <Compile Include="Core\DsmElementModel.cs" />
     <Compile Include="Core\DsmRelationModel.cs" />
+    <Compile Include="Interfaces\CycleType.cs" />
     <Compile Include="Interfaces\IDsmAction.cs" />
     <Compile Include="Interfaces\ISortResult.cs" />
     <Compile Include="Core\DsmModel.cs" />

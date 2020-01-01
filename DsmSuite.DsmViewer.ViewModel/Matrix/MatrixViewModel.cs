@@ -447,9 +447,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 {
                     IDsmElement consumer = _elementViewModelLeafs[column].Element;
                     IDsmElement provider = _elementViewModelLeafs[row].Element;
-                    if (_application.IsCyclicDependency(consumer, provider) && _application.ShowCycles)
+                    CycleType cycleType = _application.IsCyclicDependency(consumer, provider);
+                    if (_application.ShowCycles)
                     {
-                        _cellColors[row][column] = MatrixColor.Highlight;
+                        if (cycleType == CycleType.Hierarchical)
+                        {
+                            _cellColors[row][column] = MatrixColor.HierarchicalCycle;
+                        }
+
+                        if (cycleType == CycleType.System)
+                        {
+                            _cellColors[row][column] = MatrixColor.SystemCycle;
+                        }
                     }
                 }
             }

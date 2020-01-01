@@ -222,7 +222,12 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.GetDependencyWeight(consumer.Id, provider.Id);
         }
 
-        public bool IsCyclicDependency(IDsmElement consumer, IDsmElement provider)
+        public int GetDirectDependencyWeight(IDsmElement consumer, IDsmElement provider)
+        {
+            return _dsmModel.GetDirectDependencyWeight(consumer.Id, provider.Id);
+        }
+
+        public CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider)
         {
             return _dsmModel.IsCyclicDependency(consumer.Id, provider.Id);
         }
