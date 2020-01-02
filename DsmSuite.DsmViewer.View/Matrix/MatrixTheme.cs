@@ -43,6 +43,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 TextColor);
         }
 
+        public double ScrollBarWidth => 20.0;
+        public double SpacingWidth => 2.0;
+        public double IndicatorBarWidth => 5.0;
         public double MatrixCellSize { get; }
         public double MatrixHeaderHeight { get; }
         public double MatrixMetricsViewWidth { get; }

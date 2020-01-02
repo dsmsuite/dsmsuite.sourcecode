@@ -13,15 +13,14 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private int? _hoveredRow;
         private readonly double _pitch;
         private readonly double _offset;
-
-
+        
         public MatrixRowMetricsView()
         {
             _theme = new MatrixTheme(this);
             _rect = new Rect(new Size(_theme.MatrixMetricsViewWidth, _theme.MatrixCellSize));
             _hoveredRow = null;
-            _pitch = _theme.MatrixCellSize + 2.0;
-            _offset = 1.0;
+            _pitch = _theme.MatrixCellSize + _theme.SpacingWidth;
+            _offset = _theme.SpacingWidth / 2;
 
             DataContextChanged += OnDataContextChanged;
             MouseMove += OnMouseMove;
@@ -95,11 +94,11 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     string content = _viewModel.Metrics[row];
                     double textWidth = MeasureText(content);
                     Point texLocation = new Point(_rect.X + _rect.Width - 30.0 - textWidth, _rect.Y + 15.0);
-                    DrawText(dc, content, texLocation, _theme.TextColor, _rect.Width - 2.0);
+                    DrawText(dc, content, texLocation, _theme.TextColor, _rect.Width - _theme.SpacingWidth);
                 }
 
-                Height = _theme.MatrixHeaderHeight + 2.0;
-                Width = _theme.MatrixCellSize * matrixSize + 2.0;
+                Height = _theme.MatrixHeaderHeight + _theme.SpacingWidth;
+                Width = _theme.MatrixCellSize * matrixSize + _theme.SpacingWidth;
             }
         }
 

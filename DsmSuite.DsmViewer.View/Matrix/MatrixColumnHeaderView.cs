@@ -19,8 +19,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
             _theme = new MatrixTheme(this);
             _rect = new Rect(new Size(_theme.MatrixCellSize, _theme.MatrixHeaderHeight));
             _hoveredColumn = null;
-            _pitch = _theme.MatrixCellSize + 2.0;
-            _offset = 1.0;
+            _pitch = _theme.MatrixCellSize + _theme.SpacingWidth;
+            _offset = _theme.SpacingWidth / 2;
 
             DataContextChanged += OnDataContextChanged;
             MouseMove += OnMouseMove;
@@ -93,11 +93,11 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
                     string content = _viewModel.ColumnElementIds[column].ToString();
                     Point location = new Point(_rect.X + 10.0, _rect.Y - 5.0);
-                    DrawRotatedText(dc, content, location, _theme.TextColor, _rect.Width - 2.0);
+                    DrawRotatedText(dc, content, location, _theme.TextColor, _rect.Width - _theme.SpacingWidth);
                 }
 
-                Height = _theme.MatrixHeaderHeight + 2.0;
-                Width = _theme.MatrixCellSize * matrixSize + 2.0;
+                Height = _theme.MatrixHeaderHeight + _theme.SpacingWidth;
+                Width = _theme.MatrixCellSize * matrixSize + _theme.SpacingWidth;
             }
         }
         

@@ -19,8 +19,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
             _theme = new MatrixTheme(this);
             _rect = new Rect(new Size(5.0, _theme.MatrixCellSize));
             _hoveredRow = null;
-            _pitch = _theme.MatrixCellSize + 2.0;
-            _offset = 1.0;
+            _pitch = _theme.MatrixCellSize + _theme.SpacingWidth;
+            _offset = _theme.SpacingWidth / 2;
 
             DataContextChanged += OnDataContextChanged;
             MouseMove += OnMouseMove;
@@ -108,8 +108,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     }
                 }
 
-                Height = _theme.MatrixCellSize * matrixSize + 2.0;
-                Width = 5.0;
+                Height = _theme.MatrixCellSize * matrixSize + _theme.SpacingWidth;
+                Width = _theme.IndicatorBarWidth;
             }
         }
 
