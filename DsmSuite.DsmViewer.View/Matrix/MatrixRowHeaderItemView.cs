@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -102,12 +101,12 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         protected override void OnRender(DrawingContext dc)
         {
-            if ((_viewModel != null) && (ActualWidth > 2.0) && (ActualHeight > 2.0))
+            if ((_viewModel != null) && (ActualWidth > _theme.SpacingWidth) && (ActualHeight > _theme.SpacingWidth))
             {
                 bool isHovered = _matrixViewModel.HoveredTreeItem == _viewModel;
                 bool isSelected = _matrixViewModel.SelectedTreeItem == _viewModel;
                 SolidColorBrush background = _theme.GetBackground(_viewModel.Color, isHovered, isSelected);
-                Rect backgroundRect = new Rect(1.0, 1.0, ActualWidth - 2.0, ActualHeight - 2.0);
+                Rect backgroundRect = new Rect(1.0, 1.0, ActualWidth - _theme.SpacingWidth, ActualHeight - _theme.SpacingWidth);
                 dc.DrawRectangle(background, null, backgroundRect);
 
                 string content = _viewModel.Name + " - " + _viewModel.Order;
