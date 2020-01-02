@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:matrix="clr-namespace:DsmSuite.DsmViewer.View.Matrix"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             Background="{StaticResource BackgroundColor}">
     <Grid DataContext="{Binding ActiveMatrix}" Visibility="{Binding MatrixSize, FallbackValue=Collapsed, Converter={StaticResource MatrixSizeToVisbilityConverter}}">
         <Grid.LayoutTransform>
             <ScaleTransform CenterX="0" 

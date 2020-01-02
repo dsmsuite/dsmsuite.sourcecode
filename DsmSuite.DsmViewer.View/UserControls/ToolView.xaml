@@ -27,13 +27,14 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom in" Command="{Binding ZoomInCommand}" Content="{StaticResource ZoomInIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>
             <Separator/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Create snapshot" Command="{Binding MakeSnapshotCommand}" Content="{StaticResource SnapshotIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Label current state" Command="{Binding MakeSnapshotCommand}" Content="{StaticResource LabelIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show history" Command="{Binding ShowHistoryCommand}" Content="{StaticResource HistoryIcon}"/>
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding UndoText}" Command="{Binding UndoCommand}" Content="{StaticResource UndoIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding RedoText}" Command="{Binding RedoCommand}" Content="{StaticResource RedoIcon}"/>
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show overview report" Command="{Binding OverviewReportCommand}" Content="{StaticResource ReportIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Paste screenshot to clipboard" Command="{Binding TakeScreenshotCommand}" Content="{StaticResource SnapshotIcon}"/>
             <Separator/>
             <TextBox Style="{StaticResource ToolbarTextBox}" ToolTip="Enter text to search for elements"  Width="400" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Navigate to previous found element" Name="NavigatePreviousButton" Command="{Binding NavigateToPreviousCommand}" Content="{StaticResource ChevronLeftIcon}" Visibility="{Binding SearchState, FallbackValue=Collapsed, Converter={StaticResource SearchStateToVisibilityConverter}}"/>
