@@ -105,16 +105,23 @@ namespace DsmSuite.DsmViewer.View.Matrix
                         int weight = _viewModel.CellWeights[row][column];
                         if (weight > 0)
                         {
+                            char infinity = '\u221E';
+                            string content;
                             if (weight > 9999)
                             {
-                                weight = 9999;
+                                content = infinity.ToString();
                             }
+                            else
+                            {
+                                content = weight.ToString();
+                            }
+
                             Point location = new Point
                             {
                                 X = 1.0 + column * _pitch,
                                 Y = 14.0 + row * _pitch
                             };
-                            DrawText(dc, weight.ToString(), location, _theme.TextColor,_rect.Width - _theme.SpacingWidth);
+                            DrawText(dc, content, location, _theme.TextColor,_rect.Width - _theme.SpacingWidth);
                         }
                     }
                 }
