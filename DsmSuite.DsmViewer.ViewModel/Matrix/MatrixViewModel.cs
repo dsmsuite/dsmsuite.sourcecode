@@ -310,6 +310,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             HoveredRow = null;
             HoveredColumn = column;
             UpdateColumnHeaderTooltip(column);
+            UpdateProviderRows();
+            UpdateConsumerRows();
         }
 
         public void HoverCell(int? row, int? columnn)
@@ -840,6 +842,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     _rowIsProvider[i] = _cellWeights[i][HoveredRow.Value] > 0;
                 }
             }
+            else
+            {
+                for (int i = 0; i < _elementViewModelLeafs.Count; i++)
+                {
+                    _rowIsProvider[i] = false;
+                }
+            }
         }
 
         private void DefineConsumerRows()
@@ -858,6 +867,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 for (int i = 0; i < _elementViewModelLeafs.Count; i++)
                 {
                     _rowIsConsumer[i] = _cellWeights[HoveredRow.Value][i] > 0;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < _elementViewModelLeafs.Count; i++)
+                {
+                    _rowIsConsumer[i] = false;
                 }
             }
         }

@@ -48,6 +48,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         public event EventHandler<SettingsViewModel> SettingsVisible;
 
+        public event EventHandler ScreenshotRequested;
+
         private readonly IDsmApplication _application;
         private string _modelFilename;
         private string _title;
@@ -115,6 +117,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
             ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
             ShowSettingsCommand = new RelayCommand<object>(ShowSettingsExecute, ShowSettingsCanExecute);
+
+            TakeScreenshotCommand = new RelayCommand<object>(TakeScreenshotExecute);
 
             _modelFilename = "";
             _title = "DSM Viewer";
@@ -204,6 +208,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand MakeSnapshotCommand { get; }
         public ICommand ShowHistoryCommand { get; }
         public ICommand ShowSettingsCommand { get; }
+        public ICommand TakeScreenshotCommand { get; }
 
         public string ModelFilename
         {
@@ -748,6 +753,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private bool ShowSettingsCanExecute(object parameter)
         {
             return true;
+        }
+
+        private void TakeScreenshotExecute(object parameter)
+        {
+            ScreenshotRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

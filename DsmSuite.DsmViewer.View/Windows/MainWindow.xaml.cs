@@ -9,6 +9,9 @@ using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
 using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
 using DsmSuite.DsmViewer.ViewModel.Settings;
 using SettingsView = DsmSuite.DsmViewer.View.Settings.SettingsView;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.IO;
 
 namespace DsmSuite.DsmViewer.View.Windows
 {
@@ -52,6 +55,8 @@ namespace DsmSuite.DsmViewer.View.Windows
 
             _mainViewModel.ActionsVisible += OnActionsVisible;
             _mainViewModel.SettingsVisible += OnSettingsVisible;
+
+            _mainViewModel.ScreenshotRequested += OnScreenshotRequested;
             DataContext = _mainViewModel;
 
             OpenModelFile();
@@ -169,6 +174,20 @@ namespace DsmSuite.DsmViewer.View.Windows
         {
             ReportView reportView = new ReportView { DataContext = e };
             reportView.Show();
+        }
+
+        private void OnScreenshotRequested(object sender, System.EventArgs e)
+        {
+            int width = (int)Matrix.ActualWidth;
+            int height = (int)Matrix.ActualHeight;
+            RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
+            renderTargetBitmap.Render(Matrix);
+            Int32Rect rect = new Int32Rect(0, 24, width, height - 24);
+            CroppedBitmap croppedBitmap = new CroppedBitmap(renderTargetBitmap, rect);
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                Clipboard.SetImage(croppedBitmap);
+            }
         }
     }
 }
