@@ -250,7 +250,22 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _hoveredTreeItem = hoveredTreeItem;
         }
 
-        public ElementTreeItemViewModel HoveredTreeItem => HoveredRow.HasValue ? _elementViewModelLeafs[HoveredRow.Value] : _hoveredTreeItem;
+        public ElementTreeItemViewModel HoveredTreeItem
+        {
+            get
+            {
+                ElementTreeItemViewModel hoveredTreeItem;
+                if (HoveredRow.HasValue && (HoveredRow.Value < _elementViewModelLeafs.Count))
+                {
+                    hoveredTreeItem = _elementViewModelLeafs[HoveredRow.Value];
+                }
+                else
+                {
+                    hoveredTreeItem = _hoveredTreeItem;
+                }
+                return hoveredTreeItem;
+            }
+        }
 
         public void SelectRow(int? row)
         {
