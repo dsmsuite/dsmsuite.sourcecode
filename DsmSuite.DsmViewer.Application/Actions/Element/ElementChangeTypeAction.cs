@@ -23,9 +23,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
             Debug.Assert(data != null);
 
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
-            int id = attributes.GetInt(nameof(_element));
-            _element = _model.GetElementById(id);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
+            _element = attributes.GetElement(nameof(_element));
             Debug.Assert(_element != null);
 
             _old = attributes.GetString(nameof(_old));

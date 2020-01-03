@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Model.Interfaces;
+using Moq;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
 {
@@ -10,6 +12,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         [TestMethod]
         public void GivenStringValueInDictionaryWhenGetStringIsCalledThenValueIsReturned()
         {
+            Mock<IDsmModel> model = new Mock<IDsmModel>();
             Dictionary<string, string> data = new Dictionary<string, string>();
 
             string key = "name";
@@ -17,13 +20,14 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
             data[key] = memberValue;
 
             string memberName = "_name";
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(model.Object, data);
             Assert.AreEqual(memberValue, attributes.GetString(memberName));
         }
 
         [TestMethod]
         public void GivenIntValueInDictionaryWhenGetIntIsCalledThenValueIsReturned()
         {
+            Mock<IDsmModel> model = new Mock<IDsmModel>();
             Dictionary<string, string> data = new Dictionary<string, string>();
 
             string key = "name";
@@ -31,13 +35,14 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
             data[key] = memberValue.ToString();
 
             string memberName = "_name";
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(model.Object, data);
             Assert.AreEqual(7, attributes.GetInt(memberName));
         }
 
         [TestMethod]
         public void GivenNullableIntInDictionaryWhenGetNullableIntIsCalledThenValueIsReturned()
         {
+            Mock<IDsmModel> model = new Mock<IDsmModel>();
             Dictionary<string, string> data = new Dictionary<string, string>();
 
             string key = "name";
@@ -45,7 +50,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
             data[key] = memberValue.ToString();
 
             string memberName = "_name";
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(model.Object, data);
             int? readValue = attributes.GetNullableInt(memberName);
             Assert.IsTrue(readValue.HasValue);
             Assert.AreEqual(7, readValue.Value);
@@ -54,10 +59,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         [TestMethod]
         public void GivenNullableIntNotInDictionaryWhenGetNullableIntIsCalledThenNullValueIsReturned()
         {
+            Mock<IDsmModel> model = new Mock<IDsmModel>();
             Dictionary<string, string> data = new Dictionary<string, string>();
 
             string memberName = "_name";
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(model.Object, data);
             int? readValue = attributes.GetNullableInt(memberName);
             Assert.IsFalse(readValue.HasValue);
         }
@@ -65,6 +71,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
         [TestMethod]
         public void GivenMultipleValuesInDictionaryWhenGetValueIsCalledThenAllAreReturned()
         {
+            Mock<IDsmModel> model = new Mock<IDsmModel>();
             Dictionary<string, string> data = new Dictionary<string, string>();
 
             string key1 = "name1";
@@ -77,7 +84,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
 
             string memberName1 = "_name1";
             string memberName2 = "_name2";
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(model.Object, data);
             Assert.AreEqual(memberValue1, attributes.GetString(memberName1));
             Assert.AreEqual(memberValue2, attributes.GetInt(memberName2));
         }

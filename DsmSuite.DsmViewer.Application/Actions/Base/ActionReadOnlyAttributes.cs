@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
     public class ActionReadOnlyAttributes
     {
+        private readonly IDsmModel _model;
         private readonly IReadOnlyDictionary<string, string> _data;
 
-        public ActionReadOnlyAttributes(IReadOnlyDictionary<string, string> data)
+        public ActionReadOnlyAttributes(IDsmModel model, IReadOnlyDictionary<string, string> data)
         {
             _data = data;
+            _model = model;
         }
 
         public string GetString(string memberName)
@@ -26,13 +29,51 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             int? value = null;
 
             int number;
-            if (_data.ContainsKey(RemoveUnderscore(memberName)) && 
+            if (_data.ContainsKey(RemoveUnderscore(memberName)) &&
                 int.TryParse(_data[RemoveUnderscore(memberName)], out number))
             {
                 value = number;
             }
 
             return value;
+        }
+
+        public IDsmElement GetElement(string memberName)
+        {
+            int id = GetInt(memberName);
+            return _model.GetElementById(id) ?? 
+                   _model.GetDeletedElementById(id);
+        }
+
+        public IDsmRelation GetRelation(string memberName)
+        {
+            int id = GetInt(memberName);
+            return _model.GetRelationById(id) ?? 
+                   _model.GetDeletedRelationById(id);
+        }
+
+        public IDsmElement GetRelationConsumer(string memberName)
+        {
+            IDsmElement consumer = null;
+            IDsmRelation relation = GetRelation(memberName);
+            if (relation != null)
+            {
+                consumer = _model.GetElementById(relation.ConsumerId) ??
+                           _model.GetDeletedElementById(relation.ConsumerId);
+            }
+            return consumer;
+        }
+
+        public IDsmElement GetRelationProvider(string memberName)
+        {
+            IDsmElement provider = null;
+            IDsmRelation relation = GetRelation(memberName);
+            if (relation != null)
+            {
+                provider = _model.GetElementById(relation.ProviderId) ??
+                           _model.GetDeletedElementById(relation.ProviderId);
+            }
+            return provider;
         }
 
         private static string RemoveUnderscore(string memberName)

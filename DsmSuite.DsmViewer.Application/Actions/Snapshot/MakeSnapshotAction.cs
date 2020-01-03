@@ -15,10 +15,13 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
         public MakeSnapshotAction(object[] args)
         {
             Debug.Assert(args.Length == 2);
+            IDsmModel model = args[0] as IDsmModel;
+            Debug.Assert(model != null);
+
             IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
             Debug.Assert(data  != null);
 
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(model, data);
             _name = attributes.GetString(nameof(_name));
         }
 

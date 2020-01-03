@@ -25,15 +25,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
             Debug.Assert(data != null);
 
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
-            int id = attributes.GetInt(nameof(_relation));
-            _relation = _model.GetRelationById(id);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
+            _relation = attributes.GetRelation(nameof(_relation));
             Debug.Assert(_relation != null);
 
-            _consumer = _model.GetElementById(_relation.ConsumerId);
+            _consumer = attributes.GetRelationConsumer(nameof(_relation));
             Debug.Assert(_consumer != null);
 
-            _provider = _model.GetElementById(_relation.ProviderId);
+            _provider = attributes.GetRelationProvider(nameof(_relation));
             Debug.Assert(_provider != null);
 
             _old = attributes.GetInt(nameof(_old));

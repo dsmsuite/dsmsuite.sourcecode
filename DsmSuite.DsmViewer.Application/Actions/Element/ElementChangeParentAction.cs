@@ -23,17 +23,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
             Debug.Assert(data != null);
 
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(data);
-            int id = attributes.GetInt(nameof(_element));
-            _element = _model.GetElementById(id);
+            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
+            _element = attributes.GetElement(nameof(_element));
             Debug.Assert(_element != null);
 
-            int oldParentid = attributes.GetInt(nameof(_old));
-            _old = _model.GetElementById(oldParentid);
+            _old = attributes.GetElement(nameof(_old));
             Debug.Assert(_old != null);
 
-            int newParentId = attributes.GetInt(nameof(_new));
-            _new = _model.GetElementById(newParentId);
+            _new = attributes.GetElement(nameof(_new));
             Debug.Assert(_new != null);
         }
 
