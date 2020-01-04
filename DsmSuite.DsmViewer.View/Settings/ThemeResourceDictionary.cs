@@ -7,7 +7,7 @@ namespace DsmSuite.DsmViewer.View.Settings
     public class ThemeResourceDictionary : ResourceDictionary
     {
         private Uri _lightThemeSource;
-        private Uri _highContrastThemeSource;
+        private Uri _pastelThemeSource;
         private Uri _darkThemeSource;
 
         public Uri LightThemeSource
@@ -20,12 +20,12 @@ namespace DsmSuite.DsmViewer.View.Settings
             }
         }
 
-        public Uri HighContrastThemeSource
+        public Uri PastelThemeSource
         {
-            get { return _highContrastThemeSource; }
+            get { return _pastelThemeSource; }
             set
             {
-                _highContrastThemeSource = value;
+                _pastelThemeSource = value;
                 UpdateSource();
             }
         }
@@ -49,8 +49,8 @@ namespace DsmSuite.DsmViewer.View.Settings
                 case Theme.Dark:
                     uri = DarkThemeSource;
                     break;
-                case Theme.HighContrast:
-                    uri = HighContrastThemeSource;
+                case Theme.Pastel:
+                    uri = PastelThemeSource;
                     break;
                 case Theme.Light:
                     uri = LightThemeSource;

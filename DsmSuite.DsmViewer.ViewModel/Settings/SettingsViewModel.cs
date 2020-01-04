@@ -9,7 +9,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
     public class SettingsViewModel : ViewModelBase
     {
         private const string DarkThemeName = "Dark";
-        private const string HighContrastThemeName = "High contrast";
+        private const string PastelThemeName = "Pastel";
         private const string LightThemeName = "Light";
 
         private readonly IDsmApplication _application;
@@ -24,7 +24,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             _application = application;
             _supportedThemes = new Dictionary<Theme, string>();
             _supportedThemes[Theme.Dark] = DarkThemeName;
-            _supportedThemes[Theme.HighContrast] = HighContrastThemeName;
+            _supportedThemes[Theme.Pastel] = PastelThemeName;
             _supportedThemes[Theme.Light] = LightThemeName;
 
             LoggingEnabled = ViewerSetting.LoggingEnabled;

@@ -19,11 +19,11 @@
     <SolidColorBrush x:Key="MatrixColor2" po:Freeze="True">#F6E7D9</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColor3" po:Freeze="True">#F4D9F6</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColor4" po:Freeze="True">#D9F6E7</SolidColorBrush>
-    <SolidColorBrush x:Key="MatrixColorHierarchicalCycle" po:Freeze="True">#ffdb58</SolidColorBrush>
-    <SolidColorBrush x:Key="MatrixColorSystemCycle" po:Freeze="True">#FA9A50</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColorHierarchicalCycle" po:Freeze="True">#fdfd7d</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColorSystemCycle" po:Freeze="True">#ff8a8a</SolidColorBrush>
 
-    <SolidColorBrush x:Key="MatrixColorConsumer" po:Freeze="True">#00ff00</SolidColorBrush>
-    <SolidColorBrush x:Key="MatrixColorProvider" po:Freeze="True">#0000ff</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColorConsumer" po:Freeze="True">#e79bc3</SolidColorBrush>
+    <SolidColorBrush x:Key="MatrixColorProvider" po:Freeze="True">#9bc0e7</SolidColorBrush>
 
     <sys:Double x:Key="HighlightFactorHovered" >1.1</sys:Double>
     <sys:Double x:Key="HighlightFactorSelected" >1.2</sys:Double>

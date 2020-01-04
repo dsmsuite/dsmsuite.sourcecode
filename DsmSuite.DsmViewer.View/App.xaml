@@ -12,7 +12,7 @@
                 <ResourceDictionary x:Name="ControlTemplates" Source="Resources/ControlTemplates.xaml" />
                 <ResourceDictionary x:Name="StyleDictionary" Source="Resources/Style.xaml" />
                 <settings:ThemeResourceDictionary DarkThemeSource="Resources/Themes/DarkTheme.xaml" 
-                                                  HighContrastThemeSource="Resources/Themes/HighContrastTheme.xaml" 
+                                                  PastelThemeSource="Resources/Themes/PastelTheme.xaml" 
                                                   LightThemeSource="Resources/Themes/LightTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

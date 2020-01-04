@@ -6,7 +6,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
     public enum Theme
     {
         Light,
-        HighContrast,
+        Pastel,
         Dark
     }
 }
