@@ -37,6 +37,7 @@ namespace DsmSuite.DsmViewer.View.Windows
         {
             DsmModel model = new DsmModel("Viewer", Assembly.GetExecutingAssembly());
             DsmApplication application = new DsmApplication(model);
+            application.ShowCycles = App.ShowCycles;
             _mainViewModel = new MainViewModel(application);
             _mainViewModel.ReportCreated += OnReportCreated;
             _mainViewModel.ElementsReportReady += OnElementsReportReady;

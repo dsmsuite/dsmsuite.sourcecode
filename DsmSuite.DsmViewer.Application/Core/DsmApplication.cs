@@ -42,8 +42,6 @@ namespace DsmSuite.DsmViewer.Application.Core
             _queries = new DsmQueries(dsmModel);
 
             _metrics = new DsmMetrics(dsmModel);
-
-            ShowCycles = true;
         }
 
         private void OnActionPerformed(object sender, EventArgs e)

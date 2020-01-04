@@ -13,6 +13,7 @@ namespace DsmSuite.DsmViewer.View
     public partial class App 
     {
         public static Theme Skin { get; set; } = Theme.Dark;
+        public static bool ShowCycles { get; set; }
 
         public string[] CommandLineArguments { get; protected set; }
 
@@ -21,6 +22,7 @@ namespace DsmSuite.DsmViewer.View
             ViewerSetting.Read();
             Logger.EnableLogging(Assembly.GetExecutingAssembly(), ViewerSetting.LoggingEnabled);
             Skin = ViewerSetting.Theme;
+            ShowCycles = ViewerSetting.ShowCycles;
         }
 
         protected override void OnStartup(StartupEventArgs e)
