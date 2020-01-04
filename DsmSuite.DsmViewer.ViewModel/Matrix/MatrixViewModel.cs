@@ -464,7 +464,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     int leafElements = 0;
                     CountLeafElements(currentViewModel.Element, ref leafElements);
 
-                    if (leafElements > 0)
+                    if (leafElements > 0 && currentViewModel.Depth > 0)
                     {
                         MatrixColor expandedColor = MatrixColorConverter.GetColor(currentViewModel.Depth);
 
