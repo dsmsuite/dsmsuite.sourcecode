@@ -390,13 +390,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 foreach (IDsmElement child in viewModel.Element.Children)
                 {
                     ElementTreeItemViewModel childViewModel = new ElementTreeItemViewModel(this, child, viewModel.Depth + 1);
-                    viewModel.Children.Add(childViewModel);
+                    viewModel.AddChild(childViewModel);
                     AddElementViewModelChildren(childViewModel);
                 }
             }
             else
             {
-                viewModel.Children.Clear();
+                viewModel.ClearChildren();
             }
         }
 
@@ -787,8 +787,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 if ((consumer != null) && (provider != null))
                 {
                     int weight = _application.GetDependencyWeight(consumer, provider);
+                    CycleType cycleType = _application.IsCyclicDependency(consumer, provider);
 
-                    CellTooltip = $"[{consumer.Order}] {consumer.Fullname} to [{consumer.Order}] {consumer.Fullname} weight={weight}";
+                    string cycleText = "";
+                    if (cycleType == CycleType.Hierarchical)
+                    {
+                        cycleText = "with hierarchical cycle";
+                    }
+                    if (cycleType == CycleType.System)
+                    {
+                        cycleText = "with system cycle";
+                    }
+                    CellTooltip = $"[{consumer.Order}] {consumer.Fullname} to [{consumer.Order}] {consumer.Fullname} weight={weight} {cycleText}";
                 }
             }
         }
