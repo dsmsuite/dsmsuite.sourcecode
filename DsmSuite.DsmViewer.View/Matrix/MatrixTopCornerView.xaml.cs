@@ -23,5 +23,11 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             _viewModel = DataContext as MatrixViewModel;
         }
+
+        private void OnClearSelection(object sender, RoutedEventArgs e)
+        {
+            _viewModel.SelectCell(null, null);
+            _viewModel.SelectTreeItem(null);
+        }
     }
 }
