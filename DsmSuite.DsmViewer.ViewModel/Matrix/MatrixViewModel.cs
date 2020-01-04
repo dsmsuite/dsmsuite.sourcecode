@@ -7,6 +7,8 @@ using System.Windows.Input;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Main;
+using System;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
@@ -444,27 +446,36 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             // Define expanded block color
             for (int row = 0; row < matrixSize; row++)
             {
-                IDsmElement element = _elementViewModelLeafs[row].Element;
-                int elementDepth = _elementViewModelLeafs[row].Depth;
+                ElementTreeItemViewModel viewModel = _elementViewModelLeafs[row];
+                IDsmElement element = viewModel.Element;
 
-                if (_application.IsFirstChild(element) && (elementDepth > 1))
+                Stack<ElementTreeItemViewModel> viewModelHierarchy = new Stack<ElementTreeItemViewModel>();
+                ElementTreeItemViewModel child = viewModel;
+                ElementTreeItemViewModel parent = viewModel.Parent;
+                while ((parent != null) && (parent.Children[0] == child))
+                {
+                    viewModelHierarchy.Push(parent);
+                    child = parent;
+                    parent = parent.Parent;
+                }
+
+                foreach (ElementTreeItemViewModel currentViewModel in viewModelHierarchy)
                 {
                     int leafElements = 0;
-                    CountLeafElements(element.Parent, ref leafElements);
+                    CountLeafElements(currentViewModel.Element, ref leafElements);
 
                     if (leafElements > 0)
                     {
-                        int parentDepth = _elementViewModelLeafs[row].Depth - 1;
-                        MatrixColor expandedColor = MatrixColorConverter.GetColor(parentDepth);
+                        MatrixColor expandedColor = MatrixColorConverter.GetColor(currentViewModel.Depth);
 
                         int begin = row;
                         int end = row + leafElements;
 
-                        for (int i = begin; i < end; i++)
+                        for (int rowDelta = begin; rowDelta < end; rowDelta++)
                         {
                             for (int columnDelta = begin; columnDelta < end; columnDelta++)
                             {
-                                _cellColors[i][columnDelta] = expandedColor;
+                                _cellColors[rowDelta][columnDelta] = expandedColor;
                             }
                         }
                     }
@@ -576,7 +587,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 case MetricType.OutgoingRelations:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
-                         int metric = _application.FindOutgoingRelations(viewModel.Element).Count();
+                        int metric = _application.FindOutgoingRelations(viewModel.Element).Count();
                         _metrics.Add(metric.ToString());
                     }
                     break;
@@ -684,7 +695,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             return true;
         }
-        
+
         private void ShowElementConsumersExecute(object parameter)
         {
             string title = $"Consumers of {SelectedProvider.Fullname}";
