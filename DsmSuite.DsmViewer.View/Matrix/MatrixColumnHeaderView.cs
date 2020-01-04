@@ -92,7 +92,10 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     dc.DrawRectangle(background, null, _rect);
 
                     string content = _viewModel.ColumnElementIds[column].ToString();
-                    Point location = new Point(_rect.X + 10.0, _rect.Y - 5.0);
+
+                    double textWidth = MeasureText(content);
+
+                    Point location = new Point(_rect.X + 10.0, _rect.Y - _rect.Height + textWidth + 10.0);
                     DrawRotatedText(dc, content, location, _theme.TextColor, _rect.Width - _theme.SpacingWidth);
                 }
 
