@@ -33,8 +33,8 @@
                 <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
 
-            <Canvas Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" ClipToBounds="True">
-                <matrix:MatrixRowHeaderView x:Name="RowHeaderView" Height="Auto" HorizontalAlignment="Stretch">
+            <Canvas x:Name="RowHeader" Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" ClipToBounds="True">
+                <matrix:MatrixRowHeaderView x:Name="RowHeaderView" Height="Auto" Width="{Binding ActualWidth, ElementName=RowHeader}">
                     <matrix:MatrixRowHeaderView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Sort" Command="{Binding SortElementCommand}" />

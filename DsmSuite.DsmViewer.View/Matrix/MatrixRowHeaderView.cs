@@ -33,6 +33,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+
             CreateChildViews();
         }
 
@@ -122,7 +123,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             }
 
             Height = y;
-            Width = 5000; // Should be enough to draw very deep tree
+            //Width = 5000; // Should be enough to draw very deep tree
         }
 
         private void CreateChildViews(ElementTreeItemViewModel elementViewModel, double y)
