@@ -116,10 +116,12 @@ namespace DsmSuite.DsmViewer.View.Matrix
                                 content = weight.ToString();
                             }
 
+                            double textWidth = MeasureText(content);
+
                             Point location = new Point
                             {
-                                X = 1.0 + column * _pitch,
-                                Y = 14.0 + row * _pitch
+                                X = column * _pitch + (_pitch - textWidth) /2,
+                                Y = 16.0 + row * _pitch
                             };
                             DrawText(dc, content, location, _theme.TextColor,_rect.Width - _theme.SpacingWidth);
                         }
