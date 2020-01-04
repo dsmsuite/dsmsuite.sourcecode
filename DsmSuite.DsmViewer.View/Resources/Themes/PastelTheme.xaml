@@ -12,7 +12,7 @@
     <SolidColorBrush x:Key="ForegroundHoverColor" po:Freeze="True">#000000</SolidColorBrush>
     <SolidColorBrush x:Key="ForegroundAccentedColor" po:Freeze="True">#202020</SolidColorBrush>
     <SolidColorBrush x:Key="ForegroundStandardColor" po:Freeze="True">#404040</SolidColorBrush>
-    <SolidColorBrush x:Key="ForegroundDisabledColor" po:Freeze="True">#808080</SolidColorBrush>
+    <SolidColorBrush x:Key="ForegroundDisabledColor" po:Freeze="True">#a0a0a0</SolidColorBrush>
 
     <SolidColorBrush x:Key="MatrixColorBackground" po:Freeze="True">#f0f0f0</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColor1" po:Freeze="True">#D9E7F6</SolidColorBrush>

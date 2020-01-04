@@ -510,25 +510,25 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(0, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "", null);
+            IDsmElement a = model.ImportElement(1, "a", "", 0, false, null, false);
             Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.AddElement("a1", "eta", a.Id);
+            IDsmElement a1 = model.ImportElement(2, "a1", "eta", 0, false, a.Id, false);
             Assert.AreEqual(2, a1.Id);
 
-            IDsmElement b = model.AddElement("b", "", null);
+            IDsmElement b = model.ImportElement(3, "b", "", 0, false, null, false);
             Assert.AreEqual(3, b.Id);
-            IDsmElement b1 = model.AddElement("b1", "etb", b.Id);
+            IDsmElement b1 = model.ImportElement(4, "b1", "etb", 0, false, b.Id, false);
             Assert.AreEqual(4, b1.Id);
-            IDsmElement b2 = model.AddElement("b2", "etb", b.Id);
+            IDsmElement b2 = model.ImportElement(5, "b2", "etb", 0, false, b.Id, false);
             Assert.AreEqual(5, b2.Id);
 
-            IDsmElement c = model.AddElement("c", "", null);
+            IDsmElement c = model.ImportElement(6, "c", "", 0, false, null, false);
             Assert.AreEqual(6, c.Id);
-            IDsmElement c1 = model.AddElement("c1", "etc", c.Id);
+            IDsmElement c1 = model.ImportElement(7, "c1", "etc", 0, false, c.Id, false);
             Assert.AreEqual(7, c1.Id);
-            IDsmElement c2 = model.AddElement("c2", "etc", c.Id);
+            IDsmElement c2 = model.ImportElement(8, "c2", "etc", 0, false, c.Id, false);
             Assert.AreEqual(8, c2.Id);
-            IDsmElement c3 = model.AddElement("c3", "etc", c.Id);
+            IDsmElement c3 = model.ImportElement(9, "c3", "etc", 0, false, c.Id, false);
             Assert.AreEqual(9, c3.Id);
 
             Assert.AreEqual(0, a.Order);

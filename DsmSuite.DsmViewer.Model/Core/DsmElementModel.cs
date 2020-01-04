@@ -71,6 +71,8 @@ namespace DsmSuite.DsmViewer.Model.Core
                 element = AddElement(_lastElementId, name, type, 0, false, parentId, false);
             }
 
+            AssignElementOrder();
+
             return element;
         }
 
@@ -104,6 +106,8 @@ namespace DsmSuite.DsmViewer.Model.Core
                 currentParent.RemoveChild(element);
                 newParent.AddChild(element);
                 ReregisterElementRelations?.Invoke(this, element);
+
+                AssignElementOrder();
             }
         }
 
@@ -117,6 +121,8 @@ namespace DsmSuite.DsmViewer.Model.Core
                 UnregisterElement(element);
 
                 CollapseIfNoChildrenLeft(element);
+
+                AssignElementOrder();
             }
         }
 
@@ -128,6 +134,8 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 DsmElement element = _deletedElementsById[elementId];
                 ReregisterElement(element);
+
+                AssignElementOrder();
             }
         }
 
@@ -222,6 +230,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 if (parent != null)
                 {
                     swapped = parent.Swap(element1, element2);
+                    AssignElementOrder();
                 }
             }
 
