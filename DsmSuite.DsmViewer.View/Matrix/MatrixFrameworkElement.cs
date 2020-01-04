@@ -73,11 +73,14 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     }
                 }
 
-                GlyphRun glyphRun = new GlyphRun(GlyphTypeface, 0, false, FontSize, PixelsPerDip,
-                    MGlyphIndexesList.ToArray(), location, MAdvanceWidthsList.ToArray(),
-                    null, null, null, null, null, null);
+                if (MGlyphIndexesList.Count > 0)
+                {
+                    GlyphRun glyphRun = new GlyphRun(GlyphTypeface, 0, false, FontSize, PixelsPerDip,
+                        MGlyphIndexesList.ToArray(), location, MAdvanceWidthsList.ToArray(),
+                        null, null, null, null, null, null);
 
-                dc.DrawGlyphRun(color, glyphRun);
+                    dc.DrawGlyphRun(color, glyphRun);
+                }
             }
         }
         protected double MeasureText(string text)

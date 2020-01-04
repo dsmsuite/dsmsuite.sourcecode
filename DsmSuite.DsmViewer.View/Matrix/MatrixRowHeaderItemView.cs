@@ -109,8 +109,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 Rect backgroundRect = new Rect(1.0, 1.0, ActualWidth - _theme.SpacingWidth, ActualHeight - _theme.SpacingWidth);
                 dc.DrawRectangle(background, null, backgroundRect);
 
-                string content = _viewModel.Name + " - " + _viewModel.Order;
-                double textWidth = MeasureText(content);
+                string content = _viewModel.Name;
+
                 if (_viewModel.IsExpanded)
                 {
                     Point textLocation = new Point(backgroundRect.X + 10.0, backgroundRect.Y - 20.0);
@@ -118,10 +118,22 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 }
                 else
                 {
-                    Point textLocation = new Point(backgroundRect.X - 20.0 + backgroundRect.Width - textWidth, backgroundRect.Y + 15.0);
-                    DrawText(dc, content, textLocation, _theme.TextColor, backgroundRect.Width - 25.0);
-                }
+                    if (ActualWidth > 70.0)
+                    {
+                        Point contentTextLocation = new Point(backgroundRect.X + 20.0, backgroundRect.Y + 15.0);
+                        DrawText(dc, content, contentTextLocation, _theme.TextColor, ActualWidth - 70.0);
+                    }
 
+                    string order = _viewModel.Order.ToString();
+                    double textWidth = MeasureText(order);
+
+                    Point orderTextLocation = new Point(backgroundRect.X - 10.0 + backgroundRect.Width - textWidth, backgroundRect.Y + 15.0);
+                    if (orderTextLocation.X > 0)
+                    {
+                        DrawText(dc, order, orderTextLocation, _theme.TextColor, ActualWidth - 25.0);
+                    }
+                }
+                
                 Point expanderLocation = new Point(backgroundRect.X + 1.0, backgroundRect.Y + 1.0);
                 DrawExpander(dc, expanderLocation);
             }
