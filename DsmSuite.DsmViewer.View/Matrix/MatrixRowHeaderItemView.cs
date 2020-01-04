@@ -110,6 +110,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 dc.DrawRectangle(background, null, backgroundRect);
 
                 string content = _viewModel.Name + " - " + _viewModel.Order;
+                double textWidth = MeasureText(content);
                 if (_viewModel.IsExpanded)
                 {
                     Point textLocation = new Point(backgroundRect.X + 10.0, backgroundRect.Y - 20.0);
@@ -117,7 +118,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 }
                 else
                 {
-                    Point textLocation = new Point(backgroundRect.X + 20.0, backgroundRect.Y + 15.0);
+                    Point textLocation = new Point(backgroundRect.X - 20.0 + backgroundRect.Width - textWidth, backgroundRect.Y + 15.0);
                     DrawText(dc, content, textLocation, _theme.TextColor, backgroundRect.Width - 25.0);
                 }
 
