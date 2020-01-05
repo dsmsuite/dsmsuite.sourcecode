@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.ViewModel.Settings;
+using System.Windows.Threading;
 
 namespace DsmSuite.DsmViewer.View
 {
@@ -25,6 +26,11 @@ namespace DsmSuite.DsmViewer.View
             ShowCycles = ViewerSetting.ShowCycles;
         }
 
+        public App()
+        {
+            DispatcherUnhandledException += new DispatcherUnhandledExceptionEventHandler(App_DispatcherUnhandledException);
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             Logger.LogAssemblyInfo(Assembly.GetExecutingAssembly());
@@ -42,6 +48,12 @@ namespace DsmSuite.DsmViewer.View
             Logger.LogResourceUsage();
             ViewerSetting.Write();
             base.OnExit(e);
+        }
+
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            Logger.LogException("Unhandled exception", e.Exception);
+            e.Handled = true;
         }
 
         public class LoggingTraceListener : TraceListener

@@ -72,9 +72,9 @@ namespace DsmSuite.Common.Util
         {
             LogToFile("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
 
-            LogToFile("exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
-            LogToFile("exceptions.log", e.StackTrace);
-            LogToFile("exceptions.log", "");
+            LogToFileAlways("exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
+            LogToFileAlways("exceptions.log", e.StackTrace);
+            LogToFileAlways("exceptions.log", "");
         }
 
         public static void LogResourceUsage()
@@ -87,6 +87,16 @@ namespace DsmSuite.Common.Util
             LogUserMessage($" peak physical memory usage {peakWorkingSetMb:0.000}MB");
             LogUserMessage($" peak paged memory usage    {peakPagedMemMb:0.000}MB");
             LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
+        }
+
+        public static void LogToFileAlways(string logFilename, string line)
+        {
+            string path = GetLogFullPath(logFilename);
+            FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write);
+            using (StreamWriter writetext = new StreamWriter(fs))
+            {
+                writetext.WriteLine(line);
+            }
         }
 
         public static void LogToFile(string logFilename, string line)
