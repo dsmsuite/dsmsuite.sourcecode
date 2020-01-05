@@ -176,7 +176,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 else
                 {
                     double x = viewModel.Depth * 26.0;
-                    double width = ActualWidth - x;
+                    double width = ActualWidth - x + 1.0;
                     if (width < 0)
                     {
                         width = 0;
