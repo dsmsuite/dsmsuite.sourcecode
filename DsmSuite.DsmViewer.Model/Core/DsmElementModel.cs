@@ -23,6 +23,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _deletedElementsById = new Dictionary<int, DsmElement>();
             _lastElementId = 0;
             _root = new DsmElement(0, "", "");
+            RegisterElement(_root);
         }
 
         public void Clear()
@@ -30,6 +31,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsById.Clear();
             _deletedElementsById.Clear();
             _root.RemoveAllChildren();
+            RegisterElement(_root);
             _lastElementId = 0;
         }
 
