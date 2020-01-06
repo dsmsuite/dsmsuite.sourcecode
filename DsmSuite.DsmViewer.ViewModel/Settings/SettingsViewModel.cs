@@ -15,6 +15,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         private readonly IDsmApplication _application;
         private bool _showCycles;
         private bool _loggingEnabled;
+        private bool _betaFeaturesEnabled;
         private string _selectedThemeName;
 
         private readonly Dictionary<Theme, string> _supportedThemes;
@@ -23,12 +24,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         {
             _application = application;
             _supportedThemes = new Dictionary<Theme, string>();
-            _supportedThemes[Theme.Dark] = DarkThemeName;
+            //_supportedThemes[Theme.Dark] = DarkThemeName;
             _supportedThemes[Theme.Pastel] = PastelThemeName;
             _supportedThemes[Theme.Light] = LightThemeName;
 
             LoggingEnabled = ViewerSetting.LoggingEnabled;
             ShowCycles = ViewerSetting.ShowCycles;
+            BetaFeaturesEnabled = ViewerSetting.BetaFeaturesEnabled;
             SelectedThemeName = _supportedThemes[ViewerSetting.Theme];
 
             _application.ShowCycles = ShowCycles;
@@ -44,6 +46,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             set
             {
                 _showCycles = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool BetaFeaturesEnabled
+        {
+            get { return _betaFeaturesEnabled; }
+            set
+            {
+                _betaFeaturesEnabled = value;
                 OnPropertyChanged();
             }
         }
@@ -74,6 +86,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         {
             ViewerSetting.LoggingEnabled = LoggingEnabled;
             ViewerSetting.ShowCycles = ShowCycles;
+            ViewerSetting.BetaFeaturesEnabled = BetaFeaturesEnabled;
             ViewerSetting.Theme = _supportedThemes.FirstOrDefault(x => x.Value == SelectedThemeName).Key;
 
             _application.ShowCycles = ShowCycles;

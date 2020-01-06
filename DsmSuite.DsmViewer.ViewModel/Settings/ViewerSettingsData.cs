@@ -12,6 +12,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
     {
         private bool _loggingEnabled;
         private bool _showCycles;
+        private bool _betaFeaturesEnabled;
         private Theme _theme;
 
         public static ViewerSettingsData CreateDefault()
@@ -20,6 +21,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             {
                 LoggingEnabled = false,
                 ShowCycles = false,
+                BetaFeaturesEnabled = false,
                 Theme = Theme.Light,
             };
 
@@ -36,6 +38,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         {
             get { return _showCycles; }
             set { _showCycles = value; }
+        }
+
+        public bool BetaFeaturesEnabled
+        {
+            get { return _betaFeaturesEnabled; }
+            set { _betaFeaturesEnabled = value; }
         }
 
         public Theme Theme

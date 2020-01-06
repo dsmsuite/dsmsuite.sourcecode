@@ -39,6 +39,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             set { _viewerSettings.ShowCycles = value; }
             get { return _viewerSettings.ShowCycles; }
         }
+        public static bool BetaFeaturesEnabled
+        {
+            set { _viewerSettings.BetaFeaturesEnabled = value; }
+            get { return _viewerSettings.BetaFeaturesEnabled; }
+        }
 
         public static Theme Theme
         {

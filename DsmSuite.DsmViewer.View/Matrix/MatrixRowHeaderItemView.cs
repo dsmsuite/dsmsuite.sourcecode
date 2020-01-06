@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
+using DsmSuite.DsmViewer.ViewModel.Settings;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
@@ -20,7 +21,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             _matrixViewModel.PropertyChanged += OnMatrixViewModelPropertyChanged;
             _theme = theme;
 
-            AllowDrop = true;
+            AllowDrop = ViewerSetting.BetaFeaturesEnabled;
             
             DataContextChanged += OnDataContextChanged;
         }
