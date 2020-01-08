@@ -269,7 +269,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 ModelFilename = fileToOpen;
                 Title = $"DSM Viewer ({ModelFilename})";
                 IsLoaded = true;
-                ActiveMatrix = new MatrixViewModel(this, _application, _application.RootElements);
+                ActiveMatrix = new MatrixViewModel(this, _application, GetRootElements());
             }
         }
 
@@ -304,9 +304,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void HomeExecute(object parameter)
         {
-            ActiveMatrix = new MatrixViewModel(this, _application, _application.RootElements);
+            ActiveMatrix = new MatrixViewModel(this, _application, GetRootElements());
         }
 
+        private IEnumerable<IDsmElement> GetRootElements()
+        {
+            return new List<IDsmElement> {_application.RootElement};
+        }
         private bool HomeCanExecute(object parameter)
         {
             return IsLoaded;
@@ -585,7 +589,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool DeleteElementCanExecute(object parameter)
         {
-            return true;
+            return !SelectedProvider.IsRoot;
         }
 
         private void ChangeElementNameExecute(object parameter)
@@ -596,7 +600,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ChangeElementNameCanExecute(object parameter)
         {
-            return true;
+            return !SelectedProvider.IsRoot;
         }
 
         private void ChangeElementTypeExecute(object parameter)
@@ -607,7 +611,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ChangeElementTypeCanExecute(object parameter)
         {
-            return true;
+            return !SelectedProvider.IsRoot;
         }
 
         private void MoveElementExecute(object parameter)
@@ -621,7 +625,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool MoveElementCanExecute(object parameter)
         {
-            return true;
+            return !SelectedProvider.IsRoot;
         }
 
         private void ChangeRelationWeightExecute(object parameter)

@@ -49,10 +49,7 @@ namespace DsmSuite.DsmViewer.Application.Import
 
         private void Partition()
         {
-            foreach (IDsmElement element in _dsmModel.GetRootElements())
-            {
-                Partition(element);
-            }
+            Partition(_dsmModel.GetRootElement());
         }
 
         private void Partition(IDsmElement element)

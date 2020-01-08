@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 
 namespace DsmSuite.DsmViewer.Model.Interfaces
 {
@@ -31,6 +32,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         string Fullname { get; }
 
         bool IsDeleted { get; }
+        bool IsRoot { get; }
 
         /// <summary>
         /// Has the element any children.

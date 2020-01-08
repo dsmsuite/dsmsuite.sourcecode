@@ -122,7 +122,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             Modified?.Invoke(this, IsModified);
         }
 
-        public IEnumerable<IDsmElement> RootElements => _dsmModel.GetRootElements();
+        public IDsmElement RootElement => _dsmModel.GetRootElement();
 
         public bool IsModified { get; private set; }
 

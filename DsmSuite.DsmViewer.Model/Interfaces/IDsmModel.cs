@@ -40,7 +40,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmElement GetDeletedElementById(int id);
         IDsmElement GetElementByFullname(string fullname);
         IEnumerable<IDsmElement> SearchElements(string text);
-        IEnumerable<IDsmElement> GetRootElements();
+        IDsmElement GetRootElement();
         IEnumerable<IDsmElement> GetElements();
 
         // Relation editing

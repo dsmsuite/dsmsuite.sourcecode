@@ -125,8 +125,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void GiveAutoPartitionIsOffWhenImportIsFinalizedThenNoPartitioningIsDone()
         {
-            List<IDsmElement> rootElements = new List<IDsmElement>() { _existingElement.Object };
-            _dsmModel.Setup(x => x.GetRootElements()).Returns(rootElements);
+            _dsmModel.Setup(x => x.GetRootElement()).Returns(_existingElement.Object);
 
             CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
 
@@ -138,8 +137,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void GiveAutoPartitionIsOnWhenImportIsFinalizedThenPartitioningIsDone()
         {
-            List<IDsmElement> rootElements = new List<IDsmElement>() { _existingElement.Object };
-            _dsmModel.Setup(x => x.GetRootElements()).Returns(rootElements);
+            _dsmModel.Setup(x => x.GetRootElement()).Returns(_existingElement.Object);
             List<IDsmElement> children = new List<IDsmElement>() { _elementChild.Object };
             _existingElement.Setup(x => x.Children).Returns(children);
             List<IDsmElement> nochildren = new List<IDsmElement>();

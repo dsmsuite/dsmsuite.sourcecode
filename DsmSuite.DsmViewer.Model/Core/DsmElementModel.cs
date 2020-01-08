@@ -23,7 +23,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             _deletedElementsById = new Dictionary<int, DsmElement>();
             _lastElementId = 0;
             _root = new DsmElement(0, "", "");
-            RegisterElement(_root);
         }
 
         public void Clear()
@@ -31,7 +30,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsById.Clear();
             _deletedElementsById.Clear();
             _root.RemoveAllChildren();
-            RegisterElement(_root);
             _lastElementId = 0;
         }
 
@@ -151,9 +149,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsById.Count;
         }
 
-        public IEnumerable<IDsmElement> GetExportedRootElements()
+        public IDsmElement GetRootElement()
         {
-            return _root.Children;
+            return _root;
         }
 
         public int GetExportedElementCount()
@@ -178,7 +176,14 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmElement FindElementById(int elementId)
         {
-            return _elementsById.ContainsKey(elementId) ? _elementsById[elementId] : null;
+            if (elementId == 0)
+            {
+                return _root;
+            }
+            else
+            {
+                return _elementsById.ContainsKey(elementId) ? _elementsById[elementId] : null;
+            }
         }
 
         public IDsmElement FindElementByFullname(string fullname)

@@ -49,6 +49,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public bool IsDeleted { get; set;  }
 
+        public bool IsRoot => Parent == null;
+
         /// <summary>
         /// Full name of the element based on its position in the element hierarchy
         /// </summary>

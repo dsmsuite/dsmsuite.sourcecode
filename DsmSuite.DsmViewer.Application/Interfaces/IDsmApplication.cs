@@ -23,7 +23,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         string GetRedoActionDescription();
         void Redo();
         string GetOverviewReport();
-        IEnumerable<IDsmElement> RootElements { get; }
+        IDsmElement RootElement { get; }
         IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element);
         IEnumerable<IDsmElement> GetElementProviders(IDsmElement element);
         IEnumerable<IDsmResolvedRelation> FindResolvedRelations(IDsmElement consumer, IDsmElement provider);

@@ -6,7 +6,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
     public interface IDsmElementModelFileCallback
     {
         IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parent, bool deleted);
-        IEnumerable<IDsmElement> GetExportedRootElements();
+        IDsmElement GetRootElement();
         int GetExportedElementCount();
     }
 }

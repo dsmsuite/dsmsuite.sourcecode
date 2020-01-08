@@ -36,7 +36,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
     [TestClass]
     public class DsmModelFileTest : IMetaDataModelFileCallback, IDsmElementModelFileCallback, IDsmRelationModelFileCallback, IDsmActionModelFileCallback
     {
-        private readonly List<DsmElement> _rootElements = new List<DsmElement>();
+        private readonly DsmElement _rootElement = new DsmElement(0, "", "");
         private readonly List<DsmRelation> _relations = new List<DsmRelation>();
         private readonly Dictionary<string, List<IMetaDataItem>> _metaData = new Dictionary<string, List<IMetaDataItem>>();
         private readonly List<DsmAction> _actions = new List<DsmAction>();
@@ -66,9 +66,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("item4", _metaData["group2"][1].Name);
             Assert.AreEqual("value4", _metaData["group2"][1].Value);
 
-            Assert.AreEqual(3, _rootElements.Count);
+            Assert.AreEqual(3, _rootElement.Children.Count);
 
-            IDsmElement a = _rootElements[0];
+            IDsmElement a = _rootElement.Children[0];
             Assert.AreEqual(11, a.Id);
             Assert.AreEqual(1, a.Order);
             Assert.AreEqual("", a.Type);
@@ -93,7 +93,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("a.a2", a2.Fullname);
             Assert.IsFalse(a2.IsExpanded);
 
-            IDsmElement b = _rootElements[1];
+            IDsmElement b = _rootElement.Children[1];
             Assert.AreEqual(14, b.Id);
             Assert.AreEqual(4, b.Order);
             Assert.AreEqual("", b.Type);
@@ -118,7 +118,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("b.b2", b2.Fullname);
             Assert.IsFalse(b2.IsExpanded);
 
-            IDsmElement c = _rootElements[2];
+            IDsmElement c = _rootElement.Children[2];
             Assert.AreEqual(17, c.Id);
             Assert.AreEqual(7, c.Order);
             Assert.AreEqual("", c.Type);
@@ -244,13 +244,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             DsmElement c1 = new DsmElement(18, "c1", "etc", 8);
             DsmElement c2 = new DsmElement(19, "c2", "etc", 9);
 
-            _rootElements.Add(a);
+            _rootElement.AddChild(a);
             a.AddChild(a1);
             a.AddChild(a2);
-            _rootElements.Add(b);
+            _rootElement.AddChild(b);
             b.AddChild(b1);
             b.AddChild(b2);
-            _rootElements.Add(c);
+            _rootElement.AddChild(c);
             c.AddChild(c1);
             c.AddChild(c2);
 
@@ -303,11 +303,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             DsmElement element = new DsmElement(id, name, type, order, expanded);
             if (!parentId.HasValue)
             {
-                _rootElements.Add(element);
+                _rootElement.AddChild(element);
             }
             else
             {
-                foreach (DsmElement rootElement in _rootElements)
+                foreach (DsmElement rootElement in _rootElement.Children)
                 {
                     if (rootElement.Id == parentId.Value)
                     {
@@ -347,15 +347,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return _actions;
         }
 
-        public IEnumerable<IDsmElement> GetExportedRootElements()
+        public IDsmElement GetRootElement()
         {
-            return _rootElements;
+            return _rootElement;
         }
 
         public int GetExportedElementCount()
         {
-            int elementCount = _rootElements.Count;
-            foreach (DsmElement rootElement in _rootElements)
+            int elementCount = _rootElement.Children.Count;
+            foreach (DsmElement rootElement in _rootElement.Children)
             {
                 elementCount += rootElement.Children.Count;
             }

@@ -127,9 +127,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.GetElements();
         }
 
-        public IEnumerable<IDsmElement> GetRootElements()
+        public IDsmElement GetRootElement()
         {
-            return _elementsDataModel.GetExportedRootElements();
+            return _elementsDataModel.GetRootElement();
         }
 
         public int GetElementCount()
