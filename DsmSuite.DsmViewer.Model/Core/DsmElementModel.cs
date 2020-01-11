@@ -16,6 +16,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public event EventHandler<IDsmElement> UnregisterElementRelations;
         public event EventHandler<IDsmElement> ReregisterElementRelations;
+        public event EventHandler<IDsmElement> BeforeElementChangeParent;
+        public event EventHandler<IDsmElement> AfterElementChangeParent;
 
         public DsmElementModel()
         {
@@ -102,10 +104,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             DsmElement newParent = parent as DsmElement;
             if ((currentParent != null) && (newParent != null))
             {
-                UnregisterElementRelations?.Invoke(this, element);
+                BeforeElementChangeParent?.Invoke(this, element);
                 currentParent.RemoveChild(element);
                 newParent.AddChild(element);
-                ReregisterElementRelations?.Invoke(this, element);
+                AfterElementChangeParent?.Invoke(this, element);
 
                 AssignElementOrder();
             }
