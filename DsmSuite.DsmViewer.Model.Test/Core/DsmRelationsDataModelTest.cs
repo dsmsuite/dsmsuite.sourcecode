@@ -403,6 +403,36 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(5, relations[4].Weight);
         }
 
+        [TestMethod]
+        public void GivenMatrixIsFilledWhenChildElementParentIsChangedThenWeightsAreUpdated()
+        {
+            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
+            CreateElementRelations(model);
+
+            Assert.AreEqual(1030, model.GetDependencyWeight(_a1.Id, _b.Id));
+            Assert.AreEqual(1234, model.GetDependencyWeight(_a.Id, _b.Id));
+            Assert.AreEqual(5, model.GetDependencyWeight(_a.Id, _c.Id));
+
+            _elementsDataModel.ChangeElementParent(_c2, _b);
+
+            Assert.AreEqual(1035, model.GetDependencyWeight(_a1.Id, _b.Id));
+            Assert.AreEqual(1239, model.GetDependencyWeight(_a.Id, _b.Id));
+            Assert.AreEqual(0, model.GetDependencyWeight(_a.Id, _c.Id));
+        }
+
+        [TestMethod]
+        public void GivenMatrixIsFilledWhenRootElementParentIsChangedThenWeightsAreUpdated()
+        {
+            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
+            CreateElementRelations(model);
+
+            Assert.AreEqual(1234, model.GetDependencyWeight(_a.Id, _b.Id));
+
+            _elementsDataModel.ChangeElementParent(_c, _b);
+
+            Assert.AreEqual(1239, model.GetDependencyWeight(_a.Id, _b.Id));
+        }
+
         private void CreateElementHierarchy()
         {
             _a = _elementsDataModel.ImportElement(11, "a", "", 1, false, null, false);
