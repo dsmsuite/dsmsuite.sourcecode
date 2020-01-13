@@ -24,6 +24,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsDataModel.UnregisterElementRelations += OnUnregisterElementRelations;
             _elementsDataModel.ReregisterElementRelations += OnReregisterElementRelations;
 
+            _elementsDataModel.BeforeElementChangeParent += OnBeforeElementChangeParent;
+            _elementsDataModel.AfterElementChangeParent += OnAfterElementChangeParent;
+
             _relationsById = new Dictionary<int, DsmRelation>();
             _relationsByProvider = new Dictionary<int, Dictionary<int, Dictionary<string, DsmRelation>>>();
             _relationsByConsumer = new Dictionary<int, Dictionary<int, Dictionary<string, DsmRelation>>>();
@@ -32,7 +35,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             _weights = new Dictionary<int, Dictionary<int, int>>();
             _directWeights = new Dictionary<int, Dictionary<int, int>>();
         }
-        
+
+
+
         public void Clear()
         {
             _relationsById.Clear();
@@ -377,7 +382,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 RegisterRelation(relation);
             }
         }
-       
+
         private HashSet<int> GetIdsOfElementAndItsChidren(IDsmElement element)
         {
             HashSet<int> ids = new HashSet<int>();
@@ -480,6 +485,33 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private delegate void ModifyWeight(int consumerId, int providerId, int weight);
 
+        private void OnBeforeElementChangeParent(object sender, IDsmElement element)
+        {
+            ModifyWeightsByElement(element, RemoveWeight);
+        }
+
+        private void OnAfterElementChangeParent(object sender, IDsmElement element)
+        {
+            ModifyWeightsByElement(element, AddWeight);
+        }
+
+        private void ModifyWeightsByElement(IDsmElement element, ModifyWeight modifyWeight)
+        {
+            foreach (DsmRelation relation in _relationsById.Values)
+            {
+                if ((element.Id == relation.ConsumerId) ||
+                    (element.Id == relation.ProviderId))
+                {
+                    UpdateWeights(relation, modifyWeight);
+                }
+            }
+
+            foreach(IDsmElement child in element.Children)
+            {
+                ModifyWeightsByElement(child, modifyWeight);
+            }
+        }
+        
         private void UpdateWeights(IDsmRelation relation, ModifyWeight modifyWeight)
         {
             int consumerId = relation.ConsumerId;
