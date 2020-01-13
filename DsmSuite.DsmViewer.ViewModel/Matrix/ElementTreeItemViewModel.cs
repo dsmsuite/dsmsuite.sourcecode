@@ -32,7 +32,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         public int Id => Element.Id;
         public int Order => Element.Order;
-        public string Name => Element.Name;
+
+        public string Name => Element.IsRoot ? "Root" : Element.Name;
+
         public string Fullname => Element.Fullname;
         public string Description => $"[{Element.Order}] {Element.Fullname}";
 
