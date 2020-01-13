@@ -307,6 +307,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             else
             {
                 _root.AddChild(element);
+                _root.IsExpanded = true;
             }
 
             if (deleted)
