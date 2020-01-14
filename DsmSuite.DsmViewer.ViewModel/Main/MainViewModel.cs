@@ -620,6 +620,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             if (moveParameter != null)
             {
                 _application.ChangeElementParent(moveParameter.Item1, moveParameter.Item2);
+                CommandManager.InvalidateRequerySuggested();
             }
         }
 
