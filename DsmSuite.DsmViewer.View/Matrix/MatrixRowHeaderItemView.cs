@@ -21,7 +21,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             _matrixViewModel.PropertyChanged += OnMatrixViewModelPropertyChanged;
             _theme = theme;
 
-            AllowDrop = ViewerSetting.BetaFeaturesEnabled;
+            AllowDrop = true;
             
             DataContextChanged += OnDataContextChanged;
         }

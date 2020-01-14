@@ -13,7 +13,6 @@
                 <RowDefinition Height="40" />
                 <RowDefinition Height="40" />
                 <RowDefinition Height="40" />
-                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
@@ -25,8 +24,6 @@
             <CheckBox Grid.Row="1" Grid.Column="1" Margin="10" IsChecked="{Binding LoggingEnabled, Mode=TwoWay}" HorizontalAlignment="Left"/>
             <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Show cycles" Margin="5"/>
             <CheckBox Grid.Row="2" Grid.Column="1" Margin="10" IsChecked="{Binding ShowCycles, Mode=TwoWay}" HorizontalAlignment="Left"/>
-            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Enable beta features" Margin="5"/>
-            <CheckBox Grid.Row="3" Grid.Column="1" Margin="10" IsChecked="{Binding BetaFeaturesEnabled, Mode=TwoWay}" HorizontalAlignment="Left"/>
             <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Theme" Margin="5"/>
             <ComboBox Grid.Row="4" Grid.Column="1" Margin="10" Width="100" ItemsSource="{Binding SupportedThemeNames}" SelectedItem="{Binding SelectedThemeName}" HorizontalAlignment="Left"/>
         </Grid>
