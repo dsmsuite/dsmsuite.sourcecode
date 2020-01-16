@@ -35,12 +35,6 @@ namespace DsmSuite.Transformer.Settings
     }
 
     [Serializable]
-    public class PreFixSingleRootSettings
-    {
-        public bool Enabled { get; set; }
-    }
-
-    [Serializable]
     public class IncludeFilterSettings
     {
         public bool Enabled { get; set; }
@@ -67,7 +61,6 @@ namespace DsmSuite.Transformer.Settings
         private MoveElementsSettings _moveElementsSettings;
         private MoveHeaderElementsSettings _moveHeaderElementsSettings;
         private SplitProductAndTestElementsSettings _splitProductAndTestElementsSettings;
-        private PreFixSingleRootSettings _preFixSingleRootSettings;
         private IncludeFilterSettings _includeFilterSettings;
         private string _outputFilename;
         private bool _compressOutputFile;
@@ -82,7 +75,6 @@ namespace DsmSuite.Transformer.Settings
                 MoveElementsSettings = new MoveElementsSettings(),
                 MoveHeaderElementsSettings = new MoveHeaderElementsSettings(),
                 SplitProductAndTestElementsSettings = new SplitProductAndTestElementsSettings(),
-                PreFixSingleRootSettings = new PreFixSingleRootSettings(),
                 IncludeFilterSettings = new IncludeFilterSettings(),
                 OutputFilename = @"C:\exampleOut.dsi",
                 CompressOutputFile = true
@@ -135,12 +127,6 @@ namespace DsmSuite.Transformer.Settings
         {
             get { return _splitProductAndTestElementsSettings; }
             set { _splitProductAndTestElementsSettings = value; }
-        }
-
-        public PreFixSingleRootSettings PreFixSingleRootSettings
-        {
-            get { return _preFixSingleRootSettings; }
-            set { _preFixSingleRootSettings = value; }
         }
 
         public IncludeFilterSettings IncludeFilterSettings

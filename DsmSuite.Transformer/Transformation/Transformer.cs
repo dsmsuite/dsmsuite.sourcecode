@@ -22,13 +22,11 @@ namespace DsmSuite.Transformer.Transformation
             List<Action> actions = new List<Action>
             {
                 new IncludeFilterAction(_model, _transformerSettings.IncludeFilterSettings),
-                new PreFixSingleRootAction(_model, _transformerSettings.PreFixSingleRootSettings.Enabled),
                 new MoveHeaderElementsAction(_model, _transformerSettings.MoveHeaderElementsSettings.Enabled),
                 new MoveElementsAction(_model, _transformerSettings.MoveElementsSettings),
                 new AddTransitiveRelationsAction(_model, _transformerSettings.AddTransitiveRelationsSettings.Enabled),
                 new SplitProductAndTestElementsAction(_model, _transformerSettings.SplitProductAndTestElementsSettings)
             };
-
 
             foreach (Action action in actions)
             {

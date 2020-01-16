@@ -34,7 +34,6 @@
     <Compile Include="Transformation\IAction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transformation\PreFixSingleRootAction.cs" />
     <Compile Include="Transformation\SplitProductAndTestElementsAction.cs" />
     <Compile Include="Transformation\MoveElementsAction.cs" />
     <Compile Include="Transformation\Transformer.cs" />
