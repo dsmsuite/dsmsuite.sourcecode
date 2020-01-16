@@ -159,7 +159,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public int GetExportedElementCount()
         {
-            return _elementsById.Count + _deletedElementsById.Count;
+            return _elementsById.Count + _deletedElementsById.Count - 1; // Root not written/read
         }
 
         public void AssignElementOrder()

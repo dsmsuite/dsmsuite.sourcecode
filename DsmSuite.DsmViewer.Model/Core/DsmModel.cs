@@ -39,7 +39,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             Logger.LogDataModelMessage($"Save data model file={dsmFilename} compresss={compressFile}");
 
-            _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{GetElementCount() - 1}"); // Excludes root element
+            _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{GetExportedElementCount()}"); 
 
             DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel);
             dsmModelFile.Save(compressFile, progress);
@@ -133,6 +133,11 @@ namespace DsmSuite.DsmViewer.Model.Core
         }
 
         public int GetElementCount()
+        {
+            return _elementsDataModel.GetElementCount();
+        }
+
+        public int GetExportedElementCount()
         {
             return _elementsDataModel.GetExportedElementCount();
         }

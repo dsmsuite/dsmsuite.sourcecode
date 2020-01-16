@@ -147,7 +147,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
         private void WriteModelAttributes(XmlWriter writer)
         {
-            _totalElementCount = _elementModelCallback.GetExportedElementCount() - 1; // Root not written/read
+            _totalElementCount = _elementModelCallback.GetExportedElementCount();
             writer.WriteAttributeString(ModelElementCountXmlAttribute, _totalElementCount.ToString());
             _progressedElementCount = 0;
 
@@ -227,33 +227,33 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private void WriteElements(XmlWriter writer, IProgress<ProgressInfo> progress)
         {
             writer.WriteStartElement(ElementGroupXmlNode);
-            WriteElement(writer, _elementModelCallback.GetRootElement(), progress);
+            foreach (IDsmElement element in _elementModelCallback.GetRootElement().ExportedChildren)
+            {
+                WriteElement(writer, element, progress);
+            }
             writer.WriteEndElement();
         }
 
         private void WriteElement(XmlWriter writer, IDsmElement element, IProgress<ProgressInfo> progress)
         {
-            if (element.Id > 0)
+            writer.WriteStartElement(ElementXmlNode);
+            writer.WriteAttributeString(ElementIdXmlAttribute, element.Id.ToString());
+            writer.WriteAttributeString(ElementOrderXmlAttribute, element.Order.ToString());
+            writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
+            writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
+            writer.WriteAttributeString(ElementExpandedXmlAttribute, element.IsExpanded.ToString());
+            if (element.IsDeleted)
             {
-                writer.WriteStartElement(ElementXmlNode);
-                writer.WriteAttributeString(ElementIdXmlAttribute, element.Id.ToString());
-                writer.WriteAttributeString(ElementOrderXmlAttribute, element.Order.ToString());
-                writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
-                writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
-                writer.WriteAttributeString(ElementExpandedXmlAttribute, element.IsExpanded.ToString());
-                if (element.IsDeleted)
-                {
-                    writer.WriteAttributeString(ElementDeletedXmlAttribute, "true");
-                }
-                if ((element.Parent != null) && (element.Parent.Id > 0))
-                {
-                    writer.WriteAttributeString(ElementParentXmlAttribute, element.Parent.Id.ToString());
-                }
-                writer.WriteEndElement();
-
-                _progressedElementCount++;
-                UpdateProgress(progress);
+                writer.WriteAttributeString(ElementDeletedXmlAttribute, "true");
             }
+            if ((element.Parent != null) && (element.Parent.Id > 0))
+            {
+                writer.WriteAttributeString(ElementParentXmlAttribute, element.Parent.Id.ToString());
+            }
+            writer.WriteEndElement();
+
+            _progressedElementCount++;
+            UpdateProgress(progress);
 
             foreach (IDsmElement child in element.ExportedChildren)
             {
