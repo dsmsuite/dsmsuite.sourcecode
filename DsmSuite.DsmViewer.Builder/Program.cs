@@ -43,7 +43,7 @@ namespace DsmSuite.DsmViewer.Builder
                     {
                         var progress = new Progress<ProgressInfo>(p =>
                         {
-                            Program.Update(p);
+                            Update(p);
                         });
 
                         DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());

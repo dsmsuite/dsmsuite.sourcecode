@@ -147,7 +147,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 
         private void WriteModelAttributes(XmlWriter writer)
         {
-            _totalElementCount = _elementModelCallback.GetExportedElementCount();
+            _totalElementCount = _elementModelCallback.GetExportedElementCount() - 1; // Root not written/read
             writer.WriteAttributeString(ModelElementCountXmlAttribute, _totalElementCount.ToString());
             _progressedElementCount = 0;
 

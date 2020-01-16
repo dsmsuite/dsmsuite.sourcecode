@@ -23,8 +23,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             _elementsById = new Dictionary<int, DsmElement>();
             _deletedElementsById = new Dictionary<int, DsmElement>();
-            _lastElementId = 0;
             _root = new DsmElement(0, "", "");
+            Clear();
         }
 
         public void Clear()
@@ -33,6 +33,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _deletedElementsById.Clear();
             _root.RemoveAllChildren();
             _lastElementId = 0;
+            RegisterElement(_root);
         }
 
         public void ClearHistory()
@@ -178,14 +179,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmElement FindElementById(int elementId)
         {
-            if (elementId == 0)
-            {
-                return _root;
-            }
-            else
-            {
-                return _elementsById.ContainsKey(elementId) ? _elementsById[elementId] : null;
-            }
+            return _elementsById.ContainsKey(elementId) ? _elementsById[elementId] : null;
         }
 
         public IDsmElement FindElementByFullname(string fullname)
