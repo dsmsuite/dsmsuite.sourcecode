@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStyle="None"        
-        Height="310" 
+        Height="270" 
         Width="450"
         Style="{StaticResource DialogWindow}">        
     <StackPanel Orientation="Vertical" FocusManager.FocusedElement="{Binding ElementName=NameTextBox}">
@@ -11,8 +11,7 @@
                 <RowDefinition Height="50" />
                 <RowDefinition Height="40" />
                 <RowDefinition Height="40" />
-                <RowDefinition Height="40" />
-                <RowDefinition Height="40" />
+                <RowDefinition Height="44" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
@@ -24,8 +23,8 @@
             <CheckBox Grid.Row="1" Grid.Column="1" Margin="10" IsChecked="{Binding LoggingEnabled, Mode=TwoWay}" HorizontalAlignment="Left"/>
             <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Show cycles" Margin="5"/>
             <CheckBox Grid.Row="2" Grid.Column="1" Margin="10" IsChecked="{Binding ShowCycles, Mode=TwoWay}" HorizontalAlignment="Left"/>
-            <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Theme" Margin="5"/>
-            <ComboBox Grid.Row="4" Grid.Column="1" Margin="10" Width="100" ItemsSource="{Binding SupportedThemeNames}" SelectedItem="{Binding SelectedThemeName}" HorizontalAlignment="Left"/>
+            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Theme" Margin="5"/>
+            <ComboBox Grid.Row="3" Grid.Column="1" Margin="10" Width="100" Height="24" ItemsSource="{Binding SupportedThemeNames}" SelectedItem="{Binding SelectedThemeName}" HorizontalAlignment="Left"/>
         </Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
