@@ -51,7 +51,7 @@ namespace DsmSuite.DsmViewer.Builder
                         application.ImportModel(builderSettings.InputFilename, 
                                                 builderSettings.OutputFilename, 
                                                 builderSettings.ApplyPartitioningAlgorithm, 
-                                                builderSettings.OverwriteOutputFile, 
+                                                builderSettings.RecordChanges, 
                                                 builderSettings.CompressOutputFile,
                                                 progress);
                     }

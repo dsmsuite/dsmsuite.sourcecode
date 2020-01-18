@@ -15,7 +15,7 @@ namespace DsmSuite.DsmViewer.Builder.Settings
         private bool _loggingEnabled;
         private string _inputFilename;
         private bool _applyPartitioningAlgorithm;
-        private bool _overwriteOutputFile;
+        private bool _recordChanges;
         private string _outputFilename;
         private bool _compressOutputFile;
 
@@ -26,7 +26,7 @@ namespace DsmSuite.DsmViewer.Builder.Settings
                 LoggingEnabled = false,
                 InputFilename = "Input.dsi",
                 ApplyPartitioningAlgorithm = false,
-                OverwriteOutputFile = true,
+                RecordChanges = false,
                 OutputFilename = "Output.dsm",
 
                 CompressOutputFile = true
@@ -59,10 +59,10 @@ namespace DsmSuite.DsmViewer.Builder.Settings
             set { _applyPartitioningAlgorithm = value; }
         }
 
-        public bool OverwriteOutputFile
+        public bool RecordChanges
         {
-            get { return _overwriteOutputFile; }
-            set { _overwriteOutputFile = value; }
+            get { return _recordChanges; }
+            set { _recordChanges = value; }
         }
 
         public bool CompressOutputFile

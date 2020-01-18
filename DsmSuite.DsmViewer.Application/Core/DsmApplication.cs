@@ -83,7 +83,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public bool ShowCycles { get; set; }
 
-        public void ImportModel(string dsiFilename, string dsmFilename, bool autoPartition, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress)
+        public void ImportModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress)
         {
             string processStep = "Builder";
             Assembly assembly = Assembly.GetEntryAssembly();
@@ -91,7 +91,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             dsiModel.Load(dsiFilename, progress);
 
             IImportPolicy importPolicy;
-            if (!File.Exists(dsmFilename) || overwriteDsmFile)
+            if (!File.Exists(dsmFilename) || !recordChanges)
             {
                 importPolicy = new CreateNewModelPolicy(_dsmModel, autoPartition);
             }
