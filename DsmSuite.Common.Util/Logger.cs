@@ -16,10 +16,7 @@ namespace DsmSuite.Common.Util
         public static void EnableLogging(Assembly assembly, bool enabled)
         {
             LoggingEnabled = enabled;
-            if (enabled)
-            {
-                LogDirectory = CreateLogDirectory(assembly);
-            }
+            LogDirectory = CreateLogDirectory(assembly);
         }
         
         public static bool LoggingEnabled { get; private set; }
