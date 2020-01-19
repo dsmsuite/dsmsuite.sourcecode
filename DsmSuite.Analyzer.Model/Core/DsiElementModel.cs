@@ -33,7 +33,8 @@ namespace DsmSuite.Analyzer.Model.Core
             Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} source={source}");
 
             DsiElement element = new DsiElement(id, name, type, source);
-            _elementsByName[element.Name] = element;
+            string key = CreateKey(element.Name);
+            _elementsByName[key] = element;
             _elementsById[element.Id] = element;
             IncrementElementTypeCount(element.Type);
             return element;
@@ -43,7 +44,7 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             Logger.LogDataModelMessage($"Add element name={name} type={type} source={source}");
 
-            string key = name.ToLower();
+            string key = CreateKey(name);
             if (!_elementsByName.ContainsKey(key))
             {
                 IncrementElementTypeCount(type);
@@ -77,10 +78,10 @@ namespace DsmSuite.Analyzer.Model.Core
             DsiElement e = element as DsiElement;
             if (e != null)
             {
-                string oldKey = e.Name.ToLower();
+                string oldKey = CreateKey(e.Name);
                 _elementsByName.Remove(oldKey);
                 e.Name = newName;
-                string newKey = e.Name.ToLower();
+                string newKey = CreateKey(e.Name);
                 _elementsByName[newKey] = e;
             }
         }
@@ -132,6 +133,11 @@ namespace DsmSuite.Analyzer.Model.Core
                 _elementTypeCount[type] = 0;
             }
             _elementTypeCount[type]++;
+        }
+
+        private string CreateKey(string name)
+        {
+            return name.ToLower();
         }
     }
 }
