@@ -8,8 +8,6 @@ using DsmSuite.Transformer.Settings;
 
 namespace DsmSuite.Transformer.Transformation
 {
-
-
     public class MoveElementsAction : Action
     {
         private const string ActionName = "Move elements according specified rules";
