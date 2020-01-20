@@ -1,5 +1,8 @@
-﻿using DsmSuite.DsmViewer.Model.Interfaces;
+﻿using System;
+using System.Linq;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.Common.Model.Interface;
+using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Sorting;
 
 namespace DsmSuite.DsmViewer.Application.Import
@@ -37,7 +40,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             return _dsmModel.AddRelation(consumerId, providerId, type, weight);
         }
 
-        public void FinalizeImport()
+        public void FinalizeImport(IProgress<ProgressInfo> progress)
         {
             if (_autoPartition)
             {
@@ -49,17 +52,23 @@ namespace DsmSuite.DsmViewer.Application.Import
 
         private void Partition()
         {
-            Partition(_dsmModel.GetRootElement());
+            int partitionedElements = 0;
+            Console.WriteLine($"Partitioning {_dsmModel.GetElementCount()} elements");
+            Partition(_dsmModel.GetRootElement(), ref partitionedElements);
+            Console.Write("progress elements={0}", partitionedElements);
         }
 
-        private void Partition(IDsmElement element)
+        private void Partition(IDsmElement element, ref int partitionedElements)
         {
             ISortAlgorithm algorithm = SortAlgorithmFactory.CreateAlgorithm(_dsmModel, element, PartitionSortAlgorithm.AlgorithmName);
             _dsmModel.ReorderChildren(element, algorithm.Sort());
+            partitionedElements++;
+            Console.Write("\r progress elements={0}", partitionedElements);
 
             foreach (IDsmElement child in element.Children)
             {
-                Partition(child);
+                Partition(child, ref partitionedElements);
+
             }
         }
     }

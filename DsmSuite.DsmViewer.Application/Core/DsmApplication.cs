@@ -101,7 +101,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             }
 
             DsmBuilder builder = new DsmBuilder(dsiModel, importPolicy);
-            builder.Build();
+            builder.Build(progress);
             _actionStore.SaveToModel();
             _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);
         }

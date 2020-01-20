@@ -78,7 +78,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             return relation;
         }
 
-        public void FinalizeImport()
+        public void FinalizeImport(IProgress<ProgressInfo> progress)
         {
             // Remove relations before elements to ensure that elements can be resolved 
             // in RelationDeleteElement

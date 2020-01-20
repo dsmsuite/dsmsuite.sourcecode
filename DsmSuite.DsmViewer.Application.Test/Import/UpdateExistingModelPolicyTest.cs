@@ -134,7 +134,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _dsmModel.Setup(x => x.GetElements()).Returns(elements);
 
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
-            policy.FinalizeImport();
+            policy.FinalizeImport(null);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<ElementDeleteAction>()), Times.Once);
         }
@@ -188,7 +188,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _dsmModel.Setup(x => x.GetRelations()).Returns(relations);
 
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
-            policy.FinalizeImport();
+            policy.FinalizeImport(null);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<RelationDeleteAction>()), Times.Once);
         }
@@ -198,7 +198,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
 
-            policy.FinalizeImport();
+            policy.FinalizeImport(null);
 
             _dsmModel.Verify(x => x.AssignElementOrder(), Times.Once());
         }
@@ -208,7 +208,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
 
-            policy.FinalizeImport();
+            policy.FinalizeImport(null);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<MakeSnapshotAction>()), Times.Once);
         }

@@ -117,7 +117,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
 
-            policy.FinalizeImport();
+            policy.FinalizeImport(null);
 
             _dsmModel.Verify(x => x.AssignElementOrder(), Times.Once());
         }
@@ -129,7 +129,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
 
             CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
 
-            policy.FinalizeImport();
+            policy.FinalizeImport(null);
 
             _dsmModel.Verify(x => x.ReorderChildren(It.IsAny<IDsmElement>(), It.IsAny<ISortResult>()), Times.Never());
         }
@@ -145,7 +145,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
 
             CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, true);
 
-            policy.FinalizeImport();
+            policy.FinalizeImport(null);
 
             _dsmModel.Verify(x => x.ReorderChildren(_existingElement.Object, It.IsAny<ISortResult>()), Times.Exactly(1));
             _dsmModel.Verify(x => x.ReorderChildren(_elementChild.Object, It.IsAny<ISortResult>()), Times.Exactly(1));

@@ -150,7 +150,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         public void WhenBuildingDsmThenMetaDataIsCopied()
         {
             DsmBuilder builder = new DsmBuilder(_dsiModel.Object, _importPolicy.Object);
-            builder.Build();
+            builder.Build(null);
 
             _importPolicy.Verify(x => x.ImportMetaDataItem(MetaDataGroup, MetaDataItemName1, MetaDataItemValue1), Times.Once());
             _importPolicy.Verify(x => x.ImportMetaDataItem(MetaDataGroup, MetaDataItemName2, MetaDataItemValue2), Times.Once());
@@ -161,7 +161,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         public void WhenBuildingDsmThenElementHierarchyIsCreated()
         {
             DsmBuilder builder = new DsmBuilder(_dsiModel.Object, _importPolicy.Object);
-            builder.Build();
+            builder.Build(null);
 
             _importPolicy.Verify(x => x.ImportElement(DsiElementNameA, DsmElementNameA, string.Empty, null), Times.Exactly(2)); // For a.b.c and a.b.d
             _importPolicy.Verify(x => x.ImportElement(DsiElementNameAb, DsmElementNameB, string.Empty, _dsmElementA.Object), Times.Exactly(2));  // For a.b.c and a.b.d
@@ -175,7 +175,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         public void WhenBuildingDsmThenRelationsAreResolvedAndAdded()
         {
             DsmBuilder builder = new DsmBuilder(_dsiModel.Object, _importPolicy.Object);
-            builder.Build();
+            builder.Build(null);
 
             _importPolicy.Verify(x => x.ImportRelation(DsmElementIdC, DsmElementIdD, DsiRelationTypeAbCtoAbd, DsiRelationWeightAbCtoAbd), Times.Exactly(1)); // Between a.b.c and a.b.d
             _importPolicy.Verify(x => x.ImportRelation(DsmElementIdD, DsmElementIdE, DsiRelationTypeAbDtoE, DsiRelationWeightAbDtoE), Times.Exactly(1)); // Between a.b.d and a

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
@@ -19,16 +20,16 @@ namespace DsmSuite.DsmViewer.Application.Import
             _dsiToDsmMapping = new Dictionary<int, int>();
         }
 
-        public void Build()
+        public void Build(IProgress<ProgressInfo> progress)
         {
-            ImportMetaDataItems();
-            ImportDsiElements();
-            ImportDsiRelations();
+            ImportMetaDataItems(progress);
+            ImportDsiElements(progress);
+            ImportDsiRelations(progress);
 
-            _importPolicy.FinalizeImport();
+            _importPolicy.FinalizeImport(progress);
         }
 
-        private void ImportMetaDataItems()
+        private void ImportMetaDataItems(IProgress<ProgressInfo> progress)
         {
             foreach (string groupName in _dsiModel.GetMetaDataGroups())
             {
@@ -39,7 +40,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             }
         }
 
-        private void ImportDsiElements()
+        private void ImportDsiElements(IProgress<ProgressInfo> progress)
         {
             foreach (IDsiElement dsiElement in _dsiModel.GetElements())
             {
@@ -68,7 +69,7 @@ namespace DsmSuite.DsmViewer.Application.Import
             }
         }
 
-        private void ImportDsiRelations()
+        private void ImportDsiRelations(IProgress<ProgressInfo> progress)
         {
             foreach (IDsiRelation dsiRelation in _dsiModel.GetRelations())
             {
