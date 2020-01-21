@@ -56,7 +56,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenPolicyIsConstructedThenModelIsCleared()
         {
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
+            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
 
             _dsmModel.Verify(x => x.Clear(), Times.Once());
         }
@@ -66,7 +66,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             _dsmModel.Setup(x => x.AddMetaData(MetaDataGroup, MetaDataItemName, MetaDataItemValue)).Returns(_createMetaDataItem.Object);
 
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
+            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
             IMetaDataItem metaDataItem = policy.ImportMetaDataItem(MetaDataGroup, MetaDataItemName, MetaDataItemValue);
             Assert.AreEqual(_createMetaDataItem.Object, metaDataItem);
 
@@ -80,7 +80,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
             _dsmModel.Setup(x => x.AddElement(ElementName, ElementType, ElementParentId)).Returns(_createdElement.Object);
 
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
+            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
             IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object);
             Assert.AreEqual(_createdElement.Object, element);
 
@@ -93,7 +93,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             IDsmElement foundElement = _existingElement.Object;
             _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
 
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
+            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
             IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object);
             Assert.AreEqual(_existingElement.Object, element);
 
@@ -105,7 +105,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             _dsmModel.Setup(x => x.AddRelation(ConsumerId, ProviderId, RelationType, RelationWeight)).Returns(_createdRelation.Object);
 
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
+            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
             IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight);
             Assert.AreEqual(_createdRelation.Object, relation);
 
@@ -115,41 +115,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenImportIsFinalizedThenElementOrderIsAssigned()
         {
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
+            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
 
             policy.FinalizeImport(null);
 
             _dsmModel.Verify(x => x.AssignElementOrder(), Times.Once());
-        }
-
-        [TestMethod]
-        public void GiveAutoPartitionIsOffWhenImportIsFinalizedThenNoPartitioningIsDone()
-        {
-            _dsmModel.Setup(x => x.GetRootElement()).Returns(_existingElement.Object);
-
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, false);
-
-            policy.FinalizeImport(null);
-
-            _dsmModel.Verify(x => x.ReorderChildren(It.IsAny<IDsmElement>(), It.IsAny<ISortResult>()), Times.Never());
-        }
-
-        [TestMethod]
-        public void GiveAutoPartitionIsOnWhenImportIsFinalizedThenPartitioningIsDone()
-        {
-            _dsmModel.Setup(x => x.GetRootElement()).Returns(_existingElement.Object);
-            List<IDsmElement> children = new List<IDsmElement>() { _elementChild.Object };
-            _existingElement.Setup(x => x.Children).Returns(children);
-            List<IDsmElement> nochildren = new List<IDsmElement>();
-            _elementChild.Setup(x => x.Children).Returns(nochildren);
-
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object, true);
-
-            policy.FinalizeImport(null);
-
-            _dsmModel.Verify(x => x.ReorderChildren(_existingElement.Object, It.IsAny<ISortResult>()), Times.Exactly(1));
-            _dsmModel.Verify(x => x.ReorderChildren(_elementChild.Object, It.IsAny<ISortResult>()), Times.Exactly(1));
-            _dsmModel.Verify(x => x.ReorderChildren(It.IsAny<IDsmElement>(), It.IsAny<ISortResult>()), Times.Exactly(2));
         }
     }
 }

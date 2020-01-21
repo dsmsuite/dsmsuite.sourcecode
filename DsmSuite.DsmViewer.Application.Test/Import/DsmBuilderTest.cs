@@ -48,6 +48,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         private const string DsmElementNameE = "e";
 
         Mock<IDsiModel> _dsiModel;
+        Mock<IDsmModel> _dsmModel;
         Mock<IImportPolicy> _importPolicy;
 
         Mock<IMetaDataItem> _metaDataItem1;
@@ -71,6 +72,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         public void TestInitialize()
         {
             _dsiModel = new Mock<IDsiModel>();
+            _dsmModel = new Mock<IDsmModel>();
             _importPolicy = new Mock<IImportPolicy>();
 
             List<string> metaDataGroups = new List<string>() { MetaDataGroup };
@@ -149,7 +151,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenBuildingDsmThenMetaDataIsCopied()
         {
-            DsmBuilder builder = new DsmBuilder(_dsiModel.Object, _importPolicy.Object);
+            DsmBuilder builder = new DsmBuilder(_dsiModel.Object, _dsmModel.Object, _importPolicy.Object, false);
             builder.Build(null);
 
             _importPolicy.Verify(x => x.ImportMetaDataItem(MetaDataGroup, MetaDataItemName1, MetaDataItemValue1), Times.Once());
@@ -160,7 +162,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenBuildingDsmThenElementHierarchyIsCreated()
         {
-            DsmBuilder builder = new DsmBuilder(_dsiModel.Object, _importPolicy.Object);
+            DsmBuilder builder = new DsmBuilder(_dsiModel.Object, _dsmModel.Object, _importPolicy.Object, false);
             builder.Build(null);
 
             _importPolicy.Verify(x => x.ImportElement(DsiElementNameA, DsmElementNameA, string.Empty, null), Times.Exactly(2)); // For a.b.c and a.b.d
@@ -174,7 +176,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenBuildingDsmThenRelationsAreResolvedAndAdded()
         {
-            DsmBuilder builder = new DsmBuilder(_dsiModel.Object, _importPolicy.Object);
+            DsmBuilder builder = new DsmBuilder(_dsiModel.Object, _dsmModel.Object, _importPolicy.Object, false);
             builder.Build(null);
 
             _importPolicy.Verify(x => x.ImportRelation(DsmElementIdC, DsmElementIdD, DsiRelationTypeAbCtoAbd, DsiRelationWeightAbCtoAbd), Times.Exactly(1)); // Between a.b.c and a.b.d

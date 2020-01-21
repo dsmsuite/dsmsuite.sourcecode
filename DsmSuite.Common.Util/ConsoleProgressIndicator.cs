@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DsmSuite.Common.Util
 {
@@ -20,13 +16,12 @@ namespace DsmSuite.Common.Util
             if (_progress != progress.Progress)
             {
                 _progress = progress.Progress;
-                Console.Write($"\r {progress.ActionText} progress={progress.Progress:000}%");
+                Console.Write($"\r {progress.ActionText} {progress.ProgressText} progress={progress.Progress:000}%");
             }
 
             if (_progress == 100)
             {
-                Console.Write($"{progress.ActionText} progress={progress.Progress:000}%");
-                Console.Write("Done");
+                Console.WriteLine($"\r {progress.ActionText} {progress.ProgressText} progress={progress.Progress:000}%");
             }
         }
     }

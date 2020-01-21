@@ -93,14 +93,14 @@ namespace DsmSuite.DsmViewer.Application.Core
             IImportPolicy importPolicy;
             if (!File.Exists(dsmFilename) || !recordChanges)
             {
-                importPolicy = new CreateNewModelPolicy(_dsmModel, autoPartition);
+                importPolicy = new CreateNewModelPolicy(_dsmModel);
             }
             else
             {
                 importPolicy = new UpdateExistingModelPolicy(_dsmModel, dsmFilename, _actionManager, progress);
             }
 
-            DsmBuilder builder = new DsmBuilder(dsiModel, importPolicy);
+            DsmBuilder builder = new DsmBuilder(dsiModel, _dsmModel, importPolicy, autoPartition);
             builder.Build(progress);
             _actionStore.SaveToModel();
             _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);

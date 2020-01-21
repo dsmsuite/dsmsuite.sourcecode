@@ -24,6 +24,7 @@ namespace DsmSuite.DsmViewer.Builder
             }
             else
             {
+                ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
                 FileInfo settingsFileInfo = new FileInfo(args[0]);
                 if (!settingsFileInfo.Exists)
                 {
@@ -43,7 +44,7 @@ namespace DsmSuite.DsmViewer.Builder
                     {
                         var progress = new Progress<ProgressInfo>(p =>
                         {
-                            Update(p);
+                            progressIndicator.Update(p);
                         });
 
                         DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
@@ -62,11 +63,6 @@ namespace DsmSuite.DsmViewer.Builder
 
             stopWatch.Stop();
             Logger.LogUserMessage($" total elapsed time = {stopWatch.Elapsed}");
-        }
-
-        private static void Update(ProgressInfo progress)
-        {
-            Console.Write($"\r {progress.ActionText} progress={progress.Progress:000}%");
         }
     }
 }
