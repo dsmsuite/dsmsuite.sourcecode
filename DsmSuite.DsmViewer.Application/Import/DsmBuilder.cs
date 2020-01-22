@@ -14,7 +14,7 @@ namespace DsmSuite.DsmViewer.Application.Import
         private readonly IDsiModel _dsiModel;
         private readonly IDsmModel _dsmModel;
         private readonly IImportPolicy _importPolicy;
-        private bool _autoPartition;
+        private readonly bool _autoPartition;
         private readonly Dictionary<int, int> _dsiToDsmMapping;
         private int _progress;
 
@@ -154,7 +154,9 @@ namespace DsmSuite.DsmViewer.Application.Import
                     ProgressInfo progressInfoInfo = new ProgressInfo
                     {
                         ActionText = progressActionText,
-                        //ProgressText = $"{progressedItemCount}/{totalItemCount}",
+                        TotalItemCount = totalItemCount,
+                        CurrentItemCount = progressedItemCount,
+                        ItemType = "items",
                         Percentage = _progress
                     };
 
