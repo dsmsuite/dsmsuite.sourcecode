@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Util;
@@ -46,9 +47,15 @@ namespace DsmSuite.Analyzer.VisualStudio
 
                     if (allFound)
                     {
+                        ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
+                        var progress = new Progress<ProgressInfo>(p =>
+                        {
+                            progressIndicator.Update(p);
+                        });
+
                         DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
                         Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
-                        analyzer.Analyze();
+                        analyzer.Analyze(progress);
                         model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
                     }
                 }

@@ -38,7 +38,7 @@ namespace DsmSuite.Transformer.Test.Transformation
             };
 
             MoveElementsAction transformation = new MoveElementsAction(dataModel, moveElementsSettings);
-            transformation.Execute();
+            transformation.Execute(null);
 
             IDsiElement element1After = dataModel.FindElementByName("element1Name");
             Assert.IsNull(element1After);

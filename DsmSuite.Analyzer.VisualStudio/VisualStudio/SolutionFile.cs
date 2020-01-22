@@ -40,8 +40,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public void Analyze()
         {
-            Logger.LogUserMessage($"file={_solutionFileInfo.FullName}");
-
             ParseFile();
             FindProjectsInSolution();
 
@@ -135,7 +133,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 string solutionFolder = GetSolutionFolder(kv.Key);
                 AddProjectFile(kv.Key, solutionFolder, kv.Value);
             }
-            Logger.LogUserMessage("project file count=" + _projects.Count);
         }
 
         private string GetSolutionFolder(string guid)

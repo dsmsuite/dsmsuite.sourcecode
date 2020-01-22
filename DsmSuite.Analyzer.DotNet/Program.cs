@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Core;
@@ -34,9 +35,15 @@ namespace DsmSuite.Analyzer.DotNet
                     }
                     else
                     {
+                        ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
+                        var progress = new Progress<ProgressInfo>(p =>
+                        {
+                            progressIndicator.Update(p);
+                        });
+
                         DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
                         Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
-                        analyzer.Analyze();
+                        analyzer.Analyze(progress);
                         model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
                     }
                 }

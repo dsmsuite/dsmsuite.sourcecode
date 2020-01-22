@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Util;
@@ -34,10 +35,16 @@ namespace DsmSuite.Transformer
                     }
                     else
                     {
+                        ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
+                        var progress = new Progress<ProgressInfo>(p =>
+                        {
+                            progressIndicator.Update(p);
+                        });
+
                         DsiModel model = new DsiModel("Transformer", Assembly.GetExecutingAssembly());
                         model.Load(transformerSettings.InputFilename, null);
                         Transformation.Transformer transformer = new Transformation.Transformer(model, transformerSettings);
-                        transformer.Transform();
+                        transformer.Transform(progress);
                         model.Save(transformerSettings.OutputFilename, transformerSettings.CompressOutputFile, null);
                     }
                 }

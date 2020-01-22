@@ -49,8 +49,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public void Analyze()
         {
-            Logger.LogUserMessage($"file={_projectFileInfo.FullName}");
-
             Project project = OpenProject();
 
             if (project != null)

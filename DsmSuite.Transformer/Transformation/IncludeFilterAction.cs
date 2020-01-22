@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DsmSuite.Analyzer.Model.Interface;
+using DsmSuite.Common.Util;
 using DsmSuite.Transformer.Settings;
 
 namespace DsmSuite.Transformer.Transformation
@@ -20,7 +21,7 @@ namespace DsmSuite.Transformer.Transformation
             _names = includeFilterSettings.Names;
         }
 
-        protected override void ExecuteImpl()
+        protected override void ExecuteImpl(IProgress<ProgressInfo> progress)
         {
             int transformedElements = 0;
             IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
@@ -29,10 +30,10 @@ namespace DsmSuite.Transformer.Transformation
                 IncludeElement(element);
 
                 transformedElements++;
-                Console.Write("\r progress elements={0}", transformedElements);
+                //Console.Write("\r progress elements={0}", transformedElements);
             }
 
-            Console.WriteLine("\r progress elements={0}", transformedElements);
+            //Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
         private void IncludeElement(IDsiElement element)

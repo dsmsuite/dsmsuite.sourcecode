@@ -52,6 +52,10 @@
       <Project>{b73fdffb-08d3-4573-a682-825c1a79fc54}</Project>
       <Name>DsmSuite.Analyzer.Util</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
+      <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
+      <Name>DsmSuite.Common.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DsmSuite.Transformer\DsmSuite.Transformer.csproj">
       <Project>{839ef27a-3261-473f-ba78-de18dfa9b7ae}</Project>
       <Name>DsmSuite.Transformer</Name>

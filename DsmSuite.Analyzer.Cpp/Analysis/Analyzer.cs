@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Cpp.Sources;
 using DsmSuite.Analyzer.Model.Interface;
@@ -23,15 +24,15 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             _sourceDirectory = new SourceDirectory(_analyzerSettings);
         }
 
-        public void Analyze()
+        public void Analyze(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Analyzing");
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            AnalyzeSourceFiles();
-            RegisterSourceFiles();
-            RegisterDirectIncludeRelations();
+            AnalyzeSourceFiles(progress);
+            RegisterSourceFiles(progress);
+            RegisterDirectIncludeRelations(progress);
 
             Logger.LogResourceUsage();
 
@@ -39,7 +40,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
         }
 
-        private void AnalyzeSourceFiles()
+        private void AnalyzeSourceFiles(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Analyzing source files");
             Stopwatch stopWatch = new Stopwatch();
@@ -51,7 +52,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
-        private void RegisterSourceFiles()
+        private void RegisterSourceFiles(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Register source files");
             Stopwatch stopWatch = new Stopwatch();
@@ -66,7 +67,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
-        private void RegisterDirectIncludeRelations()
+        private void RegisterDirectIncludeRelations(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Register direct includes relations");
             Stopwatch stopWatch = new Stopwatch();

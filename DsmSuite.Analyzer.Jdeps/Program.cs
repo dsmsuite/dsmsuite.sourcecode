@@ -4,6 +4,7 @@ using DsmSuite.Analyzer.Jdeps.Settings;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
+using System;
 
 namespace DsmSuite.Analyzer.Jdeps
 {
@@ -34,9 +35,14 @@ namespace DsmSuite.Analyzer.Jdeps
                     }
                     else
                     {
+                        ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
+                        var progress = new Progress<ProgressInfo>(p =>
+                        {
+                            progressIndicator.Update(p);
+                        });
                         DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
                         Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
-                        analyzer.Analyze();
+                        analyzer.Analyze(progress);
                         model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
                     }
                 }

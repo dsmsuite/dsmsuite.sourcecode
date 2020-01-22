@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
@@ -17,7 +18,7 @@ namespace DsmSuite.Transformer.Transformation
             _transformerSettings = transformerSettings;
         }
 
-        public void Transform()
+        public void Transform(IProgress<ProgressInfo> progress)
         {
             List<Action> actions = new List<Action>
             {
@@ -35,7 +36,7 @@ namespace DsmSuite.Transformer.Transformation
                 Stopwatch stopWatch = new Stopwatch();
                 stopWatch.Start();
 
-                action.Execute();
+                action.Execute(progress);
 
                 stopWatch.Stop();
                 Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");

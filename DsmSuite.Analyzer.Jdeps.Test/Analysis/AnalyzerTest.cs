@@ -20,7 +20,7 @@ namespace DsmSuite.Analyzer.Jdeps.Test.Analysis
 
             IDsiModel model = new DsiModel("Test", Assembly.GetExecutingAssembly());
             Jdeps.Analysis.Analyzer analyzer = new Jdeps.Analysis.Analyzer(model, analyzerSettings);
-            analyzer.Analyze();
+            analyzer.Analyze(null);
 
             Assert.AreEqual(5, model.TotalElementCount);
 

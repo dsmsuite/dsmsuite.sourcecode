@@ -41,7 +41,7 @@ namespace DsmSuite.Transformer.Test.Transformation
             Assert.AreEqual(0, dataModel.GetRelationsOfConsumer(element5.Id).Count);
 
             AddTransitiveRelationsAction transformation = new AddTransitiveRelationsAction(dataModel, true);
-            transformation.Execute();
+            transformation.Execute(null);
 
             Assert.AreEqual(4, dataModel.GetRelationsOfConsumer(element1.Id).Count);
             Assert.IsTrue(dataModel.DoesRelationExist(element1.Id, element2.Id));

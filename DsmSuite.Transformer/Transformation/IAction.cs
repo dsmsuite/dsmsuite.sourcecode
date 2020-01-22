@@ -1,4 +1,7 @@
-﻿namespace DsmSuite.Transformer.Transformation
+﻿using System;
+using DsmSuite.Common.Util;
+
+namespace DsmSuite.Transformer.Transformation
 {
     public abstract class Action
     {
@@ -10,15 +13,15 @@
 
         public bool IsEnabled { get; }
 
-        public void Execute()
+        public void Execute(IProgress<ProgressInfo> progress)
         {
             if (IsEnabled)
             {
-                ExecuteImpl();
+                ExecuteImpl(progress);
             }
         }
 
-        protected abstract void ExecuteImpl();
+        protected abstract void ExecuteImpl(IProgress<ProgressInfo> progress);
 
         public string Name { get; }
     }

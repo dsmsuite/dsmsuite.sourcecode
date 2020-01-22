@@ -20,7 +20,7 @@ namespace DsmSuite.Transformer.Transformation
             _splitProductAndTestElementsSettings = splitProductAndTestElementsSettings;
         }
 
-        protected override void ExecuteImpl()
+        protected override void ExecuteImpl(IProgress<ProgressInfo> progress)
         {
             int transformedElements = 0;
 
@@ -30,9 +30,9 @@ namespace DsmSuite.Transformer.Transformation
                 SplitProductAndTestElement(element);
 
                 transformedElements++;
-                Console.Write("\r progress elements={0}", transformedElements);
+                //Console.Write("\r progress elements={0}", transformedElements);
             }
-            Console.WriteLine("\r progress elements={0}", transformedElements);
+            //Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
         private void SplitProductAndTestElement(IDsiElement element)

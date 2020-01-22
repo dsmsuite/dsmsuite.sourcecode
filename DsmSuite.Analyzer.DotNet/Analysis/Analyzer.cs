@@ -28,15 +28,15 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             _analyzerSettings = analyzerSettings;
         }
 
-        public void Analyze()
+        public void Analyze(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Analyzing");
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            FindAssemblies();
-            FindTypes();
-            FindRelations();
+            FindAssemblies(progress);
+            FindTypes(progress);
+            FindRelations(progress);
 
             Logger.LogResourceUsage();
 
@@ -44,7 +44,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
         }
 
-        private void FindAssemblies()
+        private void FindAssemblies(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Finding assemblies");
             Stopwatch stopWatch = new Stopwatch();
@@ -59,7 +59,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
-        private void FindTypes()
+        private void FindTypes(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Finding types");
             Stopwatch stopWatch = new Stopwatch();
@@ -100,7 +100,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
-        private void FindRelations()
+        private void FindRelations(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Find relations");
             Stopwatch stopWatch = new Stopwatch();

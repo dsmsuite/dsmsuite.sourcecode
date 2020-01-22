@@ -24,7 +24,6 @@ namespace DsmSuite.DsmViewer.Builder
             }
             else
             {
-                ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
                 FileInfo settingsFileInfo = new FileInfo(args[0]);
                 if (!settingsFileInfo.Exists)
                 {
@@ -42,6 +41,7 @@ namespace DsmSuite.DsmViewer.Builder
                     }
                     else
                     {
+                        ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
                         var progress = new Progress<ProgressInfo>(p =>
                         {
                             progressIndicator.Update(p);

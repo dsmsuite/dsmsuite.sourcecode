@@ -44,8 +44,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
       
         public void Analyze()
         {
-            Logger.LogUserMessage("Analyze source file: " + _sourceFileInfo.FullName + " id=" + _id);
-
             _includes.Clear();
 
             if (_sourceFileInfo.Exists && (_includeResolveStrategy != null))

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using DsmSuite.Analyzer.Jdeps.Settings;
 using DsmSuite.Analyzer.Model.Interface;
@@ -20,13 +21,13 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
             _analyzerSettings = analyzerSettings;
         }
 
-        public void Analyze()
+        public void Analyze(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Analyzing");
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            AnalyzeInputFile();
+            AnalyzeInputFile(progress);
 
             Logger.LogResourceUsage();
 
@@ -34,7 +35,7 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
             Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
         }
 
-        private void AnalyzeInputFile()
+        private void AnalyzeInputFile(IProgress<ProgressInfo> progress)
         {
             FileInfo dotFile = new FileInfo(_analyzerSettings.InputFilename);
             using (FileStream stream = dotFile.Open(FileMode.Open))

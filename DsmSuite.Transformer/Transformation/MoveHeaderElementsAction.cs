@@ -2,6 +2,7 @@
 using System.Linq;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Transformer.Transformation
 {
@@ -16,7 +17,7 @@ namespace DsmSuite.Transformer.Transformation
             _model = model;
         }
 
-        protected override void ExecuteImpl()
+        protected override void ExecuteImpl(IProgress<ProgressInfo> progress)
         {
             int transformedElements = 0;
 
@@ -26,9 +27,9 @@ namespace DsmSuite.Transformer.Transformation
                 MoveHeaderElement(element);
 
                 transformedElements++;
-                Console.Write("\r progress elements={0}", transformedElements);
+                //Console.Write("\r progress elements={0}", transformedElements);
             }
-            Console.WriteLine("\r progress elements={0}", transformedElements);
+            //Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
         private void MoveHeaderElement(IDsiElement element)

@@ -19,7 +19,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             _repository = new EA.Repository();
         }
 
-        public void Analyze()
+        public void Analyze(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Analyzing file=" + _analyzerSettings.InputFilename);
             Stopwatch stopWatch = new Stopwatch();
@@ -33,13 +33,13 @@ namespace DsmSuite.Analyzer.Uml.Analysis
                     for (short index = 0; index < _repository.Models.Count; index++)
                     {
                         EA.Package model = (EA.Package)_repository.Models.GetAt(index);
-                        FindPackageElements(model);
+                        FindPackageElements(model, progress);
                     }
 
                     for (short index = 0; index < _repository.Models.Count; index++)
                     {
                         EA.Package model = (EA.Package)_repository.Models.GetAt(index);
-                        FindPackageRelations(model);
+                        FindPackageRelations(model, progress);
                     }
 
                     _repository.CloseFile();
@@ -58,48 +58,48 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
         }
 
-        private void FindPackageElements(EA.Package package)
+        private void FindPackageElements(EA.Package package, IProgress<ProgressInfo> progress)
         {
             for (short index = 0; index < package.Packages.Count; index++)
             {
                 EA.Package subpackage = (EA.Package)package.Packages.GetAt(index);
-                FindPackageElements(subpackage);
+                FindPackageElements(subpackage, progress);
             }
 
             for (short index = 0; index < package.Elements.Count; index++)
             {
                 EA.Element element = (EA.Element)package.Elements.GetAt(index);
-                FindNestedElements(element);
+                FindNestedElements(element, progress);
             }
         }
 
-        private void FindNestedElements(EA.Element element)
+        private void FindNestedElements(EA.Element element, IProgress<ProgressInfo> progress)
         {
             RegisterElement(element);
 
             for (short index = 0; index < element.Elements.Count; index++)
             {
                 EA.Element nestedElement = (EA.Element)element.Elements.GetAt(index);
-                FindNestedElements(nestedElement);
+                FindNestedElements(nestedElement, progress);
             }
         }
 
-        private void FindPackageRelations(EA.Package package)
+        private void FindPackageRelations(EA.Package package, IProgress<ProgressInfo> progress)
         {
             for (short index = 0; index < package.Packages.Count; index++)
             {
                 EA.Package subpackage = (EA.Package)package.Packages.GetAt(index);
-                FindPackageRelations(subpackage);
+                FindPackageRelations(subpackage, progress);
             }
 
             for (short index = 0; index < package.Elements.Count; index++)
             {
                 EA.Element element = (EA.Element)package.Elements.GetAt(index);
-                FindElementRelations(element);
+                FindElementRelations(element, progress);
             }
         }
 
-        private void FindElementRelations(EA.Element element)
+        private void FindElementRelations(EA.Element element, IProgress<ProgressInfo> progress)
         {
             for (short index = 0; index < element.Connectors.Count; index++)
             {
@@ -111,7 +111,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             for (short index = 0; index < element.Elements.Count; index++)
             {
                 EA.Element nestedElement = (EA.Element)element.Elements.GetAt(index);
-                FindElementRelations(nestedElement);
+                FindElementRelations(nestedElement, progress);
             }
         }
 

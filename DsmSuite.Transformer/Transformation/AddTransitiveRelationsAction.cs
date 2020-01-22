@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Util;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Transformer.Transformation
 {
@@ -21,7 +22,7 @@ namespace DsmSuite.Transformer.Transformation
             _transitiveProviders = new Dictionary<string, HashSet<IDsiElement>>();
         }
 
-        protected override void ExecuteImpl()
+        protected override void ExecuteImpl(IProgress<ProgressInfo> progress)
         {
             FindDirectProviders();
 
@@ -31,9 +32,9 @@ namespace DsmSuite.Transformer.Transformation
                 AddTransitiveRelations(consumer);
 
                 transformedElements++;
-                Console.Write("\r progress elements={0}", transformedElements);
+                //Console.Write("\r progress elements={0}", transformedElements);
             }
-            Console.WriteLine("\r progress elements={0}", transformedElements);
+            //Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
         private void AddTransitiveRelations(IDsiElement consumer)

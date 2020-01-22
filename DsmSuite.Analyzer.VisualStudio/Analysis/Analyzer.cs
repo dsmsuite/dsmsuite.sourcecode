@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using DsmSuite.Analyzer.Model.Interface;
@@ -30,17 +31,17 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
         }
 
-        public void Analyze()
+        public void Analyze(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Analyze");
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            RegisterInterfaceFiles();
-            AnalyzeSolutions();
-            RegisterSourceFiles();
-            RegisterDirectIncludeRelations();
-            RegisterGeneratedFileRelations();
+            RegisterInterfaceFiles(progress);
+            AnalyzeSolutions(progress);
+            RegisterSourceFiles(progress);
+            RegisterDirectIncludeRelations(progress);
+            RegisterGeneratedFileRelations(progress);
 
             Logger.LogResourceUsage();
 
@@ -48,7 +49,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
         }
 
-        private void AnalyzeSolutions()
+        private void AnalyzeSolutions(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Analyze solutions");
             Stopwatch stopWatch = new Stopwatch();
@@ -63,7 +64,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
-        private void RegisterSourceFiles()
+        private void RegisterSourceFiles(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Register source files");
             Stopwatch stopWatch = new Stopwatch();
@@ -84,9 +85,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
-        private void RegisterInterfaceFiles()
+        private void RegisterInterfaceFiles(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Register interface files");
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
@@ -134,7 +134,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
         }
 
-        private void RegisterDirectIncludeRelations()
+        private void RegisterDirectIncludeRelations(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Register direct include relations");
             Stopwatch stopWatch = new Stopwatch();
@@ -270,7 +270,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             _model.AddRelation(consumerName, providerName, "include", 1, "physical include file is resolved");
         }
 
-        private void RegisterGeneratedFileRelations()
+        private void RegisterGeneratedFileRelations(IProgress<ProgressInfo> progress)
         {
             Logger.LogUserMessage("Register generated file relations");
             Stopwatch stopWatch = new Stopwatch();

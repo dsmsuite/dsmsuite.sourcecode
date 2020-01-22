@@ -23,7 +23,7 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
 
             IDsiModel model = new DsiModel("Test", Assembly.GetExecutingAssembly());
             DotNet.Analysis.Analyzer analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings);
-            analyzer.Analyze();
+            analyzer.Analyze(null);
 
             // Main elements
             IDsiElement elementMainClient = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainClient");

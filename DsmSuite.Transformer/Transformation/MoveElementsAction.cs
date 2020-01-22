@@ -21,7 +21,7 @@ namespace DsmSuite.Transformer.Transformation
             _transformationRules = moveElementsSettings.Rules;
         }
 
-        protected override void ExecuteImpl()
+        protected override void ExecuteImpl(IProgress<ProgressInfo> progress)
         {
             int transformedElements = 0;
 
@@ -31,9 +31,9 @@ namespace DsmSuite.Transformer.Transformation
                 MoveElement(element);
 
                 transformedElements++;
-                Console.Write("\r progress elements={0}", transformedElements);
+                //Console.Write("\r progress elements={0}", transformedElements);
             }
-            Console.WriteLine("\r progress elements={0}", transformedElements);
+            //Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
         private void MoveElement(IDsiElement element)

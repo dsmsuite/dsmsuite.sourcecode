@@ -24,7 +24,7 @@ namespace DsmSuite.Transformer.Test.Transformation
             Assert.IsNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.h"));
             
             MoveHeaderElementsAction transformation = new MoveHeaderElementsAction(dataModel, true);
-            transformation.Execute();
+            transformation.Execute(null);
 
             Assert.IsNotNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.cpp"));
             Assert.IsNull(dataModel.FindElementByName("namespace3.namespace4.element1Name.h"));
@@ -46,7 +46,7 @@ namespace DsmSuite.Transformer.Test.Transformation
             Assert.IsNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.h"));
 
             MoveHeaderElementsAction transformation = new MoveHeaderElementsAction(dataModel, true);
-            transformation.Execute();
+            transformation.Execute(null);
 
             Assert.IsNotNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.cpp"));
             Assert.IsNotNull(dataModel.FindElementByName("namespace3.namespace4.ELEMENT1NAME.h"));
@@ -66,7 +66,7 @@ namespace DsmSuite.Transformer.Test.Transformation
             Assert.IsNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.h"));
 
             MoveHeaderElementsAction transformation = new MoveHeaderElementsAction(dataModel, true);
-            transformation.Execute();
+            transformation.Execute(null);
 
             Assert.IsNotNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.cpp"));
             Assert.IsNotNull(dataModel.FindElementByName("namespace3.namespace4.element1Name.h"));
