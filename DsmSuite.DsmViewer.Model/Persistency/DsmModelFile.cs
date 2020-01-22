@@ -417,7 +417,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                         TotalItemCount = totalItemCount,
                         CurrentItemCount = progressedItemCount,
                         ItemType = "items",
-                        Busy = (_progress > 0) && (_progress < 100)
+                        Done = _progress == 100
                     };
 
                     progress.Report(progressInfoInfo);

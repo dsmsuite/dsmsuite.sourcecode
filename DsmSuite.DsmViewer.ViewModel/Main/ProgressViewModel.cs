@@ -17,14 +17,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public void Update(ProgressInfo progress)
         {
             Text = progress.ActionText;
-            if (progress.Percentage.HasValue && 
-                progress.TotalItemCount.HasValue && 
-                progress.TotalItemCount.Value > 0)
+            if (progress.Percentage.HasValue)
             {
                 ProgressText = $"{progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType}";
                 ProgressValue = progress.Percentage.Value;
             }
-            Busy = progress.Busy;
+            Busy = !progress.Done;
         }
 
         public string Action
