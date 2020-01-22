@@ -7,6 +7,6 @@
         public int CurrentItemCount;
         public string ItemType;
         public int? Percentage;
-        public bool Done;
+        public bool Busy;
     }
 }

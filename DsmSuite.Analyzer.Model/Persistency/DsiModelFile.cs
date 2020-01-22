@@ -293,9 +293,12 @@ namespace DsmSuite.Analyzer.Model.Persistency
                     ProgressInfo progressInfoInfo = new ProgressInfo
                     {
                         ActionText = _progressActionText,
-                        //ProgressText = $"Elements {_progressedElementCount}/{_totalElementCount} Relations={_progressedRelationCount}/{_totalRelationCount}",
-                        Percentage = _progress
-                    };
+                        Percentage = _progress,
+                        TotalItemCount = totalItemCount,
+                        CurrentItemCount = progressedItemCount,
+                        ItemType = "items",
+                        Busy = (_progress > 0) && (_progress < 100)
+                };
 
                     progress.Report(progressInfoInfo);
                 }
