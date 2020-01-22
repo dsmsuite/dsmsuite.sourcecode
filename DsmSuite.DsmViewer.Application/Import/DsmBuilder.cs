@@ -154,8 +154,8 @@ namespace DsmSuite.DsmViewer.Application.Import
                     ProgressInfo progressInfoInfo = new ProgressInfo
                     {
                         ActionText = progressActionText,
-                        ProgressText = $"{progressedItemCount}/{totalItemCount}",
-                        Progress = _progress
+                        //ProgressText = $"{progressedItemCount}/{totalItemCount}",
+                        Percentage = _progress
                     };
 
                     progress.Report(progressInfoInfo);

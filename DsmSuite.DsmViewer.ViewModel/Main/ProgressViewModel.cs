@@ -17,9 +17,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public void Update(ProgressInfo progress)
         {
             Text = progress.ActionText;
-            ProgressText = progress.ProgressText;
-            ProgressValue = progress.Progress;
-            Busy = (progress.Progress > 0) && (progress.Progress < 100);
+            //ProgressText = progress.ProgressText;
+            ProgressValue = progress.Percentage.Value;
+            Busy = (progress.Percentage > 0) && (progress.Percentage < 100);
         }
 
         public string Action
