@@ -157,7 +157,8 @@ namespace DsmSuite.DsmViewer.Application.Import
                         TotalItemCount = totalItemCount,
                         CurrentItemCount = progressedItemCount,
                         ItemType = "items",
-                        Percentage = _progress
+                        Percentage = _progress,
+                        Done = _progress == 100
                     };
 
                     progress.Report(progressInfoInfo);

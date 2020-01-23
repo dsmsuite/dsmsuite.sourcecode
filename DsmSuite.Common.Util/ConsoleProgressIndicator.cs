@@ -38,7 +38,7 @@ namespace DsmSuite.Common.Util
 
             if (progress.Done)
             {
-                Console.WriteLine($"\r {progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType}  progress={progress.Percentage:000}% {Spacer}");
+                Console.WriteLine($"\r {progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage:000}% {Spacer}");
             }
         }
 
