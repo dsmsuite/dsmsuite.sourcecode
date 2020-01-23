@@ -30,7 +30,7 @@ namespace DsmSuite.Analyzer.Cpp
                     ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
                     var progress = new Progress<ProgressInfo>(p =>
                     {
-                        progressIndicator.Update(p);
+                        progressIndicator.UpdateProgress(p);
                     });
 
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);

@@ -50,7 +50,7 @@ namespace DsmSuite.Analyzer.VisualStudio
                         ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
                         var progress = new Progress<ProgressInfo>(p =>
                         {
-                            progressIndicator.Update(p);
+                            progressIndicator.UpdateProgress(p);
                         });
 
                         DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());

@@ -8,13 +8,16 @@ namespace DsmSuite.Common.Util
         private const string Spacer = "                             ";
 
         private int _progress;
+        private Stopwatch _stopWatch;
 
         public ConsoleProgressIndicator()
         {
             _progress = 0;
+            _stopWatch = new Stopwatch();
+            _stopWatch.Start();
         }
 
-        public void Update(ProgressInfo progress)
+        public void UpdateProgress(ProgressInfo progress)
         {
             if (progress.Percentage.HasValue)
             {
@@ -24,6 +27,21 @@ namespace DsmSuite.Common.Util
             {
                 UpdateProgressWithoutPercentage(progress);
             }
+        }
+
+        public void Done()
+        {
+            _stopWatch.Stop();
+            Logger.LogUserMessage($" Total elapsed time={_stopWatch.Elapsed}");
+
+            Process currentProcess = Process.GetCurrentProcess();
+            const long million = 1000000;
+            long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
+            long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
+            long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
+            Logger.LogUserMessage($" Peak physical memory usage {peakWorkingSetMb:0.000} MB");
+            Logger.LogUserMessage($" Peak paged memory usage    {peakPagedMemMb:0.000} MB");
+            Logger.LogUserMessage($" Peak virtual memory usage  {peakVirtualMemMb:0.000} MB");
         }
 
         private void UpdateProgressWithPercentage(ProgressInfo progress)

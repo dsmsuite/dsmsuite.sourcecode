@@ -81,9 +81,9 @@ namespace DsmSuite.Common.Util
             long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
             long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
             long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
-            LogUserMessage($" peak physical memory usage {peakWorkingSetMb:0.000}MB");
-            LogUserMessage($" peak paged memory usage    {peakPagedMemMb:0.000}MB");
-            LogUserMessage($" peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
+            LogUserMessage($" Peak physical memory usage {peakWorkingSetMb:0.000}MB");
+            LogUserMessage($" Peak paged memory usage    {peakPagedMemMb:0.000}MB");
+            LogUserMessage($" Peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
         }
 
         public static void LogToFileAlways(string logFilename, string line)

@@ -38,7 +38,7 @@ namespace DsmSuite.Transformer
                         ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
                         var progress = new Progress<ProgressInfo>(p =>
                         {
-                            progressIndicator.Update(p);
+                            progressIndicator.UpdateProgress(p);
                         });
 
                         DsiModel model = new DsiModel("Transformer", Assembly.GetExecutingAssembly());

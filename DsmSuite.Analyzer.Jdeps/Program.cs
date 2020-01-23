@@ -13,10 +13,6 @@ namespace DsmSuite.Analyzer.Jdeps
     {
         static void Main(string[] args)
         {
-            Logger.LogUserMessage("Analyzing");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             if (args.Length < 1)
             {
                 Logger.LogUserMessage("Usage: DsmSuite.Analyzer.Jdeps <settingsfile>");
@@ -40,25 +36,25 @@ namespace DsmSuite.Analyzer.Jdeps
                     }
                     else
                     {
+                        Logger.LogUserMessage($"Analyzing file={analyzerSettings.InputFilename}");
+
                         ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
                         var progress = new Progress<ProgressInfo>(p =>
                         {
-                            progressIndicator.Update(p);
+                            progressIndicator.UpdateProgress(p);
                         });
+
                         DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
                         Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
                         analyzer.Analyze(progress);
                         model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
+
+                        progressIndicator.Done();
+
+                        AnalyzerLogger.Flush();
                     }
                 }
             }
-
-            AnalyzerLogger.Flush();
-
-            Logger.LogResourceUsage();
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
         }
     }
 }

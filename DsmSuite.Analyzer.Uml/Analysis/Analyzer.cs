@@ -21,26 +21,26 @@ namespace DsmSuite.Analyzer.Uml.Analysis
 
         public void Analyze(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Analyzing file=" + _analyzerSettings.InputFilename);
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             try
             {
                 bool success = _repository.OpenFile(_analyzerSettings.InputFilename);
                 if (success)
                 {
+                    int elementCount = 0;
                     for (short index = 0; index < _repository.Models.Count; index++)
                     {
-                        EA.Package model = (EA.Package)_repository.Models.GetAt(index);
-                        FindPackageElements(model, progress);
+                        EA.Package model = (EA.Package) _repository.Models.GetAt(index);
+                        FindPackageElements(model, ref elementCount, progress);
                     }
+                    UpdateProgress(progress, "Reading UML elements", elementCount, "elements", true);
 
+                    int relationCount = 0;
                     for (short index = 0; index < _repository.Models.Count; index++)
                     {
-                        EA.Package model = (EA.Package)_repository.Models.GetAt(index);
-                        FindPackageRelations(model, progress);
+                        EA.Package model = (EA.Package) _repository.Models.GetAt(index);
+                        FindPackageRelations(model, ref relationCount, progress);
                     }
+                    UpdateProgress(progress, "Reading UML relations", relationCount, "relations", true);
 
                     _repository.CloseFile();
                 }
@@ -51,67 +51,66 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             {
                 Logger.LogException($"Reading EA model failed file={_analyzerSettings.InputFilename}", e);
             }
-
-            Logger.LogResourceUsage();
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
         }
 
-        private void FindPackageElements(EA.Package package, IProgress<ProgressInfo> progress)
+        private void FindPackageElements(EA.Package package, ref int elementCount, IProgress<ProgressInfo> progress)
         {
             for (short index = 0; index < package.Packages.Count; index++)
             {
-                EA.Package subpackage = (EA.Package)package.Packages.GetAt(index);
-                FindPackageElements(subpackage, progress);
+                EA.Package subpackage = (EA.Package) package.Packages.GetAt(index);
+                FindPackageElements(subpackage, ref elementCount, progress);
             }
 
             for (short index = 0; index < package.Elements.Count; index++)
             {
-                EA.Element element = (EA.Element)package.Elements.GetAt(index);
-                FindNestedElements(element, progress);
+                EA.Element element = (EA.Element) package.Elements.GetAt(index);
+                FindNestedElements(element, ref elementCount, progress);
             }
         }
 
-        private void FindNestedElements(EA.Element element, IProgress<ProgressInfo> progress)
+        private void FindNestedElements(EA.Element element, ref int elementCount, IProgress<ProgressInfo> progress)
         {
             RegisterElement(element);
+            elementCount++;
+            UpdateProgress(progress, "Reading UML elements", elementCount, "elements", false);
 
             for (short index = 0; index < element.Elements.Count; index++)
             {
-                EA.Element nestedElement = (EA.Element)element.Elements.GetAt(index);
-                FindNestedElements(nestedElement, progress);
+                EA.Element nestedElement = (EA.Element) element.Elements.GetAt(index);
+                FindNestedElements(nestedElement, ref elementCount, progress);
             }
         }
 
-        private void FindPackageRelations(EA.Package package, IProgress<ProgressInfo> progress)
+        private void FindPackageRelations(EA.Package package, ref int relationCount, IProgress<ProgressInfo> progress)
         {
             for (short index = 0; index < package.Packages.Count; index++)
             {
-                EA.Package subpackage = (EA.Package)package.Packages.GetAt(index);
-                FindPackageRelations(subpackage, progress);
+                EA.Package subpackage = (EA.Package) package.Packages.GetAt(index);
+                FindPackageRelations(subpackage, ref relationCount, progress);
             }
 
             for (short index = 0; index < package.Elements.Count; index++)
             {
-                EA.Element element = (EA.Element)package.Elements.GetAt(index);
-                FindElementRelations(element, progress);
+                EA.Element element = (EA.Element) package.Elements.GetAt(index);
+                FindElementRelations(element, ref relationCount, progress);
             }
         }
 
-        private void FindElementRelations(EA.Element element, IProgress<ProgressInfo> progress)
+        private void FindElementRelations(EA.Element element, ref int relationCount, IProgress<ProgressInfo> progress)
         {
             for (short index = 0; index < element.Connectors.Count; index++)
             {
-                EA.Connector connector = (EA.Connector)element.Connectors.GetAt(index);
+                EA.Connector connector = (EA.Connector) element.Connectors.GetAt(index);
 
                 RegisterRelation(connector);
+                relationCount++;
+                UpdateProgress(progress, "Reading UML relations", relationCount, "relations", false);
             }
 
             for (short index = 0; index < element.Elements.Count; index++)
             {
-                EA.Element nestedElement = (EA.Element)element.Elements.GetAt(index);
-                FindElementRelations(nestedElement, progress);
+                EA.Element nestedElement = (EA.Element) element.Elements.GetAt(index);
+                FindElementRelations(nestedElement, ref relationCount, progress);
             }
         }
 
@@ -154,6 +153,24 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             }
 
             return name;
+        }
+
+        protected void UpdateProgress(IProgress<ProgressInfo> progress, string actionText, int itemCount, string itemType, bool done)
+        {
+            if (progress != null)
+            {
+                ProgressInfo progressInfoInfo = new ProgressInfo
+                {
+                    ActionText = actionText,
+                    TotalItemCount = 0,
+                    CurrentItemCount = itemCount,
+                    ItemType = itemType,
+                    Percentage = null,
+                    Done = done
+                };
+
+                progress.Report(progressInfoInfo);
+            }
         }
     }
 }

@@ -15,9 +15,6 @@ namespace DsmSuite.DsmViewer.Builder
         {
             Logger.LogAssemblyInfo(Assembly.GetExecutingAssembly());
 
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             if (args.Length < 1)
             {
                 Logger.LogUserMessage("Usage: DsmSuite.DsmViewer.Builder <settingsfile>");
@@ -44,7 +41,7 @@ namespace DsmSuite.DsmViewer.Builder
                         ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
                         var progress = new Progress<ProgressInfo>(p =>
                         {
-                            progressIndicator.Update(p);
+                            progressIndicator.UpdateProgress(p);
                         });
 
                         DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
@@ -55,14 +52,11 @@ namespace DsmSuite.DsmViewer.Builder
                                                 builderSettings.RecordChanges, 
                                                 builderSettings.CompressOutputFile,
                                                 progress);
+
+                        progressIndicator.Done();
                     }
                 }
             }
-
-            Logger.LogResourceUsage();
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($" total elapsed time = {stopWatch.Elapsed}");
         }
     }
 }

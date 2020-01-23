@@ -46,8 +46,8 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
 
                     UpdateProgress(progress, lineNumber, false);
                 }
-                UpdateProgress(progress, lineNumber, true);
             }
+            UpdateProgress(progress, lineNumber, true);
         }
 
         private string RemoveTrailingText(string provider)
