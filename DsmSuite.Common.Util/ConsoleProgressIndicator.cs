@@ -5,6 +5,8 @@ namespace DsmSuite.Common.Util
 {
     public class ConsoleProgressIndicator
     {
+        private const string Spacer = "                             ";
+
         private int _progress;
 
         public ConsoleProgressIndicator()
@@ -31,22 +33,22 @@ namespace DsmSuite.Common.Util
             if (_progress != progress.Percentage)
             {
                 _progress = progress.Percentage.Value;
-                Console.Write($"\r {progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage:000}%");
+                Console.Write($"\r {progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage:000}% {Spacer}");
             }
 
             if (progress.Done)
             {
-                Console.WriteLine($"\r {progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType}  progress={progress.Percentage:000}%");
+                Console.WriteLine($"\r {progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType}  progress={progress.Percentage:000}% {Spacer}");
             }
         }
 
         private void UpdateProgressWithoutPercentage(ProgressInfo progress)
         {
-            Console.Write($"\r {progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}");
+            Console.Write($"\r {progress.ActionText} {progress.CurrentItemCount} {progress.ItemType} {Spacer}");
 
             if (progress.Done)
             {
-                Console.WriteLine($"\r {progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}");
+                Console.WriteLine($"\r {progress.ActionText} {progress.CurrentItemCount} {progress.ItemType} {Spacer}");
             }
         }
     }
