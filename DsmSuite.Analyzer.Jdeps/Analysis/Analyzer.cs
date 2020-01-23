@@ -23,20 +23,7 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
 
         public void Analyze(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Analyzing");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            AnalyzeInputFile(progress);
-
-            Logger.LogResourceUsage();
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
-        }
-
-        private void AnalyzeInputFile(IProgress<ProgressInfo> progress)
-        {
+            int lineNumber = 0;
             FileInfo dotFile = new FileInfo(_analyzerSettings.InputFilename);
             using (FileStream stream = dotFile.Open(FileMode.Open))
             {
@@ -44,6 +31,7 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
+                    lineNumber++;
                     if (line.Contains("->"))
                     {
                         string[] items = line.Split('"');
@@ -55,7 +43,10 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
                             RegisterRelation(consumer, provider);
                         }
                     }
+
+                    UpdateProgress(progress, lineNumber, false);
                 }
+                UpdateProgress(progress, lineNumber, true);
             }
         }
 
@@ -79,5 +70,24 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
             _model.AddElement(providerName, "", null);
             _model.AddRelation(consumerName, providerName, "dependency", 1, "dot file");
         }
+
+        protected void UpdateProgress(IProgress<ProgressInfo> progress, int lineNumber, bool done)
+        {
+            if (progress != null)
+            {
+                ProgressInfo progressInfoInfo = new ProgressInfo
+                {
+                    ActionText = "Reading input file",
+                    TotalItemCount = 0,
+                    CurrentItemCount = lineNumber,
+                    ItemType = "lines",
+                    Percentage = null,
+                    Done = done
+                };
+
+                progress.Report(progressInfoInfo);
+            }
+        }
+
     }
 }

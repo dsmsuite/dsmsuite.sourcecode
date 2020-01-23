@@ -5,6 +5,7 @@ using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 using System;
+using System.Diagnostics;
 
 namespace DsmSuite.Analyzer.Jdeps
 {
@@ -12,6 +13,10 @@ namespace DsmSuite.Analyzer.Jdeps
     {
         static void Main(string[] args)
         {
+            Logger.LogUserMessage("Analyzing");
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             if (args.Length < 1)
             {
                 Logger.LogUserMessage("Usage: DsmSuite.Analyzer.Jdeps <settingsfile>");
@@ -49,6 +54,11 @@ namespace DsmSuite.Analyzer.Jdeps
             }
 
             AnalyzerLogger.Flush();
+
+            Logger.LogResourceUsage();
+
+            stopWatch.Stop();
+            Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
         }
     }
 }
