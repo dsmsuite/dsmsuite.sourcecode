@@ -41,7 +41,7 @@ namespace DsmSuite.Analyzer.Cpp
                     DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
                     Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
                     analyzer.Analyze();
-                    model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
+                    model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, progress);
 
                     progressIndicator.Done();
 
