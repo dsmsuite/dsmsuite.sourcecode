@@ -26,6 +26,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleActionExecutor.cs" />
     <Compile Include="ConsoleProgressIndicator.cs" />
     <Compile Include="ProgressInfo.cs" />
     <Compile Include="ElementName.cs" />

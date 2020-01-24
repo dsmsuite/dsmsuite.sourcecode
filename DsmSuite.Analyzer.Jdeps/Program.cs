@@ -46,6 +46,8 @@ namespace DsmSuite.Analyzer.Jdeps
                             progressIndicator.UpdateProgress(p);
                         });
 
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor();
+                        executor.Execute(Analyze, "");
                         DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
                         Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
                         analyzer.Analyze();
@@ -57,6 +59,11 @@ namespace DsmSuite.Analyzer.Jdeps
                     }
                 }
             }
+        }
+
+        static void Analyze()
+        {
+            
         }
     }
 }
