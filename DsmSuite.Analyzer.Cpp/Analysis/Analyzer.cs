@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using DsmSuite.Analyzer.Cpp.IncludeResolve;
 using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Cpp.Sources;
 using DsmSuite.Analyzer.Model.Interface;
@@ -16,25 +18,62 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly IProgress<ProgressInfo> _progress;
         private readonly SourceDirectory _sourceDirectory;
+        private int _analyzedSourceFiles;
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
             _progress = progress;
-            _sourceDirectory = new SourceDirectory(_analyzerSettings, progress);
+            _sourceDirectory = new SourceDirectory(_analyzerSettings);
         }
 
         public void Analyze()
         {
+            FindSourceFiles();
             AnalyzeSourceFiles();
             RegisterSourceFiles();
             RegisterDirectIncludeRelations();
         }
 
-        private void AnalyzeSourceFiles()
+        private void FindSourceFiles()
         {
             _sourceDirectory.Analyze();
+        }
+
+        private void AnalyzeSourceFiles()
+        {
+            IIncludeResolveStrategy includeResolveStrategy = GetIncludeResolveStrategy();
+
+            _analyzedSourceFiles = 0;
+            foreach (SourceFile sourceFile in _sourceDirectory.SourceFiles)
+            {
+                sourceFile.Analyze(includeResolveStrategy);
+                _analyzedSourceFiles++;
+                UpdateProgress("Analyzing source files", _analyzedSourceFiles, "files", false);
+            }
+            UpdateProgress("Analyzing source files", _analyzedSourceFiles, "files", true);
+        }
+
+        private IIncludeResolveStrategy GetIncludeResolveStrategy()
+        {
+            IIncludeResolveStrategy includeResolveStrategy;
+            switch (_analyzerSettings.ResolveMethod)
+            {
+                case ResolveMethod.AddBestMatch:
+                    includeResolveStrategy = new BestMatchIncludeFileResolveStrategy(_sourceDirectory.IncludeDirectories);
+                    break;
+                case ResolveMethod.AddAll:
+                    includeResolveStrategy = new AllIncludeFileResolveStrategy(_sourceDirectory.IncludeDirectories);
+                    break;
+                case ResolveMethod.Ignore:
+                    includeResolveStrategy = new IgnoreIncludeFileResolveStrategy(_sourceDirectory.IncludeDirectories);
+                    break;
+                default:
+                    includeResolveStrategy = new IgnoreIncludeFileResolveStrategy(_sourceDirectory.IncludeDirectories);
+                    break;
+            }
+            return includeResolveStrategy;
         }
 
         private void RegisterSourceFiles()
@@ -43,6 +82,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 RegisterSourceFile(sourceFile);
             }
+            Logger.LogUserMessage($" Registered {_model.GetElements().Count()} source files");
         }
 
         private void RegisterDirectIncludeRelations()
@@ -51,6 +91,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 RegisterDirectIncludeRelations(sourceFile);
             }
+            Logger.LogUserMessage($" Registered {_model.GetRelations().Count()} include relations");
         }
 
         private void RegisterSourceFile(SourceFile sourceFile)

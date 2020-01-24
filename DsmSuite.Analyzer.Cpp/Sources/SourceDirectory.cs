@@ -10,39 +10,18 @@ namespace DsmSuite.Analyzer.Cpp.Sources
     public class SourceDirectory
     {
         private readonly AnalyzerSettings _analyzerSettings;
-        private readonly IProgress<ProgressInfo> _progress;
-        private readonly IIncludeResolveStrategy _includeResolveStrategy;
         private readonly List<string> _includeDirectories = new List<string>();
         private readonly List<SourceFile> _sourceFiles = new List<SourceFile>();
-        private int _analyzedSourceFiles;
 
-        public SourceDirectory(AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
+        public SourceDirectory(AnalyzerSettings analyzerSettings)
         {
             _analyzerSettings = analyzerSettings;
-            _progress = progress;
-
-            switch (_analyzerSettings.ResolveMethod)
-            {
-                case ResolveMethod.AddBestMatch:
-                    _includeResolveStrategy = new BestMatchIncludeFileResolveStrategy(_includeDirectories);
-                    break;
-                case ResolveMethod.AddAll:
-                    _includeResolveStrategy = new AllIncludeFileResolveStrategy(_includeDirectories);
-                    break;
-                case ResolveMethod.Ignore:
-                    _includeResolveStrategy = new IgnoreIncludeFileResolveStrategy(_includeDirectories);
-                    break;
-                default:
-                    _includeResolveStrategy = new IgnoreIncludeFileResolveStrategy(_includeDirectories);
-                    break;
-            }
         }
         
         public void Analyze()
         {
             FindIncludeDirectories();
             FindSourceFiles();
-            AnalyzeFoundSourceFiles();
         }
 
         private void FindIncludeDirectories()
@@ -56,7 +35,6 @@ namespace DsmSuite.Analyzer.Cpp.Sources
             {
                 RecursiveFindIncludeDirectories(includeDirectory);
             }
-            UpdateProgress("Finding source directories", _includeDirectories.Count, "directories", true);
         }
 
         private void FindSourceFiles()
@@ -65,15 +43,18 @@ namespace DsmSuite.Analyzer.Cpp.Sources
             {
                 RecursiveFindSourceFiles(sourceCodeDirectory);
             }
-            UpdateProgress("Finding source files", _sourceFiles.Count, "source files", false);
         }
 
         public ICollection<SourceFile> SourceFiles => _sourceFiles;
 
+        public List<string> IncludeDirectories
+        {
+            get { return _includeDirectories; }
+        }
+
         private void RecursiveFindIncludeDirectories(string includeDirectory)
         {
             _includeDirectories.Add(includeDirectory);
-            UpdateProgress("Finding source directories", _includeDirectories.Count, "directories", false);
 
             foreach (string additionalIncludeSubDirectory in Directory.EnumerateDirectories(includeDirectory))
             {
@@ -104,18 +85,6 @@ namespace DsmSuite.Analyzer.Cpp.Sources
             }
         }
 
-        private void AnalyzeFoundSourceFiles()
-        {
-            _analyzedSourceFiles = 0;
-            foreach (SourceFile sourceFile in _sourceFiles)
-            {
-                sourceFile.Analyze(_includeResolveStrategy);
-                _analyzedSourceFiles++;
-                UpdateProgress("Analyzing source files", _analyzedSourceFiles, "files", false);
-            }
-            UpdateProgress("Analyzing source files", _analyzedSourceFiles, "files", true);
-        }
-
         private bool IgnoreDirectory(string directory)
         {
             bool ignore = false;
@@ -129,24 +98,6 @@ namespace DsmSuite.Analyzer.Cpp.Sources
             }
 
             return ignore;
-        }
-
-        private void UpdateProgress(string actionText, int itemCount, string itemType, bool done)
-        {
-            if (_progress != null)
-            {
-                ProgressInfo progressInfoInfo = new ProgressInfo
-                {
-                    ActionText = actionText,
-                    TotalItemCount = 0,
-                    CurrentItemCount = itemCount,
-                    ItemType = itemType,
-                    Percentage = null,
-                    Done = done
-                };
-
-                _progress.Report(progressInfoInfo);
-            }
         }
     }
 }
