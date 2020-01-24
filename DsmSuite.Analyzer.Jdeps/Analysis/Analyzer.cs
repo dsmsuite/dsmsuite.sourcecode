@@ -14,14 +14,16 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
         }
 
-        public void Analyze(IProgress<ProgressInfo> progress)
+        public void Analyze()
         {
             int lineNumber = 0;
             FileInfo dotFile = new FileInfo(_analyzerSettings.InputFilename);
@@ -44,10 +46,10 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
                         }
                     }
 
-                    UpdateProgress(progress, lineNumber, false);
+                    UpdateProgress(lineNumber, false);
                 }
             }
-            UpdateProgress(progress, lineNumber, true);
+            UpdateProgress(lineNumber, true);
         }
 
         private string RemoveTrailingText(string provider)
@@ -71,9 +73,9 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
             _model.AddRelation(consumerName, providerName, "dependency", 1, "dot file");
         }
 
-        protected void UpdateProgress(IProgress<ProgressInfo> progress, int lineNumber, bool done)
+        private void UpdateProgress(int lineNumber, bool done)
         {
-            if (progress != null)
+            if (_progress != null)
             {
                 ProgressInfo progressInfoInfo = new ProgressInfo
                 {
@@ -85,9 +87,8 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
                     Done = done
                 };
 
-                progress.Report(progressInfoInfo);
+                _progress.Report(progressInfoInfo);
             }
         }
-
     }
 }

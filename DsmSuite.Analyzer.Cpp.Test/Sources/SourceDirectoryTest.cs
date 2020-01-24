@@ -22,7 +22,7 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
             analyzerSettings.SourceDirectories.Add(TestData.RootDirectory);
             analyzerSettings.RootDirectory = TestData.RootDirectory;
 
-            SourceDirectory sourceDirectory = new SourceDirectory(analyzerSettings);
+            SourceDirectory sourceDirectory = new SourceDirectory(analyzerSettings, null);
             sourceDirectory.Analyze();
             const int numberOfHeaderFiles = 7;
             const int numberOfImplementationFiles = 5;

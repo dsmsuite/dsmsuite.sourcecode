@@ -56,7 +56,7 @@ namespace DsmSuite.Common.Util
 
             if (progress.Done)
             {
-                Console.WriteLine($"\r {progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage:000}% {Spacer}");
+                Logger.LogUserMessage($"\r {progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage:000}% {Spacer}");
             }
         }
 
@@ -66,7 +66,7 @@ namespace DsmSuite.Common.Util
 
             if (progress.Done)
             {
-                Console.WriteLine($"\r {progress.ActionText} {progress.CurrentItemCount} {progress.ItemType} {Spacer}");
+                Logger.LogUserMessage($"\r {progress.ActionText} {progress.CurrentItemCount} {progress.ItemType} {Spacer}");
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Cpp.Sources;
 using DsmSuite.Analyzer.Model.Interface;
@@ -15,71 +14,43 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
         private readonly SourceDirectory _sourceDirectory;
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
-            _sourceDirectory = new SourceDirectory(_analyzerSettings);
+            _progress = progress;
+            _sourceDirectory = new SourceDirectory(_analyzerSettings, progress);
         }
 
-        public void Analyze(IProgress<ProgressInfo> progress)
+        public void Analyze()
         {
-            Logger.LogUserMessage("Analyzing");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            AnalyzeSourceFiles(progress);
-            RegisterSourceFiles(progress);
-            RegisterDirectIncludeRelations(progress);
-
-            Logger.LogResourceUsage();
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
+            AnalyzeSourceFiles();
+            RegisterSourceFiles();
+            RegisterDirectIncludeRelations();
         }
 
-        private void AnalyzeSourceFiles(IProgress<ProgressInfo> progress)
+        private void AnalyzeSourceFiles()
         {
-            Logger.LogUserMessage("Analyzing source files");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             _sourceDirectory.Analyze();
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
-        private void RegisterSourceFiles(IProgress<ProgressInfo> progress)
+        private void RegisterSourceFiles()
         {
-            Logger.LogUserMessage("Register source files");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             foreach (SourceFile sourceFile in _sourceDirectory.SourceFiles)
             {
                 RegisterSourceFile(sourceFile);
             }
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
-        private void RegisterDirectIncludeRelations(IProgress<ProgressInfo> progress)
+        private void RegisterDirectIncludeRelations()
         {
-            Logger.LogUserMessage("Register direct includes relations");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             foreach (SourceFile sourceFile in _sourceDirectory.SourceFiles)
             {
                 RegisterDirectIncludeRelations(sourceFile);
             }
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
         private void RegisterSourceFile(SourceFile sourceFile)
@@ -104,8 +75,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 if (!IsExternalInclude(includedFile))
                 {
-                    string providerName = ExtractSourceFileUniqueName(includedFile);
-                    _model.AddRelation(consumerName, providerName, "include", 1, "analyze relations");
+                    RegisterRelation(includedFile, consumerName);
                 }
             }
 
@@ -116,6 +86,12 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
                     _model.SkipRelation(sourceFile.Name, unresolvedIncludedFile, "include", "not resolved");
                 }
             }
+        }
+
+        private void RegisterRelation(string includedFile, string consumerName)
+        {
+            string providerName = ExtractSourceFileUniqueName(includedFile);
+            _model.AddRelation(consumerName, providerName, "include", 1, "analyze relations");
         }
 
         private bool IsExternalInclude(string includedFile)
@@ -140,6 +116,24 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             string logicalName = relativePath.Replace("\\", ".");
 
             return logicalName;
+        }
+
+        private void UpdateProgress(string actionText, int itemCount, string itemType, bool done)
+        {
+            if (_progress != null)
+            {
+                ProgressInfo progressInfoInfo = new ProgressInfo
+                {
+                    ActionText = actionText,
+                    TotalItemCount = 0,
+                    CurrentItemCount = itemCount,
+                    ItemType = itemType,
+                    Percentage = null,
+                    Done = done
+                };
+
+                _progress.Report(progressInfoInfo);
+            }
         }
     }
 }
