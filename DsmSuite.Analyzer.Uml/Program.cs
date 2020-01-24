@@ -36,7 +36,7 @@ namespace DsmSuite.Analyzer.Uml
                     }
                     else
                     {
-                        Logger.LogUserMessage($"Analyzing file={analyzerSettings.InputFilename}");
+                        Logger.LogUserMessage($"Analyzing UML model file={analyzerSettings.InputFilename}");
 
                         ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
                         var progress = new Progress<ProgressInfo>(p =>

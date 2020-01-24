@@ -7,7 +7,7 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
 {
     public abstract class IncludeResolveStrategy : IIncludeResolveStrategy
     {
-        private readonly List<string> _includeDirectories;
+        private readonly IList<string> _includeDirectories;
 
         protected class Candidate
         {
@@ -19,7 +19,7 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
             public bool Resolved { set; get; }
         };
 
-        protected IncludeResolveStrategy(List<string> includeDirectories)
+        protected IncludeResolveStrategy(IList<string> includeDirectories)
         {
             _includeDirectories = includeDirectories;
         }

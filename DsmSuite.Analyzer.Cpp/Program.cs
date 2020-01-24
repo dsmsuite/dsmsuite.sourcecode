@@ -27,6 +27,8 @@ namespace DsmSuite.Analyzer.Cpp
                 }
                 else
                 {
+                    Logger.LogUserMessage("Analyzing C++ code");
+
                     ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
                     var progress = new Progress<ProgressInfo>(p =>
                     {

@@ -27,6 +27,8 @@ namespace DsmSuite.Analyzer.Jdeps
                 }
                 else
                 {
+                    Logger.LogUserMessage("Analyzing java code");
+
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
                     Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 

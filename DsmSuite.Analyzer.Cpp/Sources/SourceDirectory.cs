@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using DsmSuite.Analyzer.Cpp.IncludeResolve;
 using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Common.Util;
 
@@ -45,12 +43,9 @@ namespace DsmSuite.Analyzer.Cpp.Sources
             }
         }
 
-        public ICollection<SourceFile> SourceFiles => _sourceFiles;
+        public IList<SourceFile> SourceFiles => _sourceFiles;
 
-        public List<string> IncludeDirectories
-        {
-            get { return _includeDirectories; }
-        }
+        public IList<string> IncludeDirectories => _includeDirectories;
 
         private void RecursiveFindIncludeDirectories(string includeDirectory)
         {

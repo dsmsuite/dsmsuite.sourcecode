@@ -4,7 +4,7 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
 {
     public class BestMatchIncludeFileResolveStrategy : IncludeResolveStrategy
     {
-        public BestMatchIncludeFileResolveStrategy(List<string> includeDirectories) : base(includeDirectories)
+        public BestMatchIncludeFileResolveStrategy(IList<string> includeDirectories) : base(includeDirectories)
         {
         }
 

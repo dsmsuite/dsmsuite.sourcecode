@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using DsmSuite.Analyzer.Cpp.IncludeResolve;
-using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Cpp.Sources
 {
