@@ -12,7 +12,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
     /// </summary>
     public class SolutionFile
     {
-        private readonly string _solutionGroupName;
         private readonly FileInfo _solutionFileInfo;
         private readonly string _name;
         private readonly AnalyzerSettings _analyzerSettings;
@@ -30,9 +29,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private const string CsprojType = "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC";
         private const string SolutionFolderType = "2150E333-8FDC-42A3-9474-1A3956D46DE8";
 
-        public SolutionFile(string solutionGroupName, string solutionPath, AnalyzerSettings analyzerSettings)
+        public SolutionFile(string solutionPath, AnalyzerSettings analyzerSettings)
         {
-            _solutionGroupName = solutionGroupName;
             _solutionFileInfo = new FileInfo(solutionPath);
             _name = _solutionFileInfo.Name;
             _analyzerSettings = analyzerSettings;
@@ -49,21 +47,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
         }
 
-        public string Name
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_solutionGroupName))
-                {
-                    return _name;
-                }
-                else
-                {
-                    return _solutionGroupName + "." + _name;
-                }
-            }
-        }
-
+        public string Name => _name;
 
         public IReadOnlyCollection<ProjectFile> Projects => _projects.Values;
 

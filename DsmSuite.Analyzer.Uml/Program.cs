@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
@@ -11,6 +10,8 @@ namespace DsmSuite.Analyzer.Uml
 {
     public static class Program
     {
+        private static AnalyzerSettings _analyzerSettings;
+
         static void Main(string[] args)
         {
             if (args.Length < 1)
@@ -27,33 +28,29 @@ namespace DsmSuite.Analyzer.Uml
                 }
                 else
                 {
-                    AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
+                    _analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _analyzerSettings.LoggingEnabled);
 
-                    if (!File.Exists(analyzerSettings.InputFilename))
+                    if (!File.Exists(_analyzerSettings.InputFilename))
                     {
-                        Logger.LogUserMessage($"Input file '{analyzerSettings.InputFilename}' does not exist.");
+                        Logger.LogUserMessage($"Input file '{_analyzerSettings.InputFilename}' does not exist.");
                     }
                     else
                     {
-                        Logger.LogUserMessage($"Analyzing UML model file={analyzerSettings.InputFilename}");
-
-                        ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
-                        var progress = new Progress<ProgressInfo>(p =>
-                        {
-                            progressIndicator.UpdateProgress(p);
-                        });
-
-                        DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-                        Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
-                        analyzer.Analyze();
-                        model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
-
-                        progressIndicator.Done();
-                        AnalyzerLogger.Flush();
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing UML model file={_analyzerSettings.InputFilename}");
+                        executor.Execute(Analyze);
                     }
                 }
             }
+        }
+
+        static void Analyze(IProgress<ProgressInfo> progress)
+        {
+            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, progress);
+            analyzer.Analyze();
+            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, null);
+            AnalyzerLogger.Flush();
         }
     }
 }

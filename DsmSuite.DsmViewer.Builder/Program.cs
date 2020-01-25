@@ -11,6 +11,8 @@ namespace DsmSuite.DsmViewer.Builder
 {
     class Program
     {
+        private static BuilderSettings _builderSettings;
+
         static void Main(string[] args)
         {
             Logger.LogAssemblyInfo(Assembly.GetExecutingAssembly());
@@ -29,34 +31,32 @@ namespace DsmSuite.DsmViewer.Builder
                 }
                 else
                 {
-                    BuilderSettings builderSettings = BuilderSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), builderSettings.LoggingEnabled);
+                    _builderSettings = BuilderSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _builderSettings.LoggingEnabled);
 
-                    if (!File.Exists(builderSettings.InputFilename))
+                    if (!File.Exists(_builderSettings.InputFilename))
                     {
-                        Logger.LogUserMessage($"Input file '{builderSettings.InputFilename}' does not exist.");
+                        Logger.LogUserMessage($"Input file '{_builderSettings.InputFilename}' does not exist.");
                     }
                     else
                     {
-                        ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
-                        var progress = new Progress<ProgressInfo>(p =>
-                        {
-                            progressIndicator.UpdateProgress(p);
-                        });
-
-                        DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
-                        DsmApplication application = new DsmApplication(model);
-                        application.ImportModel(builderSettings.InputFilename, 
-                                                builderSettings.OutputFilename, 
-                                                builderSettings.ApplyPartitioningAlgorithm, 
-                                                builderSettings.RecordChanges, 
-                                                builderSettings.CompressOutputFile,
-                                                progress);
-
-                        progressIndicator.Done();
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Building dsm {_builderSettings.InputFilename}");
+                        executor.Execute(Build);
                     }
                 }
             }
+        }
+
+        static void Build(IProgress<ProgressInfo> progress)
+        {
+            DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
+            DsmApplication application = new DsmApplication(model);
+            application.ImportModel(_builderSettings.InputFilename,
+                                    _builderSettings.OutputFilename,
+                                    _builderSettings.ApplyPartitioningAlgorithm,
+                                    _builderSettings.RecordChanges,
+                                    _builderSettings.CompressOutputFile,
+                                    progress);
         }
     }
 }

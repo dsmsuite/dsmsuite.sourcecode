@@ -10,6 +10,8 @@ namespace DsmSuite.Analyzer.DotNet
 {
     public static class Program
     {
+        private static AnalyzerSettings _analyzerSettings;
+
         static void Main(string[] args)
         {
             if (args.Length < 1)
@@ -26,29 +28,28 @@ namespace DsmSuite.Analyzer.DotNet
                 }
                 else
                 {
-                    AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
+                    _analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _analyzerSettings.LoggingEnabled);
 
-                    if (!Directory.Exists(analyzerSettings.AssemblyDirectory))
+                    if (!Directory.Exists(_analyzerSettings.AssemblyDirectory))
                     {
-                        Logger.LogUserMessage($"Input directory '{analyzerSettings.AssemblyDirectory}' does not exist.");
+                        Logger.LogUserMessage($"Input directory '{_analyzerSettings.AssemblyDirectory}' does not exist.");
                     }
                     else
                     {
-                        ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
-                        var progress = new Progress<ProgressInfo>(p =>
-                        {
-                            progressIndicator.UpdateProgress(p);
-                        });
-
-                        DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-                        Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
-                        analyzer.Analyze(progress);
-                        model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing .Net binaries in '{_analyzerSettings.AssemblyDirectory}'");
+                        executor.Execute(Analyze);
                     }
                 }
             }
+        }
 
+        static void Analyze(IProgress<ProgressInfo> progress)
+        {
+            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings);
+            analyzer.Analyze(progress);
+            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, null);
             AnalyzerLogger.Flush();
         }
     }

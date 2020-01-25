@@ -10,9 +10,10 @@ namespace DsmSuite.Analyzer.Cpp
 {
     public static class Program
     {
+        private static AnalyzerSettings _analyzerSettings;
+
         static void Main(string[] args)
         {
-
             if (args.Length < 1)
             {
                 Logger.LogUserMessage("Usage: DsmSuite.Analyzer.Cpp <settingsfile>");
@@ -27,27 +28,22 @@ namespace DsmSuite.Analyzer.Cpp
                 }
                 else
                 {
-                    Logger.LogUserMessage("Analyzing C++ code");
+                    _analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _analyzerSettings.LoggingEnabled);
 
-                    ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
-                    var progress = new Progress<ProgressInfo>(p =>
-                    {
-                        progressIndicator.UpdateProgress(p);
-                    });
-
-                    AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
-
-                    DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-                    Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
-                    analyzer.Analyze();
-                    model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, progress);
-
-                    progressIndicator.Done();
-
-                    AnalyzerLogger.Flush();
+                    ConsoleActionExecutor executor = new ConsoleActionExecutor("Analyzing C++ code");
+                    executor.Execute(Analyze);
                 }
             }
+        }
+
+        static void Analyze(IProgress<ProgressInfo> progress)
+        {
+            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, progress);
+            analyzer.Analyze();
+            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, progress);
+            AnalyzerLogger.Flush();
         }
     }
 }

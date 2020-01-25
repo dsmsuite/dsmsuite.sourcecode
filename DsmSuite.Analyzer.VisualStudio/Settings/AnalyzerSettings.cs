@@ -16,19 +16,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
     }
 
     [Serializable]
-    public class SolutionGroup
-    {
-        public SolutionGroup()
-        {
-            SolutionFilenames = new List<string>();
-        }
-
-        public string Name { get; set; }
-        public List<string> SolutionFilenames { get; set; }
-    }
-
-
-    [Serializable]
     public enum ViewMode
     {
         LogicalView,
@@ -42,7 +29,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
     public class AnalyzerSettings
     {
         private bool _loggingEnabled;
-        private List<SolutionGroup> _solutionGroups;
+        private string _inputFilename;
         private string _rootDirectory;
         private List<string> _systemIncludeDirectories;
         private List<string> _interfaceIncludeDirectories;
@@ -57,7 +44,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
                 LoggingEnabled = true,
-                SolutionGroups = new List<SolutionGroup>(),
+                InputFilename = @"C:\Example.sln",
                 RootDirectory = "",
                 SystemIncludeDirectories = new List<string>(),
                 InterfaceIncludeDirectories = new List<string>(),
@@ -68,13 +55,17 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
                 CompressOutputFile = true
             };
 
-            analyzerSettings.SolutionGroups.Add(new SolutionGroup { Name = "" });
-
             analyzerSettings.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\8.1\Include\um");
             analyzerSettings.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\8.1\Include\shared");
             analyzerSettings.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt");
             analyzerSettings.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include");
             analyzerSettings.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include");
+
+            analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory
+            {
+                Path = @"C\:External",
+                ResolveAs = "External"
+            });
 
             return analyzerSettings;
         }
@@ -85,10 +76,10 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
             set { _loggingEnabled = value; }
         }
 
-        public List<SolutionGroup> SolutionGroups
+        public string InputFilename
         {
-            get { return _solutionGroups; }
-            set { _solutionGroups = value; }
+            get { return _inputFilename; }
+            set { _inputFilename = value; }
         }
 
         public string RootDirectory
@@ -166,10 +157,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
 
         private void ResolvePaths(string settingFilePath)
         {
-            foreach (SolutionGroup solutionGroup in _solutionGroups)
-            {
-                solutionGroup.SolutionFilenames = FilePath.ResolveFiles(settingFilePath, solutionGroup.SolutionFilenames);
-            }
+            InputFilename = FilePath.ResolveFile(settingFilePath, InputFilename);
             RootDirectory = FilePath.ResolveFile(settingFilePath, RootDirectory);
             SystemIncludeDirectories = FilePath.ResolveFiles(settingFilePath, SystemIncludeDirectories);
             foreach (ExternalIncludeDirectory externalIncludeDirectory in ExternalIncludeDirectories)

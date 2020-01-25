@@ -16,8 +16,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
         public void TestAnalyzeLogicalView()
         {
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.ExternalIncludeDirectories.Clear();
             analyzerSettings.ViewMode = ViewMode.LogicalView;
-            analyzerSettings.SolutionGroups[0].SolutionFilenames.Add(Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln"));
+            analyzerSettings.InputFilename = Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln");
             analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path=Path.Combine(TestData.TestDataDirectory, "DirExternal"), ResolveAs= "External" });
             analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
@@ -93,8 +94,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
         public void TestAnalyzePhysicalView()
         {
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.ExternalIncludeDirectories.Clear();
             analyzerSettings.ViewMode = ViewMode.PhysicalView;
-            analyzerSettings.SolutionGroups[0].SolutionFilenames.Add(Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln"));
+            analyzerSettings.InputFilename = Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln");
             analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path = Path.Combine(TestData.TestDataDirectory, "DirExternal"), ResolveAs = "External" });
             analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             analyzerSettings.RootDirectory = TestData.SolutionDirectory;

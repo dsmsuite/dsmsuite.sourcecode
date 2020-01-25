@@ -10,6 +10,8 @@ namespace DsmSuite.Transformer
 {
     public static class Program
     {
+        private static TransformerSettings _transformerSettings;
+
         static void Main(string[] args)
         {
             if (args.Length < 1)
@@ -26,30 +28,29 @@ namespace DsmSuite.Transformer
                 }
                 else
                 {
-                    TransformerSettings transformerSettings = TransformerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), transformerSettings.LoggingEnabled);
+                    _transformerSettings = TransformerSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _transformerSettings.LoggingEnabled);
 
-                    if (!File.Exists(transformerSettings.InputFilename))
+                    if (!File.Exists(_transformerSettings.InputFilename))
                     {
-                        Logger.LogUserMessage($"Input file '{transformerSettings.InputFilename}' does not exist.");
+                        Logger.LogUserMessage($"Input file '{_transformerSettings.InputFilename}' does not exist.");
                     }
                     else
                     {
-                        ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
-                        var progress = new Progress<ProgressInfo>(p =>
-                        {
-                            progressIndicator.UpdateProgress(p);
-                        });
-
-                        DsiModel model = new DsiModel("Transformer", Assembly.GetExecutingAssembly());
-                        model.Load(transformerSettings.InputFilename, null);
-                        Transformation.Transformer transformer = new Transformation.Transformer(model, transformerSettings);
-                        transformer.Transform(progress);
-                        model.Save(transformerSettings.OutputFilename, transformerSettings.CompressOutputFile, null);
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor("Performing transformations");
+                        executor.Execute(Transform);
                     }
                 }
             }
+        }
 
+        static void Transform(IProgress<ProgressInfo> progress)
+        {
+            DsiModel model = new DsiModel("Transformer", Assembly.GetExecutingAssembly());
+            model.Load(_transformerSettings.InputFilename, progress);
+            Transformation.Transformer transformer = new Transformation.Transformer(model, _transformerSettings);
+            transformer.Transform(progress);
+            model.Save(_transformerSettings.OutputFilename, _transformerSettings.CompressOutputFile, progress);
             AnalyzerLogger.Flush();
         }
     }

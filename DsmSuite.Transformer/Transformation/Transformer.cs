@@ -32,17 +32,8 @@ namespace DsmSuite.Transformer.Transformation
             foreach (Action action in actions)
             {
                 _model.AddMetaData(action.Name, action.IsEnabled ? "Enabled" : "Disabled");
-                Logger.LogUserMessage($"Transforming: {action.Name}");
-                Stopwatch stopWatch = new Stopwatch();
-                stopWatch.Start();
-
                 action.Execute(progress);
-
-                stopWatch.Stop();
-                Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
             }
-
-            Logger.LogResourceUsage();
         }
     }
 }

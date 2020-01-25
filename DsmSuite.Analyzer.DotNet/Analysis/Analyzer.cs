@@ -30,41 +30,21 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
         public void Analyze(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Analyzing");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             FindAssemblies(progress);
             FindTypes(progress);
             FindRelations(progress);
-
-            Logger.LogResourceUsage();
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
         }
 
         private void FindAssemblies(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Finding assemblies");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             foreach (string assemblyFilename in Directory.EnumerateFiles(_analyzerSettings.AssemblyDirectory))
             {
                 RegisterAssembly(assemblyFilename);
             }
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
         private void FindTypes(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Finding types");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             ReaderParameters readerParameters = DetermineAssemblyReaderParameters();
 
             foreach (FileInfo assemblyFileInfo in _assemblyFileInfos)
@@ -95,25 +75,15 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                     Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} failed", e);
                 }
             }
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
         private void FindRelations(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Find relations");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             foreach (TypeDefinition typeDecl in _typeList)
             {
                 FileInfo assemblyInfo = _typeAssemblyInfoList[typeDecl.FullName];
                 AnalyseTypeRelations(assemblyInfo, typeDecl);
             }
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
         private ReaderParameters DetermineAssemblyReaderParameters()

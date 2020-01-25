@@ -14,7 +14,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
-        private readonly List<SolutionFile> _solutionFiles = new List<SolutionFile>();
+        private readonly SolutionFile _solutionFile;
         private readonly Dictionary<string, FileInfo> _sourcesFilesById = new Dictionary<string, FileInfo>();
         private readonly Dictionary<string, string> _interfaceFilesByPath = new Dictionary<string, string>();
 
@@ -22,74 +22,36 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
-            foreach (SolutionGroup solutionGroup in analyzerSettings.SolutionGroups)
-            {
-                foreach (string solutionFilename in solutionGroup.SolutionFilenames)
-                {
-                    _solutionFiles.Add(new SolutionFile(solutionGroup.Name, solutionFilename, _analyzerSettings));
-                }
-            }
+            _solutionFile = new SolutionFile(analyzerSettings.InputFilename, _analyzerSettings);
         }
 
         public void Analyze(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Analyze");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             RegisterInterfaceFiles(progress);
-            AnalyzeSolutions(progress);
+            AnalyzeSolution(progress);
             RegisterSourceFiles(progress);
             RegisterDirectIncludeRelations(progress);
             RegisterGeneratedFileRelations(progress);
-
-            Logger.LogResourceUsage();
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($" total elapsed time={stopWatch.Elapsed}");
         }
 
-        private void AnalyzeSolutions(IProgress<ProgressInfo> progress)
+        private void AnalyzeSolution(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Analyze solutions");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            foreach (SolutionFile solutionFile in _solutionFiles)
-            {
-                solutionFile.Analyze();
-            }
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
+            _solutionFile.Analyze();
         }
 
         private void RegisterSourceFiles(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Register source files");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            foreach (SolutionFile solutionFile in _solutionFiles)
+            foreach (ProjectFile visualStudioProject in _solutionFile.Projects)
             {
-                foreach (ProjectFile visualStudioProject in solutionFile.Projects)
+                foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
-                    foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
-                    {
-                        RegisterSourceFile(solutionFile, visualStudioProject, sourceFile);
-                    }
+                    RegisterSourceFile(_solutionFile, visualStudioProject, sourceFile);
                 }
             }
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
         private void RegisterInterfaceFiles(IProgress<ProgressInfo> progress)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             foreach (string interfaceDirectory in _analyzerSettings.InterfaceIncludeDirectories)
             {
                 DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(interfaceDirectory);
@@ -101,9 +63,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(externalDirectory.Path);
                 RegisterInterfaceFiles(interfaceDirectoryInfo);
             }
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
         private void RegisterInterfaceFiles(DirectoryInfo interfaceDirectoryInfo)
@@ -136,83 +95,73 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void RegisterDirectIncludeRelations(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Register direct include relations");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            foreach (SolutionFile solutionFile in _solutionFiles)
+            foreach (ProjectFile visualStudioProject in _solutionFile.Projects)
             {
-                foreach (ProjectFile visualStudioProject in solutionFile.Projects)
+                foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
-                    foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
+                    foreach (string includedFile in sourceFile.Includes)
                     {
-                        foreach (string includedFile in sourceFile.Includes)
+                        Logger.LogInfo("Include relation registered: " + sourceFile.Name + " -> " + includedFile);
+
+                        string consumerName = null;
+                        switch (_analyzerSettings.ViewMode)
                         {
-                            Logger.LogInfo("Include relation registered: " + sourceFile.Name + " -> " + includedFile);
+                            case ViewMode.LogicalView:
+                                consumerName = GetLogicalName(_solutionFile, visualStudioProject, sourceFile);
+                                break;
+                            case ViewMode.PhysicalView:
+                                consumerName = GetPhysicalName(sourceFile);
+                                break;
+                            default:
+                                Logger.LogError("Unknown view mode");
+                                break;
+                        }
 
-                            string consumerName = null;
-                            switch (_analyzerSettings.ViewMode)
+                        if (consumerName != null)
+                        {
+                            if (IsSystemInclude(includedFile))
                             {
-                                case ViewMode.LogicalView:
-                                    consumerName = GetLogicalName(solutionFile, visualStudioProject, sourceFile);
-                                    break;
-                                case ViewMode.PhysicalView:
-                                    consumerName = GetPhysicalName(sourceFile);
-                                    break;
-                                default:
-                                    Logger.LogError("Unknown view mode");
-                                    break;
+                                // System includes are ignored
                             }
-
-                            if (consumerName != null)
+                            else if (IsInterfaceInclude(includedFile))
                             {
-                                if (IsSystemInclude(includedFile))
+                                // Interface includes must be clones of includes files in other visual studio projects
+                                string resolvedIncludedFile = ResolveClonedFile(includedFile, sourceFile);
+                                if (resolvedIncludedFile != null)
                                 {
-                                    // System includes are ignored
-                                }
-                                else if (IsInterfaceInclude(includedFile))
-                                {
-                                    // Interface includes must be clones of includes files in other visual studio projects
-                                    string resolvedIncludedFile = ResolveClonedFile(includedFile, sourceFile);
-                                    if (resolvedIncludedFile != null)
-                                    {
-                                        RegisterIncludeRelation(consumerName, resolvedIncludedFile);
-                                    }
-                                    else
-                                    {
-                                        _model.SkipRelation(consumerName, includedFile, "include", "interface include file not be resolved");
-                                    }
-                                }
-                                else if (IsExternalInclude(includedFile))
-                                {
-                                    // External includes can be clones of includes files in other visual studio projects or 
-                                    // reference external software
-                                    string resolvedIncludedFile = ResolveClonedFile(includedFile, sourceFile);
-                                    if (resolvedIncludedFile != null)
-                                    {
-                                        RegisterIncludeRelation(consumerName, resolvedIncludedFile);
-                                    }
-                                    else
-                                    {
-                                        SourceFile includedSourceFile = new SourceFile(includedFile);
-                                        string providerName = GetExternalName(includedSourceFile.SourceFileInfo);
-                                        string type = includedSourceFile.FileType;
-                                        _model.AddElement(providerName, type, includedFile);
-                                        _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
-                                    }
+                                    RegisterIncludeRelation(consumerName, resolvedIncludedFile);
                                 }
                                 else
                                 {
-                                    RegisterIncludeRelation(consumerName, includedFile);
+                                    _model.SkipRelation(consumerName, includedFile, "include", "interface include file not be resolved");
                                 }
+                            }
+                            else if (IsExternalInclude(includedFile))
+                            {
+                                // External includes can be clones of includes files in other visual studio projects or 
+                                // reference external software
+                                string resolvedIncludedFile = ResolveClonedFile(includedFile, sourceFile);
+                                if (resolvedIncludedFile != null)
+                                {
+                                    RegisterIncludeRelation(consumerName, resolvedIncludedFile);
+                                }
+                                else
+                                {
+                                    SourceFile includedSourceFile = new SourceFile(includedFile);
+                                    string providerName = GetExternalName(includedSourceFile.SourceFileInfo);
+                                    string type = includedSourceFile.FileType;
+                                    _model.AddElement(providerName, type, includedFile);
+                                    _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
+                                }
+                            }
+                            else
+                            {
+                                RegisterIncludeRelation(consumerName, includedFile);
                             }
                         }
                     }
                 }
             }
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
         private void RegisterIncludeRelation(string consumerName, string resolvedIncludedFile)
@@ -272,45 +221,35 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void RegisterGeneratedFileRelations(IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage("Register generated file relations");
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            foreach (SolutionFile solutionFile in _solutionFiles)
+            foreach (ProjectFile visualStudioProject in _solutionFile.Projects)
             {
-                foreach (ProjectFile visualStudioProject in solutionFile.Projects)
+                foreach (GeneratedFileRelation relation in visualStudioProject.GeneratedFileRelations)
                 {
-                    foreach (GeneratedFileRelation relation in visualStudioProject.GeneratedFileRelations)
+                    Logger.LogInfo("Generated file relation registered: " + relation.Consumer.Name + " -> " + relation.Provider.Name);
+
+                    switch (_analyzerSettings.ViewMode)
                     {
-                        Logger.LogInfo("Generated file relation registered: " + relation.Consumer.Name + " -> " + relation.Provider.Name);
-
-                        switch (_analyzerSettings.ViewMode)
-                        {
-                            case ViewMode.LogicalView:
-                                {
-                                    string consumerName = GetLogicalName(solutionFile, visualStudioProject, relation.Consumer);
-                                    string providerName = GetLogicalName(solutionFile, visualStudioProject, relation.Provider);
-                                    _model.AddRelation(consumerName, providerName, "generated", 1, "generated file relations");
-                                    break;
-                                }
-                            case ViewMode.PhysicalView:
-                                {
-                                    string consumerName = GetPhysicalName(relation.Consumer);
-                                    string providerName = GetPhysicalName(relation.Provider);
-                                    _model.AddRelation(consumerName, providerName, "generated", 1, "generated file relations");
-                                    break;
-                                }
-                            default:
-                                Logger.LogError("Unknown view mode");
+                        case ViewMode.LogicalView:
+                            {
+                                string consumerName = GetLogicalName(_solutionFile, visualStudioProject, relation.Consumer);
+                                string providerName = GetLogicalName(_solutionFile, visualStudioProject, relation.Provider);
+                                _model.AddRelation(consumerName, providerName, "generated", 1, "generated file relations");
                                 break;
-                        }
-
+                            }
+                        case ViewMode.PhysicalView:
+                            {
+                                string consumerName = GetPhysicalName(relation.Consumer);
+                                string providerName = GetPhysicalName(relation.Provider);
+                                _model.AddRelation(consumerName, providerName, "generated", 1, "generated file relations");
+                                break;
+                            }
+                        default:
+                            Logger.LogError("Unknown view mode");
+                            break;
                     }
+
                 }
             }
-
-            stopWatch.Stop();
-            Logger.LogUserMessage($"elapsed time={stopWatch.Elapsed}");
         }
 
         private void RegisterSourceFile(SolutionFile solutionFile, ProjectFile visualStudioProject, SourceFile sourceFile)
@@ -395,22 +334,21 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             solutionFile = null;
             projectFile = null;
             sourceFile = null;
-            foreach (SolutionFile solution in _solutionFiles)
+
+            foreach (ProjectFile project in _solutionFile.Projects)
             {
-                foreach (ProjectFile project in solution.Projects)
+                foreach (SourceFile source in project.SourceFiles)
                 {
-                    foreach (SourceFile source in project.SourceFiles)
+                    if (includedFile.ToLower() == source.SourceFileInfo.FullName.ToLower())
                     {
-                        if (includedFile.ToLower() == source.SourceFileInfo.FullName.ToLower())
-                        {
-                            solutionFile = solution;
-                            projectFile = project;
-                            sourceFile = source;
-                            found = true;
-                        }
+                        solutionFile = _solutionFile;
+                        projectFile = project;
+                        sourceFile = source;
+                        found = true;
                     }
                 }
             }
+
             return found;
         }
 

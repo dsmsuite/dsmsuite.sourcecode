@@ -5,12 +5,13 @@ using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 using System;
-using System.Diagnostics;
 
 namespace DsmSuite.Analyzer.Jdeps
 {
     public static class Program
     {
+        private static AnalyzerSettings _analyzerSettings;
+
         static void Main(string[] args)
         {
             if (args.Length < 1)
@@ -27,43 +28,29 @@ namespace DsmSuite.Analyzer.Jdeps
                 }
                 else
                 {
-                    Logger.LogUserMessage("Analyzing java code");
+                    _analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _analyzerSettings.LoggingEnabled);
 
-                    AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
-
-                    if (!File.Exists(analyzerSettings.InputFilename))
+                    if (!File.Exists(_analyzerSettings.InputFilename))
                     {
-                        Logger.LogUserMessage($"Input file '{analyzerSettings.InputFilename}' does not exist.");
+                        Logger.LogUserMessage($"Input file '{_analyzerSettings.InputFilename}' does not exist.");
                     }
                     else
                     {
-                        Logger.LogUserMessage($"Analyzing file={analyzerSettings.InputFilename}");
-
-                        ConsoleProgressIndicator progressIndicator = new ConsoleProgressIndicator();
-                        var progress = new Progress<ProgressInfo>(p =>
-                        {
-                            progressIndicator.UpdateProgress(p);
-                        });
-
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor();
-                        executor.Execute(Analyze, "");
-                        DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-                        Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
-                        analyzer.Analyze();
-                        model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, progress);
-
-                        progressIndicator.Done();
-
-                        AnalyzerLogger.Flush();
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing grapviz dot file {_analyzerSettings.InputFilename}");
+                        executor.Execute(Analyze);
                     }
                 }
             }
         }
 
-        static void Analyze()
+        static void Analyze(IProgress<ProgressInfo> progress)
         {
-            
+            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, progress);
+            analyzer.Analyze();
+            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, progress);
+            AnalyzerLogger.Flush();
         }
     }
 }

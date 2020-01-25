@@ -34,6 +34,8 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
                 while ((line = sr.ReadLine()) != null)
                 {
                     lineNumber++;
+                    UpdateProgress(lineNumber, false);
+
                     if (line.Contains("->"))
                     {
                         string[] items = line.Split('"');
@@ -45,8 +47,6 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
                             RegisterRelation(consumer, provider);
                         }
                     }
-
-                    UpdateProgress(lineNumber, false);
                 }
             }
             UpdateProgress(lineNumber, true);

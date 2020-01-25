@@ -10,24 +10,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
     public class SolutionFileTest
     {
         [TestMethod]
-        public void TestSolutionNameWithGroupName()
-        {
-            string testDataDirectory = TestData.TestDataDirectory;
-            string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.sln"));
-
-            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
-            SolutionFile solutionFile = new SolutionFile("GroupName", solutionFilename, analyzerSettings);
-            Assert.AreEqual("GroupName.DsmSuite.sln", solutionFile.Name);
-        }
-
-        [TestMethod]
         public void TestSolutionNameWithoutGroup()
         {
             string testDataDirectory = TestData.TestDataDirectory;
             string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.sln"));
 
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
-            SolutionFile solutionFile = new SolutionFile(null, solutionFilename, analyzerSettings);
+            SolutionFile solutionFile = new SolutionFile(solutionFilename, analyzerSettings);
             Assert.AreEqual("DsmSuite.sln", solutionFile.Name);
         }
 
@@ -38,7 +27,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.sln"));
 
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
-            SolutionFile solutionFile = new SolutionFile(null, solutionFilename, analyzerSettings);
+            SolutionFile solutionFile = new SolutionFile(solutionFilename, analyzerSettings);
             solutionFile.Analyze();
 
             Assert.IsTrue(solutionFile.Projects.Count > 0);
