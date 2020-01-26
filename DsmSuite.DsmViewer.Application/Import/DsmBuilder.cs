@@ -16,7 +16,7 @@ namespace DsmSuite.DsmViewer.Application.Import
         private readonly IImportPolicy _importPolicy;
         private readonly bool _autoPartition;
         private readonly Dictionary<int, int> _dsiToDsmMapping;
-        private int _progress;
+        private int _progressPercentage;
 
         public DsmBuilder(IDsiModel dsiModel, IDsmModel dsmModel, IImportPolicy importPolicy, bool autoPartition)
         {
@@ -141,15 +141,15 @@ namespace DsmSuite.DsmViewer.Application.Import
         {
             if (progress != null)
             {
-                int currentProgress = 0;
+                int currentProgressPercentage = 0;
                 if (totalItemCount > 0)
                 {
-                    currentProgress = progressedItemCount * 100 / totalItemCount;
+                    currentProgressPercentage = progressedItemCount * 100 / totalItemCount;
                 }
 
-                if (_progress != currentProgress)
+                if (_progressPercentage != currentProgressPercentage)
                 {
-                    _progress = currentProgress;
+                    _progressPercentage = currentProgressPercentage;
 
                     ProgressInfo progressInfoInfo = new ProgressInfo
                     {
@@ -157,8 +157,8 @@ namespace DsmSuite.DsmViewer.Application.Import
                         TotalItemCount = totalItemCount,
                         CurrentItemCount = progressedItemCount,
                         ItemType = "items",
-                        Percentage = _progress,
-                        Done = _progress == 100
+                        Percentage = currentProgressPercentage,
+                        Done = currentProgressPercentage == 100
                     };
 
                     progress.Report(progressInfoInfo);

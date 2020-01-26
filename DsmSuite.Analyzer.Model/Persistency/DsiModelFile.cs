@@ -45,7 +45,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private int _progressedElementCount;
         private int _totalRelationCount;
         private int _progressedRelationCount;
-        private int _progress;
+        private int _progressPercentage;
         private string _progressActionText;
 
         public DsiModelFile(string filename, 
@@ -280,24 +280,24 @@ namespace DsmSuite.Analyzer.Model.Persistency
                 int totalItemCount = _totalElementCount + _totalRelationCount;
                 int progressedItemCount = _progressedElementCount + _progressedRelationCount;
 
-                int currentProgress = 0;
+                int currentProgressPercentage = 0;
                 if (totalItemCount > 0)
                 {
-                    currentProgress = progressedItemCount * 100 / totalItemCount;
+                    currentProgressPercentage = progressedItemCount * 100 / totalItemCount;
                 }
 
-                if (_progress != currentProgress)
+                if (_progressPercentage != currentProgressPercentage)
                 {
-                    _progress = currentProgress;
+                    _progressPercentage = currentProgressPercentage;
 
                     ProgressInfo progressInfoInfo = new ProgressInfo
                     {
                         ActionText = _progressActionText,
-                        Percentage = _progress,
+                        Percentage = currentProgressPercentage,
                         TotalItemCount = totalItemCount,
                         CurrentItemCount = progressedItemCount,
                         ItemType = "items",
-                        Done = _progress == 100
+                        Done = currentProgressPercentage == 100
                     };
 
                     progress.Report(progressInfoInfo);

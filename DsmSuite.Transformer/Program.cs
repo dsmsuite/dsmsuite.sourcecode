@@ -47,10 +47,10 @@ namespace DsmSuite.Transformer
         static void Transform(IProgress<ProgressInfo> progress)
         {
             DsiModel model = new DsiModel("Transformer", Assembly.GetExecutingAssembly());
-            model.Load(_transformerSettings.InputFilename, progress);
+            model.Load(_transformerSettings.InputFilename, null);
             Transformation.Transformer transformer = new Transformation.Transformer(model, _transformerSettings);
             transformer.Transform(progress);
-            model.Save(_transformerSettings.OutputFilename, _transformerSettings.CompressOutputFile, progress);
+            model.Save(_transformerSettings.OutputFilename, _transformerSettings.CompressOutputFile, null);
             AnalyzerLogger.Flush();
         }
     }

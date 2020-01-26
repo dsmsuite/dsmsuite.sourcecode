@@ -50,9 +50,8 @@ namespace DsmSuite.Analyzer.Jdeps
             DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, progress);
             analyzer.Analyze();
-            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, progress);
+            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, null);
             AnalyzerLogger.Flush();
-            Logger.LogUserMessage($" Found elements={model.GetElementCount()} relations={model.GetRelationCount()} confidence={model.ResolvedRelationPercentage}");
         }
     }
 }

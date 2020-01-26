@@ -33,7 +33,6 @@ namespace DsmSuite.Analyzer.Cpp
 
                     ConsoleActionExecutor executor = new ConsoleActionExecutor("Analyzing C++ code");
                     executor.Execute(Analyze);
-                    Logger.LogUserMessage($" Total elapsed time={executor.ElapsedTime}");
                 }
             }
         }
@@ -43,9 +42,8 @@ namespace DsmSuite.Analyzer.Cpp
             DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, progress);
             analyzer.Analyze();
-            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, progress);
-            AnalyzerLogger.Flush();
-            Logger.LogUserMessage($" Found elements={model.GetElementCount()} relations={model.GetRelationCount()} confidence={model.ResolvedRelationPercentage}");
+            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, null);
+
         }
     }
 }

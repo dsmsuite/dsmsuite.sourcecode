@@ -32,6 +32,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void Save(string dsiFilename, bool compressFile, IProgress<ProgressInfo> progress)
         {
+            Logger.LogUserMessage($"Found elements={GetElementCount()} relations={GetRelationCount()} confidence={ResolvedRelationPercentage}");
             Logger.LogDataModelMessage($"Save data model file={dsiFilename} compresss={compressFile}");
 
             foreach (string type in GetElementTypes())

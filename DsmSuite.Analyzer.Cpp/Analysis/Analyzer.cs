@@ -19,6 +19,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
         private readonly IProgress<ProgressInfo> _progress;
         private readonly SourceDirectory _sourceDirectory;
         private int _analyzedSourceFiles;
+        private int _progressPercentage;
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
@@ -34,6 +35,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             AnalyzeSourceFiles();
             RegisterSourceFiles();
             RegisterDirectIncludeRelations();
+            AnalyzerLogger.Flush();
         }
 
         private void FindSourceFiles()
@@ -50,9 +52,8 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 sourceFile.Analyze(includeResolveStrategy);
                 _analyzedSourceFiles++;
-                UpdateProgress("Analyzing source files", _analyzedSourceFiles, "files", false);
+                UpdateProgress("Analyzing source files", _sourceDirectory.SourceFiles.Count, _analyzedSourceFiles, "files");
             }
-            UpdateProgress("Analyzing source files", _analyzedSourceFiles, "files", true);
         }
 
         private IIncludeResolveStrategy GetIncludeResolveStrategy()
@@ -82,7 +83,6 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 RegisterSourceFile(sourceFile);
             }
-            Logger.LogUserMessage($" Registered {_model.GetElements().Count()} source files");
         }
 
         private void RegisterDirectIncludeRelations()
@@ -91,7 +91,6 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 RegisterDirectIncludeRelations(sourceFile);
             }
-            Logger.LogUserMessage($" Registered {_model.GetRelations().Count()} include relations");
         }
 
         private void RegisterSourceFile(SourceFile sourceFile)
@@ -159,21 +158,32 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             return logicalName;
         }
 
-        private void UpdateProgress(string actionText, int itemCount, string itemType, bool done)
+        private void UpdateProgress(string actionText, int totalItemCount, int itemCount, string itemType)
         {
             if (_progress != null)
             {
-                ProgressInfo progressInfoInfo = new ProgressInfo
+                int currentProgressPercentage = 0;
+                if (itemCount > 0)
                 {
-                    ActionText = actionText,
-                    TotalItemCount = 0,
-                    CurrentItemCount = itemCount,
-                    ItemType = itemType,
-                    Percentage = null,
-                    Done = done
-                };
+                    currentProgressPercentage = itemCount*100/totalItemCount;
+                }
 
-                _progress.Report(progressInfoInfo);
+                if (_progressPercentage != currentProgressPercentage)
+                {
+                    _progressPercentage = currentProgressPercentage;
+
+                    ProgressInfo progressInfoInfo = new ProgressInfo
+                    {
+                        ActionText = actionText,
+                        TotalItemCount = _sourceDirectory.SourceFiles.Count,
+                        CurrentItemCount = itemCount,
+                        ItemType = itemType,
+                        Percentage = currentProgressPercentage,
+                        Done = currentProgressPercentage == 100
+                    };
+
+                    _progress.Report(progressInfoInfo);
+                }
             }
         }
     }

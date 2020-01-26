@@ -51,7 +51,6 @@ namespace DsmSuite.Analyzer.VisualStudio
             analyzer.Analyze(progress);
             model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, null);
             AnalyzerLogger.Flush();
-            Logger.LogUserMessage($" Found elements={model.GetElementCount()} relations={model.GetRelationCount()} confidence={model.ResolvedRelationPercentage}");
         }
     }
 }

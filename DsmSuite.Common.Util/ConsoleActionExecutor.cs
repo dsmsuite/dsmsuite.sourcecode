@@ -22,13 +22,14 @@ namespace DsmSuite.Common.Util
         public void Execute(Action<IProgress<ProgressInfo>> action)
         {
             Logger.LogUserMessage(_description);
-
+            Logger.LogUserMessage(new String('-', _description.Length));
             Progress<ProgressInfo> progress = new Progress<ProgressInfo>(UpdateProgress);
 
             StartTimer();
             action(progress);
             StopTimer();
-            //Logger.LogResourceUsage();
+            Logger.LogUserMessage($"Total elapsed time={ElapsedTime}");
+            Logger.LogResourceUsage();
         }
 
         private void StartTimer()
@@ -65,24 +66,22 @@ namespace DsmSuite.Common.Util
             if (_progress != progress.Percentage)
             {
                 _progress = progress.Percentage.Value;
-                Console.Write($"\r {progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage}%");
+                UpdateText($"{progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage}%");
             }
 
             if (progress.Done)
             {
-                Console.Write("\n");
-                Console.Out.Flush();
+                UpdateText("\n");
             }
         }
 
         private void UpdateProgressWithoutPercentage(ProgressInfo progress)
         {
-            UpdateText($"\r {progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}");
+            UpdateText($"{progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}");
 
             if (progress.Done)
             {
-                Console.Write("\n");
-                Console.Out.Flush();
+                UpdateText("\n");
             }
         }
 

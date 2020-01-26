@@ -88,7 +88,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             string processStep = "Builder";
             Assembly assembly = Assembly.GetEntryAssembly();
             DsiModel dsiModel = new DsiModel(processStep, assembly);
-            dsiModel.Load(dsiFilename, progress);
+            dsiModel.Load(dsiFilename, null);
 
             IImportPolicy importPolicy;
             if (!File.Exists(dsmFilename) || !recordChanges)
@@ -103,7 +103,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             DsmBuilder builder = new DsmBuilder(dsiModel, _dsmModel, importPolicy, autoPartition);
             builder.Build(progress);
             _actionStore.SaveToModel();
-            _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);
+            _dsmModel.SaveModel(dsmFilename, compressDsmFile, null);
         }
 
         public async Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress)
