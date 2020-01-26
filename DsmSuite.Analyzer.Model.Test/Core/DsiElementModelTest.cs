@@ -227,7 +227,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             model.ImportElement(2, "name2", "type2", "source2");
             model.ImportElement(3, "name3", "type3", "source3");
 
-            List<IDsiElement> elements = model.GetExportedElements().ToList();
+            List<IDsiElement> elements = model.GetElements().ToList();
             Assert.AreEqual(3, elements.Count);
 
             Assert.AreEqual(1, elements[0].Id);

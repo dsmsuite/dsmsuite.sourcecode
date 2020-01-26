@@ -93,7 +93,12 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public IEnumerable<IDsiElement> GetElements()
         {
-            return _elementsDataModel.GetExportedElements();
+            return _elementsDataModel.GetElements();
+        }
+
+        public int GetElementCount()
+        {
+            return _elementsDataModel.GetElementCount();
         }
 
         public ICollection<string> GetElementTypes()
@@ -136,6 +141,11 @@ namespace DsmSuite.Analyzer.Model.Core
         public IEnumerable<IDsiRelation> GetRelations()
         {
             return _relationsDataModel.GetRelations();
+        }
+
+        public int GetRelationCount()
+        {
+            return _relationsDataModel.GetRelationCount();
         }
 
         public bool DoesRelationExist(int consumerId, int providerId)

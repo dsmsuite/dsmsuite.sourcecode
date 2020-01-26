@@ -97,12 +97,12 @@ namespace DsmSuite.Analyzer.Model.Core
             return _elementsByName.ContainsKey(key) ? _elementsByName[key] : null;
         }
 
-        public IEnumerable<IDsiElement> GetExportedElements()
+        public IEnumerable<IDsiElement> GetElements()
         {
             return _elementsById.Values;
         }
 
-        public int GetExportedElementCount()
+        public int GetElementCount()
         {
             return _elementsById.Count;
         }

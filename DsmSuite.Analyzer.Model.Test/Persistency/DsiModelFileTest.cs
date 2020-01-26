@@ -157,22 +157,22 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             }
         }
 
-        public IEnumerable<IDsiElement> GetExportedElements()
+        public IEnumerable<IDsiElement> GetElements()
         {
             return _elements;
         }
 
-        public int GetExportedElementCount()
+        public int GetElementCount()
         {
             return _elements.Count;
         }
 
-        public IEnumerable<IDsiRelation> GetExportedRelations()
+        public IEnumerable<IDsiRelation> GetRelations()
         {
             return _relations;
         }
 
-        public int GetExportedRelationCount()
+        public int GetRelationCount()
         {
             return _relations.Count;
         }

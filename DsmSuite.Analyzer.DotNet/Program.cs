@@ -39,6 +39,7 @@ namespace DsmSuite.Analyzer.DotNet
                     {
                         ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing .Net binaries in '{_analyzerSettings.AssemblyDirectory}'");
                         executor.Execute(Analyze);
+                        Logger.LogUserMessage($" Total elapsed time={executor.ElapsedTime}");
                     }
                 }
             }
@@ -51,6 +52,7 @@ namespace DsmSuite.Analyzer.DotNet
             analyzer.Analyze(progress);
             model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, null);
             AnalyzerLogger.Flush();
+            Logger.LogUserMessage($" Found elements={model.GetElementCount()} relations={model.GetRelationCount()} confidence={model.ResolvedRelationPercentage}");
         }
     }
 }

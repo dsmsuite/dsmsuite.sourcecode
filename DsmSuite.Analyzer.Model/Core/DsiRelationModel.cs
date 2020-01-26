@@ -145,12 +145,7 @@ namespace DsmSuite.Analyzer.Model.Core
             return relations;
         }
 
-        public IEnumerable<IDsiRelation> GetExportedRelations()
-        {
-            return GetRelations();
-        }
-
-        public int GetExportedRelationCount()
+        public int GetRelationCount()
         {
             return GetRelations().Count();
         }

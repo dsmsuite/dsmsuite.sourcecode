@@ -39,6 +39,7 @@ namespace DsmSuite.Analyzer.Jdeps
                     {
                         ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing grapviz dot file '{_analyzerSettings.InputFilename}'");
                         executor.Execute(Analyze);
+                        Logger.LogUserMessage($" Total elapsed time={executor.ElapsedTime}");
                     }
                 }
             }
@@ -51,6 +52,7 @@ namespace DsmSuite.Analyzer.Jdeps
             analyzer.Analyze();
             model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, progress);
             AnalyzerLogger.Flush();
+            Logger.LogUserMessage($" Found elements={model.GetElementCount()} relations={model.GetRelationCount()} confidence={model.ResolvedRelationPercentage}");
         }
     }
 }

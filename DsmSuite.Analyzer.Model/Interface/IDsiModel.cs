@@ -28,6 +28,7 @@ namespace DsmSuite.Analyzer.Model.Interface
         IDsiElement FindElementById(int id);
         IDsiElement FindElementByName(string name);
         IEnumerable<IDsiElement> GetElements();
+        int GetElementCount();
         int TotalElementCount { get; }
         double ResolvedRelationPercentage { get; }
         ICollection<string> GetElementTypes();
@@ -40,6 +41,7 @@ namespace DsmSuite.Analyzer.Model.Interface
         // Relation queries
         ICollection<IDsiRelation> GetRelationsOfConsumer(int consumerId);
         IEnumerable<IDsiRelation> GetRelations();
+        int GetRelationCount();
         bool DoesRelationExist(int consumerId, int providerId);
         int TotalRelationCount { get; }
         int ResolvedRelationCount { get; }

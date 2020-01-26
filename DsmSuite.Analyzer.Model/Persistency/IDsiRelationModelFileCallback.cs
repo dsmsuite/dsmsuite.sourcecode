@@ -6,7 +6,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
     public interface IDsiRelationModelFileCallback
     {
         IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight);
-        IEnumerable<IDsiRelation> GetExportedRelations();
-        int GetExportedRelationCount();
+        IEnumerable<IDsiRelation> GetRelations();
+        int GetRelationCount();
     }
 }

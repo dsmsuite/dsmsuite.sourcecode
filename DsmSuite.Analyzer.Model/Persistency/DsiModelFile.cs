@@ -119,11 +119,11 @@ namespace DsmSuite.Analyzer.Model.Persistency
 
         private void WriteModelAttributes(XmlWriter writer)
         {
-            _totalElementCount = _elementModelCallback.GetExportedElementCount();
+            _totalElementCount = _elementModelCallback.GetElementCount();
             writer.WriteAttributeString(ModelElementCountXmlAttribute, _totalElementCount.ToString());
             _progressedElementCount = 0;
 
-            _totalRelationCount = _relationModelCallback.GetExportedRelationCount();
+            _totalRelationCount = _relationModelCallback.GetRelationCount();
             writer.WriteAttributeString(ModelRelationCountXmlAttribute, _totalRelationCount.ToString());
             _progressedRelationCount = 0;
         }
@@ -192,7 +192,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private void WriteElements(XmlWriter writer, IProgress<ProgressInfo> progress)
         {
             writer.WriteStartElement(ElementGroupXmlNode);
-            foreach (IDsiElement element in _elementModelCallback.GetExportedElements())
+            foreach (IDsiElement element in _elementModelCallback.GetElements())
             {
                 WriteElement(writer, element, progress);
             }
@@ -234,7 +234,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private void WriteRelations(XmlWriter writer, IProgress<ProgressInfo> progress)
         {
             writer.WriteStartElement(RelationGroupXmlNode);
-            foreach (IDsiRelation relation in _relationModelCallback.GetExportedRelations())
+            foreach (IDsiRelation relation in _relationModelCallback.GetRelations())
             {
                 WriteRelation(writer, relation, progress);
             }
