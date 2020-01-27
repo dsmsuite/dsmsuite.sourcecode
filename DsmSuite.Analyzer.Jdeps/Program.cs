@@ -37,7 +37,7 @@ namespace DsmSuite.Analyzer.Jdeps
                     }
                     else
                     {
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing grapviz dot file '{_analyzerSettings.InputFilename}'");
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing grapviz dot file '{_analyzerSettings.InputFilename}'", settingsFileInfo.FullName);
                         executor.Execute(Analyze);
                         Logger.LogUserMessage($" Total elapsed time={executor.ElapsedTime}");
                     }

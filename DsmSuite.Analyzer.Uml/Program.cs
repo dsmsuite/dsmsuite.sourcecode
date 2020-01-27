@@ -37,7 +37,7 @@ namespace DsmSuite.Analyzer.Uml
                     }
                     else
                     {
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing UML model '{_analyzerSettings.InputFilename}'");
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing UML model '{_analyzerSettings.InputFilename}'", settingsFileInfo.FullName);
                         executor.Execute(Analyze);
                     }
                 }

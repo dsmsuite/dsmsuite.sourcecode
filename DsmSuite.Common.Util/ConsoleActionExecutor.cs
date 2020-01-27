@@ -11,7 +11,7 @@ namespace DsmSuite.Common.Util
         private string _currentText;
         private readonly Stopwatch _stopWatch;
         
-        public ConsoleActionExecutor(string description)
+        public ConsoleActionExecutor(string description, string settingFilename)
         {
             _description = description;
             _progress = 0;

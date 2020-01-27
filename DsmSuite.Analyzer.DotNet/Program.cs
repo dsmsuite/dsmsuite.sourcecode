@@ -37,7 +37,7 @@ namespace DsmSuite.Analyzer.DotNet
                     }
                     else
                     {
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing .Net binaries in '{_analyzerSettings.AssemblyDirectory}'");
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing .Net binaries in '{_analyzerSettings.AssemblyDirectory}'", settingsFileInfo.FullName);
                         executor.Execute(Analyze);
                         Logger.LogUserMessage($"Total elapsed time={executor.ElapsedTime}");
                     }

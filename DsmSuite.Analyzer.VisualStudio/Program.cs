@@ -37,7 +37,7 @@ namespace DsmSuite.Analyzer.VisualStudio
                     }
                     else
                     {
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing Visual Studio solution '{_analyzerSettings.InputFilename}'");
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing Visual Studio solution '{_analyzerSettings.InputFilename}'", settingsFileInfo.FullName);
                         executor.Execute(Analyze);
                     }
                 }

@@ -31,7 +31,7 @@ namespace DsmSuite.Analyzer.Cpp
                     _analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
                     Logger.EnableLogging(Assembly.GetExecutingAssembly(), _analyzerSettings.LoggingEnabled);
 
-                    ConsoleActionExecutor executor = new ConsoleActionExecutor("Analyzing C++ code");
+                    ConsoleActionExecutor executor = new ConsoleActionExecutor("Analyzing C++ code", settingsFileInfo.FullName);
                     executor.Execute(Analyze);
                 }
             }
@@ -43,7 +43,6 @@ namespace DsmSuite.Analyzer.Cpp
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, progress);
             analyzer.Analyze();
             model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, null);
-
         }
     }
 }

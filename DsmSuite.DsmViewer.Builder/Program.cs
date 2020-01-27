@@ -40,7 +40,7 @@ namespace DsmSuite.DsmViewer.Builder
                     }
                     else
                     {
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Building dsm {_builderSettings.InputFilename}");
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Building dsm {_builderSettings.InputFilename}", settingsFileInfo.FullName);
                         executor.Execute(Build);
                     }
                 }

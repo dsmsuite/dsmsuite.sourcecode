@@ -37,7 +37,7 @@ namespace DsmSuite.Transformer
                     }
                     else
                     {
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor("Performing transformations");
+                        ConsoleActionExecutor executor = new ConsoleActionExecutor("Performing transformations", settingsFileInfo.FullName);
                         executor.Execute(Transform);
                     }
                 }
