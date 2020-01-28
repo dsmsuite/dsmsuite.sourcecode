@@ -4,29 +4,33 @@ using System.Text;
 
 namespace DsmSuite.Common.Util
 {
-    public class ConsoleActionExecutor
+    public class ConsoleActionExecutor<T>
     {
         private readonly string _description;
+        private readonly T _settings;
         private int _progress;
         private string _currentText;
         private readonly Stopwatch _stopWatch;
-        
-        public ConsoleActionExecutor(string description, string settingFilename)
+
+        public delegate void ConsoleAction(T settings, IProgress<ProgressInfo> progres);
+
+        public ConsoleActionExecutor(string description, T settings)
         {
             _description = description;
+            _settings = settings;
             _progress = 0;
             _currentText = string.Empty;
             _stopWatch = new Stopwatch();
         }
 
-        public void Execute(Action<IProgress<ProgressInfo>> action)
+        public void Execute(ConsoleAction action)
         {
             Logger.LogUserMessage(_description);
             Logger.LogUserMessage(new String('-', _description.Length));
             Progress<ProgressInfo> progress = new Progress<ProgressInfo>(UpdateProgress);
 
             StartTimer();
-            action(progress);
+            action(_settings, progress);
             StopTimer();
             Logger.LogUserMessage($"Total elapsed time={ElapsedTime}");
             Logger.LogResourceUsage();

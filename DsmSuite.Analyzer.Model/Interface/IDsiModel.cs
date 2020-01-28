@@ -37,7 +37,7 @@ namespace DsmSuite.Analyzer.Model.Interface
         // Relation editing
         IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context);
         void SkipRelation(string consumerName, string providerName, string type, string context);
-
+        void AmbiguousRelation(string consumerName, string providerName, string type, string context);
         // Relation queries
         ICollection<IDsiRelation> GetRelationsOfConsumer(int consumerId);
         IEnumerable<IDsiRelation> GetRelations();

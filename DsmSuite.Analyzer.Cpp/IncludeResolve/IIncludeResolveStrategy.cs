@@ -5,6 +5,7 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
 {
     public interface IIncludeResolveStrategy
     {
-        IList<string> Resolve(string sourceFilename, string relativeIncludeFilename);
+        IList<IncludeCandidate> GetCandidates(string relativeIncludeFilename);
+        IList<string> Resolve(string sourceFilename, string relativeIncludeFilename, IList<IncludeCandidate> candidates);
     }
 }

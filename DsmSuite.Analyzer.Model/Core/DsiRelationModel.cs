@@ -13,6 +13,7 @@ namespace DsmSuite.Analyzer.Model.Core
         private readonly Dictionary<int, Dictionary<int, Dictionary<string, DsiRelation>>> _relationsByConsumerId;
         private readonly Dictionary<string, int> _relationTypeCount;
         private int _relationCount;
+        private int _ambiguousRelationCount;
 
         public DsiRelationModel(DsiElementModel elementsDataModel)
         {
@@ -27,6 +28,7 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationsByConsumerId.Clear();
             _relationTypeCount.Clear();
             _relationCount = 0;
+            _ambiguousRelationCount = 0;
         }
 
         public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight)
@@ -102,6 +104,12 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationCount++;
         }
 
+        public void AmbiguousRelation(string consumerName, string providerName, string type, string context)
+        {
+            Logger.LogDataModelMessage("Ambiguous relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
+            _ambiguousRelationCount++;
+        }
+
         public ICollection<string> GetRelationTypes()
         {
             return _relationTypeCount.Keys;
@@ -160,6 +168,8 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public int ResolvedRelationCount => GetRelations().Count();
 
+        public int AmbiguousRelationCount => _ambiguousRelationCount;
+
         public double ResolvedRelationPercentage
         {
             get
@@ -170,6 +180,19 @@ namespace DsmSuite.Analyzer.Model.Core
                     resolvedRelationPercentage = (ResolvedRelationCount * 100.0) / TotalRelationCount;
                 }
                 return resolvedRelationPercentage;
+            }
+        }
+
+        public double AmbiguousRelationPercentage
+        {
+            get
+            {
+                double ambiguousRelationPercentage = 0.0;
+                if (TotalRelationCount > 0)
+                {
+                    ambiguousRelationPercentage = (AmbiguousRelationCount * 100.0) / TotalRelationCount;
+                }
+                return ambiguousRelationPercentage;
             }
         }
 

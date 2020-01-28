@@ -8,16 +8,16 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
         {
         }
 
-        protected override void SelectCandidates(string sourceFilename, IList<Candidate> candidates)
+        protected override void SelectCandidates(string sourceFilename, IList<IncludeCandidate> candidates)
         {
-            Candidate bestCandidate = FindBestIncludeFilenameCandidates(sourceFilename, candidates);
+            IncludeCandidate bestCandidate = FindBestIncludeFilenameCandidates(sourceFilename, candidates);
             if (bestCandidate != null)
             {
                 bestCandidate.Resolved = true;
             }
         }
 
-        private static Candidate FindBestIncludeFilenameCandidates(string sourceFilename, IList<Candidate> candidates)
+        private static IncludeCandidate FindBestIncludeFilenameCandidates(string sourceFilename, IList<IncludeCandidate> candidates)
         {
             switch (candidates.Count)
             {
@@ -26,9 +26,9 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
                 case 1:
                     return candidates[0];
                 default:
-                    Candidate bestCandidate = candidates[0];
+                    IncludeCandidate bestCandidate = candidates[0];
                     int bestMatchLength = 0;
-                    foreach (Candidate candidate in candidates)
+                    foreach (IncludeCandidate candidate in candidates)
                     {
                         int matchLength = FindMatchingCharacters(sourceFilename, candidate.Filename);
 

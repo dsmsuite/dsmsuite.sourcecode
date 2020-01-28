@@ -10,8 +10,6 @@ namespace DsmSuite.Analyzer.Jdeps
 {
     public static class Program
     {
-        private static AnalyzerSettings _analyzerSettings;
-
         static void Main(string[] args)
         {
             if (args.Length < 1)
@@ -28,16 +26,16 @@ namespace DsmSuite.Analyzer.Jdeps
                 }
                 else
                 {
-                    _analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _analyzerSettings.LoggingEnabled);
+                    AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
-                    if (!File.Exists(_analyzerSettings.InputFilename))
+                    if (!File.Exists(analyzerSettings.InputFilename))
                     {
-                        Logger.LogUserMessage($"Input file '{_analyzerSettings.InputFilename}' does not exist.");
+                        Logger.LogUserMessage($"Input file '{analyzerSettings.InputFilename}' does not exist.");
                     }
                     else
                     {
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing grapviz dot file '{_analyzerSettings.InputFilename}'", settingsFileInfo.FullName);
+                        ConsoleActionExecutor<AnalyzerSettings> executor = new ConsoleActionExecutor<AnalyzerSettings>($"Analyzing grapviz dot file '{analyzerSettings.InputFilename}'", analyzerSettings);
                         executor.Execute(Analyze);
                         Logger.LogUserMessage($" Total elapsed time={executor.ElapsedTime}");
                     }
@@ -45,12 +43,12 @@ namespace DsmSuite.Analyzer.Jdeps
             }
         }
 
-        static void Analyze(IProgress<ProgressInfo> progress)
+        static void Analyze(AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, progress);
+            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
             analyzer.Analyze();
-            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, null);
+            model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
             AnalyzerLogger.Flush();
         }
     }

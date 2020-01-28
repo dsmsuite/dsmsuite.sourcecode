@@ -9,30 +9,42 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
     {
         private readonly IList<string> _includeDirectories;
 
-        protected class Candidate
-        {
-            public Candidate(string filename)
-            {
-                Filename = filename;
-            }
-            public string Filename { get; }
-            public bool Resolved { set; get; }
-        };
-
         protected IncludeResolveStrategy(IList<string> includeDirectories)
         {
             _includeDirectories = includeDirectories;
         }
 
-        public IList<string> Resolve(string sourceFilename, string relativeIncludeFilename)
+        public IList<IncludeCandidate> GetCandidates(string relativeIncludeFilename)
+        {
+            List<IncludeCandidate> candidates = new List<IncludeCandidate>();
+
+            try
+            {
+                foreach (string includeDirectory in _includeDirectories)
+                {
+                    string absoluteIncludeFilename = Path.Combine(includeDirectory, relativeIncludeFilename);
+                    absoluteIncludeFilename = Path.GetFullPath(absoluteIncludeFilename);
+                    if (File.Exists(absoluteIncludeFilename))
+                    {
+                        candidates.Add(new IncludeCandidate(absoluteIncludeFilename));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.LogException($"Get candidates failed include={relativeIncludeFilename}", e);
+            }
+
+            return candidates;
+        }
+
+        public IList<string> Resolve(string sourceFilename, string relativeIncludeFilename, IList<IncludeCandidate> candidates)
         {
             List<string> includes = new List<string>();
 
-            IList<Candidate> candidates = GetCandidates(relativeIncludeFilename);
-
             SelectCandidates(sourceFilename, candidates);
 
-            foreach (Candidate candidate in candidates)
+            foreach (IncludeCandidate candidate in candidates)
             {
                 if (candidate.Resolved)
                 {
@@ -45,35 +57,13 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
             return includes;
         }
 
-        private IList<Candidate> GetCandidates(string relativeIncludeFilename)
-        {
-            List<Candidate> candidates = new List<Candidate>();
 
-            try
-            {
-                foreach (string includeDirectory in _includeDirectories)
-                {
-                    string absoluteIncludeFilename = Path.Combine(includeDirectory, relativeIncludeFilename);
-                    absoluteIncludeFilename = Path.GetFullPath(absoluteIncludeFilename);
-                    if (File.Exists(absoluteIncludeFilename))
-                    {
-                        candidates.Add(new Candidate(absoluteIncludeFilename));
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.LogException($"Get candidates failed include={relativeIncludeFilename}", e);
-            }
+        protected abstract void SelectCandidates(string sourceFilename, IList<IncludeCandidate> candidates);
 
-            return candidates;
-        }
-        protected abstract void SelectCandidates(string sourceFilename, IList<Candidate> candidates);
-
-        private static void LogCandidates(string sourceFilename, string relativeIncludeFilename, IList<Candidate> candidates)
+        private static void LogCandidates(string sourceFilename, string relativeIncludeFilename, IList<IncludeCandidate> candidates)
         {
             List<Tuple<string, bool>> candidateInfo = new List<Tuple<string, bool>>();
-            foreach (Candidate candidate in candidates)
+            foreach (IncludeCandidate candidate in candidates)
             {
                 candidateInfo.Add(new Tuple<string, bool>(candidate.Filename, candidate.Resolved));
             }

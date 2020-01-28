@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using DsmSuite.Analyzer.Cpp.IncludeResolve;
 
@@ -9,12 +10,14 @@ namespace DsmSuite.Analyzer.Cpp.Sources
         private readonly FileInfo _fileInfo;
         private readonly HashSet<string> _includes;
         private readonly HashSet<string> _unresolvedIncludes;
+        private readonly HashSet<string> _ambiguousIncludes;
 
         public SourceFile(FileInfo fileInfo)
         {
             _fileInfo = fileInfo;
             _includes = new HashSet<string>();
             _unresolvedIncludes = new HashSet<string>();
+            _ambiguousIncludes = new HashSet<string>();
         }
 
         public FileInfo FileInfo => _fileInfo;
@@ -28,6 +31,7 @@ namespace DsmSuite.Analyzer.Cpp.Sources
         public ICollection<string> Includes => _includes;
 
         public ICollection<string> UnresolvedIncludes => _unresolvedIncludes;
+        public ICollection<string> AmbiguousIncludes => _ambiguousIncludes;
 
         public void Analyze(IIncludeResolveStrategy includeResolveStrategy)
         {
@@ -52,11 +56,12 @@ namespace DsmSuite.Analyzer.Cpp.Sources
         {
             if (relativeIncludeFilename != null)
             {
-                if (relativeIncludeFilename == "map")
+                IList<IncludeCandidate> candidates = includeResolveStrategy.GetCandidates(relativeIncludeFilename);
+                if (candidates.Count > 1)
                 {
-
+                    AmbiguousIncludes.Add(relativeIncludeFilename);
                 }
-                IList<string> resolvedIncludes = includeResolveStrategy.Resolve(_fileInfo.FullName, relativeIncludeFilename);
+                IList<string> resolvedIncludes = includeResolveStrategy.Resolve(_fileInfo.FullName, relativeIncludeFilename, candidates);
                 foreach (string resolvedInclude in resolvedIncludes)
                 {
                     _includes.Add(resolvedInclude);

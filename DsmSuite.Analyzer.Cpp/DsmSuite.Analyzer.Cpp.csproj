@@ -27,6 +27,7 @@
   <ItemGroup>
     <Compile Include="IncludeResolve\AllIncludeFileResolveStrategy.cs" />
     <Compile Include="Analysis\Analyzer.cs" />
+    <Compile Include="IncludeResolve\IncludeCandidate.cs" />
     <Compile Include="Settings\AnalyzerSettings.cs" />
     <Compile Include="IncludeResolve\BestMatchIncludeFileResolveStrategy.cs" />
     <Compile Include="IncludeResolve\IgnoreIncludeFileResolveStrategy.cs" />

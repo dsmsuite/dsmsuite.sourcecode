@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using DsmSuite.Analyzer.Cpp.IncludeResolve;
 using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Cpp.Sources;
@@ -124,6 +123,14 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
                 if (!IsExternalInclude(unresolvedIncludedFile))
                 {
                     _model.SkipRelation(sourceFile.Name, unresolvedIncludedFile, "include", "not resolved");
+                }
+            }
+
+            foreach (string ambiguousIncludedFile in sourceFile.AmbiguousIncludes)
+            {
+                if (!IsExternalInclude(ambiguousIncludedFile))
+                {
+                    _model.AmbiguousRelation(sourceFile.Name, ambiguousIncludedFile, "include", "ambiguous");
                 }
             }
         }

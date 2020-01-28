@@ -37,14 +37,14 @@ namespace DsmSuite.Transformer
                     }
                     else
                     {
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor("Performing transformations", settingsFileInfo.FullName);
+                        ConsoleActionExecutor<TransformerSettings> executor = new ConsoleActionExecutor<TransformerSettings>("Performing transformations", _transformerSettings);
                         executor.Execute(Transform);
                     }
                 }
             }
         }
 
-        static void Transform(IProgress<ProgressInfo> progress)
+        static void Transform(TransformerSettings settings, IProgress<ProgressInfo> progress)
         {
             DsiModel model = new DsiModel("Transformer", Assembly.GetExecutingAssembly());
             model.Load(_transformerSettings.InputFilename, null);

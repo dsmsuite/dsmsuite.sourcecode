@@ -77,12 +77,14 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         {
             string implementationFile = @"D:\Data\myfile.cpp";
             string headerFile = "myfile.h";
+            List<IncludeCandidate> candidates = new List<IncludeCandidate> {new IncludeCandidate(@"D:\Data\myfile.h")};
             List<string> resolvedIncludes = new List<string> {@"D:\Data\myfile.h"};
 
             SourceFile sourceFile = new SourceFile(new FileInfo(implementationFile));
 
             var mock = new Mock<IIncludeResolveStrategy>();
-            mock.Setup(x => x.Resolve(implementationFile, headerFile)).Returns(resolvedIncludes);
+            mock.Setup(x => x.GetCandidates(headerFile)).Returns(candidates);
+            mock.Setup(x => x.Resolve(implementationFile, headerFile, candidates)).Returns(resolvedIncludes);
 
             Assert.AreEqual(0, sourceFile.Includes.Count);
             sourceFile.ResolveIncludeFile(headerFile, mock.Object);

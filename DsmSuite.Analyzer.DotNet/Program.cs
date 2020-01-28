@@ -10,8 +10,6 @@ namespace DsmSuite.Analyzer.DotNet
 {
     public static class Program
     {
-        private static AnalyzerSettings _analyzerSettings;
-
         static void Main(string[] args)
         {
             if (args.Length < 1)
@@ -28,16 +26,16 @@ namespace DsmSuite.Analyzer.DotNet
                 }
                 else
                 {
-                    _analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _analyzerSettings.LoggingEnabled);
+                    AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
-                    if (!Directory.Exists(_analyzerSettings.AssemblyDirectory))
+                    if (!Directory.Exists(analyzerSettings.AssemblyDirectory))
                     {
-                        Logger.LogUserMessage($"Input directory '{_analyzerSettings.AssemblyDirectory}' does not exist.");
+                        Logger.LogUserMessage($"Input directory '{analyzerSettings.AssemblyDirectory}' does not exist.");
                     }
                     else
                     {
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Analyzing .Net binaries in '{_analyzerSettings.AssemblyDirectory}'", settingsFileInfo.FullName);
+                        ConsoleActionExecutor<AnalyzerSettings> executor = new ConsoleActionExecutor<AnalyzerSettings>($"Analyzing .Net binaries in '{analyzerSettings.AssemblyDirectory}'", analyzerSettings);
                         executor.Execute(Analyze);
                         Logger.LogUserMessage($"Total elapsed time={executor.ElapsedTime}");
                     }
@@ -45,12 +43,12 @@ namespace DsmSuite.Analyzer.DotNet
             }
         }
 
-        static void Analyze(IProgress<ProgressInfo> progress)
+        static void Analyze(AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings);
+            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
             analyzer.Analyze(progress);
-            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, null);
+            model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
             AnalyzerLogger.Flush();
         }
     }

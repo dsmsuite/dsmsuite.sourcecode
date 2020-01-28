@@ -32,7 +32,6 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void Save(string dsiFilename, bool compressFile, IProgress<ProgressInfo> progress)
         {
-            Logger.LogUserMessage($"Found elements={GetElementCount()} relations={GetRelationCount()} confidence={ResolvedRelationPercentage}");
             Logger.LogDataModelMessage($"Save data model file={dsiFilename} compresss={compressFile}");
 
             foreach (string type in GetElementTypes())
@@ -124,6 +123,11 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationsDataModel.SkipRelation(consumerName, providerName, type, context);
         }
 
+        public void AmbiguousRelation(string consumerName, string providerName, string type, string context)
+        {
+            _relationsDataModel.AmbiguousRelation(consumerName, providerName, type, context);
+        }
+
         public ICollection<string> GetRelationTypes()
         {
             return _relationsDataModel.GetRelationTypes();
@@ -159,5 +163,9 @@ namespace DsmSuite.Analyzer.Model.Core
         public int ResolvedRelationCount => _relationsDataModel.ResolvedRelationCount;
 
         public double ResolvedRelationPercentage => _relationsDataModel.ResolvedRelationPercentage;
+
+        public int AmbiguousRelationCount => _relationsDataModel.AmbiguousRelationCount;
+
+        public double AmbiguousRelationPercentage => _relationsDataModel.AmbiguousRelationPercentage;
     }
 }

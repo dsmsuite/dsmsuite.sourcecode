@@ -40,14 +40,14 @@ namespace DsmSuite.DsmViewer.Builder
                     }
                     else
                     {
-                        ConsoleActionExecutor executor = new ConsoleActionExecutor($"Building dsm {_builderSettings.InputFilename}", settingsFileInfo.FullName);
+                        ConsoleActionExecutor<BuilderSettings> executor = new ConsoleActionExecutor<BuilderSettings>($"Building dsm {_builderSettings.InputFilename}", _builderSettings);
                         executor.Execute(Build);
                     }
                 }
             }
         }
 
-        static void Build(IProgress<ProgressInfo> progress)
+        static void Build(BuilderSettings settings, IProgress<ProgressInfo> progress)
         {
             DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
             DsmApplication application = new DsmApplication(model);

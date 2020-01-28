@@ -22,7 +22,8 @@ namespace DsmSuite.Analyzer.Cpp.Test.IncludeResolve
                 Path.Combine(TestData.RootDirectory, "PackageA3")
             };
             IIncludeResolveStrategy includeResolveStrategy = new IgnoreIncludeFileResolveStrategy(includePaths);
-            IList<string> includes = includeResolveStrategy.Resolve(implementationFile, headerFile);
+            IList<IncludeCandidate> candidates = includeResolveStrategy.GetCandidates(headerFile);
+            IList<string> includes = includeResolveStrategy.Resolve(implementationFile, headerFile, candidates);
             Assert.AreEqual(0, includes.Count);
         }
     }

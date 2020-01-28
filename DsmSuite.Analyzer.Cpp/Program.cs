@@ -3,15 +3,12 @@ using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Model.Core;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Cpp
 {
     public static class Program
     {
-        private static AnalyzerSettings _analyzerSettings;
-
         static void Main(string[] args)
         {
             if (args.Length < 1)
@@ -28,21 +25,29 @@ namespace DsmSuite.Analyzer.Cpp
                 }
                 else
                 {
-                    _analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _analyzerSettings.LoggingEnabled);
+                    AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
-                    ConsoleActionExecutor executor = new ConsoleActionExecutor("Analyzing C++ code", settingsFileInfo.FullName);
+                    ConsoleActionExecutor<AnalyzerSettings> executor = new ConsoleActionExecutor<AnalyzerSettings>("Analyzing C++ code", analyzerSettings);
                     executor.Execute(Analyze);
                 }
             }
         }
 
-        static void Analyze(IProgress<ProgressInfo> progress)
+        static void Analyze(AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
+            Logger.LogUserMessage("Input directories:");
+            foreach (string sourceDirectory in analyzerSettings.SourceDirectories)
+            {
+                Logger.LogUserMessage($" {sourceDirectory}");
+            }
+            Logger.LogUserMessage($"Resolve method: {analyzerSettings.ResolveMethod}");
             DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, progress);
+            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
             analyzer.Analyze();
-            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, null);
+            model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
+            Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}% ambiguousRelations={model.AmbiguousRelationPercentage:0.0}%");
+            Logger.LogUserMessage($"Output file: {analyzerSettings.OutputFilename} compressed={analyzerSettings.CompressOutputFile}");
         }
     }
 }

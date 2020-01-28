@@ -8,7 +8,7 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
         {
         }
 
-        protected override void SelectCandidates(string sourceFilename, IList<Candidate> candidates)
+        protected override void SelectCandidates(string sourceFilename, IList<IncludeCandidate> candidates)
         {
         }
     }
