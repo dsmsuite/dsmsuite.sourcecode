@@ -182,7 +182,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
                     ProgressInfo progressInfoInfo = new ProgressInfo
                     {
                         ActionText = actionText,
-                        TotalItemCount = _sourceDirectory.SourceFiles.Count,
+                        TotalItemCount = totalItemCount,
                         CurrentItemCount = itemCount,
                         ItemType = itemType,
                         Percentage = currentProgressPercentage,

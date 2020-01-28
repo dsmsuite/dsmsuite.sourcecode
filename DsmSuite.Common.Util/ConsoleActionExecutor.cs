@@ -9,7 +9,7 @@ namespace DsmSuite.Common.Util
         private readonly string _description;
         private readonly T _settings;
         private int _progress;
-        private string _currentText;
+        private string _currentText = string.Empty;
         private readonly Stopwatch _stopWatch;
 
         public delegate void ConsoleAction(T settings, IProgress<ProgressInfo> progres);
@@ -70,52 +70,33 @@ namespace DsmSuite.Common.Util
             if (_progress != progress.Percentage)
             {
                 _progress = progress.Percentage.Value;
-                UpdateText($"{progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage}%");
-            }
-
-            if (progress.Done)
-            {
-                UpdateText("\n");
+                string text = $"{progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage}%";
+                UpdateText(text, progress.Done);
             }
         }
 
         private void UpdateProgressWithoutPercentage(ProgressInfo progress)
         {
-            UpdateText($"{progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}");
-
-            if (progress.Done)
-            {
-                UpdateText("\n");
-            }
+            string text = $"{progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}";
+            UpdateText(text, progress.Done);
         }
 
-        private void UpdateText(string text)
+        private void UpdateText(string text, bool done)
         {
-            // Find common part
-            int commonPrefixLength = 0;
-            int commonLength = Math.Min(_currentText.Length, text.Length);
-            while (commonPrefixLength < commonLength && text[commonPrefixLength] == _currentText[commonPrefixLength])
+            if (!Console.IsOutputRedirected)
             {
-                commonPrefixLength++;
+                string endline = done ? "\n" : "";
+                int overlapCount = _currentText.Length - text.Length;
+                if (overlapCount > 0)
+                {
+                    StringBuilder outputBuilder = new StringBuilder(text);
+                    outputBuilder.Append(' ', overlapCount);
+                    outputBuilder.Append('\b', overlapCount);
+                    Console.Write("\r" + outputBuilder);
+                }
+                Console.Write("\r" + text + endline);
+                _currentText = text;
             }
-
-            // Backtrack to the first differing character
-            StringBuilder outputBuilder = new StringBuilder();
-            outputBuilder.Append('\b', _currentText.Length - commonPrefixLength);
-
-            // Output new suffix
-            outputBuilder.Append(text.Substring(commonPrefixLength));
-
-            // If the new text is shorter than the old one: delete overlapping characters
-            int overlapCount = _currentText.Length - text.Length;
-            if (overlapCount > 0)
-            {
-                outputBuilder.Append(' ', overlapCount);
-                outputBuilder.Append('\b', overlapCount);
-            }
-
-            Console.Write(outputBuilder);
-            _currentText = text;
         }
     }
 }

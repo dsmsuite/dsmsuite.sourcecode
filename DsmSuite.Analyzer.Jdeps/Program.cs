@@ -45,11 +45,14 @@ namespace DsmSuite.Analyzer.Jdeps
 
         static void Analyze(AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
+            Logger.LogUserMessage($"Input filename:{analyzerSettings.InputFilename}");
             DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
             analyzer.Analyze();
             model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
-            AnalyzerLogger.Flush();
+            Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}% ambiguousRelations={model.AmbiguousRelationPercentage:0.0}%");
+            Logger.LogUserMessage($"Output file: {analyzerSettings.OutputFilename} compressed={analyzerSettings.CompressOutputFile}");
+
         }
     }
 }

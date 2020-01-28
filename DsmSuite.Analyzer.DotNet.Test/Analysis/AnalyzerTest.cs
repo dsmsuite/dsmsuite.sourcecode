@@ -22,8 +22,8 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
             };
 
             IDsiModel model = new DsiModel("Test", Assembly.GetExecutingAssembly());
-            DotNet.Analysis.Analyzer analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings);
-            analyzer.Analyze(null);
+            DotNet.Analysis.Analyzer analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings, null);
+            analyzer.Analyze();
 
             // Main elements
             IDsiElement elementMainClient = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainClient");

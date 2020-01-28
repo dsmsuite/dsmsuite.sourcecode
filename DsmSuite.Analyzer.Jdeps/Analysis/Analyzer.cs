@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using DsmSuite.Analyzer.Jdeps.Settings;
 using DsmSuite.Analyzer.Model.Interface;
+using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Jdeps.Analysis
@@ -50,6 +51,7 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
                 }
             }
             UpdateProgress(lineNumber, true);
+            AnalyzerLogger.Flush();
         }
 
         private string RemoveTrailingText(string provider)

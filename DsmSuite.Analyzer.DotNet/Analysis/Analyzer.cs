@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Interface;
+using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 using Mono.Cecil;
 
@@ -18,42 +17,46 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
         private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
         private readonly Dictionary<string, FileInfo> _typeAssemblyInfoList = new Dictionary<string, FileInfo>();
         private readonly List<FileInfo> _assemblyFileInfos = new List<FileInfo>();
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
         }
 
-        public void Analyze(IProgress<ProgressInfo> progress)
+        public void Analyze()
         {
-            FindAssemblies(progress);
-            FindTypes(progress);
-            FindRelations(progress);
+            FindAssemblies();
+            FindTypes();
+            FindRelations();
+            AnalyzerLogger.Flush();
         }
 
-        private void FindAssemblies(IProgress<ProgressInfo> progress)
+        private void FindAssemblies()
         {
             foreach (string assemblyFilename in Directory.EnumerateFiles(_analyzerSettings.AssemblyDirectory))
             {
                 RegisterAssembly(assemblyFilename);
+                UpdateProgress("Finding assemblies", _assemblyFileInfos.Count, "assemblies", false);
             }
+            UpdateProgress("Finding assemblies", _assemblyFileInfos.Count, "assemblies", true);
         }
 
-        private void FindTypes(IProgress<ProgressInfo> progress)
+        private void FindTypes()
         {
             ReaderParameters readerParameters = DetermineAssemblyReaderParameters();
 
             foreach (FileInfo assemblyFileInfo in _assemblyFileInfos)
             {
-                Logger.LogUserMessage("Analyzing assembly: " + assemblyFileInfo.FullName);
-
                 try
                 {
-                    AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(assemblyFileInfo.FullName, readerParameters);
+                    AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(assemblyFileInfo.FullName,
+                        readerParameters);
 
                     foreach (ModuleDefinition module in assembly.Modules)
                     {
@@ -67,23 +70,23 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                             }
                         }
                     }
-
-                    Logger.LogUserMessage(" analysis " + assemblyFileInfo.FullName + " successful");
                 }
                 catch (Exception e)
                 {
                     Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} failed", e);
                 }
             }
+            UpdateProgress("Finding types", _typeList.Count, "types", true);
         }
 
-        private void FindRelations(IProgress<ProgressInfo> progress)
+        private void FindRelations()
         {
             foreach (TypeDefinition typeDecl in _typeList)
             {
                 FileInfo assemblyInfo = _typeAssemblyInfoList[typeDecl.FullName];
                 AnalyseTypeRelations(assemblyInfo, typeDecl);
             }
+            UpdateProgress("Finding relations", _model.GetRelationCount(), "relations", true);
         }
 
         private ReaderParameters DetermineAssemblyReaderParameters()
@@ -96,7 +99,8 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             {
                 if (assemblyFileInfo.Exists)
                 {
-                    if (assemblyFileInfo.DirectoryName != null && paths.ContainsKey(assemblyFileInfo.DirectoryName) == false)
+                    if (assemblyFileInfo.DirectoryName != null &&
+                        paths.ContainsKey(assemblyFileInfo.DirectoryName) == false)
                     {
                         paths.Add(assemblyFileInfo.DirectoryName, true);
                         resolver.AddSearchDirectory(assemblyFileInfo.DirectoryName);
@@ -104,7 +108,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
             }
 
-            ReaderParameters readerParameters = new ReaderParameters() { AssemblyResolver = resolver };
+            ReaderParameters readerParameters = new ReaderParameters() {AssemblyResolver = resolver};
             return readerParameters;
         }
 
@@ -116,7 +120,8 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             }
             catch (Exception e)
             {
-                Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} failed", e);
+                Logger.LogException(
+                    $"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} failed", e);
             }
 
             foreach (TypeDefinition nestedType in typeDecl.NestedTypes)
@@ -127,7 +132,9 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
                 catch (Exception e)
                 {
-                    Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} nestedType={nestedType.Name}", e);
+                    Logger.LogException(
+                        $"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} nestedType={nestedType.Name}",
+                        e);
                 }
             }
         }
@@ -176,7 +183,9 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
                 catch (Exception e)
                 {
-                    Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} interface={interf.Name}", e);
+                    Logger.LogException(
+                        $"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} interface={interf.Name}",
+                        e);
                 }
             }
         }
@@ -208,7 +217,9 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
                 catch (Exception e)
                 {
-                    Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} field={fieldDecl.Name}", e);
+                    Logger.LogException(
+                        $"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} field={fieldDecl.Name}",
+                        e);
                 }
             }
         }
@@ -224,7 +235,9 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
                 catch (Exception e)
                 {
-                    Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} property={propertyDecl.Name}", e);
+                    Logger.LogException(
+                        $"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} property={propertyDecl.Name}",
+                        e);
                 }
             }
         }
@@ -242,12 +255,15 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
                 catch (Exception e)
                 {
-                    Logger.LogException("Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} method={method.Name}", e);
+                    Logger.LogException(
+                        "Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} method={method.Name}",
+                        e);
                 }
             }
         }
 
-        private void AnalyzeGenericMethodParameters(FileInfo assemblyFileInfo, TypeDefinition typeDecl, MethodDefinition method)
+        private void AnalyzeGenericMethodParameters(FileInfo assemblyFileInfo, TypeDefinition typeDecl,
+            MethodDefinition method)
         {
             foreach (GenericParameter genericArgument in method.GenericParameters)
             {
@@ -260,7 +276,9 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                     }
                     catch (Exception e)
                     {
-                        Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} constraint={constraint.Name}", e);
+                        Logger.LogException(
+                            $"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} constraint={constraint.Name}",
+                            e);
                     }
                 }
             }
@@ -277,7 +295,9 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
                 catch (Exception e)
                 {
-                    Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} method={method.Name} parameter={paramDecl.Name}", e);
+                    Logger.LogException(
+                        $"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} method={method.Name} parameter={paramDecl.Name}",
+                        e);
                 }
             }
         }
@@ -293,7 +313,9 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             }
             catch (Exception e)
             {
-                Logger.LogException($"Analysis failed assemblyFileInfo={assemblyFileInfo.FullName} type={typeDecl.Name} method={method.Name} return={returnType.Name}", e);
+                Logger.LogException(
+                    $"Analysis failed assemblyFileInfo={assemblyFileInfo.FullName} type={typeDecl.Name} method={method.Name} return={returnType.Name}",
+                    e);
             }
         }
 
@@ -311,11 +333,13 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             }
             catch (Exception e)
             {
-                Logger.LogException($"Analysis failed asssmbly={assemblyFileInfo.FullName} type={typeDecl.Name} method={method.Name}", e);
+                Logger.LogException(
+                    $"Analysis failed asssmbly={assemblyFileInfo.FullName} type={typeDecl.Name} method={method.Name}", e);
             }
         }
 
-        private void AnalyzeLocalVariables(FileInfo assemblyFileInfo, TypeDefinition typeDecl, MethodDefinition method, Mono.Cecil.Cil.MethodBody body)
+        private void AnalyzeLocalVariables(FileInfo assemblyFileInfo, TypeDefinition typeDecl, MethodDefinition method,
+            Mono.Cecil.Cil.MethodBody body)
         {
             foreach (Mono.Cecil.Cil.VariableDefinition variable in body.Variables)
             {
@@ -326,12 +350,15 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
                 catch (Exception e)
                 {
-                    Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} method={method.Name} variable={variable}", e);
+                    Logger.LogException(
+                        $"Analysis failed assembly={assemblyFileInfo.FullName} type={typeDecl.Name} method={method.Name} variable={variable}",
+                        e);
                 }
             }
         }
 
-        private void AnalyzeBodyTypeReferences(TypeDefinition typeDecl, MethodDefinition method, Mono.Cecil.Cil.MethodBody body)
+        private void AnalyzeBodyTypeReferences(TypeDefinition typeDecl, MethodDefinition method,
+            Mono.Cecil.Cil.MethodBody body)
         {
             int index = 0;
 
@@ -347,36 +374,38 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                     case Mono.Cecil.Cil.OperandType.InlineType:
                     case Mono.Cecil.Cil.OperandType.InlineMethod:
                     case Mono.Cecil.Cil.OperandType.InlineField:
-                        {
-                            object op = i.Operand;
+                    {
+                        object op = i.Operand;
 
-                            if (op == null)
+                        if (op == null)
+                        {
+                            Logger.LogError("Unexpected null operand in method=" + method.Name);
+                        }
+                        else
+                        {
+                            TypeReference t = op as TypeReference;
+                            if (t != null)
                             {
-                                Logger.LogError("Unexpected null operand in method=" + method.Name);
+                                string context = "Analyze type references of method " + typeDecl.Name + "::" +
+                                                 method.Name;
+                                RegisterRelation(t, typeDecl, "reference", context);
                             }
                             else
                             {
-                                TypeReference t = op as TypeReference;
-                                if (t != null)
+                                MemberReference m = op as MemberReference;
+                                if (m != null)
                                 {
-                                    string context = "Analyze type references of method " + typeDecl.Name + "::" + method.Name;
-                                    RegisterRelation(t, typeDecl, "reference", context);
+                                    string context = "Analyze member references of method " + typeDecl.Name + "::" +
+                                                     method.Name;
+                                    RegisterRelation(m.DeclaringType, typeDecl, "reference", context);
                                 }
                                 else
                                 {
-                                    MemberReference m = op as MemberReference;
-                                    if (m != null)
-                                    {
-                                        string context = "Analyze member references of method " + typeDecl.Name + "::" + method.Name;
-                                        RegisterRelation(m.DeclaringType, typeDecl, "reference", context);
-                                    }
-                                    else
-                                    {
-                                        Logger.LogError("Unhandled token type: " + op + " in method = " + method.Name);
-                                    }
+                                    Logger.LogError("Unhandled token type: " + op + " in method = " + method.Name);
                                 }
                             }
                         }
+                    }
                         break;
                 }
 
@@ -388,7 +417,8 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         {
             FileInfo fileInfo = new FileInfo(assemblyFilename);
 
-            if (((fileInfo.Extension == ".exe") || (fileInfo.Extension == ".dll")) && (!fileInfo.Name.EndsWith(".vshost.exe")))
+            if (((fileInfo.Extension == ".exe") || (fileInfo.Extension == ".dll")) &&
+                (!fileInfo.Name.EndsWith(".vshost.exe")))
             {
                 _assemblyFileInfos.Add(fileInfo);
             }
@@ -405,12 +435,14 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 {
                     _typeList.Add(typeDecl);
                     _typeAssemblyInfoList[typeDecl.FullName] = assemblyFileInfo;
+                    UpdateProgress("Finding types", _typeList.Count, "types", false);
                 }
             }
         }
 
 
-        private void RegisterRelation(TypeReference providerType, TypeReference consumerType, string type, string context)
+        private void RegisterRelation(TypeReference providerType, TypeReference consumerType, string type,
+            string context)
         {
             if ((providerType != null) && (consumerType != null))
             {
@@ -421,6 +453,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                     !Ignore(providerName))
                 {
                     _model.AddRelation(consumerName, providerName, type, 1, context);
+                    UpdateProgress("Finding relations", _model.GetRelationCount(), "relations", false);
                 }
 
                 GenericInstanceType providerGenericType = providerType as GenericInstanceType;
@@ -450,6 +483,23 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             }
             return ignore;
         }
+
+        private void UpdateProgress(string actionText, int itemCount, string itemType, bool done)
+        {
+            if (_progress != null)
+            {
+                ProgressInfo progressInfoInfo = new ProgressInfo
+                {
+                    ActionText = actionText,
+                    TotalItemCount = itemCount,
+                    CurrentItemCount = itemCount,
+                    ItemType = itemType,
+                    Percentage = null,
+                    Done = done
+                };
+
+                _progress.Report(progressInfoInfo);
+            }
+        }
     }
 }
-

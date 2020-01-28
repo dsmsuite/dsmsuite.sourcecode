@@ -14,32 +14,35 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
         private readonly SolutionFile _solutionFile;
         private readonly Dictionary<string, FileInfo> _sourcesFilesById = new Dictionary<string, FileInfo>();
         private readonly Dictionary<string, string> _interfaceFilesByPath = new Dictionary<string, string>();
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
             _solutionFile = new SolutionFile(analyzerSettings.InputFilename, _analyzerSettings);
         }
 
-        public void Analyze(IProgress<ProgressInfo> progress)
+        public void Analyze()
         {
-            RegisterInterfaceFiles(progress);
-            AnalyzeSolution(progress);
-            RegisterSourceFiles(progress);
-            RegisterDirectIncludeRelations(progress);
-            RegisterGeneratedFileRelations(progress);
+            RegisterInterfaceFiles();
+            AnalyzeSolution();
+            RegisterSourceFiles();
+            RegisterDirectIncludeRelations();
+            RegisterGeneratedFileRelations();
+            AnalyzerLogger.Flush();
         }
 
-        private void AnalyzeSolution(IProgress<ProgressInfo> progress)
+        private void AnalyzeSolution()
         {
             _solutionFile.Analyze();
         }
 
-        private void RegisterSourceFiles(IProgress<ProgressInfo> progress)
+        private void RegisterSourceFiles()
         {
             foreach (ProjectFile visualStudioProject in _solutionFile.Projects)
             {
@@ -50,7 +53,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
         }
 
-        private void RegisterInterfaceFiles(IProgress<ProgressInfo> progress)
+        private void RegisterInterfaceFiles()
         {
             foreach (string interfaceDirectory in _analyzerSettings.InterfaceIncludeDirectories)
             {
@@ -93,7 +96,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
         }
 
-        private void RegisterDirectIncludeRelations(IProgress<ProgressInfo> progress)
+        private void RegisterDirectIncludeRelations()
         {
             foreach (ProjectFile visualStudioProject in _solutionFile.Projects)
             {
@@ -219,7 +222,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             _model.AddRelation(consumerName, providerName, "include", 1, "physical include file is resolved");
         }
 
-        private void RegisterGeneratedFileRelations(IProgress<ProgressInfo> progress)
+        private void RegisterGeneratedFileRelations()
         {
             foreach (ProjectFile visualStudioProject in _solutionFile.Projects)
             {
