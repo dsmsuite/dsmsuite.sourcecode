@@ -34,7 +34,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             FindAssemblies();
             FindTypes();
             FindRelations();
-            AnalyzerLogger.Flush();
+            //AnalyzerLogger.Flush();
         }
 
         private void FindAssemblies()

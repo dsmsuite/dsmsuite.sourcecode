@@ -85,7 +85,6 @@ namespace DsmSuite.Common.Util
         {
             if (!Console.IsOutputRedirected)
             {
-                string endline = done ? "\n" : "";
                 int overlapCount = _currentText.Length - text.Length;
                 if (overlapCount > 0)
                 {
@@ -94,7 +93,14 @@ namespace DsmSuite.Common.Util
                     outputBuilder.Append('\b', overlapCount);
                     Console.Write("\r" + outputBuilder);
                 }
-                Console.Write("\r" + text + endline);
+                if (done)
+                {
+                    Console.WriteLine("\r" + text);
+                }
+                else
+                {
+                    Console.Write("\r" + text);
+                }
                 _currentText = text;
             }
         }
