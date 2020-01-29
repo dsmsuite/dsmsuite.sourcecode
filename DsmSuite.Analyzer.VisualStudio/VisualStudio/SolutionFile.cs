@@ -15,6 +15,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private readonly FileInfo _solutionFileInfo;
         private readonly string _name;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
         private bool _parsingProjectNesting;
         private readonly Dictionary<string, string> _solutionFolderNames = new Dictionary<string, string>();
         private readonly Dictionary<string, string> _solutionFolderParents = new Dictionary<string, string>();
@@ -29,11 +30,14 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private const string CsprojType = "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC";
         private const string SolutionFolderType = "2150E333-8FDC-42A3-9474-1A3956D46DE8";
 
-        public SolutionFile(string solutionPath, AnalyzerSettings analyzerSettings)
+        private int _progressPercentage;
+
+        public SolutionFile(string solutionPath, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _solutionFileInfo = new FileInfo(solutionPath);
             _name = _solutionFileInfo.Name;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
         }
 
         public void Analyze()
@@ -214,6 +218,35 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             else
             {
                 return path;
+            }
+        }
+
+        private void UpdateProgress(string actionText, int totalItemCount, int itemCount, string itemType)
+        {
+            if (_progress != null)
+            {
+                int currentProgressPercentage = 0;
+                if (itemCount > 0)
+                {
+                    currentProgressPercentage = itemCount * 100 / totalItemCount;
+                }
+
+                if (_progressPercentage != currentProgressPercentage)
+                {
+                    _progressPercentage = currentProgressPercentage;
+
+                    ProgressInfo progressInfoInfo = new ProgressInfo
+                    {
+                        ActionText = actionText,
+                        TotalItemCount = totalItemCount,
+                        CurrentItemCount = itemCount,
+                        ItemType = itemType,
+                        Percentage = currentProgressPercentage,
+                        Done = currentProgressPercentage == 100
+                    };
+
+                    _progress.Report(progressInfoInfo);
+                }
             }
         }
     }

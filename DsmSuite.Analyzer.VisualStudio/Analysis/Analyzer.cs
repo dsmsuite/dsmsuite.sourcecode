@@ -24,7 +24,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             _model = model;
             _analyzerSettings = analyzerSettings;
             _progress = progress;
-            _solutionFile = new SolutionFile(analyzerSettings.InputFilename, _analyzerSettings);
+            _solutionFile = new SolutionFile(analyzerSettings.InputFilename, _analyzerSettings, progress);
         }
 
         public void Analyze()
@@ -66,6 +66,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(externalDirectory.Path);
                 RegisterInterfaceFiles(interfaceDirectoryInfo);
             }
+            UpdateProgress("Register interface files", _interfaceFilesByPath.Count, "interfaces", true);
         }
 
         private void RegisterInterfaceFiles(DirectoryInfo interfaceDirectoryInfo)
@@ -78,6 +79,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     {
                         SourceFile sourceFile = new SourceFile(interfacefileInfo.FullName);
                         _interfaceFilesByPath[interfacefileInfo.FullName] = sourceFile.Id;
+                        UpdateProgress("Register interface files", _interfaceFilesByPath.Count, "interfaces", false);
                     }
                     else
                     {
@@ -444,6 +446,24 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
 
             return name;
+        }
+
+        private void UpdateProgress(string actionText, int itemCount, string itemType, bool done)
+        {
+            if (_progress != null)
+            {
+                ProgressInfo progressInfoInfo = new ProgressInfo
+                {
+                    ActionText = actionText,
+                    TotalItemCount = itemCount,
+                    CurrentItemCount = itemCount,
+                    ItemType = itemType,
+                    Percentage = null,
+                    Done = done
+                };
+
+                _progress.Report(progressInfoInfo);
+            }
         }
     }
 }

@@ -16,17 +16,19 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private readonly List<string> _includeDirectories = new List<string>();
         private readonly FilterFile _filterFile;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
         private readonly List<GeneratedFileRelation> _generatedFileRelations = new List<GeneratedFileRelation>();
         private IncludeResolveStrategy _includeResolveStrategy;
 
 
-        public ProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings)
+        public ProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             SolutionFolder = solutionFolder;
             _projectFileInfo = new FileInfo(projectPath);
             ProjectName = _projectFileInfo.Name;
             _solutionDir = solutionDir;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
             _filterFile = new FilterFile(_projectFileInfo.FullName + ".filters");
             TargetExtension = "";
         }
