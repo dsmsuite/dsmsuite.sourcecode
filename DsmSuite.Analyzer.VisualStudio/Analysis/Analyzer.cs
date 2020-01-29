@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Util;

@@ -45,10 +45,31 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             ParseFile();
             FindProjectsInSolution();
 
+            int analyzedProjects = 0;
             foreach (ProjectFile visualStudioProject in _projects.Values)
             {
                 visualStudioProject.Analyze();
+                analyzedProjects++;
+                UpdateProgress("Analyze projects", _projects.Count, analyzedProjects, "projects");
             }
+
+            int totalSourceFiles = 0;
+            foreach (ProjectFile visualStudioProject in _projects.Values)
+            {
+                totalSourceFiles += visualStudioProject.SourceFiles.Count;
+            }
+
+            int analyzedSourceFiles = 0;
+            foreach (ProjectFile visualStudioProject in _projects.Values)
+            {
+                foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
+                {
+                    sourceFile.Analyze();
+                    analyzedSourceFiles++;
+                    UpdateProgress("Analyze source files", totalSourceFiles, analyzedSourceFiles, "files");
+                }
+            }
+
         }
 
         public string Name => _name;
