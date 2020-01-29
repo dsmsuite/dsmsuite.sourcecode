@@ -85,22 +85,24 @@ namespace DsmSuite.Common.Util
         {
             if (!Console.IsOutputRedirected)
             {
-                Console.SetCursorPosition(0, Console.CursorTop);
+                StringBuilder outputBuilder = new StringBuilder(text);
+                int overlapCount = _currentText.Length - text.Length;
+                if (overlapCount > 0)
+                {
+
+                    outputBuilder.Append(' ', overlapCount);
+                    outputBuilder.Append('\b', overlapCount);
+                    Console.Write(outputBuilder);
+                }
+
                 if (done)
                 {
-                    Console.WriteLine(text);
+                    Console.Write("\r" + outputBuilder);
+                    Console.WriteLine("\r" + text);
                 }
                 else
                 {
-                    int overlapCount = _currentText.Length - text.Length;
-                    if (overlapCount > 0)
-                    {
-                        StringBuilder outputBuilder = new StringBuilder(text);
-                        outputBuilder.Append(' ', overlapCount);
-                        outputBuilder.Append('\b', overlapCount);
-                        Console.Write(outputBuilder);
-                    }
-
+                    Console.Write("\r" + outputBuilder);
                     Console.Write("\r" + text);
                 }
                 _currentText = text;
