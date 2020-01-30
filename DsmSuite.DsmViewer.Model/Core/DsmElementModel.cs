@@ -84,8 +84,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             DsmElement changedElement = element as DsmElement;
             if (changedElement != null)
             {
+                UnregisterElementNameHierarchy(changedElement);
                 changedElement.Name = name;
-                // TODO: Update registered names
+                RegisterElementNameHierarchy(changedElement);
             }
         }
 
@@ -102,16 +103,18 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             Logger.LogDataModelMessage($"Change element parent name={element.Name} from {element.Parent.Fullname} to {parent.Fullname}");
 
+            DsmElement changedElement = element as DsmElement;
             DsmElement currentParent = element.Parent as DsmElement;
             DsmElement newParent = parent as DsmElement;
             if ((currentParent != null) && (newParent != null))
             {
                 BeforeElementChangeParent?.Invoke(this, element);
+                UnregisterElementNameHierarchy(changedElement);
                 currentParent.RemoveChild(element);
                 newParent.AddChild(element);
+                RegisterElementNameHierarchy(changedElement);
                 AfterElementChangeParent?.Invoke(this, element);
             }
-            // TODO: Update registered names
         }
 
         public void RemoveElement(int elementId)
@@ -366,6 +369,26 @@ namespace DsmSuite.DsmViewer.Model.Core
             element.IsDeleted = false;
 
             ReregisterElementRelations?.Invoke(this, element);
+        }
+
+        private void UnregisterElementNameHierarchy(DsmElement element)
+        {
+            _elementsByName.Remove(element.Fullname);
+
+            foreach (DsmElement child in element.ExportedChildren)
+            {
+                UnregisterElementNameHierarchy(child);
+            }
+        }
+
+        private void RegisterElementNameHierarchy(DsmElement element)
+        {
+            _elementsByName[element.Fullname] = element;
+
+            foreach (DsmElement child in element.ExportedChildren)
+            {
+                RegisterElementNameHierarchy(child);
+            }
         }
     }
 }
