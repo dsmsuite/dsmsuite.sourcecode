@@ -54,6 +54,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             SortResult sortResult = sortAlgorithm.Sort();
             _model.ReorderChildren(_element, sortResult);
             _order = sortResult.Data;
+
+            _model.AssignElementOrder();
+
             return null;
         }
 
@@ -62,6 +65,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             SortResult sortResult = new SortResult(_order);
             sortResult.InvertOrder();
             _model.ReorderChildren(_element, sortResult);
+
+            _model.AssignElementOrder();
         }
 
         public IReadOnlyDictionary<string, string> Data

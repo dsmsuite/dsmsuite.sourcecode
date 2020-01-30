@@ -56,12 +56,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public object Do()
         {
             _model.ChangeElementParent(_element, _new);
+            _model.AssignElementOrder();
             return null;
         }
 
         public void Undo()
         {
             _model.ChangeElementParent(_element, _old);
+            _model.AssignElementOrder();
         }
 
         public IReadOnlyDictionary<string, string> Data

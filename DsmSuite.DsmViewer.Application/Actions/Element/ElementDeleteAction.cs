@@ -42,12 +42,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public object Do()
         {
             _model.RemoveElement(_element.Id);
+            _model.AssignElementOrder();
             return null;
         }
 
         public void Undo()
         {
             _model.UnremoveElement(_element.Id);
+            _model.AssignElementOrder();
         }
 
         public IReadOnlyDictionary<string, string> Data

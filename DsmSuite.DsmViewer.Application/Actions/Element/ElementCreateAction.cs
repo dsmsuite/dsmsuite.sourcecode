@@ -56,12 +56,16 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         {
             _element = _model.AddElement(_name, _type, _parent.Id);
             Debug.Assert(_element != null);
+
+            _model.AssignElementOrder();
+
             return _element;
         }
 
         public void Undo()
         {
             _model.RemoveElement(_element.Id);
+            _model.AssignElementOrder();
         }
 
         public IReadOnlyDictionary<string, string> Data

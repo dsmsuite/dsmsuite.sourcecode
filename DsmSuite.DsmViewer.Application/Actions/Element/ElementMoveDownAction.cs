@@ -45,6 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Debug.Assert(nextElement != null);
 
             _model.Swap(_element, nextElement);
+            _model.AssignElementOrder();
             return null;
         }
 
@@ -54,6 +55,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Debug.Assert(previousElement != null);
 
             _model.Swap(previousElement, _element);
+            _model.AssignElementOrder();
         }
 
         public IReadOnlyDictionary<string, string> Data
