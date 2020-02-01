@@ -9,7 +9,6 @@ namespace DsmSuite.Common.Util
         private readonly string _description;
         private readonly T _settings;
         private int _progress;
-        private string _currentText = string.Empty;
         private readonly Stopwatch _stopWatch;
 
         public delegate void ConsoleAction(T settings, IProgress<ProgressInfo> progres);
@@ -19,7 +18,6 @@ namespace DsmSuite.Common.Util
             _description = description;
             _settings = settings;
             _progress = 0;
-            _currentText = string.Empty;
             _stopWatch = new Stopwatch();
         }
 
@@ -71,42 +69,14 @@ namespace DsmSuite.Common.Util
             {
                 _progress = progress.Percentage.Value;
                 string text = $"{progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage}%";
-                UpdateText(text, progress.Done);
+                Logger.LogConsoleText(text, true, progress.Done);
             }
         }
 
         private void UpdateProgressWithoutPercentage(ProgressInfo progress)
         {
             string text = $"{progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}";
-            UpdateText(text, progress.Done);
-        }
-
-        private void UpdateText(string text, bool done)
-        {
-            if (!Console.IsOutputRedirected)
-            {
-                StringBuilder outputBuilder = new StringBuilder(text);
-                int overlapCount = _currentText.Length - text.Length;
-                if (overlapCount > 0)
-                {
-
-                    outputBuilder.Append(' ', overlapCount);
-                    outputBuilder.Append('\b', overlapCount);
-                    Console.Write(outputBuilder);
-                }
-
-                if (done)
-                {
-                    Console.Write("\r" + outputBuilder);
-                    Console.WriteLine("\r" + text);
-                }
-                else
-                {
-                    Console.Write("\r" + outputBuilder);
-                    Console.Write("\r" + text);
-                }
-                _currentText = text;
-            }
+            Logger.LogConsoleText(text, true, progress.Done);
         }
     }
 }

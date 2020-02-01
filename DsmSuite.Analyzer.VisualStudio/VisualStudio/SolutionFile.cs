@@ -263,7 +263,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                         CurrentItemCount = itemCount,
                         ItemType = itemType,
                         Percentage = currentProgressPercentage,
-                        Done = currentProgressPercentage == 100
+                        Done = totalItemCount == itemCount
                     };
 
                     _progress.Report(progressInfoInfo);

@@ -297,7 +297,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
                         TotalItemCount = totalItemCount,
                         CurrentItemCount = progressedItemCount,
                         ItemType = "items",
-                        Done = currentProgressPercentage == 100
+                        Done = totalItemCount == progressedItemCount
                     };
 
                     progress.Report(progressInfoInfo);
