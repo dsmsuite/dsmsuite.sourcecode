@@ -15,14 +15,15 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
         private readonly SourceDirectory _sourceDirectory;
         private int _analyzedSourceFiles;
-        private int _progressPercentage;
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
             _sourceDirectory = new SourceDirectory(_analyzerSettings);
         }
 
@@ -165,9 +166,14 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
 
         private void UpdateFileProgress(int currentItemCount, int totalItemCount)
         {
-            int progress = currentItemCount * 100 / totalItemCount;
-            bool done = currentItemCount == totalItemCount;
-            Logger.LogConsoleText($"Analyzing source files {currentItemCount}/{totalItemCount} files {progress}%", true, done);
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = "Analyzing source files";
+            progressInfo.CurrentItemCount = currentItemCount;
+            progressInfo.TotalItemCount = totalItemCount;
+            progressInfo.ItemType = "files";
+            progressInfo.Percentage = currentItemCount*100/totalItemCount;
+            progressInfo.Done = currentItemCount == totalItemCount;
+            _progress.Report(progressInfo);
         }
     }
 }

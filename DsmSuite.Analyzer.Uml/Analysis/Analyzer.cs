@@ -10,14 +10,16 @@ namespace DsmSuite.Analyzer.Uml.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
         private readonly EA.Repository _repository;
         private int _elementCount;
         private int _relationCount;
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
             _repository = new EA.Repository();
         }
 
@@ -160,12 +162,26 @@ namespace DsmSuite.Analyzer.Uml.Analysis
 
         private void UpdateElementProgress(bool done)
         {
-            Logger.LogConsoleText($"Reading UML elements {_elementCount} elements", true, done);
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = "Reading UML elements";
+            progressInfo.CurrentItemCount = _elementCount;
+            progressInfo.TotalItemCount = 0;
+            progressInfo.ItemType = "elements";
+            progressInfo.Percentage = null;
+            progressInfo.Done = done;
+            _progress.Report(progressInfo);
         }
 
         private void UpdateRelationProgress(bool done)
         {
-            Logger.LogConsoleText($"Reading UML relations {_relationCount} relations", true, done);
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = "Reading UML relations";
+            progressInfo.CurrentItemCount = _relationCount;
+            progressInfo.TotalItemCount = 0;
+            progressInfo.ItemType = "relations";
+            progressInfo.Percentage = null;
+            progressInfo.Done = done;
+            _progress.Report(progressInfo);
         }
     }
 }

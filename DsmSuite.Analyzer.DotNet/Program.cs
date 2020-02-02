@@ -35,9 +35,11 @@ namespace DsmSuite.Analyzer.DotNet
                     }
                     else
                     {
+                        ConsoleProgress progress = new ConsoleProgress();
+
                         Logger.LogUserMessage($"Assembly directory:{analyzerSettings.AssemblyDirectory}");
                         DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-                        Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
+                        Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
                         analyzer.Analyze();
                         model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
                         Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}%");

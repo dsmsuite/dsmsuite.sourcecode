@@ -15,11 +15,13 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
         }
 
         public void Analyze()
@@ -75,7 +77,14 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
 
         private void UpdateLineProgress(int lineNumber, bool done)
         {
-            Logger.LogConsoleText($"Parse lines {lineNumber} lines", true, done);
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = "Parse lines";
+            progressInfo.CurrentItemCount = lineNumber;
+            progressInfo.TotalItemCount = 0;
+            progressInfo.ItemType = "lines";
+            progressInfo.Percentage = null;
+            progressInfo.Done = done;
+            _progress.Report(progressInfo);
         }
     }
 }

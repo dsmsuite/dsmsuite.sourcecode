@@ -28,6 +28,8 @@ namespace DsmSuite.Analyzer.Cpp
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
                     Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
+                    ConsoleProgress progress = new ConsoleProgress();
+
                     Logger.LogUserMessage("Input directories:");
                     foreach (string sourceDirectory in analyzerSettings.SourceDirectories)
                     {
@@ -35,9 +37,9 @@ namespace DsmSuite.Analyzer.Cpp
                     }
                     Logger.LogUserMessage($"Resolve method: {analyzerSettings.ResolveMethod}");
                     DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-                    Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
+                    Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
                     analyzer.Analyze();
-                    model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
+                    model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, progress);
                     Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}% ambiguousRelations={model.AmbiguousRelationPercentage:0.0}%");
                     Logger.LogUserMessage($"Output file: {analyzerSettings.OutputFilename} compressed={analyzerSettings.CompressOutputFile}");
                 }

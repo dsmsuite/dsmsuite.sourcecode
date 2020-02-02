@@ -8,16 +8,16 @@ namespace DsmSuite.Common.Util
     {
         private readonly string _description;
         private readonly T _settings;
-        private int _progress;
+        private readonly IProgress<ProgressInfo> _progress;
         private readonly Stopwatch _stopWatch;
 
         public delegate void ConsoleAction(T settings, IProgress<ProgressInfo> progres);
 
-        public ConsoleActionExecutor(string description, T settings)
+        public ConsoleActionExecutor(string description, T settings, IProgress<ProgressInfo> progres)
         {
             _description = description;
             _settings = settings;
-            _progress = 0;
+            _progress = progres;
             _stopWatch = new Stopwatch();
         }
 
@@ -25,10 +25,9 @@ namespace DsmSuite.Common.Util
         {
             Logger.LogUserMessage(_description);
             Logger.LogUserMessage(new String('-', _description.Length));
-            Progress<ProgressInfo> progress = new Progress<ProgressInfo>(UpdateProgress);
 
             StartTimer();
-            action(_settings, progress);
+            action(_settings, _progress);
             StopTimer();
             Logger.LogUserMessage($"Total elapsed time={ElapsedTime}");
             Logger.LogResourceUsage();
@@ -47,36 +46,6 @@ namespace DsmSuite.Common.Util
         public TimeSpan ElapsedTime
         {
             get { return _stopWatch.Elapsed; }
-        }
-
-        private void UpdateProgress(ProgressInfo progress)
-        {
-            if (progress.Percentage.HasValue)
-            {
-                UpdateProgressWithPercentage(progress);
-            }
-            else
-            {
-                UpdateProgressWithoutPercentage(progress);
-            }
-        }
-
-        private void UpdateProgressWithPercentage(ProgressInfo progress)
-        {
-            Debug.Assert(progress.Percentage.HasValue);
-
-            if (_progress != progress.Percentage)
-            {
-                _progress = progress.Percentage.Value;
-                string text = $"{progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} progress={progress.Percentage}%";
-                Logger.LogConsoleText(text, true, progress.Done);
-            }
-        }
-
-        private void UpdateProgressWithoutPercentage(ProgressInfo progress)
-        {
-            string text = $"{progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}";
-            Logger.LogConsoleText(text, true, progress.Done);
         }
     }
 }

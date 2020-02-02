@@ -35,9 +35,11 @@ namespace DsmSuite.Analyzer.Jdeps
                     }
                     else
                     {
+                        ConsoleProgress progress = new ConsoleProgress();
+
                         Logger.LogUserMessage($"Input filename:{analyzerSettings.InputFilename}");
                         DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-                        Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
+                        Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
                         analyzer.Analyze();
                         model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
                         Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}%");

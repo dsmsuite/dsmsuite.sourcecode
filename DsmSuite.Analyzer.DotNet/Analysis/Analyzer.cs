@@ -17,14 +17,16 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
         private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
         private readonly Dictionary<string, FileInfo> _typeAssemblyInfoList = new Dictionary<string, FileInfo>();
         private readonly List<FileInfo> _assemblyFileInfos = new List<FileInfo>();
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
         }
 
         public void Analyze()
@@ -484,17 +486,38 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
         private void UpdateAssemblyProgress(bool done)
         {
-            Logger.LogConsoleText($"Finding assemblies {_assemblyFileInfos.Count} assemblies", true, done);
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = "Finding assemblies";
+            progressInfo.CurrentItemCount = _assemblyFileInfos.Count;
+            progressInfo.TotalItemCount = 0;
+            progressInfo.ItemType = "assemblies";
+            progressInfo.Percentage = null;
+            progressInfo.Done = done;
+            _progress.Report(progressInfo);
         }
 
         private void UpdateTypeProgress(bool done)
         {
-            Logger.LogConsoleText($"Finding types {_typeList.Count} types", true, done);
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = "Finding types";
+            progressInfo.CurrentItemCount = _typeList.Count;
+            progressInfo.TotalItemCount = 0;
+            progressInfo.ItemType = "types";
+            progressInfo.Percentage = null;
+            progressInfo.Done = done;
+            _progress.Report(progressInfo);
         }
 
         private void UpdateRelationProgress(bool done)
         {
-            Logger.LogConsoleText($"Finding relations {_model.GetRelationCount()} relations", true, done);
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = "Finding relations";
+            progressInfo.CurrentItemCount = _model.GetRelationCount();
+            progressInfo.TotalItemCount = 0;
+            progressInfo.ItemType = "relations";
+            progressInfo.Percentage = null;
+            progressInfo.Done = done;
+            _progress.Report(progressInfo);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private readonly FileInfo _solutionFileInfo;
         private readonly string _name;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
         private bool _parsingProjectNesting;
         private readonly Dictionary<string, string> _solutionFolderNames = new Dictionary<string, string>();
         private readonly Dictionary<string, string> _solutionFolderParents = new Dictionary<string, string>();
@@ -31,11 +32,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         private int _progressPercentage;
 
-        public SolutionFile(string solutionPath, AnalyzerSettings analyzerSettings)
+        public SolutionFile(string solutionPath, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _solutionFileInfo = new FileInfo(solutionPath);
             _name = _solutionFileInfo.Name;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
         }
 
         public void Analyze()
@@ -241,16 +243,26 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         private void UpdateProjectFileProgress(int currentItemCount, int totalItemCount)
         {
-            int progress = currentItemCount * 100 / totalItemCount;
-            bool done = currentItemCount == totalItemCount;
-            Logger.LogConsoleText($"Analyzing project files {currentItemCount}/{totalItemCount} files {progress}%", true, done);
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = "Analyzing project files";
+            progressInfo.CurrentItemCount = currentItemCount;
+            progressInfo.TotalItemCount = totalItemCount;
+            progressInfo.ItemType = "files";
+            progressInfo.Percentage = currentItemCount * 100 / totalItemCount;
+            progressInfo.Done = currentItemCount == totalItemCount;
+            _progress.Report(progressInfo);
         }
 
         private void UpdateSourceFileProgress(int currentItemCount, int totalItemCount)
         {
-            int progress = currentItemCount * 100 / totalItemCount;
-            bool done = currentItemCount == totalItemCount;
-            Logger.LogConsoleText($"Analyzing source files {currentItemCount}/{totalItemCount} files {progress}%", true, done);
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = "Analyzing source files";
+            progressInfo.CurrentItemCount = currentItemCount;
+            progressInfo.TotalItemCount = totalItemCount;
+            progressInfo.ItemType = "files";
+            progressInfo.Percentage = currentItemCount * 100 / totalItemCount;
+            progressInfo.Done = currentItemCount == totalItemCount;
+            _progress.Report(progressInfo);
         }
     }
 }

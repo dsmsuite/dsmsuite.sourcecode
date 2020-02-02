@@ -13,15 +13,17 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
+        private readonly IProgress<ProgressInfo> _progress;
         private readonly SolutionFile _solutionFile;
         private readonly Dictionary<string, FileInfo> _sourcesFilesById = new Dictionary<string, FileInfo>();
         private readonly Dictionary<string, string> _interfaceFilesByPath = new Dictionary<string, string>();
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
-            _solutionFile = new SolutionFile(analyzerSettings.InputFilename, _analyzerSettings);
+            _progress = progress;
+            _solutionFile = new SolutionFile(analyzerSettings.InputFilename, _analyzerSettings, progress);
         }
 
         public void Analyze()
@@ -447,7 +449,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void UpdateInterfaceProgress(bool done)
         {
-            Logger.LogConsoleText($"Finding interface files {_interfaceFilesByPath.Count} files", true, done);
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = "Finding interface files";
+            progressInfo.CurrentItemCount = _interfaceFilesByPath.Count;
+            progressInfo.TotalItemCount = 0;
+            progressInfo.ItemType = "files";
+            progressInfo.Percentage = null;
+            progressInfo.Done = done;
+            _progress.Report(progressInfo);
         }
     }
 }

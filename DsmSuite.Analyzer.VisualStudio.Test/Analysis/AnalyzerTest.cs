@@ -23,7 +23,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
 
-            Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings);
+            Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings, null);
             analyzer.Analyze();
 
             Assert.IsTrue(dataModel.TotalElementCount > 0);
@@ -103,7 +103,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
 
             DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
 
-            Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings);
+            Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings, null);
             analyzer.Analyze();
 
             HashSet<string> elementNames = new HashSet<string>();

@@ -38,7 +38,7 @@ namespace DsmSuite.DsmViewer.Builder
                     }
                     else
                     {
-                        Progress<ProgressInfo> progress = new Progress<ProgressInfo>(UpdateProgress);
+                        ConsoleProgress progress = new ConsoleProgress();
 
                         DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
                         DsmApplication application = new DsmApplication(model);
@@ -51,18 +51,6 @@ namespace DsmSuite.DsmViewer.Builder
                         Logger.LogUserMessage($"Output file: {builderSettings.OutputFilename} compressed={builderSettings.CompressOutputFile}");
                     }
                 }
-            }
-        }
-
-        private static void UpdateProgress(ProgressInfo progress)
-        {
-            if (progress.Percentage.HasValue)
-            {
-                Logger.LogConsoleText($"{progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} {progress.Percentage.Value}%",true, progress.Done);
-            }
-            else
-            {
-                Logger.LogConsoleText($"{progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}", true, progress.Done);
             }
         }
     }

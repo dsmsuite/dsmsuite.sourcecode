@@ -3,8 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 
 namespace DsmSuite.Common.Util
 {
@@ -14,7 +12,6 @@ namespace DsmSuite.Common.Util
     public class Logger
     {
         public static DirectoryInfo LogDirectory { get; private set; }
-        private static string _currentText = string.Empty;
 
         public static void EnableLogging(Assembly assembly, bool enabled)
         {
@@ -31,50 +28,13 @@ namespace DsmSuite.Common.Util
             DateTime buildDate = new FileInfo(assembly.Location).LastWriteTime;
             LogUserMessage(name + " version=" + version + " build=" + buildDate);
         }
-
-        public static void LogConsoleText(string text, bool overwrite, bool endOfLine)
-        {
-            if (!Console.IsOutputRedirected)
-            {
-                StringBuilder outputBuilder = new StringBuilder();
-
-                if (overwrite)
-                {
-                    outputBuilder.Append("\r");
-                    outputBuilder.Append(text);
-                    int overlapCount = _currentText.Length - text.Length;
-                    if (overlapCount > 0)
-                    {
-                        outputBuilder.Append(' ', overlapCount);
-                        outputBuilder.Append('\b', overlapCount);
-                    }
-
-                    Console.Write(outputBuilder);
-                }
-
-                outputBuilder.Clear();
-
-                if (overwrite)
-                {
-                    outputBuilder.Append("\r");
-                }
-                outputBuilder.Append(text);
-                if (endOfLine)
-                {
-                    outputBuilder.Append("\n");
-                }
-                Console.Write(outputBuilder);
-
-                _currentText = outputBuilder.ToString();
-            }
-        }
-
+        
         public static void LogUserMessage(string message,
             [CallerFilePath] string sourceFile = "",
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            LogConsoleText(message, false, true);
+            Console.WriteLine(message);
             LogToFile("userMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
