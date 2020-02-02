@@ -493,7 +493,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             progressInfo.ItemType = "assemblies";
             progressInfo.Percentage = null;
             progressInfo.Done = done;
-            _progress.Report(progressInfo);
+            _progress?.Report(progressInfo);
         }
 
         private void UpdateTypeProgress(bool done)
@@ -505,7 +505,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             progressInfo.ItemType = "types";
             progressInfo.Percentage = null;
             progressInfo.Done = done;
-            _progress.Report(progressInfo);
+            _progress?.Report(progressInfo);
         }
 
         private void UpdateRelationProgress(bool done)
@@ -517,7 +517,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             progressInfo.ItemType = "relations";
             progressInfo.Percentage = null;
             progressInfo.Done = done;
-            _progress.Report(progressInfo);
+            _progress?.Report(progressInfo);
         }
     }
 }

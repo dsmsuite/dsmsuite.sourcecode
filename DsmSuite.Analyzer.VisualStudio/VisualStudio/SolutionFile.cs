@@ -250,7 +250,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             progressInfo.ItemType = "files";
             progressInfo.Percentage = currentItemCount * 100 / totalItemCount;
             progressInfo.Done = currentItemCount == totalItemCount;
-            _progress.Report(progressInfo);
+            _progress?.Report(progressInfo);
         }
 
         private void UpdateSourceFileProgress(int currentItemCount, int totalItemCount)
@@ -262,7 +262,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             progressInfo.ItemType = "files";
             progressInfo.Percentage = currentItemCount * 100 / totalItemCount;
             progressInfo.Done = currentItemCount == totalItemCount;
-            _progress.Report(progressInfo);
+            _progress?.Report(progressInfo);
         }
     }
 }

@@ -84,7 +84,7 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
             progressInfo.ItemType = "lines";
             progressInfo.Percentage = null;
             progressInfo.Done = done;
-            _progress.Report(progressInfo);
+            _progress?.Report(progressInfo);
         }
     }
 }

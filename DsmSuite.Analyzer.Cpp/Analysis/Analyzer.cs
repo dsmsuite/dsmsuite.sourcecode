@@ -173,7 +173,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             progressInfo.ItemType = "files";
             progressInfo.Percentage = currentItemCount*100/totalItemCount;
             progressInfo.Done = currentItemCount == totalItemCount;
-            _progress.Report(progressInfo);
+            _progress?.Report(progressInfo);
         }
     }
 }

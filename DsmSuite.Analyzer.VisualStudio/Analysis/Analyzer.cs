@@ -456,7 +456,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             progressInfo.ItemType = "files";
             progressInfo.Percentage = null;
             progressInfo.Done = done;
-            _progress.Report(progressInfo);
+            _progress?.Report(progressInfo);
         }
     }
 }

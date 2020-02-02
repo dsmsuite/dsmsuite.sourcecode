@@ -169,7 +169,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             progressInfo.ItemType = "elements";
             progressInfo.Percentage = null;
             progressInfo.Done = done;
-            _progress.Report(progressInfo);
+            _progress?.Report(progressInfo);
         }
 
         private void UpdateRelationProgress(bool done)
@@ -181,7 +181,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             progressInfo.ItemType = "relations";
             progressInfo.Percentage = null;
             progressInfo.Done = done;
-            _progress.Report(progressInfo);
+            _progress?.Report(progressInfo);
         }
     }
 }
