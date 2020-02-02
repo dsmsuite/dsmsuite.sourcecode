@@ -10,16 +10,14 @@ namespace DsmSuite.Analyzer.Uml.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
-        private readonly IProgress<ProgressInfo> _progress;
         private readonly EA.Repository _repository;
         private int _elementCount;
         private int _relationCount;
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
-            _progress = progress;
             _repository = new EA.Repository();
         }
 
@@ -36,7 +34,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
                         EA.Package model = (EA.Package) _repository.Models.GetAt(index);
                         FindPackageElements(model);
                     }
-                    UpdateProgress("Reading UML elements", _elementCount, "elements", true);
+                    UpdateElementProgress(true);
 
                     _relationCount = 0;
                     for (short index = 0; index < _repository.Models.Count; index++)
@@ -44,7 +42,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
                         EA.Package model = (EA.Package) _repository.Models.GetAt(index);
                         FindPackageRelations(model);
                     }
-                    UpdateProgress("Reading UML relations", _relationCount, "relations", true);
+                    UpdateRelationProgress(true);
 
                     _repository.CloseFile();
                 }
@@ -120,7 +118,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             Logger.LogInfo("Register model element:" + ExtractUniqueName(element));
             _model.AddElement(ExtractUniqueName(element), element.Type, _analyzerSettings.InputFilename);
             _elementCount++;
-            UpdateProgress("Reading UML elements", _elementCount, "elements", false);
+            UpdateElementProgress(false);
         }
 
         private void RegisterRelation(EA.Connector connector)
@@ -141,7 +139,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
         {
             _model.AddRelation(consumerName, providerName, connector.Type, 1, "model");
             _relationCount++;
-            UpdateProgress("Reading UML relations", _relationCount, "relations", false);
+            UpdateRelationProgress(false);
         }
 
         private string ExtractUniqueName(EA.Element element)
@@ -160,22 +158,14 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             return name;
         }
 
-        private void UpdateProgress(string actionText, int itemCount, string itemType, bool done)
+        private void UpdateElementProgress(bool done)
         {
-            if (_progress != null)
-            {
-                ProgressInfo progressInfoInfo = new ProgressInfo
-                {
-                    ActionText = actionText,
-                    TotalItemCount = 0,
-                    CurrentItemCount = itemCount,
-                    ItemType = itemType,
-                    Percentage = null,
-                    Done = done
-                };
+            Logger.LogConsoleText($"Reading UML elements {_elementCount} elements", true, done);
+        }
 
-                _progress.Report(progressInfoInfo);
-            }
+        private void UpdateRelationProgress(bool done)
+        {
+            Logger.LogConsoleText($"Reading UML relations {_relationCount} relations", true, done);
         }
     }
 }

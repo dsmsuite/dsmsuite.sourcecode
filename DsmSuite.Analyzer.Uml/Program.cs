@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Uml.Settings;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Uml
@@ -35,22 +34,16 @@ namespace DsmSuite.Analyzer.Uml
                     }
                     else
                     {
-                        ConsoleActionExecutor<AnalyzerSettings> executor = new ConsoleActionExecutor<AnalyzerSettings>($"Analyzing UML model '{analyzerSettings.InputFilename}'", analyzerSettings);
-                        executor.Execute(Analyze);
+                        Logger.LogUserMessage($"Input filename:{analyzerSettings.InputFilename}");
+                        DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+                        Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
+                        analyzer.Analyze();
+                        model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
+                        Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}% ambiguousRelations={model.AmbiguousRelationPercentage:0.0}%");
+                        Logger.LogUserMessage($"Output file: {analyzerSettings.OutputFilename} compressed={analyzerSettings.CompressOutputFile}");
                     }
                 }
             }
-        }
-
-        static void Analyze(AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
-        {
-            Logger.LogUserMessage($"Input filename:{analyzerSettings.InputFilename}");
-            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
-            analyzer.Analyze();
-            model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
-            Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}% ambiguousRelations={model.AmbiguousRelationPercentage:0.0}%");
-            Logger.LogUserMessage($"Output file: {analyzerSettings.OutputFilename} compressed={analyzerSettings.CompressOutputFile}");
         }
     }
 }

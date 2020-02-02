@@ -15,7 +15,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private readonly FileInfo _solutionFileInfo;
         private readonly string _name;
         private readonly AnalyzerSettings _analyzerSettings;
-        private readonly IProgress<ProgressInfo> _progress;
         private bool _parsingProjectNesting;
         private readonly Dictionary<string, string> _solutionFolderNames = new Dictionary<string, string>();
         private readonly Dictionary<string, string> _solutionFolderParents = new Dictionary<string, string>();
@@ -32,12 +31,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         private int _progressPercentage;
 
-        public SolutionFile(string solutionPath, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
+        public SolutionFile(string solutionPath, AnalyzerSettings analyzerSettings)
         {
             _solutionFileInfo = new FileInfo(solutionPath);
             _name = _solutionFileInfo.Name;
             _analyzerSettings = analyzerSettings;
-            _progress = progress;
         }
 
         public void Analyze()
@@ -50,7 +48,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             {
                 visualStudioProject.Analyze();
                 analyzedProjects++;
-                UpdateProgress("Analyze projects", _projects.Count, analyzedProjects, "projects");
+                UpdateProjectFileProgress(analyzedProjects, _projects.Count);
             }
 
             int totalSourceFiles = 0;
@@ -66,10 +64,9 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 {
                     sourceFile.Analyze();
                     analyzedSourceFiles++;
-                    UpdateProgress("Analyze source files", totalSourceFiles, analyzedSourceFiles, "files");
+                    UpdateSourceFileProgress(analyzedSourceFiles, totalSourceFiles);
                 }
             }
-
         }
 
         public string Name => _name;
@@ -242,33 +239,18 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
         }
 
-        private void UpdateProgress(string actionText, int totalItemCount, int itemCount, string itemType)
+        private void UpdateProjectFileProgress(int currentItemCount, int totalItemCount)
         {
-            if (_progress != null)
-            {
-                int currentProgressPercentage = 0;
-                if (itemCount > 0)
-                {
-                    currentProgressPercentage = itemCount * 100 / totalItemCount;
-                }
+            int progress = currentItemCount * 100 / totalItemCount;
+            bool done = currentItemCount == totalItemCount;
+            Logger.LogConsoleText($"Analyzing project files {currentItemCount}/{totalItemCount} files {progress}%", true, done);
+        }
 
-                if (_progressPercentage != currentProgressPercentage)
-                {
-                    _progressPercentage = currentProgressPercentage;
-
-                    ProgressInfo progressInfoInfo = new ProgressInfo
-                    {
-                        ActionText = actionText,
-                        TotalItemCount = totalItemCount,
-                        CurrentItemCount = itemCount,
-                        ItemType = itemType,
-                        Percentage = currentProgressPercentage,
-                        Done = totalItemCount == itemCount
-                    };
-
-                    _progress.Report(progressInfoInfo);
-                }
-            }
+        private void UpdateSourceFileProgress(int currentItemCount, int totalItemCount)
+        {
+            int progress = currentItemCount * 100 / totalItemCount;
+            bool done = currentItemCount == totalItemCount;
+            Logger.LogConsoleText($"Analyzing source files {currentItemCount}/{totalItemCount} files {progress}%", true, done);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.sln"));
 
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
-            SolutionFile solutionFile = new SolutionFile(solutionFilename, analyzerSettings, null);
+            SolutionFile solutionFile = new SolutionFile(solutionFilename, analyzerSettings);
             Assert.AreEqual("DsmSuite.sln", solutionFile.Name);
         }
 
@@ -27,7 +27,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string solutionFilename = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\DsmSuite.sln"));
 
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
-            SolutionFile solutionFile = new SolutionFile(solutionFilename, analyzerSettings, null);
+            SolutionFile solutionFile = new SolutionFile(solutionFilename, analyzerSettings);
             solutionFile.Analyze();
 
             Assert.IsTrue(solutionFile.Projects.Count > 0);

@@ -13,17 +13,15 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
-        private readonly IProgress<ProgressInfo> _progress;
         private readonly SolutionFile _solutionFile;
         private readonly Dictionary<string, FileInfo> _sourcesFilesById = new Dictionary<string, FileInfo>();
         private readonly Dictionary<string, string> _interfaceFilesByPath = new Dictionary<string, string>();
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
-            _progress = progress;
-            _solutionFile = new SolutionFile(analyzerSettings.InputFilename, _analyzerSettings, progress);
+            _solutionFile = new SolutionFile(analyzerSettings.InputFilename, _analyzerSettings);
         }
 
         public void Analyze()
@@ -65,7 +63,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(externalDirectory.Path);
                 RegisterInterfaceFiles(interfaceDirectoryInfo);
             }
-            UpdateProgress("Register interface files", _interfaceFilesByPath.Count, "interfaces", true);
+            UpdateInterfaceProgress(true);
         }
 
         private void RegisterInterfaceFiles(DirectoryInfo interfaceDirectoryInfo)
@@ -78,7 +76,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     {
                         SourceFile sourceFile = new SourceFile(interfacefileInfo.FullName);
                         _interfaceFilesByPath[interfacefileInfo.FullName] = sourceFile.Id;
-                        UpdateProgress("Register interface files", _interfaceFilesByPath.Count, "interfaces", false);
+                        UpdateInterfaceProgress(false);
                     }
                     else
                     {
@@ -447,22 +445,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return name;
         }
 
-        private void UpdateProgress(string actionText, int itemCount, string itemType, bool done)
+        private void UpdateInterfaceProgress(bool done)
         {
-            if (_progress != null)
-            {
-                ProgressInfo progressInfoInfo = new ProgressInfo
-                {
-                    ActionText = actionText,
-                    TotalItemCount = itemCount,
-                    CurrentItemCount = itemCount,
-                    ItemType = itemType,
-                    Percentage = null,
-                    Done = done
-                };
-
-                _progress.Report(progressInfoInfo);
-            }
+            Logger.LogConsoleText($"Finding interface files {_interfaceFilesByPath.Count} files", true, done);
         }
     }
 }

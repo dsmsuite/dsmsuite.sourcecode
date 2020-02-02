@@ -41,8 +41,6 @@ namespace DsmSuite.Common.Util
                 if (overwrite)
                 {
                     outputBuilder.Append("\r");
-                    outputBuilder.Append(Thread.CurrentThread.ManagedThreadId);
-                    outputBuilder.Append(":");
                     outputBuilder.Append(text);
                     int overlapCount = _currentText.Length - text.Length;
                     if (overlapCount > 0)
@@ -60,8 +58,6 @@ namespace DsmSuite.Common.Util
                 {
                     outputBuilder.Append("\r");
                 }
-                outputBuilder.Append(Thread.CurrentThread.ManagedThreadId);
-                outputBuilder.Append(":");
                 outputBuilder.Append(text);
                 if (endOfLine)
                 {

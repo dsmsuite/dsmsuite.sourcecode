@@ -15,16 +15,14 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
-        private readonly IProgress<ProgressInfo> _progress;
         private readonly SourceDirectory _sourceDirectory;
         private int _analyzedSourceFiles;
         private int _progressPercentage;
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
-            _progress = progress;
             _sourceDirectory = new SourceDirectory(_analyzerSettings);
         }
 
@@ -51,7 +49,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 sourceFile.Analyze(includeResolveStrategy);
                 _analyzedSourceFiles++;
-                UpdateProgress("Analyzing source files", _sourceDirectory.SourceFiles.Count, _analyzedSourceFiles, "files");
+                UpdateFileProgress(_analyzedSourceFiles, _sourceDirectory.SourceFiles.Count);
             }
         }
 
@@ -165,33 +163,11 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             return logicalName;
         }
 
-        private void UpdateProgress(string actionText, int totalItemCount, int itemCount, string itemType)
+        private void UpdateFileProgress(int currentItemCount, int totalItemCount)
         {
-            if (_progress != null)
-            {
-                int currentProgressPercentage = 0;
-                if (itemCount > 0)
-                {
-                    currentProgressPercentage = itemCount*100/totalItemCount;
-                }
-
-                if (_progressPercentage != currentProgressPercentage)
-                {
-                    _progressPercentage = currentProgressPercentage;
-
-                    ProgressInfo progressInfoInfo = new ProgressInfo
-                    {
-                        ActionText = actionText,
-                        TotalItemCount = totalItemCount,
-                        CurrentItemCount = itemCount,
-                        ItemType = itemType,
-                        Percentage = currentProgressPercentage,
-                        Done = totalItemCount == itemCount
-                    };
-
-                    _progress.Report(progressInfoInfo);
-                }
-            }
+            int progress = currentItemCount * 100 / totalItemCount;
+            bool done = currentItemCount == totalItemCount;
+            Logger.LogConsoleText($"Analyzing source files {currentItemCount}/{totalItemCount} files {progress}%", true, done);
         }
     }
 }

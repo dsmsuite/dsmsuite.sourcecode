@@ -17,16 +17,14 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
-        private readonly IProgress<ProgressInfo> _progress;
         private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
         private readonly Dictionary<string, FileInfo> _typeAssemblyInfoList = new Dictionary<string, FileInfo>();
         private readonly List<FileInfo> _assemblyFileInfos = new List<FileInfo>();
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
-            _progress = progress;
         }
 
         public void Analyze()
@@ -42,9 +40,9 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             foreach (string assemblyFilename in Directory.EnumerateFiles(_analyzerSettings.AssemblyDirectory))
             {
                 RegisterAssembly(assemblyFilename);
-                UpdateProgress("Finding assemblies", _assemblyFileInfos.Count, "assemblies", false);
+                UpdateAssemblyProgress(false);
             }
-            UpdateProgress("Finding assemblies", _assemblyFileInfos.Count, "assemblies", true);
+            UpdateAssemblyProgress(true);
         }
 
         private void FindTypes()
@@ -76,7 +74,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                     Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} failed", e);
                 }
             }
-            UpdateProgress("Finding types", _typeList.Count, "types", true);
+            UpdateTypeProgress(true);
         }
 
         private void FindRelations()
@@ -86,7 +84,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 FileInfo assemblyInfo = _typeAssemblyInfoList[typeDecl.FullName];
                 AnalyseTypeRelations(assemblyInfo, typeDecl);
             }
-            UpdateProgress("Finding relations", _model.GetRelationCount(), "relations", true);
+            UpdateRelationProgress(true);
         }
 
         private ReaderParameters DetermineAssemblyReaderParameters()
@@ -435,7 +433,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 {
                     _typeList.Add(typeDecl);
                     _typeAssemblyInfoList[typeDecl.FullName] = assemblyFileInfo;
-                    UpdateProgress("Finding types", _typeList.Count, "types", false);
+                    UpdateTypeProgress(false);
                 }
             }
         }
@@ -453,7 +451,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                     !Ignore(providerName))
                 {
                     _model.AddRelation(consumerName, providerName, type, 1, context);
-                    UpdateProgress("Finding relations", _model.GetRelationCount(), "relations", false);
+                    UpdateRelationProgress(false);
                 }
 
                 GenericInstanceType providerGenericType = providerType as GenericInstanceType;
@@ -484,22 +482,19 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             return ignore;
         }
 
-        private void UpdateProgress(string actionText, int itemCount, string itemType, bool done)
+        private void UpdateAssemblyProgress(bool done)
         {
-            if (_progress != null)
-            {
-                ProgressInfo progressInfoInfo = new ProgressInfo
-                {
-                    ActionText = actionText,
-                    TotalItemCount = itemCount,
-                    CurrentItemCount = itemCount,
-                    ItemType = itemType,
-                    Percentage = null,
-                    Done = done
-                };
+            Logger.LogConsoleText($"Finding assemblies {_assemblyFileInfos.Count} assemblies", true, done);
+        }
 
-                _progress.Report(progressInfoInfo);
-            }
+        private void UpdateTypeProgress(bool done)
+        {
+            Logger.LogConsoleText($"Finding types {_typeList.Count} types", true, done);
+        }
+
+        private void UpdateRelationProgress(bool done)
+        {
+            Logger.LogConsoleText($"Finding relations {_model.GetRelationCount()} relations", true, done);
         }
     }
 }

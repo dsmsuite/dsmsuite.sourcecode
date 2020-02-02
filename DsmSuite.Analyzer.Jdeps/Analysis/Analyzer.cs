@@ -15,13 +15,11 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
-        private readonly IProgress<ProgressInfo> _progress;
 
-        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
+        public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
-            _progress = progress;
         }
 
         public void Analyze()
@@ -35,7 +33,7 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
                 while ((line = sr.ReadLine()) != null)
                 {
                     lineNumber++;
-                    UpdateProgress(lineNumber, false);
+                    UpdateLineProgress(lineNumber, false);
 
                     if (line.Contains("->"))
                     {
@@ -50,7 +48,7 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
                     }
                 }
             }
-            UpdateProgress(lineNumber, true);
+            UpdateLineProgress(lineNumber, true);
             AnalyzerLogger.Flush();
         }
 
@@ -75,22 +73,9 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
             _model.AddRelation(consumerName, providerName, "dependency", 1, "dot file");
         }
 
-        private void UpdateProgress(int lineNumber, bool done)
+        private void UpdateLineProgress(int lineNumber, bool done)
         {
-            if (_progress != null)
-            {
-                ProgressInfo progressInfoInfo = new ProgressInfo
-                {
-                    ActionText = "Reading input file",
-                    TotalItemCount = 0,
-                    CurrentItemCount = lineNumber,
-                    ItemType = "lines",
-                    Percentage = null,
-                    Done = done
-                };
-
-                _progress.Report(progressInfoInfo);
-            }
+            Logger.LogConsoleText($"Parse lines {lineNumber} lines", true, done);
         }
     }
 }

@@ -26,31 +26,25 @@ namespace DsmSuite.Analyzer.VisualStudio
                 }
                 else
                 {
-                    AnalyzerSettings _analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _analyzerSettings.LoggingEnabled);
+                    AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
-                    if (!File.Exists(_analyzerSettings.InputFilename))
+                    if (!File.Exists(analyzerSettings.InputFilename))
                     {
-                        Logger.LogUserMessage($"Input file '{_analyzerSettings.InputFilename}' does not exist.");
+                        Logger.LogUserMessage($"Input file '{analyzerSettings.InputFilename}' does not exist.");
                     }
                     else
                     {
-                        ConsoleActionExecutor<AnalyzerSettings> executor = new ConsoleActionExecutor<AnalyzerSettings>($"Analyzing Visual Studio solution '{_analyzerSettings.InputFilename}'", _analyzerSettings);
-                        executor.Execute(Analyze);
+                        Logger.LogUserMessage($"Input filename:{analyzerSettings.InputFilename}");
+                        DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+                        Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings);
+                        analyzer.Analyze();
+                        model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
+                        Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}%");
+                        Logger.LogUserMessage($"Output file: {analyzerSettings.OutputFilename} compressed={analyzerSettings.CompressOutputFile}");
                     }
                 }
             }
-        }
-
-        static void Analyze(AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
-        {
-            Logger.LogUserMessage($"Input filename:{analyzerSettings.InputFilename}");
-            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
-            analyzer.Analyze();
-            model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
-            Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}%");
-            Logger.LogUserMessage($"Output file: {analyzerSettings.OutputFilename} compressed={analyzerSettings.CompressOutputFile}");
         }
     }
 }
