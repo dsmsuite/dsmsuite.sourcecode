@@ -7,6 +7,45 @@ using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Cpp
 {
+    public class ConsoleAction : ConsoleActionBase
+    {
+        private readonly AnalyzerSettings _analyzerSettings;
+
+        public ConsoleAction(AnalyzerSettings analyzerSettings) : base("Analyzing C++ source code")
+        {
+            _analyzerSettings = analyzerSettings;
+        }
+
+        protected override bool CheckPrecondition()
+        {
+            return true;
+        }
+
+        protected override void LogInputParameters()
+        {
+            Logger.LogUserMessage("Input directories:");
+            foreach (string sourceDirectory in _analyzerSettings.SourceDirectories)
+            {
+                Logger.LogUserMessage($" {sourceDirectory}");
+            }
+            Logger.LogUserMessage($"Resolve method: {_analyzerSettings.ResolveMethod}");
+        }
+
+        protected override void Action()
+        {
+            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
+            analyzer.Analyze();
+            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, this);
+            Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}% ambiguousRelations={model.AmbiguousRelationPercentage:0.0}%");
+        }
+
+        protected override void LogOutputParameters()
+        {
+            Logger.LogUserMessage($"Output file: {_analyzerSettings.OutputFilename} compressed={_analyzerSettings.CompressOutputFile}");
+        }
+    }
+
     public static class Program
     {
         static void Main(string[] args)
@@ -28,22 +67,12 @@ namespace DsmSuite.Analyzer.Cpp
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
                     Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
-                    ConsoleProgress progress = new ConsoleProgress();
-
-                    Logger.LogUserMessage("Input directories:");
-                    foreach (string sourceDirectory in analyzerSettings.SourceDirectories)
-                    {
-                        Logger.LogUserMessage($" {sourceDirectory}");
-                    }
-                    Logger.LogUserMessage($"Resolve method: {analyzerSettings.ResolveMethod}");
-                    DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-                    Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
-                    analyzer.Analyze();
-                    model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, progress);
-                    Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}% ambiguousRelations={model.AmbiguousRelationPercentage:0.0}%");
-                    Logger.LogUserMessage($"Output file: {analyzerSettings.OutputFilename} compressed={analyzerSettings.CompressOutputFile}");
+                    ConsoleAction action = new ConsoleAction(analyzerSettings);
+                    action.Execute();
                 }
             }
         }
     }
+
+
 }

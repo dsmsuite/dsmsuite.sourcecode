@@ -37,8 +37,8 @@ namespace DsmSuite.Transformer
                     }
                     else
                     {
-                        ConsoleActionExecutor<TransformerSettings> executor = new ConsoleActionExecutor<TransformerSettings>("Performing transformations", _transformerSettings, null);
-                        executor.Execute(Transform);
+                        //ConsoleActionExecutor<TransformerSettings> executor = new ConsoleActionExecutor<TransformerSettings>("Performing transformations", _transformerSettings, null);
+                        //executor.Execute(Transform);
                     }
                 }
             }
