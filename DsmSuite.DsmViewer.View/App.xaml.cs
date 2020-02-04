@@ -20,8 +20,10 @@ namespace DsmSuite.DsmViewer.View
 
         static App()
         {
+            Logger.Init(Assembly.GetExecutingAssembly());
             ViewerSetting.Read();
-            Logger.EnableLogging(Assembly.GetExecutingAssembly(), ViewerSetting.LoggingEnabled);
+
+            Logger.LoggingEnabled = ViewerSetting.LoggingEnabled;
             Skin = ViewerSetting.Theme;
             ShowCycles = ViewerSetting.ShowCycles;
         }

@@ -51,6 +51,8 @@ namespace DsmSuite.Analyzer.Uml
     {
         static void Main(string[] args)
         {
+            Logger.Init(Assembly.GetExecutingAssembly());
+
             if (args.Length < 1)
             {
                 Logger.LogUserMessage("Usage: DsmSuite.Analyzer.Uml <settingsfile>");
@@ -66,7 +68,7 @@ namespace DsmSuite.Analyzer.Uml
                 else
                 {
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
+                    Logger.LoggingEnabled = analyzerSettings.LoggingEnabled;
 
                     ConsoleAction action = new ConsoleAction(analyzerSettings);
                     action.Execute();

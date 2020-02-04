@@ -52,6 +52,8 @@ namespace DsmSuite.Transformer
     {
         static void Main(string[] args)
         {
+            Logger.Init(Assembly.GetExecutingAssembly());
+
             if (args.Length < 1)
             {
                 Logger.LogUserMessage("Usage: DsmSuite.Transformer <settingsfile>");
@@ -67,7 +69,7 @@ namespace DsmSuite.Transformer
                 else
                 {
                     TransformerSettings transformerSettings = TransformerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), transformerSettings.LoggingEnabled);
+                    Logger.LoggingEnabled = transformerSettings.LoggingEnabled;
 
                     ConsoleAction action = new ConsoleAction(transformerSettings);
                     action.Execute();

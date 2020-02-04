@@ -55,7 +55,7 @@ namespace DsmSuite.DsmViewer.Builder
     {
         static void Main(string[] args)
         {
-            Logger.LogAssemblyInfo(Assembly.GetExecutingAssembly());
+            Logger.Init(Assembly.GetExecutingAssembly());
 
             if (args.Length < 1)
             {
@@ -72,7 +72,7 @@ namespace DsmSuite.DsmViewer.Builder
                 else
                 {
                     BuilderSettings builderSettings = BuilderSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), builderSettings.LoggingEnabled);
+                    Logger.LoggingEnabled = builderSettings.LoggingEnabled;
 
                     ConsoleAction action = new ConsoleAction(builderSettings);
                     action.Execute();

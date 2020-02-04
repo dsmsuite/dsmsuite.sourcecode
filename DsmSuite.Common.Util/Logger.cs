@@ -11,15 +11,16 @@ namespace DsmSuite.Common.Util
     /// </summary>
     public class Logger
     {
+        private static Assembly _assembly;
+
         public static DirectoryInfo LogDirectory { get; private set; }
 
-        public static void EnableLogging(Assembly assembly, bool enabled)
+        public static void Init(Assembly assembly)
         {
-            LoggingEnabled = enabled;
-            LogDirectory = CreateLogDirectory(assembly);
+            _assembly = assembly;
         }
 
-        public static bool LoggingEnabled { get; private set; }
+        public static bool LoggingEnabled { get; set; }
 
         public static void LogAssemblyInfo(Assembly assembly)
         {
@@ -35,7 +36,7 @@ namespace DsmSuite.Common.Util
             [CallerLineNumber] int lineNumber = 0)
         {
             Console.WriteLine(message);
-            LogToFileAlways("userMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
+            LogToFileAlways("userMessages.log", message);
         }
 
         public static void LogDataModelMessage(string message,
@@ -109,19 +110,21 @@ namespace DsmSuite.Common.Util
             }
         }
 
-        private static DirectoryInfo CreateLogDirectory(Assembly assembly)
+        private static DirectoryInfo CreateLogDirectory()
         {
             DateTime now = DateTime.Now;
-            string timestamp =
-                $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
-            string assemblyName = assembly.GetName().Name;
+            string timestamp = $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
+            string assemblyName = _assembly.GetName().Name;
             return Directory.CreateDirectory($@"C:\Temp\DsmSuiteLogging\{assemblyName}_{timestamp}\");
         }
 
-
-
         private static string GetLogFullPath(string logFilename)
         {
+            if (LogDirectory == null)
+            {
+                LogDirectory = CreateLogDirectory();
+            }
+
             return Path.GetFullPath(Path.Combine(LogDirectory.FullName, logFilename));
         }
 
