@@ -3,11 +3,50 @@ using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Core;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.DotNet
 {
+    public class ConsoleAction : ConsoleActionBase
+    {
+        private readonly AnalyzerSettings _analyzerSettings;
+
+        public ConsoleAction(AnalyzerSettings analyzerSettings) : base("Analyzing .Net code")
+        {
+            _analyzerSettings = analyzerSettings;
+        }
+
+        protected override bool CheckPrecondition()
+        {
+            bool result = true;
+            if (!Directory.Exists(_analyzerSettings.AssemblyDirectory))
+            {
+                result = false;
+                Logger.LogUserMessage($"Input directory '{_analyzerSettings.AssemblyDirectory}' does not exist.");
+            }
+            return result;
+        }
+
+        protected override void LogInputParameters()
+        {
+            Logger.LogUserMessage($"Assembly directory:{_analyzerSettings.AssemblyDirectory}");
+        }
+
+        protected override void Action()
+        {
+            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+            Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
+            analyzer.Analyze();
+            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, this);
+            Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}%");
+        }
+
+        protected override void LogOutputParameters()
+        {
+            Logger.LogUserMessage($"Output file: {_analyzerSettings.OutputFilename} compressed={_analyzerSettings.CompressOutputFile}");
+        }
+    }
+
     public static class Program
     {
         static void Main(string[] args)
@@ -29,22 +68,8 @@ namespace DsmSuite.Analyzer.DotNet
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
                     Logger.EnableLogging(Assembly.GetExecutingAssembly(), analyzerSettings.LoggingEnabled);
 
-                    if (!Directory.Exists(analyzerSettings.AssemblyDirectory))
-                    {
-                        Logger.LogUserMessage($"Input directory '{analyzerSettings.AssemblyDirectory}' does not exist.");
-                    }
-                    else
-                    {
-                        ConsoleProgress progress = new ConsoleProgress();
-
-                        Logger.LogUserMessage($"Assembly directory:{analyzerSettings.AssemblyDirectory}");
-                        DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
-                        Analysis.Analyzer analyzer = new Analysis.Analyzer(model, analyzerSettings, progress);
-                        analyzer.Analyze();
-                        model.Save(analyzerSettings.OutputFilename, analyzerSettings.CompressOutputFile, null);
-                        Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}%");
-                        Logger.LogUserMessage($"Output file: {analyzerSettings.OutputFilename} compressed={analyzerSettings.CompressOutputFile}");
-                    }
+                    ConsoleAction action = new ConsoleAction(analyzerSettings);
+                    action.Execute();
                 }
             }
         }

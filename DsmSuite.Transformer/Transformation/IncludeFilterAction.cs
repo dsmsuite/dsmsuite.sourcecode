@@ -14,26 +14,27 @@ namespace DsmSuite.Transformer.Transformation
         private readonly IDsiModel _model;
         private readonly List<string> _names;
 
-        public IncludeFilterAction(IDsiModel model, IncludeFilterSettings includeFilterSettings) :
-            base(ActionName, includeFilterSettings.Enabled)
+        public IncludeFilterAction(IDsiModel model, IncludeFilterSettings includeFilterSettings, IProgress<ProgressInfo> progress) :
+            base(ActionName, includeFilterSettings.Enabled, progress)
         {
             _model = model;
             _names = includeFilterSettings.Names;
         }
 
-        protected override void ExecuteImpl(IProgress<ProgressInfo> progress)
+        protected override void ExecuteImpl()
         {
-            int transformedElements = 0;
+
             IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
+
+            int totalElements = _model.GetElementCount();
+            int transformedElements = 0;
             foreach (IDsiElement element in clonedElements)
             {
                 IncludeElement(element);
 
                 transformedElements++;
-                //Console.Write("\r progress elements={0}", transformedElements);
+                UpdateTransformationProgress(transformedElements, totalElements);
             }
-
-            //Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
         private void IncludeElement(IDsiElement element)

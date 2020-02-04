@@ -2,16 +2,54 @@
 using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 using DsmSuite.Transformer.Settings;
 
 namespace DsmSuite.Transformer
 {
+    public class ConsoleAction : ConsoleActionBase
+    {
+        private readonly TransformerSettings _transformerSettings;
+
+        public ConsoleAction(TransformerSettings transformerSettings) : base("Transforming model")
+        {
+            _transformerSettings = transformerSettings;
+        }
+
+        protected override bool CheckPrecondition()
+        {
+            bool result = true;
+            if (!File.Exists(_transformerSettings.InputFilename))
+            {
+                result = false;
+                Logger.LogUserMessage($"Input file '{_transformerSettings.InputFilename}' does not exist.");
+            }
+            return result;
+        }
+
+        protected override void LogInputParameters()
+        {
+            Logger.LogUserMessage($"Input filename:{_transformerSettings.InputFilename}");
+        }
+
+        protected override void Action()
+        {
+            DsiModel model = new DsiModel("Transformer", Assembly.GetExecutingAssembly());
+            model.Load(_transformerSettings.InputFilename, this);
+            Transformation.Transformer transformer = new Transformation.Transformer(model, _transformerSettings, this);
+            transformer.Transform();
+            model.Save(_transformerSettings.OutputFilename, _transformerSettings.CompressOutputFile, this);
+
+        }
+
+        protected override void LogOutputParameters()
+        {
+            Logger.LogUserMessage($"Output file: {_transformerSettings.OutputFilename} compressed={_transformerSettings.CompressOutputFile}");
+        }
+    }
+
     public static class Program
     {
-        private static TransformerSettings _transformerSettings;
-
         static void Main(string[] args)
         {
             if (args.Length < 1)
@@ -28,30 +66,13 @@ namespace DsmSuite.Transformer
                 }
                 else
                 {
-                    _transformerSettings = TransformerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), _transformerSettings.LoggingEnabled);
+                    TransformerSettings transformerSettings = TransformerSettings.ReadFromFile(settingsFileInfo.FullName);
+                    Logger.EnableLogging(Assembly.GetExecutingAssembly(), transformerSettings.LoggingEnabled);
 
-                    if (!File.Exists(_transformerSettings.InputFilename))
-                    {
-                        Logger.LogUserMessage($"Input file '{_transformerSettings.InputFilename}' does not exist.");
-                    }
-                    else
-                    {
-                        //ConsoleActionExecutor<TransformerSettings> executor = new ConsoleActionExecutor<TransformerSettings>("Performing transformations", _transformerSettings, null);
-                        //executor.Execute(Transform);
-                    }
+                    ConsoleAction action = new ConsoleAction(transformerSettings);
+                    action.Execute();
                 }
             }
-        }
-
-        static void Transform(TransformerSettings settings, IProgress<ProgressInfo> progress)
-        {
-            DsiModel model = new DsiModel("Transformer", Assembly.GetExecutingAssembly());
-            model.Load(_transformerSettings.InputFilename, null);
-            Transformation.Transformer transformer = new Transformation.Transformer(model, _transformerSettings);
-            transformer.Transform(progress);
-            model.Save(_transformerSettings.OutputFilename, _transformerSettings.CompressOutputFile, null);
-            AnalyzerLogger.Flush();
         }
     }
 }

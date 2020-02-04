@@ -27,7 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleActionBase.cs" />
-    <Compile Include="ConsoleProgress.cs" />
     <Compile Include="ProgressInfo.cs" />
     <Compile Include="ElementName.cs" />
     <Compile Include="FilePath.cs" />

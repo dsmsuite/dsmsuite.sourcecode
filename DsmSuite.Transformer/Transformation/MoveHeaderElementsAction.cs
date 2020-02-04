@@ -11,25 +11,25 @@ namespace DsmSuite.Transformer.Transformation
         private const string ActionName = "Move C/C++ header file element near to implementation file element";
         private readonly IDsiModel _model;
 
-        public MoveHeaderElementsAction(IDsiModel model, bool enabled) :
-            base(ActionName, enabled)
+        public MoveHeaderElementsAction(IDsiModel model, bool enabled, IProgress<ProgressInfo> progress) :
+            base(ActionName, enabled, progress)
         {
             _model = model;
         }
 
-        protected override void ExecuteImpl(IProgress<ProgressInfo> progress)
+        protected override void ExecuteImpl()
         {
-            int transformedElements = 0;
-
             IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
+
+            int totalElements = _model.GetElementCount();
+            int transformedElements = 0;
             foreach (IDsiElement element in clonedElements)
             {
                 MoveHeaderElement(element);
 
                 transformedElements++;
-                //Console.Write("\r progress elements={0}", transformedElements);
+                UpdateTransformationProgress(transformedElements, totalElements);
             }
-            //Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
         private void MoveHeaderElement(IDsiElement element)

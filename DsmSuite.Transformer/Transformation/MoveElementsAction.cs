@@ -14,26 +14,26 @@ namespace DsmSuite.Transformer.Transformation
         private readonly IDsiModel _model;
         private readonly List<MoveElementRule> _transformationRules;
 
-        public MoveElementsAction(IDsiModel model, MoveElementsSettings moveElementsSettings) :
-            base(ActionName, moveElementsSettings.Enabled)
+        public MoveElementsAction(IDsiModel model, MoveElementsSettings moveElementsSettings, IProgress<ProgressInfo> progress) :
+            base(ActionName, moveElementsSettings.Enabled, progress)
         {
             _model = model;
             _transformationRules = moveElementsSettings.Rules;
         }
 
-        protected override void ExecuteImpl(IProgress<ProgressInfo> progress)
+        protected override void ExecuteImpl()
         {
-            int transformedElements = 0;
-
             IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
+
+            int totalElements = _model.GetElementCount();
+            int transformedElements = 0;
             foreach (IDsiElement element in clonedElements)
             {
                 MoveElement(element);
 
                 transformedElements++;
-                //Console.Write("\r progress elements={0}", transformedElements);
+                UpdateTransformationProgress(transformedElements, totalElements);
             }
-            //Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
         private void MoveElement(IDsiElement element)

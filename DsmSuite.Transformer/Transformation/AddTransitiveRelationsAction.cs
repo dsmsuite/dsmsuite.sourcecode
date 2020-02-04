@@ -13,8 +13,8 @@ namespace DsmSuite.Transformer.Transformation
         private readonly Dictionary<string, HashSet<IDsiElement>> _directProviders;
         private readonly Dictionary<string, HashSet<IDsiElement>> _transitiveProviders;
 
-        public AddTransitiveRelationsAction(IDsiModel model, bool enabled) :
-           base(ActionName, enabled)
+        public AddTransitiveRelationsAction(IDsiModel model, bool enabled, IProgress<ProgressInfo> progress) :
+           base(ActionName, enabled, progress)
         {
             _model = model;
 
@@ -22,19 +22,19 @@ namespace DsmSuite.Transformer.Transformation
             _transitiveProviders = new Dictionary<string, HashSet<IDsiElement>>();
         }
 
-        protected override void ExecuteImpl(IProgress<ProgressInfo> progress)
+        protected override void ExecuteImpl()
         {
             FindDirectProviders();
 
+            int totalElements = _model.GetElementCount();
             int transformedElements = 0;
             foreach (IDsiElement consumer in _model.GetElements())
             {
                 AddTransitiveRelations(consumer);
 
                 transformedElements++;
-                //Console.Write("\r progress elements={0}", transformedElements);
+                UpdateTransformationProgress(transformedElements, totalElements);
             }
-            //Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
         private void AddTransitiveRelations(IDsiElement consumer)

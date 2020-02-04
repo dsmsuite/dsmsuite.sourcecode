@@ -73,6 +73,4 @@ namespace DsmSuite.Analyzer.Cpp
             }
         }
     }
-
-
 }

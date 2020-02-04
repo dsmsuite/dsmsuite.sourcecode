@@ -13,15 +13,16 @@ namespace DsmSuite.Transformer.Transformation
         private readonly IDsiModel _model;
         private readonly SplitProductAndTestElementsSettings _splitProductAndTestElementsSettings;
 
-        public SplitProductAndTestElementsAction(IDsiModel model, SplitProductAndTestElementsSettings splitProductAndTestElementsSettings) :
-            base(ActionName, splitProductAndTestElementsSettings.Enabled)
+        public SplitProductAndTestElementsAction(IDsiModel model, SplitProductAndTestElementsSettings splitProductAndTestElementsSettings, IProgress<ProgressInfo> progress) :
+            base(ActionName, splitProductAndTestElementsSettings.Enabled, progress)
         {
             _model = model;
             _splitProductAndTestElementsSettings = splitProductAndTestElementsSettings;
         }
 
-        protected override void ExecuteImpl(IProgress<ProgressInfo> progress)
+        protected override void ExecuteImpl()
         {
+            int totalElements = _model.GetElementCount();
             int transformedElements = 0;
 
             IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
@@ -30,9 +31,8 @@ namespace DsmSuite.Transformer.Transformation
                 SplitProductAndTestElement(element);
 
                 transformedElements++;
-                //Console.Write("\r progress elements={0}", transformedElements);
+                UpdateTransformationProgress(transformedElements, totalElements);
             }
-            //Console.WriteLine("\r progress elements={0}", transformedElements);
         }
 
         private void SplitProductAndTestElement(IDsiElement element)

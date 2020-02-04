@@ -40,8 +40,8 @@ namespace DsmSuite.Transformer.Test.Transformation
             Assert.IsTrue(dataModel.DoesRelationExist(element4.Id, element5.Id));
             Assert.AreEqual(0, dataModel.GetRelationsOfConsumer(element5.Id).Count);
 
-            AddTransitiveRelationsAction transformation = new AddTransitiveRelationsAction(dataModel, true);
-            transformation.Execute(null);
+            AddTransitiveRelationsAction transformation = new AddTransitiveRelationsAction(dataModel, true, null);
+            transformation.Execute();
 
             Assert.AreEqual(4, dataModel.GetRelationsOfConsumer(element1.Id).Count);
             Assert.IsTrue(dataModel.DoesRelationExist(element1.Id, element2.Id));

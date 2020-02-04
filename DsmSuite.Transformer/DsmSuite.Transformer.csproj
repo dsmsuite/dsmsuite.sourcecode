@@ -31,7 +31,7 @@
     <Compile Include="Transformation\AddTransitiveRelationsAction.cs" />
     <Compile Include="Transformation\IncludeFilterAction.cs" />
     <Compile Include="Transformation\MoveHeaderElementsAction.cs" />
-    <Compile Include="Transformation\IAction.cs" />
+    <Compile Include="Transformation\Action.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transformation\SplitProductAndTestElementsAction.cs" />
