@@ -1,11 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.Reflection;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Core;
 using DsmSuite.DsmViewer.Builder.Settings;
 using DsmSuite.DsmViewer.Model.Core;
-using System;
 
 namespace DsmSuite.DsmViewer.Builder
 {

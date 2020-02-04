@@ -33,7 +33,7 @@ namespace DsmSuite.Transformer.Transformation
                 AddTransitiveRelations(consumer);
 
                 transformedElements++;
-                UpdateTransformationProgress(transformedElements, totalElements);
+                UpdateTransformationProgress(Name, transformedElements, totalElements);
             }
         }
 

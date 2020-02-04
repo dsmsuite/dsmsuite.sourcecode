@@ -27,13 +27,13 @@ namespace DsmSuite.Transformer.Transformation
 
         protected abstract void ExecuteImpl();
 
-        protected void UpdateTransformationProgress(int currentItemCount, int totalItemCount)
+        protected void UpdateTransformationProgress(string actionName, int currentItemCount, int totalItemCount)
         {
             ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = "Analyzing source files";
+            progressInfo.ActionText = actionName;
             progressInfo.CurrentItemCount = currentItemCount;
             progressInfo.TotalItemCount = totalItemCount;
-            progressInfo.ItemType = "files";
+            progressInfo.ItemType = "elements";
             progressInfo.Percentage = currentItemCount * 100 / totalItemCount;
             progressInfo.Done = currentItemCount == totalItemCount;
             _progress?.Report(progressInfo);

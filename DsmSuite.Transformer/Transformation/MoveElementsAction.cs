@@ -32,7 +32,7 @@ namespace DsmSuite.Transformer.Transformation
                 MoveElement(element);
 
                 transformedElements++;
-                UpdateTransformationProgress(transformedElements, totalElements);
+                UpdateTransformationProgress(Name, transformedElements, totalElements);
             }
         }
 

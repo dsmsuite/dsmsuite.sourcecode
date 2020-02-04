@@ -28,7 +28,7 @@ namespace DsmSuite.Transformer.Transformation
                 MoveHeaderElement(element);
 
                 transformedElements++;
-                UpdateTransformationProgress(transformedElements, totalElements);
+                UpdateTransformationProgress(Name, transformedElements, totalElements);
             }
         }
 

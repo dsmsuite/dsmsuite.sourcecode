@@ -31,7 +31,7 @@ namespace DsmSuite.Transformer.Transformation
                 SplitProductAndTestElement(element);
 
                 transformedElements++;
-                UpdateTransformationProgress(transformedElements, totalElements);
+                UpdateTransformationProgress(Name, transformedElements, totalElements);
             }
         }
 
