@@ -126,11 +126,13 @@ namespace DsmSuite.Common.Util
                     outputBuilder.Append("\r");
                 }
                 outputBuilder.Append(text);
+                Console.Write(outputBuilder);
+
                 if (endOfLine)
                 {
                     outputBuilder.Append("\n");
+                    Logger.LogUserMessage(outputBuilder.ToString());
                 }
-                Console.Write(outputBuilder);
 
                 _currentText = outputBuilder.ToString();
             }

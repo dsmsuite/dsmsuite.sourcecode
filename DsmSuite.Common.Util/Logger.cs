@@ -35,7 +35,7 @@ namespace DsmSuite.Common.Util
             [CallerLineNumber] int lineNumber = 0)
         {
             Console.WriteLine(message);
-            LogToFile("userMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
+            LogToFileAlways("userMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
         public static void LogDataModelMessage(string message,
