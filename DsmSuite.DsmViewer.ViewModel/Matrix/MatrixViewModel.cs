@@ -809,7 +809,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     {
                         cycleText = "with system cycle";
                     }
-                    CellTooltip = $"[{consumer.Order}] {consumer.Fullname} to [{consumer.Order}] {consumer.Fullname} weight={weight} {cycleText}";
+                    CellTooltip = $"[{consumer.Order}] {consumer.Fullname} to [{provider.Order}] {provider.Fullname} weight={weight} {cycleText}";
                 }
             }
         }
