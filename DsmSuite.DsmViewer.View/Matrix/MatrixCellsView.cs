@@ -14,6 +14,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private int? _hoveredColumn;
         private readonly double _pitch;
         private readonly double _offset;
+        private readonly double _verticalTextOffset = 16.0;
 
         public MatrixCellsView()
         {
@@ -120,15 +121,15 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
                             Point location = new Point
                             {
-                                X = column * _pitch + (_pitch - textWidth) /2,
-                                Y = 16.0 + row * _pitch
+                                X = (column * _pitch) + (_pitch - textWidth) / 2,
+                                Y = (row * _pitch) + _verticalTextOffset
                             };
                             DrawText(dc, content, location, _theme.TextColor,_rect.Width - _theme.SpacingWidth);
                         }
                     }
                 }
-                Height = _theme.MatrixCellSize * matrixSize + _theme.ScrollBarWidth + _theme.SpacingWidth;
-                Width = Height + _theme.ScrollBarWidth; 
+                Height = _pitch * matrixSize + _theme.ScrollBarWidth;
+                Width = Height; 
             }
         }
 
