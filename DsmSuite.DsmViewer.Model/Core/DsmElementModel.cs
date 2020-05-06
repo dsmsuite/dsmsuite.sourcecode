@@ -186,13 +186,61 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsByName.ContainsKey(fullname) ? _elementsByName[fullname] : null;
         }
 
-        public IEnumerable<IDsmElement> SearchElements(string text)
+        public int SearchElements(string text)
         {
-            return from element in _elementsById.Values
-                   where element.Fullname.ToLower().Contains(text.ToLower()) && !element.IsDeleted
-                   select element;
+            int count = 0;
+            string fullname = "";
+
+            if (text.Length > 0)
+            {
+                MarkMatchingElements(_root, text, fullname, ref count);
+            }
+            else
+            {
+                ClearMarkElements(_root);
+            }
+            return count;
         }
 
+        private bool MarkMatchingElements(IDsmElement element, string text, string fullname, ref int count)
+        {
+            bool isMatch = false;
+
+            if (fullname.Length > 0)
+            {
+                fullname += ".";
+            }
+            fullname += element.Name;
+
+            if (fullname.ToLower().Contains(text.ToLower()) && !element.IsDeleted)
+            {
+                isMatch = true;
+                count++;
+            }
+
+            foreach (IDsmElement child in element.Children)
+            {
+                if (MarkMatchingElements(child, text, fullname, ref count))
+                {
+                    isMatch = true;
+                    count++;
+                }
+            }
+
+            element.IsMatch = isMatch;
+
+            return isMatch;
+        }
+
+        private void ClearMarkElements(IDsmElement element)
+        {
+            element.IsMatch = false;
+
+            foreach(IDsmElement child in element.Children)
+            {
+                ClearMarkElements(child);
+            }
+        }
         public IDsmElement GetDeletedElementById(int id)
         {
             return _deletedElementsById.ContainsKey(id) ? _deletedElementsById[id] : null;

@@ -1,14 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Main;
-using System;
-using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
@@ -36,7 +33,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private List<string> _metrics;
         private List<bool> _rowIsProvider;
         private List<bool> _rowIsConsumer;
-
+        private List<bool> _rowIsMatch;
         private int? _selectedConsumerId;
         private int? _selectedProviderId;
 
@@ -46,6 +43,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private readonly Dictionary<MetricType, string> _metricTypeNames;
         private string _selectedMetricTypeName;
         private MetricType _selectedMetricType;
+        private string _searchText = "";
 
         public MatrixViewModel(IMainViewModel mainViewModel, IDsmApplication application, IEnumerable<IDsmElement> selectedElements)
         {
@@ -104,6 +102,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             _selectedMetricType = MetricType.NumberOfElements;
             SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
+        }
+
+        public int HighlighMatchingElements(string searchText)
+        {
+            _searchText = searchText;
+            return UpdateMatchingRows();
         }
 
         public ICommand ToggleElementExpandedCommand { get; }
@@ -180,6 +184,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public IReadOnlyList<string> Metrics => _metrics;
         public IReadOnlyList<bool> RowIsProvider => _rowIsProvider;
         public IReadOnlyList<bool> RowIsConsumer => _rowIsConsumer;
+        public IReadOnlyList<bool> RowIsMatch => _rowIsMatch;
 
         public double ZoomLevel
         {
@@ -200,6 +205,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _elementViewModelLeafs = FindLeafElementViewModels();
             DefineProviderRows();
             DefineConsumerRows();
+            DefineMatchingRows();
             DefineColumnColors();
             DefineColumnContent();
             DefineCellColors();
@@ -207,6 +213,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             DefineMetrics();
             MatrixSize = _elementViewModelLeafs.Count;
             RestoreSelectionAfterReload();
+
+            UpdateMatchingRows();
         }
 
         public void SelectTreeItem(ElementTreeItemViewModel selectedTreeItem)
@@ -858,16 +866,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             if (HoveredRow.HasValue)
             {
-                for (int i = 0; i < _elementViewModelLeafs.Count; i++)
+                for (int row = 0; row < _elementViewModelLeafs.Count; row++)
                 {
-                    _rowIsProvider[i] = _cellWeights[i][HoveredRow.Value] > 0;
+                    _rowIsProvider[row] = _cellWeights[row][HoveredRow.Value] > 0;
                 }
             }
             else
             {
-                for (int i = 0; i < _elementViewModelLeafs.Count; i++)
+                for (int row = 0; row < _elementViewModelLeafs.Count; row++)
                 {
-                    _rowIsProvider[i] = false;
+                    _rowIsProvider[row] = false;
                 }
             }
         }
@@ -885,18 +893,37 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             if (HoveredRow.HasValue)
             {
-                for (int i = 0; i < _elementViewModelLeafs.Count; i++)
+                for (int row = 0; row < _elementViewModelLeafs.Count; row++)
                 {
-                    _rowIsConsumer[i] = _cellWeights[HoveredRow.Value][i] > 0;
+                    _rowIsConsumer[row] = _cellWeights[HoveredRow.Value][row] > 0;
                 }
             }
             else
             {
-                for (int i = 0; i < _elementViewModelLeafs.Count; i++)
+                for (int row = 0; row < _elementViewModelLeafs.Count; row++)
                 {
-                    _rowIsConsumer[i] = false;
+                    _rowIsConsumer[row] = false;
                 }
             }
+        }
+
+        private void DefineMatchingRows()
+        {
+            _rowIsMatch = new List<bool>();
+            for (int row = 0; row < _elementViewModelLeafs.Count; row++)
+            {
+                _rowIsMatch.Add(false);
+            }
+        }
+
+        private int UpdateMatchingRows()
+        {
+            int count =  _application.SearchElements(_searchText);
+            for (int row = 0; row < _elementViewModelLeafs.Count; row++)
+            {
+                _rowIsMatch[row] = _elementViewModelLeafs[row].Element.IsMatch;
+            }
+            return count;
         }
 
         private void BackupSelectionBeforeReload()

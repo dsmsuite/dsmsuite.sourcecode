@@ -78,6 +78,11 @@ namespace DsmSuite.DsmViewer.Model.Core
         public bool IsExpanded { get; set; }
 
         /// <summary>
+        /// Is the element match in search.
+        /// </summary>
+        public bool IsMatch { get; set; }
+
+        /// <summary>
         /// Parent of the element.
         /// </summary>
         public IDsmElement Parent => _parent;

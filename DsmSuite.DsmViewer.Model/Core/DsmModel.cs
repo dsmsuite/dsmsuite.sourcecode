@@ -157,7 +157,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.FindElementByFullname(fullname);
         }
 
-        public IEnumerable<IDsmElement> SearchElements(string text)
+        public int SearchElements(string text)
         {
             return _elementsDataModel.SearchElements(text);
         }

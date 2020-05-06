@@ -84,26 +84,33 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     MatrixColor color = _viewModel.ColumnColors[row];
                     SolidColorBrush background = _theme.GetBackground(color, isHovered, isSelected);
 
-                    if (_viewModel.RowIsConsumer[row])
+                    if (_viewModel.RowIsMatch[row])
                     {
-                        if (_viewModel.RowIsProvider[row])
-                        {
-                            dc.DrawRectangle(_theme.MatrixColorHierarchicalCycle, null, _rect);
-                        }
-                        else
-                        {
-                            dc.DrawRectangle(_theme.MatrixColorConsumer, null, _rect);
-                        }
+                        dc.DrawRectangle(_theme.MatrixColorMatch, null, _rect);
                     }
                     else
                     {
-                        if (_viewModel.RowIsProvider[row])
+                        if (_viewModel.RowIsConsumer[row])
                         {
-                            dc.DrawRectangle(_theme.MatrixColorProvider, null, _rect);
+                            if (_viewModel.RowIsProvider[row])
+                            {
+                                dc.DrawRectangle(_theme.MatrixColorHierarchicalCycle, null, _rect);
+                            }
+                            else
+                            {
+                                dc.DrawRectangle(_theme.MatrixColorConsumer, null, _rect);
+                            }
                         }
                         else
                         {
-                            dc.DrawRectangle(background, null, _rect);
+                            if (_viewModel.RowIsProvider[row])
+                            {
+                                dc.DrawRectangle(_theme.MatrixColorProvider, null, _rect);
+                            }
+                            else
+                            {
+                                dc.DrawRectangle(background, null, _rect);
+                            }
                         }
                     }
                 }

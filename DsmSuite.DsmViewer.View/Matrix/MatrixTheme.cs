@@ -20,6 +20,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             TextColor = (SolidColorBrush)_frameworkElement.FindResource("TextColor");
             MatrixColorConsumer = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorConsumer");
             MatrixColorProvider = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorProvider");
+            MatrixColorMatch = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorMatch");
             MatrixColorSystemCycle = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorSystemCycle");
             MatrixColorHierarchicalCycle = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorHierarchicalCycle");
 
@@ -52,6 +53,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         public SolidColorBrush TextColor { get; }
         public SolidColorBrush MatrixColorConsumer { get; }
         public SolidColorBrush MatrixColorProvider { get; }
+        public SolidColorBrush MatrixColorMatch { get; }
         public SolidColorBrush MatrixColorHierarchicalCycle { get; }
         public SolidColorBrush MatrixColorSystemCycle { get; }
         public string LeftArrow { get; }

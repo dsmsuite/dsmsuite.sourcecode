@@ -55,5 +55,10 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// Is the element expanded in the viewer.
         /// </summary>
         bool IsExpanded { get; set; }
+
+        /// <summary>
+        /// Is the element match in search.
+        /// </summary>
+        bool IsMatch { get; set; }
     }
 }

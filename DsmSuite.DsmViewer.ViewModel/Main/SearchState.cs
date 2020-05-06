@@ -3,7 +3,6 @@
     public enum SearchState
     {
         NoMatch,
-        OneMatch,
-        ManyMatches
+        Match
     }
 }

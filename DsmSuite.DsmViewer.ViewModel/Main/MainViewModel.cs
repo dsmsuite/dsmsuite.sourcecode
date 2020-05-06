@@ -54,8 +54,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _modelFilename;
         private string _title;
         private string _searchText;
-        private List<IDsmElement> _foundElements;
-        private int? _foundElementIndex;
         private SearchState _searchState;
         private string _searchResult;
 
@@ -99,9 +97,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             RedoCommand = new RelayCommand<object>(RedoExecute, RedoCanExecute);
 
             OverviewReportCommand = new RelayCommand<object>(OverviewReportExecute, OverviewReportCanExecute);
-
-            NavigateToNextCommand = new RelayCommand<object>(NavigateToNextExecute, NavigateToNextCanExecute);
-            NavigateToPreviousCommand = new RelayCommand<object>(NavigateToPreviousExecute, NavigateToPreviousCanExecute);
 
             CreateElementCommand = new RelayCommand<object>(CreateElementExecute, CreateElementCanExecute);
             DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
@@ -193,8 +188,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
         public ICommand OverviewReportCommand { get; }
-        public ICommand NavigateToNextCommand { get; }
-        public ICommand NavigateToPreviousCommand { get; }
 
         public ICommand CreateElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
@@ -237,7 +230,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public string SearchText
         {
             get { return _searchText; }
-            set { _searchText = value; OnPropertyChanged(); OnRunSearch(); }
+            set { _searchText = value; OnPropertyChanged(); OnSearchTextUpdated(); }
         }
 
         public SearchState SearchState
@@ -476,94 +469,23 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return true;
         }
 
-        private void OnRunSearch()
+        private void OnSearchTextUpdated()
         {
-            _foundElements = _application.SearchElements(SearchText).ToList();
-            int count = _foundElements.Count;
+            int count = ActiveMatrix.HighlighMatchingElements(SearchText);
+
             if (count == 0)
             {
                 SearchState = SearchState.NoMatch;
                 SearchResult = SearchText.Length > 0 ? "None found" : "";
             }
-            else if (count == 1)
-            {
-                IDsmElement foundElement = _foundElements.FirstOrDefault();
-                if ((foundElement != null) && (foundElement.Fullname != SearchText))
-                {
-                    SearchText = foundElement.Fullname;
-                }
-                SearchState = SearchState.OneMatch;
-                SearchResult = "1 found";
-            }
-            else if (count > 1)
-            {
-                SearchState = SearchState.ManyMatches;
-                SearchResult = $"{count} found";
-            }
-        }
-
-        private void NavigateToNextExecute(object parameter)
-        {
-            if (!_foundElementIndex.HasValue)
-            {
-                _foundElementIndex = 0;
-            }
             else
             {
-                if (_foundElementIndex < _foundElements.Count - 1)
-                {
-                    _foundElementIndex++;
-                }
+                SearchState = SearchState.Match;
+                SearchResult = $"{count} found";
             }
-
-            NavigateToSelectedElement();
+            ActiveMatrix.Reload();
         }
-
-        private bool NavigateToNextCanExecute(object parameter)
-        {
-            bool canExecute = false;
-
-            if (_foundElements != null && _foundElements.Count > 0)
-            {
-                if (_foundElementIndex.HasValue)
-                {
-                    if (_foundElementIndex.Value < _foundElements.Count - 1)
-                    {
-                        canExecute = true;
-                    }
-                }
-                else
-                {
-                    canExecute = true;
-                }
-            }
-            return canExecute;
-        }
-
-        private void NavigateToPreviousExecute(object parameter)
-        {
-            if (_foundElementIndex.HasValue)
-            {
-                _foundElementIndex--;
-            }
-
-            NavigateToSelectedElement();
-        }
-
-        private void NavigateToSelectedElement()
-        {
-            if (_foundElementIndex.HasValue)
-            {
-                IDsmElement foundElement = _foundElements[_foundElementIndex.Value];
-                ActiveMatrix?.NavigateToSelectedElement(foundElement);
-            }
-        }
-
-        private bool NavigateToPreviousCanExecute(object parameter)
-        {
-            return _foundElements != null && _foundElements.Count > 0 && _foundElementIndex > 0;
-        }
-        
+       
         private void OnActionPerformed(object sender, EventArgs e)
         {
             UndoText = $"Undo {_application.GetUndoActionDescription()}";

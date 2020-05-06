@@ -238,15 +238,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
             Assert.IsNotNull(b);
 
-            IDsmElement foundElement = model.SearchElements(".b").ToList().FirstOrDefault();
-            Assert.IsNotNull(foundElement);
-            Assert.AreEqual(2, foundElement.Id);
-            Assert.AreEqual("b", foundElement.Name);
-            Assert.AreEqual("a.b", foundElement.Fullname);
-            Assert.AreEqual("type", foundElement.Type);
-            Assert.AreEqual(11, foundElement.Order);
-            Assert.AreEqual(true, foundElement.IsExpanded);
-            Assert.AreEqual(a, foundElement.Parent);
+            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false);
+            Assert.IsNotNull(c);
+
+            Assert.AreEqual(3, model.SearchElements("a.b")); 
+
+            Assert.AreEqual(true, model.GetRootElement().IsMatch);
+            Assert.AreEqual(true, model.FindElementById(1).IsMatch);
+            Assert.AreEqual(true, model.FindElementById(2).IsMatch);
+            Assert.AreEqual(false, model.FindElementById(3).IsMatch);
         }
 
         [TestMethod]
@@ -261,12 +261,17 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
             Assert.IsNotNull(b);
 
-            IDsmElement foundElement = model.SearchElements(".c").ToList().FirstOrDefault();
-            Assert.IsNull(foundElement);
+            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false);
+            Assert.IsNotNull(c);
+
+            Assert.AreEqual(0, model.SearchElements(".d"));
+
+            Assert.AreEqual(false, model.GetRootElement().IsMatch);
+            Assert.AreEqual(false, model.FindElementById(1).IsMatch);
+            Assert.AreEqual(false, model.FindElementById(2).IsMatch);
+            Assert.AreEqual(false, model.FindElementById(3).IsMatch);
         }
-
-
-
+        
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenRemoveElementIsCalledThenElementAndItsChildrenAreRemoved()
         {

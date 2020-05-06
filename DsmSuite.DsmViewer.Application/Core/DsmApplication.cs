@@ -255,7 +255,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.IsCyclicDependency(consumer.Id, provider.Id);
         }
 
-        public IEnumerable<IDsmElement> SearchElements(string text)
+        public int SearchElements(string text)
         {
             return _dsmModel.SearchElements(text);
         }
