@@ -114,7 +114,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ShowSettingsCommand = new RelayCommand<object>(ShowSettingsExecute, ShowSettingsCanExecute);
 
             TakeScreenshotCommand = new RelayCommand<object>(TakeScreenshotExecute);
-
+            ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute);
             _modelFilename = "";
             _title = "DSM Viewer";
             _isModified = false;
@@ -202,6 +202,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand ShowHistoryCommand { get; }
         public ICommand ShowSettingsCommand { get; }
         public ICommand TakeScreenshotCommand { get; }
+        public ICommand ClearSearchCommand { get; }
 
         public string ModelFilename
         {
@@ -685,6 +686,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private void TakeScreenshotExecute(object parameter)
         {
             ScreenshotRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ClearSearchExecute(object parameter)
+        {
+            SearchText = "";
         }
     }
 }
