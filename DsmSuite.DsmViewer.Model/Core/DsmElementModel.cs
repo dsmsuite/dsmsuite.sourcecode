@@ -193,7 +193,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             if (text.Length > 0)
             {
-                MarkMatchingElements(_root, text, fullname, ref count);
+                MarkMatchingElements(_root, text.ToLower(), fullname, ref count);
             }
             else
             {
@@ -210,9 +210,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 fullname += ".";
             }
-            fullname += element.Name;
+            fullname += element.Name.ToLower();
 
-            if (fullname.ToLower().Contains(text.ToLower()) && !element.IsDeleted)
+            if (fullname.Contains(text) && !element.IsDeleted)
             {
                 isMatch = true;
                 count++;
