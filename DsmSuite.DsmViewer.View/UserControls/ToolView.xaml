@@ -34,9 +34,9 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Paste screenshot to clipboard" Command="{Binding TakeScreenshotCommand}" Content="{StaticResource SnapshotIcon}"/>
             <Border BorderBrush="{StaticResource ForegroundDisabledColor}" BorderThickness="1">
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Style="{StaticResource ToolbarTextBox}" BorderThickness="0" ToolTip="Enter text to search for elements"  Width="400" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
-                    <Button Style="{StaticResource ToolbarButton}" Width="10" Height="10" VerticalAlignment="Center" ToolTip="CLear search text" BorderThickness="0" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}"/>
+                <StackPanel Orientation="Horizontal" Background="{StaticResource BackgroundColor}">
+                    <TextBox Style="{StaticResource ToolbarTextBox}" Width="400" Height="26" BorderThickness="0" ToolTip="Enter text to search for elements"  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
+                    <Button Style="{StaticResource ToolbarButton}" Width="10" Height="10" BorderThickness="0" VerticalAlignment="Center" ToolTip="Clear search text" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}"/>
                 </StackPanel>
             </Border>
             <Label Style="{StaticResource ToolbarLabel}" Content="{Binding SearchResult}" Width="80"/>
