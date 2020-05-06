@@ -241,7 +241,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
-            Assert.AreEqual(3, model.SearchElements("a.b")); 
+            Assert.AreEqual(1, model.SearchElements("a.b")); 
 
             Assert.AreEqual(true, model.GetRootElement().IsMatch);
             Assert.AreEqual(true, model.FindElementById(1).IsMatch);

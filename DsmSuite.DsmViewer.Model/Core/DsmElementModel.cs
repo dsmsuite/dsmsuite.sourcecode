@@ -223,7 +223,6 @@ namespace DsmSuite.DsmViewer.Model.Core
                 if (MarkMatchingElements(child, text, fullname, ref count))
                 {
                     isMatch = true;
-                    count++;
                 }
             }
 
