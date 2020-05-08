@@ -5,7 +5,7 @@
     <SolidColorBrush x:Key="TextColor" po:Freeze="True">#000000</SolidColorBrush>
     <SolidColorBrush x:Key="ErrorTextColor" po:Freeze="True">#ff0000</SolidColorBrush>
     <SolidColorBrush x:Key="SearchNoMatchTextColor" po:Freeze="True">#ff0000</SolidColorBrush>
-    <SolidColorBrush x:Key="SearcMatchTextColor" po:Freeze="True">#e0e0e0</SolidColorBrush>
+    <SolidColorBrush x:Key="SearchMatchTextColor" po:Freeze="True">#000000</SolidColorBrush>
 
     <SolidColorBrush x:Key="BackgroundColor" po:Freeze="True">#ffffff</SolidColorBrush>
     <SolidColorBrush x:Key="ForegroundHoverColor" po:Freeze="True">#000000</SolidColorBrush>
