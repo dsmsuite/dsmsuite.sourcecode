@@ -12,6 +12,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
     {
         private bool _loggingEnabled;
         private bool _showCycles;
+        private bool _caseSensitiveSearch;
         private bool _betaFeaturesEnabled;
         private Theme _theme;
 
@@ -39,6 +40,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             get { return _showCycles; }
             set { _showCycles = value; }
         }
+
+        public bool CaseSensitiveSearch
+        {
+            get { return _caseSensitiveSearch; }
+            set { _caseSensitiveSearch = value; }
+        }       
 
         public bool BetaFeaturesEnabled
         {

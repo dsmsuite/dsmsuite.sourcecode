@@ -82,6 +82,7 @@ namespace DsmSuite.DsmViewer.Application.Core
         }
 
         public bool ShowCycles { get; set; }
+        public bool CaseSensitiveSearch { get; set; }
 
         public void ImportModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress)
         {
@@ -255,9 +256,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.IsCyclicDependency(consumer.Id, provider.Id);
         }
 
-        public int SearchElements(string text)
+        public int SearchElements(string searchText)
         {
-            return _dsmModel.SearchElements(text);
+            return _dsmModel.SearchElements(searchText, CaseSensitiveSearch);
         }
 
         public IDsmElement GetElementByFullname(string text)

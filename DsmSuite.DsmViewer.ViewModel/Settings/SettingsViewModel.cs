@@ -14,6 +14,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
 
         private readonly IDsmApplication _application;
         private bool _showCycles;
+        private bool _caseSensitiveSearch;
         private bool _loggingEnabled;
         private string _selectedThemeName;
 
@@ -29,9 +30,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
 
             LoggingEnabled = ViewerSetting.LoggingEnabled;
             ShowCycles = ViewerSetting.ShowCycles;
+            CaseSensitiveSearch = ViewerSetting.CaseSensitiveSearch;
             SelectedThemeName = _supportedThemes[ViewerSetting.Theme];
 
             _application.ShowCycles = ShowCycles;
+            _application.CaseSensitiveSearch = CaseSensitiveSearch;
 
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
@@ -44,6 +47,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             set
             {
                 _showCycles = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool CaseSensitiveSearch
+        {
+            get { return _caseSensitiveSearch; }
+            set
+            {
+                _caseSensitiveSearch = value;
                 OnPropertyChanged();
             }
         }
@@ -77,6 +90,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             ViewerSetting.Theme = _supportedThemes.FirstOrDefault(x => x.Value == SelectedThemeName).Key;
 
             _application.ShowCycles = ShowCycles;
+            _application.CaseSensitiveSearch = CaseSensitiveSearch;
         }
 
         private bool AcceptChangeCanExecute(object parameter)
