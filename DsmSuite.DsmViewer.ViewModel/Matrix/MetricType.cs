@@ -3,10 +3,12 @@
     public enum MetricType
     {               
         NumberOfElements,
+        RelativeSizePercentage,
         IngoingRelations,
         OutgoingRelations,
         InternalRelations,
         HierarchicalCycles,
-        SystemCycles
+        SystemCycles,
+        CycalityPercentage,
     }
 }

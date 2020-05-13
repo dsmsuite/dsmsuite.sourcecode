@@ -92,6 +92,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         /// </summary>
         public IList<IDsmElement> Children => _children.Where(child => child.IsDeleted == false).ToList();
 
+        public int ChildCount => Children.Count;
+
         public IList<IDsmElement> ExportedChildren => _children;
 
         /// <summary>

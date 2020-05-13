@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Actions.Element;
@@ -338,9 +339,14 @@ namespace DsmSuite.DsmViewer.Application.Core
             Modified?.Invoke(this, IsModified);
         }
 
-        public int GetElementSize(IDsmElement elenent)
+        public int GetElementSize(IDsmElement element)
         {
-            return _metrics.GetElementSize(elenent);
+            return _metrics.GetElementSize(element);
+        }
+
+        public int GetElementCount()
+        {
+            return _dsmModel.GetElementCount();
         }
     }
 }

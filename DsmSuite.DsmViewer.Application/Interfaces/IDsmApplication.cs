@@ -68,6 +68,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         IEnumerable<IAction> GetActions();
         void ClearActions();
 
-        int GetElementSize(IDsmElement elenent);
+        int GetElementSize(IDsmElement element);
+        int GetElementCount();
     }
 }

@@ -44,6 +44,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// </summary>
         IList<IDsmElement> Children { get; }
 
+        int ChildCount { get; }
+
         IList<IDsmElement> ExportedChildren { get; }
 
         /// <summary>

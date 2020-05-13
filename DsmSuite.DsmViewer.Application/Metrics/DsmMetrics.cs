@@ -12,10 +12,10 @@ namespace DsmSuite.DsmViewer.Application.Metrics
             _model = model;
         }
 
-        public int GetElementSize(IDsmElement elenent)
+        public int GetElementSize(IDsmElement element)
         {
             int count = 0;
-            CountChildern(elenent, ref count);
+            CountChildern(element, ref count);
             return count;
         }
 
