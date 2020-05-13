@@ -186,14 +186,15 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsByName.ContainsKey(fullname) ? _elementsByName[fullname] : null;
         }
 
-        public int SearchElements(string text)
+        public int SearchElements(string searchText, bool caseSensitiveSearch)
         {
             int count = 0;
             string fullname = "";
+            string text = caseSensitiveSearch ? searchText : searchText.ToLower();
 
             if (text.Length > 0)
             {
-                MarkMatchingElements(_root, text.ToLower(), fullname, ref count);
+                MarkMatchingElements(_root, text, caseSensitiveSearch, fullname, ref count);
             }
             else
             {
@@ -202,7 +203,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return count;
         }
 
-        private bool MarkMatchingElements(IDsmElement element, string text, string fullname, ref int count)
+        private bool MarkMatchingElements(IDsmElement element, string searchText, bool caseSensitiveSearch, string fullname, ref int count)
         {
             bool isMatch = false;
 
@@ -210,9 +211,16 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 fullname += ".";
             }
-            fullname += element.Name.ToLower();
+            if (caseSensitiveSearch)
+            {
+                fullname += element.Name;
+            }
+            else
+            {
+                fullname += element.Name.ToLower();
+            }
 
-            if (fullname.Contains(text) && !element.IsDeleted)
+            if (fullname.Contains(searchText) && !element.IsDeleted)
             {
                 isMatch = true;
                 count++;
@@ -220,7 +228,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             foreach (IDsmElement child in element.Children)
             {
-                if (MarkMatchingElements(child, text, fullname, ref count))
+                if (MarkMatchingElements(child, searchText, caseSensitiveSearch, fullname, ref count))
                 {
                     isMatch = true;
                 }

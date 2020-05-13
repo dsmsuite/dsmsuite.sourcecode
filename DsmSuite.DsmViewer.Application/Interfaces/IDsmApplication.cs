@@ -12,6 +12,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         event EventHandler ActionPerformed;
 
         bool ShowCycles { get; set; }
+        bool CaseSensitiveSearch { get; set; }
         void ImportModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
         Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress);
         Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress);
@@ -50,7 +51,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
         int GetDirectDependencyWeight(IDsmElement consumer, IDsmElement provider);
         CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
-        int SearchElements(string text);
+        int SearchElements(string searchText);
         IDsmElement GetElementByFullname(string fullname);
         void CreateElement(string name, string type, IDsmElement parent);
         void DeleteElement(IDsmElement element);

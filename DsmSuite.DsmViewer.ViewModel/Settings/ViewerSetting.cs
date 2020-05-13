@@ -39,6 +39,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             set { _viewerSettings.ShowCycles = value; }
             get { return _viewerSettings.ShowCycles; }
         }
+
+        public static bool CaseSensitiveSearch
+        {
+            set { _viewerSettings.CaseSensitiveSearch = value; }
+            get { return _viewerSettings.CaseSensitiveSearch; }
+        }
+
         public static bool BetaFeaturesEnabled
         {
             set { _viewerSettings.BetaFeaturesEnabled = value; }

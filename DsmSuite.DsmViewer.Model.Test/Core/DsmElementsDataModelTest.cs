@@ -227,7 +227,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void GivenAnElementIsInTheModelWhenSearchIsCalledWithTextPartOfItsNameThenElementIsFound()
+        public void GivenAnElementIsInTheModelWhenSearchAndCaseSensitiveIsOffIsCalledWithTextPartOfItsNameThenElementIsFound()
         {
             DsmElementModel model = new DsmElementModel();
             Assert.AreEqual(1, model.GetElementCount());
@@ -241,7 +241,30 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
-            Assert.AreEqual(1, model.SearchElements("a.b")); 
+            Assert.AreEqual(1, model.SearchElements("a.b", true)); 
+
+            Assert.AreEqual(true, model.GetRootElement().IsMatch);
+            Assert.AreEqual(true, model.FindElementById(1).IsMatch);
+            Assert.AreEqual(true, model.FindElementById(2).IsMatch);
+            Assert.AreEqual(false, model.FindElementById(3).IsMatch);
+        }
+
+        [TestMethod]
+        public void GivenAnElementIsInTheModelWhenSearchAndCaseSensitiveIsOnIsCalledWithTextPartOfItsNameThenElementIsFound()
+        {
+            DsmElementModel model = new DsmElementModel();
+            Assert.AreEqual(1, model.GetElementCount());
+
+            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false);
+            Assert.IsNotNull(a);
+
+            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
+            Assert.IsNotNull(b);
+
+            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false);
+            Assert.IsNotNull(c);
+
+            Assert.AreEqual(1, model.SearchElements("A.B", false));
 
             Assert.AreEqual(true, model.GetRootElement().IsMatch);
             Assert.AreEqual(true, model.FindElementById(1).IsMatch);
@@ -264,7 +287,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
-            Assert.AreEqual(0, model.SearchElements(".d"));
+            Assert.AreEqual(0, model.SearchElements(".d", true));
 
             Assert.AreEqual(false, model.GetRootElement().IsMatch);
             Assert.AreEqual(false, model.FindElementById(1).IsMatch);
