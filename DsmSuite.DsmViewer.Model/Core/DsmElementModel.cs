@@ -111,6 +111,8 @@ namespace DsmSuite.DsmViewer.Model.Core
                 BeforeElementChangeParent?.Invoke(this, element);
                 UnregisterElementNameHierarchy(changedElement);
                 currentParent.RemoveChild(element);
+                CollapseIfNoChildrenLeft(currentParent);
+
                 newParent.AddChild(element);
                 RegisterElementNameHierarchy(changedElement);
                 AfterElementChangeParent?.Invoke(this, element);
@@ -126,7 +128,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 DsmElement element = _elementsById[elementId];
                 UnregisterElement(element);
 
-                CollapseIfNoChildrenLeft(element);
+                CollapseIfNoChildrenLeft(element.Parent);
             }
         }
 
@@ -381,12 +383,12 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private void CollapseIfNoChildrenLeft(IDsmElement element)
         {
-            DsmElement parent = element.Parent as DsmElement;
-            if (parent != null)
+            DsmElement e = element as DsmElement;
+            if (e != null)
             {
-                if (parent.Children.Count == 0)
+                if (element.Children.Count == 0)
                 {
-                    parent.IsExpanded = false;
+                    e.IsExpanded = false;
                 }
             }
         }
