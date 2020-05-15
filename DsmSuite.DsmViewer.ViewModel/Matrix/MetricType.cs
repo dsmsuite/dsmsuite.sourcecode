@@ -9,6 +9,7 @@
         InternalRelations,
         HierarchicalCycles,
         SystemCycles,
+        Cycles,
         CycalityPercentage,
     }
 }

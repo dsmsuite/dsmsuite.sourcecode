@@ -93,14 +93,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ZoomLevel = 1.0;
 
             _metricTypeNames = new Dictionary<MetricType, string>();
-            _metricTypeNames[MetricType.NumberOfElements] = "Internal Elements";
-            _metricTypeNames[MetricType.RelativeSizePercentage] = "Relative element size";
+            _metricTypeNames[MetricType.NumberOfElements] = "Internal\nElements";
+            _metricTypeNames[MetricType.RelativeSizePercentage] = "Relative\nSize";
             _metricTypeNames[MetricType.IngoingRelations] = "Ingoing Relations";
-            _metricTypeNames[MetricType.OutgoingRelations] = "Outgoing Relations";
-            _metricTypeNames[MetricType.InternalRelations] = "Internal Relations";
-            _metricTypeNames[MetricType.HierarchicalCycles] = "Hierarchical Cycles";
-            _metricTypeNames[MetricType.SystemCycles] = "System Cycles";
-            _metricTypeNames[MetricType.CycalityPercentage] = "Cycality";
+            _metricTypeNames[MetricType.OutgoingRelations] = "Outgoing\nRelations";
+            _metricTypeNames[MetricType.InternalRelations] = "Internal\nRelations";
+            _metricTypeNames[MetricType.HierarchicalCycles] = "Hierarchical\nCycles";
+            _metricTypeNames[MetricType.SystemCycles] = "System\nCycles";
+            _metricTypeNames[MetricType.Cycles] = "Total\nCycles";
+            _metricTypeNames[MetricType.CycalityPercentage] = "Total\nCycality";
 
             _selectedMetricType = MetricType.NumberOfElements;
             SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
@@ -283,18 +284,24 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             SelectedRow = row;
             SelectedColumn = null;
+            UpdateProviderRows();
+            UpdateConsumerRows();
         }
 
         public void SelectColumn(int? column)
         {
             SelectedRow = null;
             SelectedColumn = column;
+            UpdateProviderRows();
+            UpdateConsumerRows();
         }
 
         public void SelectCell(int? row, int? columnn)
         {
             SelectedRow = row;
             SelectedColumn = columnn;
+            UpdateProviderRows();
+            UpdateConsumerRows();
         }
 
         public int? SelectedRow
@@ -313,8 +320,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             HoveredRow = row;
             HoveredColumn = null;
-            UpdateProviderRows();
-            UpdateConsumerRows();
         }
 
         public void HoverColumn(int? column)
@@ -322,8 +327,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             HoveredRow = null;
             HoveredColumn = column;
             UpdateColumnHeaderTooltip(column);
-            UpdateProviderRows();
-            UpdateConsumerRows();
         }
 
         public void HoverCell(int? row, int? columnn)
@@ -331,8 +334,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             HoveredRow = row;
             HoveredColumn = columnn;
             UpdateCellTooltip(row, columnn);
-            UpdateProviderRows();
-            UpdateConsumerRows();
         }
 
         public int? HoveredRow
@@ -645,6 +646,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                         }
                     }
                     break;
+                case MetricType.Cycles:
+                    foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
+                    {
+                        int metricCount = _application.GetHierarchicalCycleCount(viewModel.Element) +
+                                          _application.GetSystemCycleCount(viewModel.Element);
+                        if (metricCount > 0)
+                        {
+                            _metrics.Add($"{metricCount}");
+                        }
+                        else
+                        {
+                            _metrics.Add("-");
+                        }
+                    }
+                    break;
                 case MetricType.CycalityPercentage:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
@@ -652,7 +668,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                                           _application.GetSystemCycleCount(viewModel.Element);
                         int relationCount = _application.FindInternalRelations(viewModel.Element).Count();
                         double metricCount = (relationCount > 0) ? (cycleCount*100.0/relationCount) : 0;
-                        _metrics.Add($"{metricCount:0.000} %");
+                        if (metricCount > 0)
+                        {
+                            _metrics.Add($"{metricCount:0.000} %");
+                        }
+                        else
+                        {
+                            _metrics.Add("-");
+                        }
                     }
                     break;
                 default:
@@ -884,11 +907,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void UpdateProviderRows()
         {
-            if (HoveredRow.HasValue)
+            if (SelectedRow.HasValue)
             {
                 for (int row = 0; row < _elementViewModelLeafs.Count; row++)
                 {
-                    _rowIsProvider[row] = _cellWeights[row][HoveredRow.Value] > 0;
+                    _rowIsProvider[row] = _cellWeights[row][SelectedRow.Value] > 0;
                 }
             }
             else
@@ -911,11 +934,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void UpdateConsumerRows()
         {
-            if (HoveredRow.HasValue)
+            if (SelectedRow.HasValue)
             {
                 for (int row = 0; row < _elementViewModelLeafs.Count; row++)
                 {
-                    _rowIsConsumer[row] = _cellWeights[HoveredRow.Value][row] > 0;
+                    _rowIsConsumer[row] = _cellWeights[SelectedRow.Value][row] > 0;
                 }
             }
             else
