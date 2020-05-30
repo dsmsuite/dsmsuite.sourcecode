@@ -4,21 +4,20 @@ using System.Linq;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.Application.Import.Common;
 
 namespace DsmSuite.DsmViewer.Application.Import
 {
-    public class DsmBuilder
+    public class DsiImporter : ImporterBase
     {
         private readonly IDsiModel _dsiModel;
         private readonly IDsmModel _dsmModel;
         private readonly IImportPolicy _importPolicy;
         private readonly bool _autoPartition;
         private readonly Dictionary<int, int> _dsiToDsmMapping;
-        private int _progressPercentage;
 
-        public DsmBuilder(IDsiModel dsiModel, IDsmModel dsmModel, IImportPolicy importPolicy, bool autoPartition)
+        public DsiImporter(IDsiModel dsiModel, IDsmModel dsmModel, IImportPolicy importPolicy, bool autoPartition) : base(dsmModel)
         {
             _dsiModel = dsiModel;
             _dsmModel = dsmModel;
@@ -27,11 +26,11 @@ namespace DsmSuite.DsmViewer.Application.Import
             _dsiToDsmMapping = new Dictionary<int, int>();
         }
 
-        public void Build(IProgress<ProgressInfo> progress)
+        public void Import(IProgress<ProgressInfo> progress)
         {
             ImportMetaDataItems();
-            ImportDsiElements(progress);
-            ImportDsiRelations(progress);
+            ImportElements(progress);
+            ImportRelations(progress);
 
             if (_autoPartition)
             {
@@ -52,19 +51,19 @@ namespace DsmSuite.DsmViewer.Application.Import
             }
         }
 
-        private void ImportDsiElements(IProgress<ProgressInfo> progress)
+        private void ImportElements(IProgress<ProgressInfo> progress)
         {
             int totalElements = _dsiModel.GetElements().Count();
             int progressedElements = 0;
             foreach (IDsiElement dsiElement in _dsiModel.GetElements())
             {
-                ImportDsiElement(dsiElement);
+                ImportElement(dsiElement);
                 progressedElements++;
                 UpdateProgress(progress, "Import elements", totalElements, progressedElements);
             }
         }
 
-        private void ImportDsiElement(IDsiElement dsiElement)
+        private void ImportElement(IDsiElement dsiElement)
         {
             IDsmElement parent = null;
             ElementName elementName = new ElementName();
@@ -85,19 +84,19 @@ namespace DsmSuite.DsmViewer.Application.Import
             }
         }
 
-        private void ImportDsiRelations(IProgress<ProgressInfo> progress)
+        private void ImportRelations(IProgress<ProgressInfo> progress)
         {
             int totalRelations = _dsiModel.GetRelations().Count();
             int progressedRelations = 0;
             foreach (IDsiRelation dsiRelation in _dsiModel.GetRelations())
             {
-                ImportDsiRelation(dsiRelation);
+                ImportRelation(dsiRelation);
                 progressedRelations++;
                 UpdateProgress(progress, "Import relations", totalRelations, progressedRelations);
             }
         }
         
-        private void ImportDsiRelation(IDsiRelation dsiRelation)
+        private void ImportRelation(IDsiRelation dsiRelation)
         {
             if (_dsiToDsmMapping.ContainsKey(dsiRelation.ConsumerId) && _dsiToDsmMapping.ContainsKey(dsiRelation.ProviderId))
             {
@@ -114,55 +113,6 @@ namespace DsmSuite.DsmViewer.Application.Import
             else
             {
                 Logger.LogError($"Could not find consumer or provider of relation consumer={dsiRelation.ConsumerId} provider={dsiRelation.ProviderId}");
-            }
-        }
-
-        private void Partition(IProgress<ProgressInfo> progress)
-        {
-            int totalElements = _dsmModel.GetElementCount();
-            int progressedElements = 0;
-            Partition(progress, _dsmModel.GetRootElement(), totalElements, ref progressedElements);
-        }
-
-        private void Partition(IProgress<ProgressInfo> progress, IDsmElement element, int totalElements, ref int progressedElements)
-        {
-            ISortAlgorithm algorithm = SortAlgorithmFactory.CreateAlgorithm(_dsmModel, element, PartitionSortAlgorithm.AlgorithmName);
-            _dsmModel.ReorderChildren(element, algorithm.Sort());
-            progressedElements++;
-            UpdateProgress(progress, "Partition elements", totalElements, progressedElements);
-
-            foreach (IDsmElement child in element.Children)
-            {
-                Partition(progress, child, totalElements, ref progressedElements);
-            }
-        }
-
-        protected void UpdateProgress(IProgress<ProgressInfo> progress, string progressActionText, int totalItemCount, int progressedItemCount)
-        {
-            if (progress != null)
-            {
-                int currentProgressPercentage = 0;
-                if (totalItemCount > 0)
-                {
-                    currentProgressPercentage = progressedItemCount * 100 / totalItemCount;
-                }
-
-                if (_progressPercentage != currentProgressPercentage)
-                {
-                    _progressPercentage = currentProgressPercentage;
-
-                    ProgressInfo progressInfoInfo = new ProgressInfo
-                    {
-                        ActionText = progressActionText,
-                        TotalItemCount = totalItemCount,
-                        CurrentItemCount = progressedItemCount,
-                        ItemType = "items",
-                        Percentage = currentProgressPercentage,
-                        Done = totalItemCount == progressedItemCount
-                    };
-
-                    progress.Report(progressInfoInfo);
-                }
             }
         }
     }

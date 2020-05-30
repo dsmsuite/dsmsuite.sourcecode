@@ -37,7 +37,7 @@ namespace DsmSuite.DsmViewer.Builder
         {
             DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
             DsmApplication application = new DsmApplication(model);
-            application.ImportModel(_builderSettings.InputFilename,
+            application.ImportDsiModel(_builderSettings.InputFilename,
                                     _builderSettings.OutputFilename,
                                     _builderSettings.ApplyPartitioningAlgorithm,
                                     _builderSettings.RecordChanges,

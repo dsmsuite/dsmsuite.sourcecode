@@ -13,7 +13,9 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         bool ShowCycles { get; set; }
         bool CaseSensitiveSearch { get; set; }
-        void ImportModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
+        void ImportDsiModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
+        void ImportGraphVizModel(string dotFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
+        void ImportGraphMLModel(string graphMlFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
         Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress);
         Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress);
         bool IsModified { get; }

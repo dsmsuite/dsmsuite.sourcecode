@@ -85,7 +85,7 @@ namespace DsmSuite.DsmViewer.Application.Core
         public bool ShowCycles { get; set; }
         public bool CaseSensitiveSearch { get; set; }
 
-        public void ImportModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress)
+        public void ImportDsiModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress)
         {
             string processStep = "Builder";
             Assembly assembly = Assembly.GetEntryAssembly();
@@ -102,10 +102,20 @@ namespace DsmSuite.DsmViewer.Application.Core
                 importPolicy = new UpdateExistingModelPolicy(_dsmModel, dsmFilename, _actionManager, progress);
             }
 
-            DsmBuilder builder = new DsmBuilder(dsiModel, _dsmModel, importPolicy, autoPartition);
-            builder.Build(progress);
+            DsiImporter builder = new DsiImporter(dsiModel, _dsmModel, importPolicy, autoPartition);
+            builder.Import(progress);
             _actionStore.SaveToModel();
             _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);
+        }
+
+        public void ImportGraphVizModel(string dotFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress)
+        {
+
+        }
+
+        public void ImportGraphMLModel(string graphMlFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress)
+        {
+
         }
 
         public async Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress)

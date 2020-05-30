@@ -76,9 +76,9 @@
     <Compile Include="Algorithm\SortResultTest.cs" />
     <Compile Include="Algorithm\PermutationTest.cs" />
     <Compile Include="Algorithm\WeightsMatrixTest.cs" />
-    <Compile Include="Import\CreateNewModelPolicyTest.cs" />
-    <Compile Include="Import\DsmBuilderTest.cs" />
-    <Compile Include="Import\UpdateExistingModelPolicyTest.cs" />
+    <Compile Include="Import\Policy\CreateNewModelPolicyTest.cs" />
+    <Compile Include="Import\Dsi\DsiImporterTest.cs" />
+    <Compile Include="Import\Policy\UpdateExistingModelPolicyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\DsmResolvedRelationTest.cs" />
     <Compile Include="Stubs\StubbedSortAlgorithm.cs" />
@@ -114,6 +114,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
+    <Folder Include="Import\GraphML\" />
+    <Folder Include="Import\GraphViz\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

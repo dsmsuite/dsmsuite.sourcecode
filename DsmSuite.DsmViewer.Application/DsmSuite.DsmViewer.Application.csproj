@@ -32,9 +32,12 @@
     <Compile Include="Actions\Element\ElementChangeTypeAction.cs" />
     <Compile Include="Actions\Management\IActionManager.cs" />
     <Compile Include="Actions\Relation\RelationChangeWeightAction.cs" />
-    <Compile Include="Import\CreateNewModelPolicy.cs" />
-    <Compile Include="Import\IImportPolicy.cs" />
-    <Compile Include="Import\UpdateExistingModelPolicy.cs" />
+    <Compile Include="Import\Common\ImporterBase.cs" />
+    <Compile Include="Import\GraphML\GraphMLImporter.cs" />
+    <Compile Include="Import\GraphViz\GraphVizImporter.cs" />
+    <Compile Include="Import\Common\CreateNewModelPolicy.cs" />
+    <Compile Include="Import\Common\IImportPolicy.cs" />
+    <Compile Include="Import\Common\UpdateExistingModelPolicy.cs" />
     <Compile Include="Metrics\DsmMetrics.cs" />
     <Compile Include="Sorting\AlphabeticalSortAlgorithm.cs" />
     <Compile Include="Sorting\SortResult.cs" />
@@ -59,7 +62,7 @@
     <Compile Include="Core\DsmApplication.cs" />
     <Compile Include="Queries\DsmResolvedRelation.cs" />
     <Compile Include="Interfaces\IDsmResolvedRelation.cs" />
-    <Compile Include="Import\DsmBuilder.cs" />
+    <Compile Include="Import\Dsi\DsiImporter.cs" />
     <Compile Include="Interfaces\IDsmApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\DsmQueries.cs" />
