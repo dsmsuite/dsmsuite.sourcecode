@@ -259,10 +259,28 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             string fileToOpen = parameter as string;
             if (fileToOpen != null)
             {
-                await _application.OpenModel(fileToOpen, progress);
-                ModelFilename = fileToOpen;
+                FileInfo fileInfo = new FileInfo(fileToOpen);
+                ModelFilename = fileToOpen.Replace(fileInfo.Extension, ".dsm");
                 Title = $"DSM Viewer ({ModelFilename})";
-                IsLoaded = true;
+
+                switch (fileInfo.Extension)
+                {
+                    case ".dsm":
+                        await _application.OpenModel(fileToOpen, progress);
+                        IsLoaded = true;
+                        break;
+                    case ".dsi":
+                        //await _application.ImportDsiModel(fileToOpen, ModelFilename, false, false, true, progress);
+                        IsLoaded = true;
+                        break;
+                    case ".dot":
+                        break;
+                    case ".grapML":
+                        break;
+                    default:
+                        break;
+               
+                }
                 ActiveMatrix = new MatrixViewModel(this, _application, GetRootElements());
             }
         }
