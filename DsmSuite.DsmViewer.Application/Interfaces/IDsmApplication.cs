@@ -11,6 +11,11 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         event EventHandler<bool> Modified;
         event EventHandler ActionPerformed;
 
+        Task AsyncImportDsiModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress);
+        Task AsyncImportGraphVizModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress);
+        Task AsyncImportGraphMLModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress);
+
+
         bool ShowCycles { get; set; }
         bool CaseSensitiveSearch { get; set; }
         void ImportDsiModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);

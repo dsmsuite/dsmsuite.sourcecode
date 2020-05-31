@@ -12,14 +12,14 @@ namespace DsmSuite.DsmViewer.Application.Import.GraphML
 {
     public class GraphMLImporter : ImporterBase
     {
-        private readonly IDsiModel _dsiModel;
+        private readonly string _graphMLFilename;
         private readonly IDsmModel _dsmModel;
         private readonly IImportPolicy _importPolicy;
         private readonly bool _autoPartition;
 
-        public GraphMLImporter(IDsiModel dsiModel, IDsmModel dsmModel, IImportPolicy importPolicy, bool autoPartition) : base(dsmModel)
+        public GraphMLImporter(string graphMLFilename, IDsmModel dsmModel, IImportPolicy importPolicy, bool autoPartition) : base(dsmModel)
         {
-            _dsiModel = dsiModel;
+            _graphMLFilename = graphMLFilename;
             _dsmModel = dsmModel;
             _importPolicy = importPolicy;
             _autoPartition = autoPartition;

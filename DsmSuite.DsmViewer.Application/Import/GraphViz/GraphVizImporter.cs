@@ -18,7 +18,7 @@ namespace DsmSuite.DsmViewer.Application.Import.GraphViz
         private readonly IImportPolicy _importPolicy;
         private readonly bool _autoPartition;
 
-        public GraphVizImporter(string dotFilename, IDsiModel dsiModel, IDsmModel dsmModel, IImportPolicy importPolicy, bool autoPartition) : base(dsmModel)
+        public GraphVizImporter(string dotFilename, IDsmModel dsmModel, IImportPolicy importPolicy, bool autoPartition) : base(dsmModel)
         {
             _dotFilename = dotFilename;
             _dsmModel = dsmModel;
