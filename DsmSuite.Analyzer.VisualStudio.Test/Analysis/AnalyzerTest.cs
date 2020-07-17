@@ -20,7 +20,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             analyzerSettings.ViewMode = ViewMode.LogicalView;
             analyzerSettings.InputFilename = Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln");
             analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path=Path.Combine(TestData.TestDataDirectory, "DirExternal"), ResolveAs= "External" });
-            analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
 
             Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings, null);
@@ -49,7 +48,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA1.cpp"));
             Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.h"));
             Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA3.h"));
 
             Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.h"));
             Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.cpp"));
@@ -86,8 +84,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderD.ClassD1.h"));
 
             Assert.IsTrue(classA2ProviderNames.Contains("External.External.h"));
-
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA3.h"));
         }
 
         [TestMethod]
@@ -98,7 +94,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             analyzerSettings.ViewMode = ViewMode.PhysicalView;
             analyzerSettings.InputFilename = Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln");
             analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path = Path.Combine(TestData.TestDataDirectory, "DirExternal"), ResolveAs = "External" });
-            analyzerSettings.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             analyzerSettings.RootDirectory = TestData.SolutionDirectory;
 
             DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
@@ -128,7 +123,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA1.cpp"));
             Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA2.h"));
             Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA2.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA3.h"));
 
             Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirB.ClassB1.h"));
             Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirB.ClassB1.cpp"));
@@ -165,8 +159,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirD.ClassD1.h"));
 
             Assert.IsTrue(classA2ProviderNames.Contains("External.External.h"));
-
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA3.h"));
         }
     }
 }

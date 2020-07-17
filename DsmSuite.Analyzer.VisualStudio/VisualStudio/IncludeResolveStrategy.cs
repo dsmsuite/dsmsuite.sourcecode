@@ -9,21 +9,17 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
     public class IncludeResolveStrategy
     {
         private readonly IReadOnlyCollection<string> _projectIncludeDirectories;
-        private readonly IReadOnlyCollection<string> _interfaceIncludeDirectories;
         private readonly IReadOnlyCollection<string> _externalIncludeDirectories;
         private readonly IReadOnlyCollection<string> _systemIncludeDirectories;
 
-        public IncludeResolveStrategy(IReadOnlyCollection<string> projectIncludeDirectories, IReadOnlyCollection<string> interfaceIncludeDirectories, IReadOnlyCollection<string> externalIncludeDirectories, IReadOnlyCollection<string> systemIncludeDirectories)
+        public IncludeResolveStrategy(IReadOnlyCollection<string> projectIncludeDirectories, IReadOnlyCollection<string> externalIncludeDirectories, IReadOnlyCollection<string> systemIncludeDirectories)
         {
             _projectIncludeDirectories = projectIncludeDirectories;
-            _interfaceIncludeDirectories = interfaceIncludeDirectories;
             _externalIncludeDirectories = externalIncludeDirectories;
             _systemIncludeDirectories = systemIncludeDirectories;
         }
 
         public IReadOnlyCollection<string> ProjectIncludeDirectories => _projectIncludeDirectories;
-
-        public IReadOnlyCollection<string> InterfaceIncludeDirectories => _interfaceIncludeDirectories;
 
         public IReadOnlyCollection<string> ExternalIncludeDirectories => _externalIncludeDirectories;
 
@@ -51,7 +47,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     {
                         ResolveUsingIncludeDirectory(relativeIncludeFilename, sourceDirectory, ref resolvedIncludeFilename);
                         ResolveUsingIncludeDirectories(relativeIncludeFilename, _projectIncludeDirectories, false, ref resolvedIncludeFilename);
-                        ResolveUsingIncludeDirectories(relativeIncludeFilename, _interfaceIncludeDirectories, true, ref resolvedIncludeFilename);
                         ResolveUsingIncludeDirectories(relativeIncludeFilename, _externalIncludeDirectories, true, ref resolvedIncludeFilename);
                         ResolveUsingIncludeDirectories(relativeIncludeFilename, _systemIncludeDirectories, true, ref resolvedIncludeFilename);
                     }

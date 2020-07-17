@@ -75,9 +75,6 @@
     <ClInclude Include="DirD\ClassD1.h">
       <Filter>FolderD</Filter>
     </ClInclude>
-    <ClInclude Include="DirA\ClassA3.h">
-      <Filter>FolderA</Filter>
-    </ClInclude>
     <ClInclude Include="DirE\ClassE1.h">
       <Filter>FolderE</Filter>
     </ClInclude>

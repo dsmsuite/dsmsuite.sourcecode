@@ -76,11 +76,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
                 Path.Combine(testDataDirectory, "DirB")
             };
 
-            List<string> interfaceIncludeDirectories = new List<string>
-            {
-                Path.Combine(testDataDirectory, "DirInterfaces")
-            };
-
             List<string> externalIncludeDirectories = new List<string>
             {
                 Path.Combine(testDataDirectory, "DirExternal")
@@ -88,7 +83,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
 
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             List<string> systemIncludeDirectories = analyzerSettings.SystemIncludeDirectories;
-            return new IncludeResolveStrategy(projectIncludeDirectories, interfaceIncludeDirectories, externalIncludeDirectories, systemIncludeDirectories);
+            return new IncludeResolveStrategy(projectIncludeDirectories, externalIncludeDirectories, systemIncludeDirectories);
         }
     }
 }

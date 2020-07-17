@@ -9,5 +9,3 @@
 #include "ClassE1.h"
 
 #include "External.h"
-
-#include "..\DirInterfaces\ClassA3.h"

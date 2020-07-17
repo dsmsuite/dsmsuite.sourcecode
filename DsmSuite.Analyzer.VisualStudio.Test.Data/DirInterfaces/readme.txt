@@ -1,1 +1,0 @@
-These source file represent copied interface files and are deliberately not included in the vcxproj file

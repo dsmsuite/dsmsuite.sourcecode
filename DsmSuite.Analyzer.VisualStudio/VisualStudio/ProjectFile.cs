@@ -460,20 +460,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
             }
 
-            List<string> interfaceIncludeDirectories = new List<string>();
-            foreach (string interfaceIncludeDirectory in _analyzerSettings.InterfaceIncludeDirectories)
-            {
-                if (Directory.Exists(interfaceIncludeDirectory))
-                {
-                    interfaceIncludeDirectories.Add(interfaceIncludeDirectory);
-                }
-                else
-                {
-                    AnalyzerLogger.LogErrorIncludePathNotFound(interfaceIncludeDirectory, evaluatedProject.FullPath);
-                }
-            }
-
-            _includeResolveStrategy = new IncludeResolveStrategy(_includeDirectories, interfaceIncludeDirectories, externalIncludeDirectories, _analyzerSettings.SystemIncludeDirectories);
+            _includeResolveStrategy = new IncludeResolveStrategy(_includeDirectories, externalIncludeDirectories, _analyzerSettings.SystemIncludeDirectories);
         }
 
         private void AddIncludeDirectory(string resolvedIncludeDirectory, string includeDirectory)
