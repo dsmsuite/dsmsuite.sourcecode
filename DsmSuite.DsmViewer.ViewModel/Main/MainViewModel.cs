@@ -283,7 +283,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                         break;
                     default:
                         break;
-               
                 }
                 ActiveMatrix = new MatrixViewModel(this, _application, GetRootElements());
             }
@@ -320,13 +319,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void HomeExecute(object parameter)
         {
-            ActiveMatrix = new MatrixViewModel(this, _application, GetRootElements());
+            IncludeAllInTree();
+            ActiveMatrix.Reload();
         }
 
         private IEnumerable<IDsmElement> GetRootElements()
         {
-            return new List<IDsmElement> {_application.RootElement};
+            return new List<IDsmElement> { _application.RootElement };
         }
+
         private bool HomeCanExecute(object parameter)
         {
             return IsLoaded;
@@ -344,8 +345,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ShowElementDetailMatrixExecute(object parameter)
         {
-            List<IDsmElement> selectedElements = new List<IDsmElement> { SelectedProvider };
-            ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
+            ExcludeAllFromTree();
+            IncludeInTree(SelectedProvider);
+            ActiveMatrix.Reload();
         }
 
         private bool ShowElementDetailMatrixCanExecute(object parameter)
@@ -355,25 +357,34 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ShowElementContextMatrixExecute(object parameter)
         {
-            List<IDsmElement> selectedElements = new List<IDsmElement> { SelectedProvider };
-            selectedElements.AddRange(_application.GetElementConsumers(SelectedProvider));
-            selectedElements.AddRange(_application.GetElementProviders(SelectedProvider));
-            ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
+            ExcludeAllFromTree();
+            IncludeInTree(SelectedProvider);
+
+            foreach (IDsmElement consumer in _application.GetElementConsumers(SelectedProvider))
+            {
+                IncludeInTree(consumer);
+            }
+
+            foreach (IDsmElement provider in _application.GetElementProviders(SelectedProvider))
+            {
+                IncludeInTree(provider);
+            }
+
+            ActiveMatrix.Reload();
         }
 
         private bool ShowElementContextMatrixCanExecute(object parameter)
         {
-            return false; // TODO: Enable when implemented
+            return true;
         }
 
         private void ShowCellDetailMatrixExecute(object parameter)
         {
-            List<IDsmElement> selectedElements = new List<IDsmElement>
-            {
-                SelectedProvider,
-                SelectedConsumer
-            };
-            ActiveMatrix = new MatrixViewModel(this, _application, selectedElements);
+            ExcludeAllFromTree();
+            IncludeInTree(SelectedProvider);
+            IncludeInTree(SelectedConsumer);
+
+            ActiveMatrix.Reload();
         }
 
         private bool ShowCellDetailMatrixCanExecute(object parameter)
@@ -508,7 +519,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             }
             ActiveMatrix.Reload();
         }
-       
+
         private void OnActionPerformed(object sender, EventArgs e)
         {
             UndoText = $"Undo {_application.GetUndoActionDescription()}";
@@ -534,7 +545,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool DeleteElementCanExecute(object parameter)
         {
-            return !SelectedProvider.IsRoot;
+            bool canExecute = false;
+            if (SelectedProvider != null)
+            {
+                canExecute = !SelectedProvider.IsRoot;
+            }
+            return canExecute;
         }
 
         private void ChangeElementNameExecute(object parameter)
@@ -545,7 +561,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ChangeElementNameCanExecute(object parameter)
         {
-            return !SelectedProvider.IsRoot;
+            bool canExecute = false;
+            if (SelectedProvider != null)
+            {
+                canExecute = !SelectedProvider.IsRoot;
+            }
+            return canExecute;
         }
 
         private void ChangeElementTypeExecute(object parameter)
@@ -556,7 +577,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ChangeElementTypeCanExecute(object parameter)
         {
-            return !SelectedProvider.IsRoot;
+            bool canExecute = false;
+            if (SelectedProvider != null)
+            {
+                canExecute = !SelectedProvider.IsRoot;
+            }
+            return canExecute;
         }
 
         private void MoveElementExecute(object parameter)
@@ -571,7 +597,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool MoveElementCanExecute(object parameter)
         {
-            return !SelectedProvider.IsRoot;
+            bool canExecute = false;
+            if (SelectedProvider != null)
+            {
+                canExecute = !SelectedProvider.IsRoot;
+            }
+            return canExecute;
         }
 
         private void ChangeRelationWeightExecute(object parameter)
@@ -638,10 +669,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool CreateRelationCanExecute(object parameter)
         {
-           return (SelectedConsumer != null) &&
-                  (SelectedConsumer.HasChildren == false) &&
-                  (SelectedProvider != null) &&
-                  (SelectedProvider.HasChildren == false);
+            return (SelectedConsumer != null) &&
+                   (SelectedConsumer.HasChildren == false) &&
+                   (SelectedProvider != null) &&
+                   (SelectedProvider.HasChildren == false);
         }
 
         private void DeleteRelationExecute(object parameter)
@@ -713,6 +744,42 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public void ClearSearchExecute(object parameter)
         {
             SearchText = "";
+        }
+
+        private void ExcludeAllFromTree()
+        {
+            UpdateChildrenIncludeInTree(_application.RootElement, false);
+        }
+
+        private void IncludeAllInTree()
+        {
+            UpdateChildrenIncludeInTree(_application.RootElement, true);
+        }
+
+        private void IncludeInTree(IDsmElement element)
+        {
+            UpdateChildrenIncludeInTree(element, true);
+            UpdateParentsIncludeInTree(element, true);
+        }
+
+        private void UpdateChildrenIncludeInTree(IDsmElement element, bool included)
+        {
+            element.IsIncludedInTree = included;
+
+            foreach (IDsmElement child in element.AllChildren)
+            {
+                UpdateChildrenIncludeInTree(child, included);
+            }
+        }
+
+        private void UpdateParentsIncludeInTree(IDsmElement element, bool included)
+        {
+            IDsmElement current = element;
+            do
+            {
+                current.IsIncludedInTree = included;
+                current = current.Parent;
+            } while (current != null);
         }
     }
 }

@@ -21,6 +21,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _typeId = TypeRegistration.AddTypeName(type);
             Order = order;
             IsExpanded = isExpanded;
+            IsIncludedInTree = true;
         }
 
         /// <summary>
@@ -83,6 +84,11 @@ namespace DsmSuite.DsmViewer.Model.Core
         public bool IsMatch { get; set; }
 
         /// <summary>
+        /// Is the element included in the tree
+        /// </summary>
+        public bool IsIncludedInTree { get; set; }
+
+        /// <summary>
         /// Parent of the element.
         /// </summary>
         public IDsmElement Parent => _parent;
@@ -90,11 +96,11 @@ namespace DsmSuite.DsmViewer.Model.Core
         /// <summary>
         /// Children of the element.
         /// </summary>
-        public IList<IDsmElement> Children => _children.Where(child => child.IsDeleted == false).ToList();
+        public IList<IDsmElement> Children => _children.Where(child => ((child.IsDeleted == false) && (child.IsIncludedInTree == true))).ToList();
 
         public int ChildCount => Children.Count;
 
-        public IList<IDsmElement> ExportedChildren => _children;
+        public IList<IDsmElement> AllChildren => _children;
 
         /// <summary>
         /// Has the element any children.

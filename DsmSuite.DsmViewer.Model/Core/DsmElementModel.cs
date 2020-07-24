@@ -408,7 +408,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsById.Remove(element.Id);
             _elementsByName.Remove(element.Fullname);
 
-            foreach (IDsmElement child in element.ExportedChildren)
+            foreach (IDsmElement child in element.AllChildren)
             {
                 UnregisterElement(child as DsmElement);
             }
@@ -416,7 +416,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private void ReregisterElement(DsmElement element)
         {
-            foreach (IDsmElement child in element.ExportedChildren)
+            foreach (IDsmElement child in element.AllChildren)
             {
                 ReregisterElement(child as DsmElement);
             }
@@ -432,7 +432,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             _elementsByName.Remove(element.Fullname);
 
-            foreach (DsmElement child in element.ExportedChildren)
+            foreach (DsmElement child in element.AllChildren)
             {
                 UnregisterElementNameHierarchy(child);
             }
@@ -442,7 +442,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             _elementsByName[element.Fullname] = element;
 
-            foreach (DsmElement child in element.ExportedChildren)
+            foreach (DsmElement child in element.AllChildren)
             {
                 RegisterElementNameHierarchy(child);
             }

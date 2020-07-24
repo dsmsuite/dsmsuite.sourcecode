@@ -227,7 +227,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private void WriteElements(XmlWriter writer, IProgress<ProgressInfo> progress)
         {
             writer.WriteStartElement(ElementGroupXmlNode);
-            foreach (IDsmElement element in _elementModelCallback.GetRootElement().ExportedChildren)
+            foreach (IDsmElement element in _elementModelCallback.GetRootElement().AllChildren)
             {
                 WriteElement(writer, element, progress);
             }
@@ -255,7 +255,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             _progressedElementCount++;
             UpdateProgress(progress);
 
-            foreach (IDsmElement child in element.ExportedChildren)
+            foreach (IDsmElement child in element.AllChildren)
             {
                 WriteElement(writer, child, progress);
             }

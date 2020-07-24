@@ -46,7 +46,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         int ChildCount { get; }
 
-        IList<IDsmElement> ExportedChildren { get; }
+        IList<IDsmElement> AllChildren { get; }
 
         /// <summary>
         /// Parent of the element.
@@ -61,6 +61,11 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// <summary>
         /// Is the element match in search.
         /// </summary>
-        bool IsMatch { get; set; }
+        bool IsMatch{ get; set; }
+
+        /// <summary>
+        /// Is the element included in the tree
+        /// </summary>
+        bool IsIncludedInTree { get; set; }
     }
 }
