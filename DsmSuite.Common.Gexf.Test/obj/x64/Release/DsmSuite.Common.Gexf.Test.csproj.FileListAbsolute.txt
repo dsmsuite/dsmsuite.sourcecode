@@ -1,5 +1,0 @@
-D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\bin\x64\Release\DsmSuite.Common.Gexf.Test.dll
-D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\bin\x64\Release\DsmSuite.Common.Gexf.Test.pdb
-D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\bin\x64\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\obj\x64\Release\DsmSuite.Common.Gexf.Test.dll
-D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\obj\x64\Release\DsmSuite.Common.Gexf.Test.pdb
