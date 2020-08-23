@@ -1,0 +1,6 @@
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\bin\x64\Debug\DsmSuite.Common.Gexf.Test.dll
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\bin\x64\Debug\DsmSuite.Common.Gexf.Test.pdb
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\bin\x64\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\obj\x64\Debug\DsmSuite.Common.Gexf.Test.csprojResolveAssemblyReference.cache
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\obj\x64\Debug\DsmSuite.Common.Gexf.Test.dll
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Common.Gexf.Test\obj\x64\Debug\DsmSuite.Common.Gexf.Test.pdb

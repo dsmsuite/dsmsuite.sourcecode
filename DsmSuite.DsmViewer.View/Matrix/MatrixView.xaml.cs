@@ -12,6 +12,16 @@ namespace DsmSuite.DsmViewer.View.Matrix
             InitializeComponent();
         }
 
+        public double UsedWidth
+        {
+            get { return RowHeaderView.ActualWidth + CellsView.UsedWidth; }
+        }
+
+        public double UsedHeight
+        {
+            get { return ColumnHeaderView.ActualHeight + CellsView.UsedHeight; }
+        }
+
         private void CellsViewOnScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             Canvas.SetLeft(ColumnHeaderView, -e.HorizontalOffset);

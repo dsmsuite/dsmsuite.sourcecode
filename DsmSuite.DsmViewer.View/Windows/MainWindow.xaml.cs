@@ -179,8 +179,8 @@ namespace DsmSuite.DsmViewer.View.Windows
 
         private void OnScreenshotRequested(object sender, System.EventArgs e)
         {
-            int width = (int)Matrix.ActualWidth;
-            int height = (int)Matrix.ActualHeight;
+            int width = (int)Matrix.UsedWidth;
+            int height = (int)Matrix.UsedHeight;
             RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
             renderTargetBitmap.Render(Matrix);
             Int32Rect rect = new Int32Rect(0, 24, width, height - 24);

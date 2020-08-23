@@ -31,6 +31,11 @@ namespace DsmSuite.DsmViewer.View.Matrix
             MouseLeave += OnMouseLeave;
         }
 
+        public double UsedWidth { get; private set; }
+
+        public double UsedHeight { get; private set; }
+
+
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             _viewModel = DataContext as MatrixViewModel;
@@ -128,8 +133,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
                         }
                     }
                 }
-                Height = _pitch * matrixSize + _theme.ScrollBarWidth;
-                Width = Height; 
+                UsedHeight = UsedWidth = _pitch * matrixSize + _theme.ScrollBarWidth;
+                Height     = Width     = UsedHeight + _theme.ScrollBarWidth;
             }
         }
 
