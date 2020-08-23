@@ -556,9 +556,6 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private void RemoveWeights(IDsmRelation relation)
         {
-            int consumerId = relation.Consumer.Id;
-            int providerId = relation.Provider.Id;
-
             IDsmElement currentConsumer = relation.Consumer;
             while (currentConsumer != null)
             {
@@ -576,16 +573,20 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             if (!_weights.ContainsKey(consumerId))
             {
-                _weights[consumerId] = new Dictionary<int, int>();
+                Dictionary<int, int> consumerWeights = new Dictionary<int, int>();
+                consumerWeights[providerId] = weight;
+                _weights[consumerId] = consumerWeights;
             }
-
-            int oldWeight = 0;
-            var weights = _weights[consumerId];
-            if (weights.ContainsKey(providerId))
+            else
             {
-                oldWeight = weights[providerId];
+                int oldWeight = 0;
+                Dictionary<int, int> consumerWeights =  _weights[consumerId];
+                if (consumerWeights.ContainsKey(providerId))
+                {
+                    oldWeight = consumerWeights[providerId];
+                }
+                consumerWeights[providerId] = oldWeight + weight;
             }
-            weights[providerId] = oldWeight + weight;
         }
 
         private void RemoveWeight(int consumerId, int providerId, int weight)
