@@ -134,7 +134,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     }
                 }
                 UsedHeight = UsedWidth = _pitch * matrixSize + _theme.ScrollBarWidth;
-                Height     = Width     = UsedHeight + _theme.ScrollBarWidth;
+                Height     = Width     = UsedHeight;
             }
         }
 

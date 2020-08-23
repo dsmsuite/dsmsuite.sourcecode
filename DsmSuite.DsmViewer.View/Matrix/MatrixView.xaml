@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{StaticResource BackgroundColor}">
-    <Grid DataContext="{Binding ActiveMatrix}" Visibility="{Binding MatrixSize, FallbackValue=Collapsed, Converter={StaticResource MatrixSizeToVisbilityConverter}}">
+    <Grid DataContext="{Binding ActiveMatrix}" x:Name="MatrxGrid" Visibility="{Binding MatrixSize, FallbackValue=Collapsed, Converter={StaticResource MatrixSizeToVisbilityConverter}}">
         <Grid.LayoutTransform>
             <ScaleTransform CenterX="0" 
                                 CenterY="0"
@@ -66,7 +66,7 @@
         </Grid>
 
         <!--  colomn 1 matrix splitter -->
-        <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="5" Style="{StaticResource GridSplitterStyle}"/>
+        <GridSplitter x:Name="Splitter" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="5" Style="{StaticResource GridSplitterStyle}"/>
 
         <!--  colomn 2 matrix metrics -->
         <matrix:MatrixMetricsSelectorView Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

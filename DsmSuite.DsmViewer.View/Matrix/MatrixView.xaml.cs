@@ -14,7 +14,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         public double UsedWidth
         {
-            get { return RowHeaderView.ActualWidth + CellsView.UsedWidth; }
+            get { return RowHeaderView.ActualWidth + IndicatorView.ActualWidth + Splitter.ActualWidth + /*RowMetricsView.ActualWidth*/ + CellsView.UsedWidth; }
         }
 
         public double UsedHeight
