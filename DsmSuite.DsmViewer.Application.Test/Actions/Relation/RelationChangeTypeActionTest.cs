@@ -31,8 +31,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             _provider = new Mock<IDsmElement>();
 
             _relation.Setup(x => x.Id).Returns(RelationId);
-            _relation.Setup(x => x.ConsumerId).Returns(ConsumerId);
-            _relation.Setup(x => x.ProviderId).Returns(ProviderId);
+            _relation.Setup(x => x.Consumer.Id).Returns(ConsumerId);
+            _relation.Setup(x => x.Provider.Id).Returns(ProviderId);
             _relation.Setup(x => x.Type).Returns(OldType);
             _model.Setup(x => x.GetElementById(ConsumerId)).Returns(_consumer.Object);
             _model.Setup(x => x.GetElementById(ProviderId)).Returns(_provider.Object);

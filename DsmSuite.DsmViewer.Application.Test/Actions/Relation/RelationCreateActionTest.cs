@@ -34,8 +34,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             _model.Setup(x => x.GetElementById(ProviderId)).Returns(_provider.Object);
             _model.Setup(x => x.AddRelation(ConsumerId, ProviderId, Type, Weight)).Returns(_relation.Object);
             _relation.Setup(x => x.Id).Returns(RelationId);
-            _relation.Setup(x => x.ConsumerId).Returns(ConsumerId);
-            _relation.Setup(x => x.ProviderId).Returns(ProviderId);
+            _relation.Setup(x => x.Consumer.Id).Returns(ConsumerId);
+            _relation.Setup(x => x.Provider.Id).Returns(ProviderId);
             _consumer.Setup(x => x.Id).Returns(ConsumerId);
             _provider.Setup(x => x.Id).Returns(ProviderId);
 

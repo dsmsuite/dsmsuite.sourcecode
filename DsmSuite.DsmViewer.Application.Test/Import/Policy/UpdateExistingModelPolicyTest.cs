@@ -69,8 +69,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
 
             _existingRelation = new Mock<IDsmRelation>();
             _existingRelation.Setup(x => x.Id).Returns(ProviderId);
-            _existingRelation.Setup(x => x.ConsumerId).Returns(ConsumerId);
-            _existingRelation.Setup(x => x.ProviderId).Returns(ProviderId);
+            _existingRelation.Setup(x => x.Consumer.Id).Returns(ConsumerId);
+            _existingRelation.Setup(x => x.Provider.Id).Returns(ProviderId);
             _existingRelation.Setup(x => x.Type).Returns(RelationType);
             _existingRelation.Setup(x => x.Weight).Returns(RelationWeight);
 

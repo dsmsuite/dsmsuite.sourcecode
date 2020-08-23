@@ -58,8 +58,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             IDsmRelation relation = GetRelation(memberName);
             if (relation != null)
             {
-                consumer = _model.GetElementById(relation.ConsumerId) ??
-                           _model.GetDeletedElementById(relation.ConsumerId);
+                consumer = _model.GetElementById(relation.Consumer.Id) ??
+                           _model.GetDeletedElementById(relation.Consumer.Id);
             }
             return consumer;
         }
@@ -70,8 +70,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
             IDsmRelation relation = GetRelation(memberName);
             if (relation != null)
             {
-                provider = _model.GetElementById(relation.ProviderId) ??
-                           _model.GetDeletedElementById(relation.ProviderId);
+                provider = _model.GetElementById(relation.Provider.Id) ??
+                           _model.GetDeletedElementById(relation.Provider.Id);
             }
             return provider;
         }

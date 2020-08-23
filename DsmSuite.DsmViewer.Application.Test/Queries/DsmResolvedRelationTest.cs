@@ -23,8 +23,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Queries
             Mock<IDsmElement> provider = new Mock<IDsmElement>();
 
             relation.Setup(x => x.Id).Returns(RelationId);
-            relation.Setup(x => x.ConsumerId).Returns(ConsumerId);
-            relation.Setup(x => x.ProviderId).Returns(ProviderId);
+            relation.Setup(x => x.Consumer.Id).Returns(ConsumerId);
+            relation.Setup(x => x.Provider.Id).Returns(ProviderId);
             relation.Setup(x => x.Type).Returns(RelationType);
             relation.Setup(x => x.Weight).Returns(RelationWeight);
 

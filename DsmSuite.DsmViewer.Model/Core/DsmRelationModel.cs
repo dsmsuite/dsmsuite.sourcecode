@@ -35,9 +35,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _weights = new Dictionary<int, Dictionary<int, int>>();
             _directWeights = new Dictionary<int, Dictionary<int, int>>();
         }
-
-
-
+        
         public void Clear()
         {
             _relationsById.Clear();
@@ -68,14 +66,19 @@ namespace DsmSuite.DsmViewer.Model.Core
             DsmRelation relation = null;
             if (consumerId != providerId)
             {
-                relation = new DsmRelation(relationId, consumerId, providerId, type, weight) { IsDeleted = deleted };
-                if (deleted)
+                IDsmElement consumer = _elementsDataModel.FindElementById(consumerId);
+                IDsmElement provider = _elementsDataModel.FindElementById(providerId);
+                if ((consumer != null) && (provider != null))
                 {
-                    UnregisterRelation(relation);
-                }
-                else
-                {
-                    RegisterRelation(relation);
+                    relation = new DsmRelation(relationId, consumer, provider, type, weight) { IsDeleted = deleted };
+                    if (deleted)
+                    {
+                        UnregisterRelation(relation);
+                    }
+                    else
+                    {
+                        RegisterRelation(relation);
+                    }
                 }
 
             }
@@ -90,8 +93,13 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (consumerId != providerId)
             {
                 _lastRelationId++;
-                relation = new DsmRelation(_lastRelationId, consumerId, providerId, type, weight) { IsDeleted = false };
-                RegisterRelation(relation);
+                IDsmElement consumer = _elementsDataModel.FindElementById(consumerId);
+                IDsmElement provider = _elementsDataModel.FindElementById(providerId);
+                if ((consumer != null) && (provider != null))
+                {
+                    relation = new DsmRelation(_lastRelationId, consumer, provider, type, weight) { IsDeleted = false };
+                    RegisterRelation(relation);
+                }
             }
             return relation;
         }
@@ -238,11 +246,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 if (_relationsByProvider.ContainsKey(providerId))
                 {
-                    foreach (Dictionary <string, DsmRelation> relationPerType in _relationsByProvider[providerId].Values)
+                    foreach (Dictionary<string, DsmRelation> relationPerType in _relationsByProvider[providerId].Values)
                     {
                         foreach (DsmRelation relation in relationPerType.Values)
                         {
-                            if (!providerIds.Contains(relation.ConsumerId))
+                            if (!providerIds.Contains(relation.Consumer.Id))
                             {
                                 if (!relation.IsDeleted)
                                 {
@@ -268,7 +276,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationPerType.Values)
                         {
-                            if (!consumerIds.Contains(relation.ProviderId))
+                            if (!consumerIds.Contains(relation.Provider.Id))
                             {
                                 if (!relation.IsDeleted)
                                 {
@@ -294,7 +302,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationPerType.Values)
                         {
-                            if (consumerIds.Contains(relation.ProviderId))
+                            if (consumerIds.Contains(relation.Provider.Id))
                             {
                                 if (!relation.IsDeleted)
                                 {
@@ -314,7 +322,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             CountCycles(element, CycleType.Hierarchical, ref cyclesCount);
             return cyclesCount / 2;
         }
-        
+
         public int GetSystemCycleCount(IDsmElement element)
         {
             int cyclesCount = 0;
@@ -348,17 +356,17 @@ namespace DsmSuite.DsmViewer.Model.Core
         private void OnUnregisterElementRelations(object sender, IDsmElement element)
         {
             List<DsmRelation> toBeRelationsUnregistered = new List<DsmRelation>();
-             
-            foreach(DsmRelation relation in _relationsById.Values)
+
+            foreach (DsmRelation relation in _relationsById.Values)
             {
-                if ((element.Id == relation.ConsumerId) ||
-                    (element.Id == relation.ProviderId))
+                if ((element.Id == relation.Consumer.Id) ||
+                    (element.Id == relation.Provider.Id))
                 {
                     toBeRelationsUnregistered.Add(relation);
                 }
             }
 
-            foreach(DsmRelation relation in toBeRelationsUnregistered)
+            foreach (DsmRelation relation in toBeRelationsUnregistered)
             {
                 UnregisterRelation(relation);
             }
@@ -370,8 +378,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             foreach (DsmRelation relation in _deletedRelationsById.Values)
             {
-                if ((element.Id == relation.ConsumerId) ||
-                    (element.Id == relation.ProviderId))
+                if ((element.Id == relation.Consumer.Id) ||
+                    (element.Id == relation.Provider.Id))
                 {
                     toBeRelationsReregistered.Add(relation);
                 }
@@ -413,45 +421,45 @@ namespace DsmSuite.DsmViewer.Model.Core
                 _deletedRelationsById.Remove(relation.Id);
             }
 
-            if (!_relationsByProvider.ContainsKey(relation.ProviderId))
+            if (!_relationsByProvider.ContainsKey(relation.Provider.Id))
             {
-                _relationsByProvider[relation.ProviderId] = new Dictionary<int, Dictionary<string, DsmRelation>>();
+                _relationsByProvider[relation.Provider.Id] = new Dictionary<int, Dictionary<string, DsmRelation>>();
             }
 
-            if (!_relationsByProvider[relation.ProviderId].ContainsKey(relation.ConsumerId))
+            if (!_relationsByProvider[relation.Provider.Id].ContainsKey(relation.Consumer.Id))
             {
-                _relationsByProvider[relation.ProviderId][relation.ConsumerId] = new Dictionary<string, DsmRelation>();
+                _relationsByProvider[relation.Provider.Id][relation.Consumer.Id] = new Dictionary<string, DsmRelation>();
             }
 
-            _relationsByProvider[relation.ProviderId][relation.ConsumerId][relation.Type] = relation;
+            _relationsByProvider[relation.Provider.Id][relation.Consumer.Id][relation.Type] = relation;
 
-            if (!_relationsByConsumer.ContainsKey(relation.ConsumerId))
+            if (!_relationsByConsumer.ContainsKey(relation.Consumer.Id))
             {
-                _relationsByConsumer[relation.ConsumerId] = new Dictionary<int, Dictionary<string, DsmRelation>>();
+                _relationsByConsumer[relation.Consumer.Id] = new Dictionary<int, Dictionary<string, DsmRelation>>();
             }
 
-            if (!_relationsByConsumer[relation.ConsumerId].ContainsKey(relation.ProviderId))
+            if (!_relationsByConsumer[relation.Consumer.Id].ContainsKey(relation.Provider.Id))
             {
-                _relationsByConsumer[relation.ConsumerId][relation.ProviderId] = new Dictionary<string, DsmRelation>();
+                _relationsByConsumer[relation.Consumer.Id][relation.Provider.Id] = new Dictionary<string, DsmRelation>();
             }
 
-            _relationsByConsumer[relation.ConsumerId][relation.ProviderId][relation.Type] = relation;
+            _relationsByConsumer[relation.Consumer.Id][relation.Provider.Id][relation.Type] = relation;
 
-            if (!_directWeights.ContainsKey(relation.ConsumerId))
+            if (!_directWeights.ContainsKey(relation.Consumer.Id))
             {
-                _directWeights[relation.ConsumerId] = new Dictionary<int, int>();
+                _directWeights[relation.Consumer.Id] = new Dictionary<int, int>();
             }
 
-            if (_directWeights[relation.ConsumerId].ContainsKey(relation.ProviderId))
+            if (_directWeights[relation.Consumer.Id].ContainsKey(relation.Provider.Id))
             {
-                _directWeights[relation.ConsumerId][relation.ProviderId] += relation.Weight;
+                _directWeights[relation.Consumer.Id][relation.Provider.Id] += relation.Weight;
             }
             else
             {
-                _directWeights[relation.ConsumerId][relation.ProviderId] = relation.Weight;
+                _directWeights[relation.Consumer.Id][relation.Provider.Id] = relation.Weight;
             }
 
-            UpdateWeights(relation, AddWeight);
+            AddWeights(relation);
         }
 
         private void UnregisterRelation(DsmRelation relation)
@@ -459,71 +467,105 @@ namespace DsmSuite.DsmViewer.Model.Core
             relation.IsDeleted = true;
             _relationsById.Remove(relation.Id);
 
-            if (_relationsByProvider.ContainsKey(relation.ProviderId) &&
-                _relationsByProvider[relation.ProviderId].ContainsKey(relation.ConsumerId) &&
-                _relationsByProvider[relation.ProviderId][relation.ConsumerId].ContainsKey(relation.Type))
+            if (_relationsByProvider.ContainsKey(relation.Provider.Id) &&
+                _relationsByProvider[relation.Provider.Id].ContainsKey(relation.Consumer.Id) &&
+                _relationsByProvider[relation.Provider.Id][relation.Consumer.Id].ContainsKey(relation.Type))
             {
-                _relationsByProvider[relation.ProviderId][relation.ConsumerId].Remove(relation.Type);
+                _relationsByProvider[relation.Provider.Id][relation.Consumer.Id].Remove(relation.Type);
             }
 
-            if (_relationsByConsumer.ContainsKey(relation.ConsumerId) &&
-                _relationsByConsumer[relation.ConsumerId].ContainsKey(relation.ProviderId) &&
-                _relationsByConsumer[relation.ConsumerId][relation.ProviderId].ContainsKey(relation.Type))
+            if (_relationsByConsumer.ContainsKey(relation.Consumer.Id) &&
+                _relationsByConsumer[relation.Consumer.Id].ContainsKey(relation.Provider.Id) &&
+                _relationsByConsumer[relation.Consumer.Id][relation.Provider.Id].ContainsKey(relation.Type))
             {
-                _relationsByConsumer[relation.ConsumerId][relation.ProviderId].Remove(relation.Type);
+                _relationsByConsumer[relation.Consumer.Id][relation.Provider.Id].Remove(relation.Type);
             }
 
             _deletedRelationsById[relation.Id] = relation;
 
-            if (_directWeights.ContainsKey(relation.ConsumerId) && _directWeights[relation.ConsumerId].ContainsKey(relation.ProviderId))
+            if (_directWeights.ContainsKey(relation.Consumer.Id) && _directWeights[relation.Consumer.Id].ContainsKey(relation.Provider.Id))
             {
-                _directWeights[relation.ConsumerId][relation.ProviderId] -= relation.Weight;
+                _directWeights[relation.Consumer.Id][relation.Provider.Id] -= relation.Weight;
             }
 
-            UpdateWeights(relation, RemoveWeight);
+            RemoveWeights(relation);
         }
 
-        private delegate void ModifyWeight(int consumerId, int providerId, int weight);
+        private IEnumerable<DsmRelation> FindRelations(IDsmElement element)
+        {
+            List<DsmRelation> relations = new List<DsmRelation>();
+            FindRelations(element, ref relations);
+            return relations;
+        }
+
+        private void FindRelations(IDsmElement element, ref List<DsmRelation> foundRelations)
+        {
+            if (_relationsByConsumer.ContainsKey(element.Id))
+            {
+                foreach (Dictionary<string, DsmRelation> relationsByType in _relationsByConsumer[element.Id].Values)
+                {
+                    foundRelations.AddRange(relationsByType.Values);
+                }
+            }
+
+            if (_relationsByProvider.ContainsKey(element.Id))
+            {
+                foreach (Dictionary<string, DsmRelation> relationsByType in _relationsByProvider[element.Id].Values)
+                {
+                    foundRelations.AddRange(relationsByType.Values);
+                }
+            }
+
+            foreach (IDsmElement child in element.Children)
+            {
+                FindRelations(child, ref foundRelations);
+            }
+        }
 
         private void OnBeforeElementChangeParent(object sender, IDsmElement element)
         {
-            ModifyWeightsByElement(element, RemoveWeight);
+            foreach(IDsmRelation relation in FindRelations(element))
+            {
+                RemoveWeights(relation);
+            }
         }
 
         private void OnAfterElementChangeParent(object sender, IDsmElement element)
         {
-            ModifyWeightsByElement(element, AddWeight);
-        }
-
-        private void ModifyWeightsByElement(IDsmElement element, ModifyWeight modifyWeight)
-        {
-            foreach (DsmRelation relation in _relationsById.Values)
+            foreach (IDsmRelation relation in FindRelations(element))
             {
-                if ((element.Id == relation.ConsumerId) ||
-                    (element.Id == relation.ProviderId))
-                {
-                    UpdateWeights(relation, modifyWeight);
-                }
-            }
-
-            foreach(IDsmElement child in element.Children)
-            {
-                ModifyWeightsByElement(child, modifyWeight);
+                AddWeights(relation);
             }
         }
-        
-        private void UpdateWeights(IDsmRelation relation, ModifyWeight modifyWeight)
-        {
-            int consumerId = relation.ConsumerId;
-            int providerId = relation.ProviderId;
 
-            IDsmElement currentConsumer = _elementsDataModel.FindElementById(consumerId);
+
+        private void AddWeights(IDsmRelation relation)
+        {
+            IDsmElement currentConsumer = relation.Consumer;
             while (currentConsumer != null)
             {
-                IDsmElement currentProvider = _elementsDataModel.FindElementById(providerId);
+                IDsmElement currentProvider = relation.Provider;
                 while (currentProvider != null)
                 {
-                    modifyWeight(currentConsumer.Id, currentProvider.Id, relation.Weight);
+                    AddWeight(currentConsumer.Id, currentProvider.Id, relation.Weight);
+                    currentProvider = currentProvider.Parent;
+                }
+                currentConsumer = currentConsumer.Parent;
+            }
+        }
+
+        private void RemoveWeights(IDsmRelation relation)
+        {
+            int consumerId = relation.Consumer.Id;
+            int providerId = relation.Provider.Id;
+
+            IDsmElement currentConsumer = relation.Consumer;
+            while (currentConsumer != null)
+            {
+                IDsmElement currentProvider = relation.Provider;
+                while (currentProvider != null)
+                {
+                    RemoveWeight(currentConsumer.Id, currentProvider.Id, relation.Weight);
                     currentProvider = currentProvider.Parent;
                 }
                 currentConsumer = currentConsumer.Parent;
@@ -538,42 +580,46 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
 
             int oldWeight = 0;
-            if (_weights[consumerId].ContainsKey(providerId))
+            var weights = _weights[consumerId];
+            if (weights.ContainsKey(providerId))
             {
-                oldWeight = _weights[consumerId][providerId];
+                oldWeight = weights[providerId];
             }
-            int newWeight = oldWeight + weight;
-            _weights[consumerId][providerId] = newWeight;
+            weights[providerId] = oldWeight + weight;
         }
 
         private void RemoveWeight(int consumerId, int providerId, int weight)
         {
-            if (_weights.ContainsKey(consumerId) && _weights[consumerId].ContainsKey(providerId))
+            if (_weights.ContainsKey(consumerId))
             {
-                int currentWeight = _weights[consumerId][providerId];
-
-                if (currentWeight >= weight)
+                var weights = _weights[consumerId];
+                if (weights.ContainsKey(providerId))
                 {
-                    _weights[consumerId][providerId] -= weight;
+                    int currentWeight = weights[providerId];
+
+                    if (currentWeight >= weight)
+                    {
+                        weights[providerId] -= weight;
+                    }
+                    else
+                    {
+                        //Logger.LogError($"Weight defined between consumerId={consumerId} and providerId={providerId} too low currentWeight={currentWeight} weight={weight}");
+                    }
+
+                    if (weights[providerId] == 0)
+                    {
+                        weights.Remove(providerId);
+
+                        if (weights.Count == 0)
+                        {
+                            _weights.Remove(consumerId);
+                        }
+                    }
                 }
                 else
                 {
-                    Logger.LogError($"Weight defined between consumerId={consumerId} and providerId={providerId} too low currentWeight={currentWeight} weight={weight}");
+                    //Logger.LogError($"No weight defined between consumerId={consumerId} and providerId={providerId}");
                 }
-
-                if (_weights[consumerId][providerId] == 0)
-                {
-                    _weights[consumerId].Remove(providerId);
-
-                    if (_weights[consumerId].Count == 0)
-                    {
-                        _weights.Remove(consumerId);
-                    }
-                }
-            }
-            else
-            {
-                Logger.LogError($"No weight defined between consumerId={consumerId} and providerId={providerId}");
             }
         }
 

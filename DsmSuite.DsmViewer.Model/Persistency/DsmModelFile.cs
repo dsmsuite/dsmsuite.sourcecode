@@ -297,8 +297,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             writer.WriteStartElement(RelationXmlNode);
             writer.WriteAttributeString(RelationIdXmlAttribute, relation.Id.ToString());
-            writer.WriteAttributeString(RelationFromXmlAttribute, relation.ConsumerId.ToString());
-            writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
+            writer.WriteAttributeString(RelationFromXmlAttribute, relation.Consumer.Id.ToString());
+            writer.WriteAttributeString(RelationToXmlAttribute, relation.Provider.Id.ToString());
             writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
             writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
             if (relation.IsDeleted)

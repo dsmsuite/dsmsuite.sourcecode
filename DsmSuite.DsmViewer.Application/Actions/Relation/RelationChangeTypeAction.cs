@@ -47,10 +47,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _relation = relation;
             Debug.Assert(_relation != null);
 
-            _consumer = model.GetElementById(_relation.ConsumerId);
+            _consumer = model.GetElementById(_relation.Consumer.Id);
             Debug.Assert(_consumer != null);
 
-            _provider = model.GetElementById(_relation.ProviderId);
+            _provider = model.GetElementById(_relation.Provider.Id);
             Debug.Assert(_provider != null);
 
             _old = relation.Type;

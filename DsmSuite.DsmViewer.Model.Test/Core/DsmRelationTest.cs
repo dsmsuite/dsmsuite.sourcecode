@@ -1,4 +1,5 @@
 ﻿using DsmSuite.DsmViewer.Model.Core;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.DsmViewer.Model.Test.Core
@@ -12,12 +13,14 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             int relationId = 1;
             int consumerId = 2;
             int providerId = 3;
+            IDsmElement consumer = new DsmElement(consumerId, "dontcare", "dontcare");
+            IDsmElement provider = new DsmElement(providerId, "dontcare", "dontcare");
             string relationType = "include";
             int weight = 4;
-            DsmRelation relation = new DsmRelation(relationId, consumerId, providerId, relationType, weight);
+            DsmRelation relation = new DsmRelation(relationId, consumer, provider, relationType, weight);
             Assert.AreEqual(relationId, relation.Id);
-            Assert.AreEqual(consumerId, relation.ConsumerId);
-            Assert.AreEqual(providerId, relation.ProviderId);
+            Assert.AreEqual(consumerId, relation.Consumer.Id);
+            Assert.AreEqual(providerId, relation.Provider.Id);
             Assert.AreEqual(relationType, relation.Type);
             Assert.AreEqual(weight, relation.Weight);
         }

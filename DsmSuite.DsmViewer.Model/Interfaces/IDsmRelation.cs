@@ -8,14 +8,14 @@
         int Id { get; }
 
         /// <summary>
-        /// The consumer element id.
+        /// The consumer element.
         /// </summary>
-        int ConsumerId { get; }
+        IDsmElement Consumer { get; }
 
         /// <summary>
-        /// The provider element id.
+        /// The provider element.
         /// </summary>
-        int ProviderId { get; }
+        IDsmElement Provider { get; }
 
         /// <summary>
         /// Type of relation.

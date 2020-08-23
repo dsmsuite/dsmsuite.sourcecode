@@ -8,8 +8,8 @@ namespace DsmSuite.DsmViewer.Application.Queries
         public DsmResolvedRelation(IDsmModel model, IDsmRelation relation)
         {
             Id = relation.Id;
-            ConsumerElement = model.GetElementById(relation.ConsumerId);
-            ProviderElement = model.GetElementById(relation.ProviderId);
+            ConsumerElement = model.GetElementById(relation.Consumer.Id);
+            ProviderElement = model.GetElementById(relation.Provider.Id);
             Type = relation.Type;
             Weight = relation.Weight;
         }
