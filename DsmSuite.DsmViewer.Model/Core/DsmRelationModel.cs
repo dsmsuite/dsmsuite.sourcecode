@@ -593,28 +593,32 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             if (_weights.ContainsKey(consumerId))
             {
-                var weights = _weights[consumerId];
-                if (weights.ContainsKey(providerId))
+                Dictionary<int, int> consumerWeights = _weights[consumerId];
+                if (consumerWeights.ContainsKey(providerId))
                 {
-                    int currentWeight = weights[providerId];
+                    int currentWeight = consumerWeights[providerId];
 
                     if (currentWeight >= weight)
                     {
-                        weights[providerId] -= weight;
+                        int newWeight = currentWeight - weight;
+
+                        if (newWeight > 0)
+                        {
+                            consumerWeights[providerId] = newWeight;
+                        }
+                        else
+                        { 
+                            consumerWeights.Remove(providerId);
+
+                            if (consumerWeights.Count == 0)
+                            {
+                                _weights.Remove(consumerId);
+                            }
+                        }
                     }
                     else
                     {
                         //Logger.LogError($"Weight defined between consumerId={consumerId} and providerId={providerId} too low currentWeight={currentWeight} weight={weight}");
-                    }
-
-                    if (weights[providerId] == 0)
-                    {
-                        weights.Remove(providerId);
-
-                        if (weights.Count == 0)
-                        {
-                            _weights.Remove(consumerId);
-                        }
                     }
                 }
                 else
