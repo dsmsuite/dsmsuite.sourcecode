@@ -63,6 +63,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<IDsmRelation> FindIngoingRelations(IDsmElement element);
         IEnumerable<IDsmRelation> FindOutgoingRelations(IDsmElement element);
         IEnumerable<IDsmRelation> FindInternalRelations(IDsmElement element);
+        IEnumerable<IDsmRelation> FindExternalRelations(IDsmElement element);
         int GetHierarchicalCycleCount(IDsmElement element);
         int GetSystemCycleCount(IDsmElement element);
         // Actions

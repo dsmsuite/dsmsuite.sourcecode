@@ -101,5 +101,10 @@ namespace DsmSuite.DsmViewer.Application.Queries
         {
             return _model.FindInternalRelations(element);
         }
+
+        public IEnumerable<IDsmRelation> FindExternalRelations(IDsmElement element)
+        {
+            return _model.FindExternalRelations(element);
+        }
     }
 }

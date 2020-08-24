@@ -7,6 +7,7 @@
         IngoingRelations,
         OutgoingRelations,
         InternalRelations,
+        ExternalRelations,
         HierarchicalCycles,
         SystemCycles,
         Cycles,

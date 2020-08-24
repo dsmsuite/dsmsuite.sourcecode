@@ -252,6 +252,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.FindInternalRelations(element);
         }
 
+        public IEnumerable<IDsmRelation> FindExternalRelations(IDsmElement element)
+        {
+            return _relationsDataModel.FindExternalRelations(element);
+        }
+
         public int GetHierarchicalCycleCount(IDsmElement element)
         {
             return _relationsDataModel.GetHierarchicalCycleCount(element);

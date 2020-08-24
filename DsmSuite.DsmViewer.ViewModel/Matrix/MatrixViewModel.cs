@@ -98,6 +98,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _metricTypeNames[MetricType.IngoingRelations] = "Ingoing Relations";
             _metricTypeNames[MetricType.OutgoingRelations] = "Outgoing\nRelations";
             _metricTypeNames[MetricType.InternalRelations] = "Internal\nRelations";
+            _metricTypeNames[MetricType.ExternalRelations] = "External\nRelations";
             _metricTypeNames[MetricType.HierarchicalCycles] = "Hierarchical\nCycles";
             _metricTypeNames[MetricType.SystemCycles] = "System\nCycles";
             _metricTypeNames[MetricType.Cycles] = "Total\nCycles";
@@ -615,6 +616,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
                         int metricCount = _application.FindInternalRelations(viewModel.Element).Count();
+                        _metrics.Add($"{metricCount}");
+                    }
+                    break;
+                case MetricType.ExternalRelations:
+                    foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
+                    {
+                        int metricCount = _application.FindExternalRelations(viewModel.Element).Count();
                         _metrics.Add($"{metricCount}");
                     }
                     break;

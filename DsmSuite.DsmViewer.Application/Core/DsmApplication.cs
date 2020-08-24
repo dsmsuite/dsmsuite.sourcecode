@@ -222,6 +222,11 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _queries.FindInternalRelations(element);
         }
 
+        public IEnumerable<IDsmRelation> FindExternalRelations(IDsmElement element)
+        {
+            return _queries.FindExternalRelations(element);
+        }
+
         public IEnumerable<IDsmElement> GetRelationProviders(IDsmElement consumer, IDsmElement provider)
         {
             return _queries.GetRelationProviders(consumer, provider);
