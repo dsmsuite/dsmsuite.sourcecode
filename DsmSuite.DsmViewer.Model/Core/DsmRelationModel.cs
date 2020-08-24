@@ -35,7 +35,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _weights = new Dictionary<int, Dictionary<int, int>>();
             _directWeights = new Dictionary<int, Dictionary<int, int>>();
         }
-        
+
         public void Clear()
         {
             _relationsById.Clear();
@@ -250,12 +250,9 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationPerType.Values)
                         {
-                            if (!elementIds.Contains(relation.Consumer.Id))
+                            if (!elementIds.Contains(relation.Consumer.Id) && !relation.IsDeleted)
                             {
-                                if (!relation.IsDeleted)
-                                {
-                                    relations.Add(relation);
-                                }
+                                relations.Add(relation);
                             }
                         }
                     }
@@ -276,12 +273,9 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationPerType.Values)
                         {
-                            if (!elementIds.Contains(relation.Provider.Id))
+                            if (!elementIds.Contains(relation.Provider.Id) && !relation.IsDeleted)
                             {
-                                if (!relation.IsDeleted)
-                                {
-                                    relations.Add(relation);
-                                }
+                                relations.Add(relation);
                             }
                         }
                     }
@@ -302,12 +296,9 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationPerType.Values)
                         {
-                            if (elementIds.Contains(relation.Provider.Id))
+                            if (elementIds.Contains(relation.Provider.Id) && !relation.IsDeleted)
                             {
-                                if (!relation.IsDeleted)
-                                {
-                                    relations.Add(relation);
-                                }
+                                relations.Add(relation);
                             }
                         }
                     }
@@ -328,7 +319,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationsByType.Values)
                         {
-                            if (!relation.IsDeleted && !IsProviderInternal(relation, element))
+                            if (!elementIds.Contains(relation.Provider.Id) && !relation.IsDeleted)
                             {
                                 relations.Add(relation);
                             }
@@ -342,7 +333,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationsByType.Values)
                         {
-                            if (!relation.IsDeleted && !IsConsumerInternal(relation, element))
+                            if (!elementIds.Contains(relation.Consumer.Id) && !relation.IsDeleted)
                             {
                                 relations.Add(relation);
                             }
@@ -544,39 +535,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        private bool IsProviderInternal(IDsmRelation relation, IDsmElement element)
-        {
-            bool isInternal = false;
-
-            IDsmElement current = relation.Provider;
-            while (current != null && !isInternal)
-            {
-                if (current.Id == element.Id)
-                {
-                    isInternal = true;
-                }
-                current = current.Parent;
-            }
-
-            return isInternal;
-        }
-
-        private bool IsConsumerInternal(IDsmRelation relation, IDsmElement element)
-        {
-            bool isInternal = false;
-
-            IDsmElement current = relation.Consumer;
-            while (current != null && !isInternal)
-            {
-                if (current.Id == element.Id)
-                {
-                    isInternal = true;
-                }
-                current = current.Parent;
-            }
-            return isInternal;
-        }
-        
         private void AddWeights(IDsmRelation relation)
         {
             IDsmElement currentConsumer = relation.Consumer;
@@ -618,7 +576,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             else
             {
                 int oldWeight = 0;
-                Dictionary<int, int> consumerWeights =  _weights[consumerId];
+                Dictionary<int, int> consumerWeights = _weights[consumerId];
                 if (consumerWeights.ContainsKey(providerId))
                 {
                     oldWeight = consumerWeights[providerId];
@@ -645,7 +603,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                             consumerWeights[providerId] = newWeight;
                         }
                         else
-                        { 
+                        {
                             consumerWeights.Remove(providerId);
 
                             if (consumerWeights.Count == 0)
