@@ -1,17 +1,18 @@
 ﻿using DsmSuite.DsmViewer.Application.Interfaces;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListItemViewModel : ViewModelBase
     {
-        public RelationListItemViewModel(int index, IDsmResolvedRelation relation)
+        public RelationListItemViewModel(int index, IDsmRelation relation)
         {
             Index = index;
-            ConsumerName = relation.ConsumerElement.Fullname;
-            ConsumerType = relation.ConsumerElement.Type;
-            ProviderName = relation.ProviderElement.Fullname;
-            ProviderType = relation.ProviderElement.Type;
+            ConsumerName = relation.Consumer.Fullname;
+            ConsumerType = relation.Consumer.Type;
+            ProviderName = relation.Provider.Fullname;
+            ProviderType = relation.Provider.Type;
             RelationType = relation.Type;
             RelationWeight = relation.Weight;
         }

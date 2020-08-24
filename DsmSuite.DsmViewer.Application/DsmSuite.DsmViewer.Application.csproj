@@ -60,8 +60,6 @@
     <Compile Include="Sorting\Permutation.cs" />
     <Compile Include="Sorting\WeightsMatrix.cs" />
     <Compile Include="Core\DsmApplication.cs" />
-    <Compile Include="Queries\DsmResolvedRelation.cs" />
-    <Compile Include="Interfaces\IDsmResolvedRelation.cs" />
     <Compile Include="Import\Dsi\DsiImporter.cs" />
     <Compile Include="Interfaces\IDsmApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

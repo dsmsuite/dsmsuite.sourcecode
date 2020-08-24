@@ -4,19 +4,20 @@ using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Windows.Input;
 using System.Windows;
 using System.Text;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListViewModel : ViewModelBase
     {
-        public RelationListViewModel(string title, IEnumerable<IDsmResolvedRelation> relations)
+        public RelationListViewModel(string title, IEnumerable<IDsmRelation> relations)
         {
             Title = title;
 
             var relationViewModels = new List<RelationListItemViewModel>();
 
             int index = 1;
-            foreach (IDsmResolvedRelation relation in relations)
+            foreach (IDsmRelation relation in relations)
             {
                 relationViewModels.Add(new RelationListItemViewModel(index, relation));
                 index++;

@@ -24,7 +24,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ElementsReportReady?.Invoke(this, elementListViewModel);
         }
 
-        public void NotifyRelationsReportReady(string title, IEnumerable<IDsmResolvedRelation> relations)
+        public void NotifyRelationsReportReady(string title, IEnumerable<IDsmRelation> relations)
         {
             RelationListViewModel viewModel = new RelationListViewModel(title, relations);
             RelationsReportReady?.Invoke(this, viewModel);

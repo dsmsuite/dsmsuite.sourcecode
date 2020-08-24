@@ -80,7 +80,6 @@
     <Compile Include="Import\Dsi\DsiImporterTest.cs" />
     <Compile Include="Import\Policy\UpdateExistingModelPolicyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queries\DsmResolvedRelationTest.cs" />
     <Compile Include="Stubs\StubbedSortAlgorithm.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +115,7 @@
     <Folder Include="Core\" />
     <Folder Include="Import\GraphML\" />
     <Folder Include="Import\GraphViz\" />
+    <Folder Include="Queries\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

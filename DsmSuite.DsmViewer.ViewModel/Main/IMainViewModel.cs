@@ -10,7 +10,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
     public interface IMainViewModel : INotifyPropertyChanged
     {
         void NotifyElementsReportReady(string title, IEnumerable<IDsmElement> elements);
-        void NotifyRelationsReportReady(string title, IEnumerable<IDsmResolvedRelation> relations);
+        void NotifyRelationsReportReady(string title, IEnumerable<IDsmRelation> relations);
 
         ICommand ToggleElementExpandedCommand { get; }
         ICommand MoveUpElementCommand { get; }
