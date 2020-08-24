@@ -491,40 +491,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             RemoveWeights(relation);
         }
 
-        private IEnumerable<DsmRelation> FindRelations(IDsmElement element)
-        {
-            List<DsmRelation> relations = new List<DsmRelation>();
-            FindRelations(element, ref relations);
-            return relations;
-        }
-
-        private void FindRelations(IDsmElement element, ref List<DsmRelation> foundRelations)
-        {
-            if (_relationsByConsumer.ContainsKey(element.Id))
-            {
-                foreach (Dictionary<string, DsmRelation> relationsByType in _relationsByConsumer[element.Id].Values)
-                {
-                    foundRelations.AddRange(relationsByType.Values);
-                }
-            }
-
-            if (_relationsByProvider.ContainsKey(element.Id))
-            {
-                foreach (Dictionary<string, DsmRelation> relationsByType in _relationsByProvider[element.Id].Values)
-                {
-                    foundRelations.AddRange(relationsByType.Values);
-                }
-            }
-
-            foreach (IDsmElement child in element.Children)
-            {
-                FindRelations(child, ref foundRelations);
-            }
-        }
-
         private void OnBeforeElementChangeParent(object sender, IDsmElement element)
         {
-            foreach(IDsmRelation relation in FindRelations(element))
+            foreach (IDsmRelation relation in FindRelations(element))
             {
                 RemoveWeights(relation);
             }
@@ -538,7 +507,82 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
+        private IEnumerable<DsmRelation> FindRelations(IDsmElement element)
+        {
+            List<DsmRelation> relations = new List<DsmRelation>();
+            FindRelations(element, element, ref relations);
+            return relations;
+        }
 
+        private void FindRelations(IDsmElement movedElement, IDsmElement current, ref List<DsmRelation> foundRelations)
+        {
+            if (_relationsByConsumer.ContainsKey(current.Id))
+            {
+                foreach (Dictionary<string, DsmRelation> relationsByType in _relationsByConsumer[current.Id].Values)
+                {
+                    foreach (DsmRelation relation in relationsByType.Values)
+                    {
+                        if (!IsProviderInternal(relation, movedElement))
+                        {
+                            foundRelations.Add(relation);
+                        }
+                    }
+                }
+            }
+
+            if (_relationsByProvider.ContainsKey(current.Id))
+            {
+                foreach (Dictionary<string, DsmRelation> relationsByType in _relationsByProvider[current.Id].Values)
+                {
+                    foreach (DsmRelation relation in relationsByType.Values)
+                    {
+                        if (!IsConsumerInternal(relation, movedElement))
+                        {
+                            foundRelations.Add(relation);
+                        }
+                    }
+                }
+            }
+
+            foreach (IDsmElement child in current.Children)
+            {
+                FindRelations(movedElement, child, ref foundRelations);
+            }
+        }
+
+        private bool IsProviderInternal(IDsmRelation relation, IDsmElement element)
+        {
+            bool isInternal = false;
+
+            IDsmElement current = relation.Provider;
+            while (current != null && !isInternal)
+            {
+                if (current.Id == element.Id)
+                {
+                    isInternal = true;
+                }
+                current = current.Parent;
+            }
+
+            return isInternal;
+        }
+
+        private bool IsConsumerInternal(IDsmRelation relation, IDsmElement element)
+        {
+            bool isInternal = false;
+
+            IDsmElement current = relation.Consumer;
+            while (current != null && !isInternal)
+            {
+                if (current.Id == element.Id)
+                {
+                    isInternal = true;
+                }
+                current = current.Parent;
+            }
+            return isInternal;
+        }
+        
         private void AddWeights(IDsmRelation relation)
         {
             IDsmElement currentConsumer = relation.Consumer;
