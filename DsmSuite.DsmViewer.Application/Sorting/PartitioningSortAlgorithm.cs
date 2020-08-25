@@ -51,7 +51,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
                     {
                         IDsmElement consumer = nodes[j];
 
-                        int weight = _model.GetDependencyWeight(consumer.Id, provider.Id);
+                        int weight = _model.GetDependencyWeight(consumer, provider);
 
                         matrix.SetWeight(i, j, weight > 0 ? 1 : 0);
                     }

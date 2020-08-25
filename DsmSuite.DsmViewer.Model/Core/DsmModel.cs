@@ -192,19 +192,19 @@ namespace DsmSuite.DsmViewer.Model.Core
             _relationsDataModel.UnremoveRelation(relationId);
         }
 
-        public int GetDependencyWeight(int consumerId, int providerId)
+        public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
-            return _relationsDataModel.GetDependencyWeight(consumerId, providerId);
+            return _relationsDataModel.GetDependencyWeight(consumer, provider);
         }
 
-        public int GetDirectDependencyWeight(int consumerId, int providerId)
+        public int GetDirectDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
-            return _relationsDataModel.GetDirectDependencyWeight(consumerId, providerId);
+            return _relationsDataModel.GetDirectDependencyWeight(consumer, provider);
         }
 
-        public CycleType IsCyclicDependency(int consumerId, int providerId)
+        public CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider)
         {
-            return _relationsDataModel.IsCyclicDependency(consumerId, providerId);
+            return _relationsDataModel.IsCyclicDependency(consumer, provider);
         }
 
         public IDsmRelation GetRelationById(int relationId)
@@ -229,7 +229,10 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmRelation FindRelation(int consumerId, int providerId, string type)
         {
-            return _relationsDataModel.FindRelation(consumerId, providerId, type);
+            IDsmElement consumer = GetElementById(consumerId);
+            IDsmElement provider = GetElementById(providerId);
+            return ((consumer != null) && (provider != null)) ?
+             _relationsDataModel.FindRelation(consumer, provider, type) : null;
         }
 
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)

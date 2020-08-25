@@ -52,9 +52,9 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void UnremoveRelation(int relationId);
 
         // Relation queries
-        int GetDependencyWeight(int consumerId, int providerId);
-        int GetDirectDependencyWeight(int consumerId, int providerId);
-        CycleType IsCyclicDependency(int consumerId, int providerId);
+        int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
+        int GetDirectDependencyWeight(IDsmElement consumer, IDsmElement provider);
+        CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
         IDsmRelation GetRelationById(int relationId);
         IDsmRelation GetDeletedRelationById(int relationId);
         IEnumerable<IDsmRelation> GetRelations();

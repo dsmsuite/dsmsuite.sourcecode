@@ -13,8 +13,10 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly List<IDsmElement> _children = new List<IDsmElement>();
         private DsmElement _parent;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
-
-        public DsmElement(int id, string name, string type, int order = 0 , bool isExpanded = false)
+        private readonly Dictionary<int /*providerId*/, int /*weight*/> _directWeights = new Dictionary<int, int>();
+        private readonly Dictionary<int /*providerId*/, int /*weight*/> _weights = new Dictionary<int, int>();
+        
+        public DsmElement(int id, string name, string type, int order = 0, bool isExpanded = false)
         {
             Id = id;
             Name = name;
@@ -22,6 +24,28 @@ namespace DsmSuite.DsmViewer.Model.Core
             Order = order;
             IsExpanded = isExpanded;
             IsIncludedInTree = true;
+        }
+
+        public Dictionary<int, int> DirectWeights => _directWeights;
+        public Dictionary<int, int> Weights => _weights;
+
+        public void AddWeight(IDsmElement provider, int weight)
+        {
+            int currentWeight = 0;
+            if (_weights.ContainsKey(provider.Id))
+            {
+                currentWeight = _weights[provider.Id];
+            }
+            _weights[provider.Id] = currentWeight + weight;
+        }
+
+        public void RemoveWeight(IDsmElement provider, int weight)
+        {
+            int currentWeight = _weights[provider.Id];
+            if (currentWeight >= weight)
+            {
+                _weights[provider.Id] = currentWeight - weight;
+            }
         }
 
         /// <summary>
@@ -48,7 +72,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         /// </summary>
         public string Name { get; set; }
 
-        public bool IsDeleted { get; set;  }
+        public bool IsDeleted { get; set; }
 
         public bool IsRoot => Parent == null;
 

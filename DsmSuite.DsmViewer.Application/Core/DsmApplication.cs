@@ -297,17 +297,17 @@ namespace DsmSuite.DsmViewer.Application.Core
         
         public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
-            return _dsmModel.GetDependencyWeight(consumer.Id, provider.Id);
+            return _dsmModel.GetDependencyWeight(consumer, provider);
         }
 
         public int GetDirectDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
-            return _dsmModel.GetDirectDependencyWeight(consumer.Id, provider.Id);
+            return _dsmModel.GetDirectDependencyWeight(consumer, provider);
         }
 
         public CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider)
         {
-            return _dsmModel.IsCyclicDependency(consumer.Id, provider.Id);
+            return _dsmModel.IsCyclicDependency(consumer, provider);
         }
 
         public int SearchElements(string searchText)
