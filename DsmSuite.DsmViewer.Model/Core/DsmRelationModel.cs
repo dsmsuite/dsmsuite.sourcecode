@@ -152,9 +152,9 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             int weight = 0;
             DsmElement element = consumer as DsmElement;
-            if ((consumer.Id != provider.Id) && element.Weights.ContainsKey(provider.Id))
+            if (element != null)
             {
-                weight = element.Weights[provider.Id];
+                weight = element.Dependencies.GetDerivedDependencyWeight(provider);
             }
             return weight;
         }
@@ -163,9 +163,9 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             int weight = 0;
             DsmElement element = consumer as DsmElement;
-            if ((consumer.Id != provider.Id) && element.DirectWeights.ContainsKey(provider.Id))
+            if (element != null)
             {
-                weight = element.DirectWeights[provider.Id];
+                weight = element.Dependencies.GetDirectDependencyWeight(provider);
             }
             return weight;
         }
@@ -470,14 +470,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _relationsByConsumer[relation.Consumer.Id][relation.Provider.Id][relation.Type] = relation;
 
             DsmElement element = relation.Consumer as DsmElement;
-            if (element.DirectWeights.ContainsKey(relation.Provider.Id))
-            {
-                element.DirectWeights[relation.Provider.Id] += relation.Weight;
-            }
-            else
-            {
-                element.DirectWeights[relation.Provider.Id] = relation.Weight;
-            }
+            element.Dependencies.AddDirectWeight(relation.Provider, relation.Weight);
 
             AddWeights(relation);
         }
@@ -504,10 +497,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _deletedRelationsById[relation.Id] = relation;
 
             DsmElement element = relation.Consumer as DsmElement;
-            if (element.DirectWeights.ContainsKey(relation.Provider.Id))
-            {
-                element.DirectWeights[relation.Provider.Id] -= relation.Weight;
-            }
+            element.Dependencies.RemoveDirectWeight(relation.Provider, relation.Weight);
 
             RemoveWeights(relation);
         }
@@ -536,7 +526,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 IDsmElement currentProvider = relation.Provider;
                 while (currentProvider != null)
                 {
-                    currentConsumer.AddWeight(currentProvider, relation.Weight);
+                    currentConsumer.Dependencies.AddDerivedWeight(currentProvider, relation.Weight);
                     currentProvider = currentProvider.Parent;
                 }
                 currentConsumer = currentConsumer.Parent as DsmElement;
@@ -551,7 +541,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 IDsmElement currentProvider = relation.Provider;
                 while (currentProvider != null)
                 {
-                    currentConsumer.RemoveWeight(currentProvider, relation.Weight);
+                    currentConsumer.Dependencies.RemoveDerivedWeight(currentProvider, relation.Weight);
                     currentProvider = currentProvider.Parent;
                 }
                 currentConsumer = currentConsumer.Parent as DsmElement; ;

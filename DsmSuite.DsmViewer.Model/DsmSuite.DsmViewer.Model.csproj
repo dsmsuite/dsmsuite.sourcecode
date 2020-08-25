@@ -26,6 +26,7 @@
   <ItemGroup>
     <Compile Include="Core\DsmAction.cs" />
     <Compile Include="Core\DsmActionModel.cs" />
+    <Compile Include="Core\DsmDependencies.cs" />
     <Compile Include="Core\DsmElementModel.cs" />
     <Compile Include="Core\DsmRelationModel.cs" />
     <Compile Include="Interfaces\CycleType.cs" />
