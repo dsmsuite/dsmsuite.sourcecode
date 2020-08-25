@@ -415,6 +415,26 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
+        private IDictionary<int, DsmElement> GetElementAndItsChidren(IDsmElement element)
+        {
+            Dictionary<int, DsmElement> elements = new Dictionary<int, DsmElement>();
+            GetElementAndItsChidren(element, elements);
+            return elements;
+        }
+
+        private void GetElementAndItsChidren(IDsmElement element, Dictionary<int, DsmElement> elements)
+        {
+            if (!element.IsDeleted)
+            {
+                elements[element.Id] = element as DsmElement;
+            }
+
+            foreach (IDsmElement child in element.Children)
+            {
+                GetElementAndItsChidren(child, elements);
+            }
+        }
+
         private HashSet<int> GetIdsOfElementAndItsChidren(IDsmElement element)
         {
             HashSet<int> ids = new HashSet<int>();
