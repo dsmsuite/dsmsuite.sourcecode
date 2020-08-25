@@ -32,19 +32,25 @@ namespace DsmSuite.DsmViewer.Model.Core
         public void AddWeight(IDsmElement provider, int weight)
         {
             int currentWeight = 0;
-            if (_weights.ContainsKey(provider.Id))
+            if (_weights.TryGetValue(provider.Id, out currentWeight))
             {
-                currentWeight = _weights[provider.Id];
+                _weights[provider.Id] = currentWeight + weight;
             }
-            _weights[provider.Id] = currentWeight + weight;
+            else
+            {
+                _weights[provider.Id] = weight;
+            }
         }
 
         public void RemoveWeight(IDsmElement provider, int weight)
         {
-            int currentWeight = _weights[provider.Id];
-            if (currentWeight >= weight)
+            int currentWeight = 0;
+            if (_weights.TryGetValue(provider.Id, out currentWeight))
             {
-                _weights[provider.Id] = currentWeight - weight;
+                if (currentWeight >= weight)
+                {
+                    _weights[provider.Id] = currentWeight - weight;
+                }
             }
         }
 
