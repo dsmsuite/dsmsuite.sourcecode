@@ -7,8 +7,8 @@ namespace DsmSuite.DsmViewer.Model.Core
     {
         private readonly Dictionary<int /*providerId*/, int /*weight*/> _directWeights = new Dictionary<int, int>();
         private readonly Dictionary<int /*providerId*/, int /*weight*/> _derivedWeights = new Dictionary<int, int>();
-        private readonly Dictionary<int /*consumerId*/, Dictionary<string /*type*/, DsmRelation>> _ingoingRelations = new Dictionary<int, Dictionary<string, DsmRelation>>();
         private readonly Dictionary<int /*providerId*/, Dictionary<string /*type*/, DsmRelation>> _outgoingRelations = new Dictionary<int, Dictionary<string, DsmRelation>>();
+        private readonly Dictionary<int /*consumerId*/, Dictionary<string /*type*/, DsmRelation>> _ingoingRelations = new Dictionary<int, Dictionary<string, DsmRelation>>();
         private readonly IDsmElement _element;
 
         public DsmDependencies(IDsmElement element)
@@ -35,6 +35,18 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
+        public IEnumerable<DsmRelation> GetIngoingRelations(IDsmElement consumer)
+        {
+            return _ingoingRelations[consumer.Id].Values;
+        }
+
+        public DsmRelation GetIngoingRelation(IDsmElement consumer, string type)
+        {
+            DsmRelation relation = null;
+            _ingoingRelations[consumer.Id].TryGetValue(type, out relation);
+            return relation;
+        }
+
         public void AddOutgoingRelation(DsmRelation relation)
         {
             if (!_outgoingRelations.ContainsKey(relation.Provider.Id))
@@ -47,15 +59,24 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void RemoveOutgoingRelation(DsmRelation relation)
         {
-            if (_ingoingRelations.ContainsKey(relation.Provider.Id) &&
-                _ingoingRelations[relation.Provider.Id].ContainsKey(relation.Type))
+            if (_outgoingRelations.ContainsKey(relation.Provider.Id) &&
+                _outgoingRelations[relation.Provider.Id].ContainsKey(relation.Type))
             {
-                _ingoingRelations[relation.Provider.Id].Remove(relation.Type);
+                _outgoingRelations[relation.Provider.Id].Remove(relation.Type);
             }
         }
 
-        public Dictionary<int /*consumerId*/, Dictionary<string /*type*/, DsmRelation>> IngoingRelations => _ingoingRelations;
-        public Dictionary<int /*providerId*/, Dictionary<string /*type*/, DsmRelation>> OutgoingRelations => _outgoingRelations;
+        public IEnumerable<DsmRelation> GetOutgoingRelations(IDsmElement provider)
+        {
+            return _outgoingRelations[provider.Id].Values;
+        }
+
+        public DsmRelation GetOutgoingRelation(IDsmElement provider, string type)
+        {
+            DsmRelation relation = null;
+            _outgoingRelations[provider.Id].TryGetValue(type, out relation);
+            return relation;
+        }
 
         public void AddDirectWeight(IDsmElement provider, int weight)
         {
