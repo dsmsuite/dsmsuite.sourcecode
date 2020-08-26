@@ -144,6 +144,26 @@ namespace DsmSuite.DsmViewer.Model.Core
             _children.Clear();
         }
 
+        public IDictionary<int, DsmElement> GetElementAndItsChildren()
+        {
+            Dictionary<int, DsmElement> elements = new Dictionary<int, DsmElement>();
+            GetElementAndItsChildren(this, elements);
+            return elements;
+        }
+
+        private void GetElementAndItsChildren(IDsmElement element, Dictionary<int, DsmElement> elements)
+        {
+            if (!element.IsDeleted)
+            {
+                elements[element.Id] = element as DsmElement;
+            }
+
+            foreach (IDsmElement child in element.Children)
+            {
+                GetElementAndItsChildren(child, elements);
+            }
+        }
+        
         public bool Swap(IDsmElement element1, IDsmElement element2)
         {
             bool swapped = false;

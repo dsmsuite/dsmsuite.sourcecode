@@ -213,11 +213,13 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
             IList<IDsmRelation> relations = new List<IDsmRelation>();
-            HashSet<int> consumerIds = GetIdsOfElementAndItsChidren(consumer);
-            HashSet<int> providerIds = GetIdsOfElementAndItsChidren(provider);
-            foreach (int consumerId in consumerIds)
+            DsmElement c = consumer as DsmElement;
+            IDictionary<int, DsmElement> consumerIds = c.GetElementAndItsChildren();
+            DsmElement p = provider as DsmElement;
+            IDictionary<int, DsmElement> providerIds = p.GetElementAndItsChildren();
+            foreach (int consumerId in consumerIds.Keys)
             {
-                foreach (int providerId in providerIds)
+                foreach (int providerId in providerIds.Keys)
                 {
                     if (_relationsByConsumer.ContainsKey(consumerId) && _relationsByConsumer[consumerId].ContainsKey(providerId))
                     {
@@ -237,8 +239,9 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<IDsmRelation> FindIngoingRelations(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
-            HashSet<int> elementIds = GetIdsOfElementAndItsChidren(element);
-            foreach (int elementId in elementIds)
+            DsmElement e = element as DsmElement;
+            IDictionary<int, DsmElement> elementIds = e.GetElementAndItsChildren();
+            foreach (int elementId in elementIds.Keys)
             {
                 if (_relationsByProvider.ContainsKey(elementId))
                 {
@@ -246,7 +249,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationPerType.Values)
                         {
-                            if (!elementIds.Contains(relation.Consumer.Id) && !relation.IsDeleted)
+                            if (!elementIds.ContainsKey(relation.Consumer.Id) && !relation.IsDeleted)
                             {
                                 relations.Add(relation);
                             }
@@ -260,8 +263,9 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<IDsmRelation> FindOutgoingRelations(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
-            HashSet<int> elementIds = GetIdsOfElementAndItsChidren(element);
-            foreach (int elementId in elementIds)
+            DsmElement e = element as DsmElement;
+            IDictionary<int, DsmElement> elementIds = e.GetElementAndItsChildren();
+            foreach (int elementId in elementIds.Keys)
             {
                 if (_relationsByConsumer.ContainsKey(elementId))
                 {
@@ -269,7 +273,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationPerType.Values)
                         {
-                            if (!elementIds.Contains(relation.Provider.Id) && !relation.IsDeleted)
+                            if (!elementIds.ContainsKey(relation.Provider.Id) && !relation.IsDeleted)
                             {
                                 relations.Add(relation);
                             }
@@ -283,8 +287,9 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<IDsmRelation> FindInternalRelations(IDsmElement element)
         {
             List<IDsmRelation> relations = new List<IDsmRelation>();
-            HashSet<int> elementIds = GetIdsOfElementAndItsChidren(element);
-            foreach (int elementId in elementIds)
+            DsmElement e = element as DsmElement;
+            IDictionary<int, DsmElement> elementIds = e.GetElementAndItsChildren();
+            foreach (int elementId in elementIds.Keys)
             {
                 if (_relationsByConsumer.ContainsKey(elementId))
                 {
@@ -292,7 +297,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationPerType.Values)
                         {
-                            if (elementIds.Contains(relation.Provider.Id) && !relation.IsDeleted)
+                            if (elementIds.ContainsKey(relation.Provider.Id) && !relation.IsDeleted)
                             {
                                 relations.Add(relation);
                             }
@@ -306,8 +311,9 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<DsmRelation> FindExternalRelations(IDsmElement element)
         {
             List<DsmRelation> relations = new List<DsmRelation>();
-            HashSet<int> elementIds = GetIdsOfElementAndItsChidren(element);
-            foreach (int elementId in elementIds)
+            DsmElement e = element as DsmElement;
+            IDictionary<int, DsmElement> elementIds = e.GetElementAndItsChildren();
+            foreach (int elementId in elementIds.Keys)
             {
                 if (_relationsByConsumer.ContainsKey(elementId))
                 {
@@ -315,7 +321,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationsByType.Values)
                         {
-                            if (!elementIds.Contains(relation.Provider.Id) && !relation.IsDeleted)
+                            if (!elementIds.ContainsKey(relation.Provider.Id) && !relation.IsDeleted)
                             {
                                 relations.Add(relation);
                             }
@@ -329,7 +335,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     {
                         foreach (DsmRelation relation in relationsByType.Values)
                         {
-                            if (!elementIds.Contains(relation.Consumer.Id) && !relation.IsDeleted)
+                            if (!elementIds.ContainsKey(relation.Consumer.Id) && !relation.IsDeleted)
                             {
                                 relations.Add(relation);
                             }
@@ -412,46 +418,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             foreach (DsmRelation relation in toBeRelationsReregistered)
             {
                 RegisterRelation(relation);
-            }
-        }
-
-        private IDictionary<int, DsmElement> GetElementAndItsChidren(IDsmElement element)
-        {
-            Dictionary<int, DsmElement> elements = new Dictionary<int, DsmElement>();
-            GetElementAndItsChidren(element, elements);
-            return elements;
-        }
-
-        private void GetElementAndItsChidren(IDsmElement element, Dictionary<int, DsmElement> elements)
-        {
-            if (!element.IsDeleted)
-            {
-                elements[element.Id] = element as DsmElement;
-            }
-
-            foreach (IDsmElement child in element.Children)
-            {
-                GetElementAndItsChidren(child, elements);
-            }
-        }
-
-        private HashSet<int> GetIdsOfElementAndItsChidren(IDsmElement element)
-        {
-            HashSet<int> ids = new HashSet<int>();
-            GetIdsOfElementAndItsChidren(element, ids);
-            return ids;
-        }
-
-        private void GetIdsOfElementAndItsChidren(IDsmElement element, HashSet<int> ids)
-        {
-            if (!element.IsDeleted)
-            {
-                ids.Add(element.Id);
-            }
-
-            foreach (IDsmElement child in element.Children)
-            {
-                GetIdsOfElementAndItsChidren(child, ids);
             }
         }
 
