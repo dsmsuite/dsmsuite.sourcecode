@@ -46,9 +46,6 @@ namespace DsmSuite.DsmViewer.View.Settings
             Uri uri;
             switch (App.Skin)
             {
-                case Theme.Dark:
-                    uri = DarkThemeSource;
-                    break;
                 case Theme.Pastel:
                     uri = PastelThemeSource;
                     break;

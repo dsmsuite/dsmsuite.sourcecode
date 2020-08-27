@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Windows.Input;
 using System.Windows;

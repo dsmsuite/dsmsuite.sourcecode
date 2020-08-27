@@ -4,7 +4,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
-using DsmSuite.DsmViewer.ViewModel.Settings;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {

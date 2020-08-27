@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using DsmSuite.Analyzer.Jdeps.Settings;
 using DsmSuite.Analyzer.Model.Interface;

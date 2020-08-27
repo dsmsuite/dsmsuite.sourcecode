@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Actions.Element;
@@ -16,6 +15,8 @@ using DsmSuite.DsmViewer.Reporting;
 using DsmSuite.Analyzer.Model.Core;
 using System.Reflection;
 using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.Application.Import.Common;
+using DsmSuite.DsmViewer.Application.Import.Dsi;
 using DsmSuite.DsmViewer.Application.Metrics;
 using DsmSuite.DsmViewer.Application.Import.GraphViz;
 using DsmSuite.DsmViewer.Application.Import.GraphML;

@@ -92,25 +92,15 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     {
                         if (_viewModel.RowIsConsumer[row])
                         {
-                            if (_viewModel.RowIsProvider[row])
-                            {
-                                dc.DrawRectangle(_theme.MatrixColorHierarchicalCycle, null, _rect);
-                            }
-                            else
-                            {
-                                dc.DrawRectangle(_theme.MatrixColorConsumer, null, _rect);
-                            }
+                            dc.DrawRectangle(
+                                _viewModel.RowIsProvider[row]
+                                    ? _theme.MatrixColorHierarchicalCycle
+                                    : _theme.MatrixColorConsumer, null, _rect);
                         }
                         else
                         {
-                            if (_viewModel.RowIsProvider[row])
-                            {
-                                dc.DrawRectangle(_theme.MatrixColorProvider, null, _rect);
-                            }
-                            else
-                            {
-                                dc.DrawRectangle(background, null, _rect);
-                            }
+                            dc.DrawRectangle(_viewModel.RowIsProvider[row] ? _theme.MatrixColorProvider : background,
+                                null, _rect);
                         }
                     }
                 }

@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.Application.Actions.Management;
-using DsmSuite.DsmViewer.Application.Actions.Element;
-using DsmSuite.Common.Model.Interface;
-using DsmSuite.DsmViewer.Application.Actions.Relation;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using DsmSuite.DsmViewer.Application.Actions.Snapshot;
-using System;
+using System.Linq;
+using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.Application.Actions.Element;
+using DsmSuite.DsmViewer.Application.Actions.Management;
+using DsmSuite.DsmViewer.Application.Actions.Relation;
+using DsmSuite.DsmViewer.Application.Actions.Snapshot;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Application.Import
+namespace DsmSuite.DsmViewer.Application.Import.Common
 {
     public class UpdateExistingModelPolicy : IImportPolicy
     {

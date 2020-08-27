@@ -1,13 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.Application.Import;
+﻿using DsmSuite.Common.Model.Interface;
+using DsmSuite.DsmViewer.Application.Import.Common;
 using DsmSuite.DsmViewer.Application.Sorting;
-using DsmSuite.Common.Model.Interface;
-using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Test.Stubs;
+using DsmSuite.DsmViewer.Model.Interfaces;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
-namespace DsmSuite.DsmViewer.Application.Test.Import
+namespace DsmSuite.DsmViewer.Application.Test.Import.Policy
 {
     [TestClass]
     public class CreateNewModelPolicyTest

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using DsmSuite.Common.Util;
@@ -13,7 +12,7 @@ namespace DsmSuite.DsmViewer.View
     /// </summary>
     public partial class App 
     {
-        public static Theme Skin { get; set; } = Theme.Dark;
+        public static Theme Skin { get; set; } = Theme.Light;
         public static bool ShowCycles { get; set; }
 
         public string[] CommandLineArguments { get; protected set; }
@@ -30,7 +29,7 @@ namespace DsmSuite.DsmViewer.View
 
         public App()
         {
-            DispatcherUnhandledException += new DispatcherUnhandledExceptionEventHandler(App_DispatcherUnhandledException);
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
 
         protected override void OnStartup(StartupEventArgs e)

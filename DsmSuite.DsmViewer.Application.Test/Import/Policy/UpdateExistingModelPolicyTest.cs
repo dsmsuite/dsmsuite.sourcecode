@@ -1,16 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DsmSuite.DsmViewer.Model.Interfaces;
-using Moq;
-using DsmSuite.DsmViewer.Application.Import;
-using DsmSuite.DsmViewer.Application.Actions.Management;
+﻿using System.Collections.Generic;
 using DsmSuite.Common.Model.Interface;
-using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Actions.Element;
-using System.Collections.Generic;
+using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
 using DsmSuite.DsmViewer.Application.Actions.Snapshot;
+using DsmSuite.DsmViewer.Application.Import.Common;
+using DsmSuite.DsmViewer.Application.Interfaces;
+using DsmSuite.DsmViewer.Model.Interfaces;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
-namespace DsmSuite.DsmViewer.Application.Test.Import
+namespace DsmSuite.DsmViewer.Application.Test.Import.Policy
 {
     [TestClass]
     public class UpdateExistingModelPolicyTest

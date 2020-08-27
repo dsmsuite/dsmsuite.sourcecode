@@ -12,15 +12,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
             InitializeComponent();
         }
 
-        public double UsedWidth
-        {
-            get { return RowHeaderView.ActualWidth + IndicatorView.ActualWidth + Splitter.ActualWidth + /*RowMetricsView.ActualWidth*/ + CellsView.UsedWidth; }
-        }
+        public double UsedWidth => RowHeaderView.ActualWidth + IndicatorView.ActualWidth + Splitter.ActualWidth + /*RowMetricsView.ActualWidth*/ + CellsView.UsedWidth;
 
-        public double UsedHeight
-        {
-            get { return ColumnHeaderView.ActualHeight + CellsView.UsedHeight; }
-        }
+        public double UsedHeight => ColumnHeaderView.ActualHeight + CellsView.UsedHeight;
 
         private void CellsViewOnScrollChanged(object sender, ScrollChangedEventArgs e)
         {

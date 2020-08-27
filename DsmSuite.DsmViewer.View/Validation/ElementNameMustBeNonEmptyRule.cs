@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace DsmSuite.DsmViewer.View.Validation
 {
@@ -13,14 +8,7 @@ namespace DsmSuite.DsmViewer.View.Validation
         {
             ValidationResult result;
             string name = value.ToString();
-            if (name.Length == 0)
-            {
-                result = new ValidationResult(false, "Please enter non empty string");
-            }
-            else
-            {
-                result = new ValidationResult(true, null);
-            }
+            result = name.Length == 0 ? new ValidationResult(false, "Please enter non empty string") : new ValidationResult(true, null);
             return result;
         }
     }

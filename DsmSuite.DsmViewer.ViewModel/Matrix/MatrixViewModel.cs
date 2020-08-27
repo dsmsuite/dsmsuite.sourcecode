@@ -92,17 +92,19 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             ZoomLevel = 1.0;
 
-            _metricTypeNames = new Dictionary<MetricType, string>();
-            _metricTypeNames[MetricType.NumberOfElements] = "Internal\nElements";
-            _metricTypeNames[MetricType.RelativeSizePercentage] = "Relative\nSize";
-            _metricTypeNames[MetricType.IngoingRelations] = "Ingoing Relations";
-            _metricTypeNames[MetricType.OutgoingRelations] = "Outgoing\nRelations";
-            _metricTypeNames[MetricType.InternalRelations] = "Internal\nRelations";
-            _metricTypeNames[MetricType.ExternalRelations] = "External\nRelations";
-            _metricTypeNames[MetricType.HierarchicalCycles] = "Hierarchical\nCycles";
-            _metricTypeNames[MetricType.SystemCycles] = "System\nCycles";
-            _metricTypeNames[MetricType.Cycles] = "Total\nCycles";
-            _metricTypeNames[MetricType.CycalityPercentage] = "Total\nCycality";
+            _metricTypeNames = new Dictionary<MetricType, string>
+            {
+                [MetricType.NumberOfElements] = "Internal\nElements",
+                [MetricType.RelativeSizePercentage] = "Relative\nSize",
+                [MetricType.IngoingRelations] = "Ingoing Relations",
+                [MetricType.OutgoingRelations] = "Outgoing\nRelations",
+                [MetricType.InternalRelations] = "Internal\nRelations",
+                [MetricType.ExternalRelations] = "External\nRelations",
+                [MetricType.HierarchicalCycles] = "Hierarchical\nCycles",
+                [MetricType.SystemCycles] = "System\nCycles",
+                [MetricType.Cycles] = "Total\nCycles",
+                [MetricType.CycalityPercentage] = "Total\nCycality"
+            };
 
             _selectedMetricType = MetricType.NumberOfElements;
             SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
@@ -376,13 +378,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             set { _cellTooltip = value; OnPropertyChanged(); }
         }
 
-        public IEnumerable<string> MetricTypes
-        {
-            get
-            {
-                return _metricTypeNames.Values;
-            }
-        }
+        public IEnumerable<string> MetricTypes => _metricTypeNames.Values;
 
         private ObservableCollection<ElementTreeItemViewModel> CreateElementViewModelTree()
         {
@@ -459,7 +455,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             for (int row = 0; row < matrixSize; row++)
             {
                 ElementTreeItemViewModel viewModel = _elementViewModelLeafs[row];
-                IDsmElement element = viewModel.Element;
 
                 Stack<ElementTreeItemViewModel> viewModelHierarchy = new Stack<ElementTreeItemViewModel>();
                 ElementTreeItemViewModel child = viewModel;
@@ -630,28 +625,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
                         int metricCount = _application.GetHierarchicalCycleCount(viewModel.Element);
-                        if (metricCount > 0)
-                        {
-                            _metrics.Add($"{metricCount}");
-                        }
-                        else
-                        {
-                            _metrics.Add("-");
-                        }
+                        _metrics.Add(metricCount > 0 ? $"{metricCount}" : "-");
                     }
                     break;
                 case MetricType.SystemCycles:
                     foreach (ElementTreeItemViewModel viewModel in _elementViewModelLeafs)
                     {
                         int metricCount = _application.GetSystemCycleCount(viewModel.Element);
-                        if (metricCount > 0)
-                        {
-                            _metrics.Add($"{metricCount}");
-                        }
-                        else
-                        {
-                            _metrics.Add("-");
-                        }
+                        _metrics.Add(metricCount > 0 ? $"{metricCount}" : "-");
                     }
                     break;
                 case MetricType.Cycles:
@@ -659,14 +640,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     {
                         int metricCount = _application.GetHierarchicalCycleCount(viewModel.Element) +
                                           _application.GetSystemCycleCount(viewModel.Element);
-                        if (metricCount > 0)
-                        {
-                            _metrics.Add($"{metricCount}");
-                        }
-                        else
-                        {
-                            _metrics.Add("-");
-                        }
+                        _metrics.Add(metricCount > 0 ? $"{metricCount}" : "-");
                     }
                     break;
                 case MetricType.CycalityPercentage:
@@ -676,14 +650,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                                           _application.GetSystemCycleCount(viewModel.Element);
                         int relationCount = _application.FindInternalRelations(viewModel.Element).Count();
                         double metricCount = (relationCount > 0) ? (cycleCount*100.0/relationCount) : 0;
-                        if (metricCount > 0)
-                        {
-                            _metrics.Add($"{metricCount:0.000} %");
-                        }
-                        else
-                        {
-                            _metrics.Add("-");
-                        }
+                        _metrics.Add(metricCount > 0 ? $"{metricCount:0.000} %" : "-");
                     }
                     break;
                 default:

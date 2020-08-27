@@ -161,10 +161,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             set { _reportText = value; OnPropertyChanged(); }
         }
 
-        public List<string> SupportedSortAlgorithms
-        {
-            get { return _application.GetSupportedSortAlgorithms().ToList(); }
-        }
+        public List<string> SupportedSortAlgorithms => _application.GetSupportedSortAlgorithms().ToList();
 
         public string SelectedSortAlgorithm
         {
@@ -280,8 +277,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                     case ".grapML":
                         await _application.AsyncImportGraphMLModel(fileToOpen, ModelFilename, false, false, true, progress);
                         IsLoaded = true;
-                        break;
-                    default:
                         break;
                 }
                 ActiveMatrix = new MatrixViewModel(this, _application, GetRootElements());

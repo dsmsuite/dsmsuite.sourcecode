@@ -2,7 +2,6 @@
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core

@@ -4,10 +4,10 @@ using System.Linq;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Application.Import.Common;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Application.Import
+namespace DsmSuite.DsmViewer.Application.Import.Dsi
 {
     public class DsiImporter : ImporterBase
     {

@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
     public class ElementTreeItemViewModel : ViewModelBase
     {
-        private List<ElementTreeItemViewModel> _children;
+        private readonly List<ElementTreeItemViewModel> _children;
         private ElementTreeItemViewModel _parent;
 
         public ElementTreeItemViewModel(IMatrixViewModel matrixViewModel, IDsmElement element, int depth)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Model.Core;
