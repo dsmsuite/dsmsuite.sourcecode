@@ -332,7 +332,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             CreateElementRelations(model);
 
-            List<IDsmRelation> relations = model.FindRelations(_a, _b).OrderBy(x => x.Id).ToList();
+            List<DsmRelation> relations = model.FindRelations(_a, _b).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(4, relations.Count);
             Assert.AreEqual(_a1.Id, relations[0].Consumer.Id);
             Assert.AreEqual(_b1.Id, relations[0].Provider.Id);
@@ -357,7 +357,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             CreateElementRelations(model);
 
-            List<IDsmRelation> relations = model.FindIngoingRelations(_a).OrderBy(x => x.Id).ToList();
+            List<DsmRelation> relations = model.FindIngoingRelations(_a).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(3, relations.Count);
 
             Assert.AreEqual(_b2.Id, relations[0].Consumer.Id);
@@ -379,7 +379,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             CreateElementRelations(model);
 
-            List<IDsmRelation> relations = model.FindOutgoingRelations(_a).OrderBy(x => x.Id).ToList();
+            List<DsmRelation> relations = model.FindOutgoingRelations(_a).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(5, relations.Count);
 
             Assert.AreEqual(_a1.Id, relations[0].Consumer.Id);

@@ -35,15 +35,35 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
+        public IEnumerable<DsmRelation> GetIngoingRelations()
+        {
+            List<DsmRelation> relations = new List<DsmRelation>();
+            foreach (Dictionary<string, DsmRelation> r in _ingoingRelations.Values)
+            {
+                relations.AddRange(r.Values);
+            }
+            return relations;
+        }
+
         public IEnumerable<DsmRelation> GetIngoingRelations(IDsmElement consumer)
         {
-            return _ingoingRelations[consumer.Id].Values;
+            if (_ingoingRelations.ContainsKey(consumer.Id))
+            {
+                return _ingoingRelations[consumer.Id].Values;
+            }
+            else
+            {
+                return new List<DsmRelation>();
+            }
         }
 
         public DsmRelation GetIngoingRelation(IDsmElement consumer, string type)
         {
             DsmRelation relation = null;
-            _ingoingRelations[consumer.Id].TryGetValue(type, out relation);
+            if (_ingoingRelations.ContainsKey(consumer.Id))
+            {
+                _ingoingRelations[consumer.Id].TryGetValue(type, out relation);
+            }
             return relation;
         }
 
@@ -55,6 +75,8 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
 
             _outgoingRelations[relation.Provider.Id][relation.Type] = relation;
+
+            AddDirectWeight(relation.Provider, relation.Weight);
         }
 
         public void RemoveOutgoingRelation(DsmRelation relation)
@@ -64,38 +86,40 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 _outgoingRelations[relation.Provider.Id].Remove(relation.Type);
             }
+
+            RemoveDirectWeight(relation.Provider, relation.Weight);
+        }
+
+        public IEnumerable<DsmRelation> GetOutgoingRelations()
+        {
+            List<DsmRelation> relations = new List<DsmRelation>();
+            foreach(Dictionary<string, DsmRelation> r in _outgoingRelations.Values)
+            {
+                relations.AddRange(r.Values);
+            }
+            return relations;
         }
 
         public IEnumerable<DsmRelation> GetOutgoingRelations(IDsmElement provider)
         {
-            return _outgoingRelations[provider.Id].Values;
+            if (_outgoingRelations.ContainsKey(provider.Id))
+            {
+                return _outgoingRelations[provider.Id].Values;
+            }
+            else
+            {
+                return new List<DsmRelation>();
+            }
         }
 
         public DsmRelation GetOutgoingRelation(IDsmElement provider, string type)
         {
             DsmRelation relation = null;
-            _outgoingRelations[provider.Id].TryGetValue(type, out relation);
+            if (_outgoingRelations.ContainsKey(provider.Id))
+            {
+                _outgoingRelations[provider.Id].TryGetValue(type, out relation);
+            }
             return relation;
-        }
-
-        public void AddDirectWeight(IDsmElement provider, int weight)
-        {
-            if (_directWeights.ContainsKey(provider.Id))
-            {
-                _directWeights[provider.Id] += weight;
-            }
-            else
-            {
-                _directWeights[provider.Id] = weight;
-            }
-        }
-
-        public void RemoveDirectWeight(IDsmElement provider, int weight)
-        {
-            if (_directWeights.ContainsKey(provider.Id))
-            {
-                _directWeights[provider.Id] -= weight;
-            }
         }
 
         public void AddDerivedWeight(IDsmElement provider, int weight)
@@ -141,6 +165,26 @@ namespace DsmSuite.DsmViewer.Model.Core
                 _directWeights.TryGetValue(provider.Id, out weight);
             }
             return weight;
+        }
+
+        private void AddDirectWeight(IDsmElement provider, int weight)
+        {
+            if (_directWeights.ContainsKey(provider.Id))
+            {
+                _directWeights[provider.Id] += weight;
+            }
+            else
+            {
+                _directWeights[provider.Id] = weight;
+            }
+        }
+
+        private void RemoveDirectWeight(IDsmElement provider, int weight)
+        {
+            if (_directWeights.ContainsKey(provider.Id))
+            {
+                _directWeights[provider.Id] -= weight;
+            }
         }
     }
 }
