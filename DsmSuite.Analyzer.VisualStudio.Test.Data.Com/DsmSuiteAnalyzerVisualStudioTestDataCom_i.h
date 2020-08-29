@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Sat Aug 29 08:34:33 2020
+/* at Sat Aug 29 08:39:58 2020
  */
 /* Compiler settings for DsmSuiteAnalyzerVisualStudioTestDataCom.idl:
     Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.00.0603 
