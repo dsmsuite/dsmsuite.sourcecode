@@ -182,6 +182,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DsmSuite.Analyzer.VisualStudio.Test.Data.Com", "DsmSuite.Analyzer.VisualStudio.Test.Data.Com\DsmSuite.Analyzer.VisualStudio.Test.Data.Com.vcxproj", "{4A7443BC-BB2C-49B3-9D95-1FB7662F8CFE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.VisualStudio.Test.Data.DotNet", "DsmSuite.Analyzer.VisualStudio.Test.Data.DotNet\DsmSuite.Analyzer.VisualStudio.Test.Data.DotNet.csproj", "{9768B690-0C6E-4F59-8987-EBBD4780DDE6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4A7443BC-BB2C-49B3-9D95-1FB7662F8CFE} = {4A7443BC-BB2C-49B3-9D95-1FB7662F8CFE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

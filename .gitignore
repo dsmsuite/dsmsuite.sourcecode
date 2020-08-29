@@ -17,3 +17,4 @@ results.xml
 DsmSuite.Analyzer.VisualStudio.Test.Data.Com/DsmSuiteAnalyzerVisualStudioTestDataCom_i.c
 DsmSuite.Analyzer.VisualStudio.Test.Data.Com/DsmSuiteAnalyzerVisualStudioTestDataCom_i.h
 DsmSuite.Analyzer.VisualStudio.Test.Data.Com/DsmSuiteAnalyzerVisualStudioTestDataCom_p.c
+ipch/

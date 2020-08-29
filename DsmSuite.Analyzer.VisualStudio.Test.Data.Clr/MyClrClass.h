@@ -6,7 +6,7 @@ using namespace System;
 
 namespace DsmSuiteAnalyzerVisualStudioTestDataClr {
 
-	public ref class Class1
+	public ref class MyClrClass
 	{
 		// TODO: Add your methods for this class here.
 	};
