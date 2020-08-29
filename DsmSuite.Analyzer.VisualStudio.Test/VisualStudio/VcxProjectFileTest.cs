@@ -9,26 +9,26 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
 {
     [TestClass]
-    public class ProjectFileTest
+    public class VcxProjectFileTest
     {
         [TestMethod]
         public void TestSolutionFolder()
         {
-            ProjectFile projectFile = CreateProjectFile();
+            VcxProjectFile projectFile = CreateProjectFile();
             Assert.AreEqual("Analyzers.VisualStudioAnalyzer", projectFile.SolutionFolder);
         }
 
         [TestMethod]
         public void TestProjectName()
         {
-            ProjectFile projectFile = CreateProjectFile();
+            VcxProjectFile projectFile = CreateProjectFile();
             Assert.AreEqual("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj", projectFile.ProjectName);
         }
         
         [TestMethod]
         public void TestProjectIncludeDirectoriesFound()
         {
-            ProjectFile projectFile = CreateProjectFile();
+            VcxProjectFile projectFile = CreateProjectFile();
             projectFile.Analyze();
             Assert.AreEqual(7, projectFile.ProjectIncludeDirectories.Count);
 
@@ -56,7 +56,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path = externalDir1, ResolveAs = "External1"});
             analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path = externalDir2, ResolveAs = "External2"});
-            ProjectFile projectFile = CreateProjectFile(analyzerSettings);
+            VcxProjectFile projectFile = CreateProjectFile(analyzerSettings);
             projectFile.Analyze();
             Assert.AreEqual(2, projectFile.ExternalIncludeDirectories.Count);
 
@@ -69,7 +69,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
         public void TestSystemIncludeDirectoriesFound()
         {
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
-            ProjectFile projectFile = CreateProjectFile(analyzerSettings);
+            VcxProjectFile projectFile = CreateProjectFile(analyzerSettings);
             projectFile.Analyze();
             Assert.AreEqual(5, projectFile.SystemIncludeDirectories.Count);
 
@@ -84,7 +84,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
         [TestMethod]
         public void TestSourceFilesFound()
         {
-            ProjectFile projectFile = CreateProjectFile();
+            VcxProjectFile projectFile = CreateProjectFile();
             projectFile.Analyze();
 
             HashSet<string> sourceFilenames = GetSourceFiles(projectFile);
@@ -120,7 +120,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
         [TestMethod]
         public void TestGeneratedFileRelationsFound()
         {
-            ProjectFile projectFile = CreateProjectFile();
+            VcxProjectFile projectFile = CreateProjectFile();
             projectFile.Analyze();
 
             HashSet<string> consumerNames = new HashSet<string>();
@@ -148,22 +148,22 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             Assert.AreEqual(6, projectFile.GeneratedFileRelations.Count);
         }
 
-        private ProjectFile CreateProjectFile()
+        private VcxProjectFile CreateProjectFile()
         {
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             return CreateProjectFile(analyzerSettings);
         }
 
-        private ProjectFile CreateProjectFile(AnalyzerSettings analyzerSettings)
+        private VcxProjectFile CreateProjectFile(AnalyzerSettings analyzerSettings)
         {
             string solutionFolder = "Analyzers.VisualStudioAnalyzer";
             string testDataDirectory = TestData.TestDataDirectory;
             string solutionDir = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\"));
             string projecPath = Path.GetFullPath(Path.Combine(testDataDirectory, "DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj"));
-            return new ProjectFile(solutionFolder, solutionDir, projecPath, analyzerSettings);
+            return new VcxProjectFile(solutionFolder, solutionDir, projecPath, analyzerSettings);
         }
 
-        private static HashSet<string> GetSourceFiles(ProjectFile projectFile)
+        private static HashSet<string> GetSourceFiles(VcxProjectFile projectFile)
         {
             HashSet<string> sourceFiles = new HashSet<string>();
             foreach (SourceFile sourceFile in projectFile.SourceFiles)

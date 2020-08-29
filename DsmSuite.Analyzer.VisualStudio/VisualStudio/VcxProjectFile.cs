@@ -8,7 +8,7 @@ using Microsoft.Build.Evaluation;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
-    public class ProjectFile
+    public class VcxProjectFile
     {
         private readonly FileInfo _projectFileInfo;
         private readonly string _solutionDir;
@@ -20,7 +20,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private IncludeResolveStrategy _includeResolveStrategy;
 
 
-        public ProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings)
+        public VcxProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings)
         {
             SolutionFolder = solutionFolder;
             _projectFileInfo = new FileInfo(projectPath);

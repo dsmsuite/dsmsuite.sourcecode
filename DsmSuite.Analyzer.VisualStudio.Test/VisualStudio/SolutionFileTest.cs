@@ -31,7 +31,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             solutionFile.Analyze();
 
             Assert.IsTrue(solutionFile.Projects.Count > 0);
-            foreach (ProjectFile projectFile in solutionFile.Projects)
+            foreach (VcxProjectFile projectFile in solutionFile.Projects)
             {
                 if (projectFile.ProjectName == "DsmSuite.Analyzer.VisualStudio.Test.Data")
                 {

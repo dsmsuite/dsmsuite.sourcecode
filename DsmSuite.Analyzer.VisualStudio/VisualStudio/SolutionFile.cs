@@ -20,7 +20,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private readonly Dictionary<string, string> _solutionFolderNames = new Dictionary<string, string>();
         private readonly Dictionary<string, string> _solutionFolderParents = new Dictionary<string, string>();
         private readonly Dictionary<string, string> _projectRelativeFilenames = new Dictionary<string, string>();
-        private readonly Dictionary<string, ProjectFile> _projects = new Dictionary<string, ProjectFile>();
+        private readonly Dictionary<string, VcxProjectFile> _projects = new Dictionary<string, VcxProjectFile>();
 
         private const string BeginProject = "Project(";
         private const string BeginGlobalSection = "GlobalSection";
@@ -46,7 +46,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             FindProjectsInSolution();
 
             int analyzedProjects = 0;
-            foreach (ProjectFile visualStudioProject in _projects.Values)
+            foreach (VcxProjectFile visualStudioProject in _projects.Values)
             {
                 visualStudioProject.Analyze();
                 analyzedProjects++;
@@ -54,13 +54,13 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
 
             int totalSourceFiles = 0;
-            foreach (ProjectFile visualStudioProject in _projects.Values)
+            foreach (VcxProjectFile visualStudioProject in _projects.Values)
             {
                 totalSourceFiles += visualStudioProject.SourceFiles.Count;
             }
 
             int analyzedSourceFiles = 0;
-            foreach (ProjectFile visualStudioProject in _projects.Values)
+            foreach (VcxProjectFile visualStudioProject in _projects.Values)
             {
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
@@ -73,7 +73,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public string Name => _name;
 
-        public IReadOnlyCollection<ProjectFile> Projects => _projects.Values;
+        public IReadOnlyCollection<VcxProjectFile> Projects => _projects.Values;
 
         private void ParseFile()
         {
@@ -181,7 +181,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 {
                     if (absoluteProjectFilename.EndsWith("vcxproj"))
                     {
-                        ProjectFile projectFile = new ProjectFile(solutionFolder, solutionDir, absoluteProjectFilename, _analyzerSettings);
+                        VcxProjectFile projectFile = new VcxProjectFile(solutionFolder, solutionDir, absoluteProjectFilename, _analyzerSettings);
                         _projects[guid] = projectFile;
                     }
                     else

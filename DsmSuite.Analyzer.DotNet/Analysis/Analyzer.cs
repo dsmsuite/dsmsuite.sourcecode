@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Interface;
@@ -53,32 +54,50 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
             foreach (FileInfo assemblyFileInfo in _assemblyFileInfos)
             {
-                try
+                if (IsAssembly(assemblyFileInfo))
                 {
-                    AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(assemblyFileInfo.FullName,
-                        readerParameters);
-
-                    foreach (ModuleDefinition module in assembly.Modules)
+                    try
                     {
-                        var moduleTypes = module.Types;
+                        AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(assemblyFileInfo.FullName,
+                            readerParameters);
 
-                        foreach (TypeDefinition typeDecl in moduleTypes)
+                        AssemblyName.GetAssemblyName(assemblyFileInfo.FullName);
+
+                        foreach (ModuleDefinition module in assembly.Modules)
                         {
-                            if ((typeDecl != null) && (typeDecl.Name != "<Module>") && !isClrSupportType(typeDecl))
+                            var moduleTypes = module.Types;
+
+                            foreach (TypeDefinition typeDecl in moduleTypes)
                             {
-                                AnalyseTypeElements(assemblyFileInfo, typeDecl);
+                                if ((typeDecl != null) && (typeDecl.Name != "<Module>") && !isClrSupportType(typeDecl))
+                                {
+                                    AnalyseTypeElements(assemblyFileInfo, typeDecl);
+                                }
                             }
                         }
                     }
-                }
-                catch (Exception e)
-                {
-                    Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} failed", e);
+                    catch (Exception e)
+                    {
+                        Logger.LogException($"Analysis failed assembly={assemblyFileInfo.FullName} failed", e);
+                    }
                 }
             }
             UpdateTypeProgress(true);
         }
 
+        private bool IsAssembly(FileInfo assemblyFileInf)
+        {
+            try
+            {
+                AssemblyName.GetAssemblyName(assemblyFileInf.FullName);
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
+
+        }
         private bool isClrSupportType(TypeDefinition typeDecl)
         {
             return typeDecl.Name.StartsWith("_") ||
