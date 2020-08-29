@@ -1,0 +1,34 @@
+// DsmSuiteAnalyzerVisualStudioTestDataCom.idl : IDL source for DsmSuite.Analyzer.VisualStudio.Test.Data.Com
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DsmSuiteAnalyzerVisualStudioTestDataCom.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(5C80B193-5ABB-437B-9AA7-855BA880FE69),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IComA : IDispatch{
+};
+[
+	uuid(0EDBCC3A-E7CA-4E3F-B8C8-49EBC57EAF03),
+	version(1.0),
+]
+library DsmSuiteAnalyzerVisualStudioTestDataComLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(A53A09F4-443C-44D1-9827-76FBC460BF2B)		
+	]
+	coclass ComA
+	{
+		[default] interface IComA;
+	};
+};
+
