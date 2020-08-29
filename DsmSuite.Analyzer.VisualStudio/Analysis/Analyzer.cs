@@ -41,7 +41,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void RegisterSourceFiles()
         {
-            foreach (VcxProjectFile visualStudioProject in _solutionFile.Projects)
+            foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
             {
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
@@ -52,7 +52,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void RegisterDirectIncludeRelations()
         {
-            foreach (VcxProjectFile visualStudioProject in _solutionFile.Projects)
+            foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
             {
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
@@ -118,7 +118,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             // First check if the included file can be found in a visual studio project
             SolutionFile solutionFile;
-            VcxProjectFile projectFile;
+            ProjectFileBase projectFile;
             SourceFile includeFile;
             if (FindIncludeFileInVisualStudioProject(includedFile, out solutionFile, out projectFile, out includeFile))
             {
@@ -140,7 +140,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void RegisterGeneratedFileRelations()
         {
-            foreach (VcxProjectFile visualStudioProject in _solutionFile.Projects)
+            foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
             {
                 foreach (GeneratedFileRelation relation in visualStudioProject.GeneratedFileRelations)
                 {
@@ -171,7 +171,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
         }
 
-        private void RegisterSourceFile(SolutionFile solutionFile, VcxProjectFile visualStudioProject, SourceFile sourceFile)
+        private void RegisterSourceFile(SolutionFile solutionFile, ProjectFileBase visualStudioProject, SourceFile sourceFile)
         {
             Logger.LogInfo("Source file registered: " + sourceFile.Name);
 
@@ -232,14 +232,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return isExternalInclude;
         }
 
-        private bool FindIncludeFileInVisualStudioProject(string includedFile, out SolutionFile solutionFile, out VcxProjectFile projectFile, out SourceFile sourceFile)
+        private bool FindIncludeFileInVisualStudioProject(string includedFile, out SolutionFile solutionFile, out ProjectFileBase projectFile, out SourceFile sourceFile)
         {
             bool found = false;
             solutionFile = null;
             projectFile = null;
             sourceFile = null;
 
-            foreach (VcxProjectFile project in _solutionFile.Projects)
+            foreach (ProjectFileBase project in _solutionFile.Projects)
             {
                 foreach (SourceFile source in project.SourceFiles)
                 {
@@ -256,7 +256,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return found;
         }
 
-        private string GetLogicalName(SolutionFile solutionFile, VcxProjectFile visualStudioProject, SourceFile sourceFile)
+        private string GetLogicalName(SolutionFile solutionFile, ProjectFileBase visualStudioProject, SourceFile sourceFile)
         {
             string name = "";
 

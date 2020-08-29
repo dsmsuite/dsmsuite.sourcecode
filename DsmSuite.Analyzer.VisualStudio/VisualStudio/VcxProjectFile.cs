@@ -8,38 +8,18 @@ using Microsoft.Build.Evaluation;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
-    public class VcxProjectFile
+    public class VcxProjectFile : ProjectFileBase
     {
-        private readonly FileInfo _projectFileInfo;
-        private readonly string _solutionDir;
-        private readonly HashSet<SourceFile> _sourceFiles = new HashSet<SourceFile>();
         private readonly List<string> _includeDirectories = new List<string>();
         private readonly FilterFile _filterFile;
-        private readonly AnalyzerSettings _analyzerSettings;
-        private readonly List<GeneratedFileRelation> _generatedFileRelations = new List<GeneratedFileRelation>();
         private IncludeResolveStrategy _includeResolveStrategy;
 
-
-        public VcxProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings)
+        public VcxProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings) :
+            base(solutionFolder, solutionDir, projectPath, analyzerSettings)
         {
-            SolutionFolder = solutionFolder;
-            _projectFileInfo = new FileInfo(projectPath);
-            ProjectName = _projectFileInfo.Name;
-            _solutionDir = solutionDir;
-            _analyzerSettings = analyzerSettings;
-            _filterFile = new FilterFile(_projectFileInfo.FullName + ".filters");
-            TargetExtension = "";
+            _filterFile = new FilterFile(ProjectFileInfo.FullName + ".filters");
+            GeneratedFileRelations = new List<GeneratedFileRelation>();
         }
-
-        public string TargetExtension { get; private set; }
-
-        public string SolutionFolder { get; }
-
-        public string ProjectName { get; }
-
-        public HashSet<SourceFile> SourceFiles => _sourceFiles;
-
-        public ICollection<GeneratedFileRelation> GeneratedFileRelations => _generatedFileRelations;
 
         public IReadOnlyCollection<string> ProjectIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.ProjectIncludeDirectories : new List<string>();
 
@@ -47,7 +27,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public IReadOnlyCollection<string> SystemIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.SystemIncludeDirectories : new List<string>();
 
-        public void Analyze()
+        public override void Analyze()
         {
             Project project = OpenProject();
 
@@ -110,7 +90,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     }
                     catch (Exception e)
                     {
-                        Logger.LogException($"Analysis failed project={_projectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
+                        Logger.LogException($"Analysis failed project={ProjectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
                     }
                 }
 
@@ -126,7 +106,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
             catch (Exception e)
             {
-                Logger.LogException($"Exception while closing project={_projectFileInfo.FullName}", e);
+                Logger.LogException($"Exception while closing project={ProjectFileInfo.FullName}", e);
             }
         }
 
@@ -135,7 +115,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             Project project = null;
             try
             {
-                string solutionDir = _solutionDir;
+                string solutionDir = SolutionDir;
                 if (!solutionDir.EndsWith(@"\"))
                 {
                     solutionDir += @"\";
@@ -146,12 +126,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     ["Platform"] = "Win32",
                     ["SolutionDir"] = solutionDir
                 };
-                project = new Project(_projectFileInfo.FullName, globalProperties, _analyzerSettings.ToolsVersion);
+                project = new Project(ProjectFileInfo.FullName, globalProperties, AnalyzerSettings.ToolsVersion);
                 UpdateConfiguration(project);
             }
             catch (Exception e)
             {
-                Logger.LogException($"Open project failed project={_projectFileInfo.FullName}", e);
+                Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
             return project;
         }
@@ -161,7 +141,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             try
             {
                 string projectFolder = _filterFile.GetSourceFileProjectFolder(projectItem.EvaluatedInclude);
-                FileInfo fileInfo = new FileInfo(GetAbsolutePath(_projectFileInfo.DirectoryName, projectItem.EvaluatedInclude));
+                FileInfo fileInfo = new FileInfo(GetAbsolutePath(ProjectFileInfo.DirectoryName, projectItem.EvaluatedInclude));
                 if (fileInfo.Exists)
                 {
                     SourceFile sourceFile = AddSourceFile(fileInfo, projectFolder);
@@ -172,12 +152,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
                 else
                 {
-                    AnalyzerLogger.LogErrorFileNotFound(fileInfo.FullName, _projectFileInfo.Name);
+                    AnalyzerLogger.LogErrorFileNotFound(fileInfo.FullName, ProjectFileInfo.Name);
                 }
             }
             catch (Exception e)
             {
-                Logger.LogException($"Add IDL failed project={_projectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
+                Logger.LogException($"Add IDL failed project={ProjectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
             }
         }
 
@@ -186,19 +166,19 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             try
             {
                 string projectFolder = _filterFile.GetSourceFileProjectFolder(projectItem.EvaluatedInclude);
-                FileInfo fileInfo = new FileInfo(GetAbsolutePath(_projectFileInfo.DirectoryName, projectItem.EvaluatedInclude));
+                FileInfo fileInfo = new FileInfo(GetAbsolutePath(ProjectFileInfo.DirectoryName, projectItem.EvaluatedInclude));
                 if (fileInfo.Exists)
                 {
                     AddSourceFile(fileInfo, projectFolder);
                 }
                 else
                 {
-                    AnalyzerLogger.LogErrorFileNotFound(fileInfo.FullName, _projectFileInfo.Name);
+                    AnalyzerLogger.LogErrorFileNotFound(fileInfo.FullName, ProjectFileInfo.Name);
                 }
             }
             catch (Exception e)
             {
-                Logger.LogException($"Add source file failed project={_projectFileInfo.FullName} file={projectItem.EvaluatedInclude}" , e);
+                Logger.LogException($"Add source file failed project={ProjectFileInfo.FullName} file={projectItem.EvaluatedInclude}" , e);
             }
         }
 
@@ -207,19 +187,19 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             try
             {
                 string projectFolder = _filterFile.GetSourceFileProjectFolder(projectItem.EvaluatedInclude);
-                FileInfo fileInfo = new FileInfo(GetAbsolutePath(_projectFileInfo.DirectoryName, projectItem.EvaluatedInclude));
+                FileInfo fileInfo = new FileInfo(GetAbsolutePath(ProjectFileInfo.DirectoryName, projectItem.EvaluatedInclude));
                 if (fileInfo.Exists)
                 {
                     AddSourceFile(fileInfo, projectFolder);
                 }
                 else
                 {
-                    AnalyzerLogger.LogErrorFileNotFound(fileInfo.FullName, _projectFileInfo.Name);
+                    AnalyzerLogger.LogErrorFileNotFound(fileInfo.FullName, ProjectFileInfo.Name);
                 }
             }
             catch (Exception e)
             {
-                Logger.LogException($"Add  header file failed project={_projectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
+                Logger.LogException($"Add  header file failed project={ProjectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
             }
         }
 
@@ -280,7 +260,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 SourceFile generatedFile = AddSourceFile(generatedFileInfo, projectFolder);
                 if (generatedFile != null)
                 {
-                    _generatedFileRelations.Add(new GeneratedFileRelation(generatedFile, idlSourceFile));
+                    GeneratedFileRelations.Add(new GeneratedFileRelation(generatedFile, idlSourceFile));
                 }
             }
         }
@@ -288,7 +268,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private SourceFile AddSourceFile(FileInfo fileInfo, string projectFolder)
         {
             SourceFile sourceFile = new SourceFile(fileInfo, projectFolder, _includeResolveStrategy);
-            _sourceFiles.Add(sourceFile);
+            SourceFiles.Add(sourceFile);
             return sourceFile;
         }
 
@@ -309,7 +289,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         private string GetOutputDirectoryGeneratedFiles(ProjectItem projectItem)
         {
-            string outputDirectory = _projectFileInfo.DirectoryName;
+            string outputDirectory = ProjectFileInfo.DirectoryName;
             foreach (ProjectMetadata metaData in projectItem.Metadata)
             {
                 if (metaData.Name == "OutputDirectory")
@@ -323,9 +303,9 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                         }
                         else
                         {
-                            if (_projectFileInfo?.DirectoryName != null)
+                            if (ProjectFileInfo?.DirectoryName != null)
                             {
-                                outputDir = Path.GetFullPath(Path.Combine(_projectFileInfo.DirectoryName, metaData.EvaluatedValue));
+                                outputDir = Path.GetFullPath(Path.Combine(ProjectFileInfo.DirectoryName, metaData.EvaluatedValue));
                                 if (Directory.Exists(outputDir))
                                 {
                                     outputDirectory = outputDir;
@@ -399,7 +379,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         private void DefineProjectIncludeDirectories(Project evaluatedProject)
         {
-            AddIncludeDirectory(_projectFileInfo.DirectoryName, _projectFileInfo.DirectoryName);
+            AddIncludeDirectory(ProjectFileInfo.DirectoryName, ProjectFileInfo.DirectoryName);
 
             foreach (ProjectItemDefinition projectItem in evaluatedProject.ItemDefinitions.Values)
             {
@@ -425,7 +405,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                                     }
                                     else
                                     {
-                                        resolvedIncludeDirectory = GetAbsolutePath(_projectFileInfo.DirectoryName, trimmedIncludeDirectory);
+                                        resolvedIncludeDirectory = GetAbsolutePath(ProjectFileInfo.DirectoryName, trimmedIncludeDirectory);
 
                                         if (Directory.Exists(resolvedIncludeDirectory)) // Is existing resolved relative include path
                                         {
@@ -448,7 +428,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
 
             List<string> externalIncludeDirectories = new List<string>();
-            foreach(ExternalIncludeDirectory externalIncludeDirectory in _analyzerSettings.ExternalIncludeDirectories)
+            foreach(ExternalIncludeDirectory externalIncludeDirectory in AnalyzerSettings.ExternalIncludeDirectories)
             {
                 if (Directory.Exists(externalIncludeDirectory.Path)) 
                 {
@@ -460,12 +440,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
             }
 
-            _includeResolveStrategy = new IncludeResolveStrategy(_includeDirectories, externalIncludeDirectories, _analyzerSettings.SystemIncludeDirectories);
+            _includeResolveStrategy = new IncludeResolveStrategy(_includeDirectories, externalIncludeDirectories, AnalyzerSettings.SystemIncludeDirectories);
         }
 
         private void AddIncludeDirectory(string resolvedIncludeDirectory, string includeDirectory)
         {
-            Logger.LogInfo("Added include path " + resolvedIncludeDirectory + " from " + includeDirectory + " in " + _projectFileInfo.FullName);
+            Logger.LogInfo("Added include path " + resolvedIncludeDirectory + " from " + includeDirectory + " in " + ProjectFileInfo.FullName);
             _includeDirectories.Add(resolvedIncludeDirectory);
         }
 
