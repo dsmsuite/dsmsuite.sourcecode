@@ -64,7 +64,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
                         foreach (TypeDefinition typeDecl in moduleTypes)
                         {
-                            if ((typeDecl != null) && (typeDecl.Name != "<Module>"))
+                            if ((typeDecl != null) && (typeDecl.Name != "<Module>") && !isClrSupportType(typeDecl))
                             {
                                 AnalyseTypeElements(assemblyFileInfo, typeDecl);
                             }
@@ -77,6 +77,33 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
             }
             UpdateTypeProgress(true);
+        }
+
+        private bool isClrSupportType(TypeDefinition typeDecl)
+        {
+            return typeDecl.Name.StartsWith("_") ||
+                   typeDecl.Name.StartsWith("tag") ||
+                   typeDecl.Name.StartsWith("IMPORT_OBJECT_") ||
+                   typeDecl.Name.StartsWith("SYSGEO") ||
+                   typeDecl.Name == "IMAGE_AUX_SYMBOL_TYPE" ||
+                   typeDecl.Name == "ReplacesCorHdrNumericDefines" ||
+                   typeDecl.Name == "ORIENTATION_PREFERENCE" ||
+                   typeDecl.Name == "SYSNLS_FUNCTION" ||
+                   typeDecl.Name == "RPC_ADDRESS_CHANGE_TYPE" ||
+                   typeDecl.Name == "RpcProxyPerfCounters" ||
+                   typeDecl.Name == "CO_MARSHALING_CONTEXT_ATTRIBUTES" ||
+                   typeDecl.Name == "CWMO_FLAGS" ||
+                   typeDecl.Name == "VARENUM" ||
+                   typeDecl.Name == "PIDMSI_STATUS_VALUE" ||
+                   typeDecl.Name == "ValidatorFlags" ||
+                   typeDecl.Name == "ETaskType" ||
+                   typeDecl.Name == "ISA_AVAILABILITY" ||
+                   typeDecl.Name == "IUnknown" ||
+                   typeDecl.Name == "HWND__" ||
+                   typeDecl.Name == "ICLRRuntimeHost" ||
+                   typeDecl.Name == "HINSTANCE__" ||
+                   typeDecl.Name == "HDC__" ||
+                   typeDecl.Name == "ICorRuntimeHost";
         }
 
         private void FindRelations()
@@ -108,7 +135,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
             }
 
-            ReaderParameters readerParameters = new ReaderParameters() {AssemblyResolver = resolver};
+            ReaderParameters readerParameters = new ReaderParameters() { AssemblyResolver = resolver };
             return readerParameters;
         }
 
@@ -374,38 +401,38 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                     case Mono.Cecil.Cil.OperandType.InlineType:
                     case Mono.Cecil.Cil.OperandType.InlineMethod:
                     case Mono.Cecil.Cil.OperandType.InlineField:
-                    {
-                        object op = i.Operand;
+                        {
+                            object op = i.Operand;
 
-                        if (op == null)
-                        {
-                            Logger.LogError("Unexpected null operand in method=" + method.Name);
-                        }
-                        else
-                        {
-                            TypeReference t = op as TypeReference;
-                            if (t != null)
+                            if (op == null)
                             {
-                                string context = "Analyze type references of method " + typeDecl.Name + "::" +
-                                                 method.Name;
-                                RegisterRelation(t, typeDecl, "reference", context);
+                                Logger.LogError("Unexpected null operand in method=" + method.Name);
                             }
                             else
                             {
-                                MemberReference m = op as MemberReference;
-                                if (m != null)
+                                TypeReference t = op as TypeReference;
+                                if (t != null)
                                 {
-                                    string context = "Analyze member references of method " + typeDecl.Name + "::" +
+                                    string context = "Analyze type references of method " + typeDecl.Name + "::" +
                                                      method.Name;
-                                    RegisterRelation(m.DeclaringType, typeDecl, "reference", context);
+                                    RegisterRelation(t, typeDecl, "reference", context);
                                 }
                                 else
                                 {
-                                    Logger.LogError("Unhandled token type: " + op + " in method = " + method.Name);
+                                    MemberReference m = op as MemberReference;
+                                    if (m != null)
+                                    {
+                                        string context = "Analyze member references of method " + typeDecl.Name + "::" +
+                                                         method.Name;
+                                        RegisterRelation(m.DeclaringType, typeDecl, "reference", context);
+                                    }
+                                    else
+                                    {
+                                        Logger.LogError("Unhandled token type: " + op + " in method = " + method.Name);
+                                    }
                                 }
                             }
                         }
-                    }
                         break;
                 }
 
