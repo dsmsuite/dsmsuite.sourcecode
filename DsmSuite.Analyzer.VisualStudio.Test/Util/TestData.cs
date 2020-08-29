@@ -10,7 +10,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Util
             get
             {
                 string executableDir = AppDomain.CurrentDomain.BaseDirectory;
-                return Path.GetFullPath(Path.Combine(executableDir, "../../DsmSuite.Analyzer.VisualStudio.Test.Data"));
+                return Path.GetFullPath(Path.Combine(executableDir, "../../DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp"));
             }
         }
 

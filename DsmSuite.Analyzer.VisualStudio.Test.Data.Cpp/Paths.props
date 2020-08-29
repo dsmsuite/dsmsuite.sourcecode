@@ -7,7 +7,7 @@
     <FolderC>DirC</FolderC>
     <FolderD>DirD</FolderD>
     <FolderIdlOutput>IdlOutput</FolderIdlOutput>
-    <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data\','DirE', SearchOption.AllDirectories))</FolderE>
+    <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp\','DirE', SearchOption.AllDirectories))</FolderE>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <FolderA>DirA</FolderA>
@@ -15,7 +15,7 @@
     <FolderC>DirC</FolderC>
     <FolderD>DirD</FolderD>
     <FolderIdlOutput>IdlOutput</FolderIdlOutput>
-    <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data\','DirE', SearchOption.AllDirectories))</FolderE>
+    <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp\','DirE', SearchOption.AllDirectories))</FolderE>
   </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <FolderA>DirA</FolderA>
@@ -23,7 +23,7 @@
     <FolderC>DirC</FolderC>
     <FolderD>DirD</FolderD>
     <FolderIdlOutput>IdlOutput</FolderIdlOutput>
-    <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data\','DirE', SearchOption.AllDirectories))</FolderE>
+    <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp\','DirE', SearchOption.AllDirectories))</FolderE>
   </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <FolderA>DirA</FolderA>
@@ -31,6 +31,6 @@
     <FolderC>DirC</FolderC>
     <FolderD>DirD</FolderD>
     <FolderIdlOutput>IdlOutput</FolderIdlOutput>
-    <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data\','DirE', SearchOption.AllDirectories))</FolderE>
+    <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp\','DirE', SearchOption.AllDirectories))</FolderE>
   </PropertyGroup>
 </Project>

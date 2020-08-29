@@ -55,7 +55,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Transformer", "Dsm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Transformer.Test", "DsmSuite.Transformer.Test\DsmSuite.Transformer.Test.csproj", "{8BABA3A9-0BF8-4E2B-8C7B-B2C5A94707A2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DsmSuite.Analyzer.VisualStudio.Test.Data", "DsmSuite.Analyzer.VisualStudio.Test.Data\DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj", "{D485327F-A1F8-4E13-8ACB-36DEE706C9F2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp", "DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj", "{D485327F-A1F8-4E13-8ACB-36DEE706C9F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers", "Analyzers", "{253991D0-5167-48FC-A767-5537AB5C18DE}"
 EndProject

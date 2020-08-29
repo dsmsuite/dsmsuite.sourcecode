@@ -44,44 +44,44 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
                 }
             }
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA1.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderA.ClassA1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderA.ClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderA.ClassA2.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderA.ClassA2.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderB.ClassB1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderB.ClassB1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderC.ClassC1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderC.ClassC1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderC.ClassC1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderC.ClassC1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderD.ClassD1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderD.ClassD1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderD.ClassD1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderD.ClassD1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderClones.Identical.ClassA1.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderClones.Identical.CopyClassA1.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderClones.NotIdentical.ClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderClones.Identical.ClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderClones.Identical.CopyClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderClones.NotIdentical.ClassA1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface1.idl"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface1_i.c"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.MyTypeLibrary.tlb"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderIDL.IInterface1.idl"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderIDL.IInterface1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderIDL.IInterface1_i.c"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderIDL.MyTypeLibrary.tlb"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface2.idl"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface2.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.IInterface2_i.c"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderIDL.DsmSuite.Analyzer.VisualStudio.Test.Data.tlb"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderIDL.IInterface2.idl"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderIDL.IInterface2.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderIDL.IInterface2_i.c"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderIDL.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.tlb"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).targetver.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).targetver.h"));
 
             Assert.IsTrue(elementNames.Contains("External.External.h"));
 
-            HashSet<string> classA2ProviderNames = providerNames["DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.cpp"];
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA2.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderA.ClassA1.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderB.ClassB1.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderC.ClassC1.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj (lib).FolderD.ClassD1.h"));
+            HashSet<string> classA2ProviderNames = providerNames["DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderA.ClassA2.cpp"];
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderA.ClassA2.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderA.ClassA1.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderB.ClassB1.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderC.ClassC1.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.sln.Analyzers.VisualStudioAnalyzer.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj (lib).FolderD.ClassD1.h"));
 
             Assert.IsTrue(classA2ProviderNames.Contains("External.External.h"));
         }
@@ -119,44 +119,44 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
                 }
             }
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA1.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA2.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA2.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirA.ClassA1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirA.ClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirA.ClassA2.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirA.ClassA2.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirB.ClassB1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirB.ClassB1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirB.ClassB1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirB.ClassB1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirC.ClassC1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirC.ClassC1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirC.ClassC1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirC.ClassC1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirD.ClassD1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirD.ClassD1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirD.ClassD1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirD.ClassD1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirClones.Identical.ClassA1.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirClones.Identical.CopyClassA1.cpp"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirClones.NotIdentical.ClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirClones.Identical.ClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirClones.Identical.CopyClassA1.cpp"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirClones.NotIdentical.ClassA1.cpp"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirIDL.IInterface1.idl"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IdlOutput.IInterface1.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IdlOutput.IInterface1_i.c"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IdlOutput.MyTypeLibrary.tlb"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirIDL.IInterface1.idl"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.IdlOutput.IInterface1.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.IdlOutput.IInterface1_i.c"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.IdlOutput.MyTypeLibrary.tlb"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirIDL.IInterface2.idl"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IdlOutput.IInterface2.h"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IdlOutput.IInterface2_i.c"));
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.IdlOutput.DsmSuite.Analyzer.VisualStudio.Test.Data.tlb"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirIDL.IInterface2.idl"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.IdlOutput.IInterface2.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.IdlOutput.IInterface2_i.c"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.IdlOutput.DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.tlb"));
 
-            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.targetver.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.targetver.h"));
 
             Assert.IsTrue(elementNames.Contains("External.External.h"));
 
-            HashSet<string> classA2ProviderNames = providerNames["DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA2.cpp"];
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA2.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirA.ClassA1.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirB.ClassB1.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirC.ClassC1.h"));
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.DirD.ClassD1.h"));
+            HashSet<string> classA2ProviderNames = providerNames["DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirA.ClassA2.cpp"];
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirA.ClassA2.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirA.ClassA1.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirB.ClassB1.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirC.ClassC1.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirD.ClassD1.h"));
 
             Assert.IsTrue(classA2ProviderNames.Contains("External.External.h"));
         }

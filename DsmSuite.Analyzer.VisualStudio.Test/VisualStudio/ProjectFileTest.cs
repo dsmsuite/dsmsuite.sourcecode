@@ -22,7 +22,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
         public void TestProjectName()
         {
             ProjectFile projectFile = CreateProjectFile();
-            Assert.AreEqual("DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj", projectFile.ProjectName);
+            Assert.AreEqual("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj", projectFile.ProjectName);
         }
         
         [TestMethod]
@@ -141,7 +141,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
 
             Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IdlOutput\IInterface2.h"))); // Using %(Filename).h setting
             Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IdlOutput\IInterface2_i.c"))); // Using empty setting
-            Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IdlOutput\DsmSuite.Analyzer.VisualStudio.Test.Data.tlb"))); // Using explicit setting
+            Assert.IsTrue(consumerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"IdlOutput\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.tlb"))); // Using explicit setting
 
             Assert.AreEqual(6, consumerNames.Count);
 
@@ -159,7 +159,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string solutionFolder = "Analyzers.VisualStudioAnalyzer";
             string testDataDirectory = TestData.TestDataDirectory;
             string solutionDir = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\"));
-            string projecPath = Path.GetFullPath(Path.Combine(testDataDirectory, "DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj"));
+            string projecPath = Path.GetFullPath(Path.Combine(testDataDirectory, "DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj"));
             return new ProjectFile(solutionFolder, solutionDir, projecPath, analyzerSettings);
         }
 

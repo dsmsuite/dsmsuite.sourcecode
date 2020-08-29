@@ -36,7 +36,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
         {
             string testDataDirectory = TestData.TestDataDirectory;
             Assert.IsNotNull(testDataDirectory);
-            string relativeFilterFilename = "DsmSuite.Analyzer.VisualStudio.Test.Data.vcxproj.filters";
+            string relativeFilterFilename = "DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj.filters";
             string absoluteFilterFilename = Path.Combine(testDataDirectory, relativeFilterFilename);
             return absoluteFilterFilename;
         }
