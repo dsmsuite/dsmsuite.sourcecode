@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Util;
@@ -18,8 +17,6 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly IProgress<ProgressInfo> _progress;
-        private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
-        private readonly Dictionary<string, FileInfo> _typeAssemblyInfoList = new Dictionary<string, FileInfo>();
         private readonly List<AssemblyFile> _assemblyFiles = new List<AssemblyFile>();
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
@@ -42,7 +39,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         {
             foreach (string assemblyFilename in Directory.EnumerateFiles(_analyzerSettings.AssemblyDirectory))
             {
-                AssemblyFile assemblyFile = new AssemblyFile(assemblyFilename, _model, _analyzerSettings, _progress);
+                AssemblyFile assemblyFile = new AssemblyFile(assemblyFilename, _model, _analyzerSettings.IgnoredNames, _progress);
 
                 if (assemblyFile.Exists && assemblyFile.IsAssembly)
                 {

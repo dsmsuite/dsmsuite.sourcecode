@@ -4,9 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 using Mono.Cecil;
 
@@ -18,16 +16,16 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
     public class AssemblyFile
     {
         private readonly IDsiModel _model;
-        private readonly AnalyzerSettings _analyzerSettings;
+        private readonly ICollection<string> _ignoredNames;
         private readonly IProgress<ProgressInfo> _progress;
         private readonly Dictionary<string, FileInfo> _typeAssemblyInfoList = new Dictionary<string, FileInfo>();
         private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
 
-        public AssemblyFile(string filename, IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
+        public AssemblyFile(string filename, IDsiModel model, ICollection<string> ignoredNames, IProgress<ProgressInfo> progress)
         {
             FileInfo = new FileInfo(filename);
             _model = model;
-            _analyzerSettings = analyzerSettings;
+            _ignoredNames = ignoredNames;
             _progress = progress;
         }
         
@@ -484,7 +482,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         {
             bool ignore = false;
 
-            foreach (string ignoredName in _analyzerSettings.IgnoredNames)
+            foreach (string ignoredName in _ignoredNames)
             {
                 Regex regex = new Regex(ignoredName);
                 Match match = regex.Match(providerName);

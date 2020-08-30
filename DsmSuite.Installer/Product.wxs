@@ -31,6 +31,9 @@
       <Component Id="DsmSuite.Analyzer.DotNet.exe" Guid="8F930FFA-CBEB-4E48-841D-CC3AE761C1E0">
         <File Id="DsmSuite.Analyzer.DotNet.exe" Source="..\build\bin\DsmSuite.Analyzer.DotNet.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Id="DsmSuite.Analyzer.DotNet.Lib.dll" Guid="F3C5C5B7-F110-493A-B9DB-2BA4B29F0A5A">
+        <File Id="DsmSuite.Analyzer.DotNet.Lib.dll" Source="..\build\bin\DsmSuite.Analyzer.DotNet.Lib.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>      
       <Component Id="DsmSuite.Analyzer.Model.DotNet.dll" Guid="08FB95B9-7649-4EE0-9A55-FB6327F1D7C4">
         <File Id="DsmSuite.Analyzer.Model.DotNet.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -97,6 +100,9 @@
       <Component Id="DsmSuite.Analyzer.VisualStudio.exe" Guid="E1A40F74-72C6-42ED-8227-9B23B8F59069">
         <File Id="DsmSuite.Analyzer.VisualStudio.exe" Source="..\build\bin\DsmSuite.Analyzer.VisualStudio.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Id="DsmSuite.Analyzer.VisualStudio.DotNet.Lib.dll" Guid="6E2ECF91-5FCE-4AC5-B30B-8E965ECB7784">
+        <File Id="DsmSuite.Analyzer.VisualStudio.DotNet.Lib.dll" Source="..\build\bin\DsmSuite.Analyzer.DotNet.Lib.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>       
       <Component Id="DsmSuite.Analyzer.Model.VisualStudio.dll" Guid="D1F4FA40-B75A-4CB8-A18A-20138863AE75">
         <File Id="DsmSuite.Analyzer.Model.VisualStudio.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -231,6 +237,7 @@
 
     <Feature Id="DotNetAnalyzerFeature" Title="DSM Suite .Net Analyzer" Level="1">
       <ComponentRef Id="DsmSuite.Analyzer.DotNet.exe" />
+      <ComponentRef Id="DsmSuite.Analyzer.DotNet.Lib.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.DotNet.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Util.DotNet.dll" />
       <ComponentRef Id="DsmSuite.Common.Model.DotNet.dll" />
@@ -259,6 +266,7 @@
 
     <Feature Id="VisualStudioAnalyzerFeature" Title="DSM Suite Visual Studio Analyzer" Level="1">
       <ComponentRef Id="DsmSuite.Analyzer.VisualStudio.exe" />
+      <ComponentRef Id="DsmSuite.Analyzer.VisualStudio.DotNet.Lib.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.VisualStudio.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Util.VisualStudio.dll" />
       <ComponentRef Id="DsmSuite.Common.Model.VisualStudio.dll" />
