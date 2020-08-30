@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using DsmSuite.Analyzer.DotNet.Lib;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 using Mono.Cecil;
@@ -15,20 +16,23 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
     /// </summary>
     public class AssemblyFile
     {
-        private readonly IDsiModel _model;
         private readonly ICollection<string> _ignoredNames;
         private readonly IProgress<ProgressInfo> _progress;
         private readonly Dictionary<string, FileInfo> _typeAssemblyInfoList = new Dictionary<string, FileInfo>();
         private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
 
-        public AssemblyFile(string filename, IDsiModel model, ICollection<string> ignoredNames, IProgress<ProgressInfo> progress)
+        public AssemblyFile(string filename, ICollection<string> ignoredNames, IProgress<ProgressInfo> progress)
         {
             FileInfo = new FileInfo(filename);
-            _model = model;
             _ignoredNames = ignoredNames;
             _progress = progress;
         }
-        
+
+        public List<AssemblyType> Types { get; } = new List<AssemblyType>();
+
+        public List<AssemblyTypeRelation> Relations { get; } = new List<AssemblyTypeRelation>();
+
+
         public FileInfo FileInfo { get; }
 
         public bool Exists => FileInfo.Exists;
@@ -50,6 +54,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
             }
         }
+
 
         public void FindTypes(ReaderParameters readerParameters)
         {
@@ -441,14 +446,10 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             string typeName = typeDecl.GetElementType().ToString();
             if (!Ignore(typeName))
             {
-                if (
-                    _model.AddElement(typeDecl.GetElementType().ToString(), DetermineType(typeDecl),
-                        assemblyFileInfo.FullName) != null)
-                {
-                    _typeList.Add(typeDecl);
-                    _typeAssemblyInfoList[typeDecl.FullName] = assemblyFileInfo;
-                    UpdateTypeProgress(false);
-                }
+                Types.Add(new AssemblyType(typeDecl.GetElementType().ToString(), DetermineType(typeDecl)));
+                _typeList.Add(typeDecl);
+                _typeAssemblyInfoList[typeDecl.FullName] = assemblyFileInfo;
+                UpdateTypeProgress(false);
             }
         }
 
@@ -463,7 +464,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 if (!providerType.ContainsGenericParameter &&
                     !Ignore(providerName))
                 {
-                    _model.AddRelation(consumerName, providerName, type, 1, context);
+                    Relations.Add(new AssemblyTypeRelation(consumerName, providerName, type));
                     UpdateRelationProgress(false);
                 }
 
@@ -499,7 +500,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         {
             ProgressInfo progressInfo = new ProgressInfo();
             progressInfo.ActionText = "Finding types";
-            progressInfo.CurrentItemCount = _typeList.Count;
+            progressInfo.CurrentItemCount = Types.Count;
             progressInfo.TotalItemCount = 0;
             progressInfo.ItemType = "types";
             progressInfo.Percentage = null;
@@ -511,7 +512,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         {
             ProgressInfo progressInfo = new ProgressInfo();
             progressInfo.ActionText = "Finding relations";
-            progressInfo.CurrentItemCount = _model.GetRelationCount();
+            progressInfo.CurrentItemCount = Relations.Count;
             progressInfo.TotalItemCount = 0;
             progressInfo.ItemType = "relations";
             progressInfo.Percentage = null;

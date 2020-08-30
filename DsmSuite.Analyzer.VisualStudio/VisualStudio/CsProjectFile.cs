@@ -21,19 +21,19 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public override void Analyze()
         {
-            Project project = OpenProject();
+            //Project project = OpenProject();
 
-            if (project != null)
-            {
-                foreach (var property in project.AllEvaluatedProperties)
-                {
-                    if (property.Name == "TargetPath")
-                    {
-                        FileInfo fileInfo = new FileInfo(property.EvaluatedValue);
-                        string assemblyFilename = fileInfo.FullName;
-                    }
-                }
-            }
+            //if (project != null)
+            //{
+            //    foreach (var property in project.AllEvaluatedProperties)
+            //    {
+            //        if (property.Name == "TargetPath")
+            //        {
+            //            FileInfo fileInfo = new FileInfo(property.EvaluatedValue);
+            //            string assemblyFilename = fileInfo.FullName;
+            //        }
+            //    }
+            //}
         }
 
         private Project OpenProject()

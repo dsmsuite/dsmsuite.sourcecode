@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using DsmSuite.Analyzer.DotNet.Lib;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Util;
@@ -39,7 +40,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         {
             foreach (string assemblyFilename in Directory.EnumerateFiles(_analyzerSettings.AssemblyDirectory))
             {
-                AssemblyFile assemblyFile = new AssemblyFile(assemblyFilename, _model, _analyzerSettings.IgnoredNames, _progress);
+                AssemblyFile assemblyFile = new AssemblyFile(assemblyFilename, _analyzerSettings.IgnoredNames, _progress);
 
                 if (assemblyFile.Exists && assemblyFile.IsAssembly)
                 {
@@ -55,6 +56,10 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             foreach (AssemblyFile assemblyFile in _assemblyFiles)
             {
                 assemblyFile.FindTypes(readerParameter);
+                foreach (AssemblyType type in assemblyFile.Types)
+                {
+                    _model.AddElement(type.Name, type.Type, assemblyFile.FileInfo.Name);
+                }
             }
         }
 
@@ -63,6 +68,10 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             foreach (AssemblyFile assemblyFile in _assemblyFiles)
             {
                 assemblyFile.FindRelations();
+                foreach (AssemblyTypeRelation relation in assemblyFile.Relations)
+                {
+                    _model.AddRelation(relation.ConsumerName, relation.ProviderName, relation.Type, 1, assemblyFile.FileInfo.Name);
+                }
             }
         }
 
