@@ -78,6 +78,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DsmSuite.Analyzer.DotNet.Lib\DsmSuite.Analyzer.DotNet.Lib.csproj">
+      <Project>{e7777e3d-34e7-4acb-928a-fb70d25f0c64}</Project>
+      <Name>DsmSuite.Analyzer.DotNet.Lib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
       <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
       <Name>DsmSuite.Analyzer.Model</Name>
