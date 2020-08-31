@@ -136,6 +136,38 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             return project;
         }
 
+        private Project OpenProjectNewVersion()
+        {
+            Project project = null;
+            try
+            {
+                string solutionDir = SolutionDir;
+                if (!solutionDir.EndsWith(@"\"))
+                {
+                    solutionDir += @"\";
+                }
+                Dictionary<string, string> globalProperties = new Dictionary<string, string>();
+                project = new Project(ProjectFileInfo.FullName, globalProperties, AnalyzerSettings.ToolsVersion);
+                foreach (var item in project.AllEvaluatedItems)
+                {
+                    if (item.ItemType == "ProjectConfiguration")
+                    {
+                        string[] projectConfiguration = item.EvaluatedInclude.Split('|'); // eg. "Release|x64"
+                        globalProperties["Configuration"] = projectConfiguration[0];
+                        globalProperties["Platform"] = projectConfiguration[1];
+                        globalProperties["SolutionDir"] = solutionDir;
+                        break;
+                    }
+                }
+                UpdateConfiguration(project);
+            }
+            catch (Exception e)
+            {
+                Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
+            }
+            return project;
+        }
+
         private void AddIdlFile(ProjectItem projectItem)
         {
             try

@@ -41,19 +41,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             Project project = null;
             try
             {
-                string solutionDir = SolutionDir;
-                if (!solutionDir.EndsWith(@"\"))
-                {
-                    solutionDir += @"\";
-                }
-                Dictionary<string, string> globalProperties = new Dictionary<string, string>
-                {
-                    ["Configuration"] = "Release",
-                    ["Platform"] = "x64",
-                    ["SolutionDir"] = solutionDir
-                };
+                Dictionary<string, string> globalProperties = new Dictionary<string, string>();
                 project = new Project(ProjectFileInfo.FullName, globalProperties, AnalyzerSettings.ToolsVersion);
-                UpdateConfiguration(project);
             }
             catch (Exception e)
             {
