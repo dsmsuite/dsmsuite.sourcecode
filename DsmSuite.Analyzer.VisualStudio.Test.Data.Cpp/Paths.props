@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <FolderA>DirA</FolderA>
-    <FolderB>DirB</FolderB>
-    <FolderC>DirC</FolderC>
-    <FolderD>DirD</FolderD>
-    <FolderIdlOutput>IdlOutput</FolderIdlOutput>
-    <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp\','DirE', SearchOption.AllDirectories))</FolderE>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <FolderA>DirA</FolderA>
-    <FolderB>DirB</FolderB>
-    <FolderC>DirC</FolderC>
-    <FolderD>DirD</FolderD>
-    <FolderIdlOutput>IdlOutput</FolderIdlOutput>
-    <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp\','DirE', SearchOption.AllDirectories))</FolderE>
-  </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <FolderA>DirA</FolderA>
     <FolderB>DirB</FolderB>
     <FolderC>DirC</FolderC>

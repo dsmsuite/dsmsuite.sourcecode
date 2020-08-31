@@ -120,33 +120,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 {
                     solutionDir += @"\";
                 }
-                Dictionary<string, string> globalProperties = new Dictionary<string, string>
-                {
-                    ["Configuration"] = "Release",
-                    ["Platform"] = "Win32",
-                    ["SolutionDir"] = solutionDir
-                };
-                project = new Project(ProjectFileInfo.FullName, globalProperties, AnalyzerSettings.ToolsVersion);
-                UpdateConfiguration(project);
-            }
-            catch (Exception e)
-            {
-                Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
-            }
-            return project;
-        }
-
-        private Project OpenProjectNewVersion()
-        {
-            Project project = null;
-            try
-            {
-                string solutionDir = SolutionDir;
-                if (!solutionDir.EndsWith(@"\"))
-                {
-                    solutionDir += @"\";
-                }
                 Dictionary<string, string> globalProperties = new Dictionary<string, string>();
+                globalProperties["SolutionDir"] = solutionDir;
                 project = new Project(ProjectFileInfo.FullName, globalProperties, AnalyzerSettings.ToolsVersion);
                 foreach (var item in project.AllEvaluatedItems)
                 {
@@ -155,7 +130,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                         string[] projectConfiguration = item.EvaluatedInclude.Split('|'); // eg. "Release|x64"
                         globalProperties["Configuration"] = projectConfiguration[0];
                         globalProperties["Platform"] = projectConfiguration[1];
-                        globalProperties["SolutionDir"] = solutionDir;
                         break;
                     }
                 }
