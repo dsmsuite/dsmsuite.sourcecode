@@ -26,6 +26,22 @@ namespace DsmSuite.DsmViewer.View.Windows
         public MainWindow()
         {
             InitializeComponent();
+            Closing += MainWindow_Closing;
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_mainViewModel.IsModified)
+            {
+                if (MessageBox.Show("Are you sure to exit?", "You have unsaved changes", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    e.Cancel = false;
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
         }
 
         public void OpenModel(string filename)
