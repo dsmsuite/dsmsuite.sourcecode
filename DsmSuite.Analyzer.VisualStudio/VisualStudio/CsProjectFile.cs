@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Common.Util;
 using Microsoft.Build.Evaluation;
+using System.IO;
+using DsmSuite.Analyzer.DotNet.Lib;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -15,19 +17,28 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public override void Analyze()
         {
-            //Project project = OpenProject();
+            Project project = OpenProject();
 
-            //if (project != null)
-            //{
-            //    foreach (var property in project.AllEvaluatedProperties)
-            //    {
-            //        if (property.Name == "TargetPath")
-            //        {
-            //            FileInfo fileInfo = new FileInfo(property.EvaluatedValue);
-            //            string assemblyFilename = fileInfo.FullName;
-            //        }
-            //    }
-            //}
+            if (project != null)
+            {
+                foreach (var property in project.AllEvaluatedProperties)
+                {
+                    if (property.Name == "TargetPath")
+                    {
+                        FileInfo fileInfo = new FileInfo(property.EvaluatedValue);
+                        string assemblyFilename = fileInfo.FullName;
+
+                        if (File.Exists(assemblyFilename))
+                        {
+                            //AssemblyFile assembly = new AssemblyFile(assemblyFilename, new List<string>(), null);
+                            //assembly.FindTypes();
+                            //assembly.FindRelations();
+                        }
+                    }
+                }
+            }
+
+            CloseProject(project);
         }
 
         private Project OpenProject()
@@ -37,6 +48,17 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             {
                 Dictionary<string, string> globalProperties = new Dictionary<string, string>();
                 project = new Project(ProjectFileInfo.FullName, globalProperties, AnalyzerSettings.ToolsVersion);
+                foreach (var item in project.AllEvaluatedItems)
+                {
+                    if (item.ItemType == "Configuration")
+                    {
+                        string[] projectConfiguration = item.EvaluatedInclude.Split('|'); // eg. "Release|x64"
+                        globalProperties["Configuration"] = projectConfiguration[0];
+                        globalProperties["Platform"] = projectConfiguration[1];
+                        break;
+                    }
+                }
+                UpdateConfiguration(project);
             }
             catch (Exception e)
             {
@@ -49,7 +71,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         {
             foreach (ProjectItem item in project.Items)
             {
-                if (item.ItemType == "ProjectConfiguration")
+                if (item.ItemType == "Configuration")
                 {
                     string configuration = null;
                     string platform = null;
@@ -75,6 +97,18 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
             }
             project.ReevaluateIfNecessary();
+        }
+
+        private void CloseProject(Project project)
+        {
+            try
+            {
+                project.ProjectCollection.UnloadProject(project);
+            }
+            catch (Exception e)
+            {
+                Logger.LogException($"Exception while closing project={ProjectFileInfo.FullName}", e);
+            }
         }
     }
 }

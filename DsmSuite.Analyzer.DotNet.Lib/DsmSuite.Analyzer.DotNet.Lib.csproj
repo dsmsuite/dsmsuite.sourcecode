@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyFile.cs" />
+    <Compile Include="AssemblyResolver.cs" />
     <Compile Include="AssemblyType.cs" />
     <Compile Include="AssemblyTypeRelation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

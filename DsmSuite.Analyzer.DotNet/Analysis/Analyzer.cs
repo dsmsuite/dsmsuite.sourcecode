@@ -6,19 +6,16 @@ using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
-using Mono.Cecil;
 
 namespace DsmSuite.Analyzer.DotNet.Analysis
 {
-    /// <summary>
-    /// .Net code analyzer which uses Mono.Cecil to analyze dependencies between types in .Net binaries
-    /// </summary>
     public class Analyzer
     {
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly IProgress<ProgressInfo> _progress;
         private readonly List<AssemblyFile> _assemblyFiles = new List<AssemblyFile>();
+        private readonly AssemblyResolver _resolver = new AssemblyResolver();
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
@@ -30,8 +27,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         public void Analyze()
         {
             FindAssemblies();
-            ReaderParameters readerParameters = DetermineAssemblyReaderParameters();
-            FindTypes(readerParameters);
+            FindTypes();
             FindRelations();
             AnalyzerLogger.Flush();
         }
@@ -45,17 +41,18 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 if (assemblyFile.Exists && assemblyFile.IsAssembly)
                 {
                     _assemblyFiles.Add(assemblyFile);
+                    _resolver.AddSearchPath(assemblyFile.FileInfo.DirectoryName);
                     UpdateAssemblyProgress(false);
                 }
             }
             UpdateAssemblyProgress(true);
         }
 
-        private void FindTypes(ReaderParameters readerParameter)
+        private void FindTypes()
         {
             foreach (AssemblyFile assemblyFile in _assemblyFiles)
             {
-                assemblyFile.FindTypes(readerParameter);
+                assemblyFile.FindTypes(_resolver.GetAssemblyReaderParameters());
                 foreach (AssemblyType type in assemblyFile.Types)
                 {
                     _model.AddElement(type.Name, type.Type, assemblyFile.FileInfo.Name);
@@ -73,26 +70,6 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                     _model.AddRelation(relation.ConsumerName, relation.ProviderName, relation.Type, 1, assemblyFile.FileInfo.Name);
                 }
             }
-        }
-
-        private ReaderParameters DetermineAssemblyReaderParameters()
-        {
-            var resolver = new DefaultAssemblyResolver();
-
-            IDictionary<string, bool> paths = new Dictionary<string, bool>();
-
-            foreach (AssemblyFile assemblyFile in _assemblyFiles)
-            {
-                if (assemblyFile.FileInfo.DirectoryName != null &&
-                    paths.ContainsKey(assemblyFile.FileInfo.DirectoryName) == false)
-                {
-                    paths.Add(assemblyFile.FileInfo.DirectoryName, true);
-                    resolver.AddSearchDirectory(assemblyFile.FileInfo.DirectoryName);
-                }
-            }
-
-            ReaderParameters readerParameters = new ReaderParameters() { AssemblyResolver = resolver };
-            return readerParameters;
         }
 
         private void UpdateAssemblyProgress(bool done)
