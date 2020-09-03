@@ -5,6 +5,9 @@ using DsmSuite.Common.Util;
 using Microsoft.Build.Evaluation;
 using System.IO;
 using DsmSuite.Analyzer.DotNet.Lib;
+using Microsoft.Build.Execution;
+using Microsoft.Build.Logging;
+using Microsoft.Build.Framework;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -19,6 +22,13 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         {
             Project project = OpenProject();
 
+            ICollection<ProjectItem> comReferences = project.GetItems("COMReference");
+
+            foreach (ProjectItem comReference in comReferences)
+            {
+                Console.WriteLine(comReference.EvaluatedInclude);
+            }
+
             if (project != null)
             {
                 foreach (var property in project.AllEvaluatedProperties)
@@ -30,9 +40,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
                         if (File.Exists(assemblyFilename))
                         {
-                            //AssemblyFile assembly = new AssemblyFile(assemblyFilename, new List<string>(), null);
-                            //assembly.FindTypes();
-                            //assembly.FindRelations();
+                            AssemblyResolver resolver = new AssemblyResolver();
+                            AssemblyFile assembly = new AssemblyFile(assemblyFilename, new List<string>(), null);
+                            resolver.AddSearchPath(assembly);
+                            assembly.FindTypes(resolver);
+                            assembly.FindRelations();
                         }
                     }
                 }

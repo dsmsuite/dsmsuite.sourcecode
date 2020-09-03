@@ -41,7 +41,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 if (assemblyFile.Exists && assemblyFile.IsAssembly)
                 {
                     _assemblyFiles.Add(assemblyFile);
-                    _resolver.AddSearchPath(assemblyFile.FileInfo.DirectoryName);
+                    _resolver.AddSearchPath(assemblyFile);
                     UpdateAssemblyProgress(false);
                 }
             }
@@ -52,7 +52,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         {
             foreach (AssemblyFile assemblyFile in _assemblyFiles)
             {
-                assemblyFile.FindTypes(_resolver.GetAssemblyReaderParameters());
+                assemblyFile.FindTypes(_resolver);
                 foreach (AssemblyType type in assemblyFile.Types)
                 {
                     _model.AddElement(type.Name, type.Type, assemblyFile.FileInfo.Name);

@@ -48,11 +48,11 @@ namespace DsmSuite.Analyzer.DotNet.Lib
             }
         }
         
-        public void FindTypes(ReaderParameters readerParameters)
+        public void FindTypes(AssemblyResolver resolver)
         {
             try
             {
-                AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(FileInfo.FullName, readerParameters);
+                AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(FileInfo.FullName, resolver.ReaderParameters);
 
                 foreach (ModuleDefinition module in assembly.Modules)
                 {

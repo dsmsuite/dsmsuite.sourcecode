@@ -12,26 +12,30 @@ namespace DsmSuite.Analyzer.DotNet.Lib
 
         }
 
-        public void AddSearchPath(string path)
+        public void AddSearchPath(AssemblyFile assemblyFile)
         {
+            string path = assemblyFile.FileInfo.DirectoryName;
             if (path != null && !_paths.Contains(path))
             {
                 _paths.Add(path);
             }
         }
 
-        public ReaderParameters GetAssemblyReaderParameters()
+        public ReaderParameters ReaderParameters
         {
-            var resolver = new DefaultAssemblyResolver();
-
-            IDictionary<string, bool> paths = new Dictionary<string, bool>();
-
-            foreach (string  path in _paths)
+            get
             {
-                   resolver.AddSearchDirectory(path);
-            }
+                DefaultAssemblyResolver resolver = new DefaultAssemblyResolver();
 
-            return new ReaderParameters() { AssemblyResolver = resolver };
+                IDictionary<string, bool> paths = new Dictionary<string, bool>();
+
+                foreach (string path in _paths)
+                {
+                    resolver.AddSearchDirectory(path);
+                }
+
+                return new ReaderParameters() { AssemblyResolver = resolver };
+            }
         }
     }
 }
