@@ -11,6 +11,7 @@ namespace DsmSuite.Analyzer.Util
     public static class AnalyzerLogger
     {
         private static readonly Dictionary<string, HashSet<string>> FilesNotFoundLogMessages;
+        private static readonly Dictionary<string, HashSet<string>> FilesDuplicateMessages;
         private static readonly Dictionary<string, HashSet<string>> PathsNotResolvedLogMessages;
         private static readonly Dictionary<string, HashSet<string>> IncludePathsNotFoundLogMessages;
         private static readonly Dictionary<string, HashSet<string>> IncludeFilesNotFoundLogMessages;
@@ -19,6 +20,7 @@ namespace DsmSuite.Analyzer.Util
         static AnalyzerLogger()
         {
             FilesNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
+            FilesDuplicateMessages = new Dictionary<string, HashSet<string>>();
             PathsNotResolvedLogMessages = new Dictionary<string, HashSet<string>>();
             IncludePathsNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
             IncludeFilesNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
@@ -34,6 +36,17 @@ namespace DsmSuite.Analyzer.Util
                 FilesNotFoundLogMessages[key] = new HashSet<string>();
             }
             FilesNotFoundLogMessages[key].Add(message);
+        }
+
+        public static void LogErrorDuplicateFileUsage(string filename, int count)
+        {
+            string key = filename;
+            string message = "Count " + count;
+            if (!FilesDuplicateMessages.ContainsKey(key))
+            {
+                FilesDuplicateMessages[key] = new HashSet<string>();
+            }
+            FilesDuplicateMessages[key].Add(message);
         }
 
         public static void LogErrorPathNotResolved(string relativePath, string context)
@@ -103,6 +116,7 @@ namespace DsmSuite.Analyzer.Util
         public static void Flush()
         {
             Flush(FilesNotFoundLogMessages, "Files not found", "filesNotFound");
+            Flush(FilesDuplicateMessages, "Files duplicate", "filesDuplcate");
             Flush(PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved");
             Flush(IncludePathsNotFoundLogMessages, "Absolute paths not found", "includePathsNotFound");
             Flush(IncludeFilesNotFoundLogMessages, "Includes files not found", "includeFilesNotFound");

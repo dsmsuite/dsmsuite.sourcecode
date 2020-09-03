@@ -16,6 +16,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         private readonly IProgress<ProgressInfo> _progress;
         private readonly SolutionFile _solutionFile;
         private readonly Dictionary<string, string> _interfaceFilesByPath = new Dictionary<string, string>();
+        private readonly Dictionary<string, int> _fileOccurances = new Dictionary<string, int>();
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
@@ -46,6 +47,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
                     RegisterSourceFile(_solutionFile, visualStudioProject, sourceFile);
+                }
+            }
+
+            foreach (KeyValuePair<string, int> fileOccurance in _fileOccurances)
+            {
+                if (fileOccurance.Value > 1)
+                {
+                    AnalyzerLogger.LogErrorDuplicateFileUsage(fileOccurance.Key, fileOccurance.Value);
                 }
             }
         }
@@ -177,8 +186,18 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
             string type = sourceFile.FileType;
 
+
             if (sourceFile.SourceFileInfo.Exists)
             {
+                if (_fileOccurances.ContainsKey(sourceFile.SourceFileInfo.FullName))
+                {
+                    _fileOccurances[sourceFile.SourceFileInfo.FullName]++;
+                }
+                else
+                {
+                    _fileOccurances[sourceFile.SourceFileInfo.FullName] = 1;
+                }
+
                 switch (_analyzerSettings.ViewMode)
                 {
                     case ViewMode.LogicalView:

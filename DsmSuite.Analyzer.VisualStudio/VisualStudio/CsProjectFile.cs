@@ -22,15 +22,15 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         {
             Project project = OpenProject();
 
-            ICollection<ProjectItem> comReferences = project.GetItems("COMReference");
-
-            foreach (ProjectItem comReference in comReferences)
-            {
-                Console.WriteLine(comReference.EvaluatedInclude);
-            }
-
             if (project != null)
             {
+                ICollection<ProjectItem> comReferences = project.GetItems("COMReference");
+
+                foreach (ProjectItem comReference in comReferences)
+                {
+                    Console.WriteLine(comReference.EvaluatedInclude);
+                }
+
                 foreach (var property in project.AllEvaluatedProperties)
                 {
                     if (property.Name == "TargetPath")
