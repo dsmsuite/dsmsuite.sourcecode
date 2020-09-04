@@ -43,7 +43,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight, bool deleted)
         {
-            Logger.LogDataModelMessage("Import relation relationId={relationId} consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
+            Logger.LogDataModelMessage($"Import relation relationId={relationId} consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
 
             if (relationId > _lastRelationId)
             {
@@ -74,7 +74,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight)
         {
-            Logger.LogDataModelMessage("Add relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
+            Logger.LogDataModelMessage($"Add relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
 
             DsmRelation relation = null;
             if (consumerId != providerId)
