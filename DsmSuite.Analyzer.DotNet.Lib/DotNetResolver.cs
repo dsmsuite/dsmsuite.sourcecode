@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.DotNet.Lib
 {
-    public class AssemblyResolver
+    public class DotNetResolver
     {
         HashSet<string> _paths = new HashSet<string>();
 
-        public AssemblyResolver()
+        public DotNetResolver()
         {
 
         }
 
-        public void AddSearchPath(AssemblyFile assemblyFile)
+        public void AddSearchPath(BinaryFile assemblyFile)
         {
             string path = assemblyFile.FileInfo.DirectoryName;
             if (path != null && !_paths.Contains(path))

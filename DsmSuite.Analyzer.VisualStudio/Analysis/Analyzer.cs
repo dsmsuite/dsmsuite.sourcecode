@@ -6,6 +6,7 @@ using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
 using DsmSuite.Common.Util;
+using DsmSuite.Analyzer.DotNet.Lib;
 
 namespace DsmSuite.Analyzer.VisualStudio.Analysis
 {
@@ -29,6 +30,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         public void Analyze()
         {
             AnalyzeSolution();
+            RegisterDotNetTypes();
+            RegisterDotNetRelations();
             RegisterSourceFiles();
             RegisterDirectIncludeRelations();
             RegisterGeneratedFileRelations();
@@ -38,6 +41,28 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         private void AnalyzeSolution()
         {
             _solutionFile.Analyze();
+        }
+
+        private void RegisterDotNetTypes()
+        {
+            foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
+            {
+                foreach (DotNetType type in visualStudioProject.DotNetTypes)
+                {
+                    RegisterDotNetType(_solutionFile, visualStudioProject, type);
+                }
+            }
+        }
+
+        private void RegisterDotNetRelations()
+        {
+            foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
+            {
+                foreach (DotNetRelation relation in visualStudioProject.DotNetRelations)
+                {
+                    RegisterDotNetRelation(_solutionFile, visualStudioProject, relation);
+                }
+            }
         }
 
         private void RegisterSourceFiles()
@@ -186,7 +211,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
             string type = sourceFile.FileType;
 
-
             if (sourceFile.SourceFileInfo.Exists)
             {
                 if (_fileOccurances.ContainsKey(sourceFile.SourceFileInfo.FullName))
@@ -221,6 +245,19 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             {
                 AnalyzerLogger.LogErrorFileNotFound(sourceFile.Name, visualStudioProject.ProjectName);
             }
+        }
+
+        private void RegisterDotNetType(SolutionFile solutionFile, ProjectFileBase visualStudioProject, DotNetType type)
+        {
+            string name = GetDotNetTypeName(solutionFile, visualStudioProject, type.Name);
+            _model.AddElement(name, type.Type, "");
+        }
+
+        private void RegisterDotNetRelation(SolutionFile solutionFile, ProjectFileBase visualStudioProject, DotNetRelation relation)
+        {
+            string consumerName = GetDotNetTypeName(solutionFile, visualStudioProject, relation.ConsumerName);
+            string providerName = GetDotNetTypeName(solutionFile, visualStudioProject, relation.ProviderName);
+            _model.AddRelation(consumerName, providerName, relation.Type, 1, "");
         }
 
         private bool IsSystemInclude(string includedFile)
@@ -273,6 +310,47 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
 
             return found;
+        }
+
+        private string GetDotNetTypeName(SolutionFile solutionFile, ProjectFileBase visualStudioProject, string typeName)
+        {
+            string name = "";
+
+            if (!string.IsNullOrEmpty(solutionFile?.Name))
+            {
+                name += solutionFile.Name;
+                name += ".";
+            }
+
+            if (visualStudioProject != null)
+            {
+                if (!string.IsNullOrEmpty(visualStudioProject.SolutionFolder))
+                {
+                    name += visualStudioProject.SolutionFolder;
+                    name += ".";
+                }
+
+                if (!string.IsNullOrEmpty(visualStudioProject.ProjectName))
+                {
+                    name += visualStudioProject.ProjectName;
+                }
+
+                if (!string.IsNullOrEmpty(visualStudioProject.TargetExtension))
+                {
+                    name += " (";
+                    name += visualStudioProject.TargetExtension;
+                    name += ")";
+                }
+
+                if (!string.IsNullOrEmpty(visualStudioProject.ProjectName))
+                {
+                    name += ".";
+                }
+            }
+
+            name += typeName;
+
+            return name.Replace("\\", ".");
         }
 
         private string GetLogicalName(SolutionFile solutionFile, ProjectFileBase visualStudioProject, SourceFile sourceFile)

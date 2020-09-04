@@ -68,7 +68,6 @@
     <Compile Include="VisualStudio\GeneratedFileRelation.cs" />
     <Compile Include="VisualStudio\IncludeResolveStrategy.cs" />
     <Compile Include="VisualStudio\ProjectFileBase.cs" />
-    <Compile Include="VisualStudio\VcxClrProjectFile.cs" />
     <Compile Include="VisualStudio\VcxProjectFile.cs" />
     <Compile Include="VisualStudio\SolutionFile.cs" />
     <Compile Include="VisualStudio\SourceFile.cs" />

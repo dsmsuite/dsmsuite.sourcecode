@@ -41,10 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyFile.cs" />
-    <Compile Include="AssemblyResolver.cs" />
-    <Compile Include="AssemblyType.cs" />
-    <Compile Include="AssemblyTypeRelation.cs" />
+    <Compile Include="BinaryFile.cs" />
+    <Compile Include="DotNetResolver.cs" />
+    <Compile Include="DotNetType.cs" />
+    <Compile Include="DotNetRelation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

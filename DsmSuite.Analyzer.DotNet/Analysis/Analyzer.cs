@@ -14,8 +14,8 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly IProgress<ProgressInfo> _progress;
-        private readonly List<AssemblyFile> _assemblyFiles = new List<AssemblyFile>();
-        private readonly AssemblyResolver _resolver = new AssemblyResolver();
+        private readonly List<BinaryFile> _assemblyFiles = new List<BinaryFile>();
+        private readonly DotNetResolver _resolver = new DotNetResolver();
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
@@ -36,7 +36,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         {
             foreach (string assemblyFilename in Directory.EnumerateFiles(_analyzerSettings.AssemblyDirectory))
             {
-                AssemblyFile assemblyFile = new AssemblyFile(assemblyFilename, _analyzerSettings.IgnoredNames, _progress);
+                BinaryFile assemblyFile = new BinaryFile(assemblyFilename, _analyzerSettings.IgnoredNames, _progress);
 
                 if (assemblyFile.Exists && assemblyFile.IsAssembly)
                 {
@@ -50,10 +50,10 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
         private void FindTypes()
         {
-            foreach (AssemblyFile assemblyFile in _assemblyFiles)
+            foreach (BinaryFile assemblyFile in _assemblyFiles)
             {
                 assemblyFile.FindTypes(_resolver);
-                foreach (AssemblyType type in assemblyFile.Types)
+                foreach (DotNetType type in assemblyFile.Types)
                 {
                     _model.AddElement(type.Name, type.Type, assemblyFile.FileInfo.Name);
                 }
@@ -62,10 +62,10 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
         private void FindRelations()
         {
-            foreach (AssemblyFile assemblyFile in _assemblyFiles)
+            foreach (BinaryFile assemblyFile in _assemblyFiles)
             {
                 assemblyFile.FindRelations();
-                foreach (AssemblyTypeRelation relation in assemblyFile.Relations)
+                foreach (DotNetRelation relation in assemblyFile.Relations)
                 {
                     _model.AddRelation(relation.ConsumerName, relation.ProviderName, relation.Type, 1, assemblyFile.FileInfo.Name);
                 }

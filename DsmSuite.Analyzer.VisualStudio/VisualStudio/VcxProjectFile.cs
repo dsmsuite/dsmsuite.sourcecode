@@ -5,6 +5,7 @@ using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Common.Util;
 using Microsoft.Build.Evaluation;
+using DsmSuite.Analyzer.DotNet.Lib;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -13,19 +14,25 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private readonly List<string> _includeDirectories = new List<string>();
         private readonly FilterFile _filterFile;
         private IncludeResolveStrategy _includeResolveStrategy;
+        private BinaryFile _assembly;
 
-        public VcxProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings) :
-            base(solutionFolder, solutionDir, projectPath, analyzerSettings)
+        public VcxProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
+            base(solutionFolder, solutionDir, projectPath, analyzerSettings, resolver)
         {
             _filterFile = new FilterFile(ProjectFileInfo.FullName + ".filters");
             GeneratedFileRelations = new List<GeneratedFileRelation>();
         }
+
+        public override BinaryFile BuildAssembly => _assembly;
 
         public IReadOnlyCollection<string> ProjectIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.ProjectIncludeDirectories : new List<string>();
 
         public IReadOnlyCollection<string> ExternalIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.ExternalIncludeDirectories : new List<string>();
 
         public IReadOnlyCollection<string> SystemIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.SystemIncludeDirectories : new List<string>();
+
+        public override IEnumerable<DotNetType> DotNetTypes => (_assembly != null) ? _assembly.Types : new List<DotNetType>();
+        public override IEnumerable<DotNetRelation> DotNetRelations => (_assembly != null) ? _assembly.Relations : new List<DotNetRelation>();
 
         public override void Analyze()
         {
@@ -98,19 +105,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
         }
 
-        private void CloseProject(Project project)
-        {
-            try
-            {
-                project.ProjectCollection.UnloadProject(project);
-            }
-            catch (Exception e)
-            {
-                Logger.LogException($"Exception while closing project={ProjectFileInfo.FullName}", e);
-            }
-        }
-
-        private Project OpenProject()
+        protected override Project OpenProject()
         {
             Project project = null;
             try

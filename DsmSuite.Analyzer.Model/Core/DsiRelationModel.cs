@@ -33,7 +33,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight)
         {
-            Logger.LogDataModelMessage("Import relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
+            Logger.LogDataModelMessage($"Import relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
 
             _relationCount++;
 
@@ -55,7 +55,7 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
         {
-            Logger.LogDataModelMessage("Add relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
+            Logger.LogDataModelMessage($"Add relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
 
             DsiRelation relation = null;
 
@@ -97,7 +97,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void SkipRelation(string consumerName, string providerName, string type, string context)
         {
-            Logger.LogDataModelMessage("Skip relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
+            Logger.LogDataModelMessage($"Skip relation consumerName={consumerName} providerName={providerName} type={type}");
 
             AnalyzerLogger.LogDataModelRelationNotResolved(consumerName, providerName);
 
@@ -106,7 +106,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void AmbiguousRelation(string consumerName, string providerName, string type, string context)
         {
-            Logger.LogDataModelMessage("Ambiguous relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
+            Logger.LogDataModelMessage($"Ambiguous relation consumerName={consumerName} providerName={providerName} type={type}");
             _ambiguousRelationCount++;
         }
 

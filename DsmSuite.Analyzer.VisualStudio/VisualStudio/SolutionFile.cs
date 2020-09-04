@@ -4,6 +4,7 @@ using System.IO;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Common.Util;
+using DsmSuite.Analyzer.DotNet.Lib;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -32,6 +33,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         private int _progressPercentage;
 
+        private DotNetResolver _resolver = new DotNetResolver();
+
         public SolutionFile(string solutionPath, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _solutionFileInfo = new FileInfo(solutionPath);
@@ -42,8 +45,16 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public void Analyze()
         {
-            ParseFile();
+            ParseSolutionFile();
             FindProjectsInSolution();
+
+            foreach (ProjectFileBase visualStudioProject in _projects.Values)
+            {
+                if (visualStudioProject.BuildAssembly != null)
+                {
+                    _resolver.AddSearchPath(visualStudioProject.BuildAssembly);
+                }
+            }
 
             int analyzedProjects = 0;
             foreach (ProjectFileBase visualStudioProject in _projects.Values)
@@ -75,7 +86,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public IReadOnlyCollection<ProjectFileBase> Projects => _projects.Values;
 
-        private void ParseFile()
+        private void ParseSolutionFile()
         {
             foreach (string line in File.ReadLines(_solutionFileInfo.FullName))
             {
@@ -181,12 +192,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 {
                     if (absoluteProjectFilename.EndsWith("vcxproj"))
                     {
-                        VcxProjectFile projectFile = new VcxProjectFile(solutionFolder, solutionDir, absoluteProjectFilename, _analyzerSettings);
+                        VcxProjectFile projectFile = new VcxProjectFile(solutionFolder, solutionDir, absoluteProjectFilename, _analyzerSettings, _resolver);
                         _projects[guid] = projectFile;
                     }
                     else if (absoluteProjectFilename.EndsWith("csproj"))
                     {
-                        CsProjectFile projectFile = new CsProjectFile(solutionFolder, solutionDir, absoluteProjectFilename, _analyzerSettings);
+                        CsProjectFile projectFile = new CsProjectFile(solutionFolder, solutionDir, absoluteProjectFilename, _analyzerSettings, _resolver);
                         _projects[guid] = projectFile;
                     }
                     else

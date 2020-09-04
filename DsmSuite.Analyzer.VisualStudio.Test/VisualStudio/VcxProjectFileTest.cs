@@ -5,6 +5,7 @@ using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.Test.Util;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DsmSuite.Analyzer.DotNet.Lib;
 
 namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
 {
@@ -160,7 +161,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string testDataDirectory = TestData.TestDataDirectory;
             string solutionDir = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\"));
             string projecPath = Path.GetFullPath(Path.Combine(testDataDirectory, "DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj"));
-            return new VcxProjectFile(solutionFolder, solutionDir, projecPath, analyzerSettings);
+            DotNetResolver resolver = new DotNetResolver();
+            return new VcxProjectFile(solutionFolder, solutionDir, projecPath, analyzerSettings, resolver);
         }
 
         private static HashSet<string> GetSourceFiles(VcxProjectFile projectFile)

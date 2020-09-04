@@ -94,12 +94,15 @@
     <Compile Include="VisualStudio\CsProjectFileTest.cs" />
     <Compile Include="VisualStudio\FilterFileTest.cs" />
     <Compile Include="VisualStudio\IncludeResolveStrategyTest.cs" />
-    <Compile Include="VisualStudio\VcxClrProjectFileTest.cs" />
     <Compile Include="VisualStudio\VcxProjectFileTest.cs" />
     <Compile Include="VisualStudio\SolutionFileTest.cs" />
     <Compile Include="VisualStudio\SourceFileTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DsmSuite.Analyzer.DotNet.Lib\DsmSuite.Analyzer.DotNet.Lib.csproj">
+      <Project>{E7777E3D-34E7-4ACB-928A-FB70D25F0C64}</Project>
+      <Name>DsmSuite.Analyzer.DotNet.Lib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
       <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
       <Name>DsmSuite.Analyzer.Model</Name>

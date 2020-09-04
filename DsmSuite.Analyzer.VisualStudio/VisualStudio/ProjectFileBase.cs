@@ -6,12 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DsmSuite.Analyzer.VisualStudio.Settings;
+using DsmSuite.Analyzer.DotNet.Lib;
+using Microsoft.Build.Evaluation;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public abstract class ProjectFileBase
     {
-        public ProjectFileBase(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings)
+        public ProjectFileBase(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver)
         {
             SolutionFolder = solutionFolder;
             SolutionDir = solutionDir;
@@ -21,6 +24,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             AnalyzerSettings = analyzerSettings;
             TargetExtension = "";
             GeneratedFileRelations = new List<GeneratedFileRelation>();
+            Resolver = resolver;
         }
 
         public string SolutionFolder { get; }
@@ -28,6 +32,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         public string SolutionDir { get; }
 
         public string ProjectName { get; }
+
+        public abstract BinaryFile BuildAssembly { get; }
 
         public abstract void Analyze();
 
@@ -37,8 +43,28 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public HashSet<SourceFile> SourceFiles { get; private set; }
 
+        public abstract IEnumerable<DotNetType> DotNetTypes { get; }
+
+        public abstract IEnumerable<DotNetRelation> DotNetRelations { get; }
+
         protected FileInfo ProjectFileInfo { get; private set; }
 
         protected AnalyzerSettings AnalyzerSettings { get; private set; }
+
+        protected DotNetResolver Resolver { get; private set; }
+
+        protected abstract Project OpenProject();
+
+        protected void CloseProject(Project project)
+        {
+            try
+            {
+                project.ProjectCollection.UnloadProject(project);
+            }
+            catch (Exception e)
+            {
+                Logger.LogException($"Exception while closing project={ProjectFileInfo.FullName}", e);
+            }
+        }
     }
 }

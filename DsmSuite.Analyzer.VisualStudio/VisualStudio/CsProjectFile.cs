@@ -5,32 +5,20 @@ using DsmSuite.Common.Util;
 using Microsoft.Build.Evaluation;
 using System.IO;
 using DsmSuite.Analyzer.DotNet.Lib;
-using Microsoft.Build.Execution;
-using Microsoft.Build.Logging;
-using Microsoft.Build.Framework;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public class CsProjectFile : ProjectFileBase
     {
-        public CsProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings) :
-            base(solutionFolder, solutionDir, projectPath, analyzerSettings)
-        {
-        }
+        private BinaryFile _assembly;
 
-        public override void Analyze()
+        public CsProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
+            base(solutionFolder, solutionDir, projectPath, analyzerSettings, resolver)
         {
             Project project = OpenProject();
 
             if (project != null)
             {
-                ICollection<ProjectItem> comReferences = project.GetItems("COMReference");
-
-                foreach (ProjectItem comReference in comReferences)
-                {
-                    Console.WriteLine(comReference.EvaluatedInclude);
-                }
-
                 foreach (var property in project.AllEvaluatedProperties)
                 {
                     if (property.Name == "TargetPath")
@@ -40,11 +28,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
                         if (File.Exists(assemblyFilename))
                         {
-                            AssemblyResolver resolver = new AssemblyResolver();
-                            AssemblyFile assembly = new AssemblyFile(assemblyFilename, new List<string>(), null);
-                            resolver.AddSearchPath(assembly);
-                            assembly.FindTypes(resolver);
-                            assembly.FindRelations();
+                            BinaryFile assembly = new BinaryFile(assemblyFilename, new List<string>(), null);
+                            if (assembly.IsAssembly)
+                            {
+                                _assembly = assembly;
+                            }
                         }
                     }
                 }
@@ -53,7 +41,31 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             CloseProject(project);
         }
 
-        private Project OpenProject()
+        public override BinaryFile BuildAssembly => _assembly;
+
+        public override void Analyze()
+        {
+            Project project = OpenProject();
+
+            if ((project != null) && (_assembly != null))
+            {
+                ICollection<ProjectItem> comReferences = project.GetItems("COMReference");
+                foreach (ProjectItem comReference in comReferences)
+                {
+                    Console.WriteLine(comReference.EvaluatedInclude);
+                }
+
+                _assembly.FindTypes(Resolver);
+                _assembly.FindRelations();
+            }
+
+            CloseProject(project);
+        }
+
+        public override IEnumerable<DotNetType> DotNetTypes => (_assembly != null) ? _assembly.Types : new List<DotNetType>();
+        public override IEnumerable<DotNetRelation> DotNetRelations => (_assembly != null) ? _assembly.Relations : new List<DotNetRelation>();
+
+        protected override Project OpenProject()
         {
             Project project = null;
             try
@@ -109,18 +121,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
             }
             project.ReevaluateIfNecessary();
-        }
-
-        private void CloseProject(Project project)
-        {
-            try
-            {
-                project.ProjectCollection.UnloadProject(project);
-            }
-            catch (Exception e)
-            {
-                Logger.LogException($"Exception while closing project={ProjectFileInfo.FullName}", e);
-            }
         }
     }
 }

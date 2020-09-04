@@ -1,8 +1,8 @@
 ﻿namespace DsmSuite.Analyzer.DotNet.Lib
 {
-    public class AssemblyTypeRelation
+    public class DotNetRelation
     {
-        public AssemblyTypeRelation(string consumerName, string providerName, string type)
+        public DotNetRelation(string consumerName, string providerName, string type)
         {
             ConsumerName = consumerName;
             ProviderName = providerName;

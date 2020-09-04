@@ -1,8 +1,8 @@
 ﻿namespace DsmSuite.Analyzer.DotNet.Lib
 {
-    public class AssemblyType
+    public class DotNetType
     {
-        public AssemblyType(string name, string type)
+        public DotNetType(string name, string type)
         {
             Name = name;
             Type = type;

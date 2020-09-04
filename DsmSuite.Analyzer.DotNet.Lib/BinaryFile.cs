@@ -8,23 +8,23 @@ using Mono.Cecil;
 
 namespace DsmSuite.Analyzer.DotNet.Lib
 {
-    public class AssemblyFile
+    public class BinaryFile
     {
         private readonly ICollection<string> _ignoredNames;
         private readonly IProgress<ProgressInfo> _progress;
         private readonly Dictionary<string, FileInfo> _typeAssemblyInfoList = new Dictionary<string, FileInfo>();
         private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
 
-        public AssemblyFile(string filename, ICollection<string> ignoredNames, IProgress<ProgressInfo> progress)
+        public BinaryFile(string filename, ICollection<string> ignoredNames, IProgress<ProgressInfo> progress)
         {
             FileInfo = new FileInfo(filename);
             _ignoredNames = ignoredNames;
             _progress = progress;
         }
 
-        public List<AssemblyType> Types { get; } = new List<AssemblyType>();
+        public List<DotNetType> Types { get; } = new List<DotNetType>();
 
-        public List<AssemblyTypeRelation> Relations { get; } = new List<AssemblyTypeRelation>();
+        public List<DotNetRelation> Relations { get; } = new List<DotNetRelation>();
 
         public FileInfo FileInfo { get; }
 
@@ -48,7 +48,7 @@ namespace DsmSuite.Analyzer.DotNet.Lib
             }
         }
         
-        public void FindTypes(AssemblyResolver resolver)
+        public void FindTypes(DotNetResolver resolver)
         {
             try
             {
@@ -398,7 +398,7 @@ namespace DsmSuite.Analyzer.DotNet.Lib
             string typeName = typeDecl.GetElementType().ToString();
             if (!Ignore(typeName))
             {
-                Types.Add(new AssemblyType(typeDecl.GetElementType().ToString(), DetermineType(typeDecl)));
+                Types.Add(new DotNetType(typeDecl.GetElementType().ToString(), DetermineType(typeDecl)));
                 _typeList.Add(typeDecl);
                 _typeAssemblyInfoList[typeDecl.FullName] = FileInfo;
                 UpdateTypeProgress(false);
@@ -416,7 +416,7 @@ namespace DsmSuite.Analyzer.DotNet.Lib
                 if (!providerType.ContainsGenericParameter &&
                     !Ignore(providerName))
                 {
-                    Relations.Add(new AssemblyTypeRelation(consumerName, providerName, type));
+                    Relations.Add(new DotNetRelation(consumerName, providerName, type));
                 }
 
                 GenericInstanceType providerGenericType = providerType as GenericInstanceType;
