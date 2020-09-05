@@ -11,6 +11,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         private readonly IDsmApplication _application;
         private readonly IDsmElement _element;
         private string _name;
+        private string _help;
 
         public ICommand AcceptChangeCommand { get; }
 
@@ -27,6 +28,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
 
         public string Title { get; }
 
+        public string Help
+        {
+            get { return _help; }
+            private set { _help = value; OnPropertyChanged(); }
+        }
+
         public string Name
         {
             get { return _name; }
@@ -41,8 +48,30 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         private bool AcceptChangeCanExecute(object parameter)
         {
             ElementName elementName = new ElementName(_element.Fullname);
-            elementName.AddNamePart(Name);
-            return (Name.Length > 0) && (_application.GetElementByFullname(elementName.FullName) == null);
+
+            string newName = elementName.ParentName.Length > 0 ? elementName.ParentName + "." + Name : Name;
+            string existingName = _element.Fullname;
+
+            if (newName == existingName)
+            {
+                Help = "Name is unchanged";
+                return false;
+            }
+            else if (Name.Length == 0)
+            {
+                Help = "Name is empty";
+                return false;
+            }
+            else if (_application.GetElementByFullname(newName) != null)
+            {
+                Help = "Name conflicts with existing name";
+                return false;
+            }
+            else
+            {
+                Help = "";
+                return true;
+            }
         }
     }
 }
