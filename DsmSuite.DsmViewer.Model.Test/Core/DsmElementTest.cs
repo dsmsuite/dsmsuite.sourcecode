@@ -40,6 +40,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(1, parent.Children.Count);
             Assert.AreEqual(child1, parent.Children[0]);
             Assert.AreEqual(parent, child1.Parent);
+            Assert.IsTrue(child1.IsRecursiveChildOf(parent));
 
             int child2Id = 100;
             string child2Name = "child2";
@@ -53,6 +54,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(child1, parent.Children[0]);
             Assert.AreEqual(child2, parent.Children[1]);
             Assert.AreEqual(parent, child2.Parent);
+            Assert.IsTrue(child2.IsRecursiveChildOf(parent));
 
             int child3Id = 1000;
             string child3Name = "child3";
@@ -67,24 +69,26 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(child1, parent.Children[0]);
             Assert.AreEqual(child2, parent.Children[1]);
             Assert.AreEqual(child3, parent.Children[2]);
-            Assert.AreEqual(parent, child2.Parent);
+            Assert.AreEqual(parent, child3.Parent);
+            Assert.IsTrue(child3.IsRecursiveChildOf(parent));
 
             parent.RemoveChild(child1);
             Assert.AreEqual(null, child1.Parent);
             Assert.AreEqual(2, parent.Children.Count);
             Assert.AreEqual(child2, parent.Children[0]);
             Assert.AreEqual(child3, parent.Children[1]);
+            Assert.IsFalse(child1.IsRecursiveChildOf(parent));
 
             parent.RemoveChild(child2);
             Assert.AreEqual(null, child2.Parent);
             Assert.AreEqual(1, parent.Children.Count);
             Assert.AreEqual(child3, parent.Children[0]);
+            Assert.IsFalse(child2.IsRecursiveChildOf(parent));
 
             parent.RemoveChild(child3);
             Assert.AreEqual(null, child3.Parent);
             Assert.AreEqual(0, parent.Children.Count);
+            Assert.IsFalse(child3.IsRecursiveChildOf(parent));
         }
-
-
     }
 }

@@ -97,6 +97,23 @@ namespace DsmSuite.DsmViewer.Model.Core
         /// </summary>
         public IDsmElement Parent => _parent;
 
+        public bool IsRecursiveChildOf(IDsmElement element)
+        {
+            bool isRecursiveChildOf = false;
+
+            IDsmElement parent = Parent;
+            while ((parent != null) && !isRecursiveChildOf)
+            {
+                if (parent == element)
+                {
+                    isRecursiveChildOf = true;
+                }
+
+                parent = parent.Parent;
+            }
+            return isRecursiveChildOf;
+        }
+
         /// <summary>
         /// Children of the element.
         /// </summary>

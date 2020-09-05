@@ -32,24 +32,42 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 DataObject data = new DataObject();
                 data.SetData(DataObjectName, _viewModel.Element);
-                DragDrop.DoDragDrop(this, data, DragDropEffects.Copy | DragDropEffects.Move);
+                DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
             }
         }
 
         protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
         {
             base.OnGiveFeedback(e);
-            if (e.Effects.HasFlag(DragDropEffects.Copy))
-            {
-                Mouse.SetCursor(Cursors.Cross);
-            }
-            else if (e.Effects.HasFlag(DragDropEffects.Move))
+
+            if (e.Effects.HasFlag(DragDropEffects.Move))
             {
                 Mouse.SetCursor(Cursors.Pen);
             }
             else
             {
-                Mouse.SetCursor(Cursors.None);
+                Mouse.SetCursor(Cursors.Arrow);
+            }
+            e.Handled = true;
+        }
+
+        protected override void OnDragOver(DragEventArgs e)
+        {
+            base.OnDragOver(e);
+
+            if (e.Data.GetDataPresent(DataObjectName))
+            {
+                IDsmElement element = (IDsmElement)e.Data.GetData(DataObjectName);
+                IDsmElement newParent = _viewModel.Element;
+
+                if (!newParent.IsRecursiveChildOf(element))
+                {
+                    e.Effects = DragDropEffects.Move;
+                }
+                else
+                {
+                    e.Effects = DragDropEffects.None;
+                }
             }
             e.Handled = true;
         }
@@ -65,7 +83,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
                 if ((element != null) && 
                     (newParent != null) && 
-                    (element != newParent)) // Not dragged on itself
+                    (element != newParent)) 
                 {
                     Tuple<IDsmElement, IDsmElement> moveParameter = new Tuple<IDsmElement, IDsmElement>(element,newParent);
                     _viewModel.MoveCommand.Execute(moveParameter);

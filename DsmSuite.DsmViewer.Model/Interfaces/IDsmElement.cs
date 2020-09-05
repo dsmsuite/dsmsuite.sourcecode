@@ -53,6 +53,11 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmElement Parent { get; }
 
         /// <summary>
+        /// Is the selected element a recursive child of this element.
+        /// </summary>
+        bool IsRecursiveChildOf(IDsmElement element);
+
+        /// <summary>
         /// Is the element expanded in the viewer.
         /// </summary>
         bool IsExpanded { get; set; }

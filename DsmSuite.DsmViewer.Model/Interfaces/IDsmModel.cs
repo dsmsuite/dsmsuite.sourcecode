@@ -28,6 +28,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void UnremoveElement(int elementId);
         void ChangeElementName(IDsmElement element, string name);
         void ChangeElementType(IDsmElement element, string type);
+        bool IsChangeElementParentAllowed(IDsmElement element, IDsmElement parent);
         void ChangeElementParent(IDsmElement element, IDsmElement parent);
         void ReorderChildren(IDsmElement element, ISortResult sortResult);
         IDsmElement NextSibling(IDsmElement element);

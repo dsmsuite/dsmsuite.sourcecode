@@ -98,15 +98,27 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
+        public bool IsChangeElementParentAllowed(IDsmElement element, IDsmElement parent)
+        {
+            DsmElement changedElement = element as DsmElement;
+            DsmElement currentParent = element.Parent as DsmElement;
+            DsmElement newParent = parent as DsmElement;
+            return ((currentParent != null) &&
+                    (newParent != null) &&
+                    (currentParent != newParent) && // Do not allow new parent same as current parent
+                    !newParent.IsRecursiveChildOf(changedElement)); // Do not allow new parent being a child of the changed element
+        }
+
         public void ChangeElementParent(IDsmElement element, IDsmElement parent)
         {
             Logger.LogDataModelMessage($"Change element parent name={element.Name} from {element.Parent.Fullname} to {parent.Fullname}");
 
-            DsmElement changedElement = element as DsmElement;
-            DsmElement currentParent = element.Parent as DsmElement;
-            DsmElement newParent = parent as DsmElement;
-            if ((currentParent != null) && (newParent != null))
+            if (IsChangeElementParentAllowed(element, parent))
             {
+                DsmElement changedElement = element as DsmElement;
+                DsmElement currentParent = element.Parent as DsmElement;
+                DsmElement newParent = parent as DsmElement;
+
                 BeforeElementChangeParent?.Invoke(this, element);
                 UnregisterElementNameHierarchy(changedElement);
                 currentParent.RemoveChild(element);

@@ -347,8 +347,11 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void ChangeElementParent(IDsmElement element, IDsmElement newParent)
         {
-            ElementChangeParentAction action = new ElementChangeParentAction(_dsmModel, element, newParent);
-            _actionManager.Execute(action);
+            if (_dsmModel.IsChangeElementParentAllowed(element, newParent))
+            {
+                ElementChangeParentAction action = new ElementChangeParentAction(_dsmModel, element, newParent);
+                _actionManager.Execute(action);
+            }
         }
         
         public void CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
