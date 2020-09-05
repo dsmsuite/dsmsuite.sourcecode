@@ -197,8 +197,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     }
                     else if (absoluteProjectFilename.EndsWith("csproj"))
                     {
-                        CsProjectFile projectFile = new CsProjectFile(solutionFolder, solutionDir, absoluteProjectFilename, _analyzerSettings, _resolver);
-                        _projects[guid] = projectFile;
+                        //CsProjectFile projectFile = new CsProjectFile(solutionFolder, solutionDir, absoluteProjectFilename, _analyzerSettings, _resolver);
+                        //_projects[guid] = projectFile;
                     }
                     else
                     {

@@ -27,8 +27,6 @@ namespace DsmSuite.Analyzer.DotNet.Lib
             {
                 DefaultAssemblyResolver resolver = new DefaultAssemblyResolver();
 
-                IDictionary<string, bool> paths = new Dictionary<string, bool>();
-
                 foreach (string path in _paths)
                 {
                     resolver.AddSearchDirectory(path);
