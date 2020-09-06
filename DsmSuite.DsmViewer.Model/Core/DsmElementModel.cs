@@ -2,6 +2,7 @@
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
@@ -13,14 +14,11 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly Dictionary<int /*id*/, DsmElement> _deletedElementsById;
         private int _lastElementId;
         private readonly DsmElement _root;
+        private readonly DsmRelationModel _relationModel;
 
-        public event EventHandler<IDsmElement> UnregisterElementRelations;
-        public event EventHandler<IDsmElement> ReregisterElementRelations;
-        public event EventHandler<IDsmElement> BeforeElementChangeParent;
-        public event EventHandler<IDsmElement> AfterElementChangeParent;
-
-        public DsmElementModel()
+        public DsmElementModel(DsmRelationModel relationModel)
         {
+            _relationModel = relationModel;
             _elementsById = new Dictionary<int, DsmElement>();
             _elementsByName = new Dictionary<string, DsmElement>();
             _deletedElementsById = new Dictionary<int, DsmElement>();
@@ -119,14 +117,27 @@ namespace DsmSuite.DsmViewer.Model.Core
                 DsmElement currentParent = element.Parent as DsmElement;
                 DsmElement newParent = parent as DsmElement;
 
-                BeforeElementChangeParent?.Invoke(this, element);
-                UnregisterElementNameHierarchy(changedElement);
-                currentParent.RemoveChild(element);
-                CollapseIfNoChildrenLeft(currentParent);
+                if ((changedElement != null) && (currentParent != null) & (newParent != null))
+                {
+                    IEnumerable<IDsmRelation> externalRelations = _relationModel.FindExternalRelations(element).ToList();
 
-                newParent.AddChild(element);
-                RegisterElementNameHierarchy(changedElement);
-                AfterElementChangeParent?.Invoke(this, element);
+                    foreach (IDsmRelation relation in externalRelations)
+                    {
+                        _relationModel.RemoveWeights(relation);
+                    }
+
+                    UnregisterElementNameHierarchy(changedElement);
+                    currentParent.RemoveChild(element);
+                    CollapseIfNoChildrenLeft(currentParent);
+
+                    newParent.AddChild(element);
+                    RegisterElementNameHierarchy(changedElement);
+
+                    foreach (IDsmRelation relation in externalRelations)
+                    {
+                        _relationModel.AddWeights(relation);
+                    }
+                }
             }
         }
 
@@ -412,7 +423,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private void UnregisterElement(DsmElement element)
         {
-            UnregisterElementRelations?.Invoke(this, element);
+            _relationModel.UnregisterElementRelations(element);
 
             element.IsDeleted = true;
             _deletedElementsById[element.Id] = element;
@@ -436,7 +447,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _deletedElementsById.Remove(element.Id);
             element.IsDeleted = false;
 
-            ReregisterElementRelations?.Invoke(this, element);
+            _relationModel.ReregisterElementRelations(element);
         }
 
         private void UnregisterElementNameHierarchy(DsmElement element)

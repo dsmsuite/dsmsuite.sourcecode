@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using DsmSuite.DsmViewer.Model.Core;
-using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using DsmSuite.DsmViewer.Model.Core;
+using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Model.Test.Core
+namespace DsmSuite.DsmViewer._relationsDataModel.Test.Core
 {
     /// <summary>
     /// Dependency matrix used for tests:
@@ -32,7 +32,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
     [TestClass]
     public class DsmRelationssDataModelTest
     {
+        DsmRelationModel _relationsDataModel;
         DsmElementModel _elementsDataModel;
+
         private IDsmElement _a;
         private IDsmElement _a1;
         private IDsmElement _a2;
@@ -46,7 +48,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestInitialize]
         public void TestInitialize()
         {
-            _elementsDataModel = new DsmElementModel();
+            _relationsDataModel = new DsmRelationModel();
+            _elementsDataModel = new DsmElementModel(_relationsDataModel);
 
             CreateElementHierarchy();
         }
@@ -54,285 +57,267 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void WhenModelIsConstructedThenItIsEmpty()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.GetExportedRelationCount());
+            Assert.AreEqual(0, _relationsDataModel.GetExportedRelationCount());
         }
         
         [TestMethod]
         public void GivenModelIsNotEmptyWhenClearIsCalledThenItIsEmpty()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.GetExportedRelationCount());
+            Assert.AreEqual(0, _relationsDataModel.GetExportedRelationCount());
 
-            model.AddRelation(_a, _b, "type", 1);
-            Assert.AreEqual(1, model.GetExportedRelationCount());
+            _relationsDataModel.AddRelation(_a, _b, "type", 1);
+            Assert.AreEqual(1, _relationsDataModel.GetExportedRelationCount());
 
-            model.Clear();
+            _relationsDataModel.Clear();
 
-            Assert.AreEqual(0, model.GetExportedRelationCount());
+            Assert.AreEqual(0, _relationsDataModel.GetExportedRelationCount());
         }
 
         [TestMethod]
         public void GivenModelIsEmptyWhenAddRelationIsCalledThenItsHasOneRelation()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.GetExportedRelationCount());
+            Assert.AreEqual(0, _relationsDataModel.GetExportedRelationCount());
 
-            IDsmRelation relation = model.AddRelation(_a, _b, "type", 1);
+            IDsmRelation relation = _relationsDataModel.AddRelation(_a, _b, "type", 1);
             Assert.IsNotNull(relation);
 
-            Assert.AreEqual(1, model.GetExportedRelationCount());
+            Assert.AreEqual(1, _relationsDataModel.GetExportedRelationCount());
         }
 
         [TestMethod]
         public void GivenModelIsEmptyWhenImportRelationIsCalledThenItsHasOneRelation()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.GetExportedRelationCount());
+            Assert.AreEqual(0, _relationsDataModel.GetExportedRelationCount());
 
-            IDsmRelation relation = model.ImportRelation(1, _a, _b, "type", 1, false);
+            IDsmRelation relation = _relationsDataModel.ImportRelation(1, _a, _b, "type", 1, false);
             Assert.IsNotNull(relation);
 
-            Assert.AreEqual(1, model.GetExportedRelationCount());
+            Assert.AreEqual(1, _relationsDataModel.GetExportedRelationCount());
         }
 
         [TestMethod]
         public void GivenModelIsFilledWhenGetWeightWithSelfThenReturnsZero()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
-            Assert.AreEqual(11, model.GetExportedRelationCount());
+            CreateElementRelations(_relationsDataModel);
+            Assert.AreEqual(11, _relationsDataModel.GetExportedRelationCount());
 
             foreach(IDsmElement element in _elementsDataModel.GetElements())
             {
-                Assert.AreEqual(0, model.GetDependencyWeight(element, element));
+                Assert.AreEqual(0, _relationsDataModel.GetDependencyWeight(element, element));
             }
         }
 
         [TestMethod]
         public void GivenModelIsFilledWhenGetWeightWithOtherThenReturnsCalculatedDerivedWeights()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1000, model.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, model.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(4, model.GetDependencyWeight(_a2, _b2));
+            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
+            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
+            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
+            Assert.AreEqual(4, _relationsDataModel.GetDependencyWeight(_a2, _b2));
 
-            Assert.AreEqual(1030, model.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(204, model.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, model.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(34, model.GetDependencyWeight(_a, _b2));
+            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
+            Assert.AreEqual(204, _relationsDataModel.GetDependencyWeight(_a2, _b));
+            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
+            Assert.AreEqual(34, _relationsDataModel.GetDependencyWeight(_a, _b2));
 
-            Assert.AreEqual(1234, model.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
         }
 
         [TestMethod]
         public void GivenModelIsFilledWhenChangeRelationWeightThenUpdatesCalculatedDerivedWeights()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
             
-            Assert.AreEqual(1000, model.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, model.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(4, model.GetDependencyWeight(_a2, _b2));
+            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
+            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
+            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
+            Assert.AreEqual(4, _relationsDataModel.GetDependencyWeight(_a2, _b2));
 
-            Assert.AreEqual(1030, model.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(204, model.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, model.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(34, model.GetDependencyWeight(_a, _b2));
+            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
+            Assert.AreEqual(204, _relationsDataModel.GetDependencyWeight(_a2, _b));
+            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
+            Assert.AreEqual(34, _relationsDataModel.GetDependencyWeight(_a, _b2));
 
-            Assert.AreEqual(1234, model.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
 
-            IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
+            IDsmRelation relation = _relationsDataModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
 
-            model.ChangeRelationWeight(relation, 5);
+            _relationsDataModel.ChangeRelationWeight(relation, 5);
 
-            Assert.AreEqual(1000, model.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, model.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(5, model.GetDependencyWeight(_a2, _b2));
+            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
+            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
+            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
+            Assert.AreEqual(5, _relationsDataModel.GetDependencyWeight(_a2, _b2));
 
-            Assert.AreEqual(1030, model.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(205, model.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, model.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(35, model.GetDependencyWeight(_a, _b2));
+            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
+            Assert.AreEqual(205, _relationsDataModel.GetDependencyWeight(_a2, _b));
+            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
+            Assert.AreEqual(35, _relationsDataModel.GetDependencyWeight(_a, _b2));
 
-            Assert.AreEqual(1235, model.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(1235, _relationsDataModel.GetDependencyWeight(_a, _b));
         }
 
         [TestMethod]
         public void GivenModelIsFilledWhenRemovingRelationThenReducesRelationCount()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
-            int relationCountBefore = model.GetRelationCount();
+            CreateElementRelations(_relationsDataModel);
+            int relationCountBefore = _relationsDataModel.GetRelationCount();
 
-            IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
+            IDsmRelation relation = _relationsDataModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
 
-            model.RemoveRelation(relation.Id);
-            Assert.AreEqual(relationCountBefore - 1, model.GetRelationCount());
+            _relationsDataModel.RemoveRelation(relation.Id);
+            Assert.AreEqual(relationCountBefore - 1, _relationsDataModel.GetRelationCount());
         }
 
         [TestMethod]
         public void GivenModelIsFilledWhenUnremovingRelationThenRestoresRelationCount()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
+            IDsmRelation relation = _relationsDataModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
 
-            model.RemoveRelation(relation.Id);
-            int relationCountBefore = model.GetRelationCount();
+            _relationsDataModel.RemoveRelation(relation.Id);
+            int relationCountBefore = _relationsDataModel.GetRelationCount();
 
-            model.UnremoveRelation(relation.Id);
-            Assert.AreEqual(relationCountBefore + 1, model.GetRelationCount());
+            _relationsDataModel.UnremoveRelation(relation.Id);
+            Assert.AreEqual(relationCountBefore + 1, _relationsDataModel.GetRelationCount());
         }
 
         [TestMethod]
         public void GivenModelIsFilledWhenRemovingRelationThenReducesCalculatedDerivedWeights()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1000, model.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, model.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(4, model.GetDependencyWeight(_a2, _b2));
+            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
+            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
+            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
+            Assert.AreEqual(4, _relationsDataModel.GetDependencyWeight(_a2, _b2));
 
-            Assert.AreEqual(1030, model.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(204, model.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, model.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(34, model.GetDependencyWeight(_a, _b2));
+            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
+            Assert.AreEqual(204, _relationsDataModel.GetDependencyWeight(_a2, _b));
+            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
+            Assert.AreEqual(34, _relationsDataModel.GetDependencyWeight(_a, _b2));
 
-            Assert.AreEqual(1234, model.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
 
-            IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
+            IDsmRelation relation = _relationsDataModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
 
-            model.RemoveRelation(relation.Id);
+            _relationsDataModel.RemoveRelation(relation.Id);
 
-            Assert.AreEqual(1000, model.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, model.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(0, model.GetDependencyWeight(_a2, _b2));
+            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
+            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
+            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
+            Assert.AreEqual(0, _relationsDataModel.GetDependencyWeight(_a2, _b2));
 
-            Assert.AreEqual(1030, model.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(200, model.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, model.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(_a, _b2));
+            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
+            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b));
+            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
+            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a, _b2));
 
-            Assert.AreEqual(1230, model.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(1230, _relationsDataModel.GetDependencyWeight(_a, _b));
         }
 
         [TestMethod]
         public void GivenModelIsFilledWhenUnremovingRelationThenRestoresCalculatedDerivedWeights()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1000, model.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, model.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(4, model.GetDependencyWeight(_a2, _b2));
+            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
+            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
+            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
+            Assert.AreEqual(4, _relationsDataModel.GetDependencyWeight(_a2, _b2));
 
-            Assert.AreEqual(1030, model.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(204, model.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, model.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(34, model.GetDependencyWeight(_a, _b2));
+            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
+            Assert.AreEqual(204, _relationsDataModel.GetDependencyWeight(_a2, _b));
+            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
+            Assert.AreEqual(34, _relationsDataModel.GetDependencyWeight(_a, _b2));
 
-            Assert.AreEqual(1234, model.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
 
-            IDsmRelation relation = model.FindRelations(_a2, _b2).FirstOrDefault();
+            IDsmRelation relation = _relationsDataModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
 
-            model.RemoveRelation(relation.Id);
+            _relationsDataModel.RemoveRelation(relation.Id);
 
-            Assert.AreEqual(1000, model.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, model.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(0, model.GetDependencyWeight(_a2, _b2));
+            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
+            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
+            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
+            Assert.AreEqual(0, _relationsDataModel.GetDependencyWeight(_a2, _b2));
 
-            Assert.AreEqual(1030, model.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(200, model.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, model.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(_a, _b2));
+            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
+            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b));
+            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
+            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a, _b2));
 
-            Assert.AreEqual(1230, model.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(1230, _relationsDataModel.GetDependencyWeight(_a, _b));
 
-            model.UnremoveRelation(relation.Id);
+            _relationsDataModel.UnremoveRelation(relation.Id);
 
-            Assert.AreEqual(1000, model.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, model.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, model.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(4, model.GetDependencyWeight(_a2, _b2));
+            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
+            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
+            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
+            Assert.AreEqual(4, _relationsDataModel.GetDependencyWeight(_a2, _b2));
 
-            Assert.AreEqual(1030, model.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(204, model.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, model.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(34, model.GetDependencyWeight(_a, _b2));
+            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
+            Assert.AreEqual(204, _relationsDataModel.GetDependencyWeight(_a2, _b));
+            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
+            Assert.AreEqual(34, _relationsDataModel.GetDependencyWeight(_a, _b2));
 
-            Assert.AreEqual(1234, model.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
         }
 
         [TestMethod]
         public void GivenNoCyclicRelationExistsBetweenElementsWhenIsCyclicDependencyThenReturnsCycleTypeNone()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(0, model.GetDependencyWeight(_b1, _b2));
-            Assert.AreEqual(0, model.GetDependencyWeight(_b2, _b1));
-            Assert.AreEqual(CycleType.None, model.IsCyclicDependency(_b1, _b2));
+            Assert.AreEqual(0, _relationsDataModel.GetDependencyWeight(_b1, _b2));
+            Assert.AreEqual(0, _relationsDataModel.GetDependencyWeight(_b2, _b1));
+            Assert.AreEqual(CycleType.None, _relationsDataModel.IsCyclicDependency(_b1, _b2));
         }
 
         [TestMethod]
         public void GivenDirectCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsCycleTypeSystem()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1, model.GetDirectDependencyWeight(_c1, _c2));
-            Assert.AreEqual(1, model.GetDirectDependencyWeight(_c2, _c1));
-            Assert.AreEqual(CycleType.System, model.IsCyclicDependency(_c1, _c2));
+            Assert.AreEqual(1, _relationsDataModel.GetDirectDependencyWeight(_c1, _c2));
+            Assert.AreEqual(1, _relationsDataModel.GetDirectDependencyWeight(_c2, _c1));
+            Assert.AreEqual(CycleType.System, _relationsDataModel.IsCyclicDependency(_c1, _c2));
         }
 
         [TestMethod]
         public void GivenIndirectCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsCycleTypeHierarchical()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1234, model.GetDependencyWeight(_a, _b));
-            Assert.AreEqual(5, model.GetDependencyWeight(_b, _a));
-            Assert.AreEqual(CycleType.Hierarchical, model.IsCyclicDependency(_a, _b));
+            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(5, _relationsDataModel.GetDependencyWeight(_b, _a));
+            Assert.AreEqual(CycleType.Hierarchical, _relationsDataModel.IsCyclicDependency(_a, _b));
         }
 
         [TestMethod]
         public void GivenNoCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsFalse()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(5, model.GetDependencyWeight(_a1, _c2));
-            Assert.AreEqual(0, model.GetDependencyWeight(_c2, _a1));
-            Assert.AreEqual(CycleType.None, model.IsCyclicDependency(_a1, _c2));
+            Assert.AreEqual(5, _relationsDataModel.GetDependencyWeight(_a1, _c2));
+            Assert.AreEqual(0, _relationsDataModel.GetDependencyWeight(_c2, _a1));
+            Assert.AreEqual(CycleType.None, _relationsDataModel.IsCyclicDependency(_a1, _c2));
         }
-
-
-
+        
         [TestMethod]
         public void GivenRelationExistsBetweenElementsWhenFindRelationsThenReturnsRelationBwetweenTheElements()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            List<DsmRelation> relations = model.FindRelations(_a, _b).OrderBy(x => x.Id).ToList();
+            List<DsmRelation> relations = _relationsDataModel.FindRelations(_a, _b).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(4, relations.Count);
             Assert.AreEqual(_a1.Id, relations[0].Consumer.Id);
             Assert.AreEqual(_b1.Id, relations[0].Provider.Id);
@@ -354,10 +339,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenRelationExistsBetweenElementsWhenFindRelationsWhereElementHasProviderRoleThenReturnsRelationFromConsumers()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            List<DsmRelation> relations = model.FindIngoingRelations(_a).OrderBy(x => x.Id).ToList();
+            List<DsmRelation> relations = _relationsDataModel.FindIngoingRelations(_a).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(3, relations.Count);
 
             Assert.AreEqual(_b2.Id, relations[0].Consumer.Id);
@@ -376,10 +360,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenRelationExistsBetweenElementsWhenFindRelationsWhereElementHasConsumerRoleThenReturnsRelationFromConsumers()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            List<DsmRelation> relations = model.FindOutgoingRelations(_a).OrderBy(x => x.Id).ToList();
+            List<DsmRelation> relations = _relationsDataModel.FindOutgoingRelations(_a).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(5, relations.Count);
 
             Assert.AreEqual(_a1.Id, relations[0].Consumer.Id);
@@ -406,31 +389,29 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenMatrixIsFilledWhenChildElementParentIsChangedThenWeightsAreUpdated()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1030, model.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(1234, model.GetDependencyWeight(_a, _b));
-            Assert.AreEqual(5, model.GetDependencyWeight(_a, _c));
+            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
+            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(5, _relationsDataModel.GetDependencyWeight(_a, _c));
 
             _elementsDataModel.ChangeElementParent(_c2, _b);
 
-            Assert.AreEqual(1035, model.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(1239, model.GetDependencyWeight(_a, _b));
-            Assert.AreEqual(0, model.GetDependencyWeight(_a, _c));
+            Assert.AreEqual(1035, _relationsDataModel.GetDependencyWeight(_a1, _b));
+            Assert.AreEqual(1239, _relationsDataModel.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(0, _relationsDataModel.GetDependencyWeight(_a, _c));
         }
 
         [TestMethod]
         public void GivenMatrixIsFilledWhenRootElementParentIsChangedThenWeightsAreUpdated()
         {
-            DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
-            CreateElementRelations(model);
+            CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1234, model.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
 
             _elementsDataModel.ChangeElementParent(_c, _b);
 
-            Assert.AreEqual(1239, model.GetDependencyWeight(_a, _b));
+            Assert.AreEqual(1239, _relationsDataModel.GetDependencyWeight(_a, _b));
         }
 
         private void CreateElementHierarchy()
@@ -448,21 +429,21 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
         private void CreateElementRelations(DsmRelationModel relationsDataModel)
         {
-            relationsDataModel.AddRelation(_a1, _a2, "", 1);
+            _relationsDataModel.AddRelation(_a1, _a2, "", 1);
 
-            relationsDataModel.AddRelation(_a1, _b1, "", 1000);
-            relationsDataModel.AddRelation(_a2, _b1, "", 200);
-            relationsDataModel.AddRelation(_a1, _b2, "", 30);
-            relationsDataModel.AddRelation(_a2, _b2, "", 4);
+            _relationsDataModel.AddRelation(_a1, _b1, "", 1000);
+            _relationsDataModel.AddRelation(_a2, _b1, "", 200);
+            _relationsDataModel.AddRelation(_a1, _b2, "", 30);
+            _relationsDataModel.AddRelation(_a2, _b2, "", 4);
 
-            relationsDataModel.AddRelation(_a1, _c2, "", 5);
+            _relationsDataModel.AddRelation(_a1, _c2, "", 5);
 
-            relationsDataModel.AddRelation(_b2, _a1, "", 2);
-            relationsDataModel.AddRelation(_b2, _a2, "", 3);
-            relationsDataModel.AddRelation(_c1, _a2, "", 4);
+            _relationsDataModel.AddRelation(_b2, _a1, "", 2);
+            _relationsDataModel.AddRelation(_b2, _a2, "", 3);
+            _relationsDataModel.AddRelation(_c1, _a2, "", 4);
 
-            relationsDataModel.AddRelation(_c1, _c2, "", 1);
-            relationsDataModel.AddRelation(_c2, _c1, "", 1);
+            _relationsDataModel.AddRelation(_c1, _c2, "", 1);
+            _relationsDataModel.AddRelation(_c2, _c1, "", 1);
         }
     }
 }

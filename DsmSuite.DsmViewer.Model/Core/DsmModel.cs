@@ -19,8 +19,9 @@ namespace DsmSuite.DsmViewer.Model.Core
         public DsmModel(string processStep, Assembly executingAssembly)
         {
             _metaDataModel = new MetaDataModel(processStep, executingAssembly);
-            _elementsDataModel = new DsmElementModel();
-            _relationsDataModel = new DsmRelationModel(_elementsDataModel);
+
+            _relationsDataModel = new DsmRelationModel();
+            _elementsDataModel = new DsmElementModel(_relationsDataModel);
             _actionsDataModel = new DsmActionModel();
         }
 

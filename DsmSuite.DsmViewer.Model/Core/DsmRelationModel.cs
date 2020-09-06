@@ -8,21 +8,13 @@ namespace DsmSuite.DsmViewer.Model.Core
 {
     public class DsmRelationModel : IDsmRelationModelFileCallback
     {
-        private readonly DsmElementModel _elementsDataModel;
         private readonly Dictionary<int /*relationId*/, DsmRelation> _relationsById;
         private readonly Dictionary<int /*relationId*/, DsmRelation> _deletedRelationsById;
 
         private int _lastRelationId;
 
-        public DsmRelationModel(DsmElementModel elementsDataModel)
+        public DsmRelationModel()
         {
-            _elementsDataModel = elementsDataModel;
-            _elementsDataModel.UnregisterElementRelations += OnUnregisterElementRelations;
-            _elementsDataModel.ReregisterElementRelations += OnReregisterElementRelations;
-
-            _elementsDataModel.BeforeElementChangeParent += OnBeforeElementChangeParent;
-            _elementsDataModel.AfterElementChangeParent += OnAfterElementChangeParent;
-
             _relationsById = new Dictionary<int, DsmRelation>();
             _deletedRelationsById = new Dictionary<int, DsmRelation>();
             _lastRelationId = 0;
@@ -370,7 +362,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsById.Values.Count + _deletedRelationsById.Values.Count;
         }
 
-        private void OnUnregisterElementRelations(object sender, IDsmElement element)
+        public void UnregisterElementRelations(IDsmElement element)
         {
             List<DsmRelation> toBeRelationsUnregistered = new List<DsmRelation>();
 
@@ -389,7 +381,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        private void OnReregisterElementRelations(object sender, IDsmElement element)
+        public void ReregisterElementRelations(IDsmElement element)
         {
             List<DsmRelation> toBeRelationsReregistered = new List<DsmRelation>();
 
@@ -443,23 +435,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             RemoveWeights(relation);
         }
 
-        private void OnBeforeElementChangeParent(object sender, IDsmElement element)
-        {
-            foreach (IDsmRelation relation in FindExternalRelations(element))
-            {
-                RemoveWeights(relation);
-            }
-        }
-
-        private void OnAfterElementChangeParent(object sender, IDsmElement element)
-        {
-            foreach (IDsmRelation relation in FindExternalRelations(element))
-            {
-                AddWeights(relation);
-            }
-        }
-
-        private void AddWeights(IDsmRelation relation)
+        public void AddWeights(IDsmRelation relation)
         {
             DsmElement currentConsumer = relation.Consumer as DsmElement;
             while (currentConsumer != null)
@@ -474,7 +450,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        private void RemoveWeights(IDsmRelation relation)
+        public void RemoveWeights(IDsmRelation relation)
         {
             DsmElement currentConsumer = relation.Consumer as DsmElement;
             while (currentConsumer != null)
