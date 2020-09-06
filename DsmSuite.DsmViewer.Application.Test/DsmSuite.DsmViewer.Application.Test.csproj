@@ -78,7 +78,6 @@
     <Compile Include="Algorithm\WeightsMatrixTest.cs" />
     <Compile Include="Import\Policy\CreateNewModelPolicyTest.cs" />
     <Compile Include="Import\Dsi\DsiImporterTest.cs" />
-    <Compile Include="Import\Policy\UpdateExistingModelPolicyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stubs\StubbedSortAlgorithm.cs" />
   </ItemGroup>

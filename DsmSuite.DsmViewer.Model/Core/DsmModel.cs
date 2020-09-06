@@ -233,14 +233,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _relationsDataModel.GetRelationCount();
         }
 
-        public IDsmRelation FindRelation(int consumerId, int providerId, string type)
-        {
-            IDsmElement consumer = GetElementById(consumerId);
-            IDsmElement provider = GetElementById(providerId);
-            return ((consumer != null) && (provider != null)) ?
-             _relationsDataModel.FindRelation(consumer, provider, type) : null;
-        }
-
         public IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
             return _relationsDataModel.FindRelations(consumer, provider);

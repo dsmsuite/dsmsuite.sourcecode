@@ -53,6 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Core\DsmDependenciesTest.cs" />
     <Compile Include="Core\DsmElementsDataModelTest.cs" />
     <Compile Include="Core\DsmModelTest.cs" />
     <Compile Include="Core\DsmElementTest.cs" />

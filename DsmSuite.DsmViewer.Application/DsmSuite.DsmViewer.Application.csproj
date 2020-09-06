@@ -37,7 +37,6 @@
     <Compile Include="Import\GraphViz\GraphVizImporter.cs" />
     <Compile Include="Import\Common\CreateNewModelPolicy.cs" />
     <Compile Include="Import\Common\IImportPolicy.cs" />
-    <Compile Include="Import\Common\UpdateExistingModelPolicy.cs" />
     <Compile Include="Metrics\DsmMetrics.cs" />
     <Compile Include="Sorting\AlphabeticalSortAlgorithm.cs" />
     <Compile Include="Sorting\SortResult.cs" />
