@@ -296,7 +296,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 {
                     foreach (DsmRelation relation in e.Dependencies.GetOutgoingRelations())
                     {
-                        if (es.ContainsKey(relation.Provider.Id) && !relation.IsDeleted)
+                        if (!es.ContainsKey(relation.Provider.Id) && !relation.IsDeleted)
                         {
                             relations.Add(relation);
                         }

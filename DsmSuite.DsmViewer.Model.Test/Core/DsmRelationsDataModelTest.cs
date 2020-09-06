@@ -59,7 +59,103 @@ namespace DsmSuite.DsmViewer._relationsDataModel.Test.Core
         {
             Assert.AreEqual(0, _relationsDataModel.GetExportedRelationCount());
         }
-        
+
+        [TestMethod]
+        public void WhenOutgoingRelatonsAreAddedThenGetOutgoingRelationsReturnsAll()
+        {
+            Assert.AreEqual(0, _relationsDataModel.GetExportedRelationCount());
+
+            IDsmRelation relation1 = _relationsDataModel.AddRelation(_a, _b, "type", 1);
+            Assert.AreEqual(1, _relationsDataModel.FindOutgoingRelations(_a).Count());
+
+            IDsmRelation relation2 = _relationsDataModel.AddRelation(_a, _c, "type", 1);
+            Assert.AreEqual(2, _relationsDataModel.FindOutgoingRelations(_a).Count());
+
+            _relationsDataModel.RemoveRelation(relation1.Id);
+            Assert.AreEqual(1, _relationsDataModel.FindOutgoingRelations(_a).Count());
+
+            _relationsDataModel.RemoveRelation(relation2.Id);
+            Assert.AreEqual(0, _relationsDataModel.FindOutgoingRelations(_a).Count());
+        }
+
+        [TestMethod]
+        public void WhenIngoingRelatonsAreAddedThenGetIngoingRelationsReturnsAll()
+        {
+            Assert.AreEqual(0, _relationsDataModel.GetExportedRelationCount());
+
+            IDsmRelation relation1 = _relationsDataModel.AddRelation(_a, _b, "type", 1);
+            Assert.AreEqual(1, _relationsDataModel.FindIngoingRelations(_b).Count());
+
+            IDsmRelation relation2 = _relationsDataModel.AddRelation(_c, _b, "type", 1);
+            Assert.AreEqual(2, _relationsDataModel.FindIngoingRelations(_b).Count());
+
+            _relationsDataModel.RemoveRelation(relation1.Id);
+            Assert.AreEqual(1, _relationsDataModel.FindIngoingRelations(_b).Count());
+
+            _relationsDataModel.RemoveRelation(relation2.Id);
+            Assert.AreEqual(0, _relationsDataModel.FindIngoingRelations(_b).Count());
+        }
+
+        [TestMethod]
+        public void WhenIngoingAndOutgoingRelatonsAreAddedThenGetExternalRelationsReturnsOnlyExternalOnes()
+        {
+            Assert.AreEqual(0, _relationsDataModel.GetExportedRelationCount());
+
+            IDsmRelation relation1 = _relationsDataModel.AddRelation(_a1, _b1, "type", 1);
+            Assert.AreEqual(1, _relationsDataModel.FindExternalRelations(_a).Count());
+            Assert.AreEqual(1, _relationsDataModel.FindExternalRelations(_b).Count());
+
+            IDsmRelation relation2 = _relationsDataModel.AddRelation(_b2, _a1, "type", 1);
+            Assert.AreEqual(2, _relationsDataModel.FindExternalRelations(_a).Count());
+            Assert.AreEqual(2, _relationsDataModel.FindExternalRelations(_b).Count());
+
+            IDsmRelation relation3 = _relationsDataModel.AddRelation(_a1, _a2, "type", 1);
+            Assert.AreEqual(2, _relationsDataModel.FindExternalRelations(_a).Count());
+            Assert.AreEqual(2, _relationsDataModel.FindExternalRelations(_a).Count());
+
+            _relationsDataModel.RemoveRelation(relation1.Id);
+            Assert.AreEqual(1, _relationsDataModel.FindExternalRelations(_a).Count());
+            Assert.AreEqual(1, _relationsDataModel.FindExternalRelations(_b).Count());
+
+            _relationsDataModel.RemoveRelation(relation2.Id);
+            Assert.AreEqual(0, _relationsDataModel.FindExternalRelations(_a).Count());
+            Assert.AreEqual(0, _relationsDataModel.FindExternalRelations(_b).Count());
+
+            _relationsDataModel.RemoveRelation(relation3.Id);
+            Assert.AreEqual(0, _relationsDataModel.FindExternalRelations(_a).Count());
+            Assert.AreEqual(0, _relationsDataModel.FindExternalRelations(_b).Count());
+        }
+
+        [TestMethod]
+        public void WhenIngoingAndOutgoingRelatonsAreAddedThenGetInternalRelationsReturnsOnlyInternalOnes()
+        {
+            Assert.AreEqual(0, _relationsDataModel.GetExportedRelationCount());
+
+            IDsmRelation relation1 = _relationsDataModel.AddRelation(_a1, _b1, "type", 1);
+            Assert.AreEqual(0, _relationsDataModel.FindInternalRelations(_a).Count());
+            Assert.AreEqual(0, _relationsDataModel.FindInternalRelations(_b).Count());
+
+            IDsmRelation relation2 = _relationsDataModel.AddRelation(_b2, _a1, "type", 1);
+            Assert.AreEqual(0, _relationsDataModel.FindInternalRelations(_a).Count());
+            Assert.AreEqual(0, _relationsDataModel.FindInternalRelations(_b).Count());
+
+            IDsmRelation relation3 = _relationsDataModel.AddRelation(_a1, _a2, "type", 1);
+            Assert.AreEqual(1, _relationsDataModel.FindInternalRelations(_a).Count());
+            Assert.AreEqual(1, _relationsDataModel.FindInternalRelations(_a).Count());
+
+            _relationsDataModel.RemoveRelation(relation1.Id);
+            Assert.AreEqual(1, _relationsDataModel.FindInternalRelations(_a).Count());
+            Assert.AreEqual(0, _relationsDataModel.FindInternalRelations(_b).Count());
+
+            _relationsDataModel.RemoveRelation(relation2.Id);
+            Assert.AreEqual(1, _relationsDataModel.FindInternalRelations(_a).Count());
+            Assert.AreEqual(0, _relationsDataModel.FindInternalRelations(_b).Count());
+
+            _relationsDataModel.RemoveRelation(relation3.Id);
+            Assert.AreEqual(0, _relationsDataModel.FindInternalRelations(_a).Count());
+            Assert.AreEqual(0, _relationsDataModel.FindInternalRelations(_b).Count());
+        }
+
         [TestMethod]
         public void GivenModelIsNotEmptyWhenClearIsCalledThenItIsEmpty()
         {
