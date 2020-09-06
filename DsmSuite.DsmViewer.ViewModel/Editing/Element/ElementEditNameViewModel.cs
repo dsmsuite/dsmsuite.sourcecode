@@ -62,6 +62,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                 Help = "Name is empty";
                 return false;
             }
+            else if (Name.Contains("."))
+            {
+                Help = "Name should not contain dot character";
+                return false;
+            }
             else if (_application.GetElementByFullname(newName) != null)
             {
                 Help = "Name conflicts with existing name";
