@@ -5,7 +5,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
 {
     public interface IDsmRelationModelFileCallback
     {
-        IDsmRelation ImportRelation(int id, int consumer, int provider, string type, int weight, bool deleted);
+        IDsmRelation ImportRelation(int id, IDsmElement consumer, IDsmElement provider, string type, int weight, bool deleted);
 
         IEnumerable<IDsmRelation> GetExportedRelations();
         int GetExportedRelationCount();

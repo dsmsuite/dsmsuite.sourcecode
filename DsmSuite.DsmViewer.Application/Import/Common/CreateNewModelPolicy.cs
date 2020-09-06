@@ -33,7 +33,10 @@ namespace DsmSuite.DsmViewer.Application.Import.Common
 
         public IDsmRelation ImportRelation(int consumerId, int providerId, string type, int weight)
         {
-            return _dsmModel.AddRelation(consumerId, providerId, type, weight);
+            IDsmElement consumer = _dsmModel.GetElementById(consumerId);
+            IDsmElement provider = _dsmModel.GetElementById(providerId);
+
+            return _dsmModel.AddRelation(consumer, provider, type, weight);
         }
 
         public void FinalizeImport(IProgress<ProgressInfo> progress)

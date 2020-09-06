@@ -73,7 +73,7 @@ namespace DsmSuite.DsmViewer.Application.Import.GraphViz
         {
             IDsmElement consumer = _dsmModel.AddElement(consumerName, "", null);
             IDsmElement provider = _dsmModel.AddElement(providerName, "", null);
-            _dsmModel.AddRelation(consumer.Id, provider.Id, "dependency", 1);
+            _dsmModel.AddRelation(consumer, provider, "dependency", 1);
         }
 
         private void UpdateLineProgress(int lineNumber, bool done, IProgress<ProgressInfo> progress)

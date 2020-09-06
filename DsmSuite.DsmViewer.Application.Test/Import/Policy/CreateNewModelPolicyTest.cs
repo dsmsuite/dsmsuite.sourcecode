@@ -22,6 +22,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Policy
         Mock<IDsmElement> _createdElement;
         Mock<IDsmElement> _elementParent;
         Mock<IDsmElement> _elementChild;
+        private Mock<IDsmElement> _consumer;
+        private Mock<IDsmElement> _provider;
+
         private const string ElementFullName = "a.b.c";
         private const string ElementName = "c";
         private const string ElementType = "etype";
@@ -44,6 +47,13 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Policy
             _createdElement = new Mock<IDsmElement>();
             _elementParent = new Mock<IDsmElement>();
             _elementChild = new Mock<IDsmElement>();
+            _consumer = new Mock<IDsmElement>();
+            _provider = new Mock<IDsmElement>();
+
+            _dsmModel.Setup(x => x.GetElementById(ConsumerId)).Returns(_consumer.Object);
+            _dsmModel.Setup(x => x.GetElementById(ProviderId)).Returns(_provider.Object);
+            _consumer.Setup(x => x.Id).Returns(ConsumerId);
+            _provider.Setup(x => x.Id).Returns(ProviderId);
 
             _createdRelation = new Mock<IDsmRelation>();
 
@@ -102,13 +112,13 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Policy
         [TestMethod]
         public void WhenRelationIsImportedThenRelationIsAddedToModel()
         {
-            _dsmModel.Setup(x => x.AddRelation(ConsumerId, ProviderId, RelationType, RelationWeight)).Returns(_createdRelation.Object);
+            _dsmModel.Setup(x => x.AddRelation(_consumer.Object, _provider.Object, RelationType, RelationWeight)).Returns(_createdRelation.Object);
 
             CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
             IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight);
             Assert.AreEqual(_createdRelation.Object, relation);
 
-            _dsmModel.Verify(x => x.AddRelation(ConsumerId, ProviderId, RelationType, RelationWeight), Times.Once());
+            _dsmModel.Verify(x => x.AddRelation(_consumer.Object, _provider.Object, RelationType, RelationWeight), Times.Once());
         }
 
         [TestMethod]

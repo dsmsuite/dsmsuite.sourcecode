@@ -316,18 +316,21 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             if (xReader.Name == RelationXmlNode)
             {
                 int? id = ParseInt(xReader.GetAttribute(RelationIdXmlAttribute));
-                int? consumer = ParseInt(xReader.GetAttribute(RelationFromXmlAttribute));
-                int? provider = ParseInt(xReader.GetAttribute(RelationToXmlAttribute));
+                int? consumerId = ParseInt(xReader.GetAttribute(RelationFromXmlAttribute));
+                int? providerId = ParseInt(xReader.GetAttribute(RelationToXmlAttribute));
                 string type = xReader.GetAttribute(RelationTypeXmlAttribute);
                 int? weight = ParseInt(xReader.GetAttribute(RelationWeightXmlAttribute));
                 bool deleted = ParseBool(xReader.GetAttribute(RelationDeletedXmlAttribute));
 
                 if (id.HasValue &&
-                    consumer.HasValue &&
-                    provider.HasValue &&
+                    consumerId.HasValue &&
+                    providerId.HasValue &&
                     weight.HasValue)
                 {
-                    _relationModelCallback.ImportRelation(id.Value, consumer.Value, provider.Value, type, weight.Value, deleted);
+                    IDsmElement consumer = _elementModelCallback.FindElementById(consumerId.Value);
+                    IDsmElement provider = _elementModelCallback.FindElementById(providerId.Value);
+
+                    _relationModelCallback.ImportRelation(id.Value, consumer, provider, type, weight.Value, deleted);
                 }
 
                 _progressedRelationCount++;

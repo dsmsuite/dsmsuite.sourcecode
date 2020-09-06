@@ -60,7 +60,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public object Do()
         {
-            _relation = _model.AddRelation(_consumer.Id, _provider.Id, _type, _weight);
+            _relation = _model.AddRelation(_consumer, _provider, _type, _weight);
             Debug.Assert(_relation != null);
             return _relation;
         }

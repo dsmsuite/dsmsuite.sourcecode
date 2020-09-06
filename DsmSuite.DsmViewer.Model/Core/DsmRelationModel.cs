@@ -11,7 +11,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly DsmElementModel _elementsDataModel;
         private readonly Dictionary<int /*relationId*/, DsmRelation> _relationsById;
         private readonly Dictionary<int /*relationId*/, DsmRelation> _deletedRelationsById;
-        
+
         private int _lastRelationId;
 
         public DsmRelationModel(DsmElementModel elementsDataModel)
@@ -41,23 +41,24 @@ namespace DsmSuite.DsmViewer.Model.Core
             _deletedRelationsById.Clear();
         }
 
-        public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight, bool deleted)
+        public IDsmRelation ImportRelation(int relationId, IDsmElement consumer, IDsmElement provider, string type, int weight, bool deleted)
         {
-            Logger.LogDataModelMessage($"Import relation relationId={relationId} consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
-
-            if (relationId > _lastRelationId)
-            {
-                _lastRelationId = relationId;
-            }
-
             DsmRelation relation = null;
-            if (consumerId != providerId)
+
+            if ((consumer != null) && (provider != null))
             {
-                IDsmElement consumer = _elementsDataModel.FindElementById(consumerId);
-                IDsmElement provider = _elementsDataModel.FindElementById(providerId);
-                if ((consumer != null) && (provider != null))
+                Logger.LogDataModelMessage(
+                    $"Import relation relationId={relationId} consumerId={consumer.Id} providerId={provider.Id} type={type} weight={weight}");
+
+                if (relationId > _lastRelationId)
                 {
-                    relation = new DsmRelation(relationId, consumer, provider, type, weight) { IsDeleted = deleted };
+                    _lastRelationId = relationId;
+                }
+
+
+                if (consumer.Id != provider.Id)
+                {
+                    relation = new DsmRelation(relationId, consumer, provider, type, weight) {IsDeleted = deleted};
                     if (deleted)
                     {
                         UnregisterRelation(relation);
@@ -67,27 +68,28 @@ namespace DsmSuite.DsmViewer.Model.Core
                         RegisterRelation(relation);
                     }
                 }
-
             }
+
             return relation;
         }
 
-        public IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight)
+        public IDsmRelation AddRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
         {
-            Logger.LogDataModelMessage($"Add relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
-
             DsmRelation relation = null;
-            if (consumerId != providerId)
+
+            if ((consumer != null) && (provider != null))
             {
-                _lastRelationId++;
-                IDsmElement consumer = _elementsDataModel.FindElementById(consumerId);
-                IDsmElement provider = _elementsDataModel.FindElementById(providerId);
-                if ((consumer != null) && (provider != null))
+                Logger.LogDataModelMessage(
+                    $"Add relation consumerId={consumer.Id} providerId={provider.Id} type={type} weight={weight}");
+
+                if (consumer.Id != provider.Id)
                 {
-                    relation = new DsmRelation(_lastRelationId, consumer, provider, type, weight) { IsDeleted = false };
+                    _lastRelationId++;
+                    relation = new DsmRelation(_lastRelationId, consumer, provider, type, weight) {IsDeleted = false};
                     RegisterRelation(relation);
                 }
             }
+
             return relation;
         }
 
@@ -208,7 +210,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             DsmElement consumerDsmElement = consumer as DsmElement;
             DsmElement providerDsmElement = provider as DsmElement;
-            if ((consumerDsmElement != null) && (consumerDsmElement.Dependencies != null) && 
+            if ((consumerDsmElement != null) && (consumerDsmElement.Dependencies != null) &&
                 (providerDsmElement != null) && (providerDsmElement.Dependencies != null))
             {
                 IDictionary<int, DsmElement> ps = providerDsmElement.GetElementAndItsChildren();

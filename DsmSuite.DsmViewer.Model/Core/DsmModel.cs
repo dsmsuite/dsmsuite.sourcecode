@@ -172,9 +172,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.GetDeletedElementById(id);
         }
 
-        public IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight)
+        public IDsmRelation AddRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
         {
-            return _relationsDataModel.AddRelation(consumerId, providerId, type, weight);
+            return _relationsDataModel.AddRelation(consumer, provider, type, weight);
         }
 
         public void ChangeRelationType(IDsmRelation relation, string type)

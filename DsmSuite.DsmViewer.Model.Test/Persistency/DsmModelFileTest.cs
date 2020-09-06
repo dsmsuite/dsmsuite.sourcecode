@@ -318,34 +318,31 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return element;
         }
 
-        public IDsmRelation ImportRelation(int relationId, int consumerId, int providerId, string type, int weight, bool deleted)
+        public IDsmRelation ImportRelation(int relationId, IDsmElement consumer, IDsmElement provider, string type, int weight, bool deleted)
         {
-            IDsmElement consumer = FindElement(consumerId);
-            IDsmElement provider = FindElement(providerId);
             DsmRelation relation = new DsmRelation(relationId, consumer, provider, type, weight);
             _relations.Add(relation);
             return relation;
         }
 
-        private IDsmElement FindElement(int id)
+        public IDsmElement FindElementById(int elementId)
         {
             IDsmElement found = null;
-            FindElement(_rootElement, id, ref found);
+            FindElementById(_rootElement, elementId, ref found);
             return found;
         }
 
-        private void FindElement(IDsmElement element, int id, ref IDsmElement found)
+        private void FindElementById(IDsmElement element, int elementId, ref IDsmElement found)
         {
-           if (element.Id == id)
+           if (element.Id == elementId)
             {
                 found = element;
-
             }
            else
             {
                 foreach(IDsmElement child in element.Children)
                 {
-                    FindElement(child, id, ref found);
+                    FindElementById(child, elementId, ref found);
                 }
             }
         }

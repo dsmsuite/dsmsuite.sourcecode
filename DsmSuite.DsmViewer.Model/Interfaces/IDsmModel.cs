@@ -46,7 +46,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         int GetElementCount();
 
         // Relation editing
-        IDsmRelation AddRelation(int consumerId, int providerId, string type, int weight);
+        IDsmRelation AddRelation(IDsmElement consumer, IDsmElement provider, string type, int weight);
         void ChangeRelationType(IDsmRelation relation, string type);
         void ChangeRelationWeight(IDsmRelation relation, int weight);
         void RemoveRelation(int relationId);

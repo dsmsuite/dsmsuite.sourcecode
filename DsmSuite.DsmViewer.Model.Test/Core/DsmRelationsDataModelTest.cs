@@ -64,7 +64,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.GetExportedRelationCount());
 
-            model.AddRelation(_a.Id, _b.Id, "type", 1);
+            model.AddRelation(_a, _b, "type", 1);
             Assert.AreEqual(1, model.GetExportedRelationCount());
 
             model.Clear();
@@ -78,7 +78,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.GetExportedRelationCount());
 
-            IDsmRelation relation = model.AddRelation(_a.Id, _b.Id, "type", 1);
+            IDsmRelation relation = model.AddRelation(_a, _b, "type", 1);
             Assert.IsNotNull(relation);
 
             Assert.AreEqual(1, model.GetExportedRelationCount());
@@ -90,7 +90,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmRelationModel model = new DsmRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.GetExportedRelationCount());
 
-            IDsmRelation relation = model.ImportRelation(1, _a.Id, _b.Id, "type", 1, false);
+            IDsmRelation relation = model.ImportRelation(1, _a, _b, "type", 1, false);
             Assert.IsNotNull(relation);
 
             Assert.AreEqual(1, model.GetExportedRelationCount());
@@ -448,21 +448,21 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
         private void CreateElementRelations(DsmRelationModel relationsDataModel)
         {
-            relationsDataModel.AddRelation(_a1.Id, _a2.Id, "", 1);
+            relationsDataModel.AddRelation(_a1, _a2, "", 1);
 
-            relationsDataModel.AddRelation(_a1.Id, _b1.Id, "", 1000);
-            relationsDataModel.AddRelation(_a2.Id, _b1.Id, "", 200);
-            relationsDataModel.AddRelation(_a1.Id, _b2.Id, "", 30);
-            relationsDataModel.AddRelation(_a2.Id, _b2.Id, "", 4);
+            relationsDataModel.AddRelation(_a1, _b1, "", 1000);
+            relationsDataModel.AddRelation(_a2, _b1, "", 200);
+            relationsDataModel.AddRelation(_a1, _b2, "", 30);
+            relationsDataModel.AddRelation(_a2, _b2, "", 4);
 
-            relationsDataModel.AddRelation(_a1.Id, _c2.Id, "", 5);
+            relationsDataModel.AddRelation(_a1, _c2, "", 5);
 
-            relationsDataModel.AddRelation(_b2.Id, _a1.Id, "", 2);
-            relationsDataModel.AddRelation(_b2.Id, _a2.Id, "", 3);
-            relationsDataModel.AddRelation(_c1.Id, _a2.Id, "", 4);
+            relationsDataModel.AddRelation(_b2, _a1, "", 2);
+            relationsDataModel.AddRelation(_b2, _a2, "", 3);
+            relationsDataModel.AddRelation(_c1, _a2, "", 4);
 
-            relationsDataModel.AddRelation(_c1.Id, _c2.Id, "", 1);
-            relationsDataModel.AddRelation(_c2.Id, _c1.Id, "", 1);
+            relationsDataModel.AddRelation(_c1, _c2, "", 1);
+            relationsDataModel.AddRelation(_c2, _c1, "", 1);
         }
     }
 }
