@@ -13,6 +13,7 @@ using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
 using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.ViewModel.Settings;
+using System.Reflection;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -53,6 +54,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private readonly IDsmApplication _application;
         private string _modelFilename;
         private string _title;
+        private string _version;
         private string _searchText;
         private SearchState _searchState;
         private string _searchResult;
@@ -116,7 +118,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             TakeScreenshotCommand = new RelayCommand<object>(TakeScreenshotExecute);
             ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute);
             _modelFilename = "";
-            _title = "DSM Viewer";
+            _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            _title = $"DSM Viewer - {_version}";
+
             _isModified = false;
             _isLoaded = false;
 
@@ -225,6 +229,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             set { _title = value; OnPropertyChanged(); }
         }
 
+        public string Version
+        {
+            get { return _version; }
+            set { _version = value; OnPropertyChanged(); }
+        }
+
         public string SearchText
         {
             get { return _searchText; }
@@ -258,7 +268,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             {
                 FileInfo fileInfo = new FileInfo(fileToOpen);
                 ModelFilename = fileToOpen.Replace(fileInfo.Extension, ".dsm");
-                Title = $"DSM Viewer ({ModelFilename})";
+
+                Title = $"DSM Viewer - {_version} ({ModelFilename})";
 
                 switch (fileInfo.Extension)
                 {
