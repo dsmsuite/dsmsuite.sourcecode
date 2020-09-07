@@ -111,7 +111,7 @@ namespace DsmSuite.DsmViewer._relationsDataModel.Test.Core
 
             IDsmRelation relation3 = _relationsDataModel.AddRelation(_a1, _a2, "type", 1);
             Assert.AreEqual(2, _relationsDataModel.FindExternalRelations(_a).Count());
-            Assert.AreEqual(2, _relationsDataModel.FindExternalRelations(_a).Count());
+            Assert.AreEqual(2, _relationsDataModel.FindExternalRelations(_b).Count());
 
             _relationsDataModel.RemoveRelation(relation1.Id);
             Assert.AreEqual(1, _relationsDataModel.FindExternalRelations(_a).Count());
@@ -437,7 +437,7 @@ namespace DsmSuite.DsmViewer._relationsDataModel.Test.Core
         {
             CreateElementRelations(_relationsDataModel);
 
-            List<DsmRelation> relations = _relationsDataModel.FindIngoingRelations(_a).OrderBy(x => x.Id).ToList();
+            List<IDsmRelation> relations = _relationsDataModel.FindIngoingRelations(_a).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(3, relations.Count);
 
             Assert.AreEqual(_b2.Id, relations[0].Consumer.Id);
@@ -458,7 +458,7 @@ namespace DsmSuite.DsmViewer._relationsDataModel.Test.Core
         {
             CreateElementRelations(_relationsDataModel);
 
-            List<DsmRelation> relations = _relationsDataModel.FindOutgoingRelations(_a).OrderBy(x => x.Id).ToList();
+            List<IDsmRelation> relations = _relationsDataModel.FindOutgoingRelations(_a).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(5, relations.Count);
 
             Assert.AreEqual(_a1.Id, relations[0].Consumer.Id);

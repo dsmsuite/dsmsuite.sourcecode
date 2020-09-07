@@ -214,22 +214,56 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public IEnumerable<DsmRelation> FindIngoingRelations(IDsmElement element)
+        public IEnumerable<IDsmRelation> FindIngoingRelations(IDsmElement element)
+        {
+            return FindRelations(element, RelationDirection.Ingoing, RelationScope.External);
+        }
+
+        public IEnumerable<IDsmRelation> FindOutgoingRelations(IDsmElement element)
+        {
+            return FindRelations(element, RelationDirection.Outgoing, RelationScope.External);
+        }
+
+        public IEnumerable<IDsmRelation> FindInternalRelations(IDsmElement element)
+        {
+            return FindRelations(element, RelationDirection.Outgoing, RelationScope.Internal);
+        }
+
+        public IEnumerable<IDsmRelation> FindExternalRelations(IDsmElement element)
+        {
+            return FindRelations(element, RelationDirection.Both, RelationScope.External);
+        }
+
+        private IEnumerable<IDsmRelation> FindRelations(IDsmElement element, RelationDirection direction, RelationScope scope)
         {
             List<DsmRelation> relations = new List<DsmRelation>();
 
             DsmElement dsmElement = element as DsmElement;
             if ((dsmElement != null) && (dsmElement.Dependencies != null))
             {
-                IDictionary<int, DsmElement> es = dsmElement.GetElementAndItsChildren();
+                IDictionary<int, DsmElement> elements = dsmElement.GetElementAndItsChildren();
 
-                foreach (DsmElement e in es.Values)
+                foreach (DsmElement e in elements.Values)
                 {
-                    foreach (DsmRelation relation in e.Dependencies.GetIngoingRelations())
+                    if (direction != RelationDirection.Ingoing)
                     {
-                        if (!es.ContainsKey(relation.Consumer.Id) && !relation.IsDeleted)
+                        foreach (DsmRelation relation in e.Dependencies.GetOutgoingRelations())
                         {
-                            relations.Add(relation);
+                            if (HasSelectedScope(scope, relation.Provider, elements) && !relation.IsDeleted)
+                            {
+                                relations.Add(relation);
+                            }
+                        }
+                    }
+
+                    if (direction != RelationDirection.Outgoing)
+                    {
+                        foreach (DsmRelation relation in e.Dependencies.GetIngoingRelations())
+                        {
+                            if (HasSelectedScope(scope, relation.Consumer, elements) && !relation.IsDeleted)
+                            {
+                                relations.Add(relation);
+                            }
                         }
                     }
                 }
@@ -237,81 +271,19 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public IEnumerable<DsmRelation> FindOutgoingRelations(IDsmElement element)
+        private bool HasSelectedScope(RelationScope scope, IDsmElement element, IDictionary<int, DsmElement> elements)
         {
-            List<DsmRelation> relations = new List<DsmRelation>();
-
-            DsmElement dsmElement = element as DsmElement;
-            if ((dsmElement != null) && (dsmElement.Dependencies != null))
+            switch (scope)
             {
-                IDictionary<int, DsmElement> es = dsmElement.GetElementAndItsChildren();
-
-                foreach (DsmElement e in es.Values)
-                {
-                    foreach (DsmRelation relation in e.Dependencies.GetOutgoingRelations())
-                    {
-                        if (!es.ContainsKey(relation.Provider.Id) && !relation.IsDeleted)
-                        {
-                            relations.Add(relation);
-                        }
-                    }
-                }
+                case RelationScope.Internal:
+                    return elements.ContainsKey(element.Id);
+                case RelationScope.External:
+                    return !elements.ContainsKey(element.Id);
+                case RelationScope.Both:
+                    return true;
+                default:
+                    return true;
             }
-            return relations;
-        }
-
-        public IEnumerable<DsmRelation> FindInternalRelations(IDsmElement element)
-        {
-            List<DsmRelation> relations = new List<DsmRelation>();
-
-            DsmElement dsmElement = element as DsmElement;
-            if ((dsmElement != null) && (dsmElement.Dependencies != null))
-            {
-                IDictionary<int, DsmElement> es = dsmElement.GetElementAndItsChildren();
-
-                foreach (DsmElement e in es.Values)
-                {
-                    foreach (DsmRelation relation in e.Dependencies.GetOutgoingRelations())
-                    {
-                        if (es.ContainsKey(relation.Provider.Id) && !relation.IsDeleted)
-                        {
-                            relations.Add(relation);
-                        }
-                    }
-                }
-            }
-            return relations;
-        }
-
-        public IEnumerable<DsmRelation> FindExternalRelations(IDsmElement element)
-        {
-            List<DsmRelation> relations = new List<DsmRelation>();
-
-            DsmElement dsmElement = element as DsmElement;
-            if ((dsmElement != null) && (dsmElement.Dependencies != null))
-            {
-                IDictionary<int, DsmElement> es = dsmElement.GetElementAndItsChildren();
-
-                foreach (DsmElement e in es.Values)
-                {
-                    foreach (DsmRelation relation in e.Dependencies.GetOutgoingRelations())
-                    {
-                        if (!es.ContainsKey(relation.Provider.Id) && !relation.IsDeleted)
-                        {
-                            relations.Add(relation);
-                        }
-                    }
-
-                    foreach (DsmRelation relation in e.Dependencies.GetIngoingRelations())
-                    {
-                        if (!es.ContainsKey(relation.Consumer.Id) && !relation.IsDeleted)
-                        {
-                            relations.Add(relation);
-                        }
-                    }
-                }
-            }
-            return relations;
         }
 
         public int GetHierarchicalCycleCount(IDsmElement element)
