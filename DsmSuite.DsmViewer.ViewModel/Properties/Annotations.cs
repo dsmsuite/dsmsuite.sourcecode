@@ -118,7 +118,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       FormatParameterName = formatParameterName;
     }
 
-    [NotNull] public string FormatParameterName { get; private set; }
+    [NotNull] public string FormatParameterName { get; }
   }
 
   /// <summary>
@@ -133,7 +133,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Name = name;
     }
 
-    [NotNull] public string Name { get; private set; }
+    [NotNull] public string Name { get; }
   }
 
   /// <summary>
@@ -197,7 +197,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       ParameterName = parameterName;
     }
 
-    [CanBeNull] public string ParameterName { get; private set; }
+    [CanBeNull] public string ParameterName { get; }
   }
 
   /// <summary>
@@ -255,8 +255,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       ForceFullStates = forceFullStates;
     }
 
-    [NotNull] public string Contract { get; private set; }
-    public bool ForceFullStates { get; private set; }
+    [NotNull] public string Contract { get; }
+    public bool ForceFullStates { get; }
   }
 
   /// <summary>
@@ -277,7 +277,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Required = required;
     }
 
-    public bool Required { get; private set; }
+    public bool Required { get; }
   }
 
   /// <summary>
@@ -323,7 +323,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       BaseType = baseType;
     }
 
-    [NotNull] public Type BaseType { get; private set; }
+    [NotNull] public Type BaseType { get; }
   }
 
   /// <summary>
@@ -348,8 +348,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       TargetFlags = targetFlags;
     }
 
-    public ImplicitUseKindFlags UseKindFlags { get; private set; }
-    public ImplicitUseTargetFlags TargetFlags { get; private set; }
+    public ImplicitUseKindFlags UseKindFlags { get; }
+    public ImplicitUseTargetFlags TargetFlags { get; }
   }
 
   /// <summary>
@@ -374,8 +374,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       TargetFlags = targetFlags;
     }
 
-    [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags { get; private set; }
-    [UsedImplicitly] public ImplicitUseTargetFlags TargetFlags { get; private set; }
+    [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags { get; }
+    [UsedImplicitly] public ImplicitUseTargetFlags TargetFlags { get; }
   }
 
   [Flags]
@@ -423,7 +423,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Comment = comment;
     }
 
-    [CanBeNull] public string Comment { get; private set; }
+    [CanBeNull] public string Comment { get; }
   }
 
   /// <summary>
@@ -460,7 +460,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Justification = justification;
     }
 
-    [CanBeNull] public string Justification { get; private set; }
+    [CanBeNull] public string Justification { get; }
   }
 
   /// <summary>
@@ -496,7 +496,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       BasePath = basePath;
     }
 
-    [CanBeNull] public string BasePath { get; private set; }
+    [CanBeNull] public string BasePath { get; }
   }
 
   /// <summary>
@@ -587,7 +587,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Format = format;
     }
 
-    [NotNull] public string Format { get; private set; }
+    [NotNull] public string Format { get; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
@@ -598,7 +598,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Format = format;
     }
 
-    [NotNull] public string Format { get; private set; }
+    [NotNull] public string Format { get; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
@@ -609,7 +609,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Format = format;
     }
 
-    [NotNull] public string Format { get; private set; }
+    [NotNull] public string Format { get; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
@@ -620,7 +620,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Format = format;
     }
 
-    public string Format { get; private set; }
+    public string Format { get; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
@@ -631,7 +631,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Format = format;
     }
 
-    [NotNull] public string Format { get; private set; }
+    [NotNull] public string Format { get; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
@@ -642,7 +642,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Format = format;
     }
 
-    [NotNull] public string Format { get; private set; }
+    [NotNull] public string Format { get; }
   }
 
   /// <summary>
@@ -660,7 +660,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       AnonymousProperty = anonymousProperty;
     }
 
-    [CanBeNull] public string AnonymousProperty { get; private set; }
+    [CanBeNull] public string AnonymousProperty { get; }
   }
 
   /// <summary>
@@ -677,7 +677,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       AnonymousProperty = anonymousProperty;
     }
 
-    [CanBeNull] public string AnonymousProperty { get; private set; }
+    [CanBeNull] public string AnonymousProperty { get; }
   }
 
   /// <summary>
@@ -695,7 +695,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       AnonymousProperty = anonymousProperty;
     }
 
-    [CanBeNull] public string AnonymousProperty { get; private set; }
+    [CanBeNull] public string AnonymousProperty { get; }
   }
 
   /// <summary>
@@ -797,7 +797,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Name = name;
     }
 
-    [CanBeNull] public string Name { get; private set; }
+    [CanBeNull] public string Name { get; }
   }
 
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Field | AttributeTargets.Property)]
@@ -808,7 +808,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Name = name;
     }
 
-    [NotNull] public string Name { get; private set; }
+    [NotNull] public string Name { get; }
   }
 
   /// <summary>
@@ -831,7 +831,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       CollectionAccessType = collectionAccessType;
     }
 
-    public CollectionAccessType CollectionAccessType { get; private set; }
+    public CollectionAccessType CollectionAccessType { get; }
   }
 
   [Flags]
@@ -868,7 +868,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       ConditionType = conditionType;
     }
 
-    public AssertionConditionType ConditionType { get; private set; }
+    public AssertionConditionType ConditionType { get; }
   }
 
   /// <summary>
@@ -943,8 +943,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       ControlType = controlType;
     }
 
-    [NotNull] public string TagName { get; private set; }
-    [NotNull] public Type ControlType { get; private set; }
+    [NotNull] public string TagName { get; }
+    [NotNull] public Type ControlType { get; }
   }
 
   [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method)]
@@ -964,13 +964,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Attribute = attribute;
     }
 
-    [NotNull] public string Attribute { get; private set; }
+    [NotNull] public string Attribute { get; }
   }
 
   [AttributeUsage(AttributeTargets.Property)]
   public sealed class AspTypePropertyAttribute : Attribute
   {
-    public bool CreateConstructorReferences { get; private set; }
+    public bool CreateConstructorReferences { get; }
 
     public AspTypePropertyAttribute(bool createConstructorReferences)
     {
@@ -986,7 +986,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Name = name;
     }
 
-    [NotNull] public string Name { get; private set; }
+    [NotNull] public string Name { get; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
@@ -998,8 +998,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       FieldName = fieldName;
     }
 
-    [NotNull] public string Type { get; private set; }
-    [NotNull] public string FieldName { get; private set; }
+    [NotNull] public string Type { get; }
+    [NotNull] public string FieldName { get; }
   }
 
   [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
@@ -1010,7 +1010,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Properties
       Directive = directive;
     }
 
-    [NotNull] public string Directive { get; private set; }
+    [NotNull] public string Directive { get; }
   }
 
   [AttributeUsage(AttributeTargets.Method)]

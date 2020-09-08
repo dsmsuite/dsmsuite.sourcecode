@@ -14,7 +14,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public abstract class ProjectFileBase
     {
-        public ProjectFileBase(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver)
+        protected ProjectFileBase(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver)
         {
             SolutionFolder = solutionFolder;
             SolutionDir = solutionDir;
@@ -41,17 +41,17 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public string TargetExtension { get; protected set; }
 
-        public HashSet<SourceFile> SourceFiles { get; private set; }
+        public HashSet<SourceFile> SourceFiles { get; }
 
         public abstract IEnumerable<DotNetType> DotNetTypes { get; }
 
         public abstract IEnumerable<DotNetRelation> DotNetRelations { get; }
 
-        protected FileInfo ProjectFileInfo { get; private set; }
+        protected FileInfo ProjectFileInfo { get; }
 
-        protected AnalyzerSettings AnalyzerSettings { get; private set; }
+        protected AnalyzerSettings AnalyzerSettings { get; }
 
-        protected DotNetResolver Resolver { get; private set; }
+        protected DotNetResolver Resolver { get; }
 
         protected abstract Project OpenProject();
 

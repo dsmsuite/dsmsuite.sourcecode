@@ -12,7 +12,6 @@ namespace DsmSuite.Analyzer.DotNet.Lib
     {
         private readonly ICollection<string> _ignoredNames;
         private readonly IProgress<ProgressInfo> _progress;
-        private readonly Dictionary<string, FileInfo> _typeAssemblyInfoList = new Dictionary<string, FileInfo>();
         private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
 
         public BinaryFile(string filename, ICollection<string> ignoredNames, IProgress<ProgressInfo> progress)
@@ -400,7 +399,6 @@ namespace DsmSuite.Analyzer.DotNet.Lib
             {
                 Types.Add(new DotNetType(typeDecl.GetElementType().ToString(), DetermineType(typeDecl)));
                 _typeList.Add(typeDecl);
-                _typeAssemblyInfoList[typeDecl.FullName] = FileInfo;
                 UpdateTypeProgress(false);
             }
         }

@@ -65,9 +65,6 @@
       <DependentUpon>MatrixView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\ThemeResourceDictionary.cs" />
-    <Compile Include="UserControls\InfoView.xaml.cs">
-      <DependentUpon>InfoView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\ToolView.xaml.cs">
       <DependentUpon>ToolView.xaml</DependentUpon>
     </Compile>
@@ -183,10 +180,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Style.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\InfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -335,16 +335,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         private void FindElementById(IDsmElement element, int elementId, ref IDsmElement found)
         {
            if (element.Id == elementId)
-            {
-                found = element;
-            }
+           {
+               found = element;
+           }
            else
-            {
-                foreach(IDsmElement child in element.Children)
-                {
-                    FindElementById(child, elementId, ref found);
-                }
-            }
+           {
+               foreach(IDsmElement child in element.Children)
+               {
+                   FindElementById(child, elementId, ref found);
+               }
+           }
         }
 
         public IEnumerable<string> GetExportedMetaDataGroups()

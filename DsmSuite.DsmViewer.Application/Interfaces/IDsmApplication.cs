@@ -13,14 +13,14 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         Task AsyncImportDsiModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress);
         Task AsyncImportGraphVizModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress);
-        Task AsyncImportGraphMLModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress);
+        Task AsyncImportGraphMlModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress);
 
 
         bool ShowCycles { get; set; }
         bool CaseSensitiveSearch { get; set; }
         void ImportDsiModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
         void ImportGraphVizModel(string dotFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
-        void ImportGraphMLModel(string graphMlFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
+        void ImportGraphMlModel(string graphMlFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
         Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress);
         Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress);
         bool IsModified { get; }

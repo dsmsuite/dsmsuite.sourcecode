@@ -5,12 +5,7 @@ namespace DsmSuite.Analyzer.DotNet.Lib
 {
     public class DotNetResolver
     {
-        HashSet<string> _paths = new HashSet<string>();
-
-        public DotNetResolver()
-        {
-
-        }
+        private readonly HashSet<string> _paths = new HashSet<string>();
 
         public void AddSearchPath(BinaryFile assemblyFile)
         {

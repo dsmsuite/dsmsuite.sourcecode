@@ -33,14 +33,7 @@ namespace DsmSuite.DsmViewer.View.Windows
         {
             if (_mainViewModel.IsModified)
             {
-                if (MessageBox.Show("Are you sure to exit?", "You have unsaved changes", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    e.Cancel = false;
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
+                e.Cancel = MessageBox.Show("Are you sure to exit?", "You have unsaved changes", MessageBoxButton.YesNo) != MessageBoxResult.Yes;
             }
         }
 

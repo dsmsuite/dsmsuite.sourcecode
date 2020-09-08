@@ -21,7 +21,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Policy
         Mock<IDsmElement> _existingElement;
         Mock<IDsmElement> _createdElement;
         Mock<IDsmElement> _elementParent;
-        Mock<IDsmElement> _elementChild;
         private Mock<IDsmElement> _consumer;
         private Mock<IDsmElement> _provider;
 
@@ -46,7 +45,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Policy
             _existingElement = new Mock<IDsmElement>();
             _createdElement = new Mock<IDsmElement>();
             _elementParent = new Mock<IDsmElement>();
-            _elementChild = new Mock<IDsmElement>();
             _consumer = new Mock<IDsmElement>();
             _provider = new Mock<IDsmElement>();
 

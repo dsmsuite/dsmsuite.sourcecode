@@ -112,8 +112,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                         if (weight > 0)
                         {
                             char infinity = '\u221E';
-                            string content;
-                            content = weight > 9999 ? infinity.ToString() : weight.ToString();
+                            string content = weight > 9999 ? infinity.ToString() : weight.ToString();
 
                             double textWidth = MeasureText(content);
 

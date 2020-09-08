@@ -12,7 +12,6 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
     public class DsiImporter : ImporterBase
     {
         private readonly IDsiModel _dsiModel;
-        private readonly IDsmModel _dsmModel;
         private readonly IImportPolicy _importPolicy;
         private readonly bool _autoPartition;
         private readonly Dictionary<int, int> _dsiToDsmMapping;
@@ -20,7 +19,6 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
         public DsiImporter(IDsiModel dsiModel, IDsmModel dsmModel, IImportPolicy importPolicy, bool autoPartition) : base(dsmModel)
         {
             _dsiModel = dsiModel;
-            _dsmModel = dsmModel;
             _importPolicy = importPolicy;
             _autoPartition = autoPartition;
             _dsiToDsmMapping = new Dictionary<int, int>();

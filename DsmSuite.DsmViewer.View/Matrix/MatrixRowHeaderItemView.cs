@@ -40,14 +40,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             base.OnGiveFeedback(e);
 
-            if (e.Effects.HasFlag(DragDropEffects.Move))
-            {
-                Mouse.SetCursor(Cursors.Pen);
-            }
-            else
-            {
-                Mouse.SetCursor(Cursors.Arrow);
-            }
+            Mouse.SetCursor(e.Effects.HasFlag(DragDropEffects.Move) ? Cursors.Pen : Cursors.Arrow);
             e.Handled = true;
         }
 
@@ -60,14 +53,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 IDsmElement element = (IDsmElement)e.Data.GetData(DataObjectName);
                 IDsmElement newParent = _viewModel.Element;
 
-                if (!newParent.IsRecursiveChildOf(element))
-                {
-                    e.Effects = DragDropEffects.Move;
-                }
-                else
-                {
-                    e.Effects = DragDropEffects.None;
-                }
+                e.Effects = !newParent.IsRecursiveChildOf(element) ? DragDropEffects.Move : DragDropEffects.None;
             }
             e.Handled = true;
         }

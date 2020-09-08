@@ -14,7 +14,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
     public class SolutionFile
     {
         private readonly FileInfo _solutionFileInfo;
-        private readonly string _name;
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly IProgress<ProgressInfo> _progress;
         private bool _parsingProjectNesting;
@@ -33,12 +32,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         private int _progressPercentage;
 
-        private DotNetResolver _resolver = new DotNetResolver();
+        private readonly DotNetResolver _resolver = new DotNetResolver();
 
         public SolutionFile(string solutionPath, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _solutionFileInfo = new FileInfo(solutionPath);
-            _name = _solutionFileInfo.Name;
+            Name = _solutionFileInfo.Name;
             _analyzerSettings = analyzerSettings;
             _progress = progress;
         }
@@ -82,7 +81,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
         }
 
-        public string Name => _name;
+        public string Name { get; }
 
         public IReadOnlyCollection<ProjectFileBase> Projects => _projects.Values;
 

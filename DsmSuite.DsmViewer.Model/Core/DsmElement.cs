@@ -13,8 +13,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly List<IDsmElement> _children = new List<IDsmElement>();
         private DsmElement _parent;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
-        private readonly DsmDependencies _dependencies;
-        
+
         public DsmElement(int id, string name, string type, int order = 0, bool isExpanded = false)
         {
             Id = id;
@@ -23,10 +22,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             Order = order;
             IsExpanded = isExpanded;
             IsIncludedInTree = true;
-            _dependencies = new DsmDependencies(this);
+            Dependencies = new DsmDependencies(this);
         }
 
-        public DsmDependencies Dependencies => _dependencies;
+        public DsmDependencies Dependencies { get; }
 
         /// <summary>
         /// Number uniquely identifying element.

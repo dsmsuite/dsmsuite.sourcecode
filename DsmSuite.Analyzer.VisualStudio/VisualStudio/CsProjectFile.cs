@@ -10,7 +10,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public class CsProjectFile : ProjectFileBase
     {
-        private BinaryFile _assembly;
+        private readonly BinaryFile _assembly;
 
         public CsProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
             base(solutionFolder, solutionDir, projectPath, analyzerSettings, resolver)

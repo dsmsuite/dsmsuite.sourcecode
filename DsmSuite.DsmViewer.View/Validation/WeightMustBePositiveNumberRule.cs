@@ -14,14 +14,7 @@ namespace DsmSuite.DsmViewer.View.Validation
             }
             else
             {
-                if (weight <= 0)
-                {
-                    result = new ValidationResult(false, "Please enter a positive integer value.");
-                }
-                else
-                {
-                    result = new ValidationResult(true, null);
-                }
+                result = weight <= 0 ? new ValidationResult(false, "Please enter a positive integer value.") : new ValidationResult(true, null);
             }
             return result;
         }

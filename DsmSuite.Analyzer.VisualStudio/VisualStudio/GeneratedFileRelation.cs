@@ -8,7 +8,7 @@
             Provider = provider;
         }
 
-        public SourceFile Consumer { get; private set; }
-        public SourceFile Provider { get; private set; }
+        public SourceFile Consumer { get; }
+        public SourceFile Provider { get; }
     }
 }

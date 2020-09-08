@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.DsmViewer._relationsDataModel.Test.Core
+namespace DsmSuite.DsmViewer.Model.Test.Core
 {
     /// <summary>
     /// Dependency matrix used for tests:

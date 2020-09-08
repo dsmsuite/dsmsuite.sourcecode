@@ -102,7 +102,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void AddDerivedWeight(IDsmElement provider, int weight)
         {
-            int currentWeight = 0;
+            int currentWeight;
             if (_derivedWeights.TryGetValue(provider.Id, out currentWeight))
             {
                 _derivedWeights[provider.Id] = currentWeight + weight;
@@ -115,7 +115,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void RemoveDerivedWeight(IDsmElement provider, int weight)
         {
-            int currentWeight = 0;
+            int currentWeight;
             if (_derivedWeights.TryGetValue(provider.Id, out currentWeight))
             {
                 if (currentWeight >= weight)

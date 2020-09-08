@@ -286,7 +286,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                         IsLoaded = true;
                         break;
                     case ".grapML":
-                        await _application.AsyncImportGraphMLModel(fileToOpen, ModelFilename, false, false, true, progress);
+                        await _application.AsyncImportGraphMlModel(fileToOpen, ModelFilename, false, false, true, progress);
                         IsLoaded = true;
                         break;
                 }

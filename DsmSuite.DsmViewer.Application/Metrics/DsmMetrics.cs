@@ -4,13 +4,6 @@ namespace DsmSuite.DsmViewer.Application.Metrics
 {
     public class DsmMetrics
     {
-        private readonly IDsmModel _model;
-
-        public DsmMetrics(IDsmModel model)
-        {
-            _model = model;
-        }
-
         public int GetElementSize(IDsmElement element)
         {
             int count = 0;

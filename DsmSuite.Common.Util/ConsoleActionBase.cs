@@ -15,7 +15,7 @@ namespace DsmSuite.Common.Util
         private readonly Stopwatch _stopWatch;
         private string _currentText = string.Empty;
 
-        public ConsoleActionBase(string title)
+        protected ConsoleActionBase(string title)
         {
             _title = title;
             _stopWatch = new Stopwatch();
@@ -52,14 +52,10 @@ namespace DsmSuite.Common.Util
 
         public void Report(ProgressInfo progress)
         {
-            if (progress.Percentage.HasValue)
-            {
-                WriteToConsole($"{progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} {progress.Percentage.Value}%", true, progress.Done);
-            }
-            else
-            {
-                WriteToConsole($"{progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}", true, progress.Done);
-            }
+            WriteToConsole(
+                progress.Percentage.HasValue
+                    ? $"{progress.ActionText} {progress.CurrentItemCount}/{progress.TotalItemCount} {progress.ItemType} {progress.Percentage.Value}%"
+                    : $"{progress.ActionText} {progress.CurrentItemCount} {progress.ItemType}", true, progress.Done);
         }
 
         protected abstract bool CheckPrecondition();

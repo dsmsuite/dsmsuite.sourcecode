@@ -45,7 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
             _queries = new DsmQueries(dsmModel);
 
-            _metrics = new DsmMetrics(dsmModel);
+            _metrics = new DsmMetrics();
         }
 
         private void OnActionPerformed(object sender, EventArgs e)
@@ -104,9 +104,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             Modified?.Invoke(this, IsModified);
         }
 
-        public async Task AsyncImportGraphMLModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress)
+        public async Task AsyncImportGraphMlModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress)
         {
-            await Task.Run(() => ImportGraphMLModel(dsiFilename, dsmFilename, autoPartition, recordChanges, compressDsmFile, progress));
+            await Task.Run(() => ImportGraphMlModel(dsiFilename, dsmFilename, autoPartition, recordChanges, compressDsmFile, progress));
             _actionStore.LoadFromModel();
             IsModified = false;
             Modified?.Invoke(this, IsModified);
@@ -139,11 +139,11 @@ namespace DsmSuite.DsmViewer.Application.Core
             _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);
         }
 
-        public void ImportGraphMLModel(string graphMLFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress)
+        public void ImportGraphMlModel(string graphMlFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress)
         {
             IImportPolicy importPolicy = new CreateNewModelPolicy(_dsmModel);
 
-            GraphMLImporter importer = new GraphMLImporter(graphMLFilename, _dsmModel, importPolicy, applyPartitionAlgorithm);
+            GraphMlImporter importer = new GraphMlImporter(graphMlFilename, _dsmModel, importPolicy, applyPartitionAlgorithm);
             importer.Import(progress);
             _actionStore.SaveToModel();
             _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);

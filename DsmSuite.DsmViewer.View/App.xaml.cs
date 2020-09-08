@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.View
     /// </summary>
     public partial class App 
     {
-        public static Theme Skin { get; set; } = Theme.Light;
+        public static Theme Skin { get; set; }
         public static bool ShowCycles { get; set; }
 
         public string[] CommandLineArguments { get; protected set; }

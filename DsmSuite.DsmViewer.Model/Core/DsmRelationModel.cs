@@ -191,8 +191,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             DsmElement consumerDsmElement = consumer as DsmElement;
             DsmElement providerDsmElement = provider as DsmElement;
-            if ((consumerDsmElement != null) && (consumerDsmElement.Dependencies != null) &&
-                (providerDsmElement != null) && (providerDsmElement.Dependencies != null))
+            if (consumerDsmElement?.Dependencies != null && providerDsmElement?.Dependencies != null)
             {
                 IDictionary<int, DsmElement> ps = providerDsmElement.GetElementAndItsChildren();
                 IDictionary<int, DsmElement> cs = consumerDsmElement.GetElementAndItsChildren();
@@ -244,7 +243,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             List<DsmRelation> relations = new List<DsmRelation>();
 
             DsmElement dsmElement = element as DsmElement;
-            if ((dsmElement != null) && (dsmElement.Dependencies != null))
+            if (dsmElement?.Dependencies != null)
             {
                 IDictionary<int, DsmElement> elements = dsmElement.GetElementAndItsChildren();
 
@@ -427,7 +426,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     currentConsumer.Dependencies.RemoveDerivedWeight(currentProvider, relation.Weight);
                     currentProvider = currentProvider.Parent;
                 }
-                currentConsumer = currentConsumer.Parent as DsmElement; ;
+                currentConsumer = currentConsumer.Parent as DsmElement;
             }
         }
 
