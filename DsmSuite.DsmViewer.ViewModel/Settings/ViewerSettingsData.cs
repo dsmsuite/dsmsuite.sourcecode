@@ -21,7 +21,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             ViewerSettingsData settings = new ViewerSettingsData
             {
                 LoggingEnabled = false,
-                ShowCycles = false,
+                ShowCycles = true,
                 BetaFeaturesEnabled = false,
                 Theme = Theme.Light,
             };
