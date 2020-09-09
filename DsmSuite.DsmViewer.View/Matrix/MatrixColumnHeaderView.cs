@@ -96,7 +96,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     double textWidth = MeasureText(content);
 
                     Point location = new Point(_rect.X + 10.0, _rect.Y - _rect.Height + textWidth + 10.0);
-                    DrawRotatedText(dc, content, location, _theme.TextColor, _rect.Width - _theme.SpacingWidth);
+                    DrawRotatedText(dc, content, location, _theme.TextColor, _theme.MatrixHeaderHeight - _theme.SpacingWidth);
                 }
 
                 Height = _theme.MatrixHeaderHeight + _theme.SpacingWidth;
