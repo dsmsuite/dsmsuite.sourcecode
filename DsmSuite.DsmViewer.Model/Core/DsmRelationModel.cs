@@ -408,7 +408,10 @@ namespace DsmSuite.DsmViewer.Model.Core
                 IDsmElement currentProvider = relation.Provider;
                 while (currentProvider != null)
                 {
-                    currentConsumer.Dependencies.AddDerivedWeight(currentProvider, relation.Weight);
+                    if ((currentConsumer.Id != currentProvider.Id) && !currentConsumer.IsRoot && !currentProvider.IsRoot)
+                    {
+                        currentConsumer.Dependencies.AddDerivedWeight(currentProvider, relation.Weight);
+                    }
                     currentProvider = currentProvider.Parent;
                 }
                 currentConsumer = currentConsumer.Parent as DsmElement;
@@ -423,7 +426,10 @@ namespace DsmSuite.DsmViewer.Model.Core
                 IDsmElement currentProvider = relation.Provider;
                 while (currentProvider != null)
                 {
-                    currentConsumer.Dependencies.RemoveDerivedWeight(currentProvider, relation.Weight);
+                    if ((currentConsumer.Id != currentProvider.Id) && !currentConsumer.IsRoot && !currentProvider.IsRoot)
+                    {
+                        currentConsumer.Dependencies.RemoveDerivedWeight(currentProvider, relation.Weight);
+                    }
                     currentProvider = currentProvider.Parent;
                 }
                 currentConsumer = currentConsumer.Parent as DsmElement;
