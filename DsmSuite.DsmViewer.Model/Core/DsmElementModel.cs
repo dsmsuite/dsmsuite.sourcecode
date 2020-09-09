@@ -119,7 +119,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
                 if ((changedElement != null) && (currentParent != null) & (newParent != null))
                 {
-                    IEnumerable<IDsmRelation> externalRelations = _relationModel.FindAllRelations(element).ToList();
+                    IEnumerable<IDsmRelation> externalRelations = _relationModel.FindExternalRelations(element).ToList();
 
                     foreach (IDsmRelation relation in externalRelations)
                     {
