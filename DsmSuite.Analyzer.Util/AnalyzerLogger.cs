@@ -38,15 +38,17 @@ namespace DsmSuite.Analyzer.Util
             FilesNotFoundLogMessages[key].Add(message);
         }
 
-        public static void LogErrorDuplicateFileUsage(string filename, int count)
+        public static void LogErrorDuplicateFileUsage(string filename, List<string> projects)
         {
-            string key = filename;
-            string message = "Count " + count;
-            if (!FilesDuplicateMessages.ContainsKey(key))
+            string logFile = "filesDuplcate.log";
+            string message = "Source file include in multiple projects: " + filename;
+            Logger.LogToFile(logFile, message);
+
+            foreach (string project in projects)
             {
-                FilesDuplicateMessages[key] = new HashSet<string>();
+                string details = " project=" + project;
+                Logger.LogToFile(logFile, details);
             }
-            FilesDuplicateMessages[key].Add(message);
         }
 
         public static void LogErrorPathNotResolved(string relativePath, string context)
@@ -116,7 +118,6 @@ namespace DsmSuite.Analyzer.Util
         public static void Flush()
         {
             Flush(FilesNotFoundLogMessages, "Files not found", "filesNotFound");
-            Flush(FilesDuplicateMessages, "Files duplicate", "filesDuplcate");
             Flush(PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved");
             Flush(IncludePathsNotFoundLogMessages, "Absolute paths not found", "includePathsNotFound");
             Flush(IncludeFilesNotFoundLogMessages, "Includes files not found", "includeFilesNotFound");

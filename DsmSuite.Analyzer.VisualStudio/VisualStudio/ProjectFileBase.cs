@@ -47,7 +47,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public abstract IEnumerable<DotNetRelation> DotNetRelations { get; }
 
-        protected FileInfo ProjectFileInfo { get; }
+        public FileInfo ProjectFileInfo { get; }
 
         protected AnalyzerSettings AnalyzerSettings { get; }
 
