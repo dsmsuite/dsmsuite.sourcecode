@@ -115,7 +115,7 @@ namespace DsmSuite.Common.Util
             DateTime now = DateTime.Now;
             string timestamp = $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
             string assemblyName = _assembly.GetName().Name;
-            return Directory.CreateDirectory($@"{assemblyName}_{timestamp}\");
+            return Directory.CreateDirectory($@"C:\Temp\DsmSuiteLogging\{assemblyName}_{timestamp}\");
         }
 
         private static string GetLogFullPath(string logFilename)
