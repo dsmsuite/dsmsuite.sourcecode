@@ -11,7 +11,7 @@ namespace DsmSuite.Analyzer.Util
     public static class AnalyzerLogger
     {
         private static readonly Dictionary<string, HashSet<string>> FilesNotFoundLogMessages;
-        private static readonly Dictionary<string, HashSet<string>> FilesDuplicateMessages;
+        private static readonly Dictionary<string, HashSet<string>> FilesFoundLogMessages;
         private static readonly Dictionary<string, HashSet<string>> PathsNotResolvedLogMessages;
         private static readonly Dictionary<string, HashSet<string>> IncludePathsNotFoundLogMessages;
         private static readonly Dictionary<string, HashSet<string>> IncludeFilesNotFoundLogMessages;
@@ -20,7 +20,7 @@ namespace DsmSuite.Analyzer.Util
         static AnalyzerLogger()
         {
             FilesNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
-            FilesDuplicateMessages = new Dictionary<string, HashSet<string>>();
+            FilesFoundLogMessages = new Dictionary<string, HashSet<string>>();
             PathsNotResolvedLogMessages = new Dictionary<string, HashSet<string>>();
             IncludePathsNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
             IncludeFilesNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
@@ -38,17 +38,15 @@ namespace DsmSuite.Analyzer.Util
             FilesNotFoundLogMessages[key].Add(message);
         }
 
-        public static void LogErrorDuplicateFileUsage(string filename, List<string> projects)
+        public static void LogFileFound(string filename, string context)
         {
-            string logFile = "filesDuplcate.log";
-            string message = "Source file include in multiple projects: " + filename;
-            Logger.LogToFile(logFile, message);
-
-            foreach (string project in projects)
+            string key = filename;
+            string message = "In " + context;
+            if (!FilesNotFoundLogMessages.ContainsKey(key))
             {
-                string details = " project=" + project;
-                Logger.LogToFile(logFile, details);
+                FilesFoundLogMessages[key] = new HashSet<string>();
             }
+            FilesFoundLogMessages[key].Add(message);
         }
 
         public static void LogErrorPathNotResolved(string relativePath, string context)
@@ -117,14 +115,15 @@ namespace DsmSuite.Analyzer.Util
 
         public static void Flush()
         {
-            Flush(FilesNotFoundLogMessages, "Files not found", "filesNotFound");
-            Flush(PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved");
-            Flush(IncludePathsNotFoundLogMessages, "Absolute paths not found", "includePathsNotFound");
-            Flush(IncludeFilesNotFoundLogMessages, "Includes files not found", "includeFilesNotFound");
-            Flush(DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved");
+            Flush(FilesNotFoundLogMessages, "Files not found", "filesNotFound", 0);
+            Flush(FilesFoundLogMessages, "Duplicate files found", "duplicateFilesFound", 1);
+            Flush(PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved", 0);
+            Flush(IncludePathsNotFoundLogMessages, "Absolute paths not found", "includePathsNotFound", 0);
+            Flush(IncludeFilesNotFoundLogMessages, "Includes files not found", "includeFilesNotFound", 0);
+            Flush(DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved", 0);
         }
 
-        private static void Flush(Dictionary<string, HashSet<string>> messages, string title, string filename)
+        private static void Flush(Dictionary<string, HashSet<string>> messages, string title, string filename, int minCount)
         {
             string overviewFilename = filename + "Overview.txt";
             string detailsFilename = filename + "Details.txt";
@@ -146,14 +145,19 @@ namespace DsmSuite.Analyzer.Util
             foreach (string key in keys)
             {
                 int occurances = messages[key].Count;
-                totalOccurances += occurances;
-                Logger.LogToFile(overviewFilename, $"{key} {occurances} occurances");
-                Logger.LogToFile(detailsFilename, $"{key} {occurances} occurances");
-                foreach (string message in messages[key])
+
+                if (occurances >= minCount)
                 {
-                    Logger.LogToFile(detailsFilename, "  " + message);
+                    totalOccurances += occurances;
+                    Logger.LogToFile(overviewFilename, $"{key} {occurances} occurances");
+                    Logger.LogToFile(detailsFilename, $"{key} {occurances} occurances");
+                    foreach (string message in messages[key])
+                    {
+                        Logger.LogToFile(detailsFilename, "  " + message);
+                    }
                 }
             }
+
             if (keys.Count > 0)
             {
                 Logger.LogToFile(overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");

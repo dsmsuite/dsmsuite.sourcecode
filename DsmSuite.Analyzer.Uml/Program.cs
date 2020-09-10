@@ -50,7 +50,7 @@ namespace DsmSuite.Analyzer.Uml
     {
         static void Main(string[] args)
         {
-            Logger.Init(Assembly.GetExecutingAssembly());
+            Logger.Init(Assembly.GetExecutingAssembly(), true);
 
             if (args.Length < 1)
             {

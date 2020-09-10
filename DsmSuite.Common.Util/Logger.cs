@@ -12,12 +12,21 @@ namespace DsmSuite.Common.Util
     public class Logger
     {
         private static Assembly _assembly;
+        private static string _logPath;
 
         public static DirectoryInfo LogDirectory { get; private set; }
 
-        public static void Init(Assembly assembly)
+        public static void Init(Assembly assembly, bool logInCurrentDirectory)
         {
             _assembly = assembly;
+            if (logInCurrentDirectory)
+            {
+                _logPath = Directory.GetCurrentDirectory();
+            }
+            else
+            {
+                _logPath = @"C:\Temp\DsmSuiteLogging\";
+            }
         }
 
         public static bool LoggingEnabled { get; set; }
@@ -27,7 +36,7 @@ namespace DsmSuite.Common.Util
             string name = assembly.GetName().Name;
             string version = assembly.GetName().Version.ToString();
             DateTime buildDate = new FileInfo(assembly.Location).LastWriteTime;
-            LogUserMessage(name + " version=" + version + " build=" + buildDate);
+            LogUserMessage(name + " version =" + version + " build=" + buildDate);
         }
         
         public static void LogUserMessage(string message,
@@ -115,7 +124,7 @@ namespace DsmSuite.Common.Util
             DateTime now = DateTime.Now;
             string timestamp = $"{now.Year:0000}-{now.Month:00}-{now.Day:00}-{now.Hour:00}-{now.Minute:00}-{now.Second:00}";
             string assemblyName = _assembly.GetName().Name;
-            return Directory.CreateDirectory($@"C:\Temp\DsmSuiteLogging\{assemblyName}_{timestamp}\");
+            return Directory.CreateDirectory($@"{_logPath}\{assemblyName}_{timestamp}\");
         }
 
         private static string GetLogFullPath(string logFilename)

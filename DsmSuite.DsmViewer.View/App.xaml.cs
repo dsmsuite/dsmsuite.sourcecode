@@ -19,7 +19,8 @@ namespace DsmSuite.DsmViewer.View
 
         static App()
         {
-            Logger.Init(Assembly.GetExecutingAssembly());
+            Logger.Init(Assembly.GetExecutingAssembly(), false);
+
             ViewerSetting.Read();
 
             Logger.LoggingEnabled = ViewerSetting.LoggingEnabled;
