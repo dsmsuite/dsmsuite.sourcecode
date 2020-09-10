@@ -201,7 +201,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
             if (sourceFile.SourceFileInfo.Exists)
             {
-                AnalyzerLogger.LogFileFound(sourceFile.SourceFileInfo.FullName, visualStudioProject.ProjectFileInfo.FullName);
+                AnalyzerLogger.LogFileFound(sourceFile.Name, visualStudioProject.ProjectName);
 
                 switch (_analyzerSettings.ViewMode)
                 {

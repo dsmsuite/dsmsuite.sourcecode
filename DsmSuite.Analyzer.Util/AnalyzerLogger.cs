@@ -42,7 +42,7 @@ namespace DsmSuite.Analyzer.Util
         {
             string key = filename;
             string message = "In " + context;
-            if (!FilesNotFoundLogMessages.ContainsKey(key))
+            if (!FilesFoundLogMessages.ContainsKey(key))
             {
                 FilesFoundLogMessages[key] = new HashSet<string>();
             }
@@ -146,7 +146,7 @@ namespace DsmSuite.Analyzer.Util
             {
                 int occurances = messages[key].Count;
 
-                if (occurances >= minCount)
+                if (occurances > minCount)
                 {
                     totalOccurances += occurances;
                     Logger.LogToFile(overviewFilename, $"{key} {occurances} occurances");
