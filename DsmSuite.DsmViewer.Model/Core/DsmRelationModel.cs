@@ -408,13 +408,13 @@ namespace DsmSuite.DsmViewer.Model.Core
                 IDsmElement currentProvider = relation.Provider;
                 while (currentProvider != null)
                 {
-                    if ((currentConsumer.Id != currentProvider.Id) && !currentConsumer.IsRoot && !currentProvider.IsRoot)
+                    if ((currentConsumer.Id != currentProvider.Id) && 
+                        !currentConsumer.IsRoot && 
+                        !currentProvider.IsRoot &&
+                        !currentConsumer.IsRecursiveChildOf(currentProvider) &&
+                        !currentProvider.IsRecursiveChildOf(currentConsumer))
                     {
-                        //if (!currentConsumer.IsRecursiveChildOf(currentProvider) &&
-                        //    !currentProvider.IsRecursiveChildOf(currentConsumer))
-                        {
-                            currentConsumer.Dependencies.AddDerivedWeight(currentProvider, relation.Weight);
-                        }
+                        currentConsumer.Dependencies.AddDerivedWeight(currentProvider, relation.Weight);
                     }
                     currentProvider = currentProvider.Parent;
                 }
@@ -430,13 +430,13 @@ namespace DsmSuite.DsmViewer.Model.Core
                 IDsmElement currentProvider = relation.Provider;
                 while (currentProvider != null)
                 {
-                    if ((currentConsumer.Id != currentProvider.Id) && !currentConsumer.IsRoot && !currentProvider.IsRoot)
+                    if ((currentConsumer.Id != currentProvider.Id) &&
+                        !currentConsumer.IsRoot &&
+                        !currentProvider.IsRoot &&
+                        !currentConsumer.IsRecursiveChildOf(currentProvider) &&
+                        !currentProvider.IsRecursiveChildOf(currentConsumer))
                     {
-                        //if (!currentConsumer.IsRecursiveChildOf(currentProvider) &&
-                        //    !currentProvider.IsRecursiveChildOf(currentConsumer))
-                        {
-                            currentConsumer.Dependencies.RemoveDerivedWeight(currentProvider, relation.Weight);
-                        }
+                        currentConsumer.Dependencies.RemoveDerivedWeight(currentProvider, relation.Weight);
                     }
                     currentProvider = currentProvider.Parent;
                 }

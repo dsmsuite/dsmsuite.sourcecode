@@ -35,6 +35,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         DsmRelationModel _relationsDataModel;
         DsmElementModel _elementsDataModel;
 
+        private DsmElement _root;
+
         private IDsmElement _a;
         private IDsmElement _a1;
         private IDsmElement _a2;
@@ -45,11 +47,17 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         private IDsmElement _c1;
         private IDsmElement _c2;
 
-        [TestInitialize]
+        private Dictionary<IDsmElement, Dictionary<IDsmElement, int>> _expectedlWeights;
+        private Dictionary<IDsmElement, Dictionary<IDsmElement, int>> _actualWeights;
+
+                [TestInitialize]
         public void TestInitialize()
         {
             _relationsDataModel = new DsmRelationModel();
             _elementsDataModel = new DsmElementModel(_relationsDataModel);
+            _root = _elementsDataModel.GetRootElement() as DsmElement;
+            _expectedlWeights = new Dictionary<IDsmElement, Dictionary<IDsmElement, int>>();
+            _actualWeights = new Dictionary<IDsmElement, Dictionary<IDsmElement, int>>();
 
             CreateElementHierarchy();
         }
@@ -208,52 +216,24 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(4, _relationsDataModel.GetDependencyWeight(_a2, _b2));
-
-            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(204, _relationsDataModel.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(34, _relationsDataModel.GetDependencyWeight(_a, _b2));
-
-            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
+            CheckDependencyWeights();
         }
 
         [TestMethod]
         public void GivenModelIsFilledWhenChangeRelationWeightThenUpdatesCalculatedDerivedWeights()
         {
             CreateElementRelations(_relationsDataModel);
-            
-            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(4, _relationsDataModel.GetDependencyWeight(_a2, _b2));
-
-            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(204, _relationsDataModel.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(34, _relationsDataModel.GetDependencyWeight(_a, _b2));
-
-            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
 
             IDsmRelation relation = _relationsDataModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
-
             _relationsDataModel.ChangeRelationWeight(relation, 5);
 
-            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(5, _relationsDataModel.GetDependencyWeight(_a2, _b2));
+            _expectedlWeights[_a2][_b2] = 5;
+            _expectedlWeights[_a2][_b] = 205;
+            _expectedlWeights[_a][_b2] = 35;
+            _expectedlWeights[_a][_b] = 1235;
 
-            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(205, _relationsDataModel.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(35, _relationsDataModel.GetDependencyWeight(_a, _b2));
-
-            Assert.AreEqual(1235, _relationsDataModel.GetDependencyWeight(_a, _b));
+            CheckDependencyWeights();
         }
 
         [TestMethod]
@@ -289,34 +269,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(4, _relationsDataModel.GetDependencyWeight(_a2, _b2));
-
-            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(204, _relationsDataModel.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(34, _relationsDataModel.GetDependencyWeight(_a, _b2));
-
-            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
-
             IDsmRelation relation = _relationsDataModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
-
             _relationsDataModel.RemoveRelation(relation.Id);
 
-            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(0, _relationsDataModel.GetDependencyWeight(_a2, _b2));
+            _expectedlWeights[_a2][_b2] = 0;
+            _expectedlWeights[_a2][_b] = 200;
+            _expectedlWeights[_a][_b2] = 30;
+            _expectedlWeights[_a][_b] = 1230;
 
-            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a, _b2));
-
-            Assert.AreEqual(1230, _relationsDataModel.GetDependencyWeight(_a, _b));
+            CheckDependencyWeights();
         }
 
         [TestMethod]
@@ -324,48 +286,25 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(4, _relationsDataModel.GetDependencyWeight(_a2, _b2));
-
-            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(204, _relationsDataModel.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(34, _relationsDataModel.GetDependencyWeight(_a, _b2));
-
-            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
-
             IDsmRelation relation = _relationsDataModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
-
             _relationsDataModel.RemoveRelation(relation.Id);
 
-            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(0, _relationsDataModel.GetDependencyWeight(_a2, _b2));
+            _expectedlWeights[_a2][_b2] = 0;
+            _expectedlWeights[_a2][_b] = 200;
+            _expectedlWeights[_a][_b2] = 30;
+            _expectedlWeights[_a][_b] = 1230;
 
-            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a, _b2));
-
-            Assert.AreEqual(1230, _relationsDataModel.GetDependencyWeight(_a, _b));
+            CheckDependencyWeights();
 
             _relationsDataModel.UnremoveRelation(relation.Id);
 
-            Assert.AreEqual(1000, _relationsDataModel.GetDependencyWeight(_a1, _b1));
-            Assert.AreEqual(200, _relationsDataModel.GetDependencyWeight(_a2, _b1));
-            Assert.AreEqual(30, _relationsDataModel.GetDependencyWeight(_a1, _b2));
-            Assert.AreEqual(4, _relationsDataModel.GetDependencyWeight(_a2, _b2));
+            _expectedlWeights[_a2][_b2] = 4;
+            _expectedlWeights[_a2][_b] = 204;
+            _expectedlWeights[_a][_b2] = 34;
+            _expectedlWeights[_a][_b] = 1234;
 
-            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(204, _relationsDataModel.GetDependencyWeight(_a2, _b));
-            Assert.AreEqual(1200, _relationsDataModel.GetDependencyWeight(_a, _b1));
-            Assert.AreEqual(34, _relationsDataModel.GetDependencyWeight(_a, _b2));
-
-            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
+            CheckDependencyWeights();
         }
 
         [TestMethod]
@@ -487,15 +426,26 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             CreateElementRelations(_relationsDataModel);
 
-            Assert.AreEqual(1030, _relationsDataModel.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
-            Assert.AreEqual(5, _relationsDataModel.GetDependencyWeight(_a, _c));
-
             _elementsDataModel.ChangeElementParent(_c2, _b);
 
-            Assert.AreEqual(1035, _relationsDataModel.GetDependencyWeight(_a1, _b));
-            Assert.AreEqual(1239, _relationsDataModel.GetDependencyWeight(_a, _b));
-            Assert.AreEqual(0, _relationsDataModel.GetDependencyWeight(_a, _c));
+            // Derived a 
+            _expectedlWeights[_a1][_b] = 1035;
+            _expectedlWeights[_a][_b] = 1239;
+
+            _expectedlWeights[_a][_c] = 0;
+            _expectedlWeights[_a1][_c] = 0;
+
+            // Derived b
+            _expectedlWeights[_b][_c] = 1;
+            _expectedlWeights[_b][_c1] = 1;
+
+            // Derived c
+            _expectedlWeights[_c][_b] = 1;
+            _expectedlWeights[_c1][_b] = 1;
+            _expectedlWeights[_c][_c2] = 1;
+            _expectedlWeights[_c2][_c] = 1;
+            
+            CheckDependencyWeights();
         }
 
         [TestMethod]
@@ -540,6 +490,98 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             _relationsDataModel.AddRelation(_c1, _c2, "", 1);
             _relationsDataModel.AddRelation(_c2, _c1, "", 1);
+
+            SetExpectedDependencyWeights();
+        }
+
+        private void SetExpectedDependencyWeights()
+        {
+            IDictionary<int, DsmElement> children = _root.GetElementAndItsChildren();
+            foreach (DsmElement consumer in children.Values)
+            {
+                foreach (DsmElement provider in children.Values)
+                {
+                    if (!_expectedlWeights.ContainsKey(consumer))
+                    {
+                        _expectedlWeights[consumer] = new Dictionary<IDsmElement, int>();
+                    }
+                    _expectedlWeights[consumer][provider] = 0;
+                }
+            }
+
+            // Direct a
+            _expectedlWeights[_a1][_a2] = 1;
+
+            _expectedlWeights[_a1][_b1] = 1000;
+            _expectedlWeights[_a2][_b1] = 200;
+            _expectedlWeights[_a1][_b2] = 30;
+            _expectedlWeights[_a2][_b2] = 4;
+
+            _expectedlWeights[_a1][_c2] = 5;
+
+            // Direct b
+            _expectedlWeights[_b2][_a1] = 2;
+            _expectedlWeights[_b2][_a2] = 3;
+
+            // Direct c
+            _expectedlWeights[_c1][_a2] = 4;
+
+            _expectedlWeights[_c1][_c2] = 1;
+            _expectedlWeights[_c2][_c1] = 1;
+
+            // Derived a
+            _expectedlWeights[_a1][_b] = 1030;
+            _expectedlWeights[_a2][_b] = 204;
+            _expectedlWeights[_a][_b1] = 1200;
+            _expectedlWeights[_a][_b2] = 34;
+
+            _expectedlWeights[_a][_b] = 1234;
+
+            _expectedlWeights[_a][_c2] = 5;
+            _expectedlWeights[_a1][_c] = 5;
+            _expectedlWeights[_a][_c] = 5;
+
+            // Derived b
+            _expectedlWeights[_b][_a1] = 2;
+            _expectedlWeights[_b][_a2] = 3;
+            _expectedlWeights[_b2][_a] = 5;
+            _expectedlWeights[_b][_a] = 5;
+
+            // Derived c
+            _expectedlWeights[_c1][_a] = 4;
+            _expectedlWeights[_c][_a2] = 4;
+            _expectedlWeights[_c][_a] = 4;
+        }
+        
+        private void CheckDependencyWeights()
+        {
+            SetActualDependencyWeights();
+            IDictionary<int, DsmElement> children = _root.GetElementAndItsChildren();
+            foreach (DsmElement consumer in children.Values)
+            {
+                foreach (DsmElement provider in children.Values)
+                {
+                    int expected = _expectedlWeights[consumer][provider];
+                    int actual = _actualWeights[consumer][provider];
+                    Assert.AreEqual(expected, actual, $"Weight not equal consumer={consumer.Fullname} provider={provider.Fullname} expected={expected}");
+                }
+            }
+        }
+
+        private void SetActualDependencyWeights()
+        {
+            IDictionary<int, DsmElement> children = _root.GetElementAndItsChildren();
+            foreach (DsmElement consumer in children.Values)
+            {
+                foreach (DsmElement provider in children.Values)
+                {
+                    if (!_actualWeights.ContainsKey(consumer))
+                    {
+                        _actualWeights[consumer] = new Dictionary<IDsmElement, int>();
+                    }
+                    _actualWeights[consumer][provider] = consumer.Dependencies.GetDerivedDependencyWeight(provider);
+                }
+            }
         }
     }
 }
