@@ -298,7 +298,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return action;
         }
 
-        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted)
+        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted, string annotation)
         {
             DsmElement element = new DsmElement(id, name, type, order, expanded);
             if (!parentId.HasValue)

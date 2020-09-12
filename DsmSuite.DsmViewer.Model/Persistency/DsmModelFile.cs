@@ -33,6 +33,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ElementExpandedXmlAttribute = "expanded";
         private const string ElementParentXmlAttribute = "parent";
         private const string ElementDeletedXmlAttribute = "deleted";
+        private const string ElementAnnotationXmlAttribute = "annotation";
 
         private const string RelationGroupXmlNode = "relations";
 
@@ -250,6 +251,10 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             {
                 writer.WriteAttributeString(ElementParentXmlAttribute, element.Parent.Id.ToString());
             }
+            if (!string.IsNullOrEmpty(element.Annotation))
+            {
+                writer.WriteAttributeString(ElementAnnotationXmlAttribute, element.Annotation);
+            }
             writer.WriteEndElement();
 
             _progressedElementCount++;
@@ -272,10 +277,11 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 bool expanded = ParseBool(xReader.GetAttribute(ElementExpandedXmlAttribute));
                 int? parent = ParseInt(xReader.GetAttribute(ElementParentXmlAttribute));
                 bool deleted = ParseBool(xReader.GetAttribute(ElementDeletedXmlAttribute));
+                string annotation = xReader.GetAttribute(ElementAnnotationXmlAttribute);
 
                 if (id.HasValue && order.HasValue)
                 {
-                    _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent, deleted);
+                    _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent, deleted, annotation);
                 }
 
                 _progressedElementCount++;

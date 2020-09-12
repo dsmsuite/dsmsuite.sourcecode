@@ -26,6 +26,11 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         string Name { get; }
 
         /// <summary>
+        /// Optional annotation of the element.
+        /// </summary>
+        string Annotation { get; set; }
+
+        /// <summary>
         /// Full name of the element based on its position in the element hierarchy
         /// </summary>
         string Fullname { get; }
@@ -42,8 +47,6 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// Children of the element.
         /// </summary>
         IList<IDsmElement> Children { get; }
-
-        int ChildCount { get; }
 
         IList<IDsmElement> AllChildren { get; }
 

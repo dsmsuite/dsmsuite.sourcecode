@@ -27,37 +27,24 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public DsmDependencies Dependencies { get; }
 
-        /// <summary>
-        /// Number uniquely identifying element.
-        /// </summary>
         public int Id { get; }
 
-        /// <summary>
-        /// Number identifying sequential order of the element in element tree.
-        /// </summary>
         public int Order { get; set; }
 
-        /// <summary>
-        /// Type of element.
-        /// </summary>
         public string Type
         {
             get { return TypeRegistration.GetTypeName(_typeId); }
             set { _typeId = TypeRegistration.AddTypeName(value); }
         }
 
-        /// <summary>
-        /// Name of the element.
-        /// </summary>
         public string Name { get; set; }
+
+        public string Annotation { get; set; }
 
         public bool IsDeleted { get; set; }
 
         public bool IsRoot => Parent == null;
 
-        /// <summary>
-        /// Full name of the element based on its position in the element hierarchy
-        /// </summary>
         public string Fullname
         {
             get
@@ -76,24 +63,12 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        /// <summary>
-        /// Is the element expanded in the viewer.
-        /// </summary>
         public bool IsExpanded { get; set; }
 
-        /// <summary>
-        /// Is the element match in search.
-        /// </summary>
         public bool IsMatch { get; set; }
 
-        /// <summary>
-        /// Is the element included in the tree
-        /// </summary>
         public bool IsIncludedInTree { get; set; }
 
-        /// <summary>
-        /// Parent of the element.
-        /// </summary>
         public IDsmElement Parent => _parent;
 
         public bool IsRecursiveChildOf(IDsmElement element)
@@ -113,24 +88,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             return isRecursiveChildOf;
         }
 
-        /// <summary>
-        /// Children of the element.
-        /// </summary>
         public IList<IDsmElement> Children => _children.Where(child => ((child.IsDeleted == false) && (child.IsIncludedInTree == true))).ToList();
 
         public int ChildCount => Children.Count;
 
         public IList<IDsmElement> AllChildren => _children;
 
-        /// <summary>
-        /// Has the element any children.
-        /// </summary>
         public bool HasChildren => Children.Count > 0;
 
-        /// <summary>
-        /// Add a child to the element.
-        /// </summary>
-        /// <param name="child">The child to be added</param>
         public void AddChild(IDsmElement child)
         {
             _children.Add(child);
@@ -141,10 +106,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        /// <summary>
-        /// Remove a child from the element.
-        /// </summary>
-        /// <param name="child">The child to be added</param>
         public void RemoveChild(IDsmElement child)
         {
             _children.Remove(child);
