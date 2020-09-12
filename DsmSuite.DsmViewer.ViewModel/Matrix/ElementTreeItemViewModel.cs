@@ -31,6 +31,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         public int Id => Element.Id;
         public int Order => Element.Order;
+        public bool IsMatch => Element.IsMatch;
+        public bool IsConsumer { get; set; }
+        public bool IsProvider { get; set; }
 
         public string Name => Element.IsRoot ? "Root" : Element.Name;
 

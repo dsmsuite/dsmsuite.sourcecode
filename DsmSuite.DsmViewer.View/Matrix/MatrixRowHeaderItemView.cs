@@ -110,6 +110,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 bool isHovered = _matrixViewModel.HoveredTreeItem == _viewModel;
                 bool isSelected = _matrixViewModel.SelectedTreeItem == _viewModel;
                 SolidColorBrush background = _theme.GetBackground(_viewModel.Color, isHovered, isSelected);
+                SolidColorBrush indicator = new SolidColorBrush(Colors.Red);
                 Rect backgroundRect = new Rect(1.0, 1.0, ActualWidth - _theme.SpacingWidth, ActualHeight - _theme.SpacingWidth);
                 dc.DrawRectangle(background, null, backgroundRect);
 
@@ -122,6 +123,28 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 }
                 else
                 {
+                    Rect indicatorRect = new Rect(backgroundRect.Width - 10, 1.0, 10, ActualHeight - _theme.SpacingWidth);
+
+                    if (_viewModel.IsMatch)
+                    {
+                        dc.DrawRectangle(_theme.MatrixColorMatch, null, indicatorRect);
+                    }
+                    else
+                    {
+                        if (_viewModel.IsConsumer)
+                        {
+                            dc.DrawRectangle(
+                                _viewModel.IsProvider
+                                    ? _theme.MatrixColorHierarchicalCycle
+                                    : _theme.MatrixColorConsumer, null, indicatorRect);
+                        }
+                        else
+                        {
+                            dc.DrawRectangle(_viewModel.IsProvider ? _theme.MatrixColorProvider : background,
+                                null, indicatorRect);
+                        }
+                    }
+
                     if (ActualWidth > 70.0)
                     {
                         Point contentTextLocation = new Point(backgroundRect.X + 20.0, backgroundRect.Y + 15.0);

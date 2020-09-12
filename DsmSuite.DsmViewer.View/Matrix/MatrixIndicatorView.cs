@@ -84,25 +84,25 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     MatrixColor color = _viewModel.ColumnColors[row];
                     SolidColorBrush background = _theme.GetBackground(color, isHovered, isSelected);
 
-                    if (_viewModel.RowIsMatch[row])
-                    {
-                        dc.DrawRectangle(_theme.MatrixColorMatch, null, _rect);
-                    }
-                    else
-                    {
-                        if (_viewModel.RowIsConsumer[row])
-                        {
-                            dc.DrawRectangle(
-                                _viewModel.RowIsProvider[row]
-                                    ? _theme.MatrixColorHierarchicalCycle
-                                    : _theme.MatrixColorConsumer, null, _rect);
-                        }
-                        else
-                        {
-                            dc.DrawRectangle(_viewModel.RowIsProvider[row] ? _theme.MatrixColorProvider : background,
-                                null, _rect);
-                        }
-                    }
+                    //if (_viewModel.RowIsMatch[row])
+                    //{
+                    //    dc.DrawRectangle(_theme.MatrixColorMatch, null, _rect);
+                    //}
+                    //else
+                    //{
+                    //    if (_viewModel.RowIsConsumer[row])
+                    //    {
+                    //        dc.DrawRectangle(
+                    //            _viewModel.RowIsProvider[row]
+                    //                ? _theme.MatrixColorHierarchicalCycle
+                    //                : _theme.MatrixColorConsumer, null, _rect);
+                    //    }
+                    //    else
+                    //    {
+                    //        dc.DrawRectangle(_viewModel.RowIsProvider[row] ? _theme.MatrixColorProvider : background,
+                    //            null, _rect);
+                    //    }
+                    //}
                 }
 
                 Height = _theme.MatrixCellSize * matrixSize + _theme.SpacingWidth;

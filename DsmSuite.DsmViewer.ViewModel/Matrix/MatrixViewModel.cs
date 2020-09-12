@@ -31,9 +31,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private List<MatrixColor> _columnColors;
         private List<int> _columnElementIds;
         private List<string> _metrics;
-        private List<bool> _rowIsProvider;
-        private List<bool> _rowIsConsumer;
-        private List<bool> _rowIsMatch;
         private int? _selectedConsumerId;
         private int? _selectedProviderId;
 
@@ -188,9 +185,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public IReadOnlyList<IList<MatrixColor>> CellColors => _cellColors;
         public IReadOnlyList<IReadOnlyList<int>> CellWeights => _cellWeights;
         public IReadOnlyList<string> Metrics => _metrics;
-        public IReadOnlyList<bool> RowIsProvider => _rowIsProvider;
-        public IReadOnlyList<bool> RowIsConsumer => _rowIsConsumer;
-        public IReadOnlyList<bool> RowIsMatch => _rowIsMatch;
 
         public double ZoomLevel
         {
@@ -198,20 +192,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             set { _zoomLevel = value; OnPropertyChanged(); }
         }
 
-        public void NavigateToSelectedElement(IDsmElement element)
-        {
-            ExpandElement(element);
-            SelectElement(element);
-        }
-
         public void Reload()
         {
             BackupSelectionBeforeReload();
             ElementViewModelTree = CreateElementViewModelTree();
             _elementViewModelLeafs = FindLeafElementViewModels();
-            DefineProviderRows();
-            DefineConsumerRows();
-            DefineMatchingRows();
             DefineColumnColors();
             DefineColumnContent();
             DefineCellColors();
@@ -871,39 +856,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             Reload();
         }
 
-        private void DefineProviderRows()
-        {
-            _rowIsProvider = new List<bool>();
-            for (int row = 0; row < _elementViewModelLeafs.Count; row++)
-            {
-                _rowIsProvider.Add(false);
-            }
-        }
-
         private void UpdateProviderRows()
         {
             if (SelectedRow.HasValue)
             {
                 for (int row = 0; row < _elementViewModelLeafs.Count; row++)
                 {
-                    _rowIsProvider[row] = _cellWeights[row][SelectedRow.Value] > 0;
+                    _elementViewModelLeafs[row].IsProvider = _cellWeights[row][SelectedRow.Value] > 0;
                 }
             }
             else
             {
                 for (int row = 0; row < _elementViewModelLeafs.Count; row++)
                 {
-                    _rowIsProvider[row] = false;
+                    _elementViewModelLeafs[row].IsProvider = false;
                 }
-            }
-        }
-
-        private void DefineConsumerRows()
-        {
-            _rowIsConsumer = new List<bool>();
-            for (int row = 0; row < _elementViewModelLeafs.Count; row++)
-            {
-                _rowIsConsumer.Add(false);
             }
         }
 
@@ -913,35 +880,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             {
                 for (int row = 0; row < _elementViewModelLeafs.Count; row++)
                 {
-                    _rowIsConsumer[row] = _cellWeights[SelectedRow.Value][row] > 0;
+                    _elementViewModelLeafs[row].IsConsumer = _cellWeights[SelectedRow.Value][row] > 0;
                 }
             }
             else
             {
                 for (int row = 0; row < _elementViewModelLeafs.Count; row++)
                 {
-                    _rowIsConsumer[row] = false;
+                    _elementViewModelLeafs[row].IsConsumer = false;
                 }
-            }
-        }
-
-        private void DefineMatchingRows()
-        {
-            _rowIsMatch = new List<bool>();
-            for (int row = 0; row < _elementViewModelLeafs.Count; row++)
-            {
-                _rowIsMatch.Add(false);
             }
         }
 
         private int UpdateMatchingRows()
         {
-            int count =  _application.SearchElements(_searchText);
-            for (int row = 0; row < _elementViewModelLeafs.Count; row++)
-            {
-                _rowIsMatch[row] = _elementViewModelLeafs[row].Element.IsMatch;
-            }
-            return count;
+            return  _application.SearchElements(_searchText);
         }
 
         private void BackupSelectionBeforeReload()
