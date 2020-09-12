@@ -13,6 +13,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private static readonly string DataObjectName = "Element";
         private readonly MatrixTheme _theme;
         private ElementTreeItemViewModel _viewModel;
+        private readonly int _indicatorWith = 5;
 
         public MatrixRowHeaderItemView(MatrixViewModel matrixViewModel, MatrixTheme theme)
         {
@@ -123,7 +124,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 }
                 else
                 {
-                    Rect indicatorRect = new Rect(backgroundRect.Width - 10, 1.0, 10, ActualHeight - _theme.SpacingWidth);
+                    Rect indicatorRect = new Rect(backgroundRect.Width - _indicatorWith, 1.0, _indicatorWith, ActualHeight - _theme.SpacingWidth);
 
                     if (_viewModel.IsMatch)
                     {

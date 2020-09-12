@@ -27,43 +27,34 @@
 
         <!--  colomn 0 matrix navigation and indicator bar-->
         <matrix:MatrixTopCornerView Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <Grid Grid.Column="0" Grid.Row="1" Height="Auto" HorizontalAlignment="Stretch" ClipToBounds="True">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="5" />
-            </Grid.ColumnDefinitions>
 
-            <Canvas x:Name="RowHeader" Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" ClipToBounds="True">
-                <matrix:MatrixRowHeaderView x:Name="RowHeaderView" Height="Auto" Width="{Binding ActualWidth, ElementName=RowHeader}">
-                    <matrix:MatrixRowHeaderView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Sort" Command="{Binding SortElementCommand}" />
-                            <MenuItem Header="Move up" Command="{Binding MoveUpElementCommand}" />
-                            <MenuItem Header="Move down" Command="{Binding MoveDownElementCommand}" />
-                            <Separator />
-                            <MenuItem Header="Create element" Command="{Binding CreateElementCommand}" />
-                            <MenuItem Header="Change element name" Command="{Binding ChangeElementNameCommand}" />
-                            <MenuItem Header="Change element type" Command="{Binding ChangeElementTypeCommand}" />
-                            <MenuItem Header="Delete element" Command="{Binding DeleteElementCommand}" />
-                            <Separator />
-                            <MenuItem Header="Show ingoing relations" Command="{Binding ShowElementIngoingRelationsCommand}" />
-                            <MenuItem Header="Show outgoing relations" Command="{Binding ShowElementOutgoingRelationCommand}" />
-                            <MenuItem Header="Show internal relations" Command="{Binding ShowElementinternalRelationsCommand}" />
-                            <Separator />
-                            <MenuItem Header="Show element consumers" Command="{Binding ShowElementConsumersCommand}" />
-                            <MenuItem Header="Show element interface" Command="{Binding ShowElementProvidedInterfacesCommand}" />
-                            <MenuItem Header="Show element providers" Command="{Binding ShowElementRequiredInterfacesCommand}" />
-                            <Separator />
-                            <MenuItem Header="Show detail matrix" Command="{Binding ShowElementDetailMatrixCommand}" />
-                            <MenuItem Header="Show context matrix" Command="{Binding ShowElementContextMatrixCommand}" />
-                        </ContextMenu>
-                    </matrix:MatrixRowHeaderView.ContextMenu>
-                </matrix:MatrixRowHeaderView>
-            </Canvas>
-            <Canvas Grid.Column="1" Height="Auto" HorizontalAlignment="Stretch" ClipToBounds="True">
-                <matrix:MatrixIndicatorView x:Name="IndicatorView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            </Canvas>
-        </Grid>
+        <Canvas x:Name="RowHeader" Grid.Row="1" Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch" ClipToBounds="True">
+            <matrix:MatrixRowHeaderView x:Name="RowHeaderView" Height="Auto" Width="{Binding ActualWidth, ElementName=RowHeader}">
+                <matrix:MatrixRowHeaderView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Sort" Command="{Binding SortElementCommand}" />
+                        <MenuItem Header="Move up" Command="{Binding MoveUpElementCommand}" />
+                        <MenuItem Header="Move down" Command="{Binding MoveDownElementCommand}" />
+                        <Separator />
+                        <MenuItem Header="Create element" Command="{Binding CreateElementCommand}" />
+                        <MenuItem Header="Change element name" Command="{Binding ChangeElementNameCommand}" />
+                        <MenuItem Header="Change element type" Command="{Binding ChangeElementTypeCommand}" />
+                        <MenuItem Header="Delete element" Command="{Binding DeleteElementCommand}" />
+                        <Separator />
+                        <MenuItem Header="Show ingoing relations" Command="{Binding ShowElementIngoingRelationsCommand}" />
+                        <MenuItem Header="Show outgoing relations" Command="{Binding ShowElementOutgoingRelationCommand}" />
+                        <MenuItem Header="Show internal relations" Command="{Binding ShowElementinternalRelationsCommand}" />
+                        <Separator />
+                        <MenuItem Header="Show element consumers" Command="{Binding ShowElementConsumersCommand}" />
+                        <MenuItem Header="Show element interface" Command="{Binding ShowElementProvidedInterfacesCommand}" />
+                        <MenuItem Header="Show element providers" Command="{Binding ShowElementRequiredInterfacesCommand}" />
+                        <Separator />
+                        <MenuItem Header="Show detail matrix" Command="{Binding ShowElementDetailMatrixCommand}" />
+                        <MenuItem Header="Show context matrix" Command="{Binding ShowElementContextMatrixCommand}" />
+                    </ContextMenu>
+                </matrix:MatrixRowHeaderView.ContextMenu>
+            </matrix:MatrixRowHeaderView>
+        </Canvas>
 
         <!--  colomn 1 matrix splitter -->
         <GridSplitter x:Name="Splitter" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="5" Style="{StaticResource GridSplitterStyle}"/>

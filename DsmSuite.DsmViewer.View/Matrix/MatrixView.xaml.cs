@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             InitializeComponent();
         }
 
-        public double UsedWidth => RowHeaderView.ActualWidth + IndicatorView.ActualWidth + Splitter.ActualWidth + /*RowMetricsView.ActualWidth*/ + CellsView.UsedWidth;
+        public double UsedWidth => RowHeaderView.ActualWidth + Splitter.ActualWidth + /*RowMetricsView.ActualWidth*/ + CellsView.UsedWidth;
 
         public double UsedHeight => ColumnHeaderView.ActualHeight + CellsView.UsedHeight;
 
@@ -20,7 +20,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             Canvas.SetLeft(ColumnHeaderView, -e.HorizontalOffset);
             Canvas.SetTop(RowHeaderView, -e.VerticalOffset);
-            Canvas.SetTop(IndicatorView, -e.VerticalOffset);
+            //Canvas.SetTop(IndicatorView, -e.VerticalOffset);
             Canvas.SetTop(RowMetricsView, -e.VerticalOffset);
         }
     }
