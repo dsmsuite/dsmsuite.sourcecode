@@ -41,6 +41,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public bool IsDeleted { get; set; }
 
+        public bool IsBookmarked { get; set; }
+
         public bool IsRoot => Parent == null;
 
         public string Fullname

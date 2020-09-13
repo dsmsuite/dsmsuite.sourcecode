@@ -35,6 +35,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ElementExpandedXmlAttribute = "expanded";
         private const string ElementParentXmlAttribute = "parent";
         private const string ElementDeletedXmlAttribute = "deleted";
+        private const string ElementBookmarkedXmlAttribute = "bookmarked";
 
         private const string RelationGroupXmlNode = "relations";
 
@@ -283,6 +284,10 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             {
                 writer.WriteAttributeString(ElementDeletedXmlAttribute, "true");
             }
+            if (element.IsBookmarked)
+            {
+                writer.WriteAttributeString(ElementBookmarkedXmlAttribute, "true");
+            }
             if ((element.Parent != null) && (element.Parent.Id > 0))
             {
                 writer.WriteAttributeString(ElementParentXmlAttribute, element.Parent.Id.ToString());
@@ -309,10 +314,11 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 bool expanded = ParseBool(xReader.GetAttribute(ElementExpandedXmlAttribute));
                 int? parent = ParseInt(xReader.GetAttribute(ElementParentXmlAttribute));
                 bool deleted = ParseBool(xReader.GetAttribute(ElementDeletedXmlAttribute));
-
+                bool bookmarked  = ParseBool(xReader.GetAttribute(ElementBookmarkedXmlAttribute));
                 if (id.HasValue && order.HasValue)
                 {
-                    _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent, deleted);
+                    IDsmElement element = _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent, deleted);
+                    element.IsBookmarked = bookmarked;
                 }
 
                 _progressedElementCount++;
