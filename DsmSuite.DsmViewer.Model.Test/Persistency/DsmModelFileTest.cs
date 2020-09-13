@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.Common.Model.Core;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Model.Persistency;
+using System;
 
 namespace DsmSuite.DsmViewer.Model.Test.Persistency
 {
@@ -34,7 +35,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
     /// --+----+------+------+------+------+------+------+
     /// </summary>
     [TestClass]
-    public class DsmModelFileTest : IMetaDataModelFileCallback, IDsmElementModelFileCallback, IDsmRelationModelFileCallback, IDsmActionModelFileCallback
+    public class DsmModelFileTest : IMetaDataModelFileCallback, IDsmElementModelFileCallback, IDsmRelationModelFileCallback, IDsmActionModelFileCallback, IDsmAnnotationModelFileCallback
     {
         private readonly DsmElement _rootElement = new DsmElement(0, "", "");
         private readonly List<DsmRelation> _relations = new List<DsmRelation>();
@@ -50,7 +51,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         public void TestLoadModel()
         {
             string inputFile = "DsmSuite.DsmViewer.Model.Test.Input.dsm";
-            DsmModelFile readModelFile = new DsmModelFile(inputFile, this, this, this, this);
+            DsmModelFile readModelFile = new DsmModelFile(inputFile, this, this, this, this, this);
             readModelFile.Load(null);
             Assert.IsFalse(readModelFile.IsCompressedFile());
 
@@ -213,7 +214,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
 
             FillModelData();
 
-            DsmModelFile writtenModelFile = new DsmModelFile(outputFile, this, this, this, this);
+            DsmModelFile writtenModelFile = new DsmModelFile(outputFile, this, this, this, this, this);
             writtenModelFile.Save(false, null);
             Assert.IsFalse(writtenModelFile.IsCompressedFile());
 
@@ -298,7 +299,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return action;
         }
 
-        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted, string annotation)
+        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted)
         {
             DsmElement element = new DsmElement(id, name, type, order, expanded);
             if (!parentId.HasValue)
@@ -397,6 +398,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         public int GetExportedActionCount()
         {
             return _actions.Count; 
+        }
+
+        public IEnumerable<IDsmElementAnnotation> GetElementAnnotations()
+        {
+            return new List<IDsmElementAnnotation>();
+        }
+
+        public IEnumerable<IDsmRelationAnnotation> GetRelationAnnotations()
+        {
+            return new List<IDsmRelationAnnotation>();
         }
     }
 }

@@ -40,7 +40,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _deletedElementsById.Clear();
         }
 
-        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted, string annotation)
+        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted)
         {
             Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} order={order} expanded={expanded} parentId={parentId}");
 
@@ -48,7 +48,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 _lastElementId = id;
             }
-            return AddElement(id, name, type, order, expanded, parentId, deleted, annotation);
+            return AddElement(id, name, type, order, expanded, parentId, deleted);
         }
 
         public IDsmElement AddElement(string name, string type, int? parentId)
@@ -70,7 +70,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (element == null)
             {
                 _lastElementId++;
-                element = AddElement(_lastElementId, name, type, 0, false, parentId, false, null);
+                element = AddElement(_lastElementId, name, type, 0, false, parentId, false);
             }
 
             return element;
@@ -344,9 +344,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return previousSibling;
         }
 
-        private IDsmElement AddElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted, string annotation)
+        private IDsmElement AddElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted)
         {
-            DsmElement element = new DsmElement(id, name, type) { Order = order, IsExpanded = expanded, IsDeleted = deleted , Annotation = annotation };
+            DsmElement element = new DsmElement(id, name, type) { Order = order, IsExpanded = expanded, IsDeleted = deleted };
 
             if (parentId.HasValue)
             {

@@ -33,7 +33,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ElementExpandedXmlAttribute = "expanded";
         private const string ElementParentXmlAttribute = "parent";
         private const string ElementDeletedXmlAttribute = "deleted";
-        private const string ElementAnnotationXmlAttribute = "annotation";
 
         private const string RelationGroupXmlNode = "relations";
 
@@ -51,11 +50,24 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ActionIdXmlAttribute = "id";
         private const string ActionTypeXmlAttribute = "type";
         private const string ActionDataXmlNode = "data";
+
+        private const string ElementAnnotationGroupXmlNode = "elementAnnotations";
+        private const string ElementAnnotationXmlNode = "elementAnnotation";
+        private const string ElementAnnotationIdXmlAttribute = "id";
+        private const string ElementAnnotationTextXmlAttribute = "text";
+
+        private const string RelationAnnotationGroupXmlNode = "relationAnnotations";
+        private const string RelationAnnotationXmlNode = "relationAnnotation";
+        private const string RelationAnnotationToIdXmlAttribute = "to";
+        private const string RelationAnnotationFromIdXmlAttribute = "from";
+        private const string RelationAnnotationTextXmlAttribute = "text";
+
         private readonly string _filename;
         private readonly IMetaDataModelFileCallback _metaDataModelCallback;
         private readonly IDsmElementModelFileCallback _elementModelCallback;
         private readonly IDsmRelationModelFileCallback _relationModelCallback;
         private readonly IDsmActionModelFileCallback _actionModelCallback;
+        private readonly IDsmAnnotationModelFileCallback _annotationModelCallback;
         private int _totalElementCount;
         private int _progressedElementCount;
         private int _totalRelationCount;
@@ -69,13 +81,15 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                             IMetaDataModelFileCallback metaDataModelCallback,
                             IDsmElementModelFileCallback elementModelCallback,
                             IDsmRelationModelFileCallback relationModelCallback,
-                            IDsmActionModelFileCallback actionModelCallback)
+                            IDsmActionModelFileCallback actionModelCallback,
+                            IDsmAnnotationModelFileCallback annotationModelCallback)
         {
             _filename = filename;
             _metaDataModelCallback = metaDataModelCallback;
             _elementModelCallback = elementModelCallback;
             _relationModelCallback = relationModelCallback;
             _actionModelCallback = actionModelCallback;
+            _annotationModelCallback = annotationModelCallback;
         }
 
         public void Save(bool compressed, IProgress<ProgressInfo> progress)
@@ -116,6 +130,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     WriteElements(writer, progress);
                     WriteRelations(writer, progress);
                     WriteActions(writer, progress);
+                    WriteElementAnnotations(writer, progress);
+                    WriteRelationAnnotations(writer, progress);
                 }
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
@@ -251,10 +267,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             {
                 writer.WriteAttributeString(ElementParentXmlAttribute, element.Parent.Id.ToString());
             }
-            if (!string.IsNullOrEmpty(element.Annotation))
-            {
-                writer.WriteAttributeString(ElementAnnotationXmlAttribute, element.Annotation);
-            }
             writer.WriteEndElement();
 
             _progressedElementCount++;
@@ -277,11 +289,10 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 bool expanded = ParseBool(xReader.GetAttribute(ElementExpandedXmlAttribute));
                 int? parent = ParseInt(xReader.GetAttribute(ElementParentXmlAttribute));
                 bool deleted = ParseBool(xReader.GetAttribute(ElementDeletedXmlAttribute));
-                string annotation = xReader.GetAttribute(ElementAnnotationXmlAttribute);
 
                 if (id.HasValue && order.HasValue)
                 {
-                    _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent, deleted, annotation);
+                    _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent, deleted);
                 }
 
                 _progressedElementCount++;
@@ -400,6 +411,45 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 _progressedActionCount++;
                 UpdateProgress(progress);
             }
+        }
+
+        private void WriteElementAnnotations(XmlWriter writer, IProgress<ProgressInfo> progress)
+        {
+            writer.WriteStartElement(ElementAnnotationGroupXmlNode);
+            foreach (IDsmElementAnnotation annotation in _annotationModelCallback.GetElementAnnotations())
+            {
+                WriteElementAnnotation(writer, annotation, progress);
+            }
+            writer.WriteEndElement();
+        }
+
+        private void WriteElementAnnotation(XmlWriter writer, IDsmElementAnnotation annotation, IProgress<ProgressInfo> progress)
+        {
+            writer.WriteStartElement(ElementAnnotationXmlNode);
+            writer.WriteAttributeString(ElementAnnotationIdXmlAttribute, annotation.ElementId.ToString());
+            writer.WriteAttributeString(ElementAnnotationTextXmlAttribute, annotation.Text);
+            writer.WriteStartElement(ActionDataXmlNode);
+            writer.WriteEndElement();
+        }
+
+        private void WriteRelationAnnotations(XmlWriter writer, IProgress<ProgressInfo> progress)
+        {
+            writer.WriteStartElement(RelationAnnotationGroupXmlNode);
+            foreach (IDsmRelationAnnotation annotation in _annotationModelCallback.GetRelationAnnotations())
+            {
+                WriteRelationAnnotation(writer, annotation, progress);
+            }
+            writer.WriteEndElement();
+        }
+
+        private void WriteRelationAnnotation(XmlWriter writer, IDsmRelationAnnotation annotation, IProgress<ProgressInfo> progress)
+        {
+            writer.WriteStartElement(RelationAnnotationXmlNode);
+            writer.WriteAttributeString(RelationAnnotationToIdXmlAttribute, annotation.ConsumerId.ToString());
+            writer.WriteAttributeString(RelationAnnotationFromIdXmlAttribute, annotation.ProviderId.ToString());
+            writer.WriteAttributeString(RelationAnnotationTextXmlAttribute, annotation.Text);
+            writer.WriteStartElement(ActionDataXmlNode);
+            writer.WriteEndElement();
         }
 
         private void UpdateProgress(IProgress<ProgressInfo> progress)

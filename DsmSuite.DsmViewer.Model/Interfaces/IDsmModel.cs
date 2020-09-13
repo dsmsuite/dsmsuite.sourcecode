@@ -70,5 +70,13 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmAction AddAction(string type, IReadOnlyDictionary<string, string> data);
         void ClearActions();
         IEnumerable<IDsmAction> GetActions();
+
+        // Annotations
+        void AddElementAnnotation(IDsmElement element, string text);
+        void AddRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text);
+        IEnumerable<IDsmElementAnnotation> GetElementAnnotations();
+        IEnumerable<IDsmRelationAnnotation> GetRelationAnnotations();
+        IDsmElementAnnotation FindElementAnnotation(IDsmElement element);
+        IDsmRelationAnnotation FindRelationAnnotation(IDsmElement consumer, IDsmElement provider);
     }
 }

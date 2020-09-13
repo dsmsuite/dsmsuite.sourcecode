@@ -39,8 +39,6 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public string Name { get; set; }
 
-        public string Annotation { get; set; }
-
         public bool IsDeleted { get; set; }
 
         public bool IsRoot => Parent == null;

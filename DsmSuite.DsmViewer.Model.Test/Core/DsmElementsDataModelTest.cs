@@ -57,7 +57,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            model.ImportElement(1, "name", "type", 0, false, null, false, null);
+            model.ImportElement(1, "name", "type", 0, false, null, false);
             Assert.AreEqual(2, model.GetElementCount());
 
             model.Clear();
@@ -100,7 +100,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            model.ImportElement(1, "name", "type", 0, false, null, false, null);
+            model.ImportElement(1, "name", "type", 0, false, null, false);
             Assert.AreEqual(2, model.GetElementCount());
         }
 
@@ -110,7 +110,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            model.ImportElement(1, "name", "type", 10, true, null, false, null);
+            model.ImportElement(1, "name", "type", 10, true, null, false);
 
             IDsmElement foundElement = model.FindElementById(1);
             Assert.IsNotNull(foundElement);
@@ -129,7 +129,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            model.ImportElement(1, "name", "type", 10, true, null, false, null);
+            model.ImportElement(1, "name", "type", 10, true, null, false);
 
             IDsmElement foundElement = model.FindElementById(2);
             Assert.IsNull(foundElement);
@@ -141,10 +141,10 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false, null);
+            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false);
             Assert.IsNotNull(a);
 
-            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false, null);
+            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
             Assert.IsNotNull(b);
 
             IDsmElement foundElement = model.FindElementByFullname("a.b");
@@ -164,10 +164,10 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false, null);
+            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false);
             Assert.IsNotNull(a);
 
-            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false, null);
+            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
             Assert.IsNotNull(b);
 
             IDsmElement foundElement = model.FindElementByFullname("a.c");
@@ -180,8 +180,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false, null);
-            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false, null);
+            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false);
+            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
 
             IDsmElement foundElementBefore = model.FindElementByFullname("a.c");
             Assert.IsNull(foundElementBefore);
@@ -198,8 +198,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false, null);
-            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false, null);
+            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false);
+            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
 
             IDsmElement foundElementBefore = model.FindElementByFullname("a.b");
             Assert.IsNotNull(foundElementBefore);
@@ -218,10 +218,10 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false, null);
-            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false, null);
+            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false);
+            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
 
-            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, null, false, null);
+            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, null, false);
 
             IDsmElement foundElementBefore = model.FindElementByFullname("a.b");
             Assert.IsNotNull(foundElementBefore);
@@ -240,13 +240,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false, null);
+            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false);
             Assert.IsNotNull(a);
 
-            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false, null);
+            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
             Assert.IsNotNull(b);
 
-            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false, null);
+            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
             Assert.AreEqual(1, model.SearchElements("a.b", true)); 
@@ -263,13 +263,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false, null);
+            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false);
             Assert.IsNotNull(a);
 
-            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false, null);
+            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
             Assert.IsNotNull(b);
 
-            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false, null);
+            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
             Assert.AreEqual(1, model.SearchElements("A.B", false));
@@ -286,13 +286,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false, null);
+            IDsmElement a = model.ImportElement(1, "a", "type", 10, true, null, false);
             Assert.IsNotNull(a);
 
-            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false, null);
+            IDsmElement b = model.ImportElement(2, "b", "type", 11, true, a.Id, false);
             Assert.IsNotNull(b);
 
-            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false, null);
+            IDsmElement c = model.ImportElement(3, "c", "type", 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
             Assert.AreEqual(0, model.SearchElements(".d", true));
@@ -546,25 +546,25 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "", 0, false, null, false, null);
+            IDsmElement a = model.ImportElement(1, "a", "", 0, false, null, false);
             Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.ImportElement(2, "a1", "eta", 0, false, a.Id, false, null);
+            IDsmElement a1 = model.ImportElement(2, "a1", "eta", 0, false, a.Id, false);
             Assert.AreEqual(2, a1.Id);
 
-            IDsmElement b = model.ImportElement(3, "b", "", 0, false, null, false, null);
+            IDsmElement b = model.ImportElement(3, "b", "", 0, false, null, false);
             Assert.AreEqual(3, b.Id);
-            IDsmElement b1 = model.ImportElement(4, "b1", "etb", 0, false, b.Id, false, null);
+            IDsmElement b1 = model.ImportElement(4, "b1", "etb", 0, false, b.Id, false);
             Assert.AreEqual(4, b1.Id);
-            IDsmElement b2 = model.ImportElement(5, "b2", "etb", 0, false, b.Id, false, null);
+            IDsmElement b2 = model.ImportElement(5, "b2", "etb", 0, false, b.Id, false);
             Assert.AreEqual(5, b2.Id);
 
-            IDsmElement c = model.ImportElement(6, "c", "", 0, false, null, false, null);
+            IDsmElement c = model.ImportElement(6, "c", "", 0, false, null, false);
             Assert.AreEqual(6, c.Id);
-            IDsmElement c1 = model.ImportElement(7, "c1", "etc", 0, false, c.Id, false, null);
+            IDsmElement c1 = model.ImportElement(7, "c1", "etc", 0, false, c.Id, false);
             Assert.AreEqual(7, c1.Id);
-            IDsmElement c2 = model.ImportElement(8, "c2", "etc", 0, false, c.Id, false, null);
+            IDsmElement c2 = model.ImportElement(8, "c2", "etc", 0, false, c.Id, false);
             Assert.AreEqual(8, c2.Id);
-            IDsmElement c3 = model.ImportElement(9, "c3", "etc", 0, false, c.Id, false, null);
+            IDsmElement c3 = model.ImportElement(9, "c3", "etc", 0, false, c.Id, false);
             Assert.AreEqual(9, c3.Id);
 
             Assert.AreEqual(0, a.Order);

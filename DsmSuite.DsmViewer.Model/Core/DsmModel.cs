@@ -15,6 +15,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         private readonly DsmElementModel _elementsDataModel;
         private readonly DsmRelationModel _relationsDataModel;
         private readonly DsmActionModel _actionsDataModel;
+        private readonly DsmAnnotationModel _annotationModel;
 
         public DsmModel(string processStep, Assembly executingAssembly)
         {
@@ -23,6 +24,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _relationsDataModel = new DsmRelationModel();
             _elementsDataModel = new DsmElementModel(_relationsDataModel);
             _actionsDataModel = new DsmActionModel();
+            _annotationModel = new DsmAnnotationModel();
         }
 
         public void LoadModel(string dsmFilename, IProgress<ProgressInfo> progress)
@@ -30,7 +32,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             Logger.LogDataModelMessage($"Load data model file={dsmFilename}");
 
             Clear();
-            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel);
+            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel, _annotationModel);
             dsmModelFile.Load(progress);
             IsCompressed = dsmModelFile.IsCompressedFile();
             ModelFilename = dsmFilename;
@@ -42,7 +44,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{GetExportedElementCount()}"); 
 
-            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel);
+            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel, _annotationModel);
             dsmModelFile.Save(compressFile, progress);
             ModelFilename = dsmFilename;
         }
@@ -291,6 +293,36 @@ namespace DsmSuite.DsmViewer.Model.Core
         public int GetActionCount()
         {
             return _actionsDataModel.GetExportedActionCount();
+        }
+
+        public void AddElementAnnotation(IDsmElement element, string text)
+        {
+            _annotationModel.AddElementAnnotation(element, text);
+        }
+
+        public void AddRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text)
+        {
+            _annotationModel.AddRelationAnnotation(consumer, provider, text);
+        }
+
+        public IEnumerable<IDsmElementAnnotation> GetElementAnnotations()
+        {
+            return _annotationModel.GetElementAnnotations();
+        }
+
+        public IEnumerable<IDsmRelationAnnotation> GetRelationAnnotations()
+        {
+            return _annotationModel.GetRelationAnnotations();
+        }
+
+        public IDsmElementAnnotation FindElementAnnotation(IDsmElement element)
+        {
+            return _annotationModel.FindElementAnnotation(element);
+        }
+
+        public IDsmRelationAnnotation FindRelationAnnotation(IDsmElement consumer, IDsmElement provider)
+        {
+            return _annotationModel.FindRelationAnnotation(consumer, provider);
         }
     }
 }
