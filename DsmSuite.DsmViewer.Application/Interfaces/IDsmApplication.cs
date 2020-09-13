@@ -79,5 +79,10 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         int GetElementSize(IDsmElement element);
         int GetElementCount();
+
+        void AddElementAnnotation(IDsmElement element, string text);
+        void AddRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text);
+        IDsmElementAnnotation FindElementAnnotation(IDsmElement element);
+        IDsmRelationAnnotation FindRelationAnnotation(IDsmElement consumer, IDsmElement provider);
     }
 }

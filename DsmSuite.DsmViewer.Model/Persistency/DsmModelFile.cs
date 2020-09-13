@@ -130,9 +130,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     WriteElements(writer, progress);
                     WriteRelations(writer, progress);
                     WriteActions(writer, progress);
-
-                    //WriteElementAnnotations(writer, progress);
-                    //WriteRelationAnnotations(writer, progress);
+                    WriteElementAnnotations(writer, progress);
+                    WriteRelationAnnotations(writer, progress);
                 }
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
@@ -153,9 +152,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                             ReadElement(xReader, progress);
                             ReadRelation(xReader, progress);
                             ReadAction(xReader, progress);
-
-                            //ReadElementAnnotation(xReader, progress);
-                            //ReadRelationAnnotation(xReader, progress);
+                            ReadElementAnnotation(xReader, progress);
+                            ReadRelationAnnotation(xReader, progress);
                             break;
                         case XmlNodeType.Text:
                             break;
@@ -435,7 +433,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteStartElement(ElementAnnotationXmlNode);
             writer.WriteAttributeString(ElementAnnotationIdXmlAttribute, annotation.ElementId.ToString());
             writer.WriteAttributeString(ElementAnnotationTextXmlAttribute, annotation.Text);
-            writer.WriteStartElement(ActionDataXmlNode);
             writer.WriteEndElement();
         }
 
@@ -472,7 +469,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteAttributeString(RelationAnnotationToIdXmlAttribute, annotation.ConsumerId.ToString());
             writer.WriteAttributeString(RelationAnnotationFromIdXmlAttribute, annotation.ProviderId.ToString());
             writer.WriteAttributeString(RelationAnnotationTextXmlAttribute, annotation.Text);
-            writer.WriteStartElement(ActionDataXmlNode);
             writer.WriteEndElement();
         }
 

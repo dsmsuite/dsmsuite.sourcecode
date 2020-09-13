@@ -54,8 +54,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Core\DsmDependenciesTest.cs" />
+    <Compile Include="Core\DsmElementAnnotationTest.cs" />
     <Compile Include="Core\DsmElementsDataModelTest.cs" />
     <Compile Include="Core\DsmElementTest.cs" />
+    <Compile Include="Core\DsmRelationAnnotationTest.cs" />
     <Compile Include="Core\DsmRelationsDataModelTest.cs" />
     <Compile Include="Core\DsmRelationTest.cs" />
     <Compile Include="Core\TypeRegistrationTest.cs" />

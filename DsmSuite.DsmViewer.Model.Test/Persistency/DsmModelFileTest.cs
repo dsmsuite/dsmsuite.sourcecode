@@ -41,6 +41,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         private readonly List<DsmRelation> _relations = new List<DsmRelation>();
         private readonly Dictionary<string, List<IMetaDataItem>> _metaData = new Dictionary<string, List<IMetaDataItem>>();
         private readonly List<DsmAction> _actions = new List<DsmAction>();
+        private readonly List<DsmElementAnnotation> _elementAnnotations = new List<DsmElementAnnotation>();
+        private readonly List<DsmRelationAnnotation> _relationAnnotations = new List<DsmRelationAnnotation>();
 
         [TestInitialize()]
         public void MyTestInitialize()
@@ -278,6 +280,12 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
                 ["key2c"] = "value2c"
             };
             _actions.Add(new DsmAction(2, "Action2", data2));
+
+            _elementAnnotations.Add(new DsmElementAnnotation(12, "Annotation a1"));
+            _elementAnnotations.Add(new DsmElementAnnotation(13, "Annotation a2"));
+
+            _relationAnnotations.Add(new DsmRelationAnnotation(12,13, "Annotation a1 to a2"));
+            _relationAnnotations.Add(new DsmRelationAnnotation(15, 16, "Annotation b1 to b2"));
         }
 
         public IMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
@@ -402,22 +410,22 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
 
         public IEnumerable<IDsmElementAnnotation> GetElementAnnotations()
         {
-            return new List<IDsmElementAnnotation>();
+            return _elementAnnotations;
         }
 
         public IEnumerable<IDsmRelationAnnotation> GetRelationAnnotations()
         {
-            return new List<IDsmRelationAnnotation>();
+            return _relationAnnotations;
         }
 
         public void ImportElementAnnotation(int elementId, string text)
         {
-
+            _elementAnnotations.Add(new DsmElementAnnotation(elementId, text));
         }
 
         public void ImportRelationAnnotation(int consumerId, int providerId, string text)
         {
-
+            _relationAnnotations.Add(new DsmRelationAnnotation(consumerId, providerId, text));
         }
     }
 }

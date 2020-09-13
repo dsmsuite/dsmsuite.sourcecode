@@ -398,5 +398,25 @@ namespace DsmSuite.DsmViewer.Application.Core
         {
             return _dsmModel.GetElementCount();
         }
+
+        public void AddElementAnnotation(IDsmElement element, string text)
+        {
+            _dsmModel.AddElementAnnotation(element, text);
+        }
+
+        public void AddRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text)
+        {
+            _dsmModel.AddRelationAnnotation(consumer, provider, text);
+        }
+
+        public IDsmElementAnnotation FindElementAnnotation(IDsmElement element)
+        {
+            return _dsmModel.FindElementAnnotation(element);
+        }
+
+        public IDsmRelationAnnotation FindRelationAnnotation(IDsmElement consumer, IDsmElement provider)
+        {
+            return _dsmModel.FindRelationAnnotation(consumer, provider);
+        }
     }
 }
