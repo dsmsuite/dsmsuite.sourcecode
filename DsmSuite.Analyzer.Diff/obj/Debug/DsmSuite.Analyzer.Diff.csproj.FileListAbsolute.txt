@@ -1,0 +1,6 @@
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Analyzer.Diff\bin\Debug\DsmSuite.Analyzer.Diff.exe.config
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Analyzer.Diff\bin\Debug\DsmSuite.Analyzer.Diff.exe
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Analyzer.Diff\bin\Debug\DsmSuite.Analyzer.Diff.pdb
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Analyzer.Diff\obj\Debug\DsmSuite.Analyzer.Diff.csprojResolveAssemblyReference.cache
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Analyzer.Diff\obj\Debug\DsmSuite.Analyzer.Diff.exe
+D:\GithubArchives\dsmsuite.sourcecode\DsmSuite.Analyzer.Diff\obj\Debug\DsmSuite.Analyzer.Diff.pdb
