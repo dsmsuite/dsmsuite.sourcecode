@@ -7,5 +7,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
     {
         IEnumerable<IDsmElementAnnotation> GetElementAnnotations();
         IEnumerable<IDsmRelationAnnotation> GetRelationAnnotations();
+
+        void ImportElementAnnotation(int elementId, string text);
+        void ImportRelationAnnotation(int consumerId, int providerId, string text);
     }
 }

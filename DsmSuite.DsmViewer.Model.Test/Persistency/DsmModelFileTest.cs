@@ -409,5 +409,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         {
             return new List<IDsmRelationAnnotation>();
         }
+
+        public void ImportElementAnnotation(int elementId, string text)
+        {
+
+        }
+
+        public void ImportRelationAnnotation(int consumerId, int providerId, string text)
+        {
+
+        }
     }
 }

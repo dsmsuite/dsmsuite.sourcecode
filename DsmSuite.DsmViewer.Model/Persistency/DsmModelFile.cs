@@ -130,8 +130,9 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     WriteElements(writer, progress);
                     WriteRelations(writer, progress);
                     WriteActions(writer, progress);
-                    WriteElementAnnotations(writer, progress);
-                    WriteRelationAnnotations(writer, progress);
+
+                    //WriteElementAnnotations(writer, progress);
+                    //WriteRelationAnnotations(writer, progress);
                 }
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
@@ -152,6 +153,9 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                             ReadElement(xReader, progress);
                             ReadRelation(xReader, progress);
                             ReadAction(xReader, progress);
+
+                            //ReadElementAnnotation(xReader, progress);
+                            //ReadRelationAnnotation(xReader, progress);
                             break;
                         case XmlNodeType.Text:
                             break;
@@ -421,6 +425,9 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 WriteElementAnnotation(writer, annotation, progress);
             }
             writer.WriteEndElement();
+
+            _progressedActionCount++;
+            UpdateProgress(progress);
         }
 
         private void WriteElementAnnotation(XmlWriter writer, IDsmElementAnnotation annotation, IProgress<ProgressInfo> progress)
@@ -430,6 +437,23 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteAttributeString(ElementAnnotationTextXmlAttribute, annotation.Text);
             writer.WriteStartElement(ActionDataXmlNode);
             writer.WriteEndElement();
+        }
+
+        private void ReadElementAnnotation(XmlReader xReader, IProgress<ProgressInfo> progress)
+        {
+            if (xReader.Name == ElementAnnotationXmlNode)
+            {
+                int? id = ParseInt(xReader.GetAttribute(ElementAnnotationIdXmlAttribute));
+                string text = xReader.GetAttribute(ElementAnnotationTextXmlAttribute);
+
+                if (id.HasValue)
+                {
+                    _annotationModelCallback.ImportElementAnnotation(id.Value, text);
+                }
+
+                _progressedActionCount++;
+                UpdateProgress(progress);
+            }
         }
 
         private void WriteRelationAnnotations(XmlWriter writer, IProgress<ProgressInfo> progress)
@@ -450,6 +474,24 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteAttributeString(RelationAnnotationTextXmlAttribute, annotation.Text);
             writer.WriteStartElement(ActionDataXmlNode);
             writer.WriteEndElement();
+        }
+
+        private void ReadRelationAnnotation(XmlReader xReader, IProgress<ProgressInfo> progress)
+        {
+            if (xReader.Name == RelationAnnotationXmlNode)
+            {
+                int? consumerId = ParseInt(xReader.GetAttribute(RelationAnnotationToIdXmlAttribute));
+                int? providerId = ParseInt(xReader.GetAttribute(RelationAnnotationFromIdXmlAttribute));
+                string text = xReader.GetAttribute(RelationAnnotationTextXmlAttribute);
+
+                if (providerId.HasValue && providerId.HasValue)
+                {
+                    _annotationModelCallback.ImportRelationAnnotation(consumerId.Value, providerId.Value, text);
+                }
+
+                _progressedActionCount++;
+                UpdateProgress(progress);
+            }
         }
 
         private void UpdateProgress(IProgress<ProgressInfo> progress)

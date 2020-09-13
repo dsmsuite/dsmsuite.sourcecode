@@ -13,6 +13,20 @@ namespace DsmSuite.DsmViewer.Model.Core
         Dictionary<int, DsmElementAnnotation> _elementAnnotations = new Dictionary<int, DsmElementAnnotation>();
         Dictionary<int, Dictionary<int, DsmRelationAnnotation>> _relationAnnotations = new Dictionary<int, Dictionary<int, DsmRelationAnnotation>>();
 
+        public void ImportElementAnnotation(int elementId, string text)
+        {
+            _elementAnnotations[elementId] = new DsmElementAnnotation(elementId, text);
+        }
+
+        public void ImportRelationAnnotation(int consumerId, int providerId, string text)
+        {
+            if (!_relationAnnotations.ContainsKey(consumerId))
+            {
+                _relationAnnotations[consumerId] = new Dictionary<int, DsmRelationAnnotation>();
+            }
+            _relationAnnotations[consumerId][providerId] = new DsmRelationAnnotation(consumerId, providerId, text);
+        }
+
         public void AddElementAnnotation(IDsmElement element, string text)
         {
             _elementAnnotations[element.Id] = new DsmElementAnnotation(element.Id, text);
