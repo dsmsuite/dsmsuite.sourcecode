@@ -2,16 +2,19 @@
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Collections.Generic;
+using DsmSuite.DsmViewer.Application.Interfaces;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
     public class ElementTreeItemViewModel : ViewModelBase
     {
+        private readonly IDsmApplication _application;
         private readonly List<ElementTreeItemViewModel> _children;
         private ElementTreeItemViewModel _parent;
 
-        public ElementTreeItemViewModel(IMatrixViewModel matrixViewModel, IDsmElement element, int depth)
+        public ElementTreeItemViewModel(IDsmApplication application, IMatrixViewModel matrixViewModel, IDsmElement element, int depth)
         {
+            _application = application;
             _children = new List<ElementTreeItemViewModel>();
             _parent = null;
             Element = element;
@@ -23,9 +26,20 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             MoveDownElementCommand = matrixViewModel.MoveDownElementCommand;
             SortElementCommand = matrixViewModel.SortElementCommand;
             ToggleElementExpandedCommand = matrixViewModel.ToggleElementExpandedCommand;
+
+            IDsmElementAnnotation annotation = _application.FindElementAnnotation(element);
+            if (annotation != null)
+            {
+                Description = annotation.Text;
+            }
+            else
+            {
+                Description = $"[{Element.Order}] {Element.Fullname}";
+            }
         }
         
         public IDsmElement Element { get; }
+        public string Annotation { get; }
         public int Depth { get; }
         public MatrixColor Color { get; }
 
@@ -38,7 +52,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public string Name => Element.IsRoot ? "Root" : Element.Name;
 
         public string Fullname => Element.Fullname;
-        public string Description => $"[{Element.Order}] {Element.Fullname}";
+        public string Description { get; private set; }
 
         public ICommand MoveCommand { get; }
         public ICommand MoveUpElementCommand { get; }

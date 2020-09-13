@@ -371,7 +371,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ObservableCollection<ElementTreeItemViewModel> tree = new ObservableCollection<ElementTreeItemViewModel>();
             foreach (IDsmElement element in _selectedElements)
             {
-                ElementTreeItemViewModel viewModel = new ElementTreeItemViewModel(this, element, depth);
+                ElementTreeItemViewModel viewModel = new ElementTreeItemViewModel(_application, this, element, depth);
                 tree.Add(viewModel);
                 AddElementViewModelChildren(viewModel);
             }
@@ -384,7 +384,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             {
                 foreach (IDsmElement child in viewModel.Element.Children)
                 {
-                    ElementTreeItemViewModel childViewModel = new ElementTreeItemViewModel(this, child, viewModel.Depth + 1);
+                    ElementTreeItemViewModel childViewModel = new ElementTreeItemViewModel(_application, this, child, viewModel.Depth + 1);
                     viewModel.AddChild(childViewModel);
                     AddElementViewModelChildren(childViewModel);
                 }

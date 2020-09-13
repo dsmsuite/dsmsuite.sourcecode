@@ -15,6 +15,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ModelElementCountXmlAttribute = "elementCount";
         private const string ModelRelationCountXmlAttribute = "relationCount";
         private const string ModelActionCountXmlAttribute = "actionCount";
+        private const string ModelElementAnnotationCountXmlAttribute = "elementAnnotationCount";
+        private const string ModelRelationAnnotationCountXmlAttribute = "relationAnnotationCount";
 
         private const string MetaDataGroupXmlNode = "metadatagroup";
         private const string MetaDataGroupNameXmlAttribute = "name";
@@ -62,6 +64,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string RelationAnnotationFromIdXmlAttribute = "from";
         private const string RelationAnnotationTextXmlAttribute = "text";
 
+
         private readonly string _filename;
         private readonly IMetaDataModelFileCallback _metaDataModelCallback;
         private readonly IDsmElementModelFileCallback _elementModelCallback;
@@ -74,6 +77,10 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private int _progressedRelationCount;
         private int _totalActionCount;
         private int _progressedActionCount;
+        private int _totalElementAnnotationCount;
+        private int _progressedElementAnnotationCount;
+        private int _totalRelationAnnotationCount;
+        private int _progressedRelationAnnotationCount;
         private int _progress;
         private string _progressActionText;
 
@@ -177,6 +184,14 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             _totalActionCount = _actionModelCallback.GetExportedActionCount();
             writer.WriteAttributeString(ModelActionCountXmlAttribute, _totalActionCount.ToString());
             _progressedActionCount = 0;
+
+            _totalElementAnnotationCount = _actionModelCallback.GetExportedActionCount();
+            writer.WriteAttributeString(ModelElementAnnotationCountXmlAttribute, _totalElementAnnotationCount.ToString());
+            _progressedElementAnnotationCount = 0;
+
+            _totalRelationAnnotationCount = _actionModelCallback.GetExportedActionCount();
+            writer.WriteAttributeString(ModelRelationAnnotationCountXmlAttribute, _totalRelationAnnotationCount.ToString());
+            _progressedRelationAnnotationCount = 0;
         }
 
         private void ReadModelAttributes(XmlReader xReader)
@@ -186,16 +201,19 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 int? elementCount = ParseInt(xReader.GetAttribute(ModelElementCountXmlAttribute));
                 int? relationCount = ParseInt(xReader.GetAttribute(ModelRelationCountXmlAttribute));
                 int? actionCount = ParseInt(xReader.GetAttribute(ModelActionCountXmlAttribute));
+                int? elementAnnotationCount = ParseInt(xReader.GetAttribute(ModelElementAnnotationCountXmlAttribute));
+                int? relationAnnotationnCount = ParseInt(xReader.GetAttribute(ModelRelationAnnotationCountXmlAttribute));
 
-                if (elementCount.HasValue && relationCount.HasValue && actionCount.HasValue)
-                {
-                    _totalElementCount = elementCount.Value;
-                    _progressedElementCount = 0;
-                    _totalRelationCount = relationCount.Value;
-                    _progressedRelationCount = 0;
-                    _totalActionCount = actionCount.Value;
-                    _progressedActionCount = 0;
-                }
+                _totalElementCount = elementCount ?? 0;
+                _progressedElementCount = 0;
+                _totalRelationCount = relationCount ?? 0;
+                _progressedRelationCount = 0;
+                _totalActionCount = actionCount ?? 0;
+                _progressedActionCount = 0;
+                _totalElementAnnotationCount = elementAnnotationCount ?? 0;
+                _progressedElementAnnotationCount = 0;
+                _totalRelationAnnotationCount = relationAnnotationnCount ?? 0;
+                _progressedRelationAnnotationCount = 0;
             }
         }
 
@@ -434,6 +452,9 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteAttributeString(ElementAnnotationIdXmlAttribute, annotation.ElementId.ToString());
             writer.WriteAttributeString(ElementAnnotationTextXmlAttribute, annotation.Text);
             writer.WriteEndElement();
+
+            _progressedElementAnnotationCount++;
+            UpdateProgress(progress);
         }
 
         private void ReadElementAnnotation(XmlReader xReader, IProgress<ProgressInfo> progress)
@@ -448,7 +469,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     _annotationModelCallback.ImportElementAnnotation(id.Value, text);
                 }
 
-                _progressedActionCount++;
+                _progressedElementAnnotationCount++;
                 UpdateProgress(progress);
             }
         }
@@ -470,6 +491,9 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteAttributeString(RelationAnnotationFromIdXmlAttribute, annotation.ProviderId.ToString());
             writer.WriteAttributeString(RelationAnnotationTextXmlAttribute, annotation.Text);
             writer.WriteEndElement();
+
+            _progressedRelationAnnotationCount++;
+            UpdateProgress(progress);
         }
 
         private void ReadRelationAnnotation(XmlReader xReader, IProgress<ProgressInfo> progress)
@@ -485,7 +509,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     _annotationModelCallback.ImportRelationAnnotation(consumerId.Value, providerId.Value, text);
                 }
 
-                _progressedActionCount++;
+                _progressedRelationAnnotationCount++;
                 UpdateProgress(progress);
             }
         }
