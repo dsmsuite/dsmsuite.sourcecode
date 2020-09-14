@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dsimodel elementCount="17" relationCount="13" xmlns="urn:dsi-schema">
+  <metadatagroup name="Analyzer">
+    <metadata name="Executable" value="DsmSuite.Analyzer.Uml version=1.0.7328.22059 build=24-1-2020 12:15:18" />
+    <metadata name="- 'Class' elements found" value="17" />
+    <metadata name="Total elements found" value="17" />
+    <metadata name="- 'Dependency' relations found" value="26" />
+    <metadata name="Total relations found" value="13" />
+    <metadata name="Total relations resolved" value="13 (confidence=100,000 %)" />
+  </metadatagroup>
+  <elements>
+    <element id="1" name="Application.A1" type="Class" />
+    <element id="2" name="Application.A2" type="Class" />
+    <element id="3" name="Application.A3" type="Class" />
+    <element id="4" name="Application.A4" type="Class" />
+    <element id="5" name="Application.A5" type="Class" />
+    <element id="6" name="Application.A6" type="Class" />
+    <element id="7" name="Data.D1" type="Class" />
+    <element id="8" name="Data.D2" type="Class" />
+    <element id="9" name="Data.D3" type="Class" />
+    <element id="10" name="Presentation.P1" type="Class" />
+    <element id="11" name="Presentation.P2" type="Class" />
+    <element id="12" name="Presentation.P3" type="Class" />
+    <element id="13" name="Presentation.P4" type="Class" />
+    <element id="14" name="Presentation.P5" type="Class" />
+    <element id="15" name="Utilities.U1" type="Class"  />
+    <element id="16" name="Utilities.U2" type="Class"  />
+    <element id="17" name="Utilities.U3" type="Class"  />
+  </elements>
+  <relations>
+    <relation from="10" to="1" type="Dependency" weight="2" />
+    <relation from="1" to="3" type="Dependency" weight="2" />
+    <relation from="1" to="7" type="Dependency" weight="2" />
+    <relation from="11" to="2" type="Dependency" weight="2" />
+    <relation from="13" to="2" type="Dependency" weight="2" />
+    <relation from="2" to="4" type="Dependency" weight="2" />
+    <relation from="2" to="8" type="Dependency" weight="2" />
+    <relation from="3" to="12" type="Dependency" weight="2" />
+    <relation from="4" to="5" type="Dependency" weight="2" />
+    <relation from="4" to="16" type="Dependency" weight="2" />
+    <relation from="5" to="4" type="Dependency" weight="2" />
+    <relation from="6" to="17" type="Dependency" weight="2" />
+    <relation from="14" to="9" type="Dependency" weight="2" />
+  </relations>
+</dsimodel>
