@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
-using DsmSuite.Analyzer.Diff;
+using DsmSuite.Analyzer.Compare;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Util;
 
@@ -52,7 +52,7 @@ namespace DsmSuite.Analyzer.Cpp
 
             if (args.Length < 2)
             {
-                Logger.LogUserMessage("Usage: DsmSuite.Analyzer.Diff <file1> <file2>");
+                Logger.LogUserMessage("Usage: DsmSuite.Analyzer.Compare <file1> <file2>");
             }
             else
             {

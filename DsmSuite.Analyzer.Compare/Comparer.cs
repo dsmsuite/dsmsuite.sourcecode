@@ -5,7 +5,7 @@ using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 using Microsoft.SqlServer.Server;
 
-namespace DsmSuite.Analyzer.Diff
+namespace DsmSuite.Analyzer.Compare
 {
     class Comparer
     {

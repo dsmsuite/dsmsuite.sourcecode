@@ -188,9 +188,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.VisualStu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.DotNet.Lib", "DsmSuite.Analyzer.DotNet.Lib\DsmSuite.Analyzer.DotNet.Lib.csproj", "{E7777E3D-34E7-4ACB-928A-FB70D25F0C64}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Diff", "Diff", "{F8AA6562-B5AC-4660-8B53-6708FBF43AFA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Compare", "Compare", "{F8AA6562-B5AC-4660-8B53-6708FBF43AFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.Diff", "DsmSuite.Analyzer.Diff\DsmSuite.Analyzer.Diff.csproj", "{F0F09701-6A36-479E-97B9-BCC0DEF3C050}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.Compare", "DsmSuite.Analyzer.Compare\DsmSuite.Analyzer.Compare.csproj", "{F0F09701-6A36-479E-97B9-BCC0DEF3C050}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

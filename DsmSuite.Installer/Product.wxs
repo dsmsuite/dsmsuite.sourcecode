@@ -156,6 +156,25 @@
       </Component>      
     </ComponentGroup>
 
+    <ComponentGroup Id="CompareComponents" Directory="COMPARER_INSTALL_FOLDER">
+      <Component Id="DsmSuite.Analyzer.Compare.exe" Guid="B4779E46-41B7-468F-A7E3-58D42ACF70D4">
+        <File Id="DsmSuite.Analyzer.Compare.exe" Source="..\build\bin\DsmSuite.Analyzer.Compare.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="DsmSuite.Analyzer.Model.Compare.dll" Guid="1E4F5108-E51E-4DBA-8AAC-F1C91CB9C003">
+        <File Id="DsmSuite.Analyzer.Model.Compare.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="DsmSuite.Analyzer.Util.Compare.dll" Guid="C4287C2E-8A97-4164-A93B-A49815A3D77F">
+        <File Id="DsmSuite.Analyzer.Util.Compare.dll" Source="..\build\bin\DsmSuite.Analyzer.Util.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="DsmSuite.Common.Model.Compare.dll" Guid="C45ADAA8-59B2-4EDB-90EF-E9DCB679D957">
+        <File Id="DsmSuite.Common.Model.Compare.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+
+      <Component Id="DsmSuite.Common.Util.Compare.dll" Guid="6AB00DBB-64C4-44F7-A18E-992EB71875E8">
+        <File Id="DsmSuite.Common.Util.Compare.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+    </ComponentGroup>
+
     <ComponentGroup Id="DsmViewerComponents" Directory="VIEWER_INSTALL_FOLDER">
       <Component Id="DsmSuite.DsmViewer.View.exe" Guid="9E39FD85-9B8E-4B76-9366-13CF6AC732B3">
         <File Id="DsmSuite.DsmViewer.View.exe" Source="..\build\bin\DsmSuite.DsmViewer.View.exe" KeyPath="yes" Checksum="yes"/>
@@ -200,6 +219,7 @@
             <Directory  Id="VISUALSTUDIO_ANALZYER_INSTALL_FOLDER" Name="VisualStudio" />
           </Directory>
           <Directory  Id="TRANSFORMER_INSTALL_FOLDER" Name="Transformer" />
+          <Directory  Id="COMPARER_INSTALL_FOLDER" Name="Comparer" />
           <Directory  Id="VIEWER_INSTALL_FOLDER" Name="Viewer" />
         </Directory>
       </Directory>
@@ -288,7 +308,15 @@
       <ComponentRef Id="DsmSuite.Common.Util.Transformer.dll" />
     </Feature>
 
-    <Feature Id="DsmViewerFeature" Title="DSM Viewer" Level="1">
+    <Feature Id="DiffFeature" Title="DSM Suite Compare Tool" Level="1">
+      <ComponentRef Id="DsmSuite.Analyzer.Compare.exe" />
+      <ComponentRef Id="DsmSuite.Analyzer.Model.Compare.dll" />
+      <ComponentRef Id="DsmSuite.Analyzer.Util.Compare.dll" />
+      <ComponentRef Id="DsmSuite.Common.Model.Compare.dll" />
+      <ComponentRef Id="DsmSuite.Common.Util.Compare.dll" />
+    </Feature>
+
+    <Feature Id="DsmViewerFeature" Title="DSM Suite Viewer" Level="1">
       <ComponentRef Id="DsmSuite.DsmViewer.View.exe" />
       <ComponentRef Id="DsmSuite.DsmViewer.ViewModel.dll" />
       <ComponentRef Id="DsmSuite.DsmViewer.Application.dll" />

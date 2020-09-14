@@ -8,8 +8,8 @@
     <ProjectGuid>{F0F09701-6A36-479E-97B9-BCC0DEF3C050}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DsmSuite.Analyzer.Diff</RootNamespace>
-    <AssemblyName>DsmSuite.Analyzer.Diff</AssemblyName>
+    <RootNamespace>DsmSuite.Analyzer.Compare</RootNamespace>
+    <AssemblyName>DsmSuite.Analyzer.Compare</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -37,10 +37,6 @@
     <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
       <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
       <Name>DsmSuite.Analyzer.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.Analyzer.Util\DsmSuite.Analyzer.Util.csproj">
-      <Project>{b73fdffb-08d3-4573-a682-825c1a79fc54}</Project>
-      <Name>DsmSuite.Analyzer.Util</Name>
     </ProjectReference>
     <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
       <Project>{C2EB943F-4BB8-47BB-BDC1-7F6B607FB977}</Project>
