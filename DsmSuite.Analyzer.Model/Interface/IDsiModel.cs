@@ -10,6 +10,8 @@ namespace DsmSuite.Analyzer.Model.Interface
     /// </summary>
     public interface IDsiModel
     {
+        string Filename { get; }
+
         // Model persistency
         void Load(string dsiFilename,IProgress<ProgressInfo> progress);
         void Save(string dsiFilename, bool compressFile, IProgress<ProgressInfo> progress);

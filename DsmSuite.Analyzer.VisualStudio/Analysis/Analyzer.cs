@@ -15,6 +15,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly SolutionFile _solutionFile;
+        private readonly HashSet<string> _registeredSources = new HashSet<string>();
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
@@ -68,6 +69,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
                     RegisterSourceFile(_solutionFile, visualStudioProject, sourceFile);
+                    _registeredSources.Add(sourceFile.SourceFileInfo.FullName);
                 }
             }
         }
@@ -98,21 +100,30 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
                         if (consumerName != null)
                         {
+                            if (IsProjectInclude(includedFile))
+                            {
+                                RegisterIncludeRelation(consumerName, includedFile);
+                            }
                             if (IsSystemInclude(includedFile))
                             {
                                 // System includes are ignored
                             }
-                            else if (IsExternalInclude(includedFile))
+                            //else if (IsExternalInclude(includedFile))
+                            //{
+                            //    SourceFile includedSourceFile = new SourceFile(includedFile);
+                            //    string providerName = GetExternalName(includedSourceFile.SourceFileInfo);
+                            //    string type = includedSourceFile.FileType;
+                            //    _model.AddElement(providerName, type, includedFile);
+                            //    _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
+                            //}
+                            else
                             {
                                 SourceFile includedSourceFile = new SourceFile(includedFile);
-                                string providerName = GetExternalName(includedSourceFile.SourceFileInfo);
+                                string providerName = GetExternalName2(includedSourceFile.SourceFileInfo);
                                 string type = includedSourceFile.FileType;
                                 _model.AddElement(providerName, type, includedFile);
                                 _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
-                            }
-                            else
-                            {
-                                RegisterIncludeRelation(consumerName, includedFile);
+
                             }
                         }
                     }
@@ -241,6 +252,11 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             _model.AddRelation(consumerName, providerName, relation.Type, 1, "");
         }
 
+        private bool IsProjectInclude(string includedFile)
+        {
+            return _registeredSources.Contains(includedFile);
+        }
+
         private bool IsSystemInclude(string includedFile)
         {
             bool isSystemInclude = false;
@@ -254,7 +270,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
             return isSystemInclude;
         }
-
+        
         private bool IsExternalInclude(string includedFile)
         {
             bool isExternalInclude = false;
@@ -266,6 +282,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     isExternalInclude = true;
                 }
             }
+
             return isExternalInclude;
         }
 
@@ -316,12 +333,12 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     name += visualStudioProject.ProjectName;
                 }
 
-                if (!string.IsNullOrEmpty(visualStudioProject.TargetExtension))
-                {
-                    name += " (";
-                    name += visualStudioProject.TargetExtension;
-                    name += ")";
-                }
+                //if (!string.IsNullOrEmpty(visualStudioProject.TargetExtension))
+                //{
+                //    name += " (";
+                //    name += visualStudioProject.TargetExtension;
+                //    name += ")";
+                //}
 
                 if (!string.IsNullOrEmpty(visualStudioProject.ProjectName))
                 {
@@ -357,12 +374,12 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     name += visualStudioProject.ProjectName;
                 }
 
-                if (!string.IsNullOrEmpty(visualStudioProject.TargetExtension))
-                {
-                    name += " (";
-                    name += visualStudioProject.TargetExtension;
-                    name += ")";
-                }
+                //if (!string.IsNullOrEmpty(visualStudioProject.TargetExtension))
+                //{
+                //    name += " (";
+                //    name += visualStudioProject.TargetExtension;
+                //    name += ")";
+                //}
 
                 if (!string.IsNullOrEmpty(visualStudioProject.ProjectName))
                 {
@@ -387,28 +404,33 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return name.Replace("\\", ".");
         }
 
-        private string GetExternalName(FileInfo includedFileInfo)
+        //private string GetExternalName(FileInfo includedFileInfo)
+        //{
+        //    string usedExternalIncludeDirectory = null;
+        //    string resolveAs = null;
+        //    foreach (ExternalIncludeDirectory externalIncludeDirectory in _analyzerSettings.ExternalIncludeDirectories)
+        //    {
+        //        if (includedFileInfo.FullName.StartsWith(externalIncludeDirectory.Path))
+        //        {
+        //            usedExternalIncludeDirectory = externalIncludeDirectory.Path;
+        //            resolveAs = externalIncludeDirectory.ResolveAs;
+        //        }
+        //    }
+
+        //    string name = null;
+
+        //    if ((usedExternalIncludeDirectory != null) &&
+        //        (resolveAs != null))
+        //    {
+        //        name = includedFileInfo.FullName.Replace(usedExternalIncludeDirectory, resolveAs).Replace("\\", ".").Replace("\\", ".");
+        //    }
+
+        //    return name;
+        //}
+
+        private string GetExternalName2(FileInfo includedFileInfo)
         {
-            string usedExternalIncludeDirectory = null;
-            string resolveAs = null;
-            foreach (ExternalIncludeDirectory externalIncludeDirectory in _analyzerSettings.ExternalIncludeDirectories)
-            {
-                if (includedFileInfo.FullName.StartsWith(externalIncludeDirectory.Path))
-                {
-                    usedExternalIncludeDirectory = externalIncludeDirectory.Path;
-                    resolveAs = externalIncludeDirectory.ResolveAs;
-                }
-            }
-
-            string name = null;
-
-            if ((usedExternalIncludeDirectory != null) &&
-                (resolveAs != null))
-            {
-                name = includedFileInfo.FullName.Replace(usedExternalIncludeDirectory, resolveAs).Replace("\\", ".").Replace("\\", ".");
-            }
-
-            return name;
+            return includedFileInfo.FullName.Replace(_analyzerSettings.RootDirectory +"\"", "");
         }
 
         private string GetPhysicalName(SourceFile sourceFile)

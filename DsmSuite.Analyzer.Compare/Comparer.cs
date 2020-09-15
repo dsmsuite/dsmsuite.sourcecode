@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
-using Microsoft.SqlServer.Server;
 
 namespace DsmSuite.Analyzer.Compare
 {
@@ -11,7 +10,7 @@ namespace DsmSuite.Analyzer.Compare
     {
         private readonly IDsiModel _model1;
         private readonly IDsiModel _model2;
-        private IProgress<ProgressInfo> _progress;
+        private readonly IProgress<ProgressInfo> _progress;
 
         private readonly HashSet<string> _foundModel1ElementNames = new HashSet<string>();
         private readonly HashSet<string> _foundModel2ElementNames = new HashSet<string>();
@@ -36,14 +35,24 @@ namespace DsmSuite.Analyzer.Compare
         {
             FindElements();
 
+            int totalItemCount = _allElementNames.Count;
+
+            int currentItemCount = 0;
             foreach (string elementName in _allElementNames)
             {
                 CompareElement(elementName);
+
+                currentItemCount++;
+                UpdateProgress("Comparing elements", currentItemCount, totalItemCount, "elements");
             }
 
+            currentItemCount = 0;
             foreach (string elementName in _allElementNames)
             {
                 CompareElementRelations(elementName);
+
+                currentItemCount++;
+                UpdateProgress("Comparing element relations", currentItemCount, totalItemCount, "elements");
             }
 
             if (AreIdentical())
@@ -63,7 +72,7 @@ namespace DsmSuite.Analyzer.Compare
                 if (_missingModel1ElementNames.Count > 0)
                 {
                     foundElementDeltas = true;
-                    Logger.LogUserMessage("Missing in model 1");
+                    Logger.LogUserMessage($"Missing in {_model1.Filename}");
                     foreach (string missingElementName in _missingModel1ElementNames)
                     {
                         Logger.LogUserMessage($" {missingElementName}");
@@ -74,7 +83,7 @@ namespace DsmSuite.Analyzer.Compare
                 if (_missingModel2ElementNames.Count > 0)
                 {
                     foundElementDeltas = true;
-                    Logger.LogUserMessage("Missing in model 2");
+                    Logger.LogUserMessage($"Missing in {_model2.Filename}");
                     foreach (string missingElementName in _missingModel2ElementNames)
                     {
                         Logger.LogUserMessage($" {missingElementName}");
@@ -97,7 +106,7 @@ namespace DsmSuite.Analyzer.Compare
                     if (_missingModel1RelationProviderNames[elementName].Count > 0)
                     {
                         foundRelationDeltas = true;
-                        Logger.LogUserMessage($"Missing in model 1 for {elementName}");
+                        Logger.LogUserMessage($"Missing for {elementName} in {_model1.Filename}");
                         foreach (string missingTargetName in _missingModel1RelationProviderNames[elementName])
                         {
                             Logger.LogUserMessage($" {missingTargetName}");
@@ -108,7 +117,7 @@ namespace DsmSuite.Analyzer.Compare
                     if (_missingModel2RelationProviderNames[elementName].Count > 0)
                     {
                         foundRelationDeltas = true;
-                        Logger.LogUserMessage($"Missing in model 2 for {elementName}");
+                        Logger.LogUserMessage($"Missing for {elementName} in {_model2.Filename}");
                         foreach (string missingTargetName in _missingModel2RelationProviderNames[elementName])
                         {
                             Logger.LogUserMessage($" {missingTargetName}");
@@ -178,7 +187,7 @@ namespace DsmSuite.Analyzer.Compare
                 IDsiElement consumer = _model1.FindElementById(relation.ConsumerId);
                 IDsiElement provider = _model1.FindElementById(relation.ProviderId);
 
-                if (consumer.Name == consumerName)
+                if ((consumer != null) && (provider != null) && (consumer.Name == consumerName))
                 {
                     _foundModel2RelationProviderNames[consumerName].Add(provider.Name);
                     _allRelationProviderNames[consumerName].Add(provider.Name);

@@ -22,10 +22,13 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationsDataModel = new DsiRelationModel(_elementsDataModel);
         }
 
+        public string Filename { get; private set; }
+
         public void Load(string dsiFilename, IProgress<ProgressInfo> progress)
         {
             Logger.LogDataModelMessage($"Load data model file={dsiFilename}");
 
+            Filename = dsiFilename;
             DsiModelFile modelFile = new DsiModelFile(dsiFilename, _metaDataModel, _elementsDataModel, _relationsDataModel);
             modelFile.Load(progress);
         }
@@ -33,6 +36,8 @@ namespace DsmSuite.Analyzer.Model.Core
         public void Save(string dsiFilename, bool compressFile, IProgress<ProgressInfo> progress)
         {
             Logger.LogDataModelMessage($"Save data model file={dsiFilename} compresss={compressFile}");
+
+            Filename = dsiFilename;
 
             foreach (string type in GetElementTypes())
             {
