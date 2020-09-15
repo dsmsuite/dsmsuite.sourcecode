@@ -104,26 +104,21 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                             {
                                 RegisterIncludeRelation(consumerName, includedFile);
                             }
-                            if (IsSystemInclude(includedFile))
+                            else if (IsSystemInclude(includedFile))
                             {
                                 // System includes are ignored
                             }
-                            //else if (IsExternalInclude(includedFile))
-                            //{
-                            //    SourceFile includedSourceFile = new SourceFile(includedFile);
-                            //    string providerName = GetExternalName(includedSourceFile.SourceFileInfo);
-                            //    string type = includedSourceFile.FileType;
-                            //    _model.AddElement(providerName, type, includedFile);
-                            //    _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
-                            //}
-                            else
+                            else if (IsExternalInclude(includedFile))
                             {
                                 SourceFile includedSourceFile = new SourceFile(includedFile);
-                                string providerName = GetExternalName2(includedSourceFile.SourceFileInfo);
+                                string providerName = GetExternalName(includedSourceFile.SourceFileInfo);
                                 string type = includedSourceFile.FileType;
                                 _model.AddElement(providerName, type, includedFile);
                                 _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
-
+                            }
+                            else
+                            {
+                                // Ignore
                             }
                         }
                     }
@@ -404,33 +399,28 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return name.Replace("\\", ".");
         }
 
-        //private string GetExternalName(FileInfo includedFileInfo)
-        //{
-        //    string usedExternalIncludeDirectory = null;
-        //    string resolveAs = null;
-        //    foreach (ExternalIncludeDirectory externalIncludeDirectory in _analyzerSettings.ExternalIncludeDirectories)
-        //    {
-        //        if (includedFileInfo.FullName.StartsWith(externalIncludeDirectory.Path))
-        //        {
-        //            usedExternalIncludeDirectory = externalIncludeDirectory.Path;
-        //            resolveAs = externalIncludeDirectory.ResolveAs;
-        //        }
-        //    }
-
-        //    string name = null;
-
-        //    if ((usedExternalIncludeDirectory != null) &&
-        //        (resolveAs != null))
-        //    {
-        //        name = includedFileInfo.FullName.Replace(usedExternalIncludeDirectory, resolveAs).Replace("\\", ".").Replace("\\", ".");
-        //    }
-
-        //    return name;
-        //}
-
-        private string GetExternalName2(FileInfo includedFileInfo)
+        private string GetExternalName(FileInfo includedFileInfo)
         {
-            return includedFileInfo.FullName.Replace(_analyzerSettings.RootDirectory +"\"", "");
+            string usedExternalIncludeDirectory = null;
+            string resolveAs = null;
+            foreach (ExternalIncludeDirectory externalIncludeDirectory in _analyzerSettings.ExternalIncludeDirectories)
+            {
+                if (includedFileInfo.FullName.StartsWith(externalIncludeDirectory.Path))
+                {
+                    usedExternalIncludeDirectory = externalIncludeDirectory.Path;
+                    resolveAs = externalIncludeDirectory.ResolveAs;
+                }
+            }
+
+            string name = null;
+
+            if ((usedExternalIncludeDirectory != null) &&
+                (resolveAs != null))
+            {
+                name = includedFileInfo.FullName.Replace(usedExternalIncludeDirectory, resolveAs).Replace("\\", ".");
+            }
+
+            return name;
         }
 
         private string GetPhysicalName(SourceFile sourceFile)
