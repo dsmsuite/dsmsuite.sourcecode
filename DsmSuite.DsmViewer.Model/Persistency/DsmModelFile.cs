@@ -186,11 +186,11 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteAttributeString(ModelActionCountXmlAttribute, _totalActionCount.ToString());
             _progressedActionCount = 0;
 
-            _totalElementAnnotationCount = _actionModelCallback.GetExportedActionCount();
+            _totalElementAnnotationCount = _annotationModelCallback.GetElementAnnotationCount();
             writer.WriteAttributeString(ModelElementAnnotationCountXmlAttribute, _totalElementAnnotationCount.ToString());
             _progressedElementAnnotationCount = 0;
 
-            _totalRelationAnnotationCount = _actionModelCallback.GetExportedActionCount();
+            _totalRelationAnnotationCount = _annotationModelCallback.GetRelationAnnotationCount();
             writer.WriteAttributeString(ModelRelationAnnotationCountXmlAttribute, _totalRelationAnnotationCount.ToString());
             _progressedRelationAnnotationCount = 0;
         }

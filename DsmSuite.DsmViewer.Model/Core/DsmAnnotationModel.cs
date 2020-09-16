@@ -56,6 +56,21 @@ namespace DsmSuite.DsmViewer.Model.Core
             return annotations;
         }
 
+        public int GetElementAnnotationCount()
+        {
+            return _elementAnnotations.Count;
+        }
+
+        public int GetRelationAnnotationCount()
+        {
+            int count = 0;
+            foreach (Dictionary<int, DsmRelationAnnotation> annotationsForConsumer in _relationAnnotations.Values)
+            {
+                count += annotationsForConsumer.Count;
+            }
+            return count;
+        }
+
         public IDsmElementAnnotation FindElementAnnotation(IDsmElement element)
         {
             DsmElementAnnotation annotation;

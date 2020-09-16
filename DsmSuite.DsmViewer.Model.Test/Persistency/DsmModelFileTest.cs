@@ -283,9 +283,12 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
 
             _elementAnnotations.Add(new DsmElementAnnotation(12, "Annotation a1"));
             _elementAnnotations.Add(new DsmElementAnnotation(13, "Annotation a2"));
+            _elementAnnotations.Add(new DsmElementAnnotation(15, "Annotation b1"));
+            _elementAnnotations.Add(new DsmElementAnnotation(16, "Annotation b2"));
 
             _relationAnnotations.Add(new DsmRelationAnnotation(12,13, "Annotation a1 to a2"));
             _relationAnnotations.Add(new DsmRelationAnnotation(15, 16, "Annotation b1 to b2"));
+            _relationAnnotations.Add(new DsmRelationAnnotation(13, 16, "Annotation a1 to b2"));
         }
 
         public IMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
@@ -416,6 +419,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         public IEnumerable<IDsmRelationAnnotation> GetRelationAnnotations()
         {
             return _relationAnnotations;
+        }
+
+        public int GetElementAnnotationCount()
+        {
+            return _elementAnnotations.Count;
+        }
+
+        public int GetRelationAnnotationCount()
+        {
+            return _relationAnnotations.Count;
         }
 
         public void ImportElementAnnotation(int elementId, string text)
