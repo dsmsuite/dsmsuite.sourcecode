@@ -111,7 +111,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                             else 
                             {
                                 SourceFile includedSourceFile = new SourceFile(includedFile);
-                                string providerName = GetPhysicalName(includedSourceFile);
+                                string providerName = GetExternalName(includedSourceFile);
                                 string type = includedSourceFile.FileType;
                                 _model.AddElement(providerName, type, includedFile);
                                 _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
@@ -395,13 +395,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return name.Replace("\\", ".");
         }
 
-        private string GetExternalName(FileInfo includedFileInfo)
+        private string GetExternalName(SourceFile sourceFile)
         {
             string usedExternalIncludeDirectory = null;
             string resolveAs = null;
             foreach (ExternalIncludeDirectory externalIncludeDirectory in _analyzerSettings.ExternalIncludeDirectories)
             {
-                if (includedFileInfo.FullName.StartsWith(externalIncludeDirectory.Path))
+                if (sourceFile.SourceFileInfo.FullName.StartsWith(externalIncludeDirectory.Path))
                 {
                     usedExternalIncludeDirectory = externalIncludeDirectory.Path;
                     resolveAs = externalIncludeDirectory.ResolveAs;
@@ -413,7 +413,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             if ((usedExternalIncludeDirectory != null) &&
                 (resolveAs != null))
             {
-                name = includedFileInfo.FullName.Replace(usedExternalIncludeDirectory, resolveAs).Replace("\\", ".");
+                name = sourceFile.SourceFileInfo.FullName.Replace(usedExternalIncludeDirectory, resolveAs).Replace("\\", ".");
             }
 
             return name;
