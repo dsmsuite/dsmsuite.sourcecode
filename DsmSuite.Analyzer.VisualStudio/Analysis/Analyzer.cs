@@ -108,13 +108,16 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                             {
                                 // System includes are ignored
                             }
-                            else 
+                            else
                             {
                                 SourceFile includedSourceFile = new SourceFile(includedFile);
                                 string providerName = GetExternalName(includedSourceFile);
                                 string type = includedSourceFile.FileType;
-                                _model.AddElement(providerName, type, includedFile);
-                                _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
+                                if (providerName != null)
+                                {
+                                    _model.AddElement(providerName, type, includedFile);
+                                    _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
+                                }
                             }
                         }
                     }
@@ -324,12 +327,12 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     name += visualStudioProject.ProjectName;
                 }
 
-                //if (!string.IsNullOrEmpty(visualStudioProject.TargetExtension))
-                //{
-                //    name += " (";
-                //    name += visualStudioProject.TargetExtension;
-                //    name += ")";
-                //}
+                if (!string.IsNullOrEmpty(visualStudioProject.TargetExtension))
+                {
+                    name += " (";
+                    name += visualStudioProject.TargetExtension;
+                    name += ")";
+                }
 
                 if (!string.IsNullOrEmpty(visualStudioProject.ProjectName))
                 {
@@ -365,12 +368,12 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     name += visualStudioProject.ProjectName;
                 }
 
-                //if (!string.IsNullOrEmpty(visualStudioProject.TargetExtension))
-                //{
-                //    name += " (";
-                //    name += visualStudioProject.TargetExtension;
-                //    name += ")";
-                //}
+                if (!string.IsNullOrEmpty(visualStudioProject.TargetExtension))
+                {
+                    name += " (";
+                    name += visualStudioProject.TargetExtension;
+                    name += ")";
+                }
 
                 if (!string.IsNullOrEmpty(visualStudioProject.ProjectName))
                 {
