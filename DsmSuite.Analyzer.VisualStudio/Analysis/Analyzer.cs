@@ -108,17 +108,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                             {
                                 // System includes are ignored
                             }
-                            else if (IsExternalInclude(includedFile))
+                            else 
                             {
                                 SourceFile includedSourceFile = new SourceFile(includedFile);
-                                string providerName = GetExternalName(includedSourceFile.SourceFileInfo);
+                                string providerName = GetPhysicalName(includedSourceFile);
                                 string type = includedSourceFile.FileType;
                                 _model.AddElement(providerName, type, includedFile);
                                 _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
-                            }
-                            else
-                            {
-                                // Ignore
                             }
                         }
                     }
