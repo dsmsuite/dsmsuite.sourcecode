@@ -73,17 +73,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             List<string> projectIncludeDirectories = new List<string>
             {
                 Path.Combine(testDataDirectory, "DirA"),
-                Path.Combine(testDataDirectory, "DirB")
-            };
-
-            List<string> externalIncludeDirectories = new List<string>
-            {
+                Path.Combine(testDataDirectory, "DirB"),
                 Path.Combine(testDataDirectory, "DirExternal")
             };
 
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             List<string> systemIncludeDirectories = analyzerSettings.SystemIncludeDirectories;
-            return new IncludeResolveStrategy(projectIncludeDirectories, externalIncludeDirectories, systemIncludeDirectories);
+            return new IncludeResolveStrategy(projectIncludeDirectories, systemIncludeDirectories);
         }
     }
 }

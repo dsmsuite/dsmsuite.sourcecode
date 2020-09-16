@@ -50,23 +50,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
         }
 
         [TestMethod]
-        public void TestExternalIncludeDirectoriesFound()
-        {
-            string externalDir1 = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\DsmSuite.Analyzer.VisualStudio.Test\External1"));
-            string externalDir2 = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\DsmSuite.Analyzer.VisualStudio.Test\External2"));
-            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
-            analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path = externalDir1, ResolveAs = "External1"});
-            analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path = externalDir2, ResolveAs = "External2"});
-            VcxProjectFile projectFile = CreateProjectFile(analyzerSettings);
-            projectFile.Analyze();
-            Assert.AreEqual(2, projectFile.ExternalIncludeDirectories.Count);
-
-            ImmutableHashSet<string> includes = projectFile.ExternalIncludeDirectories.ToImmutableHashSet();
-            Assert.IsTrue(includes.Contains(externalDir1));
-            Assert.IsTrue(includes.Contains(externalDir2));
-        }
-
-        [TestMethod]
         public void TestSystemIncludeDirectoriesFound()
         {
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();

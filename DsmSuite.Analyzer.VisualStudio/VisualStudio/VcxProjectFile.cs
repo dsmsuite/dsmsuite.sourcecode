@@ -27,8 +27,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public IReadOnlyCollection<string> ProjectIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.ProjectIncludeDirectories : new List<string>();
 
-        public IReadOnlyCollection<string> ExternalIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.ExternalIncludeDirectories : new List<string>();
-
         public IReadOnlyCollection<string> SystemIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.SystemIncludeDirectories : new List<string>();
 
         public override IEnumerable<DotNetType> DotNetTypes => (_assembly != null) ? _assembly.Types : new List<DotNetType>();
@@ -428,20 +426,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
             }
 
-            List<string> externalIncludeDirectories = new List<string>();
-            foreach(ExternalIncludeDirectory externalIncludeDirectory in AnalyzerSettings.ExternalIncludeDirectories)
-            {
-                if (Directory.Exists(externalIncludeDirectory.Path)) 
-                {
-                    externalIncludeDirectories.Add(externalIncludeDirectory.Path);
-                }
-                else
-                {
-                    AnalyzerLogger.LogErrorIncludePathNotFound(externalIncludeDirectory.Path, evaluatedProject.FullPath);
-                }
-            }
-
-            _includeResolveStrategy = new IncludeResolveStrategy(_includeDirectories, externalIncludeDirectories, AnalyzerSettings.SystemIncludeDirectories);
+            _includeResolveStrategy = new IncludeResolveStrategy(_includeDirectories, AnalyzerSettings.SystemIncludeDirectories);
         }
 
         private void AddIncludeDirectory(string resolvedIncludeDirectory, string includeDirectory)
