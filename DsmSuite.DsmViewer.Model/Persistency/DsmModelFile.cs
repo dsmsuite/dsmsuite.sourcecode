@@ -203,7 +203,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 int? relationCount = ParseInt(xReader.GetAttribute(ModelRelationCountXmlAttribute));
                 int? actionCount = ParseInt(xReader.GetAttribute(ModelActionCountXmlAttribute));
                 int? elementAnnotationCount = ParseInt(xReader.GetAttribute(ModelElementAnnotationCountXmlAttribute));
-                int? relationAnnotationnCount = ParseInt(xReader.GetAttribute(ModelRelationAnnotationCountXmlAttribute));
+                int? relationAnnotationCount = ParseInt(xReader.GetAttribute(ModelRelationAnnotationCountXmlAttribute));
 
                 _totalElementCount = elementCount ?? 0;
                 _progressedElementCount = 0;
@@ -213,7 +213,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 _progressedActionCount = 0;
                 _totalElementAnnotationCount = elementAnnotationCount ?? 0;
                 _progressedElementAnnotationCount = 0;
-                _totalRelationAnnotationCount = relationAnnotationnCount ?? 0;
+                _totalRelationAnnotationCount = relationAnnotationCount ?? 0;
                 _progressedRelationAnnotationCount = 0;
             }
         }
@@ -447,9 +447,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 WriteElementAnnotation(writer, annotation, progress);
             }
             writer.WriteEndElement();
-
-            _progressedActionCount++;
-            UpdateProgress(progress);
         }
 
         private void WriteElementAnnotation(XmlWriter writer, IDsmElementAnnotation annotation, IProgress<ProgressInfo> progress)
@@ -524,8 +521,8 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             if (progress != null)
             {
-                int totalItemCount = _totalElementCount + _totalRelationCount + _totalActionCount;
-                int progressedItemCount = _progressedElementCount + _progressedRelationCount + _progressedActionCount;
+                int totalItemCount = _totalElementCount + _totalRelationCount + _totalActionCount + _totalElementAnnotationCount + _totalRelationAnnotationCount;
+                int progressedItemCount = _progressedElementCount + _progressedRelationCount + _progressedActionCount + _progressedElementAnnotationCount + _progressedRelationAnnotationCount;
 
                 int currentProgress = 0;
                 if (totalItemCount > 0)
