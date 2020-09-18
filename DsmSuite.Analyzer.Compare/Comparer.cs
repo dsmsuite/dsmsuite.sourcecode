@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Remoting.Messaging;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
@@ -62,75 +63,59 @@ namespace DsmSuite.Analyzer.Compare
             else
             {
                 Logger.LogUserMessage("Model are different");
-                Logger.LogUserMessage("###################");
 
-                Logger.LogUserMessage("");
-                Logger.LogUserMessage("Elements");
-                Logger.LogUserMessage("--------");
+                WriteMissingElementsToFile("elementDeltas1.txt", $"Missing elements in {_model1.Filename}", _missingModel1ElementNames);
+                WriteMissingElementsToFile("elementDeltas2.txt", $"Missing elements in {_model2.Filename}", _missingModel2ElementNames);
 
-                bool foundElementDeltas = false;
-                if (_missingModel1ElementNames.Count > 0)
+                WriteMissingRelationsToFile("relationDeltas1.txt", $"Missing relations in {_model1.Filename}", _missingModel1RelationProviderNames);
+                WriteMissingRelationsToFile("relationDeltas2.txt", $"Missing relations in {_model2.Filename}", _missingModel2RelationProviderNames);
+            }
+        }
+
+        private void WriteMissingElementsToFile(string filename, string title, HashSet<string> missingModelElementNames)
+        {
+            FileStream fs = new FileStream(filename, FileMode.Append, FileAccess.Write);
+            using (StreamWriter writetext = new StreamWriter(fs))
+            {
+                writetext.WriteLine(title);
+                writetext.WriteLine("");
+
+                int deltaCount = missingModelElementNames.Count;
+
+                foreach (string missingElementName in missingModelElementNames)
                 {
-                    foundElementDeltas = true;
-                    Logger.LogUserMessage($"Missing in {_model1.Filename}");
-                    foreach (string missingElementName in _missingModel1ElementNames)
-                    {
-                        Logger.LogUserMessage($" {missingElementName}");
-                    }
-                    Logger.LogUserMessage("");
+                    writetext.WriteLine($" {missingElementName}");
                 }
 
-                if (_missingModel2ElementNames.Count > 0)
-                {
-                    foundElementDeltas = true;
-                    Logger.LogUserMessage($"Missing in {_model2.Filename}");
-                    foreach (string missingElementName in _missingModel2ElementNames)
-                    {
-                        Logger.LogUserMessage($" {missingElementName}");
-                    }
-                    Logger.LogUserMessage("");
-                }
+                writetext.WriteLine($" {deltaCount} missing elements found");
+            }
+        }
 
-                if (!foundElementDeltas)
-                {
-                    Logger.LogUserMessage(" none");
-                    Logger.LogUserMessage("");
-                }
+        private void WriteMissingRelationsToFile(string filename, string title, Dictionary<string, HashSet<string>> missingModelRelationProviderNames)
+        {
+            FileStream fs = new FileStream(filename, FileMode.Append, FileAccess.Write);
+            using (StreamWriter writetext = new StreamWriter(fs))
+            {
+                writetext.WriteLine(title);
+                writetext.WriteLine("");
 
-                Logger.LogUserMessage("Relations");
-                Logger.LogUserMessage("--------");
-
-                bool foundRelationDeltas = false;
+                int deltaCount = 0;
                 foreach (string elementName in _allElementNames)
                 {
-                    if (_missingModel1RelationProviderNames[elementName].Count > 0)
-                    {
-                        foundRelationDeltas = true;
-                        Logger.LogUserMessage($"Missing for {elementName} in {_model1.Filename}");
-                        foreach (string missingTargetName in _missingModel1RelationProviderNames[elementName])
-                        {
-                            Logger.LogUserMessage($" {missingTargetName}");
-                        }
-                        Logger.LogUserMessage("");
-                    }
+                    deltaCount += missingModelRelationProviderNames[elementName].Count;
 
-                    if (_missingModel2RelationProviderNames[elementName].Count > 0)
+                    if (missingModelRelationProviderNames[elementName].Count > 0)
                     {
-                        foundRelationDeltas = true;
-                        Logger.LogUserMessage($"Missing for {elementName} in {_model2.Filename}");
-                        foreach (string missingTargetName in _missingModel2RelationProviderNames[elementName])
+                        writetext.WriteLine($"For {elementName}:");
+                        foreach (string missingTargetName in missingModelRelationProviderNames[elementName])
                         {
-                            Logger.LogUserMessage($" {missingTargetName}");
+                            writetext.WriteLine($" {missingTargetName}");
                         }
-                        Logger.LogUserMessage("");
+                        writetext.WriteLine("");
                     }
                 }
 
-                if (!foundRelationDeltas)
-                {
-                    Logger.LogUserMessage(" none");
-                    Logger.LogUserMessage("");
-                }
+                writetext.WriteLine($" {deltaCount} missing relations found");
             }
         }
 
