@@ -30,12 +30,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             IDsmElementAnnotation annotation = _application.FindElementAnnotation(element);
             if (annotation != null)
             {
-                Description = annotation.Text;
+                Annotation = annotation.Text;
             }
-            else
-            {
-                Description = $"[{Element.Order}] {Element.Fullname}";
-            }
+
+            Description = $"[{Element.Order}] {Element.Fullname} + {Annotation}";
         }
         
         public IDsmElement Element { get; }

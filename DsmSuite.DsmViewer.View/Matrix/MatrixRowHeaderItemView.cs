@@ -136,7 +136,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     }
                     else if (!string.IsNullOrEmpty(_viewModel.Annotation))
                     {
-                        dc.DrawRectangle(_theme.MatrixColorBookmark, null, indicatorRect);
+                        dc.DrawRectangle(_theme.MatrixColorAnnotation, null, indicatorRect);
                     }
                     else
                     {
