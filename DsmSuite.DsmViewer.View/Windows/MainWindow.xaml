@@ -16,8 +16,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="24" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="16" />
         </Grid.RowDefinitions>
         <userControls:ToolView Grid.Row="0"/>
         <matrix:MatrixView x:Name="Matrix" Grid.Row="1"/>
+        <userControls:LegendView Grid.Row="2"/>
     </Grid>
 </Window>
