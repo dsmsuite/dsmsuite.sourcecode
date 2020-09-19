@@ -130,6 +130,14 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     {
                         dc.DrawRectangle(_theme.MatrixColorMatch, null, indicatorRect);
                     }
+                    else if (_viewModel.IsBookmarked)
+                    {
+                        dc.DrawRectangle(_theme.MatrixColorBookmark, null, indicatorRect);
+                    }
+                    else if (!string.IsNullOrEmpty(_viewModel.Annotation))
+                    {
+                        dc.DrawRectangle(_theme.MatrixColorBookmark, null, indicatorRect);
+                    }
                     else
                     {
                         if (_viewModel.IsConsumer)

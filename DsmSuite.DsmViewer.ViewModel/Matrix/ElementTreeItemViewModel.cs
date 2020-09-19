@@ -46,6 +46,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public int Id => Element.Id;
         public int Order => Element.Order;
         public bool IsMatch => Element.IsMatch;
+        public bool IsBookmarked => Element.IsBookmarked;
         public bool IsConsumer { get; set; }
         public bool IsProvider { get; set; }
 

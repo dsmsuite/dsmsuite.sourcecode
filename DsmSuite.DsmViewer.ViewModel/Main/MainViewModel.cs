@@ -110,6 +110,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
             ChangeRelationWeightCommand = new RelayCommand<object>(ChangeRelationWeightExecute, ChangeRelationWeightCanExecute);
             ChangeRelationTypeCommand = new RelayCommand<object>(ChangeRelationTypeExecute, ChangeRelationTypeCanExecute);
+ 
+            ToggleBookmarkCommand = new RelayCommand<object>(ToggleBookmarkExecute, ToggleBookmarkCanExecute);
 
             MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
             ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
@@ -199,6 +201,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand DeleteRelationCommand { get; }
         public ICommand ChangeRelationWeightCommand { get; }
         public ICommand ChangeRelationTypeCommand { get; }
+        public ICommand ToggleBookmarkCommand { get; }
         public ICommand MakeSnapshotCommand { get; }
         public ICommand ShowHistoryCommand { get; }
         public ICommand ShowSettingsCommand { get; }
@@ -706,6 +709,17 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 }
             }
             return canExecute;
+        }
+
+        private void ToggleBookmarkExecute(object parameter)
+        {
+            SelectedProvider.IsBookmarked = !SelectedProvider.IsBookmarked;
+            ActiveMatrix.Reload();
+        }
+
+        private bool ToggleBookmarkCanExecute(object parameter)
+        {
+            return (SelectedProvider != null);
         }
 
         private void MakeSnapshotExecute(object parameter)

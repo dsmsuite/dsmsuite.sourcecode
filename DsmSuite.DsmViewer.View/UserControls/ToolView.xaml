@@ -24,6 +24,8 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Sort selected element" Command="{Binding SortElementCommand}" Content="{StaticResource PartitionIcon}"/>
             <ComboBox Style="{StaticResource ToolbarComboBox}" ToolTip="Used sort algoritm" ItemsSource="{Binding SupportedSortAlgorithms}" SelectedItem="{Binding SelectedSortAlgorithm}" Width="80" />
             <Separator/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Toggle bookmark current element" Command="{Binding ToggleBookmarkCommand}" Content="{StaticResource BookmarkIcon}"/>
+            <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Label current state" Command="{Binding MakeSnapshotCommand}" Content="{StaticResource LabelIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show history" Command="{Binding ShowHistoryCommand}" Content="{StaticResource HistoryIcon}"/>
             <Separator/>
