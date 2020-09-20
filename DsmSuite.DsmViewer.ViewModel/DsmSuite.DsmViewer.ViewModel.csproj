@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Editing\Element\ElementCreateViewModel.cs" />
+    <Compile Include="Editing\Element\ElementEditAnnotationViewModel.cs" />
     <Compile Include="Editing\Element\ElementEditNameViewModel.cs" />
     <Compile Include="Editing\Element\ElementEditTypeViewModel.cs" />
     <Compile Include="Editing\Relation\RelationCreateViewModel.cs" />

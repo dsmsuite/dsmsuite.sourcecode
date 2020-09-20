@@ -324,6 +324,12 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Execute(action);
         }
 
+        public void ChangeElementAnnotation(IDsmElement element, string annotation)
+        {
+            ElementChangeAnnotationAction action = new ElementChangeAnnotationAction(_dsmModel, element, annotation);
+            _actionManager.Execute(action);
+        }
+
         public void ChangeElementType(IDsmElement element, string type)
         {
             ElementChangeTypeAction action = new ElementChangeTypeAction(_dsmModel, element, type);
@@ -394,12 +400,12 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void AddElementAnnotation(IDsmElement element, string text)
         {
-            _dsmModel.AddElementAnnotation(element, text);
+            _dsmModel.ChangeElementAnnotation(element, text);
         }
 
         public void AddRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text)
         {
-            _dsmModel.AddRelationAnnotation(consumer, provider, text);
+            _dsmModel.ChangeRelationAnnotation(consumer, provider, text);
         }
 
         public IDsmElementAnnotation FindElementAnnotation(IDsmElement element)

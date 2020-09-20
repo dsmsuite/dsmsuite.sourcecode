@@ -295,14 +295,14 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _actionsDataModel.GetExportedActionCount();
         }
 
-        public void AddElementAnnotation(IDsmElement element, string text)
+        public void ChangeElementAnnotation(IDsmElement element, string text)
         {
-            _annotationModel.AddElementAnnotation(element, text);
+            _annotationModel.ChangeElementAnnotation(element, text);
         }
 
-        public void AddRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text)
+        public void ChangeRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text)
         {
-            _annotationModel.AddRelationAnnotation(consumer, provider, text);
+            _annotationModel.ChangeRelationAnnotation(consumer, provider, text);
         }
 
         public IEnumerable<IDsmElementAnnotation> GetElementAnnotations()

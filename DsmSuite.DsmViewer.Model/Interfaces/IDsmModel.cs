@@ -72,8 +72,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IEnumerable<IDsmAction> GetActions();
 
         // Annotations
-        void AddElementAnnotation(IDsmElement element, string text);
-        void AddRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text);
+        void ChangeElementAnnotation(IDsmElement element, string text);
+        void ChangeRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text);
         IEnumerable<IDsmElementAnnotation> GetElementAnnotations();
         IEnumerable<IDsmRelationAnnotation> GetRelationAnnotations();
         IDsmElementAnnotation FindElementAnnotation(IDsmElement element);

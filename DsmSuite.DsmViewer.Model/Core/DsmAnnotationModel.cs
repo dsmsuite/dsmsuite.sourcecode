@@ -27,18 +27,40 @@ namespace DsmSuite.DsmViewer.Model.Core
             _relationAnnotations[consumerId][providerId] = new DsmRelationAnnotation(consumerId, providerId, text);
         }
 
-        public void AddElementAnnotation(IDsmElement element, string text)
+        public void ChangeElementAnnotation(IDsmElement element, string text)
         {
-            _elementAnnotations[element.Id] = new DsmElementAnnotation(element.Id, text);
+            if (string.IsNullOrEmpty(text))
+            {
+                _elementAnnotations.Remove(element.Id);
+            }
+            else
+            {
+                _elementAnnotations[element.Id] = new DsmElementAnnotation(element.Id, text);
+            }
         }
 
-        public void AddRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text)
+        public void ChangeRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text)
         {
-            if (!_relationAnnotations.ContainsKey(consumer.Id))
+            if (string.IsNullOrEmpty(text))
             {
-                _relationAnnotations[consumer.Id] = new Dictionary<int, DsmRelationAnnotation>();
+                if (_relationAnnotations.ContainsKey(consumer.Id))
+                {
+                    _relationAnnotations[consumer.Id].Remove(provider.Id);
+
+                    if (_relationAnnotations[consumer.Id].Count == 0)
+                    {
+                        _relationAnnotations.Remove(consumer.Id);
+                    }
+                }
             }
-            _relationAnnotations[consumer.Id][provider.Id] = new DsmRelationAnnotation(consumer.Id, provider.Id, text);
+            else
+            {
+                if (!_relationAnnotations.ContainsKey(consumer.Id))
+                {
+                    _relationAnnotations[consumer.Id] = new Dictionary<int, DsmRelationAnnotation>();
+                }
+                _relationAnnotations[consumer.Id][provider.Id] = new DsmRelationAnnotation(consumer.Id, provider.Id, text);
+            }
         }
 
         public IEnumerable<IDsmElementAnnotation> GetElementAnnotations()

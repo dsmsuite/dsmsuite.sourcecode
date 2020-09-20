@@ -34,7 +34,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public event EventHandler<ElementCreateViewModel> ElementCreateStarted;
         public event EventHandler<ElementEditNameViewModel> ElementEditNameStarted;
         public event EventHandler<ElementEditTypeViewModel> ElementEditTypeStarted;
-
+        public event EventHandler<ElementEditAnnotationViewModel> ElementEditAnnotationStarted;
+        
         public event EventHandler<RelationCreateViewModel> RelationCreateStarted;
         public event EventHandler<RelationEditWeightViewModel> RelationEditWeightStarted;
         public event EventHandler<RelationEditTypeViewModel> RelationEditTypeStarted;
@@ -714,6 +715,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void AnnotateElementExecute(object parameter)
         {
+            ElementEditAnnotationViewModel elementEditViewModel = new ElementEditAnnotationViewModel(_application, SelectedProvider);
+            ElementEditAnnotationStarted?.Invoke(this, elementEditViewModel);
         }
 
         private bool AnnotateElementCanExecute(object parameter)

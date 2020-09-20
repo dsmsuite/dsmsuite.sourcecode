@@ -44,6 +44,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\ElementEditAnnotationDialog.xaml.cs">
+      <DependentUpon>ElementEditAnnotationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\SnapshotCreateDialog.xaml.cs">
       <DependentUpon>SnapshotCreateDialog.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,10 @@
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Dialogs\ElementCreateDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ElementEditAnnotationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

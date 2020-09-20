@@ -63,6 +63,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         void CreateElement(string name, string type, IDsmElement parent);
         void DeleteElement(IDsmElement element);
         void ChangeElementName(IDsmElement element, string name);
+        void ChangeElementAnnotation(IDsmElement element, string annotation);
         void ChangeElementType(IDsmElement element, string type);
         void ChangeElementParent(IDsmElement element, IDsmElement newParent);
 
