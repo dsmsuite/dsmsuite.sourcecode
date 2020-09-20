@@ -7,31 +7,31 @@
              mc:Ignorable="d">
     <Grid Height="16">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
-        <Rectangle Fill="{StaticResource MatrixColorConsumer}" Grid.Column="0"/>
-        <TextBlock Grid.Column="1">Consumer</TextBlock>
-        <Rectangle Fill="{StaticResource MatrixColorProvider}" Grid.Column="2"/>
-        <TextBlock Grid.Column="3">Provider</TextBlock>
-        <Rectangle Fill="{StaticResource MatrixColorHierarchicalCycle}" Grid.Column="4"/>
-        <TextBlock Grid.Column="5">Cyclic</TextBlock>
-        <Rectangle Fill="{StaticResource MatrixColorMatch}" Grid.Column="6"/>
-        <TextBlock Grid.Column="7">Search match</TextBlock>
-        <Rectangle Fill="{StaticResource MatrixColorBookmark}" Grid.Column="8"/>
-        <TextBlock Grid.Column="9">Bookmarked</TextBlock>
-        <Rectangle Fill="{StaticResource MatrixColorAnnotation}" Grid.Column="10"/>
-        <TextBlock Grid.Column="11">Annotated</TextBlock>
+        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorConsumer}" Grid.Column="0"/>
+        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="1">Consumer</TextBlock>
+        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorProvider}" Grid.Column="2"/>
+        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="3">Provider</TextBlock>
+        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorHierarchicalCycle}" Grid.Column="4"/>
+        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="5">Cyclic</TextBlock>
+        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorMatch}" Grid.Column="6"/>
+        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="7">Search match</TextBlock>
+        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorBookmark}" Grid.Column="8"/>
+        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="9">Bookmarked</TextBlock>
+        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorAnnotation}" Grid.Column="10"/>
+        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="11">Annotated</TextBlock>
     </Grid>
 </UserControl>

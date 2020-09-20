@@ -8,6 +8,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         ICommand SortElementCommand { get; }
         ICommand MoveUpElementCommand { get; }
         ICommand MoveDownElementCommand { get; }
+
+        ICommand BookmarkElementCommand { get; }
+        ICommand AnnotateElementCommand { get; }
+
         ICommand ChangeElementParentCommand { get; }
     }
 }

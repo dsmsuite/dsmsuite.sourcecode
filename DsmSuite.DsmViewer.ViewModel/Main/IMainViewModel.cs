@@ -13,6 +13,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand ToggleElementExpandedCommand { get; }
         ICommand MoveUpElementCommand { get; }
         ICommand MoveDownElementCommand { get; }
+
+        ICommand BookmarkElementCommand { get; }
+        ICommand AnnotateElementCommand { get; }
+
         ICommand SortElementCommand { get; }
         ICommand ShowElementDetailMatrixCommand { get; }
         ICommand ShowElementContextMatrixCommand { get; }

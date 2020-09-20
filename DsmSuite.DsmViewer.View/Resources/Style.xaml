@@ -13,6 +13,18 @@
     <sys:String x:Key="UpArrow">&#x25B2;</sys:String>
     <sys:String x:Key="DownArrow">&#x25BC;</sys:String>
 
+    <!-- Legend styles -->
+    <Style x:Key="LegendRectangleStyle" TargetType="Rectangle">
+        <Setter Property="Width" Value="5" />
+        <Setter Property="Height" Value="5" />
+        <Setter Property="Margin" Value="3" />
+    </Style>
+
+    <Style x:Key="LegendTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+    </Style>
+
     <!-- GridSplitter style -->
     <Style x:Key="GridSplitterStyle" TargetType="GridSplitter">
         <Setter Property="Background" Value="{StaticResource BackgroundColor}" />

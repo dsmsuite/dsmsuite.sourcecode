@@ -26,6 +26,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             MoveDownElementCommand = matrixViewModel.MoveDownElementCommand;
             SortElementCommand = matrixViewModel.SortElementCommand;
             ToggleElementExpandedCommand = matrixViewModel.ToggleElementExpandedCommand;
+            BookmarkElementCommand = matrixViewModel.BookmarkElementCommand;
+            AnnotateElementCommand = matrixViewModel.AnnotateElementCommand;
 
             IDsmElementAnnotation annotation = _application.FindElementAnnotation(element);
             if (annotation != null)
@@ -35,7 +37,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             Description = $"[{Element.Order}] {Element.Fullname} + {Annotation}";
         }
-        
+
         public IDsmElement Element { get; }
         public string Annotation { get; }
         public int Depth { get; }
@@ -58,6 +60,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand MoveDownElementCommand { get; }
         public ICommand SortElementCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
+        public ICommand BookmarkElementCommand { get; }
+        public ICommand AnnotateElementCommand { get; }
 
         public bool IsExpandable => Element.HasChildren;
 
@@ -85,7 +89,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         public void ClearChildren()
         {
-            foreach(ElementTreeItemViewModel viewModel in _children)
+            foreach (ElementTreeItemViewModel viewModel in _children)
             {
                 viewModel._parent = null;
             }

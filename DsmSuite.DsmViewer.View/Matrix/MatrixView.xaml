@@ -36,6 +36,9 @@
                         <MenuItem Header="Move up" Command="{Binding MoveUpElementCommand}" />
                         <MenuItem Header="Move down" Command="{Binding MoveDownElementCommand}" />
                         <Separator />
+                        <MenuItem Header="Bookmark Element" Command="{Binding BookmarkElementCommand}" />
+                        <MenuItem Header="Annotate Element" Command="{Binding AnnotatedElementCommand}" />
+                        <Separator />
                         <MenuItem Header="Create element" Command="{Binding CreateElementCommand}" />
                         <MenuItem Header="Change element name" Command="{Binding ChangeElementNameCommand}" />
                         <MenuItem Header="Change element type" Command="{Binding ChangeElementTypeCommand}" />

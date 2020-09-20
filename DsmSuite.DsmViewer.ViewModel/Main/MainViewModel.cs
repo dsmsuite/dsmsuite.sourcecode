@@ -87,6 +87,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             MoveDownElementCommand = new RelayCommand<object>(MoveDownElementExecute, MoveDownElementCanExecute);
             SortElementCommand = new RelayCommand<object>(SortElementExecute, SortElementCanExecute);
 
+            BookmarkElementCommand = new RelayCommand<object>(BookmarkElementExecute, BookmarkElementCanExecute);
+            AnnotateElementCommand = new RelayCommand<object>(AnnotateElementExecute, AnnotateElementCanExecute);
+
             ShowElementDetailMatrixCommand = new RelayCommand<object>(ShowElementDetailMatrixExecute, ShowElementDetailMatrixCanExecute);
             ShowElementContextMatrixCommand = new RelayCommand<object>(ShowElementContextMatrixExecute, ShowElementContextMatrixCanExecute);
             ShowCellDetailMatrixCommand = new RelayCommand<object>(ShowCellDetailMatrixExecute, ShowCellDetailMatrixCanExecute);
@@ -111,7 +114,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ChangeRelationWeightCommand = new RelayCommand<object>(ChangeRelationWeightExecute, ChangeRelationWeightCanExecute);
             ChangeRelationTypeCommand = new RelayCommand<object>(ChangeRelationTypeExecute, ChangeRelationTypeCanExecute);
  
-            ToggleBookmarkCommand = new RelayCommand<object>(ToggleBookmarkExecute, ToggleBookmarkCanExecute);
+
 
             MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
             ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
@@ -181,6 +184,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         public ICommand MoveUpElementCommand { get; }
         public ICommand MoveDownElementCommand { get; }
+
+        public ICommand BookmarkElementCommand { get; }
+        public ICommand AnnotateElementCommand { get; }
+
         public ICommand SortElementCommand { get; }
         public ICommand ShowElementDetailMatrixCommand { get; }
         public ICommand ShowElementContextMatrixCommand { get; }
@@ -201,7 +208,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand DeleteRelationCommand { get; }
         public ICommand ChangeRelationWeightCommand { get; }
         public ICommand ChangeRelationTypeCommand { get; }
-        public ICommand ToggleBookmarkCommand { get; }
+
         public ICommand MakeSnapshotCommand { get; }
         public ICommand ShowHistoryCommand { get; }
         public ICommand ShowSettingsCommand { get; }
@@ -711,13 +718,22 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return canExecute;
         }
 
-        private void ToggleBookmarkExecute(object parameter)
+        private void BookmarkElementExecute(object parameter)
         {
             SelectedProvider.IsBookmarked = !SelectedProvider.IsBookmarked;
             ActiveMatrix.Reload();
         }
 
-        private bool ToggleBookmarkCanExecute(object parameter)
+        private bool BookmarkElementCanExecute(object parameter)
+        {
+            return (SelectedProvider != null);
+        }
+
+        private void AnnotateElementExecute(object parameter)
+        {
+        }
+
+        private bool AnnotateElementCanExecute(object parameter)
         {
             return (SelectedProvider != null);
         }
