@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
 
@@ -22,7 +23,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             _theme = theme;
 
             AllowDrop = true;
-            
+
             DataContextChanged += OnDataContextChanged;
         }
 
@@ -65,14 +66,14 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
             if (e.Data.GetDataPresent(DataObjectName))
             {
-                IDsmElement element = (IDsmElement) e.Data.GetData(DataObjectName);
+                IDsmElement element = (IDsmElement)e.Data.GetData(DataObjectName);
                 IDsmElement newParent = _viewModel.Element;
 
-                if ((element != null) && 
-                    (newParent != null) && 
-                    (element != newParent)) 
+                if ((element != null) &&
+                    (newParent != null) &&
+                    (element != newParent))
                 {
-                    Tuple<IDsmElement, IDsmElement> moveParameter = new Tuple<IDsmElement, IDsmElement>(element,newParent);
+                    Tuple<IDsmElement, IDsmElement> moveParameter = new Tuple<IDsmElement, IDsmElement>(element, newParent);
                     _viewModel.MoveCommand.Execute(moveParameter);
                 }
 
@@ -111,7 +112,6 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 bool isHovered = _matrixViewModel.HoveredTreeItem == _viewModel;
                 bool isSelected = _matrixViewModel.SelectedTreeItem == _viewModel;
                 SolidColorBrush background = _theme.GetBackground(_viewModel.Color, isHovered, isSelected);
-                SolidColorBrush indicator = new SolidColorBrush(Colors.Red);
                 Rect backgroundRect = new Rect(1.0, 1.0, ActualWidth - _theme.SpacingWidth, ActualHeight - _theme.SpacingWidth);
                 dc.DrawRectangle(background, null, backgroundRect);
 
@@ -124,34 +124,27 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 }
                 else
                 {
-                    Rect indicatorRect = new Rect(backgroundRect.Width - _indicatorWith, 1.0, _indicatorWith, ActualHeight - _theme.SpacingWidth);
+                    int index = 0;
+
+                    SolidColorBrush brush = GetIndicatorColor();
+                    if (brush != null)
+                    {
+                        DrawIndicator(dc, backgroundRect, brush, ref index);
+                    };
 
                     if (_viewModel.IsMatch)
                     {
-                        dc.DrawRectangle(_theme.MatrixColorMatch, null, indicatorRect);
+                        DrawIndicator(dc, backgroundRect, _theme.MatrixColorMatch, ref index);
                     }
-                    else if (_viewModel.IsBookmarked)
+
+                    if (_viewModel.IsBookmarked)
                     {
-                        dc.DrawRectangle(_theme.MatrixColorBookmark, null, indicatorRect);
+                        DrawIndicator(dc, backgroundRect, _theme.MatrixColorBookmark, ref index);
                     }
-                    else if (!string.IsNullOrEmpty(_viewModel.Annotation))
+
+                    if (!string.IsNullOrEmpty(_viewModel.Annotation))
                     {
-                        dc.DrawRectangle(_theme.MatrixColorAnnotation, null, indicatorRect);
-                    }
-                    else
-                    {
-                        if (_viewModel.IsConsumer)
-                        {
-                            dc.DrawRectangle(
-                                _viewModel.IsProvider
-                                    ? _theme.MatrixColorHierarchicalCycle
-                                    : _theme.MatrixColorConsumer, null, indicatorRect);
-                        }
-                        else
-                        {
-                            dc.DrawRectangle(_viewModel.IsProvider ? _theme.MatrixColorProvider : background,
-                                null, indicatorRect);
-                        }
+                        DrawIndicator(dc, backgroundRect, _theme.MatrixColorAnnotation, ref index);
                     }
 
                     if (ActualWidth > 70.0)
@@ -163,16 +156,49 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     string order = _viewModel.Order.ToString();
                     double textWidth = MeasureText(order);
 
-                    Point orderTextLocation = new Point(backgroundRect.X - 10.0 + backgroundRect.Width - textWidth, backgroundRect.Y + 15.0);
+                    Point orderTextLocation = new Point(backgroundRect.X - 25.0 + backgroundRect.Width - textWidth, backgroundRect.Y + 15.0);
                     if (orderTextLocation.X > 0)
                     {
                         DrawText(dc, order, orderTextLocation, _theme.TextColor, ActualWidth - 25.0);
                     }
                 }
-                
+
                 Point expanderLocation = new Point(backgroundRect.X + 1.0, backgroundRect.Y + 1.0);
                 DrawExpander(dc, expanderLocation);
             }
+        }
+
+        private void DrawIndicator(DrawingContext dc, Rect backgroundRect, SolidColorBrush brush, ref int index)
+        {
+            index++;
+            dc.DrawRectangle(brush, null, GetIndicatorRect(backgroundRect, index));
+        }
+
+        private SolidColorBrush GetIndicatorColor()
+        {
+            SolidColorBrush brush = null;
+            if (_viewModel.IsConsumer)
+            {
+                if (_viewModel.IsProvider)
+                {
+                    brush = _theme.MatrixColorHierarchicalCycle;
+                }
+                else
+                {
+                    brush = _theme.MatrixColorConsumer;
+                }
+            }
+            else if (_viewModel.IsProvider)
+            {
+                brush = _theme.MatrixColorProvider;
+            }
+
+            return brush;
+        }
+
+        private Rect GetIndicatorRect(Rect backgroundRect, int index)
+        {
+            return new Rect(backgroundRect.Width - index * _indicatorWith, 1.0, _indicatorWith, ActualHeight - _theme.SpacingWidth);
         }
 
         private void DrawExpander(DrawingContext dc, Point location)
