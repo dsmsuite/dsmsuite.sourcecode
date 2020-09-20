@@ -30,7 +30,6 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         bool CanRedo();
         string GetRedoActionDescription();
         void Redo();
-        string GetOverviewReport();
         IDsmElement RootElement { get; }
         IEnumerable<IDsmElement> GetElementProvidedElements(IDsmElement element);
         IEnumerable<IDsmElement> GetElementProviders(IDsmElement element);

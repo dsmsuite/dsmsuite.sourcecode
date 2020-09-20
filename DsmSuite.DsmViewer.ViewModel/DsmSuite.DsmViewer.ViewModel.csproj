@@ -43,7 +43,6 @@
     <Compile Include="Lists\RelationListItemViewModel.cs" />
     <Compile Include="Main\ProgressViewModel.cs" />
     <Compile Include="Lists\RelationListViewModel.cs" />
-    <Compile Include="Main\ReportViewModel.cs" />
     <Compile Include="Main\SearchState.cs" />
     <Compile Include="Matrix\MetricType.cs" />
     <Compile Include="Settings\SettingsViewModel.cs" />
@@ -74,10 +73,6 @@
     <ProjectReference Include="..\DsmSuite.DsmViewer.Model\DsmSuite.DsmViewer.Model.csproj">
       <Project>{ae2405c6-54ca-43b1-bcf0-36b7010c0f0e}</Project>
       <Name>DsmSuite.DsmViewer.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.DsmViewer.Reporting\DsmSuite.DsmViewer.Reporting.csproj">
-      <Project>{9cf52435-fc03-45c5-83a2-e4b511b59c13}</Project>
-      <Name>DsmSuite.DsmViewer.Reporting</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

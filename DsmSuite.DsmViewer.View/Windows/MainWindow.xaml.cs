@@ -48,7 +48,6 @@ namespace DsmSuite.DsmViewer.View.Windows
             DsmApplication application = new DsmApplication(model);
             application.ShowCycles = App.ShowCycles;
             _mainViewModel = new MainViewModel(application);
-            _mainViewModel.ReportCreated += OnReportCreated;
             _mainViewModel.ElementsReportReady += OnElementsReportReady;
             _mainViewModel.RelationsReportReady += OnRelationsReportReady;
             _mainViewModel.ProgressViewModel.BusyChanged += OnProgressViewModelBusyChanged;
@@ -178,12 +177,6 @@ namespace DsmSuite.DsmViewer.View.Windows
                 _progressWindow.Close();
                 _progressWindow = null;
             }
-        }
-
-        private void OnReportCreated(object sender, ReportViewModel e)
-        {
-            ReportView reportView = new ReportView { DataContext = e };
-            reportView.Show();
         }
 
         private void OnScreenshotRequested(object sender, System.EventArgs e)

@@ -41,7 +41,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         public event EventHandler<SnapshotMakeViewModel> SnapshotMakeStarted;
 
-        public event EventHandler<ReportViewModel> ReportCreated;
         public event EventHandler<ElementListViewModel> ElementsReportReady;
         public event EventHandler<RelationListViewModel> RelationsReportReady;
 
@@ -100,8 +99,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             UndoCommand = new RelayCommand<object>(UndoExecute, UndoCanExecute);
             RedoCommand = new RelayCommand<object>(RedoExecute, RedoCanExecute);
-
-            OverviewReportCommand = new RelayCommand<object>(OverviewReportExecute, OverviewReportCanExecute);
 
             CreateElementCommand = new RelayCommand<object>(CreateElementExecute, CreateElementCanExecute);
             DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
@@ -197,7 +194,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand ToggleElementExpandedCommand { get; }
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
-        public ICommand OverviewReportCommand { get; }
 
         public ICommand CreateElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
@@ -504,19 +500,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private bool RedoCanExecute(object parameter)
         {
             return _application.CanRedo();
-        }
-
-        private void OverviewReportExecute(object parameter)
-        {
-            string content = _application.GetOverviewReport();
-
-            ReportViewModel reportViewModel = new ReportViewModel() { Title = "Overview", Content = content };
-            ReportCreated?.Invoke(this, reportViewModel);
-        }
-
-        private bool OverviewReportCanExecute(object parameter)
-        {
-            return true;
         }
 
         private void OnSearchTextUpdated()

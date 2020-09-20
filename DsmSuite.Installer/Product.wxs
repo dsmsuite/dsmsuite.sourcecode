@@ -185,9 +185,6 @@
       <Component Id="DsmSuite.DsmViewer.Application.dll" Guid="79D6350F-8069-41A7-9A40-F75D928FE985">
         <File Id="DsmSuite.DsmViewer.Application.dll" Source="..\build\bin\DsmSuite.DsmViewer.Application.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="DsmSuite.DsmViewer.Reporting.dll" Guid="91272EB7-BD46-40DE-A4D0-7BE1444D804A">
-        <File Id="DsmSuite.DsmViewer.Reporting.dll" Source="..\build\bin\DsmSuite.DsmViewer.Reporting.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
       <Component Id="DsmSuite.DsmViewer.Builder.exe" Guid="A655CDCD-C0C6-4651-B2D6-C6524DA0DE58">
         <File Id="DsmSuite.DsmViewer.Builder.exe" Source="..\build\bin\DsmSuite.DsmViewer.Builder.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -320,7 +317,6 @@
       <ComponentRef Id="DsmSuite.DsmViewer.View.exe" />
       <ComponentRef Id="DsmSuite.DsmViewer.ViewModel.dll" />
       <ComponentRef Id="DsmSuite.DsmViewer.Application.dll" />
-      <ComponentRef Id="DsmSuite.DsmViewer.Reporting.dll" />
       <ComponentRef Id="DsmSuite.DsmViewer.Builder.exe" />
       <ComponentRef Id="DsmSuite.DsmViewer.Model.dll" />
       <ComponentRef Id="DsmSuite.Common.Model.DsmViewer.dll" />

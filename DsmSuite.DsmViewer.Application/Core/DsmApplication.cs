@@ -11,7 +11,6 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Queries;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.Reporting;
 using DsmSuite.Analyzer.Model.Core;
 using System.Reflection;
 using DsmSuite.Common.Util;
@@ -168,12 +167,6 @@ namespace DsmSuite.DsmViewer.Application.Core
         public IDsmElement RootElement => _dsmModel.GetRootElement();
 
         public bool IsModified { get; private set; }
-
-        public string GetOverviewReport()
-        {
-            OverviewReport report = new OverviewReport(_dsmModel);
-            return report.WriteReport();
-        }
 
         public IEnumerable<IDsmElement> GetElementConsumers(IDsmElement element)
         {
