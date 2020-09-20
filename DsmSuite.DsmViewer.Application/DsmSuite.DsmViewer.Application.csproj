@@ -25,6 +25,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ActionType.cs" />
     <Compile Include="Actions\Base\ActionAttributes.cs" />
     <Compile Include="Actions\Element\ElementChangeAnnotationAction.cs" />
     <Compile Include="Actions\Management\ActionStore.cs" />

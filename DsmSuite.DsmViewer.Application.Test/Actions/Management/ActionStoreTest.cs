@@ -34,8 +34,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Management
             store.SaveToModel();
 
             model.Verify(x => x.AddAction(It.IsAny<string>(), It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Exactly(2));
-            model.Verify(x => x.AddAction(ElementMoveUpAction.TypeName, It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Once());
-            model.Verify(x => x.AddAction(ElementMoveDownAction.TypeName, It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Once());
+            model.Verify(x => x.AddAction(ElementMoveUpAction.TypeName.ToString(), It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Once());
+            model.Verify(x => x.AddAction(ElementMoveDownAction.TypeName.ToString(), It.IsAny<IReadOnlyDictionary<string, string>>()), Times.Once());
         }
 
         [TestMethod]
@@ -55,11 +55,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Management
             };
 
             Mock<IDsmAction> action1 = new Mock<IDsmAction>();
-            action1.Setup(x => x.Type).Returns(ElementMoveUpAction.TypeName);
+            action1.Setup(x => x.Type).Returns(ElementMoveUpAction.TypeName.ToString());
             action1.Setup(x => x.Data).Returns(data1);
 
             Mock<IDsmAction> action2 = new Mock<IDsmAction>();
-            action2.Setup(x => x.Type).Returns(ElementMoveDownAction.TypeName);
+            action2.Setup(x => x.Type).Returns(ElementMoveDownAction.TypeName.ToString());
             action2.Setup(x => x.Data).Returns(data2);
 
             List<IDsmAction> actions = new List<IDsmAction>

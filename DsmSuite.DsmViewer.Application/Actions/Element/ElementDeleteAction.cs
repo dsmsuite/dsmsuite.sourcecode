@@ -11,7 +11,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;
 
-        public const string TypeName = "edelete";
+        public const ActionType TypeName = ActionType.ElementDelete;
 
         public ElementDeleteAction(object[] args)
         {
@@ -35,7 +35,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Debug.Assert(_element != null);
         }
 
-        public string Type => TypeName;
+        public ActionType Type => TypeName;
         public string Title => "Delete element";
         public string Description => $"element={_element.Fullname}";
 

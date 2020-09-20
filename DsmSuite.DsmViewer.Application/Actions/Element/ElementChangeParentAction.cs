@@ -13,7 +13,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly IDsmElement _old;
         private readonly IDsmElement _new;
 
-        public const string TypeName = "echangeparent";
+        public const ActionType TypeName = ActionType.ElementChangeParent;
 
         public ElementChangeParentAction(object[] args)
         {
@@ -49,7 +49,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Debug.Assert(_new != null);
         }
 
-        public string Type => TypeName;
+        public ActionType Type => TypeName;
         public string Title => "Change element parent";
         public string Description => $"element={_element.Fullname} parent={_old.Fullname}->{_new.Fullname}";
 

@@ -15,7 +15,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         private readonly int _old;
         private readonly int _new;
 
-        public const string TypeName = "rchangeweight";
+        public const ActionType TypeName = ActionType.RelationChangeWeight;
 
         public RelationChangeWeightAction(object[] args)
         {
@@ -57,7 +57,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _new = weight;
         }
 
-        public string Type => TypeName;
+        public ActionType Type => TypeName;
         public string Title => "Change relation weight";
         public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_relation.Type} weight={_old}->{_new}";
 

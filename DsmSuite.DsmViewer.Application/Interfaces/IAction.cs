@@ -4,7 +4,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 {
     public interface IAction
     {
-        string Type { get; }
+        ActionType Type { get; }
         string Title { get; }
         string Description { get; }
 

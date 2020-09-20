@@ -15,7 +15,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         private readonly string _type;
         private readonly int _weight;
 
-        public const string TypeName = "rcreate";
+        public const ActionType TypeName = ActionType.RelationCreate;
 
         public RelationCreateAction(object[] args)
         {
@@ -54,7 +54,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _weight = weight;
         }
 
-        public string Type => TypeName;
+        public ActionType Type => TypeName;
         public string Title => "Create relation";
         public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_type} weight={_weight}";
 

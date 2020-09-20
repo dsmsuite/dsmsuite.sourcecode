@@ -12,13 +12,13 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
     {
         private readonly IDsmModel _model;
         private readonly IActionManager _actionManager;
-        private readonly Dictionary<string, Type> _types;
+        private readonly Dictionary<ActionType, Type> _types;
 
         public ActionStore(IDsmModel model, IActionManager actionManager)
         {
             _model = model;
             _actionManager = actionManager;
-            _types = new Dictionary<string, Type>();
+            _types = new Dictionary<ActionType, Type>();
 
             RegisterActionTypes();
         }
@@ -27,15 +27,19 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
         {
             foreach (IDsmAction action in _model.GetActions())
             {
-                if (_types.ContainsKey(action.Type))
+                ActionType actionType;
+                if (ActionType.TryParse(action.Type, out actionType))
                 {
-                    Type type = _types[action.Type];
-                    object[] args = { _model, action.Data };
-                    object argumentList = args;
-                    IAction instance = Activator.CreateInstance(type, argumentList) as IAction;
-                    if (instance != null)
+                    if (_types.ContainsKey(actionType))
                     {
-                        _actionManager.Add(instance);
+                        Type type = _types[actionType];
+                        object[] args = {_model, action.Data};
+                        object argumentList = args;
+                        IAction instance = Activator.CreateInstance(type, argumentList) as IAction;
+                        if (instance != null)
+                        {
+                            _actionManager.Add(instance);
+                        }
                     }
                 }
             }
@@ -45,7 +49,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
         {
             foreach (IAction action in _actionManager.GetActionsInChronologicalOrder())
             {
-                _model.AddAction(action.Type, action.Data);
+                _model.AddAction(action.Type.ToString(), action.Data);
             }
         }
 

@@ -13,7 +13,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly string _old;
         private readonly string _new;
 
-        public const string TypeName = "echangeanno";
+        public const ActionType TypeName = ActionType.ElementChangeAnnotation;
 
         public ElementChangeAnnotationAction(object[] args)
         {
@@ -44,7 +44,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _new = annotation;
         }
 
-        public string Type => TypeName;
+        public ActionType Type => TypeName;
         public string Title => "Change element annotation";
         public string Description => $"element={_element.Fullname} name={_old}->{_new}";
 
