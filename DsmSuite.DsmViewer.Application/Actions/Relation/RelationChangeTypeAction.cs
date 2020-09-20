@@ -15,7 +15,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         private readonly string _old ;
         private readonly string _new ;
 
-        public const ActionType TypeName = ActionType.RelationChangeType;
+        public const ActionType RegisteredType = ActionType.RelationChangeType;
 
         public RelationChangeTypeAction(object[] args)
         {
@@ -57,7 +57,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             _new = type;
         }
 
-        public ActionType Type => TypeName;
+        public ActionType Type => RegisteredType;
         public string Title => "Change relation type";
         public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_old}->{_new}";
 

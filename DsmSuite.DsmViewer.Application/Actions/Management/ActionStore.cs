@@ -55,19 +55,22 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
 
         private void RegisterActionTypes()
         {
-            _types[ElementCreateAction.TypeName] = typeof(ElementCreateAction);
-            _types[ElementDeleteAction.TypeName] = typeof(ElementDeleteAction);
-            _types[ElementChangeNameAction.TypeName] = typeof(ElementChangeNameAction);
-            _types[ElementChangeTypeAction.TypeName] = typeof(ElementChangeTypeAction);
-            _types[ElementChangeParentAction.TypeName] = typeof(ElementChangeParentAction);
-            _types[ElementMoveDownAction.TypeName] = typeof(ElementMoveDownAction);
-            _types[ElementMoveUpAction.TypeName] = typeof(ElementMoveUpAction);
-            _types[ElementSortAction.TypeName] = typeof(ElementSortAction);
-            _types[RelationCreateAction.TypeName] = typeof(RelationCreateAction);
-            _types[RelationChangeTypeAction.TypeName] = typeof(RelationChangeTypeAction);
-            _types[RelationChangeWeightAction.TypeName] = typeof(RelationChangeWeightAction);
-            _types[RelationDeleteAction.TypeName] = typeof(RelationDeleteAction);
-            _types[MakeSnapshotAction.TypeName] = typeof(MakeSnapshotAction);
+            _types[ElementChangeAnnotationAction.RegisteredType] = typeof(ElementChangeAnnotationAction);
+            _types[ElementChangeNameAction.RegisteredType] = typeof(ElementChangeNameAction);
+            _types[ElementChangeTypeAction.RegisteredType] = typeof(ElementChangeTypeAction);
+            _types[ElementChangeParentAction.RegisteredType] = typeof(ElementChangeParentAction);
+            _types[ElementCreateAction.RegisteredType] = typeof(ElementCreateAction);
+            _types[ElementDeleteAction.RegisteredType] = typeof(ElementDeleteAction);
+            _types[ElementMoveDownAction.RegisteredType] = typeof(ElementMoveDownAction);
+            _types[ElementMoveUpAction.RegisteredType] = typeof(ElementMoveUpAction);
+            _types[ElementSortAction.RegisteredType] = typeof(ElementSortAction);
+
+            _types[RelationChangeTypeAction.RegisteredType] = typeof(RelationChangeTypeAction);
+            _types[RelationChangeWeightAction.RegisteredType] = typeof(RelationChangeWeightAction);
+            _types[RelationCreateAction.RegisteredType] = typeof(RelationCreateAction);
+            _types[RelationDeleteAction.RegisteredType] = typeof(RelationDeleteAction);
+
+            _types[MakeSnapshotAction.RegisteredType] = typeof(MakeSnapshotAction);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly IDsmModel _model;
         private readonly IDsmElement _element;
 
-        public const ActionType TypeName = ActionType.ElementMoveDown;
+        public const ActionType RegisteredType = ActionType.ElementMoveDown;
 
         public ElementMoveDownAction(object[] args)
         {
@@ -35,7 +35,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             Debug.Assert(_element != null);
         }
 
-        public ActionType Type => TypeName;
+        public ActionType Type => RegisteredType;
         public string Title => "Move down element";
         public string Description => $"element={_element.Fullname}";
 

@@ -13,7 +13,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly string _old;
         private readonly string _new;
 
-        public const ActionType TypeName = ActionType.ElementChangeType;
+        public const ActionType RegisteredType = ActionType.ElementChangeType;
 
         public ElementChangeTypeAction(object[] args)
         {
@@ -43,7 +43,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _new = type;
         }
 
-        public ActionType Type => TypeName;
+        public ActionType Type => RegisteredType;
         public string Title => "Change element type";
         public string Description => $"element={_element.Fullname} type={_old}->{_new}";
 

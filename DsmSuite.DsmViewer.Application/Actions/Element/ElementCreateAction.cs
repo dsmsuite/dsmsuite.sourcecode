@@ -14,7 +14,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly string _type;
         private readonly IDsmElement _parent;
 
-        public const ActionType TypeName = ActionType.ElementCreate;
+        public const ActionType RegisteredType = ActionType.ElementCreate;
 
         public ElementCreateAction(object[] args)
         {
@@ -48,7 +48,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _parent = parent;
         }
 
-        public ActionType Type => TypeName;
+        public ActionType Type => RegisteredType;
         public string Title => "Create element";
         public string Description => $"name={_name} type={_type} parent={_parent.Fullname}";
 

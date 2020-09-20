@@ -13,7 +13,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         private readonly IDsmElement _consumer;
         private readonly IDsmElement _provider;
 
-        public const ActionType TypeName = ActionType.RelationDelete;
+        public const ActionType RegisteredType = ActionType.RelationDelete;
 
         public RelationDeleteAction(object[] args)
         {
@@ -49,7 +49,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
             Debug.Assert(_provider != null);
         }
 
-        public ActionType Type => TypeName;
+        public ActionType Type => RegisteredType;
         public string Title => "Delete relation";
         public string Description => $"consumer={_consumer.Fullname} provider={_provider.Fullname} type={_relation.Type}";
 

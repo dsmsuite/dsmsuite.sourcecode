@@ -10,7 +10,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
     {
         private readonly string _name;
 
-        public const ActionType TypeName = ActionType.Snapshot;
+        public const ActionType RegisteredType = ActionType.Snapshot;
 
         public MakeSnapshotAction(object[] args)
         {
@@ -30,7 +30,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
             _name = name;
         }
         
-        public ActionType Type => TypeName;
+        public ActionType Type => RegisteredType;
         public string Title => "Make snapshot";
         public string Description => $"name={_name}";
 

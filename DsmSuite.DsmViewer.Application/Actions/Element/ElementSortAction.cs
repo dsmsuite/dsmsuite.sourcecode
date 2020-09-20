@@ -14,7 +14,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly string _algorithm;
         private string _order;
 
-        public const ActionType TypeName = ActionType.ElementSort;
+        public const ActionType RegisteredType = ActionType.ElementSort;
 
         public ElementSortAction(object[] args)
         {
@@ -44,7 +44,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _order = "";
         }
 
-        public ActionType Type => TypeName;
+        public ActionType Type => RegisteredType;
         public string Title => "Partition element";
         public string Description => $"element={_element.Fullname} algorithm={_algorithm}";
 
