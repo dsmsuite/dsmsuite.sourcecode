@@ -14,7 +14,7 @@ using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.ViewModel.Settings;
 using System.Reflection;
-using System.Threading;
+using System.Windows.Forms;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -73,6 +73,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _redoText;
         private string _undoText;
         private string _selectedSortAlgorithm;
+
+        private readonly Timer _indicatorTimer;
 
         public MainViewModel(IDsmApplication application)
         {
@@ -135,8 +137,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             _progressViewModel = new ProgressViewModel();
 
             IndicatorViewMode = IndicatorViewMode.ConsumersProviders;
+            _indicatorTimer = new Timer();
+            _indicatorTimer.Tick += OnEndIndicatorTimerEvent;
+            _indicatorTimer.Interval = 5000;
+            _indicatorTimer.Enabled = true;
 
             ActiveMatrix = new MatrixViewModel(this, _application, new List<IDsmElement>());
+        }
+
+        private void OnEndIndicatorTimerEvent(object sender, EventArgs e)
+        {
+            SelectDefaultIndicatorMode();
+            _indicatorTimer.Stop();
         }
 
         private void OnModelModified(object sender, bool e)
@@ -161,17 +173,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public IndicatorViewMode IndicatorViewMode
         {
             get { return _indicatorViewMode; }
-            set { _indicatorViewMode = value; OnPropertyChanged(); ActiveMatrix?.Reload(); }
+            set { _indicatorViewMode = value; OnPropertyChanged(); }
         }
 
         public void SelectBookmarksIndicatorViewMode()
         {
             IndicatorViewMode = IndicatorViewMode.Bookmarks;
+            _indicatorTimer.Start();
+            ActiveMatrix?.Reload();
         }
 
         public void SelectAnnotationsIndicatorViewMode()
         {
             IndicatorViewMode = IndicatorViewMode.Annotations;
+            _indicatorTimer.Start();
+            ActiveMatrix?.Reload();
         }
 
         public bool IsMetricsViewExpanded
@@ -521,9 +537,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return _application.CanRedo();
         }
 
-        private void OnSearchTextUpdated()
+        private void SelectDefaultIndicatorMode()
         {
             IndicatorViewMode = string.IsNullOrEmpty(SearchText) ? IndicatorViewMode.ConsumersProviders : IndicatorViewMode.SearchResults;
+            ActiveMatrix?.Reload();
+        }
+
+        private void OnSearchTextUpdated()
+        {
+            SelectDefaultIndicatorMode();
 
             int count = ActiveMatrix.HighlighMatchingElements(SearchText);
 
