@@ -185,6 +185,19 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _deletedRelationsById.ContainsKey(id) ? _deletedRelationsById[id] : null;
         }
 
+        public IDsmRelation FindRelation(IDsmElement consumer, IDsmElement provider, string type)
+        {
+            DsmRelation foundRelation = null;
+            foreach (DsmRelation relation in FindRelations(consumer, provider))
+            {
+                if (relation.Type == type)
+                {
+                    foundRelation = relation;
+                }
+            }
+            return foundRelation;
+        }
+
         public IEnumerable<DsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider)
         {
             IList<DsmRelation> relations = new List<DsmRelation>();

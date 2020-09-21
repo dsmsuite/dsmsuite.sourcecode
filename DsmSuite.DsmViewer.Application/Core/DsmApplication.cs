@@ -118,7 +118,15 @@ namespace DsmSuite.DsmViewer.Application.Core
             DsiModel dsiModel = new DsiModel(processStep, assembly);
             dsiModel.Load(dsiFilename, progress);
 
-            IImportPolicy importPolicy = new CreateNewModelPolicy(_dsmModel);
+            IImportPolicy importPolicy;
+            if (!File.Exists(dsmFilename) || !recordChanges)
+            {
+                importPolicy = new CreateNewModelPolicy(_dsmModel);
+            }
+            else
+            {
+                importPolicy = new UpdateExistingModelPolicy(_dsmModel, dsmFilename, _actionManager, progress);
+            }
 
             DsiImporter importer = new DsiImporter(dsiModel, _dsmModel, importPolicy, autoPartition);
             importer.Import(progress);

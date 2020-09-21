@@ -59,6 +59,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmRelation GetRelationById(int relationId);
         IDsmRelation GetDeletedRelationById(int relationId);
         IEnumerable<IDsmRelation> GetRelations();
+        IDsmRelation FindRelation(IDsmElement consumer, IDsmElement provider, string type);
         IEnumerable<IDsmRelation> FindRelations(IDsmElement consumer, IDsmElement provider);
         IEnumerable<IDsmRelation> FindIngoingRelations(IDsmElement element);
         IEnumerable<IDsmRelation> FindOutgoingRelations(IDsmElement element);
