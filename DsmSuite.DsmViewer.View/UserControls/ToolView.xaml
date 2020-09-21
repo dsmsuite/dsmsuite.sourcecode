@@ -24,8 +24,8 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Sort selected element" Command="{Binding SortElementCommand}" Content="{StaticResource PartitionIcon}"/>
             <ComboBox Style="{StaticResource ToolbarComboBox}" ToolTip="Used sort algorithm" ItemsSource="{Binding SupportedSortAlgorithms}" SelectedItem="{Binding SelectedSortAlgorithm}" Width="80" />
             <Separator/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Bookmark selected element" Command="{Binding BookmarkElementCommand}" Content="{StaticResource BookmarkIcon}"/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Annotate selected element" Command="{Binding AnnotateElementCommand}" Content="{StaticResource AnnotateIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Bookmark selected element" Command="{Binding BookmarkElementCommand}" Content="{StaticResource BookmarkIcon}" MouseEnter="OnBookmarkButtonMouseEnter"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Annotate selected element" Command="{Binding AnnotateElementCommand}" Content="{StaticResource AnnotateIcon}" MouseEnter="OnAnnotateButtonMouseEnter"/>
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Label current state" Command="{Binding MakeSnapshotCommand}" Content="{StaticResource LabelIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show history" Command="{Binding ShowHistoryCommand}" Content="{StaticResource HistoryIcon}"/>

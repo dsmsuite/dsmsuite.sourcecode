@@ -42,6 +42,7 @@
     <Compile Include="Lists\ElementListItemViewModel.cs" />
     <Compile Include="Lists\ElementListViewModel.cs" />
     <Compile Include="Lists\RelationListItemViewModel.cs" />
+    <Compile Include="Main\IndicatorViewMode.cs" />
     <Compile Include="Main\ProgressViewModel.cs" />
     <Compile Include="Lists\RelationListViewModel.cs" />
     <Compile Include="Main\SearchState.cs" />

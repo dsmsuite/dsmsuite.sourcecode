@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using DsmSuite.DsmViewer.ViewModel.Main;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
@@ -53,6 +54,16 @@ namespace DsmSuite.DsmViewer.View.UserControls
             }
 
             return selectedFile;
+        }
+
+        private void OnBookmarkButtonMouseEnter(object sender, MouseEventArgs e)
+        {
+            _mainViewModel.SelectBookmarksIndicatorViewMode();
+        }
+
+        private void OnAnnotateButtonMouseEnter(object sender, MouseEventArgs e)
+        {
+            _mainViewModel.SelectAnnotationsIndicatorViewMode();
         }
     }
 }

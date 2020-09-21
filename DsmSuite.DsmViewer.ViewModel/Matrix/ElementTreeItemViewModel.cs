@@ -3,18 +3,17 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Interfaces;
+using DsmSuite.DsmViewer.ViewModel.Main;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
     public class ElementTreeItemViewModel : ViewModelBase
     {
-        private readonly IDsmApplication _application;
         private readonly List<ElementTreeItemViewModel> _children;
         private ElementTreeItemViewModel _parent;
 
-        public ElementTreeItemViewModel(IDsmApplication application, IMatrixViewModel matrixViewModel, IDsmElement element, int depth)
+        public ElementTreeItemViewModel(IMainViewModel mainViewModel, IMatrixViewModel matrixViewModel, IDsmApplication application, IDsmElement element, int depth)
         {
-            _application = application;
             _children = new List<ElementTreeItemViewModel>();
             _parent = null;
             Element = element;
@@ -29,7 +28,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             BookmarkElementCommand = matrixViewModel.BookmarkElementCommand;
             AnnotateElementCommand = matrixViewModel.AnnotateElementCommand;
 
-            IDsmElementAnnotation annotation = _application.FindElementAnnotation(element);
+            IndicatorViewMode = mainViewModel.IndicatorViewMode;
+
+            IDsmElementAnnotation annotation = application.FindElementAnnotation(element);
             if (annotation != null)
             {
                 Annotation = annotation.Text;
@@ -62,6 +63,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand ToggleElementExpandedCommand { get; }
         public ICommand BookmarkElementCommand { get; }
         public ICommand AnnotateElementCommand { get; }
+
+        public IndicatorViewMode IndicatorViewMode { get; }
 
         public bool IsExpandable => Element.HasChildren;
 

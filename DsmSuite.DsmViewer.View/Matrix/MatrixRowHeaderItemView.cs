@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.ViewModel.Main;
 using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
@@ -124,27 +125,43 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 }
                 else
                 {
-                    int index = 0;
+                    Rect indicatorRect =  new Rect(backgroundRect.Width - _indicatorWith, 1.0, _indicatorWith, ActualHeight - _theme.SpacingWidth);
 
-                    SolidColorBrush brush = GetIndicatorColor();
-                    if (brush != null)
+                    switch (_viewModel.IndicatorViewMode)
                     {
-                        DrawIndicator(dc, backgroundRect, brush, ref index);
-                    };
-
-                    if (_viewModel.IsMatch)
-                    {
-                        DrawIndicator(dc, backgroundRect, _theme.MatrixColorMatch, ref index);
-                    }
-
-                    if (_viewModel.IsBookmarked)
-                    {
-                        DrawIndicator(dc, backgroundRect, _theme.MatrixColorBookmark, ref index);
-                    }
-
-                    if (!string.IsNullOrEmpty(_viewModel.Annotation))
-                    {
-                        DrawIndicator(dc, backgroundRect, _theme.MatrixColorAnnotation, ref index);
+                        case IndicatorViewMode.ConsumersProviders:
+                            {
+                                SolidColorBrush brush = GetIndicatorColor();
+                                if (brush != null)
+                                {
+                                    dc.DrawRectangle(brush, null, indicatorRect);
+                                };
+                            }
+                            break;
+                        case IndicatorViewMode.SearchResults:
+                            {
+                                if (_viewModel.IsMatch)
+                                {
+                                    dc.DrawRectangle(_theme.MatrixColorMatch, null, indicatorRect);
+                                }
+                            }
+                            break;
+                        case IndicatorViewMode.Bookmarks:
+                            {
+                                if (_viewModel.IsBookmarked)
+                                {
+                                    dc.DrawRectangle(_theme.MatrixColorBookmark, null, indicatorRect);
+                                }
+                            }
+                            break;
+                        case IndicatorViewMode.Annotations:
+                            {
+                                if (!string.IsNullOrEmpty(_viewModel.Annotation))
+                                {
+                                    dc.DrawRectangle(_theme.MatrixColorAnnotation, null, indicatorRect);
+                                }
+                            }
+                            break;
                     }
 
                     if (ActualWidth > 70.0)
@@ -168,12 +185,6 @@ namespace DsmSuite.DsmViewer.View.Matrix
             }
         }
 
-        private void DrawIndicator(DrawingContext dc, Rect backgroundRect, SolidColorBrush brush, ref int index)
-        {
-            index++;
-            dc.DrawRectangle(brush, null, GetIndicatorRect(backgroundRect, index));
-        }
-
         private SolidColorBrush GetIndicatorColor()
         {
             SolidColorBrush brush = null;
@@ -194,11 +205,6 @@ namespace DsmSuite.DsmViewer.View.Matrix
             }
 
             return brush;
-        }
-
-        private Rect GetIndicatorRect(Rect backgroundRect, int index)
-        {
-            return new Rect(backgroundRect.Width - index * _indicatorWith, 1.0, _indicatorWith, ActualHeight - _theme.SpacingWidth);
         }
 
         private void DrawExpander(DrawingContext dc, Point location)

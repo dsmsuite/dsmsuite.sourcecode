@@ -14,6 +14,7 @@ using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.ViewModel.Settings;
 using System.Reflection;
+using System.Threading;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -67,6 +68,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _reportText;
 
         private MatrixViewModel _activeMatrix;
+        private IndicatorViewMode _indicatorViewMode;
         private readonly ProgressViewModel _progressViewModel;
         private string _redoText;
         private string _undoText;
@@ -112,8 +114,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ChangeRelationWeightCommand = new RelayCommand<object>(ChangeRelationWeightExecute, ChangeRelationWeightCanExecute);
             ChangeRelationTypeCommand = new RelayCommand<object>(ChangeRelationTypeExecute, ChangeRelationTypeCanExecute);
  
-
-
             MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
             ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
             ShowSettingsCommand = new RelayCommand<object>(ShowSettingsExecute, ShowSettingsCanExecute);
@@ -133,6 +133,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             _selectedSortAlgorithm = SupportedSortAlgorithms[0];
 
             _progressViewModel = new ProgressViewModel();
+
+            IndicatorViewMode = IndicatorViewMode.ConsumersProviders;
 
             ActiveMatrix = new MatrixViewModel(this, _application, new List<IDsmElement>());
         }
@@ -155,6 +157,22 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         }
 
         private bool _isMetricsViewExpanded;
+
+        public IndicatorViewMode IndicatorViewMode
+        {
+            get { return _indicatorViewMode; }
+            set { _indicatorViewMode = value; OnPropertyChanged(); ActiveMatrix?.Reload(); }
+        }
+
+        public void SelectBookmarksIndicatorViewMode()
+        {
+            IndicatorViewMode = IndicatorViewMode.Bookmarks;
+        }
+
+        public void SelectAnnotationsIndicatorViewMode()
+        {
+            IndicatorViewMode = IndicatorViewMode.Annotations;
+        }
 
         public bool IsMetricsViewExpanded
         {
@@ -505,6 +523,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OnSearchTextUpdated()
         {
+            IndicatorViewMode = string.IsNullOrEmpty(SearchText) ? IndicatorViewMode.ConsumersProviders : IndicatorViewMode.SearchResults;
+
             int count = ActiveMatrix.HighlighMatchingElements(SearchText);
 
             if (count == 0)
@@ -705,7 +725,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private void BookmarkElementExecute(object parameter)
         {
             SelectedProvider.IsBookmarked = !SelectedProvider.IsBookmarked;
-            ActiveMatrix.Reload();
+            SelectBookmarksIndicatorViewMode();
         }
 
         private bool BookmarkElementCanExecute(object parameter)
@@ -717,6 +737,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             ElementEditAnnotationViewModel elementEditViewModel = new ElementEditAnnotationViewModel(_application, SelectedProvider);
             ElementEditAnnotationStarted?.Invoke(this, elementEditViewModel);
+            SelectBookmarksIndicatorViewMode();
         }
 
         private bool AnnotateElementCanExecute(object parameter)
