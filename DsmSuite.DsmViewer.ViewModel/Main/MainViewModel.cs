@@ -746,25 +746,32 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void BookmarkElementExecute(object parameter)
         {
-            SelectedProvider.IsBookmarked = !SelectedProvider.IsBookmarked;
-            SelectBookmarksIndicatorViewMode();
+            if (SelectedProvider != null)
+            {
+                SelectedProvider.IsBookmarked = !SelectedProvider.IsBookmarked;
+                SelectBookmarksIndicatorViewMode();
+            }
         }
 
         private bool BookmarkElementCanExecute(object parameter)
         {
-            return (SelectedProvider != null);
+            return true;
         }
 
         private void AnnotateElementExecute(object parameter)
         {
-            ElementEditAnnotationViewModel elementEditViewModel = new ElementEditAnnotationViewModel(_application, SelectedProvider);
-            ElementEditAnnotationStarted?.Invoke(this, elementEditViewModel);
-            SelectBookmarksIndicatorViewMode();
+            if (SelectedProvider != null)
+            {
+                ElementEditAnnotationViewModel elementEditViewModel =
+                    new ElementEditAnnotationViewModel(_application, SelectedProvider);
+                ElementEditAnnotationStarted?.Invoke(this, elementEditViewModel);
+                SelectBookmarksIndicatorViewMode();
+            }
         }
 
         private bool AnnotateElementCanExecute(object parameter)
         {
-            return (SelectedProvider != null);
+            return true;
         }
 
         private void MakeSnapshotExecute(object parameter)
