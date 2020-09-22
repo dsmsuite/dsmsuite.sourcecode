@@ -37,8 +37,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
 
             Description = $"[{Element.Order}] {Element.Fullname} + {Annotation}";
+
+            ToolTipViewModel = new ElementToolTipViewModel(Id, Fullname, Element.Type, Annotation);
         }
 
+        public ElementToolTipViewModel ToolTipViewModel { get; }
         public IDsmElement Element { get; }
         public string Annotation { get; }
         public int Depth { get; }

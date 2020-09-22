@@ -10,7 +10,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private string _providerName;
 
         private string _type;
-        private string _weight;
+        private int _weight;
 
         public int ConsumerId
         {

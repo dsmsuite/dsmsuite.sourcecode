@@ -4,9 +4,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:matrix="clr-namespace:DsmSuite.DsmViewer.View.Matrix"
+             xmlns:matrix1="clr-namespace:DsmSuite.DsmViewer.ViewModel.Matrix;assembly=DsmSuite.DsmViewer.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{StaticResource BackgroundColor}">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type matrix1:ElementToolTipViewModel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="10" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding FullName}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="Id"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Id}"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="Type"/>
+                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Type}"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Annotation}"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid DataContext="{Binding ActiveMatrix}" x:Name="MatrxGrid" Visibility="{Binding MatrixSize, FallbackValue=Collapsed, Converter={StaticResource MatrixSizeToVisbilityConverter}}">
         <Grid.LayoutTransform>
             <ScaleTransform CenterX="0" 

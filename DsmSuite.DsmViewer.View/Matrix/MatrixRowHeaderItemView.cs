@@ -88,7 +88,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             _viewModel = e.NewValue as ElementTreeItemViewModel;
             if (_viewModel != null)
             {
-                ToolTip = _viewModel.Description;
+                ToolTip = _viewModel.ToolTipViewModel;
             }
         }
 
