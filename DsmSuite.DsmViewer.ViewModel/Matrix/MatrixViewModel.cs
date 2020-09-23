@@ -34,8 +34,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private int? _selectedConsumerId;
         private int? _selectedProviderId;
 
-        private string _columnHeaderTooltip;
-        private string _cellTooltip;
+        private ElementToolTipViewModel _columnHeaderTooltipViewModel;
+        private CellToolTipViewModel _cellTooltipViewModel;
 
         private readonly Dictionary<MetricType, string> _metricTypeNames;
         private string _selectedMetricTypeName;
@@ -357,16 +357,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         public IDsmElement SelectedProvider => SelectedTreeItem?.Element;
 
-        public string ColumnHeaderTooltip
+        public ElementToolTipViewModel ColumnHeaderToolTipViewModel
         {
-            get { return _columnHeaderTooltip; }
-            set { _columnHeaderTooltip = value; OnPropertyChanged(); }
+            get { return _columnHeaderTooltipViewModel; }
+            set { _columnHeaderTooltipViewModel = value; OnPropertyChanged(); }
         }
 
-        public string CellTooltip
+        public CellToolTipViewModel CellToolTipViewModel
         {
-            get { return _cellTooltip; }
-            set { _cellTooltip = value; OnPropertyChanged(); }
+            get { return _cellTooltipViewModel; }
+            set { _cellTooltipViewModel = value; OnPropertyChanged(); }
         }
 
         public IEnumerable<string> MetricTypes => _metricTypeNames.Values;
@@ -800,7 +800,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 IDsmElement element = _elementViewModelLeafs[column.Value].Element;
                 if (element != null)
                 {
-                    ColumnHeaderTooltip = $"[{element.Order}] {element.Fullname}";
+                    ColumnHeaderToolTipViewModel = new ElementToolTipViewModel(element, _application);
                 }
             }
         }
@@ -816,17 +816,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 {
                     int weight = _application.GetDependencyWeight(consumer, provider);
                     CycleType cycleType = _application.IsCyclicDependency(consumer, provider);
-
-                    string cycleText = "";
-                    if (cycleType == CycleType.Hierarchical)
-                    {
-                        cycleText = "with hierarchical cycle";
-                    }
-                    if (cycleType == CycleType.System)
-                    {
-                        cycleText = "with system cycle";
-                    }
-                    CellTooltip = $"[{consumer.Order}] {consumer.Fullname} to [{provider.Order}] {provider.Fullname} weight={weight} {cycleText}";
+                    CellToolTipViewModel = new CellToolTipViewModel(consumer, provider, weight, cycleType, null);
                 }
             }
         }

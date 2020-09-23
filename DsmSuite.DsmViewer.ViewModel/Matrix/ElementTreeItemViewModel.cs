@@ -30,15 +30,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             IndicatorViewMode = mainViewModel.IndicatorViewMode;
 
-            IDsmElementAnnotation annotation = application.FindElementAnnotation(element);
-            if (annotation != null)
-            {
-                Annotation = annotation.Text;
-            }
-
             Description = $"[{Element.Order}] {Element.Fullname} + {Annotation}";
 
-            ToolTipViewModel = new ElementToolTipViewModel(Id, Fullname, Element.Type, Annotation);
+            ToolTipViewModel = new ElementToolTipViewModel(Element, application);
         }
 
         public ElementToolTipViewModel ToolTipViewModel { get; }

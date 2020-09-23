@@ -72,9 +72,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(MatrixViewModel.CellTooltip))
+            if (e.PropertyName == nameof(MatrixViewModel.CellToolTipViewModel))
             {
-                ToolTip = _viewModel.CellTooltip;
+                ToolTip = _viewModel.CellToolTipViewModel;
             }
 
             if ((e.PropertyName == nameof(MatrixViewModel.MatrixSize)) ||

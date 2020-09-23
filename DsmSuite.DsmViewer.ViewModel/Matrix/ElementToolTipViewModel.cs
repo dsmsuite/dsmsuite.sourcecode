@@ -1,45 +1,28 @@
 ﻿using System.Runtime.InteropServices;
+using DsmSuite.DsmViewer.Application.Interfaces;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
     public class ElementToolTipViewModel : ViewModelBase
     {
-        private int _id;
-        private string _fullName;
-        private string _type;
-        private string _annotation;
-
-        public ElementToolTipViewModel(int id, string fullName, string type, string annotation)
+        public ElementToolTipViewModel(IDsmElement element, IDsmApplication application)
         {
-            Id = id;
-            FullName = fullName;
-            Type = type;
-            Annotation = annotation;
+            Title = $"[{element.Id}] {element.Name}";
+            Name = element.Fullname;
+            Type = element.Type;
+
+            IDsmElementAnnotation annotation = application?.FindElementAnnotation(element);
+            if (annotation != null)
+            {
+                Annotation = annotation.Text;
+            }
         }
 
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; OnPropertyChanged(); }
-        }
-
-        public string FullName
-        {
-            get { return _fullName; }
-            set { _fullName = value; OnPropertyChanged(); }
-        }
-
-        public string Type
-        {
-            get { return _type; }
-            set { _type = value; OnPropertyChanged(); }
-        }
-
-        public string Annotation
-        {
-            get { return _annotation; }
-            set { _annotation = value; OnPropertyChanged(); }
-        }
+        public string Title { get; }
+        public string Name { get;  }
+        public string Type { get; }
+        public string Annotation { get; }
     }
 }

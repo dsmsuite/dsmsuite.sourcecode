@@ -14,22 +14,72 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="10" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding FullName}"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="Id"/>
-                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Id}"/>
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="Type"/>
-                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Type}"/>
-                <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Annotation}"/>
+                <TextBlock Style="{StaticResource RichToolTipTitleStyle}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title}"/>
+                
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="2" Grid.Column="1" Text="Name"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="2" Grid.Column="2" Text=":"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="2" Grid.Column="3" Text="{Binding Name}"/>
+                
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="3" Grid.Column="1" Text="Type"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="3" Grid.Column="2" Text=":"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="3" Grid.Column="3" Text="{Binding Type}"/>
+                
+                <TextBlock Style="{StaticResource RichToolTipAnnotationsStyle}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Annotation}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type matrix1:CellToolTipViewModel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="10" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Style="{StaticResource RichToolTipTitleStyle}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Title}"/>
+
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="2" Grid.Column="1" Text="Consumer"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="2" Grid.Column="2" Text=":"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="2" Grid.Column="3" Text="{Binding Consumer}"/>
+                
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="3" Grid.Column="1" Text="Provider"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="3" Grid.Column="2" Text=":"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="3" Grid.Column="3" Text="{Binding Provider}"/>
+                
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="4" Grid.Column="1" Text="Weight"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="4" Grid.Column="2" Text=":"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="4" Grid.Column="3" Text="{Binding Weight}"/>
+                
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="5" Grid.Column="1" Text="Cycality"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="5" Grid.Column="2" Text=":"/>
+                <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="5" Grid.Column="3" Text="{Binding Cycality}"/>
+
+                <TextBlock Style="{StaticResource RichToolTipAnnotationsStyle}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Annotation}"/>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>

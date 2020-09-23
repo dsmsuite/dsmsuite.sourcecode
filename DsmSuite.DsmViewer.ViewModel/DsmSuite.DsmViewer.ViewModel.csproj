@@ -48,7 +48,7 @@
     <Compile Include="Main\SearchState.cs" />
     <Compile Include="Matrix\ElementToolTipViewModel.cs" />
     <Compile Include="Matrix\MetricType.cs" />
-    <Compile Include="Matrix\RelationToolTipViewModel.cs" />
+    <Compile Include="Matrix\CellToolTipViewModel.cs" />
     <Compile Include="Settings\SettingsViewModel.cs" />
     <Compile Include="Matrix\ElementTreeItemViewModel.cs" />
     <Compile Include="Main\IMainViewModel.cs" />
