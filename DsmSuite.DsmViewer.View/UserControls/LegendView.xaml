@@ -25,7 +25,7 @@
         <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="1">Consumer</TextBlock>
         <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorProvider}" Grid.Column="2"/>
         <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="3">Provider</TextBlock>
-        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorHierarchicalCycle}" Grid.Column="4"/>
+        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorCycle}" Grid.Column="4"/>
         <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="5">Cyclic</TextBlock>
         <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorMatch}" Grid.Column="6"/>
         <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="7">Search match</TextBlock>

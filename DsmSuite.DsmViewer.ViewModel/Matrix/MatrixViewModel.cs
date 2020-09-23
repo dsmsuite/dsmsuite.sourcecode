@@ -498,14 +498,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     CycleType cycleType = _application.IsCyclicDependency(consumer, provider);
                     if (_application.ShowCycles)
                     {
-                        if (cycleType == CycleType.Hierarchical)
+                        if (cycleType != CycleType.None)
                         {
                             _cellColors[row][column] = MatrixColor.HierarchicalCycle;
-                        }
-
-                        if (cycleType == CycleType.System)
-                        {
-                            _cellColors[row][column] = MatrixColor.SystemCycle;
                         }
                     }
                 }

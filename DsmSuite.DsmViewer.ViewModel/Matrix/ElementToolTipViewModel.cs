@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using DsmSuite.DsmViewer.Application.Interfaces;
+﻿using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
@@ -9,7 +8,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
     {
         public ElementToolTipViewModel(IDsmElement element, IDsmApplication application)
         {
-            Title = $"[{element.Id}] {element.Name}";
+            Title = $"Element {element.Name}";
+            Id = element.Id;
             Name = element.Fullname;
             Type = element.Type;
 
@@ -21,7 +21,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         }
 
         public string Title { get; }
-        public string Name { get;  }
+        public int Id { get; }
+        public string Name { get; }
         public string Type { get; }
         public string Annotation { get; }
     }

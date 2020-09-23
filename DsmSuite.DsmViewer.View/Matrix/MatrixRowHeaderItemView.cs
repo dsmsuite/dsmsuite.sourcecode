@@ -192,7 +192,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 if (_viewModel.IsProvider)
                 {
-                    brush = _theme.MatrixColorHierarchicalCycle;
+                    brush = _theme.MatrixColorCycle;
                 }
                 else
                 {

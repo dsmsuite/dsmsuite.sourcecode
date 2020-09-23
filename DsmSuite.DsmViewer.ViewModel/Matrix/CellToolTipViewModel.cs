@@ -10,9 +10,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
     {
         public CellToolTipViewModel(IDsmElement consumer, IDsmElement provider, int weight, CycleType cycleType, IDsmApplication application)
         {
-            Title = $"[{consumer.Id}] {consumer.Name} - [{provider.Id}] {provider.Name}";
-            Consumer = consumer.Fullname;
-            Provider = provider.Fullname;
+            Title = $"Relation {consumer.Name} - {provider.Name}";
+            ConsumerId = consumer.Id;
+            ConsumerName = consumer.Fullname;
+            ProviderId = provider.Id;
+            ProviderName = provider.Fullname; 
             Weight = weight;
             CycleType = cycleType.ToString();
 
@@ -24,8 +26,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         }
 
         public string Title { get; }
-        public string Consumer { get; }
-        public string Provider { get; }
+        public int ConsumerId { get; }
+        public string ConsumerName { get; }
+        public int ProviderId { get; }
+        public string ProviderName { get; }
         public int Weight { get; }
         public string CycleType { get; }
         public string Annotation { get; }
