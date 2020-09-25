@@ -20,6 +20,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         private const int OldParentId = 2;
         private const int NewParentId= 3;
 
+        private const int OldIndex = 4;
+        private const int NewIndex = 5;
+
         [TestInitialize()]
         public void Setup()
         {
@@ -30,6 +33,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 
             _element.Setup(x => x.Id).Returns(ElementId);
             _element.Setup(x => x.Parent).Returns(_oldParent.Object);
+            _oldParent.Setup(x => x.IndexOfChild(_element.Object)).Returns(OldIndex);
             _oldParent.Setup(x => x.Id).Returns(OldParentId);
             _newParent.Setup(x => x.Id).Returns(NewParentId);
 
@@ -41,26 +45,28 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             {
                 ["element"] = ElementId.ToString(),
                 ["old"] = OldParentId.ToString(),
-                ["new"] = NewParentId.ToString()
+                ["oldIndex"] = OldIndex.ToString(),
+                ["new"] = NewParentId.ToString(),
+                ["newIndex"] = NewIndex.ToString()
             };
         }
 
         [TestMethod]
         public void WhenDoActionThenElementParentIsChangedDataModel()
         {
-            ElementChangeParentAction action = new ElementChangeParentAction(_model.Object, _element.Object, _newParent.Object);
+            ElementChangeParentAction action = new ElementChangeParentAction(_model.Object, _element.Object, _newParent.Object, NewIndex);
             action.Do();
 
-            _model.Verify(x => x.ChangeElementParent(_element.Object, _newParent.Object), Times.Once());
+            _model.Verify(x => x.ChangeElementParent(_element.Object, _newParent.Object, NewIndex), Times.Once());
         }
 
         [TestMethod]
         public void WhenUndoActionThenElementParentIsRevertedDataModel()
         {
-            ElementChangeParentAction action = new ElementChangeParentAction(_model.Object, _element.Object, _newParent.Object);
+            ElementChangeParentAction action = new ElementChangeParentAction(_model.Object, _element.Object, _newParent.Object, NewIndex);
             action.Undo();
 
-            _model.Verify(x => x.ChangeElementParent(_element.Object, _oldParent.Object), Times.Once());
+            _model.Verify(x => x.ChangeElementParent(_element.Object, _oldParent.Object, OldIndex), Times.Once());
         }
 
         [TestMethod]
@@ -69,10 +75,12 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             object[] args = { _model.Object, _data };
             ElementChangeParentAction action = new ElementChangeParentAction(args);
 
-            Assert.AreEqual(3, action.Data.Count);
+            Assert.AreEqual(5, action.Data.Count);
             Assert.AreEqual(ElementId.ToString(), _data["element"]);
             Assert.AreEqual(OldParentId.ToString(), _data["old"]);
+            Assert.AreEqual(OldIndex.ToString(), _data["oldIndex"]);
             Assert.AreEqual(NewParentId.ToString(), _data["new"]);
+            Assert.AreEqual(NewIndex.ToString(), _data["newIndex"]);
         }
     }
 }

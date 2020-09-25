@@ -74,13 +74,24 @@ namespace DsmSuite.DsmViewer.View.Matrix
                     (newParent != null) &&
                     (element != newParent))
                 {
-                    Tuple<IDsmElement, IDsmElement> moveParameter = new Tuple<IDsmElement, IDsmElement>(element, newParent);
+                    int index = GetDropAtIndex(e);
+                    Tuple<IDsmElement, IDsmElement, int> moveParameter = new Tuple<IDsmElement, IDsmElement, int>(element, newParent, index);
                     _viewModel.MoveCommand.Execute(moveParameter);
                 }
 
                 e.Effects = DragDropEffects.Move;
             }
             e.Handled = true;
+        }
+
+        private int GetDropAtIndex(DragEventArgs e)
+        {
+            Point point = e.GetPosition(this);
+
+            double pitch = _theme.MatrixCellSize + 2.0;
+
+            int index = (int) (point.Y / pitch);
+            return index;
         }
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

@@ -344,11 +344,11 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Execute(action);
         }
 
-        public void ChangeElementParent(IDsmElement element, IDsmElement newParent)
+        public void ChangeElementParent(IDsmElement element, IDsmElement newParent, int index)
         {
             if (_dsmModel.IsChangeElementParentAllowed(element, newParent))
             {
-                ElementChangeParentAction action = new ElementChangeParentAction(_dsmModel, element, newParent);
+                ElementChangeParentAction action = new ElementChangeParentAction(_dsmModel, element, newParent, index);
                 _actionManager.Execute(action);
             }
         }

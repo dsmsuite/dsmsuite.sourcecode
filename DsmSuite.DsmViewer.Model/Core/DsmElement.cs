@@ -94,11 +94,26 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public IList<IDsmElement> AllChildren => _children;
 
+        public int IndexOfChild(IDsmElement child)
+        {
+            return _children.IndexOf(child);
+        }
+
         public bool HasChildren => Children.Count > 0;
 
         public void AddChild(IDsmElement child)
         {
             _children.Add(child);
+            DsmElement c = child as DsmElement;
+            if (c != null)
+            {
+                c._parent = this;
+            }
+        }
+
+        public void InsertChild(int index, IDsmElement child)
+        {
+            _children.Insert(index, child);
             DsmElement c = child as DsmElement;
             if (c != null)
             {

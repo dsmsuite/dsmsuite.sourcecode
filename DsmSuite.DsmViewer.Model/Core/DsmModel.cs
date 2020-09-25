@@ -115,9 +115,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.IsChangeElementParentAllowed(element, parent);
         }
 
-        public void ChangeElementParent(IDsmElement element, IDsmElement parent)
+        public void ChangeElementParent(IDsmElement element, IDsmElement parent, int index)
         {
-            _elementsDataModel.ChangeElementParent(element, parent);
+            _elementsDataModel.ChangeElementParent(element, parent, index);
         }
 
         public void RemoveElement(int elementId)

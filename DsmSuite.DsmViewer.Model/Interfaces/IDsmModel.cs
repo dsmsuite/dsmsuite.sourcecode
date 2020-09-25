@@ -29,7 +29,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void ChangeElementName(IDsmElement element, string name);
         void ChangeElementType(IDsmElement element, string type);
         bool IsChangeElementParentAllowed(IDsmElement element, IDsmElement parent);
-        void ChangeElementParent(IDsmElement element, IDsmElement parent);
+        void ChangeElementParent(IDsmElement element, IDsmElement parent, int index);
         void ReorderChildren(IDsmElement element, ISortResult sortResult);
         IDsmElement NextSibling(IDsmElement element);
         IDsmElement PreviousSibling(IDsmElement element);

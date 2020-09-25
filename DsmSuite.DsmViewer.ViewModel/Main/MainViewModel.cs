@@ -629,10 +629,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void MoveElementExecute(object parameter)
         {
-            Tuple<IDsmElement, IDsmElement> moveParameter = parameter as Tuple<IDsmElement, IDsmElement>;
+            Tuple<IDsmElement, IDsmElement,int> moveParameter = parameter as Tuple<IDsmElement, IDsmElement, int>;
             if (moveParameter != null)
             {
-                _application.ChangeElementParent(moveParameter.Item1, moveParameter.Item2);
+                _application.ChangeElementParent(moveParameter.Item1, moveParameter.Item2, moveParameter.Item3);
                 CommandManager.InvalidateRequerySuggested();
             }
         }

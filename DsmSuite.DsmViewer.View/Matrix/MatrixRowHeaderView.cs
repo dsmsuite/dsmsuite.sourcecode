@@ -33,7 +33,6 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-
             CreateChildViews();
         }
 

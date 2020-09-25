@@ -426,7 +426,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             CreateElementRelations(_relationsDataModel);
 
-            _elementsDataModel.ChangeElementParent(_c2, _b);
+            _elementsDataModel.ChangeElementParent(_c2, _b, 0);
 
             // Derived a 
             _expectedlWeights[_a1][_b] = 1035;
@@ -455,7 +455,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(1234, _relationsDataModel.GetDependencyWeight(_a, _b));
 
-            _elementsDataModel.ChangeElementParent(_c, _b);
+            _elementsDataModel.ChangeElementParent(_c, _b, 0);
 
             Assert.AreEqual(1239, _relationsDataModel.GetDependencyWeight(_a, _b));
         }

@@ -46,6 +46,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         IList<IDsmElement> AllChildren { get; }
 
+        int IndexOfChild(IDsmElement child);
+
         /// <summary>
         /// Parent of the element.
         /// </summary>

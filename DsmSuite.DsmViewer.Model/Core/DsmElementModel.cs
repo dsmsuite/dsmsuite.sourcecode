@@ -107,7 +107,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     !newParent.IsRecursiveChildOf(changedElement)); // Do not allow new parent being a child of the changed element
         }
 
-        public void ChangeElementParent(IDsmElement element, IDsmElement parent)
+        public void ChangeElementParent(IDsmElement element, IDsmElement parent, int index)
         {
             Logger.LogDataModelMessage($"Change element parent name={element.Name} from {element.Parent.Fullname} to {parent.Fullname}");
 
@@ -130,7 +130,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     currentParent.RemoveChild(element);
                     CollapseIfNoChildrenLeft(currentParent);
 
-                    newParent.AddChild(element);
+                    newParent.InsertChild(index, element);
                     RegisterElementNameHierarchy(changedElement);
 
                     foreach (IDsmRelation relation in externalRelations)

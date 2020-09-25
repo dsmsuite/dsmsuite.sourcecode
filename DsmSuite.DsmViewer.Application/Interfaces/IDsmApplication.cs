@@ -65,7 +65,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         void ChangeElementName(IDsmElement element, string name);
         void ChangeElementAnnotation(IDsmElement element, string annotation);
         void ChangeElementType(IDsmElement element, string type);
-        void ChangeElementParent(IDsmElement element, IDsmElement newParent);
+        void ChangeElementParent(IDsmElement element, IDsmElement newParent, int index);
 
         void CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight);
         void DeleteRelation(IDsmRelation relation);

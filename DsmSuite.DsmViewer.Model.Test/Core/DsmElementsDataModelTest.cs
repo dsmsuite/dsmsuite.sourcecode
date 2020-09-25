@@ -227,7 +227,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.IsNotNull(foundElementBefore);
             Assert.AreEqual(a, foundElementBefore.Parent);
 
-            model.ChangeElementParent(b, c);
+            model.ChangeElementParent(b, c, 0);
 
             IDsmElement foundElementAfter = model.FindElementByFullname("c.b");
             Assert.IsNotNull(foundElementAfter);
