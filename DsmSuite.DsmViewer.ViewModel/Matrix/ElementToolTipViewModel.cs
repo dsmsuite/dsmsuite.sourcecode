@@ -1,4 +1,5 @@
-﻿using DsmSuite.DsmViewer.Application.Interfaces;
+﻿using System.Collections.Generic;
+using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
@@ -18,6 +19,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             {
                 Annotation = annotation.Text;
             }
+            Legend = new List<LegendViewModel>();
+            Legend.Add(new LegendViewModel(LegendColor.Consumer, "Consumer"));
+            Legend.Add(new LegendViewModel(LegendColor.Provider, "Provider"));
+            Legend.Add(new LegendViewModel(LegendColor.Cycle, "Cycle"));
+            Legend.Add(new LegendViewModel(LegendColor.Search, "Search"));
+            Legend.Add(new LegendViewModel(LegendColor.Bookmark, "Bookmark"));
+            Legend.Add(new LegendViewModel(LegendColor.Annotation, "Annotation"));
         }
 
         public string Title { get; }
@@ -25,5 +33,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public string Name { get; }
         public string Type { get; }
         public string Annotation { get; }
+        public List<LegendViewModel> Legend { get; }
     }
 }

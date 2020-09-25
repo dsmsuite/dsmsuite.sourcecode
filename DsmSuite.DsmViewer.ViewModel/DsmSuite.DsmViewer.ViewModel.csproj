@@ -47,6 +47,8 @@
     <Compile Include="Lists\RelationListViewModel.cs" />
     <Compile Include="Main\SearchState.cs" />
     <Compile Include="Matrix\ElementToolTipViewModel.cs" />
+    <Compile Include="Matrix\LegendColor.cs" />
+    <Compile Include="Matrix\LegendViewModel.cs" />
     <Compile Include="Matrix\MetricType.cs" />
     <Compile Include="Matrix\CellToolTipViewModel.cs" />
     <Compile Include="Settings\SettingsViewModel.cs" />

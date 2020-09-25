@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
@@ -23,6 +22,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             {
                 Annotation = annotation.Text;
             }
+
+            Legend = new List<LegendViewModel>();
+            Legend.Add(new LegendViewModel(LegendColor.Cycle, "cycle"));
         }
 
         public string Title { get; }
@@ -33,5 +35,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public int Weight { get; }
         public string CycleType { get; }
         public string Annotation { get; }
+
+        public List<LegendViewModel> Legend { get; }
     }
 }
