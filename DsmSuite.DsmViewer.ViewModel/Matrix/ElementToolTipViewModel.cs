@@ -18,6 +18,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             if (annotation != null)
             {
                 Annotation = annotation.Text;
+                HasAnnotation = !string.IsNullOrEmpty(Annotation);
             }
             Legend = new List<LegendViewModel>();
             Legend.Add(new LegendViewModel(LegendColor.Consumer, "Consumer"));
@@ -33,6 +34,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public string Name { get; }
         public string Type { get; }
         public string Annotation { get; }
+        public bool HasAnnotation { get; }
         public List<LegendViewModel> Legend { get; }
     }
 }

@@ -167,7 +167,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                             break;
                         case IndicatorViewMode.Annotations:
                             {
-                                if (!string.IsNullOrEmpty(_viewModel.Annotation))
+                                if (_viewModel.HasAnnotation)
                                 {
                                     dc.DrawRectangle(_theme.MatrixColorAnnotation, null, indicatorRect);
                                 }

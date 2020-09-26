@@ -30,28 +30,27 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             IndicatorViewMode = mainViewModel.IndicatorViewMode;
 
-            Description = $"[{Element.Order}] {Element.Fullname} + {Annotation}";
-
             ToolTipViewModel = new ElementToolTipViewModel(Element, application);
+            HasAnnotation = ToolTipViewModel.HasAnnotation;
         }
 
         public ElementToolTipViewModel ToolTipViewModel { get; }
         public IDsmElement Element { get; }
-        public string Annotation { get; }
+
         public int Depth { get; }
         public MatrixColor Color { get; }
 
         public int Id => Element.Id;
         public int Order => Element.Order;
-        public bool IsMatch => Element.IsMatch;
-        public bool IsBookmarked => Element.IsBookmarked;
         public bool IsConsumer { get; set; }
         public bool IsProvider { get; set; }
+        public bool IsMatch => Element.IsMatch;
+        public bool IsBookmarked => Element.IsBookmarked;
+        public bool HasAnnotation { get; }
 
         public string Name => Element.IsRoot ? "Root" : Element.Name;
 
         public string Fullname => Element.Fullname;
-        public string Description { get; private set; }
 
         public ICommand MoveCommand { get; }
         public ICommand MoveUpElementCommand { get; }
