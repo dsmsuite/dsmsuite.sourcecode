@@ -54,8 +54,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             MoveUpElementCommand = mainViewModel.MoveUpElementCommand;
             MoveDownElementCommand = mainViewModel.MoveDownElementCommand;
 
-            BookmarkElementCommand = mainViewModel.BookmarkElementCommand;
-            AnnotateElementCommand = mainViewModel.AnnotateElementCommand;
+            ToggleElementBookmarkCommand = mainViewModel.ToggleElementBookmarkCommand;
+            ChangeElementAnnotationCommand = mainViewModel.ChangeElementAnnotationCommand;
 
             CreateElementCommand = mainViewModel.CreateElementCommand;
             ChangeElementNameCommand = mainViewModel.ChangeElementNameCommand;
@@ -122,8 +122,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand MoveUpElementCommand { get; }
         public ICommand MoveDownElementCommand { get; }
 
-        public ICommand BookmarkElementCommand { get; }
-        public ICommand AnnotateElementCommand { get; }
+        public ICommand ToggleElementBookmarkCommand { get; }
+        public ICommand ChangeElementAnnotationCommand { get; }
 
         public ICommand CreateElementCommand { get; }
         public ICommand ChangeElementNameCommand { get; }

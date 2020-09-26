@@ -55,15 +55,5 @@ namespace DsmSuite.DsmViewer.View.UserControls
 
             return selectedFile;
         }
-
-        private void OnBookmarkButtonMouseEnter(object sender, MouseEventArgs e)
-        {
-            _mainViewModel.SelectBookmarksIndicatorViewMode();
-        }
-
-        private void OnAnnotateButtonMouseEnter(object sender, MouseEventArgs e)
-        {
-            _mainViewModel.SelectAnnotationsIndicatorViewMode();
-        }
     }
 }

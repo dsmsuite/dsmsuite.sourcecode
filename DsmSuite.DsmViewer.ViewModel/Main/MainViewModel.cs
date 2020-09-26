@@ -14,7 +14,6 @@ using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.ViewModel.Settings;
 using System.Reflection;
-using System.Windows.Forms;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -74,8 +73,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _undoText;
         private string _selectedSortAlgorithm;
 
-        private readonly Timer _indicatorTimer;
-
         public MainViewModel(IDsmApplication application)
         {
             _application = application;
@@ -91,8 +88,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             MoveDownElementCommand = new RelayCommand<object>(MoveDownElementExecute, MoveDownElementCanExecute);
             SortElementCommand = new RelayCommand<object>(SortElementExecute, SortElementCanExecute);
 
-            BookmarkElementCommand = new RelayCommand<object>(BookmarkElementExecute, BookmarkElementCanExecute);
-            AnnotateElementCommand = new RelayCommand<object>(AnnotateElementExecute, AnnotateElementCanExecute);
+            ShowBookmarkedElementsCommand = new RelayCommand<object>(ShowBookmarkedElementsCommandExecute, ShowBookmarkedElementsCommandCanExecute);
+            ShowAnnotatedElementsCommand = new RelayCommand<object>(ShowAnnotatedElementExecute, ShowAnnotatedElementCanExecute);
+
+            ToggleElementBookmarkCommand = new RelayCommand<object>(ToggleElementBookmarkExecute, ToggleElementBookmarkCanExecute);
+            ChangeElementAnnotationCommand = new RelayCommand<object>(ChangeElementAnnotationExecute, ChangeElementAnnotationCanExecute);
 
             ShowElementDetailMatrixCommand = new RelayCommand<object>(ShowElementDetailMatrixExecute, ShowElementDetailMatrixCanExecute);
             ShowElementContextMatrixCommand = new RelayCommand<object>(ShowElementContextMatrixExecute, ShowElementContextMatrixCanExecute);
@@ -137,18 +137,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             _progressViewModel = new ProgressViewModel();
 
             IndicatorViewMode = IndicatorViewMode.ConsumersProviders;
-            _indicatorTimer = new Timer();
-            _indicatorTimer.Tick += OnEndIndicatorTimerEvent;
-            _indicatorTimer.Interval = 5000;
-            _indicatorTimer.Enabled = true;
 
             ActiveMatrix = new MatrixViewModel(this, _application, new List<IDsmElement>());
-        }
-
-        private void OnEndIndicatorTimerEvent(object sender, EventArgs e)
-        {
-            SelectDefaultIndicatorMode();
-            _indicatorTimer.Stop();
         }
 
         private void OnModelModified(object sender, bool e)
@@ -174,20 +164,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             get { return _indicatorViewMode; }
             set { _indicatorViewMode = value; OnPropertyChanged(); }
-        }
-
-        public void SelectBookmarksIndicatorViewMode()
-        {
-            IndicatorViewMode = IndicatorViewMode.Bookmarks;
-            _indicatorTimer.Start();
-            ActiveMatrix?.Reload();
-        }
-
-        public void SelectAnnotationsIndicatorViewMode()
-        {
-            IndicatorViewMode = IndicatorViewMode.Annotations;
-            _indicatorTimer.Start();
-            ActiveMatrix?.Reload();
         }
 
         public bool IsMetricsViewExpanded
@@ -217,8 +193,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand MoveUpElementCommand { get; }
         public ICommand MoveDownElementCommand { get; }
 
-        public ICommand BookmarkElementCommand { get; }
-        public ICommand AnnotateElementCommand { get; }
+        public ICommand ShowBookmarkedElementsCommand { get; }
+        public ICommand ShowAnnotatedElementsCommand { get; }
+
+        public ICommand ToggleElementBookmarkCommand { get; }
+        public ICommand ChangeElementAnnotationCommand { get; }
 
         public ICommand SortElementCommand { get; }
         public ICommand ShowElementDetailMatrixCommand { get; }
@@ -744,32 +723,53 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return canExecute;
         }
 
-        private void BookmarkElementExecute(object parameter)
+        private void ShowBookmarkedElementsCommandExecute(object parameter)
         {
-            if (SelectedProvider != null)
-            {
-                SelectedProvider.IsBookmarked = !SelectedProvider.IsBookmarked;
-                SelectBookmarksIndicatorViewMode();
-            }
+            IndicatorViewMode = IndicatorViewMode.Bookmarks;
+            ActiveMatrix?.Reload();
         }
 
-        private bool BookmarkElementCanExecute(object parameter)
+        private bool ShowBookmarkedElementsCommandCanExecute(object parameter)
         {
             return true;
         }
 
-        private void AnnotateElementExecute(object parameter)
+        private void ShowAnnotatedElementExecute(object parameter)
+        {
+            IndicatorViewMode = IndicatorViewMode.Annotations;
+            ActiveMatrix?.Reload();
+        }
+
+        private bool ShowAnnotatedElementCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void ToggleElementBookmarkExecute(object parameter)
         {
             if (SelectedProvider != null)
             {
-                ElementEditAnnotationViewModel elementEditViewModel =
-                    new ElementEditAnnotationViewModel(_application, SelectedProvider);
-                ElementEditAnnotationStarted?.Invoke(this, elementEditViewModel);
-                SelectBookmarksIndicatorViewMode();
+                SelectedProvider.IsBookmarked = !SelectedProvider.IsBookmarked;
+                ActiveMatrix?.Reload();
             }
         }
 
-        private bool AnnotateElementCanExecute(object parameter)
+        private bool ToggleElementBookmarkCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void ChangeElementAnnotationExecute(object parameter)
+        {
+            if (SelectedProvider != null)
+            {
+                ElementEditAnnotationViewModel elementEditViewModel = new ElementEditAnnotationViewModel(_application, SelectedProvider);
+                ElementEditAnnotationStarted?.Invoke(this, elementEditViewModel);
+                ActiveMatrix?.Reload();
+            }
+        }
+
+        private bool ChangeElementAnnotationCanExecute(object parameter)
         {
             return true;
         }

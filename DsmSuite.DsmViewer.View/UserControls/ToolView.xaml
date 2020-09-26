@@ -23,26 +23,26 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Move selected element down" Command="{Binding MoveDownElementCommand}" Content="{StaticResource DownIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Sort selected element" Command="{Binding SortElementCommand}" Content="{StaticResource PartitionIcon}"/>
             <ComboBox Style="{StaticResource ToolbarComboBox}" ToolTip="Used sort algorithm" ItemsSource="{Binding SupportedSortAlgorithms}" SelectedItem="{Binding SelectedSortAlgorithm}" Width="80" />
-            <Separator/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Bookmark selected element" Command="{Binding BookmarkElementCommand}" Content="{StaticResource BookmarkIcon}" MouseEnter="OnBookmarkButtonMouseEnter"/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Annotate selected element" Command="{Binding AnnotateElementCommand}" Content="{StaticResource AnnotateIcon}" MouseEnter="OnAnnotateButtonMouseEnter"/>
-            <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Label current state" Command="{Binding MakeSnapshotCommand}" Content="{StaticResource LabelIcon}"/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Show history" Command="{Binding ShowHistoryCommand}" Content="{StaticResource HistoryIcon}"/>
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding UndoText}" Command="{Binding UndoCommand}" Content="{StaticResource UndoIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="{Binding RedoText}" Command="{Binding RedoCommand}" Content="{StaticResource RedoIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Show edit history" Command="{Binding ShowHistoryCommand}" Content="{StaticResource HistoryIcon}"/>
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom in" Command="{Binding ZoomInCommand}" Content="{StaticResource ZoomInIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Paste screenshot to clipboard" Command="{Binding TakeScreenshotCommand}" Content="{StaticResource SnapshotIcon}"/>
+            <Separator/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Show bookmark elements" Command="{Binding ShowBookmarkedElementsCommand}" Content="{StaticResource BookmarkIcon}"/>
+            <Button Style="{StaticResource ToolbarButton}" ToolTip="Show annotated elements" Command="{Binding ShowAnnotatedElementsCommand}" Content="{StaticResource AnnotateIcon}"/>
             <Border BorderBrush="{StaticResource ForegroundDisabledColor}" BorderThickness="1">
                 <StackPanel Orientation="Horizontal" Background="White">
                     <Label Content="{StaticResource SearchIcon}" Padding="4" Foreground="{StaticResource ForegroundStandardColor}"/>
-                    <TextBox Style="{StaticResource ToolbarTextBox}" Width="400" Height="26" BorderThickness="0" ToolTip="Enter text to search for elements"  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
+                    <TextBox Style="{StaticResource ToolbarTextBox}" Width="400" Height="26" BorderThickness="0" ToolTip="Enter search text and show matching elements"  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
                     <Button Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Clear search text" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}"/>
                 </StackPanel>
             </Border>
+            <Separator/>
             <Label Style="{StaticResource ToolbarLabel}" Content="{Binding SearchResult}" Width="80"/>
         </ToolBar>
         <Button Grid.Column="1" Style="{StaticResource ToolbarButton}" ToolTip="Settings" Command="{Binding ShowSettingsCommand}" Content="{StaticResource SettingsIcon}" DockPanel.Dock="Right" Width="24"/>

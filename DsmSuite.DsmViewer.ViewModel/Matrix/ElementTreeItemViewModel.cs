@@ -25,8 +25,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             MoveDownElementCommand = matrixViewModel.MoveDownElementCommand;
             SortElementCommand = matrixViewModel.SortElementCommand;
             ToggleElementExpandedCommand = matrixViewModel.ToggleElementExpandedCommand;
-            BookmarkElementCommand = matrixViewModel.BookmarkElementCommand;
-            AnnotateElementCommand = matrixViewModel.AnnotateElementCommand;
+            BookmarkElementCommand = matrixViewModel.ToggleElementBookmarkCommand;
+            AnnotateElementCommand = matrixViewModel.ChangeElementAnnotationCommand;
 
             IndicatorViewMode = mainViewModel.IndicatorViewMode;
 
