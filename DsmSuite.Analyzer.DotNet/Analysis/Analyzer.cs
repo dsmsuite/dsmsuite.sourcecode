@@ -55,7 +55,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 assemblyFile.FindTypes(_resolver);
                 foreach (DotNetType type in assemblyFile.Types)
                 {
-                    _model.AddElement(type.Name, type.Type, assemblyFile.FileInfo.Name);
+                    _model.AddElement(type.Name, type.Type, null);
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 assemblyFile.FindRelations();
                 foreach (DotNetRelation relation in assemblyFile.Relations)
                 {
-                    _model.AddRelation(relation.ConsumerName, relation.ProviderName, relation.Type, 1, assemblyFile.FileInfo.Name);
+                    _model.AddRelation(relation.ConsumerName, relation.ProviderName, relation.Type, 1, null);
                 }
             }
         }

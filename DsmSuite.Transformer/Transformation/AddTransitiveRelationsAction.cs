@@ -96,7 +96,7 @@ namespace DsmSuite.Transformer.Transformation
             if (consumer != null && provider != null)
             {
                 string type = "transitive";
-                _model.AddRelation(consumer.Name, provider.Name, type, 1, "transformer");
+                _model.AddRelation(consumer.Name, provider.Name, type, 1, null);
 
                 string description = "consumer=" + consumer.Name + " provider=" + provider.Name;
                 AnalyzerLogger.LogTransformation(ActionName, description);

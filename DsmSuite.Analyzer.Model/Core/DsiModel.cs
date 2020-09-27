@@ -71,9 +71,9 @@ namespace DsmSuite.Analyzer.Model.Core
             return _metaDataModel.GetExportedMetaDataGroupItems(groupName);
         }
 
-        public IDsiElement AddElement(string name, string type, string source)
+        public IDsiElement AddElement(string name, string type, string annotation)
         {
-            return _elementsDataModel.AddElement(name, type, source);
+            return _elementsDataModel.AddElement(name, type, annotation);
         }
         
         public void RemoveElement(IDsiElement element)
@@ -118,19 +118,19 @@ namespace DsmSuite.Analyzer.Model.Core
         
         public int TotalElementCount => _elementsDataModel.TotalElementCount;
         
-        public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string context)
+        public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string annotation)
         {
-            return _relationsDataModel.AddRelation(consumerName, providerName, type, weight, context);
+            return _relationsDataModel.AddRelation(consumerName, providerName, type, weight, annotation);
         }
 
-        public void SkipRelation(string consumerName, string providerName, string type, string context)
+        public void SkipRelation(string consumerName, string providerName, string type)
         {
-            _relationsDataModel.SkipRelation(consumerName, providerName, type, context);
+            _relationsDataModel.SkipRelation(consumerName, providerName, type);
         }
 
-        public void AmbiguousRelation(string consumerName, string providerName, string type, string context)
+        public void AmbiguousRelation(string consumerName, string providerName, string type)
         {
-            _relationsDataModel.AmbiguousRelation(consumerName, providerName, type, context);
+            _relationsDataModel.AmbiguousRelation(consumerName, providerName, type);
         }
 
         public ICollection<string> GetRelationTypes()

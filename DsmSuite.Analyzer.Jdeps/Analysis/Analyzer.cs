@@ -71,7 +71,7 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
         {
             _model.AddElement(consumerName, "", null);
             _model.AddElement(providerName, "", null);
-            _model.AddRelation(consumerName, providerName, "dependency", 1, "dot file");
+            _model.AddRelation(consumerName, providerName, "dependency", 1, null);
         }
 
         private void UpdateLineProgress(int lineNumber, bool done)

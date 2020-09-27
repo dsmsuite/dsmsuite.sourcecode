@@ -97,7 +97,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 string name = ExtractSourceFileUniqueName(sourceFile.Name);
                 string type = sourceFile.Extension;
-                _model.AddElement(name, type, sourceFile.FileInfo.FullName);
+                _model.AddElement(name, type, null);
             }
             else
             {
@@ -121,7 +121,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 if (!IsExternalInclude(unresolvedIncludedFile))
                 {
-                    _model.SkipRelation(sourceFile.Name, unresolvedIncludedFile, "include", "not resolved");
+                    _model.SkipRelation(sourceFile.Name, unresolvedIncludedFile, "include");
                 }
             }
 
@@ -129,7 +129,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
             {
                 if (!IsExternalInclude(ambiguousIncludedFile))
                 {
-                    _model.AmbiguousRelation(sourceFile.Name, ambiguousIncludedFile, "include", "ambiguous");
+                    _model.AmbiguousRelation(sourceFile.Name, ambiguousIncludedFile, "include");
                 }
             }
         }
@@ -137,7 +137,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
         private void RegisterRelation(string includedFile, string consumerName)
         {
             string providerName = ExtractSourceFileUniqueName(includedFile);
-            _model.AddRelation(consumerName, providerName, "include", 1, "analyze relations");
+            _model.AddRelation(consumerName, providerName, "include", 1, null);
         }
 
         private bool IsExternalInclude(string includedFile)

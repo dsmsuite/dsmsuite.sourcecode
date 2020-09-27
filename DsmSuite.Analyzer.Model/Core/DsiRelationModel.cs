@@ -95,7 +95,7 @@ namespace DsmSuite.Analyzer.Model.Core
             return relations[type];
         }
 
-        public void SkipRelation(string consumerName, string providerName, string type, string context)
+        public void SkipRelation(string consumerName, string providerName, string type)
         {
             Logger.LogDataModelMessage($"Skip relation consumerName={consumerName} providerName={providerName} type={type}");
 
@@ -104,7 +104,7 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationCount++;
         }
 
-        public void AmbiguousRelation(string consumerName, string providerName, string type, string context)
+        public void AmbiguousRelation(string consumerName, string providerName, string type)
         {
             Logger.LogDataModelMessage($"Ambiguous relation consumerName={consumerName} providerName={providerName} type={type}");
             _ambiguousRelationCount++;

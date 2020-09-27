@@ -139,7 +139,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
 
         private void RegisterRelation(EA.Connector connector, string consumerName, string providerName)
         {
-            _model.AddRelation(consumerName, providerName, connector.Type, 1, "model");
+            _model.AddRelation(consumerName, providerName, connector.Type, 1, null);
             _relationCount++;
             UpdateRelationProgress(false);
         }

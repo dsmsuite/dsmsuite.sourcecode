@@ -116,7 +116,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                                 if (providerName != null)
                                 {
                                     _model.AddElement(providerName, type, includedFile);
-                                    _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
+                                    _model.AddRelation(consumerName, providerName, "include", 1, null);
                                 }
                             }
                         }
@@ -150,11 +150,11 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             if (FindIncludeFileInVisualStudioProject(includedFile, out solutionFile, out projectFile, out includeFile))
             {
                 string providerName = GetLogicalName(solutionFile, projectFile, includeFile);
-                _model.AddRelation(consumerName, providerName, "include", 1, "logical include file is resolved");
+                _model.AddRelation(consumerName, providerName, "include", 1, null);
             }
             else
             {
-                _model.SkipRelation(consumerName, includedFile, "include", "logical include file not be resolved");
+                _model.SkipRelation(consumerName, includedFile, "include");
             }
         }
 
@@ -162,7 +162,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             SourceFile includedSourceFile = new SourceFile(includedFile);
             string providerName = GetPhysicalName(includedSourceFile);
-            _model.AddRelation(consumerName, providerName, "include", 1, "physical include file is resolved");
+            _model.AddRelation(consumerName, providerName, "include", 1, null);
         }
 
         private void RegisterGeneratedFileRelations()
@@ -179,14 +179,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                             {
                                 string consumerName = GetLogicalName(_solutionFile, visualStudioProject, relation.Consumer);
                                 string providerName = GetLogicalName(_solutionFile, visualStudioProject, relation.Provider);
-                                _model.AddRelation(consumerName, providerName, "generated", 1, "generated file relations");
+                                _model.AddRelation(consumerName, providerName, "generated", 1, null);
                                 break;
                             }
                         case ViewMode.PhysicalView:
                             {
                                 string consumerName = GetPhysicalName(relation.Consumer);
                                 string providerName = GetPhysicalName(relation.Provider);
-                                _model.AddRelation(consumerName, providerName, "generated", 1, "generated file relations");
+                                _model.AddRelation(consumerName, providerName, "generated", 1, null);
                                 break;
                             }
                         default:
@@ -243,7 +243,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             string consumerName = GetDotNetTypeName(solutionFile, visualStudioProject, relation.ConsumerName);
             string providerName = GetDotNetTypeName(solutionFile, visualStudioProject, relation.ProviderName);
-            _model.AddRelation(consumerName, providerName, relation.Type, 1, "");
+            _model.AddRelation(consumerName, providerName, relation.Type, 1, null);
         }
 
         private bool IsProjectInclude(string includedFile)

@@ -24,8 +24,8 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             IDsiElement provider2 = dataModel1.AddElement("provider2Name", "class", "provider2Source");
             Assert.IsNotNull(provider2);
 
-            dataModel1.AddRelation(consumer.Name, provider1.Name, "relationType2", 2, "context");
-            dataModel1.AddRelation(consumer.Name, provider2.Name, "relationType3", 3, "context");
+            dataModel1.AddRelation(consumer.Name, provider1.Name, "relationType2", 2, null);
+            dataModel1.AddRelation(consumer.Name, provider2.Name, "relationType3", 3, null);
 
             dataModel1.Save(filename, false, null);
 

@@ -36,7 +36,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.TotalRelationCount);
 
-            model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
+            model.AddRelation(_a.Name, _b.Name, "type", 2, "annotation");
             Assert.AreEqual(1, model.TotalRelationCount);
 
             model.Clear();
@@ -299,7 +299,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             Assert.IsNotNull(relation2);
             IDsiRelation relation3 = model.AddRelation("a", "c", "type3", 3, "");
             Assert.IsNotNull(relation3);
-            model.SkipRelation("d", "c", "type4", "");
+            model.SkipRelation("d", "c", "type4");
 
             Assert.AreEqual(4, model.TotalRelationCount);
             Assert.AreEqual(3, model.ResolvedRelationCount);

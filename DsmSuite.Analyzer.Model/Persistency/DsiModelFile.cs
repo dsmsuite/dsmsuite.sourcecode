@@ -206,7 +206,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
             writer.WriteAttributeString(ElementIdXmlAttribute, element.Id.ToString());
             writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
             writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
-            if (element.Annotation.Length > 0)
+            if (!string.IsNullOrEmpty(element.Annotation))
             {
                 writer.WriteAttributeString(ElementAnnotationXmlAttribute, element.Annotation);
             }
@@ -252,7 +252,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
             writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
             writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
             writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
-            if (relation.Annotation.Length > 0)
+            if (!string.IsNullOrEmpty(relation.Annotation))
             {
                 writer.WriteAttributeString(RelationAnnotationXmlAttribute, relation.Annotation);
             }

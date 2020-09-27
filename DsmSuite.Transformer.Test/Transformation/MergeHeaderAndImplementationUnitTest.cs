@@ -17,7 +17,7 @@ namespace DsmSuite.Transformer.Test.Transformation
             IDsiElement elementCpp = dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", "");
             IDsiElement elementH = dataModel.AddElement("namespace3.namespace4.element1Name.h", "class", "");
 
-            dataModel.AddRelation(elementCpp.Name, elementH.Name, "", 1, "context");
+            dataModel.AddRelation(elementCpp.Name, elementH.Name, "", 1, "annotation");
 
             Assert.IsNotNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.cpp"));
             Assert.IsNotNull(dataModel.FindElementByName("namespace3.namespace4.element1Name.h"));
