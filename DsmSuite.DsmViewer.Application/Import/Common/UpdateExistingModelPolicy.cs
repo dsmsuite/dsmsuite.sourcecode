@@ -36,15 +36,21 @@ namespace DsmSuite.DsmViewer.Application.Import.Common
             return _dsmModel.AddMetaData(group, name, value);
         }
 
-        public IDsmElement ImportElement(string fullname, string name, string type, IDsmElement parent)
+        public IDsmElement ImportElement(string fullname, string name, string type, IDsmElement parent, string annotation)
         {
             IDsmElement element = _dsmModel.GetElementByFullname(fullname);
 
             if (element == null)
             {
-                ElementCreateAction action = new ElementCreateAction(_dsmModel, name, type, parent);
-                element = _actionManager.Execute(action) as IDsmElement;
+                ElementCreateAction createAction = new ElementCreateAction(_dsmModel, name, type, parent);
+                element = _actionManager.Execute(createAction) as IDsmElement;
                 Debug.Assert(element != null);
+
+                if (!string.IsNullOrEmpty(annotation))
+                {
+                    ElementChangeAnnotationAction annotateAction = new ElementChangeAnnotationAction(_dsmModel, element, annotation);
+                    _actionManager.Execute(annotateAction);
+                }
             }
             else
             {
@@ -54,7 +60,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Common
             return element;
         }
 
-        public IDsmRelation ImportRelation(int consumerId, int providerId, string type, int weight)
+        public IDsmRelation ImportRelation(int consumerId, int providerId, string type, int weight, string annotation)
         {
             IDsmRelation relation = null;
             IDsmElement consumer = _dsmModel.GetElementById(consumerId);
@@ -65,8 +71,8 @@ namespace DsmSuite.DsmViewer.Application.Import.Common
                 relation = _dsmModel.FindRelation(consumer, provider, type);
                 if (relation == null)
                 {
-                    RelationCreateAction action = new RelationCreateAction(_dsmModel, consumerId, providerId, type, weight);
-                    relation = _actionManager.Execute(action) as IDsmRelation;
+                    RelationCreateAction createAction = new RelationCreateAction(_dsmModel, consumerId, providerId, type, weight);
+                    relation = _actionManager.Execute(createAction) as IDsmRelation;
                     Debug.Assert(relation != null);
                 }
                 else

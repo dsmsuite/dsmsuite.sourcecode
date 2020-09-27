@@ -26,7 +26,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private const string ElementIdXmlAttribute = "id";
         private const string ElementNameXmlAttribute = "name";
         private const string ElementTypeXmlAttribute = "type";
-        private const string ElementSourceXmlAttribute = "source";
+        private const string ElementAnnotationXmlAttribute = "annotation";
 
         private const string RelationGroupXmlNode = "relations";
 
@@ -35,6 +35,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private const string RelationToXmlAttribute = "to";
         private const string RelationTypeXmlAttribute = "type";
         private const string RelationWeightXmlAttribute = "weight";
+        private const string RelationAnnotationXmlAttribute = "annotation";
 
         private readonly string _filename;
         private readonly IMetaDataModelFileCallback _metaDataModelCallback;
@@ -205,7 +206,10 @@ namespace DsmSuite.Analyzer.Model.Persistency
             writer.WriteAttributeString(ElementIdXmlAttribute, element.Id.ToString());
             writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
             writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
-            writer.WriteAttributeString(ElementSourceXmlAttribute, element.Source);
+            if (element.Annotation.Length > 0)
+            {
+                writer.WriteAttributeString(ElementAnnotationXmlAttribute, element.Annotation);
+            }
             writer.WriteEndElement();
 
             _progressedElementCount++;
@@ -219,11 +223,11 @@ namespace DsmSuite.Analyzer.Model.Persistency
                 int? id = ParseInt(xReader.GetAttribute(ElementIdXmlAttribute));
                 string name = xReader.GetAttribute(ElementNameXmlAttribute);
                 string type = xReader.GetAttribute(ElementTypeXmlAttribute);
-                string source = xReader.GetAttribute(ElementSourceXmlAttribute);
+                string annotation = xReader.GetAttribute(ElementAnnotationXmlAttribute);
 
                 if (id.HasValue)
                 {
-                    _elementModelCallback.ImportElement(id.Value, name, type, source);
+                    _elementModelCallback.ImportElement(id.Value, name, type, annotation);
                 }
 
                 _progressedElementCount++;
@@ -248,6 +252,10 @@ namespace DsmSuite.Analyzer.Model.Persistency
             writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
             writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
             writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
+            if (relation.Annotation.Length > 0)
+            {
+                writer.WriteAttributeString(RelationAnnotationXmlAttribute, relation.Annotation);
+            }
             writer.WriteEndElement();
 
             _progressedRelationCount++;
@@ -262,10 +270,11 @@ namespace DsmSuite.Analyzer.Model.Persistency
                 int? providerId = ParseInt(xReader.GetAttribute(RelationToXmlAttribute));
                 string type = xReader.GetAttribute(RelationTypeXmlAttribute);
                 int? weight = ParseInt(xReader.GetAttribute(RelationWeightXmlAttribute));
+                string annotation = xReader.GetAttribute(RelationAnnotationXmlAttribute);
 
                 if (consumerId.HasValue && providerId.HasValue && weight.HasValue)
                 {
-                    _relationModelCallback.ImportRelation(consumerId.Value, providerId.Value, type, weight.Value);
+                    _relationModelCallback.ImportRelation(consumerId.Value, providerId.Value, type, weight.Value, annotation);
                 }
 
                 _progressedRelationCount++;

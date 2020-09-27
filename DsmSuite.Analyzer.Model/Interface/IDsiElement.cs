@@ -5,6 +5,6 @@
         int Id { get; }
         string Name { get; }
         string Type { get; }
-        string Source { get; }
+        string Annotation { get; }
     }
 }

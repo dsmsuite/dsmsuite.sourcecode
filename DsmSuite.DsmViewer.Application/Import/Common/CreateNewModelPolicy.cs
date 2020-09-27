@@ -20,23 +20,33 @@ namespace DsmSuite.DsmViewer.Application.Import.Common
             return _dsmModel.AddMetaData(group, name, value);
         }
 
-        public IDsmElement ImportElement(string fullname, string name, string type, IDsmElement parent)
+        public IDsmElement ImportElement(string fullname, string name, string type, IDsmElement parent, string annotation)
         {
             IDsmElement element = _dsmModel.GetElementByFullname(fullname);
             if (element == null)
             {
                 int? parentId = parent?.Id;
                 element = _dsmModel.AddElement(name, type, parentId);
+
+                if (!string.IsNullOrEmpty(annotation))
+                {
+                    _dsmModel.ChangeElementAnnotation(element, annotation);
+                }
             }
             return element;
         }
 
-        public IDsmRelation ImportRelation(int consumerId, int providerId, string type, int weight)
+        public IDsmRelation ImportRelation(int consumerId, int providerId, string type, int weight, string annotation)
         {
             IDsmElement consumer = _dsmModel.GetElementById(consumerId);
             IDsmElement provider = _dsmModel.GetElementById(providerId);
 
-            return _dsmModel.AddRelation(consumer, provider, type, weight);
+            if (!string.IsNullOrEmpty(annotation))
+            {
+                _dsmModel.ChangeRelationAnnotation(consumer, provider, annotation);
+            }
+
+            return  _dsmModel.AddRelation(consumer, provider, type, weight);
         }
 
         public void FinalizeImport(IProgress<ProgressInfo> progress)

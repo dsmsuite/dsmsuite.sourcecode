@@ -28,11 +28,11 @@ namespace DsmSuite.Analyzer.Model.Core
             _elementTypeCount.Clear();
         }
 
-        public IDsiElement ImportElement(int id, string name, string type, string source)
+        public IDsiElement ImportElement(int id, string name, string type, string annotation)
         {
-            Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} source={source}");
+            Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} annotation={annotation}");
 
-            DsiElement element = new DsiElement(id, name, type, source);
+            DsiElement element = new DsiElement(id, name, type, annotation);
             string key = CreateKey(element.Name);
             _elementsByName[key] = element;
             _elementsById[element.Id] = element;
@@ -62,7 +62,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void RemoveElement(IDsiElement element)
         {
-            Logger.LogDataModelMessage($"Remove element id={element.Id} name={element.Name} type={element.Type} source={element.Source}");
+            Logger.LogDataModelMessage($"Remove element id={element.Id} name={element.Name} type={element.Type}");
 
             string key = element.Name.ToLower();
             _elementsByName.Remove(key);

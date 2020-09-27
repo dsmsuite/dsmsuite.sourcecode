@@ -7,5 +7,6 @@ namespace DsmSuite.Analyzer.Model.Interface
         int ProviderId { get; }
         string Type { get; }
         int Weight { get; }
+        string Annotation { get; }
     }
 }

@@ -40,7 +40,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
                 Assert.AreEqual(dataModel1Elements[elementIndex].Id, dataModel2Elements[elementIndex].Id);
                 Assert.AreEqual(dataModel1Elements[elementIndex].Name, dataModel2Elements[elementIndex].Name);
                 Assert.AreEqual(dataModel1Elements[elementIndex].Type, dataModel2Elements[elementIndex].Type);
-                Assert.AreEqual(dataModel1Elements[elementIndex].Source, dataModel2Elements[elementIndex].Source);
+                Assert.AreEqual(dataModel1Elements[elementIndex].Annotation, dataModel2Elements[elementIndex].Annotation);
                 Assert.AreEqual(dataModel1.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).Count, dataModel2.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).Count);
 
                 List<IDsiRelation> dataModel1Relations = dataModel1.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).ToList();

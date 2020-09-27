@@ -53,17 +53,17 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             Assert.AreEqual(1, _elements[0].Id);
             Assert.AreEqual("a.a1", _elements[0].Name);
             Assert.AreEqual("elementtype1", _elements[0].Type);
-            Assert.AreEqual("source1", _elements[0].Source);
+            Assert.AreEqual("elementannotation1", _elements[0].Annotation);
 
             Assert.AreEqual(2, _elements[1].Id);
             Assert.AreEqual("a.a2", _elements[1].Name);
             Assert.AreEqual("elementtype2", _elements[1].Type);
-            Assert.AreEqual("source2", _elements[1].Source);
+            Assert.AreEqual("elementannotation2", _elements[1].Annotation);
 
             Assert.AreEqual(3, _elements[2].Id);
             Assert.AreEqual("b.b1", _elements[2].Name);
             Assert.AreEqual("elementtype3", _elements[2].Type);
-            Assert.AreEqual("source3", _elements[2].Source);
+            Assert.AreEqual("elementannotation3", _elements[2].Annotation);
 
             Assert.AreEqual(2, _relations.Count);
 
@@ -71,11 +71,13 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             Assert.AreEqual(2, _relations[0].ProviderId);
             Assert.AreEqual("relationtype1", _relations[0].Type);
             Assert.AreEqual(100, _relations[0].Weight);
+            Assert.AreEqual("relationannotation1", _relations[0].Annotation);
 
             Assert.AreEqual(2, _relations[1].ConsumerId);
             Assert.AreEqual(3, _relations[1].ProviderId);
             Assert.AreEqual("relationtype2", _relations[1].Type);
             Assert.AreEqual(200, _relations[1].Weight);
+            Assert.AreEqual("relationannotation2", _relations[1].Annotation);
         }
 
         [TestMethod]
@@ -106,12 +108,12 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
                 new MetaDataItem("item4", "value4")
             };
 
-            _elements.Add(new DsiElement(1, "a.a1", "elementtype1", "source1"));
-            _elements.Add(new DsiElement(2, "a.a2", "elementtype2", "source2"));
-            _elements.Add(new DsiElement(3, "b.b1", "elementtype3", "source3"));
+            _elements.Add(new DsiElement(1, "a.a1", "elementtype1", "elementannotation1"));
+            _elements.Add(new DsiElement(2, "a.a2", "elementtype2", "elementannotation2"));
+            _elements.Add(new DsiElement(3, "b.b1", "elementtype3", "elementannotation3"));
 
-            _relations.Add(new DsiRelation(1, 2, "relationtype1", 100));
-            _relations.Add(new DsiRelation(2, 3, "relationtype2", 200));
+            _relations.Add(new DsiRelation(1, 2, "relationtype1", 100, "relationannotation1"));
+            _relations.Add(new DsiRelation(2, 3, "relationtype2", 200, "relationannotation2"));
         }
 
         public IMetaDataItem ImportMetaDataItem(string groupName, string itemName, string itemValue)
@@ -126,16 +128,16 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             return item;
         }
 
-        public IDsiElement ImportElement(int elementId, string name, string type, string source)
+        public IDsiElement ImportElement(int elementId, string name, string type, string annotation)
         {
-            DsiElement element = new DsiElement(elementId, name, type, source);
+            DsiElement element = new DsiElement(elementId, name, type, annotation);
             _elements.Add(element);
             return element;
         }
 
-        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight)
+        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight, string annotation)
         {
-            DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight);
+            DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight, annotation);
             _relations.Add(relation);
             return relation;
         }

@@ -142,11 +142,11 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Dsi
             _dsmElementE.Setup(x => x.Name).Returns(DsmElementNameE);
             _dsmElementE.Setup(x => x.Type).Returns(DsiElementTypeE);
 
-            _importPolicy.Setup(x => x.ImportElement(DsiElementNameA, DsmElementNameA, string.Empty, null)).Returns(_dsmElementA.Object);
-            _importPolicy.Setup(x => x.ImportElement(DsiElementNameAb, DsmElementNameB, string.Empty, _dsmElementA.Object)).Returns(_dsmElementB.Object);
-            _importPolicy.Setup(x => x.ImportElement(DsiElementNameAbc, DsmElementNameC, DsiElementTypeAbc, _dsmElementB.Object)).Returns(_dsmElementC.Object);
-            _importPolicy.Setup(x => x.ImportElement(DsiElementNameAbd, DsmElementNameD, DsiElementTypeAbd, _dsmElementB.Object)).Returns(_dsmElementD.Object);
-            _importPolicy.Setup(x => x.ImportElement(DsmElementNameE, DsmElementNameE, DsiElementTypeE, null)).Returns(_dsmElementE.Object);
+            _importPolicy.Setup(x => x.ImportElement(DsiElementNameA, DsmElementNameA, string.Empty, null, null)).Returns(_dsmElementA.Object);
+            _importPolicy.Setup(x => x.ImportElement(DsiElementNameAb, DsmElementNameB, string.Empty, _dsmElementA.Object, null)).Returns(_dsmElementB.Object);
+            _importPolicy.Setup(x => x.ImportElement(DsiElementNameAbc, DsmElementNameC, DsiElementTypeAbc, _dsmElementB.Object, null)).Returns(_dsmElementC.Object);
+            _importPolicy.Setup(x => x.ImportElement(DsiElementNameAbd, DsmElementNameD, DsiElementTypeAbd, _dsmElementB.Object, null)).Returns(_dsmElementD.Object);
+            _importPolicy.Setup(x => x.ImportElement(DsmElementNameE, DsmElementNameE, DsiElementTypeE, null, null)).Returns(_dsmElementE.Object);
         }
 
         [TestMethod]
@@ -166,12 +166,12 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Dsi
             DsiImporter builder = new DsiImporter(_dsiModel.Object, _dsmModel.Object, _importPolicy.Object, false);
             builder.Import(null);
 
-            _importPolicy.Verify(x => x.ImportElement(DsiElementNameA, DsmElementNameA, string.Empty, null), Times.Exactly(2)); // For a.b.c and a.b.d
-            _importPolicy.Verify(x => x.ImportElement(DsiElementNameAb, DsmElementNameB, string.Empty, _dsmElementA.Object), Times.Exactly(2));  // For a.b.c and a.b.d
-            _importPolicy.Verify(x => x.ImportElement(DsiElementNameAbc, DsmElementNameC, DsiElementTypeAbc, _dsmElementB.Object), Times.Exactly(1)); // For a.b.c
-            _importPolicy.Verify(x => x.ImportElement(DsiElementNameAbd, DsmElementNameD, DsiElementTypeAbd, _dsmElementB.Object), Times.Exactly(1)); // For a.b.d
-            _importPolicy.Verify(x => x.ImportElement(DsiElementNameE, DsmElementNameE, DsiElementTypeE, null), Times.Exactly(1)); // For e
-            _importPolicy.Verify(x => x.ImportElement(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IDsmElement>()), Times.Exactly(7));
+            _importPolicy.Verify(x => x.ImportElement(DsiElementNameA, DsmElementNameA, string.Empty, null, null), Times.Exactly(2)); // For a.b.c and a.b.d
+            _importPolicy.Verify(x => x.ImportElement(DsiElementNameAb, DsmElementNameB, string.Empty, _dsmElementA.Object, null), Times.Exactly(2));  // For a.b.c and a.b.d
+            _importPolicy.Verify(x => x.ImportElement(DsiElementNameAbc, DsmElementNameC, DsiElementTypeAbc, _dsmElementB.Object, null), Times.Exactly(1)); // For a.b.c
+            _importPolicy.Verify(x => x.ImportElement(DsiElementNameAbd, DsmElementNameD, DsiElementTypeAbd, _dsmElementB.Object, null), Times.Exactly(1)); // For a.b.d
+            _importPolicy.Verify(x => x.ImportElement(DsiElementNameE, DsmElementNameE, DsiElementTypeE, null, null), Times.Exactly(1)); // For e
+            _importPolicy.Verify(x => x.ImportElement(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IDsmElement>(), It.IsAny<string>()), Times.Exactly(7));
         }
 
         [TestMethod]
@@ -180,10 +180,10 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Dsi
             DsiImporter builder = new DsiImporter(_dsiModel.Object, _dsmModel.Object, _importPolicy.Object, false);
             builder.Import(null);
 
-            _importPolicy.Verify(x => x.ImportRelation(DsmElementIdC, DsmElementIdD, DsiRelationTypeAbCtoAbd, DsiRelationWeightAbCtoAbd), Times.Exactly(1)); // Between a.b.c and a.b.d
-            _importPolicy.Verify(x => x.ImportRelation(DsmElementIdD, DsmElementIdE, DsiRelationTypeAbDtoE, DsiRelationWeightAbDtoE), Times.Exactly(1)); // Between a.b.d and a
-            _importPolicy.Verify(x => x.ImportRelation(DsmElementIdC, DsmElementIdE, DsiRelationTypeAbCtoE, DsiRelationWeightAbCtoE), Times.Exactly(1)); // Between a.b.d and a
-            _importPolicy.Verify(x => x.ImportRelation(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>()), Times.Exactly(3));
+            _importPolicy.Verify(x => x.ImportRelation(DsmElementIdC, DsmElementIdD, DsiRelationTypeAbCtoAbd, DsiRelationWeightAbCtoAbd, null), Times.Exactly(1)); // Between a.b.c and a.b.d
+            _importPolicy.Verify(x => x.ImportRelation(DsmElementIdD, DsmElementIdE, DsiRelationTypeAbDtoE, DsiRelationWeightAbDtoE, null), Times.Exactly(1)); // Between a.b.d and a
+            _importPolicy.Verify(x => x.ImportRelation(DsmElementIdC, DsmElementIdE, DsiRelationTypeAbCtoE, DsiRelationWeightAbCtoE, null), Times.Exactly(1)); // Between a.b.d and a
+            _importPolicy.Verify(x => x.ImportRelation(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>(), null), Times.Exactly(3));
         }
     }
 }

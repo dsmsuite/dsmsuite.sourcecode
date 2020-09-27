@@ -107,7 +107,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _actionManager.Setup(x => x.Execute(It.IsAny<ElementCreateAction>())).Returns(_createdElement.Object);
 
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
-            IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object);
+            IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, string.Empty);
             Assert.AreEqual(_createdElement.Object, element);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<ElementCreateAction>()), Times.Once);
@@ -120,7 +120,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
 
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
-            IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object);
+            IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, string.Empty);
             Assert.AreEqual(_existingElement.Object, element);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<IAction>()), Times.Never);
@@ -148,7 +148,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _actionManager.Setup(x => x.Execute(It.IsAny<RelationCreateAction>())).Returns(_createdRelation.Object);
 
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
-            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight);
+            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight, string.Empty);
             Assert.AreEqual(_createdRelation.Object, relation);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<RelationCreateAction>()), Times.Once);
@@ -161,7 +161,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _dsmModel.Setup(x => x.FindRelation(_consumer.Object, _provider.Object, RelationType)).Returns(foundRelation);
 
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
-            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight);
+            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight, string.Empty);
             Assert.AreEqual(_existingRelation.Object, relation);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<IAction>()), Times.Never);
@@ -174,7 +174,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _dsmModel.Setup(x => x.FindRelation(_consumer.Object, _provider.Object, RelationType)).Returns(foundRelation);
 
             UpdateExistingModelPolicy policy = new UpdateExistingModelPolicy(_dsmModel.Object, DsmFilename, _actionManager.Object, null);
-            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, NewRelationWeight);
+            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, NewRelationWeight, string.Empty);
             Assert.AreEqual(_existingRelation.Object, relation);
 
             _actionManager.Verify(x => x.Execute(It.IsAny<RelationChangeWeightAction>()), Times.Once);
