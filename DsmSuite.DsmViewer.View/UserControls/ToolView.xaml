@@ -35,6 +35,7 @@
             <Separator/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show bookmark elements" Command="{Binding ShowBookmarkedElementsCommand}" Content="{StaticResource BookmarkIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Show annotated elements" Command="{Binding ShowAnnotatedElementsCommand}" Content="{StaticResource AnnotateIcon}"/>
+            <ComboBox Width="80" ToolTip="Select search scope" ItemsSource="{Binding SupportedSearchModes}" SelectedItem="{Binding SelectedSearchMode}" Visibility="Collapsed"/>
             <Border BorderBrush="{StaticResource ForegroundDisabledColor}" BorderThickness="1">
                 <StackPanel Orientation="Horizontal" Background="White">
                     <Label Content="{StaticResource SearchIcon}" Padding="4" Foreground="{StaticResource ForegroundStandardColor}"/>

@@ -40,7 +40,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmElement GetElementById(int id);
         IDsmElement GetDeletedElementById(int id);
         IDsmElement GetElementByFullname(string fullname);
-        int SearchElements(string searchText, bool caseSensitiveSearch);
+        int SearchElements(string searchText, bool caseSensitiveSearch, SearchMode searchMode);
         IDsmElement GetRootElement();
         IEnumerable<IDsmElement> GetElements();
         int GetElementCount();

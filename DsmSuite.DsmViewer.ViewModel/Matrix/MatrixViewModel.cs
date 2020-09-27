@@ -41,6 +41,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private string _selectedMetricTypeName;
         private MetricType _selectedMetricType;
         private string _searchText = "";
+        private SearchMode _searchMode = SearchMode.All;
 
         public MatrixViewModel(IMainViewModel mainViewModel, IDsmApplication application, IEnumerable<IDsmElement> selectedElements)
         {
@@ -110,9 +111,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
         }
 
-        public int HighlighMatchingElements(string searchText)
+        public int HighlighMatchingElements(string searchText, SearchMode searchMode)
         {
             _searchText = searchText;
+            _searchMode = searchMode;
             return UpdateMatchingRows();
         }
 
@@ -885,7 +887,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private int UpdateMatchingRows()
         {
-            return  _application.SearchElements(_searchText);
+            return  _application.SearchElements(_searchText, _searchMode);
         }
 
         private void BackupSelectionBeforeReload()

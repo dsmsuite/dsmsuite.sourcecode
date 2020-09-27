@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.ViewModel.Common;
@@ -73,8 +75,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _undoText;
         private string _selectedSortAlgorithm;
 
+        public ObservableCollection<SearchMode> SupportedSearchModes { get; set; }
+        public SearchMode SelectedSearchMode { get; set; }
+
         public MainViewModel(IDsmApplication application)
         {
+            SupportedSearchModes = new ObservableCollection<SearchMode>() { SearchMode.All, SearchMode.Bookmarked, SearchMode.Annotated };
+            SelectedSearchMode = SearchMode.All;
+
             _application = application;
             _application.Modified += OnModelModified;
             _application.ActionPerformed += OnActionPerformed;
@@ -522,11 +530,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ActiveMatrix?.Reload();
         }
 
+
+
         private void OnSearchTextUpdated()
         {
             SelectDefaultIndicatorMode();
 
-            int count = ActiveMatrix.HighlighMatchingElements(SearchText);
+            int count = ActiveMatrix.HighlighMatchingElements(SearchText, SelectedSearchMode);
 
             if (count == 0)
             {
@@ -539,6 +549,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 SearchResult = $"{count} found";
             }
             ActiveMatrix.Reload();
+        }
+
+        private bool HasPrefix(string prefix, ref string searchText)
+        {
+            bool hasPrefix = searchText.StartsWith(prefix);
+            searchText = SearchText.Replace(prefix, string.Empty);
+            return hasPrefix;
         }
 
         private void OnActionPerformed(object sender, EventArgs e)

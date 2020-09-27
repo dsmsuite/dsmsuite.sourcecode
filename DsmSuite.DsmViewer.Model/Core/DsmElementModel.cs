@@ -210,7 +210,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsByName.ContainsKey(fullname) ? _elementsByName[fullname] : null;
         }
 
-        public int SearchElements(string searchText, bool caseSensitiveSearch)
+        public int SearchElements(string searchText, bool caseSensitiveSearch, SearchMode searchMode)
         {
             int count = 0;
             string fullname = "";
@@ -218,7 +218,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             if (text.Length > 0)
             {
-                MarkMatchingElements(_root, text, caseSensitiveSearch, fullname, ref count);
+                MarkMatchingElements(_root, text, caseSensitiveSearch, searchMode, fullname, ref count);
             }
             else
             {
@@ -227,7 +227,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return count;
         }
 
-        private bool MarkMatchingElements(IDsmElement element, string searchText, bool caseSensitiveSearch, string fullname, ref int count)
+        private bool MarkMatchingElements(IDsmElement element, string searchText, bool caseSensitiveSearch, SearchMode searchMode, string fullname, ref int count)
         {
             bool isMatch = false;
 
@@ -252,7 +252,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             foreach (IDsmElement child in element.Children)
             {
-                if (MarkMatchingElements(child, searchText, caseSensitiveSearch, fullname, ref count))
+                if (MarkMatchingElements(child, searchText, caseSensitiveSearch, searchMode, fullname, ref count))
                 {
                     isMatch = true;
                 }
