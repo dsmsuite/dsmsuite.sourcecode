@@ -76,12 +76,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _undoText;
         private string _selectedSortAlgorithm;
 
-
-
         public MainViewModel(IDsmApplication application)
         {
-
-
             _application = application;
             _application.Modified += OnModelModified;
             _application.ActionPerformed += OnActionPerformed;
@@ -773,7 +769,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ToggleElementBookmarkCanExecute(object parameter)
         {
-            return true;
+            return _indicatorViewMode == IndicatorViewMode.Bookmarks;
         }
 
         private void ChangeElementAnnotationExecute(object parameter)
@@ -788,7 +784,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ChangeElementAnnotationCanExecute(object parameter)
         {
-            return true;
+            return _indicatorViewMode == IndicatorViewMode.Annotations;
         }
 
         private void MakeSnapshotExecute(object parameter)
