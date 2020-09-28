@@ -50,6 +50,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public event EventHandler<ActionListViewModel> ActionsVisible;
 
         public event EventHandler<SettingsViewModel> SettingsVisible;
+        public event EventHandler<SearchSettingsViewModel> SearchSettingsVisible;
 
         public event EventHandler ScreenshotRequested;
 
@@ -75,13 +76,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _undoText;
         private string _selectedSortAlgorithm;
 
-        public ObservableCollection<SearchMode> SupportedSearchModes { get; set; }
-        public SearchMode SelectedSearchMode { get; set; }
+
 
         public MainViewModel(IDsmApplication application)
         {
-            SupportedSearchModes = new ObservableCollection<SearchMode>() { SearchMode.All, SearchMode.Bookmarked, SearchMode.Annotated };
-            SelectedSearchMode = SearchMode.All;
+
 
             _application = application;
             _application.Modified += OnModelModified;
@@ -130,6 +129,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             TakeScreenshotCommand = new RelayCommand<object>(TakeScreenshotExecute);
             ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute);
+            SearchSettingsCommand = new RelayCommand<object>(SearchSettingExecute);
+
             _modelFilename = "";
             _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             _title = $"DSM Viewer - {_version}";
@@ -232,6 +233,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand ShowSettingsCommand { get; }
         public ICommand TakeScreenshotCommand { get; }
         public ICommand ClearSearchCommand { get; }
+        public ICommand SearchSettingsCommand { get; }
 
         public string ModelFilename
         {
@@ -530,13 +532,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ActiveMatrix?.Reload();
         }
 
-
-
         private void OnSearchTextUpdated()
         {
             SelectDefaultIndicatorMode();
 
-            int count = ActiveMatrix.HighlighMatchingElements(SearchText, SelectedSearchMode);
+            int count = ActiveMatrix.HighlighMatchingElements(SearchText);
 
             if (count == 0)
             {
@@ -833,6 +833,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public void ClearSearchExecute(object parameter)
         {
             SearchText = "";
+        }
+
+        public void SearchSettingExecute(object parameter)
+        {
+            SearchSettingsViewModel viewModel = new SearchSettingsViewModel(_application);
+            SearchSettingsVisible?.Invoke(this, viewModel);
+            OnSearchTextUpdated();
         }
 
         private void ExcludeAllFromTree()

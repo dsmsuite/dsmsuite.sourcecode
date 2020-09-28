@@ -15,10 +15,12 @@ namespace DsmSuite.DsmViewer.Model.Core
         private int _lastElementId;
         private readonly DsmElement _root;
         private readonly DsmRelationModel _relationModel;
+        private readonly DsmAnnotationModel _annotationModel;
 
-        public DsmElementModel(DsmRelationModel relationModel)
+        public DsmElementModel(DsmRelationModel relationModel, DsmAnnotationModel annotationModel)
         {
             _relationModel = relationModel;
+            _annotationModel = annotationModel;
             _elementsById = new Dictionary<int, DsmElement>();
             _elementsByName = new Dictionary<string, DsmElement>();
             _deletedElementsById = new Dictionary<int, DsmElement>();
@@ -244,7 +246,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 fullname += element.Name.ToLower();
             }
 
-            if (fullname.Contains(searchText) && !element.IsDeleted)
+            if (fullname.Contains(searchText) && ElementAttributesMatch(element, searchMode) && !element.IsDeleted)
             {
                 isMatch = true;
                 count++;
@@ -261,6 +263,22 @@ namespace DsmSuite.DsmViewer.Model.Core
             element.IsMatch = isMatch;
 
             return isMatch;
+        }
+
+        private bool ElementAttributesMatch(IDsmElement element, SearchMode searchMode)
+        {
+            switch (searchMode)
+            {
+                case SearchMode.All:
+                    return true;
+                case SearchMode.Bookmarked:
+                    return element.IsBookmarked;
+                case SearchMode.Annotated:
+                    IDsmElementAnnotation annotation = _annotationModel.FindElementAnnotation(element);
+                    return (annotation != null) && !string.IsNullOrEmpty(annotation.Text);
+                default:
+                    return true;
+            }
         }
 
         private void ClearMarkElements(IDsmElement element)

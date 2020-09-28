@@ -15,9 +15,9 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         Task AsyncImportGraphVizModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress);
         Task AsyncImportGraphMlModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress);
 
-
-        bool ShowCycles { get; set; }
         bool CaseSensitiveSearch { get; set; }
+        SearchMode SelectedSearchMode { get; set; }
+
         void ImportDsiModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
         void ImportGraphVizModel(string dotFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
         void ImportGraphMlModel(string graphMlFilename, string dsmFilename, bool applyPartitionAlgorithm, bool overwriteDsmFile, bool compressDsmFile, IProgress<ProgressInfo> progress);
@@ -58,7 +58,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
         int GetDirectDependencyWeight(IDsmElement consumer, IDsmElement provider);
         CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
-        int SearchElements(string searchText, SearchMode searchMode);
+        int SearchElements(string searchText);
         IDsmElement GetElementByFullname(string fullname);
         void CreateElement(string name, string type, IDsmElement parent);
         void DeleteElement(IDsmElement element);

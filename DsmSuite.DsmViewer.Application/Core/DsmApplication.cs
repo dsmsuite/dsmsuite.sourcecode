@@ -6,7 +6,6 @@ using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
 using DsmSuite.DsmViewer.Application.Actions.Snapshot;
-using DsmSuite.DsmViewer.Application.Import;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Queries;
 using DsmSuite.DsmViewer.Application.Sorting;
@@ -45,6 +44,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             _queries = new DsmQueries(dsmModel);
 
             _metrics = new DsmMetrics();
+
+            CaseSensitiveSearch = false;
+            SelectedSearchMode = SearchMode.All;
         }
 
         private void OnActionPerformed(object sender, EventArgs e)
@@ -84,8 +86,8 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Redo();
         }
 
-        public bool ShowCycles { get; set; }
         public bool CaseSensitiveSearch { get; set; }
+        public SearchMode SelectedSearchMode { get; set; }
 
         public async Task AsyncImportDsiModel(string dsiFilename, string dsmFilename, bool autoPartition, bool recordChanges, bool compressDsmFile, IProgress<ProgressInfo> progress)
         {
@@ -138,7 +140,7 @@ namespace DsmSuite.DsmViewer.Application.Core
         {
             Assembly assembly = Assembly.GetEntryAssembly();
 
-            IImportPolicy importPolicy =  new CreateNewModelPolicy(_dsmModel);
+            IImportPolicy importPolicy = new CreateNewModelPolicy(_dsmModel);
 
             GraphVizImporter importer = new GraphVizImporter(dotFilename, _dsmModel, importPolicy, autoPartition);
             importer.Import(progress);
@@ -240,7 +242,7 @@ namespace DsmSuite.DsmViewer.Application.Core
         {
             return _dsmModel.GetSystemCycleCount(element);
         }
- 
+
         public IDsmElement NextSibling(IDsmElement element)
         {
             return _dsmModel.NextSibling(element);
@@ -254,7 +256,7 @@ namespace DsmSuite.DsmViewer.Application.Core
         public bool IsFirstChild(IDsmElement element)
         {
             return _dsmModel.PreviousSibling(element) == null;
-       }
+        }
 
         public bool IsLastChild(IDsmElement element)
         {
@@ -288,7 +290,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             ElementMoveDownAction action = new ElementMoveDownAction(_dsmModel, element);
             _actionManager.Execute(action);
         }
-        
+
         public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
             return _dsmModel.GetDependencyWeight(consumer, provider);
@@ -304,9 +306,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.IsCyclicDependency(consumer, provider);
         }
 
-        public int SearchElements(string searchText, SearchMode searchMode)
+        public int SearchElements(string searchText)
         {
-            return _dsmModel.SearchElements(searchText, CaseSensitiveSearch, searchMode);
+            return _dsmModel.SearchElements(searchText, CaseSensitiveSearch, SelectedSearchMode);
         }
 
         public IDsmElement GetElementByFullname(string text)
@@ -352,7 +354,7 @@ namespace DsmSuite.DsmViewer.Application.Core
                 _actionManager.Execute(action);
             }
         }
-        
+
         public void CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
         {
             RelationCreateAction action = new RelationCreateAction(_dsmModel, consumer.Id, provider.Id, type, weight);

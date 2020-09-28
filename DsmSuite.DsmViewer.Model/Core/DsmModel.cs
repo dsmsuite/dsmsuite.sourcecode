@@ -12,19 +12,20 @@ namespace DsmSuite.DsmViewer.Model.Core
     public class DsmModel : IDsmModel
     {
         private readonly MetaDataModel _metaDataModel;
+        private readonly DsmAnnotationModel _annotationModel;
         private readonly DsmElementModel _elementsDataModel;
         private readonly DsmRelationModel _relationsDataModel;
         private readonly DsmActionModel _actionsDataModel;
-        private readonly DsmAnnotationModel _annotationModel;
+
 
         public DsmModel(string processStep, Assembly executingAssembly)
         {
             _metaDataModel = new MetaDataModel(processStep, executingAssembly);
 
-            _relationsDataModel = new DsmRelationModel();
-            _elementsDataModel = new DsmElementModel(_relationsDataModel);
-            _actionsDataModel = new DsmActionModel();
             _annotationModel = new DsmAnnotationModel();
+            _relationsDataModel = new DsmRelationModel();
+            _elementsDataModel = new DsmElementModel(_relationsDataModel, _annotationModel);
+            _actionsDataModel = new DsmActionModel();
         }
 
         public void LoadModel(string dsmFilename, IProgress<ProgressInfo> progress)

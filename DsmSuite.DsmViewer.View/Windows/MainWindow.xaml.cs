@@ -12,6 +12,7 @@ using SettingsView = DsmSuite.DsmViewer.View.Settings.SettingsView;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.IO;
+using DsmSuite.DsmViewer.View.Settings;
 
 namespace DsmSuite.DsmViewer.View.Windows
 {
@@ -46,7 +47,6 @@ namespace DsmSuite.DsmViewer.View.Windows
         {
             DsmModel model = new DsmModel("Viewer", Assembly.GetExecutingAssembly());
             DsmApplication application = new DsmApplication(model);
-            application.ShowCycles = App.ShowCycles;
             _mainViewModel = new MainViewModel(application);
             _mainViewModel.ElementsReportReady += OnElementsReportReady;
             _mainViewModel.RelationsReportReady += OnRelationsReportReady;
@@ -65,6 +65,7 @@ namespace DsmSuite.DsmViewer.View.Windows
 
             _mainViewModel.ActionsVisible += OnActionsVisible;
             _mainViewModel.SettingsVisible += OnSettingsVisible;
+            _mainViewModel.SearchSettingsVisible += OnSearchSettingsVisible;
 
             _mainViewModel.ScreenshotRequested += OnScreenshotRequested;
             DataContext = _mainViewModel;
@@ -75,6 +76,12 @@ namespace DsmSuite.DsmViewer.View.Windows
         private void OnSettingsVisible(object sender, SettingsViewModel viewModel)
         {
             SettingsView view = new SettingsView { DataContext = viewModel };
+            view.ShowDialog();
+        }
+
+        private void OnSearchSettingsVisible(object sender, SearchSettingsViewModel viewModel)
+        {
+            SearchSettingsView view = new SearchSettingsView { DataContext = viewModel };
             view.ShowDialog();
         }
 
