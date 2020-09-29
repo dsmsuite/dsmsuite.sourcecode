@@ -40,7 +40,7 @@
                     <Label Content="{StaticResource SearchIcon}" Padding="4" Foreground="{StaticResource ForegroundStandardColor}"/>
                     <TextBox Style="{StaticResource ToolbarTextBox}" Width="400" Height="26" BorderThickness="0" ToolTip="Enter search text and show matching elements"  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
                     <Button Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Clear search text" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}"/>
-                    <Button Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Search settings" Command="{Binding SearchSettingsCommand}" Content="{StaticResource SearchSettingsIcon}"/>
+                    <Button Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Search settings" Command="{Binding SearchSettingsCommand}" Content="{StaticResource SettingsIcon}"/>
                 </StackPanel>
             </Border>
             <Separator/>
