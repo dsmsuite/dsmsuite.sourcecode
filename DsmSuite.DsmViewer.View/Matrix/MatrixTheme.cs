@@ -87,11 +87,8 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 case MatrixColor.Color4:
                     colorIndex = 16;
                     break;
-                case MatrixColor.HierarchicalCycle:
+                case MatrixColor.Cycle:
                     colorIndex = 20;
-                    break;
-                case MatrixColor.SystemCycle:
-                    colorIndex = 24;
                     break;
                 default:
                     colorIndex = 0;

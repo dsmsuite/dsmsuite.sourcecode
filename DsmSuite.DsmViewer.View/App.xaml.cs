@@ -25,7 +25,6 @@ namespace DsmSuite.DsmViewer.View
 
             Logger.LoggingEnabled = ViewerSetting.LoggingEnabled;
             Skin = ViewerSetting.Theme;
-            ShowCycles = ViewerSetting.ShowCycles;
         }
 
         public App()

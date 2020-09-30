@@ -12,19 +12,20 @@ namespace DsmSuite.DsmViewer.Model.Core
     public class DsmModel : IDsmModel
     {
         private readonly MetaDataModel _metaDataModel;
+        private readonly DsmAnnotationModel _annotationModel;
         private readonly DsmElementModel _elementsDataModel;
         private readonly DsmRelationModel _relationsDataModel;
         private readonly DsmActionModel _actionsDataModel;
-        private readonly DsmAnnotationModel _annotationModel;
+
 
         public DsmModel(string processStep, Assembly executingAssembly)
         {
             _metaDataModel = new MetaDataModel(processStep, executingAssembly);
 
-            _relationsDataModel = new DsmRelationModel();
-            _elementsDataModel = new DsmElementModel(_relationsDataModel);
-            _actionsDataModel = new DsmActionModel();
             _annotationModel = new DsmAnnotationModel();
+            _relationsDataModel = new DsmRelationModel();
+            _elementsDataModel = new DsmElementModel(_relationsDataModel, _annotationModel);
+            _actionsDataModel = new DsmActionModel();
         }
 
         public void LoadModel(string dsmFilename, IProgress<ProgressInfo> progress)
@@ -165,9 +166,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.FindElementByFullname(fullname);
         }
 
-        public int SearchElements(string searchText, bool caseSensitiveSearch)
+        public int SearchElements(string searchText, bool caseSensitiveSearch, SearchMode searchMode)
         {
-            return _elementsDataModel.SearchElements(searchText, caseSensitiveSearch);
+            return _elementsDataModel.SearchElements(searchText, caseSensitiveSearch, searchMode);
         }
 
         public IDsmElement GetDeletedElementById(int id)

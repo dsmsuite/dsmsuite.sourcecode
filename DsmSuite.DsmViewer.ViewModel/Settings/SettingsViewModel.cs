@@ -12,8 +12,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         private const string LightThemeName = "Light";
 
         private readonly IDsmApplication _application;
-        private bool _showCycles;
-        private bool _caseSensitiveSearch;
         private bool _loggingEnabled;
         private string _selectedThemeName;
 
@@ -29,37 +27,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             };
 
             LoggingEnabled = ViewerSetting.LoggingEnabled;
-            ShowCycles = ViewerSetting.ShowCycles;
-            CaseSensitiveSearch = ViewerSetting.CaseSensitiveSearch;
             SelectedThemeName = _supportedThemes[ViewerSetting.Theme];
-
-            _application.ShowCycles = ShowCycles;
-            _application.CaseSensitiveSearch = CaseSensitiveSearch;
 
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public ICommand AcceptChangeCommand { get; }
-
-        public bool ShowCycles
-        {
-            get { return _showCycles; }
-            set
-            {
-                _showCycles = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool CaseSensitiveSearch
-        {
-            get { return _caseSensitiveSearch; }
-            set
-            {
-                _caseSensitiveSearch = value;
-                OnPropertyChanged();
-            }
-        }
 
         public bool LoggingEnabled
         {
@@ -86,11 +59,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         private void AcceptChangeExecute(object parameter)
         {
             ViewerSetting.LoggingEnabled = LoggingEnabled;
-            ViewerSetting.ShowCycles = ShowCycles;
             ViewerSetting.Theme = _supportedThemes.FirstOrDefault(x => x.Value == SelectedThemeName).Key;
-
-            _application.ShowCycles = ShowCycles;
-            _application.CaseSensitiveSearch = CaseSensitiveSearch;
         }
 
         private bool AcceptChangeCanExecute(object parameter)

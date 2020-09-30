@@ -2,9 +2,9 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                     xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
     <!-- Icons from https://materialdesignicons.com/ -->
-    <Image x:Key="SettingsIcon">
+    <Image x:Key="SettingsIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -19,7 +19,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="BookmarkIcon">
+    <Image x:Key="BookmarkIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -34,7 +34,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="AnnotateIcon">
+    <Image x:Key="AnnotateIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -49,7 +49,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="LabelIcon">
+    <Image x:Key="LabelIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -63,8 +63,8 @@
             </DrawingImage>
         </Image.Source>
     </Image>
-    
-    <Image x:Key="OpenIcon">
+
+    <Image x:Key="OpenIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -79,7 +79,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="SaveIcon">
+    <Image x:Key="SaveIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing >
@@ -94,7 +94,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="HomeIcon">
+    <Image x:Key="HomeIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing >
@@ -108,8 +108,8 @@
             </DrawingImage>
         </Image.Source>
     </Image>
-    
-    <Image x:Key="UpIcon">
+
+    <Image x:Key="UpIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -124,7 +124,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="DownIcon">
+    <Image x:Key="DownIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -139,7 +139,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="PartitionIcon">
+    <Image x:Key="PartitionIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -171,7 +171,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="ZoomInIcon">
+    <Image x:Key="ZoomInIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -186,7 +186,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="ZoomOutIcon">
+    <Image x:Key="ZoomOutIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -201,7 +201,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="ReportIcon">
+    <Image x:Key="ReportIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -216,7 +216,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="UndoIcon">
+    <Image x:Key="UndoIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -231,7 +231,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="RedoIcon">
+    <Image x:Key="RedoIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -246,7 +246,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="SnapshotIcon">
+    <Image x:Key="SnapshotIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -261,7 +261,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="SearchIcon">
+    <Image x:Key="SearchIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -275,8 +275,8 @@
             </DrawingImage>
         </Image.Source>
     </Image>
-    
-    <Image x:Key="HistoryIcon">
+
+    <Image x:Key="HistoryIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>
@@ -291,7 +291,7 @@
         </Image.Source>
     </Image>
 
-    <Image x:Key="DeleteIcon">
+    <Image x:Key="DeleteIcon" x:Shared="false">
         <Image.Source>
             <DrawingImage po:Freeze="True">
                 <DrawingImage.Drawing>

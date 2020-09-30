@@ -15,10 +15,12 @@ namespace DsmSuite.DsmViewer.Model.Core
         private int _lastElementId;
         private readonly DsmElement _root;
         private readonly DsmRelationModel _relationModel;
+        private readonly DsmAnnotationModel _annotationModel;
 
-        public DsmElementModel(DsmRelationModel relationModel)
+        public DsmElementModel(DsmRelationModel relationModel, DsmAnnotationModel annotationModel)
         {
             _relationModel = relationModel;
+            _annotationModel = annotationModel;
             _elementsById = new Dictionary<int, DsmElement>();
             _elementsByName = new Dictionary<string, DsmElement>();
             _deletedElementsById = new Dictionary<int, DsmElement>();
@@ -210,7 +212,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsByName.ContainsKey(fullname) ? _elementsByName[fullname] : null;
         }
 
-        public int SearchElements(string searchText, bool caseSensitiveSearch)
+        public int SearchElements(string searchText, bool caseSensitiveSearch, SearchMode searchMode)
         {
             int count = 0;
             string fullname = "";
@@ -218,7 +220,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             if (text.Length > 0)
             {
-                MarkMatchingElements(_root, text, caseSensitiveSearch, fullname, ref count);
+                MarkMatchingElements(_root, text, caseSensitiveSearch, searchMode, fullname, ref count);
             }
             else
             {
@@ -227,7 +229,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return count;
         }
 
-        private bool MarkMatchingElements(IDsmElement element, string searchText, bool caseSensitiveSearch, string fullname, ref int count)
+        private bool MarkMatchingElements(IDsmElement element, string searchText, bool caseSensitiveSearch, SearchMode searchMode, string fullname, ref int count)
         {
             bool isMatch = false;
 
@@ -244,7 +246,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 fullname += element.Name.ToLower();
             }
 
-            if (fullname.Contains(searchText) && !element.IsDeleted)
+            if (fullname.Contains(searchText) && ElementAttributesMatch(element, searchMode) && !element.IsDeleted)
             {
                 isMatch = true;
                 count++;
@@ -252,7 +254,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             foreach (IDsmElement child in element.Children)
             {
-                if (MarkMatchingElements(child, searchText, caseSensitiveSearch, fullname, ref count))
+                if (MarkMatchingElements(child, searchText, caseSensitiveSearch, searchMode, fullname, ref count))
                 {
                     isMatch = true;
                 }
@@ -261,6 +263,22 @@ namespace DsmSuite.DsmViewer.Model.Core
             element.IsMatch = isMatch;
 
             return isMatch;
+        }
+
+        private bool ElementAttributesMatch(IDsmElement element, SearchMode searchMode)
+        {
+            switch (searchMode)
+            {
+                case SearchMode.All:
+                    return true;
+                case SearchMode.Bookmarked:
+                    return element.IsBookmarked;
+                case SearchMode.Annotated:
+                    IDsmElementAnnotation annotation = _annotationModel.FindElementAnnotation(element);
+                    return (annotation != null) && !string.IsNullOrEmpty(annotation.Text);
+                default:
+                    return true;
+            }
         }
 
         private void ClearMarkElements(IDsmElement element)

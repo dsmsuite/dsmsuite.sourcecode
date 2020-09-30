@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.ViewModel.Common;
@@ -48,6 +50,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public event EventHandler<ActionListViewModel> ActionsVisible;
 
         public event EventHandler<SettingsViewModel> SettingsVisible;
+        public event EventHandler<SearchSettingsViewModel> SearchSettingsVisible;
 
         public event EventHandler ScreenshotRequested;
 
@@ -122,6 +125,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             TakeScreenshotCommand = new RelayCommand<object>(TakeScreenshotExecute);
             ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute);
+            SearchSettingsCommand = new RelayCommand<object>(SearchSettingExecute);
+
             _modelFilename = "";
             _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             _title = $"DSM Viewer - {_version}";
@@ -224,6 +229,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand ShowSettingsCommand { get; }
         public ICommand TakeScreenshotCommand { get; }
         public ICommand ClearSearchCommand { get; }
+        public ICommand SearchSettingsCommand { get; }
 
         public string ModelFilename
         {
@@ -541,6 +547,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ActiveMatrix.Reload();
         }
 
+        private bool HasPrefix(string prefix, ref string searchText)
+        {
+            bool hasPrefix = searchText.StartsWith(prefix);
+            searchText = SearchText.Replace(prefix, string.Empty);
+            return hasPrefix;
+        }
+
         private void OnActionPerformed(object sender, EventArgs e)
         {
             UndoText = $"Undo {_application.GetUndoActionDescription()}";
@@ -756,7 +769,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ToggleElementBookmarkCanExecute(object parameter)
         {
-            return true;
+            return _indicatorViewMode == IndicatorViewMode.Bookmarks;
         }
 
         private void ChangeElementAnnotationExecute(object parameter)
@@ -771,7 +784,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ChangeElementAnnotationCanExecute(object parameter)
         {
-            return true;
+            return _indicatorViewMode == IndicatorViewMode.Annotations;
         }
 
         private void MakeSnapshotExecute(object parameter)
@@ -816,6 +829,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public void ClearSearchExecute(object parameter)
         {
             SearchText = "";
+        }
+
+        public void SearchSettingExecute(object parameter)
+        {
+            SearchSettingsViewModel viewModel = new SearchSettingsViewModel(_application);
+            SearchSettingsVisible?.Invoke(this, viewModel);
+            OnSearchTextUpdated();
         }
 
         private void ExcludeAllFromTree()

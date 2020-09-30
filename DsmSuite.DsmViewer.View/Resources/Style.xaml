@@ -38,6 +38,10 @@
         <Setter Property="Margin" Value="5,0,10,0" />
     </Style>
 
+    <!-- Menuitem style -->
+    <Style x:Key="MenuItemStyle" TargetType="MenuItem">
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+    </Style>
 
     <!-- GridSplitter style -->
     <Style x:Key="GridSplitterStyle" TargetType="GridSplitter">
@@ -96,6 +100,7 @@
         <Setter Property="Padding" Value="5" />
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="FontSize" Value="12" />
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">

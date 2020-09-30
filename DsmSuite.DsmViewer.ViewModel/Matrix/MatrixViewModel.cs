@@ -496,12 +496,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     IDsmElement consumer = _elementViewModelLeafs[column].Element;
                     IDsmElement provider = _elementViewModelLeafs[row].Element;
                     CycleType cycleType = _application.IsCyclicDependency(consumer, provider);
-                    if (_application.ShowCycles)
+                    if (cycleType != CycleType.None)
                     {
-                        if (cycleType != CycleType.None)
-                        {
-                            _cellColors[row][column] = MatrixColor.HierarchicalCycle;
-                        }
+                        _cellColors[row][column] = MatrixColor.Cycle;
                     }
                 }
             }
@@ -635,7 +632,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                         int cycleCount = _application.GetHierarchicalCycleCount(viewModel.Element) +
                                           _application.GetSystemCycleCount(viewModel.Element);
                         int relationCount = _application.FindInternalRelations(viewModel.Element).Count();
-                        double metricCount = (relationCount > 0) ? (cycleCount*100.0/relationCount) : 0;
+                        double metricCount = (relationCount > 0) ? (cycleCount * 100.0 / relationCount) : 0;
                         _metrics.Add(metricCount > 0 ? $"{metricCount:0.000} %" : "-");
                     }
                     break;
@@ -885,7 +882,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private int UpdateMatchingRows()
         {
-            return  _application.SearchElements(_searchText);
+            return _application.SearchElements(_searchText);
         }
 
         private void BackupSelectionBeforeReload()
