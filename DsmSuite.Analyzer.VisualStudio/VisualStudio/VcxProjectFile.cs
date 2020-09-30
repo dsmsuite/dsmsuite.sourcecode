@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Common.Util;
 using Microsoft.Build.Evaluation;
 using DsmSuite.Analyzer.DotNet.Lib;
+using Microsoft.Build.Construction;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -15,6 +17,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private readonly FilterFile _filterFile;
         private IncludeResolveStrategy _includeResolveStrategy;
         private BinaryFile _assembly;
+        private Dictionary<string, string> _globalProperties = new Dictionary<string, string>();
+        private string _toolsVersion;
 
         public VcxProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
             base(solutionFolder, solutionDir, projectPath, analyzerSettings, resolver)
@@ -106,33 +110,65 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         protected override Project OpenProject()
         {
             Project project = null;
+
             try
             {
-                string solutionDir = SolutionDir;
-                if (!solutionDir.EndsWith(@"\"))
-                {
-                    solutionDir += @"\";
-                }
-                Dictionary<string, string> globalProperties = new Dictionary<string, string>();
-                globalProperties["SolutionDir"] = solutionDir;
-                project = new Project(ProjectFileInfo.FullName, globalProperties, AnalyzerSettings.ToolsVersion);
-                foreach (var item in project.AllEvaluatedItems)
-                {
-                    if (item.ItemType == "ProjectConfiguration")
-                    {
-                        string[] projectConfiguration = item.EvaluatedInclude.Split('|'); // eg. "Release|x64"
-                        globalProperties["Configuration"] = projectConfiguration[0];
-                        globalProperties["Platform"] = projectConfiguration[1];
-                        break;
-                    }
-                }
-                UpdateConfiguration(project);
+                DetermineGlobalProperties();
+                project = new Project(ProjectFileInfo.FullName, _globalProperties, _toolsVersion);
             }
             catch (Exception e)
             {
+                string props = "";
+                foreach (var globalProperty in _globalProperties)
+                {
+                    props += $" {globalProperty.Key} {globalProperty.Value}";
+                }
+                Logger.LogToFileAlways("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
+            
             return project;
+        }
+
+        private void DetermineGlobalProperties()
+        {
+            try
+            {
+                ProjectRootElement project = ProjectRootElement.Open(ProjectFileInfo.FullName);
+                _toolsVersion = project.ToolsVersion;
+
+                foreach (ProjectItemElement item in project.Items)
+                {
+                    if (item.ElementName == "ProjectConfiguration")
+                    {
+                        string[] projectConfiguration = item.Include.Split('|'); // eg. "Release|x64"
+                        _globalProperties["Configuration"] = projectConfiguration[0];
+                        _globalProperties["Platform"] = projectConfiguration[1];
+                        _globalProperties["SolutionDir"] = NormalizeDirectory(SolutionDir);
+                        break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                string props = "";
+                foreach (var globalProperty in _globalProperties)
+                {
+                    props += $" {globalProperty.Key} {globalProperty.Value}";
+                }
+                Logger.LogToFileAlways("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
+                Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
+            }
+        }
+
+        private string NormalizeDirectory(string directory)
+        {
+            string normalizedDirectory = directory;
+            if (!normalizedDirectory.EndsWith(@"\"))
+            {
+                normalizedDirectory += @"\";
+            }
+            return normalizedDirectory;
         }
 
         private void AddIdlFile(ProjectItem projectItem)
@@ -177,7 +213,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
             catch (Exception e)
             {
-                Logger.LogException($"Add source file failed project={ProjectFileInfo.FullName} file={projectItem.EvaluatedInclude}" , e);
+                Logger.LogException($"Add source file failed project={ProjectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
             }
         }
 
@@ -200,38 +236,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             {
                 Logger.LogException($"Add  header file failed project={ProjectFileInfo.FullName} file={projectItem.EvaluatedInclude}", e);
             }
-        }
-
-        private void UpdateConfiguration(Project project)
-        {
-            foreach (ProjectItem item in project.Items)
-            {
-                if (item.ItemType == "ProjectConfiguration")
-                {
-                    string configuration = null;
-                    string platform = null;
-                    foreach (ProjectMetadata meta in item.Metadata)
-                    {
-                        if (meta.Name == "Configuration")
-                        {
-                            configuration = meta.UnevaluatedValue;
-                        }
-
-                        if (meta.Name == "Platform")
-                        {
-                            platform = meta.UnevaluatedValue;
-                        }
-                    }
-
-                    if ((configuration != null) && (platform != null))
-                    {
-                        project.SetGlobalProperty("Configuration", configuration);
-                        project.SetGlobalProperty("Platform", platform);
-                    }
-
-                }
-            }
-            project.ReevaluateIfNecessary();
         }
 
         private void AnalyzeIdlGeneratedFiles(ProjectItem projectItem, string projectFolder, SourceFile idlSourceFile)

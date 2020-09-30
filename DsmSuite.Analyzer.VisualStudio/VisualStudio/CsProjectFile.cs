@@ -5,12 +5,15 @@ using DsmSuite.Common.Util;
 using Microsoft.Build.Evaluation;
 using System.IO;
 using DsmSuite.Analyzer.DotNet.Lib;
+using Microsoft.Build.Construction;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public class CsProjectFile : ProjectFileBase
     {
         private readonly BinaryFile _assembly;
+        private Dictionary<string, string> _globalProperties = new Dictionary<string, string>();
+        private string _toolsVersion;
 
         public CsProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
             base(solutionFolder, solutionDir, projectPath, analyzerSettings, resolver)
@@ -70,57 +73,50 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             Project project = null;
             try
             {
-                Dictionary<string, string> globalProperties = new Dictionary<string, string>();
-                project = new Project(ProjectFileInfo.FullName, globalProperties, AnalyzerSettings.ToolsVersion);
-                foreach (var item in project.AllEvaluatedItems)
-                {
-                    if (item.ItemType == "Configuration")
-                    {
-                        string[] projectConfiguration = item.EvaluatedInclude.Split('|'); // eg. "Release|x64"
-                        globalProperties["Configuration"] = projectConfiguration[0];
-                        globalProperties["Platform"] = projectConfiguration[1];
-                        break;
-                    }
-                }
-                UpdateConfiguration(project);
+                DetermineGlobalProperties();
+                project = new Project(ProjectFileInfo.FullName, _globalProperties, _toolsVersion);
             }
             catch (Exception e)
             {
+                string props = "";
+                foreach (var globalProperty in _globalProperties)
+                {
+                    props += $" {globalProperty.Key} {globalProperty.Value}";
+                }
+                Logger.LogToFileAlways("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
             return project;
         }
 
-        private void UpdateConfiguration(Project project)
+        private void DetermineGlobalProperties()
         {
-            foreach (ProjectItem item in project.Items)
+            try
             {
-                if (item.ItemType == "Configuration")
+                ProjectRootElement project = ProjectRootElement.Open(ProjectFileInfo.FullName);
+                _toolsVersion = project.ToolsVersion;
+
+                foreach (ProjectItemElement item in project.Items)
                 {
-                    string configuration = null;
-                    string platform = null;
-                    foreach (ProjectMetadata meta in item.Metadata)
+                    if (item.ElementName == "ProjectConfiguration")
                     {
-                        if (meta.Name == "Configuration")
-                        {
-                            configuration = meta.UnevaluatedValue;
-                        }
-
-                        if (meta.Name == "Platform")
-                        {
-                            platform = meta.UnevaluatedValue;
-                        }
+                        string[] projectConfiguration = item.Include.Split('|'); // eg. "Release|x64"
+                        _globalProperties["Configuration"] = projectConfiguration[0];
+                        _globalProperties["Platform"] = projectConfiguration[1];
+                        break;
                     }
-
-                    if ((configuration != null) && (platform != null))
-                    {
-                        project.SetGlobalProperty("Configuration", configuration);
-                        project.SetGlobalProperty("Platform", platform);
-                    }
-
                 }
             }
-            project.ReevaluateIfNecessary();
+            catch (Exception e)
+            {
+                string props = "";
+                foreach (var globalProperty in _globalProperties)
+                {
+                    props += $" {globalProperty.Key} {globalProperty.Value}";
+                }
+                Logger.LogToFileAlways("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
+                Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
+            }
         }
     }
 }

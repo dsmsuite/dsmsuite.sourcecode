@@ -34,7 +34,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
         private List<string> _systemIncludeDirectories;
         private List<ExternalIncludeDirectory> _externalIncludeDirectories;
         private ViewMode _viewMode;
-        private string _toolsVersion;
         private string _outputFilename;
         private bool _compressOutputFile;
 
@@ -48,7 +47,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
                 SystemIncludeDirectories = new List<string>(),
                 ExternalIncludeDirectories = new List<ExternalIncludeDirectory>(),
                 ViewMode = ViewMode.LogicalView,
-                ToolsVersion = "14.0",
                 OutputFilename = "Output.dsi",
                 CompressOutputFile = true
             };
@@ -102,12 +100,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
         {
             get { return _viewMode; }
             set { _viewMode = value; }
-        }
-
-        public string ToolsVersion
-        {
-            get { return _toolsVersion; }
-            set { _toolsVersion = value; }
         }
 
         public string OutputFilename
