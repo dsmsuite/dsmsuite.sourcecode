@@ -105,6 +105,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             _progressActionText = "Saving dsm model";
             CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             modelFile.WriteFile(WriteDsmXml, progress, compressed);
+            UpdateProgress(progress, true);
         }
 
         public void Load(IProgress<ProgressInfo> progress)
@@ -112,6 +113,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             _progressActionText = "Loading dsm model";
             CompressedFile<ProgressInfo> modelFile = new CompressedFile<ProgressInfo>(_filename);
             modelFile.ReadFile(ReadDsmXml, progress);
+            UpdateProgress(progress, true);
         }
 
         public bool IsCompressedFile()
@@ -295,7 +297,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteEndElement();
 
             _progressedElementCount++;
-            UpdateProgress(progress);
+            UpdateProgress(progress, false);
 
             foreach (IDsmElement child in element.AllChildren)
             {
@@ -322,7 +324,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 }
 
                 _progressedElementCount++;
-                UpdateProgress(progress);
+                UpdateProgress(progress, false);
             }
         }
 
@@ -351,7 +353,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteEndElement();
 
             _progressedRelationCount++;
-            UpdateProgress(progress);
+            UpdateProgress(progress, false);
         }
 
         private void ReadRelation(XmlReader xReader, IProgress<ProgressInfo> progress)
@@ -377,7 +379,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 }
 
                 _progressedRelationCount++;
-                UpdateProgress(progress);
+                UpdateProgress(progress, false);
             }
         }
 
@@ -405,7 +407,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteEndElement();
 
             _progressedActionCount++;
-            UpdateProgress(progress);
+            UpdateProgress(progress, false);
         }
 
         private void ReadAction(XmlReader xReader, IProgress<ProgressInfo> progress)
@@ -435,7 +437,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 }
 
                 _progressedActionCount++;
-                UpdateProgress(progress);
+                UpdateProgress(progress, false);
             }
         }
 
@@ -457,7 +459,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteEndElement();
 
             _progressedElementAnnotationCount++;
-            UpdateProgress(progress);
+            UpdateProgress(progress, false);
         }
 
         private void ReadElementAnnotation(XmlReader xReader, IProgress<ProgressInfo> progress)
@@ -473,7 +475,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 }
 
                 _progressedElementAnnotationCount++;
-                UpdateProgress(progress);
+                UpdateProgress(progress, false);
             }
         }
 
@@ -496,7 +498,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             writer.WriteEndElement();
 
             _progressedRelationAnnotationCount++;
-            UpdateProgress(progress);
+            UpdateProgress(progress, false);
         }
 
         private void ReadRelationAnnotation(XmlReader xReader, IProgress<ProgressInfo> progress)
@@ -513,11 +515,11 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 }
 
                 _progressedRelationAnnotationCount++;
-                UpdateProgress(progress);
+                UpdateProgress(progress, false);
             }
         }
 
-        private void UpdateProgress(IProgress<ProgressInfo> progress)
+        private void UpdateProgress(IProgress<ProgressInfo> progress, bool done)
         {
             if (progress != null)
             {
@@ -530,7 +532,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     currentProgress = progressedItemCount * 100 / totalItemCount;
                 }
 
-                if (_progress != currentProgress)
+                if ((_progress != currentProgress) || done)
                 {
                     _progress = currentProgress;
 
