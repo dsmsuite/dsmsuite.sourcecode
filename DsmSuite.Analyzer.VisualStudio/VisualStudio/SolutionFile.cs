@@ -110,7 +110,10 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         {
             foreach (SolutionNode solutionNode in _solutionNodes.Values)
             {
-                AddProjectFile(solutionNode.Guid, solutionNode.SolutionFolder, solutionNode.AbsolutePath);
+                if (solutionNode.Type == SolutionProjectType.KnownToBeMSBuildFormat)
+                {
+                    AddProjectFile(solutionNode.Guid, solutionNode.SolutionFolder, solutionNode.AbsolutePath);
+                }
             }
         }
 
