@@ -63,13 +63,14 @@
     <Compile Include="Settings\AnalyzerSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VisualStudio\SolutionFile.cs" />
     <Compile Include="VisualStudio\CsProjectFile.cs" />
     <Compile Include="VisualStudio\FilterFile.cs" />
     <Compile Include="VisualStudio\GeneratedFileRelation.cs" />
     <Compile Include="VisualStudio\IncludeResolveStrategy.cs" />
     <Compile Include="VisualStudio\ProjectFileBase.cs" />
+    <Compile Include="VisualStudio\SolutionNode.cs" />
     <Compile Include="VisualStudio\VcxProjectFile.cs" />
-    <Compile Include="VisualStudio\SolutionFile.cs" />
     <Compile Include="VisualStudio\SourceFile.cs" />
   </ItemGroup>
   <ItemGroup>
