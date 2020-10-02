@@ -48,6 +48,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         int IndexOfChild(IDsmElement child);
 
+        bool ContainsChildWithName(string name);
+
         /// <summary>
         /// Parent of the element.
         /// </summary>

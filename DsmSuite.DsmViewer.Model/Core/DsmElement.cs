@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Core
@@ -99,6 +101,20 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _children.IndexOf(child);
         }
 
+        public bool ContainsChildWithName(string name)
+        {
+            bool containsChildWithName = false;
+            foreach (IDsmElement child in Children)
+            {
+                if (child.Name == name)
+                {
+                    containsChildWithName = true;
+                }
+            }
+
+            return containsChildWithName;
+        }
+
         public bool HasChildren => Children.Count > 0;
 
         public void AddChild(IDsmElement child)
@@ -113,7 +129,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void InsertChild(int index, IDsmElement child)
         {
-            _children.Insert(index, child);
+            int newIndex = Math.Min(index, _children.Count);
+            _children.Insert(newIndex, child);
             DsmElement c = child as DsmElement;
             if (c != null)
             {

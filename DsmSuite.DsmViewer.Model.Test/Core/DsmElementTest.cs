@@ -90,5 +90,23 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(0, parent.Children.Count);
             Assert.IsFalse(child3.IsRecursiveChildOf(parent));
         }
+
+        [TestMethod]
+        public void TestContainChildWithName()
+        {
+            Assert.Inconclusive("To be implemented");
+        }
+
+        [TestMethod]
+        public void TestInsertElementIndexInRange()
+        {
+            Assert.Inconclusive("To be implemented");
+        }
+
+        [TestMethod]
+        public void TestInsertElementOutOfRange()
+        {
+            Assert.Inconclusive("To be implemented");
+        }
     }
 }
