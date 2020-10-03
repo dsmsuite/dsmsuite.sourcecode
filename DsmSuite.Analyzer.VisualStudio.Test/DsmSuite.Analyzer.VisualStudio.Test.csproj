@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Analysis\AnalyzerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetupAssemblyInitializer.cs" />
     <Compile Include="Util\TestData.cs" />
     <Compile Include="VisualStudio\CsProjectFileTest.cs" />
     <Compile Include="VisualStudio\FilterFileTest.cs" />

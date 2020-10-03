@@ -63,6 +63,7 @@
     <Compile Include="Core\TypeRegistrationTest.cs" />
     <Compile Include="Persistency\DsmModelFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetupAssemblyInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj">

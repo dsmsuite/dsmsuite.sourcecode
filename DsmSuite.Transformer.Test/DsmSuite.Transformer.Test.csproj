@@ -38,6 +38,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="SetupAssemblyInitializer.cs" />
     <Compile Include="Transformation\AddTransitiveRelationsActionUnitTest.cs" />
     <Compile Include="Transformation\MergeHeaderAndImplementationUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

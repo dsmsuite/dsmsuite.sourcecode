@@ -63,6 +63,7 @@
     <Compile Include="Analysis\AnalyzerTest.cs" />
     <Compile Include="IncludeResolve\BestMatchIncludeFileResolveStrategyTest.cs" />
     <Compile Include="IncludeResolve\IgnoreIncludeFileResolveStrategyTest.cs" />
+    <Compile Include="SetupAssemblyInitializer.cs" />
     <Compile Include="Sources\SourceDirectoryTest.cs" />
     <Compile Include="Sources\SourcFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

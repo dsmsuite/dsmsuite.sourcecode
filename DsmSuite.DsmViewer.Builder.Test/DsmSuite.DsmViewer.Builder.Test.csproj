@@ -52,11 +52,16 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetupAssemblyInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
       <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
       <Name>DsmSuite.Analyzer.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
+      <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
+      <Name>DsmSuite.Common.Util</Name>
     </ProjectReference>
     <ProjectReference Include="..\DsmSuite.DsmViewer.Builder\DsmSuite.DsmViewer.Builder.csproj">
       <Project>{02e53d79-d1f8-4d2f-8568-15a8585b42f9}</Project>
