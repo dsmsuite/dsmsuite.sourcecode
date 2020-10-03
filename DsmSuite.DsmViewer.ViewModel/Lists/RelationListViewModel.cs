@@ -13,12 +13,19 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         {
             Title = title;
 
-            var relationViewModels = new List<RelationListItemViewModel>();
+            List<RelationListItemViewModel> relationViewModels = new List<RelationListItemViewModel>();
 
-            int index = 1;
             foreach (IDsmRelation relation in relations)
             {
-                relationViewModels.Add(new RelationListItemViewModel(index, relation));
+                relationViewModels.Add(new RelationListItemViewModel(relation));
+            }
+
+            relationViewModels.Sort();
+
+            int index = 1;
+            foreach (RelationListItemViewModel viewModel in relationViewModels)
+            {
+                viewModel.Index = index;
                 index++;
             }
 

@@ -13,12 +13,19 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         {
             Title = title;
 
-            var elementViewModels = new List<ElementListItemViewModel>();
+            List<ElementListItemViewModel> elementViewModels = new List<ElementListItemViewModel>();
 
-            int index = 1;
             foreach (IDsmElement element in elements)
             {
-                elementViewModels.Add(new ElementListItemViewModel(index, element));
+                elementViewModels.Add(new ElementListItemViewModel(element));
+            }
+
+            elementViewModels.Sort();
+
+            int index = 1;
+            foreach (ElementListItemViewModel viewModel in elementViewModels)
+            {
+                viewModel.Index = index;
                 index++;
             }
 

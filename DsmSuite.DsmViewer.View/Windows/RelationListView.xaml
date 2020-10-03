@@ -16,13 +16,13 @@
         <ListView Margin="10" Grid.Row="0" ItemsSource="{Binding Relations}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Index" Width="20" DisplayMemberBinding="{Binding Path=Index}" />
-                    <GridViewColumn Header="Consumer name" Width="600" DisplayMemberBinding="{Binding Path=ConsumerName}" />
-                    <GridViewColumn Header="Consumer type" Width="200" DisplayMemberBinding="{Binding Path=ConsumerType}" />
-                    <GridViewColumn Header="Provider name" Width="600" DisplayMemberBinding="{Binding Path=ProviderName}" />
-                    <GridViewColumn Header="Provider type" Width="200" DisplayMemberBinding="{Binding Path=ProviderType}" />
-                    <GridViewColumn Header="Relation type" Width="100" DisplayMemberBinding="{Binding Path=RelationType}" />
-                    <GridViewColumn Header="Relation weight" Width="50" DisplayMemberBinding="{Binding Path=RelationWeight}" />
+                    <GridViewColumn Header="Index" Width="auto" DisplayMemberBinding="{Binding Path=Index}" />
+                    <GridViewColumn Header="Consumer name" Width="auto" DisplayMemberBinding="{Binding Path=ConsumerName}" />
+                    <GridViewColumn Header="Consumer type" Width="auto" DisplayMemberBinding="{Binding Path=ConsumerType}" />
+                    <GridViewColumn Header="Provider name" Width="auto" DisplayMemberBinding="{Binding Path=ProviderName}" />
+                    <GridViewColumn Header="Provider type" Width="auto" DisplayMemberBinding="{Binding Path=ProviderType}" />
+                    <GridViewColumn Header="Relation type" Width="auto" DisplayMemberBinding="{Binding Path=RelationType}" />
+                    <GridViewColumn Header="Relation weight" Width="auto" DisplayMemberBinding="{Binding Path=RelationWeight}" />
                 </GridView>
             </ListView.View>
         </ListView>
