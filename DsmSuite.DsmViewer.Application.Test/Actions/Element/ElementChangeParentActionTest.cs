@@ -36,6 +36,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 
             _element.Setup(x => x.Id).Returns(ElementId);
             _element.Setup(x => x.Parent).Returns(_oldParent.Object);
+            _element.Setup(x => x.Name).Returns(OldName);
             _oldParent.Setup(x => x.IndexOfChild(_element.Object)).Returns(OldIndex);
             _oldParent.Setup(x => x.Id).Returns(OldParentId);
             _newParent.Setup(x => x.Id).Returns(NewParentId);
@@ -64,6 +65,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             ElementChangeParentAction action =
                 new ElementChangeParentAction(_model.Object, _element.Object, _newParent.Object, NewIndex);
             action.Do();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ChangeElementParent(_element.Object, _newParent.Object, NewIndex), Times.Once());
         }
@@ -76,6 +78,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             ElementChangeParentAction action =
                 new ElementChangeParentAction(_model.Object, _element.Object, _newParent.Object, NewIndex);
             action.Undo();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ChangeElementParent(_element.Object, _oldParent.Object, OldIndex), Times.Once());
         }

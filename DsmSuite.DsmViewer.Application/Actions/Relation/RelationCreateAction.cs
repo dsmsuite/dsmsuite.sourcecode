@@ -19,37 +19,29 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public RelationCreateAction(object[] args)
         {
-            Debug.Assert(args.Length == 2);
-            _model = args[0] as IDsmModel;
-            Debug.Assert(_model != null);
-            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
-            Debug.Assert(data != null);
+            if (args.Length == 2)
+            {
+                _model = args[0] as IDsmModel;
+                IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
 
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-            _relation = attributes.GetRelation(nameof(_relation));
-            Debug.Assert(_relation != null);
+                if ((_model != null) && (data != null))
+                {
+                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-            _consumer = attributes.GetRelationConsumer(nameof(_relation));
-            Debug.Assert(_consumer != null);
-
-            _provider = attributes.GetRelationProvider(nameof(_relation));
-            Debug.Assert(_provider != null);
-
-            _type = attributes.GetString(nameof(_type));
-            _weight = attributes.GetInt(nameof(_weight));
+                    _relation = attributes.GetRelation(nameof(_relation));
+                    _consumer = attributes.GetRelationConsumer(nameof(_relation));
+                    _provider = attributes.GetRelationProvider(nameof(_relation));
+                    _type = attributes.GetString(nameof(_type));
+                    _weight = attributes.GetInt(nameof(_weight));
+                }
+            }
         }
 
         public RelationCreateAction(IDsmModel model, int consumerId, int providerId, string type, int weight)
         {
             _model = model;
-            Debug.Assert(_model != null);
-
             _consumer = model.GetElementById(consumerId);
-            Debug.Assert(_consumer != null);
-
             _provider = model.GetElementById(providerId);
-            Debug.Assert(_provider != null);
-
             _type = type;
             _weight = weight;
         }
@@ -60,14 +52,21 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public object Do()
         {
-            _relation = _model.AddRelation(_consumer, _provider, _type, _weight);
-            Debug.Assert(_relation != null);
-            return _relation;
+            return _model.AddRelation(_consumer, _provider, _type, _weight);
         }
 
         public void Undo()
         {
             _model.RemoveRelation(_relation.Id);
+        }
+
+        public bool IsValid()
+        {
+            return (_model != null) && 
+                   (_relation != null) &&
+                   (_provider != null) &&
+                   (_provider != null) &&
+                   (_type != null);
         }
 
         public IReadOnlyDictionary<string, string> Data

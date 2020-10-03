@@ -42,6 +42,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         {
             ElementChangeAnnotationAction action = new ElementChangeAnnotationAction(_model.Object, _element.Object, NewAnnotation);
             action.Do();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ChangeElementAnnotation(_element.Object, NewAnnotation), Times.Once());
         }
@@ -51,6 +52,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         {
             ElementChangeAnnotationAction action = new ElementChangeAnnotationAction(_model.Object, _element.Object, NewAnnotation);
             action.Undo();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ChangeElementAnnotation(_element.Object, OldAnnotation), Times.Once());
         }

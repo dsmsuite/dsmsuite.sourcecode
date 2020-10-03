@@ -41,6 +41,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         {
             ElementChangeTypeAction action = new ElementChangeTypeAction(_model.Object, _element.Object, NewType);
             action.Do();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ChangeElementType(_element.Object, NewType), Times.Once());
         }
@@ -50,6 +51,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         {
             ElementChangeTypeAction action = new ElementChangeTypeAction(_model.Object, _element.Object, NewType);
             action.Undo();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ChangeElementType(_element.Object, OldType), Times.Once());
         }

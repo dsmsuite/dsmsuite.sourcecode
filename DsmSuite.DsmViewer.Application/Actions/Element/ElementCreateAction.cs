@@ -18,31 +18,31 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public ElementCreateAction(object[] args)
         {
-            Debug.Assert(args.Length == 2);
-            _model = args[0] as IDsmModel;
-            Debug.Assert(_model != null);
-            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
-            Debug.Assert(data != null);
-
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-            _element = attributes.GetElement(nameof(_element));
-            Debug.Assert(_element != null);
-
-            _name = attributes.GetString(nameof(_name));
-            _type = attributes.GetString(nameof(_type));
-
-            int? parentId = attributes.GetNullableInt(nameof(_parent));
-            if (parentId.HasValue)
+            if (args.Length == 2)
             {
-                _parent = _model.GetElementById(parentId.Value);
+                _model = args[0] as IDsmModel;
+                IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+
+                if ((_model != null) && (data != null))
+                {
+                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
+
+                    _element = attributes.GetElement(nameof(_element));
+                    _name = attributes.GetString(nameof(_name));
+                    _type = attributes.GetString(nameof(_type));
+
+                    int? parentId = attributes.GetNullableInt(nameof(_parent));
+                    if (parentId.HasValue)
+                    {
+                        _parent = _model.GetElementById(parentId.Value);
+                    }
+                }
             }
         }
 
         public ElementCreateAction(IDsmModel model, string name, string type, IDsmElement parent)
         {
             _model = model;
-            Debug.Assert(_model != null);
-
             _name = name;
             _type = type;
             _parent = parent;
@@ -66,6 +66,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         {
             _model.RemoveElement(_element.Id);
             _model.AssignElementOrder();
+        }
+
+        public bool IsValid()
+        {
+            return (_model != null) && 
+                   (_element != null) && 
+                   (_type != null) && 
+                   (_parent != null);
         }
 
         public IReadOnlyDictionary<string, string> Data

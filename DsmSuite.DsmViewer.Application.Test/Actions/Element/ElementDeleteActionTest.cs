@@ -35,6 +35,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         {
             ElementDeleteAction action = new ElementDeleteAction(_model.Object, _element.Object);
             action.Do();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.RemoveElement(ElementId), Times.Once());
         }
@@ -44,6 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         {
             ElementDeleteAction action = new ElementDeleteAction(_model.Object, _element.Object);
             action.Undo();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.UnremoveElement(ElementId), Times.Once());
         }

@@ -41,6 +41,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         {
             ElementChangeNameAction action = new ElementChangeNameAction(_model.Object, _element.Object, NewName);
             action.Do();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ChangeElementName(_element.Object, NewName), Times.Once());
         }
@@ -50,6 +51,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         {
             ElementChangeNameAction action = new ElementChangeNameAction(_model.Object, _element.Object, NewName);
             action.Undo();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ChangeElementName(_element.Object, OldName), Times.Once());
         }

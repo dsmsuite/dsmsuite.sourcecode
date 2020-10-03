@@ -15,24 +15,23 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public ElementMoveUpAction(object[] args)
         {
-            Debug.Assert(args.Length == 2);
-            _model = args[0] as IDsmModel;
-            Debug.Assert(_model != null);
-            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
-            Debug.Assert(data != null);
+            if (args.Length == 2)
+            {
+                _model = args[0] as IDsmModel;
+                IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+                if ((_model != null) && (data != null))
+                {
+                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-            _element = attributes.GetElement(nameof(_element));
-            Debug.Assert(_element != null);
+                    _element = attributes.GetElement(nameof(_element));
+                }
+            }
         }
 
         public ElementMoveUpAction(IDsmModel model, IDsmElement element)
         {
             _model = model;
-            Debug.Assert(_model != null);
-
             _element = element;
-            Debug.Assert(_element != null);
         }
 
         public ActionType Type => RegisteredType;
@@ -42,10 +41,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public object Do()
         {
             IDsmElement previousElement = _model.PreviousSibling(_element);
-            Debug.Assert(previousElement != null);
-
-            _model.Swap(_element, previousElement);
-            _model.AssignElementOrder();
+            if (previousElement != null)
+            {
+                _model.Swap(_element, previousElement);
+                _model.AssignElementOrder();
+            }
 
             return null;
         }
@@ -53,10 +53,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         public void Undo()
         {
             IDsmElement nextElement = _model.NextSibling(_element);
-            Debug.Assert(nextElement != null);
+            if (nextElement != null)
+            {
+                _model.Swap(nextElement, _element);
+                _model.AssignElementOrder();
+            }
+        }
 
-            _model.Swap(nextElement, _element);
-            _model.AssignElementOrder();
+        public bool IsValid()
+        {
+            return (_model != null) && 
+                   (_element != null);
         }
 
         public IReadOnlyDictionary<string, string> Data

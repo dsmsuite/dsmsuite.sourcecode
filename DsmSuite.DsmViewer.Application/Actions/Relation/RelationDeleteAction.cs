@@ -17,36 +17,28 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public RelationDeleteAction(object[] args)
         {
-            Debug.Assert(args.Length == 2);
-            _model = args[0] as IDsmModel;
-            Debug.Assert(_model != null);
-            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
-            Debug.Assert(data != null);
+            if (args.Length == 2)
+            {
+                _model = args[0] as IDsmModel;
+                IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
 
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-            _relation = attributes.GetRelation(nameof(_relation));
-            Debug.Assert(_relation != null);
+                if ((_model != null) && (data != null))
+                {
+                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-            _consumer = attributes.GetRelationConsumer(nameof(_relation));
-            Debug.Assert(_consumer != null);
-
-            _provider = attributes.GetRelationProvider(nameof(_relation));
-            Debug.Assert(_provider != null);
+                    _relation = attributes.GetRelation(nameof(_relation));
+                    _consumer = attributes.GetRelationConsumer(nameof(_relation));
+                    _provider = attributes.GetRelationProvider(nameof(_relation));
+                }
+            }
         }
 
         public RelationDeleteAction(IDsmModel model, IDsmRelation relation)
         {
             _model = model;
-            Debug.Assert(_model != null);
-
             _relation = relation;
-            Debug.Assert(_relation != null);
-
             _consumer = model.GetElementById(_relation.Consumer.Id);
-            Debug.Assert(_consumer != null);
-
             _provider = model.GetElementById(_relation.Provider.Id);
-            Debug.Assert(_provider != null);
         }
 
         public ActionType Type => RegisteredType;
@@ -62,6 +54,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         public void Undo()
         {
             _model.UnremoveRelation(_relation.Id);
+        }
+
+        public bool IsValid()
+        {
+            return (_model != null) && 
+                   (_relation != null) && 
+                   (_consumer != null) && 
+                   (_provider != null);
         }
 
         public IReadOnlyDictionary<string, string> Data

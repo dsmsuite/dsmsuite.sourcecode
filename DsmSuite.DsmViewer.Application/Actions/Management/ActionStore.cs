@@ -33,7 +33,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
                     if (_types.ContainsKey(actionType))
                     {
                         Type type = _types[actionType];
-                        object[] args = {_model, action.Data};
+                        object[] args = { _model, action.Data };
                         object argumentList = args;
                         IAction instance = Activator.CreateInstance(type, argumentList) as IAction;
                         if (instance != null)
@@ -43,13 +43,21 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
                     }
                 }
             }
+
+            if (!_actionManager.Validate())
+            {
+                _actionManager.Clear();
+            }
         }
 
         public void SaveToModel()
         {
-            foreach (IAction action in _actionManager.GetActionsInChronologicalOrder())
+            if (_actionManager.Validate())
             {
-                _model.AddAction(action.Type.ToString(), action.Data);
+                foreach (IAction action in _actionManager.GetActionsInChronologicalOrder())
+                {
+                    _model.AddAction(action.Type.ToString(), action.Data);
+                }
             }
         }
 

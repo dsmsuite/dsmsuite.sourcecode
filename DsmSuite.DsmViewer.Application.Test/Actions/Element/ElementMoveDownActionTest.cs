@@ -39,6 +39,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 
             ElementMoveDownAction action = new ElementMoveDownAction(_model.Object, _element.Object);
             action.Do();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.Swap(_element.Object, _nextElement.Object), Times.Once());
         }
@@ -50,6 +51,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 
             ElementMoveDownAction action = new ElementMoveDownAction(_model.Object, _element.Object);
             action.Undo();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.Swap(_nextElement.Object, _element.Object), Times.Once());
         }

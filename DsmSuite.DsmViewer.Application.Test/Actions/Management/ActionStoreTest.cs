@@ -30,6 +30,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Management
             model.Setup(x => x.GetElementById(1)).Returns(element1.Object);
             model.Setup(x => x.GetElementById(2)).Returns(element2.Object);
             manager.Setup(x => x.GetActionsInChronologicalOrder()).Returns(managerActions);
+            manager.Setup(x => x.Validate()).Returns(true);
 
             store.SaveToModel();
 

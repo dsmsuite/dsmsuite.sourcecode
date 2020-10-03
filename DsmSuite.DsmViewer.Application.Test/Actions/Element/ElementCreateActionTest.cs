@@ -48,6 +48,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         {
             ElementCreateAction action = new ElementCreateAction(_model.Object, Name, Type, _parent.Object);
             action.Do();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.AddElement(Name, Type, ParentId), Times.Once());
         }
@@ -58,6 +59,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             object[] args = { _model.Object, _data };
             ElementCreateAction action = new ElementCreateAction(args);
             action.Undo();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.RemoveElement(ElementId), Times.Once());
         }

@@ -19,6 +19,29 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
             _redoActionStack = new Stack<IAction>();
         }
 
+        public bool Validate()
+        {
+            bool valid = true;
+
+            foreach (var action in _undoActionStack)
+            {
+                if (!action.IsValid())
+                {
+                    valid = false;
+                }
+            }
+
+            foreach (var action in _redoActionStack)
+            {
+                if (!action.IsValid())
+                {
+                    valid = false;
+                }
+            }
+
+            return valid;
+        }
+
         public object Execute(IAction action)
         {
             _undoActionStack.Push(action);

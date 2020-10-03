@@ -21,54 +21,39 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public ElementChangeParentAction(object[] args)
         {
-            Debug.Assert(args.Length == 2);
-            _model = args[0] as IDsmModel;
-            Debug.Assert(_model != null);
-            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
-            Debug.Assert(data != null);
+            if (args.Length == 2)
+            {
+                _model = args[0] as IDsmModel;
+                IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
 
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-            _element = attributes.GetElement(nameof(_element));
-            Debug.Assert(_element != null);
+                if ((_model != null) && (data != null))
+                {
+                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-            _old = attributes.GetElement(nameof(_old));
-            Debug.Assert(_old != null);
-
-            _oldIndex = attributes.GetInt(nameof(_oldIndex));
-
-            _oldName = attributes.GetString(nameof(_oldName));
-
-            _new = attributes.GetElement(nameof(_new));
-            Debug.Assert(_new != null);
-
-            _newIndex = attributes.GetInt(nameof(_newIndex));
-
-            _newName = attributes.GetString(nameof(_newName));
+                    _element = attributes.GetElement(nameof(_element));
+                    _old = attributes.GetElement(nameof(_old));
+                    _oldIndex = attributes.GetInt(nameof(_oldIndex));
+                    _oldName = attributes.GetString(nameof(_oldName));
+                    _new = attributes.GetElement(nameof(_new));
+                    _newIndex = attributes.GetInt(nameof(_newIndex));
+                    _newName = attributes.GetString(nameof(_newName));
+                }
+            }
         }
 
         public ElementChangeParentAction(IDsmModel model, IDsmElement element, IDsmElement newParent, int index)
         {
             _model = model;
-            Debug.Assert(_model != null);
-
             _element = element;
-            Debug.Assert(_element != null);
-
             _old = element.Parent;
-            Debug.Assert(_old != null);
-
             _oldIndex = _old.IndexOfChild(element);
-
             _oldName = element.Name;
-
             _new = newParent;
-            Debug.Assert(_new != null);
-
             _newIndex = index;
-
+            _newName = _oldName;
             if (_new.ContainsChildWithName(_oldName))
             {
-                _newName += _oldName + " (duplicate)";
+                _newName += " (duplicate)";
             }
         }
 
@@ -96,6 +81,16 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             {
                 _model.ChangeElementName(_element, _oldName);
             }
+        }
+
+        public bool IsValid()
+        {
+            return (_model != null) && 
+                   (_element != null) && 
+                   (_old != null) && 
+                   (_oldName != null) && 
+                   (_new != null) && 
+                   (_newName != null);
         }
 
         public IReadOnlyDictionary<string, string> Data

@@ -18,28 +18,26 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public ElementSortAction(object[] args)
         {
-            Debug.Assert(args.Length == 2);
-            _model = args[0] as IDsmModel;
-            Debug.Assert(_model != null);
-            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
-            Debug.Assert(data != null);
+            if (args.Length == 2)
+            {
+                _model = args[0] as IDsmModel;
+                IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
 
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-            _element = attributes.GetElement(nameof(_element));
-            Debug.Assert(_element != null);
+                if ((_model != null) && (data != null))
+                {
+                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-            _algorithm = attributes.GetString(nameof(_algorithm));
-            _order= attributes.GetString(nameof(_order));
+                    _element = attributes.GetElement(nameof(_element));
+                    _algorithm = attributes.GetString(nameof(_algorithm));
+                    _order = attributes.GetString(nameof(_order));
+                }
+            }
         }
 
         public ElementSortAction(IDsmModel model, IDsmElement element, string algorithm)
         {
             _model = model;
-            Debug.Assert(_model != null);
-
             _element = element;
-            Debug.Assert(_element != null);
-
             _algorithm = algorithm;
             _order = "";
         }
@@ -67,6 +65,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _model.ReorderChildren(_element, sortResult);
 
             _model.AssignElementOrder();
+        }
+
+        public bool IsValid()
+        {
+            return (_model != null) && 
+                   (_element != null) && 
+                   (_algorithm != null) && 
+                   (_order != null);
         }
 
         public IReadOnlyDictionary<string, string> Data

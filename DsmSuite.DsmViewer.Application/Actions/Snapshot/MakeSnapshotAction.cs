@@ -8,21 +8,25 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 {
     public class MakeSnapshotAction : IAction
     {
+        private readonly IDsmModel _model;
         private readonly string _name;
 
         public const ActionType RegisteredType = ActionType.Snapshot;
 
         public MakeSnapshotAction(object[] args)
         {
-            Debug.Assert(args.Length == 2);
-            IDsmModel model = args[0] as IDsmModel;
-            Debug.Assert(model != null);
+            if (args.Length == 2)
+            {
+                _model = args[0] as IDsmModel;
+                IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
 
-            IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
-            Debug.Assert(data  != null);
+                if ((_model != null) && (data != null))
+                {
+                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-            ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(model, data);
-            _name = attributes.GetString(nameof(_name));
+                    _name = attributes.GetString(nameof(_name));
+                }
+            }
         }
 
         public MakeSnapshotAction(IDsmModel model, string name)
@@ -41,6 +45,12 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 
         public void Undo()
         {
+        }
+
+        public bool IsValid()
+        {
+            return (_model != null) && 
+                   (_name != null);
         }
 
         public IReadOnlyDictionary<string, string> Data

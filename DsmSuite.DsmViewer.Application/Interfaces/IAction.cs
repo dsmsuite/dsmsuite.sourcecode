@@ -11,6 +11,8 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         object Do();
         void Undo();
 
+        bool IsValid();
+
         IReadOnlyDictionary<string, string> Data { get; }
     }
 }

@@ -45,6 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         {
             ElementSortAction action = new ElementSortAction(_model.Object, _element.Object, UsedAlgorithm);
             action.Do();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ReorderChildren(_element.Object, It.Is<SortResult>(i => i.Data == SortResult)), Times.Once());
         }
@@ -55,6 +56,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             object[] args = { _model.Object, _data };
             ElementSortAction action = new ElementSortAction(args);
             action.Undo();
+            Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ReorderChildren(_element.Object, It.Is<SortResult>(i => i.Data == InverseSortResult)), Times.Once());
         }
