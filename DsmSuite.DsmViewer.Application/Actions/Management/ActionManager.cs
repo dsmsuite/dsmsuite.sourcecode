@@ -27,6 +27,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
             {
                 if (!action.IsValid())
                 {
+                    Logger.LogError($"Invalid action: {action.ToString()}");
                     valid = false;
                 }
             }
