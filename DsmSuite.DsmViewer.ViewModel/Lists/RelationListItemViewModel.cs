@@ -1,13 +1,14 @@
-﻿using DsmSuite.DsmViewer.Model.Interfaces;
+﻿using System;
+using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
-    public class RelationListItemViewModel : ViewModelBase
+    public class RelationListItemViewModel : ViewModelBase, IComparable
     {
-        public RelationListItemViewModel(int index, IDsmRelation relation)
+        public RelationListItemViewModel(IDsmRelation relation)
         {
-            Index = index;
             ConsumerName = relation.Consumer.Fullname;
             ConsumerType = relation.Consumer.Type;
             ProviderName = relation.Provider.Fullname;
@@ -16,7 +17,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             RelationWeight = relation.Weight;
         }
 
-        public int Index { get; }
+        public int Index { get; set; }
 
         public string ConsumerName { get; }
         public string ConsumerType { get; }
@@ -24,5 +25,22 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         public string ProviderType { get; }
         public string RelationType { get; }
         public int RelationWeight { get; }
+
+        public int CompareTo(object obj)
+        {
+            RelationListItemViewModel other = obj as RelationListItemViewModel;
+
+            int compareConsumer = string.Compare(ConsumerName, other?.ConsumerName, StringComparison.Ordinal);
+            int compareProvider = string.Compare(ProviderName, other?.ProviderName, StringComparison.Ordinal);
+
+            if (compareConsumer != 0)
+            {
+                return compareConsumer;
+            }
+            else
+            {
+                return compareProvider;
+            }
+        }
     }
 }

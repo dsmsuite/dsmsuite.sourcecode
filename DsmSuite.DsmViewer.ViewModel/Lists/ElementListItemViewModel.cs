@@ -1,19 +1,25 @@
-﻿using DsmSuite.DsmViewer.Model.Interfaces;
+﻿using System;
+using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
-    public class ElementListItemViewModel : ViewModelBase
+    public class ElementListItemViewModel : ViewModelBase, IComparable
     {
-        public ElementListItemViewModel(int index, IDsmElement element)
+        public ElementListItemViewModel(IDsmElement element)
         {
-            Index = index;
             ElementName = element.Fullname;
             ElementType = element.Type;
         }
 
-        public int Index { get; }
+        public int Index { get; set; }
         public string ElementName { get; }
         public string ElementType { get; }
+
+        public int CompareTo(object obj)
+        {
+            ElementListItemViewModel other = obj as ElementListItemViewModel;
+            return string.Compare(ElementName, other?.ElementName, StringComparison.Ordinal);
+        }
     }
 }

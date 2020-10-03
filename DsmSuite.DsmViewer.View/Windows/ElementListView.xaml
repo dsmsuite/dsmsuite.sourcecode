@@ -16,9 +16,9 @@
         <ListView Margin="10" Grid.Row="0" ItemsSource="{Binding Elements}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Index" Width="20" DisplayMemberBinding="{Binding Index}" />
-                    <GridViewColumn Header="Element name" Width="600" DisplayMemberBinding="{Binding ElementName}" />
-                    <GridViewColumn Header="Element type" Width="100" DisplayMemberBinding="{Binding ElementType}" />
+                    <GridViewColumn Header="Index" Width="auto" DisplayMemberBinding="{Binding Index}" />
+                    <GridViewColumn Header="Element name" Width="auto" DisplayMemberBinding="{Binding ElementName}" />
+                    <GridViewColumn Header="Element type" Width="auto" DisplayMemberBinding="{Binding ElementType}" />
                 </GridView>
             </ListView.View>
         </ListView>
