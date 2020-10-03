@@ -203,6 +203,11 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.FindRelations(consumer, provider);
         }
 
+        public int GetRelationCount(IDsmElement consumer, IDsmElement provider)
+        {
+            return _dsmModel.GetRelationCount(consumer, provider);
+        }
+
         public IEnumerable<IDsmRelation> FindIngoingRelations(IDsmElement element)
         {
             return _queries.FindIngoingRelations(element);

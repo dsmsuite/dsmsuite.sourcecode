@@ -280,6 +280,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             SelectedColumn = null;
             UpdateProviderRows();
             UpdateConsumerRows();
+
+            SelectedCellHasRelationCount = 0;
         }
 
         public void SelectColumn(int? column)
@@ -288,6 +290,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             SelectedColumn = column;
             UpdateProviderRows();
             UpdateConsumerRows();
+
+            SelectedCellHasRelationCount = 0;
         }
 
         public void SelectCell(int? row, int? columnn)
@@ -296,6 +300,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             SelectedColumn = columnn;
             UpdateProviderRows();
             UpdateConsumerRows();
+
+            SelectedCellHasRelationCount = _application.GetRelationCount(SelectedConsumer, SelectedProvider);
         }
 
         public int? SelectedRow
@@ -356,6 +362,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         }
 
         public IDsmElement SelectedProvider => SelectedTreeItem?.Element;
+
+        public int SelectedCellHasRelationCount { get; private set; }
 
         public ElementToolTipViewModel ColumnHeaderToolTipViewModel
         {

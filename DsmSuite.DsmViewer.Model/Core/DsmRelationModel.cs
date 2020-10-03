@@ -226,6 +226,34 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
+        public int GetRelationCount(IDsmElement consumer, IDsmElement provider)
+        {
+            int count =0;
+
+            DsmElement consumerDsmElement = consumer as DsmElement;
+            DsmElement providerDsmElement = provider as DsmElement;
+            if (consumerDsmElement?.Dependencies != null && providerDsmElement?.Dependencies != null)
+            {
+                IDictionary<int, DsmElement> ps = providerDsmElement.GetElementAndItsChildren();
+                IDictionary<int, DsmElement> cs = consumerDsmElement.GetElementAndItsChildren();
+
+                foreach (DsmElement c in cs.Values)
+                {
+                    foreach (DsmElement p in ps.Values)
+                    {
+                        foreach (DsmRelation relation in c.Dependencies.GetOutgoingRelations(p))
+                        {
+                            if (!relation.IsDeleted)
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                }
+            }
+            return count;
+        }
+
         public IEnumerable<IDsmRelation> FindIngoingRelations(IDsmElement element)
         {
             return FindRelations(element, RelationDirection.Ingoing, RelationScope.External);

@@ -655,16 +655,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ChangeRelationWeightCanExecute(object parameter)
         {
-            bool canExecute = false;
-            if ((SelectedConsumer != null) && (SelectedProvider != null))
-            {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
-                if (relations.Count() == 1)
-                {
-                    canExecute = true;
-                }
-            }
-            return canExecute;
+            return ActiveMatrix?.SelectedCellHasRelationCount == 1;
         }
 
         private void ChangeRelationTypeExecute(object parameter)
@@ -683,16 +674,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ChangeRelationTypeCanExecute(object parameter)
         {
-            bool canExecute = false;
-            if ((SelectedConsumer != null) && (SelectedProvider != null))
-            {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
-                if (relations.Count() == 1)
-                {
-                    canExecute = true;
-                }
-            }
-            return canExecute;
+            return ActiveMatrix?.SelectedCellHasRelationCount == 1;
         }
 
         private void CreateRelationExecute(object parameter)
@@ -724,16 +706,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool DeleteRelationCanExecute(object parameter)
         {
-            bool canExecute = false;
-            if ((SelectedConsumer != null) && (SelectedProvider != null))
-            {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
-                if (relations.Count() == 1)
-                {
-                    canExecute = true;
-                }
-            }
-            return canExecute;
+            return ActiveMatrix?.SelectedCellHasRelationCount == 1;
         }
 
         private void ShowBookmarkedElementsCommandExecute(object parameter)
