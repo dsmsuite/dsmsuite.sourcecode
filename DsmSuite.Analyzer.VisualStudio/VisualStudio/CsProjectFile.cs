@@ -60,10 +60,14 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
                 _assembly.FindTypes(Resolver);
                 _assembly.FindRelations();
+
+                Success = true;
             }
 
             CloseProject(project);
         }
+
+        public override bool Success { get; protected set; }
 
         public override IEnumerable<DotNetType> DotNetTypes => (_assembly != null) ? _assembly.Types : new List<DotNetType>();
         public override IEnumerable<DotNetRelation> DotNetRelations => (_assembly != null) ? _assembly.Relations : new List<DotNetRelation>();

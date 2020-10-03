@@ -143,6 +143,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
         }
 
+
+
         private void UpdateProjectFileProgress(int currentItemCount, int totalItemCount)
         {
             ProgressInfo progressInfo = new ProgressInfo();

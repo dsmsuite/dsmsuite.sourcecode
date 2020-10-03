@@ -103,9 +103,13 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     }
                 }
 
+                Success = true;
+
                 CloseProject(project);
             }
         }
+
+        public override bool Success { get; protected set; }
 
         protected override Project OpenProject()
         {

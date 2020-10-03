@@ -32,6 +32,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             RegisterSourceFiles();
             RegisterDirectIncludeRelations();
             RegisterGeneratedFileRelations();
+            WriteFoundProjects();
             AnalyzerLogger.Flush();
         }
 
@@ -343,6 +344,24 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             name += typeName;
 
             return name.Replace("\\", ".");
+        }
+
+        private void WriteFoundProjects()
+        {
+            List<string> lines = new List<string>();
+            foreach (ProjectFileBase project in _solutionFile.Projects)
+            {
+                string fullname = GetLogicalName(_solutionFile, project, null);
+                string status = project.Success ? "ok" : "failed";
+                lines.Add($"{fullname} status={status}");
+            }
+
+            lines.Sort();
+
+            foreach (string line in lines)
+            {
+                Logger.LogToFileAlways("foundProjects.log", line);
+            }
         }
 
         private string GetLogicalName(SolutionFile solutionFile, ProjectFileBase visualStudioProject, SourceFile sourceFile)

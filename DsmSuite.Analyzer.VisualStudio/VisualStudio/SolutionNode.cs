@@ -59,4 +59,5 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
         }
     }
-}
+}  
+

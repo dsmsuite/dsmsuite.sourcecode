@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.DotNet.Lib;
 using Microsoft.Build.Evaluation;
@@ -36,6 +32,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         public abstract BinaryFile BuildAssembly { get; }
 
         public abstract void Analyze();
+
+        public abstract bool Success { get; protected set; }
 
         public ICollection<GeneratedFileRelation> GeneratedFileRelations { get; protected set; }
 
