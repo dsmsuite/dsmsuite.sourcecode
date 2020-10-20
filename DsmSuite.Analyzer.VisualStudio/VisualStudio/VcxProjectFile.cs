@@ -4,10 +4,11 @@ using System.Globalization;
 using System.IO;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
-using DsmSuite.Common.Util;
 using Microsoft.Build.Evaluation;
 using DsmSuite.Analyzer.DotNet.Lib;
 using Microsoft.Build.Construction;
+using Microsoft.Build.Utilities;
+using Logger = DsmSuite.Common.Util.Logger;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -139,7 +140,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             try
             {
                 ProjectRootElement project = ProjectRootElement.Open(ProjectFileInfo.FullName);
-                _toolsVersion = project.ToolsVersion;
+                _toolsVersion = AnalyzerSettings.ToolsVersion;
 
                 foreach (ProjectItemElement item in project.Items)
                 {
