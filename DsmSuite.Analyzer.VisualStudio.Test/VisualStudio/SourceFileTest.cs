@@ -52,7 +52,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
         }
        
         [TestMethod]
-        public void TestAnalyzeFindsIncludes()
+        public void TestAnalyzeIncludesFoundInSourceFileUsingPredefinedIncludePaths()
         {
             string testDataDirectory = TestData.TestDataDirectory;
             FileInfo fileInfo1 = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA2.cpp"));
@@ -62,6 +62,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
                 Path.Combine(testDataDirectory, "DirB"),
                 Path.Combine(testDataDirectory, "DirC"),
                 Path.Combine(testDataDirectory, "DirD"),
+                Path.Combine(testDataDirectory, "DirE"),
+                Path.Combine(testDataDirectory, "DirF"),
+                Path.Combine(testDataDirectory, "DirG"),
                 Path.Combine(testDataDirectory, "DirExternal")
             };
             List<string> systemIncludes = AnalyzerSettings.CreateDefault().SystemIncludeDirectories;
@@ -71,14 +74,17 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             sourceFile.Analyze();
 
             ImmutableHashSet<string> includes = sourceFile.Includes.ToImmutableHashSet();
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\8.1\Include\um\windows.h"));
             Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirA\ClassA2.h")));
             Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirA\ClassA1.h")));
             Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirB\ClassB1.h")));
             Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirC\ClassC1.h")));
             Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirD\ClassD1.h")));
+            Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirE\ClassE1.h")));
+            Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirF\ClassF1.h")));
+            Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirG\ClassG1.h")));
             Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirExternal\External.h")));
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\8.1\Include\um\windows.h"));
-            Assert.AreEqual(7, sourceFile.Includes.Count);
+            Assert.AreEqual(10, sourceFile.Includes.Count);
         }
     }
 }

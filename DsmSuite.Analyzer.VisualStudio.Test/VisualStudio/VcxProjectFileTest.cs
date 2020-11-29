@@ -89,6 +89,12 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirE\ClassE1.h")));
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirE\ClassE1.cpp")));
 
+            Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirF\ClassF1.h")));
+            Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirF\ClassF1.cpp")));
+
+            Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirG\ClassG1.h")));
+            Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirG\ClassG1.cpp")));
+
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirClones\Identical\ClassA1.cpp")));
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirClones\Identical\CopyClassA1.cpp")));
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirClones\NotIdentical\ClassA1.cpp")));
@@ -98,7 +104,34 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
 
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, "targetver.h")));
 
-            Assert.AreEqual(24, projectFile.SourceFiles.Count); // 18 files plus 6 IDL generated files
+            Assert.AreEqual(28, projectFile.SourceFiles.Count); // 18 files plus 6 IDL generated files
+        }
+
+        [TestMethod]
+        public void TestAnalyzeIncludesFoundInSourceFileProjectIncludePaths()
+        {
+            VcxProjectFile projectFile = CreateProjectFile();
+            projectFile.Analyze();
+            foreach (SourceFile sourceFile in projectFile.SourceFiles)
+            {
+                if (sourceFile.Name.Contains("ClassA2.cpp"))
+                {
+                    sourceFile.Analyze();
+
+                    ImmutableHashSet<string> includes = sourceFile.Includes.ToImmutableHashSet();
+                    Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\8.1\Include\um\windows.h"));
+                    Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirA\ClassA2.h")));
+                    Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirA\ClassA1.h")));
+                    Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirB\ClassB1.h")));
+                    Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirC\ClassC1.h")));
+                    Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirD\ClassD1.h")));
+                    Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirE\ClassE1.h")));
+                    Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirF\ClassF1.h")));
+                    Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirG\ClassG1.h")));
+                    Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirExternal\External.h")));
+                    Assert.AreEqual(9, sourceFile.Includes.Count);
+                }
+            }
         }
 
         [TestMethod]
