@@ -31,7 +31,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
         {
             VcxProjectFile projectFile = CreateProjectFile();
             projectFile.Analyze();
-            Assert.AreEqual(7, projectFile.ProjectIncludeDirectories.Count);
 
             ImmutableHashSet<string> includes = projectFile.ProjectIncludeDirectories.ToImmutableHashSet();
             Assert.IsTrue(includes.Contains(TestData.TestDataDirectory));
@@ -45,8 +44,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             Assert.IsTrue(includes.Contains(includeInPropertyFileUsingProperty));
             string includeInPropertyFileUsingProgramming = Path.Combine(TestData.TestDataDirectory, "DirE");
             Assert.IsTrue(includes.Contains(includeInPropertyFileUsingProgramming));
+            string includeInPropertyFileUsingMacro1 = Path.Combine(TestData.TestDataDirectory, "DirF");
+            Assert.IsTrue(includes.Contains(includeInPropertyFileUsingMacro1));
+            string includeInPropertyFileUsingMacro2 = Path.Combine(TestData.TestDataDirectory, "DirG");
+            Assert.IsTrue(includes.Contains(includeInPropertyFileUsingMacro2));
             string includeExternal = Path.Combine(TestData.TestDataDirectory, "DirExternal");
             Assert.IsTrue(includes.Contains(includeExternal));
+
+            Assert.AreEqual(9, projectFile.ProjectIncludeDirectories.Count);
         }
 
         [TestMethod]
