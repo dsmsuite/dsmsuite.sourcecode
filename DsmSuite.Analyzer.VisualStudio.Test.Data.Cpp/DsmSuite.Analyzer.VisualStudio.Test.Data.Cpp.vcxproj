@@ -95,6 +95,8 @@
     <ClInclude Include="DirC\ClassC1.h" />
     <ClInclude Include="DirD\ClassD1.h" />
     <ClInclude Include="DirE\ClassE1.h" />
+    <ClInclude Include="DirF\ClassF1.h" />
+    <ClInclude Include="DirG\ClassG1.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +118,8 @@
     <ClCompile Include="DirC\ClassC1.cpp" />
     <ClCompile Include="DirD\ClassD1.cpp" />
     <ClCompile Include="DirE\ClassE1.cpp" />
+    <ClCompile Include="DirF\ClassF1.cpp" />
+    <ClCompile Include="DirG\ClassG1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="DirIDL\IInterface1.idl">

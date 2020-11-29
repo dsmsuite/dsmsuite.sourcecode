@@ -1,6 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
+  <ItemGroup>
+			<ImplementationDirectories 	Include="$([System.IO.Directory]::GetDirectories('$(MSBuildProjectDirectory)\','DirF', SearchOption.AllDirectories))" />
+			<InterfaceDirectories 		Include="$([System.IO.Directory]::GetDirectories('$(MSBuildProjectDirectory)\','DirG', SearchOption.AllDirectories))" />
+  </ItemGroup>  
+  <PropertyGroup Label="UserMacros">
+    <Add>@(ImplementationDirectories->'%(FullPath)');@(InterfaceDirectories->'%(FullPath)')</Add>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <FolderA>DirA</FolderA>
     <FolderB>DirB</FolderB>
@@ -9,7 +16,7 @@
     <FolderIdlOutput>IdlOutput</FolderIdlOutput>
     <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp\','DirE', SearchOption.AllDirectories))</FolderE>
   </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <FolderA>DirA</FolderA>
     <FolderB>DirB</FolderB>
     <FolderC>DirC</FolderC>
@@ -17,4 +24,14 @@
     <FolderIdlOutput>IdlOutput</FolderIdlOutput>
     <FolderE Condition="Exists('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp')">$([System.IO.Directory]::GetDirectories('$(SolutionDir)\DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp\','DirE', SearchOption.AllDirectories))</FolderE>
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+	<ClCompile>
+	  <AdditionalIncludeDirectories>$(Add);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	</ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+	<ClCompile>
+	  <AdditionalIncludeDirectories>$(Add);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	</ClCompile>
+  </ItemDefinitionGroup>
 </Project>

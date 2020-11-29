@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using Microsoft.Build.Evaluation;
 using DsmSuite.Analyzer.DotNet.Lib;
 using Microsoft.Build.Construction;
-using Microsoft.Build.Utilities;
 using Logger = DsmSuite.Common.Util.Logger;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
@@ -128,10 +126,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 {
                     props += $" {globalProperty.Key} {globalProperty.Value}";
                 }
+
                 Logger.LogToFileAlways("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
-            
+
             return project;
         }
 

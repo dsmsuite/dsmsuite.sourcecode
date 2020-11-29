@@ -28,6 +28,12 @@
     <Filter Include="FolderE">
       <UniqueIdentifier>{4aa85685-e90d-4a97-ace4-bbcc581b2cff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FolderF">
+      <UniqueIdentifier>{6a690f49-4a24-491b-8fc6-71af7fb6d953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FolderG">
+      <UniqueIdentifier>{8a19ef9d-5d00-4dc2-af47-9f6a0956823c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirA/ClassA1.cpp">
@@ -57,6 +63,12 @@
     <ClCompile Include="DirE\ClassE1.cpp">
       <Filter>FolderE</Filter>
     </ClCompile>
+    <ClCompile Include="DirF\ClassF1.cpp">
+      <Filter>FolderF</Filter>
+    </ClCompile>
+    <ClCompile Include="DirG\ClassG1.cpp">
+      <Filter>FolderG</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h" />
@@ -77,6 +89,12 @@
     </ClInclude>
     <ClInclude Include="DirE\ClassE1.h">
       <Filter>FolderE</Filter>
+    </ClInclude>
+    <ClInclude Include="DirF\ClassF1.h">
+      <Filter>FolderF</Filter>
+    </ClInclude>
+    <ClInclude Include="DirG\ClassG1.h">
+      <Filter>FolderG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
