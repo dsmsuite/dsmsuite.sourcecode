@@ -134,7 +134,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirF\ClassF1.h")));
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirG\ClassG1.h")));
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirExternal\External.h")));
-                    Assert.AreEqual(9, sourceFile.Includes.Count);
+                    Assert.AreEqual(10, sourceFile.Includes.Count);
                 }
             }
         }

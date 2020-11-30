@@ -2,11 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <ItemGroup>
-			<ImplementationDirectories 	Include="$([System.IO.Directory]::GetDirectories('$(MSBuildProjectDirectory)\','DirF', SearchOption.AllDirectories))" />
-			<InterfaceDirectories 		Include="$([System.IO.Directory]::GetDirectories('$(MSBuildProjectDirectory)\','DirG', SearchOption.AllDirectories))" />
+	<FolderF Include="$([System.IO.Directory]::GetDirectories('$(MSBuildProjectDirectory)\','DirF', SearchOption.AllDirectories))" />
+	<FolderG Include="$([System.IO.Directory]::GetDirectories('$(MSBuildProjectDirectory)\','DirG', SearchOption.AllDirectories))" />
   </ItemGroup>  
   <PropertyGroup Label="UserMacros">
-    <Add>@(ImplementationDirectories->'%(FullPath)');@(InterfaceDirectories->'%(FullPath)')</Add>
+    <Add>@(FolderF->'%(FullPath)');@(FolderG)</Add>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <FolderA>DirA</FolderA>

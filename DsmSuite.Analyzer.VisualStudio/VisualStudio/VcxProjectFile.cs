@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using Microsoft.Build.Evaluation;
@@ -12,6 +13,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public class VcxProjectFile : ProjectFileBase
     {
+        private const string ItemBegin = "@(";
+        private const string ItemEnd = ")";
+        private const string ItemSeparator = "->";
+        private const string ItemFullPath = "'%(FullPath)'";
+
         private readonly List<string> _includeDirectories = new List<string>();
         private readonly FilterFile _filterFile;
         private IncludeResolveStrategy _includeResolveStrategy;
@@ -398,7 +404,9 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
                         foreach (string includeDirectory in includeDirectories)
                         {
-                            string trimmedIncludeDirectory = includeDirectory.Trim().Replace(@"\r\n", ""); // To fix occasional prefixes
+                            string expandIncludeDirectory = ExpandIncludeDirectory(evaluatedProject, includeDirectory);
+
+                            string trimmedIncludeDirectory = expandIncludeDirectory.Trim().Replace(@"\r\n", ""); // To fix occasional prefixes
 
                             if (trimmedIncludeDirectory.Length > 0)
                             {
@@ -408,7 +416,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
                                     if (Directory.Exists(resolvedIncludeDirectory)) // Is existing absolute include path
                                     {
-                                        AddIncludeDirectory(resolvedIncludeDirectory, includeDirectory);
+                                        AddIncludeDirectory(resolvedIncludeDirectory, expandIncludeDirectory);
                                     }
                                     else
                                     {
@@ -416,7 +424,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
                                         if (Directory.Exists(resolvedIncludeDirectory)) // Is existing resolved relative include path
                                         {
-                                            AddIncludeDirectory(resolvedIncludeDirectory, includeDirectory);
+                                            AddIncludeDirectory(resolvedIncludeDirectory, expandIncludeDirectory);
                                         }
                                         else
                                         {
@@ -426,7 +434,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                                 }
                                 catch (Exception)
                                 {
-                                    AnalyzerLogger.LogErrorPathNotResolved(includeDirectory, evaluatedProject.FullPath);
+                                    AnalyzerLogger.LogErrorPathNotResolved(expandIncludeDirectory, evaluatedProject.FullPath);
                                 }
                             }
                         }
@@ -435,6 +443,57 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
 
             _includeResolveStrategy = new IncludeResolveStrategy(_includeDirectories, AnalyzerSettings.SystemIncludeDirectories);
+        }
+
+        private string ExpandIncludeDirectory(Project evaluatedProject, string includeDirectory)
+        {
+            // See https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-well-known-item-metadata?view=vs-2019 and
+            // https://stackoverflow.com/questions/2814424/different-ways-to-pass-variables-in-msbuild
+
+            string expandedIncludeDirectory = includeDirectory;
+            if (includeDirectory.StartsWith(ItemBegin) && includeDirectory.EndsWith(ItemEnd))
+            {
+                if (!includeDirectory.Contains(ItemSeparator))
+                {
+                    string itemName = includeDirectory
+                        .Replace(ItemBegin, string.Empty)
+                        .Replace(ItemEnd, "");
+                    string itemValue = GetEvaluatedItemValue(evaluatedProject, itemName);
+                    expandedIncludeDirectory = itemValue;
+                }
+                else
+                {
+                    if (includeDirectory.Contains(ItemFullPath))
+                    {
+                        string itemName = includeDirectory
+                            .Replace(ItemBegin, string.Empty)
+                            .Replace(ItemSeparator, string.Empty)
+                            .Replace(ItemFullPath, string.Empty)
+                            .Replace(ItemEnd, "");
+                        string itemValue = GetEvaluatedItemValue(evaluatedProject, itemName);
+                        expandedIncludeDirectory = new DirectoryInfo(itemValue).FullName;
+                    }
+                    else
+                    {
+                        Logger.LogError($"Unsupported item meta data include={includeDirectory}");
+                    }
+                }
+            }
+
+            return expandedIncludeDirectory;
+        }
+
+        private string GetEvaluatedItemValue(Project evaluatedProject, string name)
+        {
+            string value = "";
+            foreach (ProjectItem item in evaluatedProject.AllEvaluatedItems)
+            {
+                if (item.ItemType == name)
+                {
+                    value = item.EvaluatedInclude;
+                }
+            }
+            return value;
         }
 
         private void AddIncludeDirectory(string resolvedIncludeDirectory, string includeDirectory)
