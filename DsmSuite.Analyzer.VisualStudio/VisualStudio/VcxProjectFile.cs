@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using Microsoft.Build.Evaluation;
@@ -16,7 +15,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private const string ItemBegin = "@(";
         private const string ItemEnd = ")";
         private const string ItemSeparator = "->";
-        private const string ItemFullPath = "'%(FullPath)'";
+        private const string ItemFullPath = "->'%(FullPath)'";
 
         private readonly List<string> _includeDirectories = new List<string>();
         private readonly FilterFile _filterFile;
@@ -458,8 +457,16 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     string itemName = includeDirectory
                         .Replace(ItemBegin, string.Empty)
                         .Replace(ItemEnd, "");
-                    string itemValue = GetEvaluatedItemValue(evaluatedProject, itemName);
-                    expandedIncludeDirectory = itemValue;
+
+                    string itemValue;
+                    if (GetEvaluatedItemValue(evaluatedProject, itemName, out itemValue))
+                    {
+                        expandedIncludeDirectory = itemValue;
+                    }
+                    else
+                    {
+                        Logger.LogError($"Expand include directory failed because it could not find item with name {itemName} in include directory {includeDirectory}");
+                    }
                 }
                 else
                 {
@@ -467,11 +474,25 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     {
                         string itemName = includeDirectory
                             .Replace(ItemBegin, string.Empty)
-                            .Replace(ItemSeparator, string.Empty)
                             .Replace(ItemFullPath, string.Empty)
                             .Replace(ItemEnd, "");
-                        string itemValue = GetEvaluatedItemValue(evaluatedProject, itemName);
-                        expandedIncludeDirectory = new DirectoryInfo(itemValue).FullName;
+
+                        string itemValue;
+                        if (GetEvaluatedItemValue(evaluatedProject, itemName, out itemValue))
+                        {
+                            try
+                            {
+                                expandedIncludeDirectory = new DirectoryInfo(itemValue).FullName;
+                            }
+                            catch (Exception e)
+                            {
+                                Logger.LogError($"Expand include directory failed because {itemValue} not a valid directory in include directory {includeDirectory}");
+                            }
+                        }
+                        else
+                        {
+                            Logger.LogError($"Expand include directory failed because it could not find item with name {itemName} in include directory {includeDirectory}");
+                        }
                     }
                     else
                     {
@@ -483,17 +504,19 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             return expandedIncludeDirectory;
         }
 
-        private string GetEvaluatedItemValue(Project evaluatedProject, string name)
+        private bool GetEvaluatedItemValue(Project evaluatedProject, string name, out string value)
         {
-            string value = "";
+            bool succes = false;
+            value = "";
             foreach (ProjectItem item in evaluatedProject.AllEvaluatedItems)
             {
                 if (item.ItemType == name)
                 {
                     value = item.EvaluatedInclude;
+                    succes = true;
                 }
             }
-            return value;
+            return succes;
         }
 
         private void AddIncludeDirectory(string resolvedIncludeDirectory, string includeDirectory)
