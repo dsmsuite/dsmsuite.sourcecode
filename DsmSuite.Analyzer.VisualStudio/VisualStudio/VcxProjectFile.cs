@@ -486,7 +486,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                             }
                             catch (Exception e)
                             {
-                                Logger.LogError($"Expand include directory failed because {itemValue} not a valid directory in include directory {includeDirectory}");
+                                Logger.LogError($"Expand include directory failed because value {itemValue} of item with name {itemName} is not a valid directory in include directory {includeDirectory}");
                             }
                         }
                         else
