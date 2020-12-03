@@ -465,7 +465,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     }
                     else
                     {
-                        Logger.LogError($"Expand include directory failed because it could not find item with name {itemName} in include directory {includeDirectory}");
+                        AnalyzerLogger.LogErrorPathNotResolved($"{includeDirectory} (could not find item with name {itemName})", evaluatedProject.FullPath);
                     }
                 }
                 else
@@ -486,17 +486,17 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                             }
                             catch (Exception e)
                             {
-                                Logger.LogError($"Expand include directory failed because value {itemValue} of item with name {itemName} is not a valid directory in include directory {includeDirectory}");
+                                AnalyzerLogger.LogErrorPathNotResolved($"{includeDirectory} (value {itemValue} of item with name {itemName} is not a valid directory)", evaluatedProject.FullPath);
                             }
                         }
                         else
                         {
-                            Logger.LogError($"Expand include directory failed because it could not find item with name {itemName} in include directory {includeDirectory}");
+                            AnalyzerLogger.LogErrorPathNotResolved($"{includeDirectory} (could not find item with name {itemName})", evaluatedProject.FullPath);
                         }
                     }
                     else
                     {
-                        Logger.LogError($"Unsupported item meta data include={includeDirectory}");
+                        AnalyzerLogger.LogErrorPathNotResolved($"{includeDirectory} (Unsupported item meta data)", evaluatedProject.FullPath);
                     }
                 }
             }
