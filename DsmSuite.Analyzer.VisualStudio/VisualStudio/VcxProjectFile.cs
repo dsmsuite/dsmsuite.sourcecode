@@ -46,6 +46,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
             if (project != null)
             {
+                if (AnalyzerSettings.LogProjectData)
+                {
+                    LogProjectData(project);
+                }
+
                 DefineProjectIncludeDirectories(project);
 
                 foreach (var property in project.AllEvaluatedProperties)
@@ -137,6 +142,47 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
 
             return project;
+        }
+
+        private void LogProjectData(Project project)
+        {
+            string filename = $"project{ProjectFileInfo.Name}.log";
+
+            Logger.LogToFileAlways(filename, $"Properties");
+            Logger.LogToFileAlways(filename, "--------------------------------------------------------------");
+            Logger.LogToFileAlways(filename, "");
+
+            foreach (ProjectProperty projectProperty in project.AllEvaluatedProperties)
+            {
+                Logger.LogToFileAlways(filename, $" property={projectProperty.Name}");
+                Logger.LogToFileAlways(filename, $"  unevaluatedValue={projectProperty.UnevaluatedValue}");
+                Logger.LogToFileAlways(filename, $"  evaluatedValue={projectProperty.EvaluatedValue}");
+                Logger.LogToFileAlways(filename, "");
+            }
+
+            Logger.LogToFileAlways(filename, $"Item Definitions");
+            Logger.LogToFileAlways(filename, "--------------------------------------------------------------");
+            Logger.LogToFileAlways(filename, "");
+
+            foreach (ProjectMetadata projectMetadata in project.AllEvaluatedItemDefinitionMetadata)
+            {
+                Logger.LogToFileAlways(filename, $" itemDefinition={projectMetadata.Name}");
+                Logger.LogToFileAlways(filename, $"  unevaluatedValue={projectMetadata.UnevaluatedValue}");
+                Logger.LogToFileAlways(filename, $"  evaluatedValue={projectMetadata.EvaluatedValue}");
+                Logger.LogToFileAlways(filename, "");
+            }
+
+            Logger.LogToFileAlways(filename, $"Items");
+            Logger.LogToFileAlways(filename, "--------------------------------------------------------------");
+            Logger.LogToFileAlways(filename, "");
+
+            foreach (ProjectItem projectItem in project.AllEvaluatedItems)
+            {
+                Logger.LogToFileAlways(filename, $" item={projectItem.ItemType}");
+                Logger.LogToFileAlways(filename, $"  unevaluatedValue={projectItem.UnevaluatedInclude}");
+                Logger.LogToFileAlways(filename, $"  evaluatedValue={projectItem.EvaluatedInclude}");
+                Logger.LogToFileAlways(filename, "");
+            }
         }
 
         private void DetermineGlobalProperties()
