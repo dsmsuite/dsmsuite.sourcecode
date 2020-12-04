@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.PerformanceData;
 using System.IO;
 using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
@@ -449,37 +450,43 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
                         foreach (string includeDirectory in includeDirectories)
                         {
-                            string expandIncludeDirectory = ExpandIncludeDirectory(evaluatedProject, includeDirectory);
+                            string processedIncludeDirectory = includeDirectory.Trim().Replace(@"\r\n", ""); // To fix occasional prefixes
 
-                            string trimmedIncludeDirectory = expandIncludeDirectory.Trim().Replace(@"\r\n", ""); // To fix occasional prefixes
-
-                            if (trimmedIncludeDirectory.Length > 0)
+                            if (processedIncludeDirectory.Length > 0)
                             {
-                                try
+                                string errorText = "";
+                                if (ResolveReferencedProjectItems(evaluatedProject, ref processedIncludeDirectory, ref errorText))
                                 {
-                                    string resolvedIncludeDirectory = Path.GetFullPath(trimmedIncludeDirectory);
-
-                                    if (Directory.Exists(resolvedIncludeDirectory)) // Is existing absolute include path
+                                    try
                                     {
-                                        AddIncludeDirectory(resolvedIncludeDirectory, expandIncludeDirectory);
-                                    }
-                                    else
-                                    {
-                                        resolvedIncludeDirectory = GetAbsolutePath(ProjectFileInfo.DirectoryName, trimmedIncludeDirectory);
+                                        string resolvedIncludeDirectory = Path.GetFullPath(processedIncludeDirectory);
 
-                                        if (Directory.Exists(resolvedIncludeDirectory)) // Is existing resolved relative include path
+                                        if (Directory.Exists(resolvedIncludeDirectory)) // Is existing absolute include path
                                         {
-                                            AddIncludeDirectory(resolvedIncludeDirectory, expandIncludeDirectory);
+                                            AddIncludeDirectory(resolvedIncludeDirectory, processedIncludeDirectory);
                                         }
                                         else
                                         {
-                                            AnalyzerLogger.LogErrorIncludePathNotFound(resolvedIncludeDirectory, evaluatedProject.FullPath);
+                                            resolvedIncludeDirectory = GetAbsolutePath(ProjectFileInfo.DirectoryName, processedIncludeDirectory);
+
+                                            if (Directory.Exists(resolvedIncludeDirectory)) // Is existing resolved relative include path
+                                            {
+                                                AddIncludeDirectory(resolvedIncludeDirectory, processedIncludeDirectory);
+                                            }
+                                            else
+                                            {
+                                                AnalyzerLogger.LogErrorIncludePathNotFound(resolvedIncludeDirectory, evaluatedProject.FullPath);
+                                            }
                                         }
                                     }
+                                    catch (Exception)
+                                    {
+                                        AnalyzerLogger.LogErrorPathNotResolved(processedIncludeDirectory, evaluatedProject.FullPath);
+                                    }
                                 }
-                                catch (Exception)
+                                else
                                 {
-                                    AnalyzerLogger.LogErrorPathNotResolved(expandIncludeDirectory, evaluatedProject.FullPath);
+                                    AnalyzerLogger.LogErrorIncludePathNotFound($"{processedIncludeDirectory} ({errorText})", evaluatedProject.FullPath);
                                 }
                             }
                         }
@@ -490,16 +497,17 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             _includeResolveStrategy = new IncludeResolveStrategy(_includeDirectories, AnalyzerSettings.SystemIncludeDirectories);
         }
 
-        private string ExpandIncludeDirectory(Project evaluatedProject, string includeDirectory)
+        private bool ResolveReferencedProjectItems(Project evaluatedProject, ref string includeDirectory, ref string errorText)
         {
             // See https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-well-known-item-metadata?view=vs-2019 and
             // https://stackoverflow.com/questions/2814424/different-ways-to-pass-variables-in-msbuild
 
-            string expandedIncludeDirectory = includeDirectory;
+            bool success = false;
             if (includeDirectory.StartsWith(ItemBegin) && includeDirectory.EndsWith(ItemEnd))
             {
                 if (!includeDirectory.Contains(ItemSeparator))
                 {
+                    // Resolve @(ItemName)
                     string itemName = includeDirectory
                         .Replace(ItemBegin, string.Empty)
                         .Replace(ItemEnd, "");
@@ -507,17 +515,19 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     string itemValue;
                     if (GetEvaluatedItemValue(evaluatedProject, itemName, out itemValue))
                     {
-                        expandedIncludeDirectory = itemValue;
+                        includeDirectory = itemValue;
+                        success = true;
                     }
                     else
                     {
-                        AnalyzerLogger.LogErrorPathNotResolved($"{includeDirectory} (could not find item with name {itemName})", evaluatedProject.FullPath);
+                        errorText = $"{itemName} item not found";
                     }
                 }
                 else
                 {
                     if (includeDirectory.Contains(ItemFullPath))
                     {
+                        // @(ItemName->'%(FullPath)')
                         string itemName = includeDirectory
                             .Replace(ItemBegin, string.Empty)
                             .Replace(ItemFullPath, string.Empty)
@@ -528,26 +538,33 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                         {
                             try
                             {
-                                expandedIncludeDirectory = new DirectoryInfo(itemValue).FullName;
+                                includeDirectory = new DirectoryInfo(itemValue).FullName;
+                                success = true;
                             }
                             catch (Exception e)
                             {
-                                AnalyzerLogger.LogErrorPathNotResolved($"{includeDirectory} (value {itemValue} of item with name {itemName} is not a valid directory)", evaluatedProject.FullPath);
+                                errorText = $"{itemName} item has value {itemValue} which is not a valid path";
                             }
                         }
                         else
                         {
-                            AnalyzerLogger.LogErrorPathNotResolved($"{includeDirectory} (could not find item with name {itemName})", evaluatedProject.FullPath);
+                            errorText = $"{itemName} item not found";
                         }
                     }
                     else
                     {
-                        AnalyzerLogger.LogErrorPathNotResolved($"{includeDirectory} (Unsupported item meta data)", evaluatedProject.FullPath);
+                        // e.g. @(ItemName->'%(%(RootDir))')
+                        errorText = $"Format unsupported";
                     }
                 }
             }
+            else
+            {
+                // No item reference used
+                success = true;
+            }
 
-            return expandedIncludeDirectory;
+            return success;
         }
 
         private bool GetEvaluatedItemValue(Project evaluatedProject, string name, out string value)

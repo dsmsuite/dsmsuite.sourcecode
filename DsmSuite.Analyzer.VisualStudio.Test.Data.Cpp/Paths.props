@@ -4,9 +4,11 @@
   <ItemGroup>
 	<FolderF Include="$([System.IO.Directory]::GetDirectories('$(MSBuildProjectDirectory)\','DirF', SearchOption.AllDirectories))" />
 	<FolderG Include="$([System.IO.Directory]::GetDirectories('$(MSBuildProjectDirectory)\','DirG', SearchOption.AllDirectories))" />
+	<FolderH Include="$([System.IO.Directory]::GetDirectories('$(MSBuildProjectDirectory)\','DirH', SearchOption.AllDirectories))" />	
+	<FolderI Include="$([System.IO.Directory]::GetDirectories('$(MSBuildProjectDirectory)\','DirI', SearchOption.AllDirectories))" />	
   </ItemGroup>  
   <PropertyGroup Label="UserMacros">
-    <Add>@(FolderF->'%(FullPath)');@(FolderG)</Add>
+    <Add>@(FolderF->'%(FullPath)');@(FolderG);@(FolderH);@(FolderI->'%(FullPath)')</Add>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <FolderA>DirA</FolderA>
