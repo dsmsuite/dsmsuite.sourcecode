@@ -50,6 +50,39 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             SourceFile sourceFile = new SourceFile(fileInfo, "ProjectFolderName", null);
             Assert.AreEqual("ProjectFolderName", sourceFile.ProjectFolder);
         }
+
+        [TestMethod]
+        public void TestClassWithSameNameAndSameContentHaveSameChecksum()
+        {
+            string testDataDirectory = TestData.TestDataDirectory;
+            FileInfo fileInfo1 = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA1.cpp"));
+            FileInfo fileInfo2 = new FileInfo(Path.Combine(testDataDirectory, "DirClones/Identical/ClassA1.cpp"));
+            SourceFile sourceFile1 = new SourceFile(fileInfo1, null, null);
+            SourceFile sourceFile2 = new SourceFile(fileInfo2, null, null);
+            Assert.AreEqual(sourceFile1.Checksum, sourceFile2.Checksum);
+        }
+
+        [TestMethod]
+        public void TestClassWithSameNameAndOtherContentHaveOtherChecksum()
+        {
+            string testDataDirectory = TestData.TestDataDirectory;
+            FileInfo fileInfo1 = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA1.cpp"));
+            FileInfo fileInfo2 = new FileInfo(Path.Combine(testDataDirectory, "DirClones/NotIdentical/ClassA1.cpp"));
+            SourceFile sourceFile1 = new SourceFile(fileInfo1, null, null);
+            SourceFile sourceFile2 = new SourceFile(fileInfo2, null, null);
+            Assert.AreNotEqual(sourceFile1.Checksum, sourceFile2.Checksum);
+        }
+
+        [TestMethod]
+        public void TestClassWithOtherNameAndSameContentHaveOtherIChecksum()
+        {
+            string testDataDirectory = TestData.TestDataDirectory;
+            FileInfo fileInfo1 = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA1.cpp"));
+            FileInfo fileInfo2 = new FileInfo(Path.Combine(testDataDirectory, "DirClones/Identical/CopyClassA1.cpp"));
+            SourceFile sourceFile1 = new SourceFile(fileInfo1, null, null);
+            SourceFile sourceFile2 = new SourceFile(fileInfo2, null, null);
+            Assert.AreNotEqual(sourceFile1.Checksum, sourceFile2.Checksum);
+        }
        
         [TestMethod]
         public void TestAnalyzeIncludesFoundInSourceFileUsingPredefinedIncludePaths()

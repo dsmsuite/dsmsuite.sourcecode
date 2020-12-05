@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
+using System.Windows.Markup;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -8,6 +11,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private readonly FileInfo _sourceFileInfo;
         private readonly HashSet<string> _includes;
         private readonly IncludeResolveStrategy _includeResolveStrategy;
+        private string _checksum;
 
         public SourceFile(string filename)
         {
@@ -21,6 +25,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             ProjectFolder = projectProjectFolder;
             _sourceFileInfo = sourceFileInfo;
             _includes = new HashSet<string>();
+            _checksum = DetermineId(sourceFileInfo);
             _includeResolveStrategy = includeResolveStrategy;
         }
 
@@ -31,6 +36,19 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         public string FileType => (_sourceFileInfo.Extension.Length > 0) ? _sourceFileInfo.Extension.Substring(1) : "";
 
         public string ProjectFolder { get; }
+
+        public string Checksum
+        {
+            get
+            {
+                // Calculated once when needed
+                if (_checksum == null)
+                {
+                    _checksum = DetermineId(_sourceFileInfo);
+                }
+                return _checksum;
+            }
+        }
 
         public ICollection<string> Includes => _includes;
       
@@ -77,6 +95,24 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
 
             return includedFilename;
+        }
+
+        private string DetermineId(FileInfo fileInfo)
+        {
+            // Checksum is based on filename and content to be able to detect duplicate files
+            return fileInfo.Name + "." + Calculate(fileInfo.FullName);
+        }
+
+        private static string Calculate(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
         }
     }
 }
