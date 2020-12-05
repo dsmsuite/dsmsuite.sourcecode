@@ -81,6 +81,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirA\ClassA1.cpp")));
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirA\ClassA2.h")));
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirA\ClassA2.cpp")));
+            Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirA\ClassA3.h")));
 
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirB\ClassB1.h")));
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirB\ClassB1.cpp")));
@@ -109,7 +110,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
 
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, "targetver.h")));
 
-            Assert.AreEqual(28, projectFile.SourceFiles.Count); // 18 files plus 6 IDL generated files
+            Assert.AreEqual(29, projectFile.SourceFiles.Count); // 18 files plus 6 IDL generated files
         }
 
         [TestMethod]
@@ -134,7 +135,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirF\ClassF1.h")));
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirG\ClassG1.h")));
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirExternal\External.h")));
-                    Assert.AreEqual(10, sourceFile.Includes.Count);
+                    Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirInterfaces\ClassA3.h")));
+                    Assert.AreEqual(11, sourceFile.Includes.Count);
                 }
             }
         }

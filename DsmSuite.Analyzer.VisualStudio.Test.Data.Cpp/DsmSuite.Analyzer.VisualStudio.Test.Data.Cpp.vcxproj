@@ -91,6 +91,7 @@
   <ItemGroup>
     <ClInclude Include="DirA/ClassA1.h" />
     <ClInclude Include="DirA/ClassA2.h" />
+    <ClInclude Include="DirA\ClassA3.h" />
     <ClInclude Include="DirB/ClassB1.h" />
     <ClInclude Include="DirC\ClassC1.h" />
     <ClInclude Include="DirD\ClassD1.h" />
