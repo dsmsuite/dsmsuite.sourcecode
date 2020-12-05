@@ -32,6 +32,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
         private string _inputFilename;
         private string _rootDirectory;
         private List<string> _systemIncludeDirectories;
+        private List<string> _interfaceIncludeDirectories;
         private List<ExternalIncludeDirectory> _externalIncludeDirectories;
         private string _toolsVersion;
         private ViewMode _viewMode;
@@ -47,6 +48,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
                 InputFilename = @"C:\Example.sln",
                 RootDirectory = "",
                 SystemIncludeDirectories = new List<string>(),
+                InterfaceIncludeDirectories = new List<string>(),
                 ExternalIncludeDirectories = new List<ExternalIncludeDirectory>(),
                 ToolsVersion = "14.0",
                 ViewMode = ViewMode.LogicalView,
@@ -92,6 +94,12 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
         {
             get { return _systemIncludeDirectories; }
             set { _systemIncludeDirectories = value; }
+        }
+
+        public List<string> InterfaceIncludeDirectories
+        {
+            get { return _interfaceIncludeDirectories; }
+            set { _interfaceIncludeDirectories = value; }
         }
 
         public List<ExternalIncludeDirectory> ExternalIncludeDirectories
@@ -164,6 +172,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
             {
                 externalIncludeDirectory.Path = FilePath.ResolveFile(settingFilePath, externalIncludeDirectory.Path);
             }
+            InterfaceIncludeDirectories = FilePath.ResolveFiles(settingFilePath, InterfaceIncludeDirectories);
             OutputFilename = FilePath.ResolveFile(settingFilePath, OutputFilename);
         }
     }
