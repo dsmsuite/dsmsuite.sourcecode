@@ -16,6 +16,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly SolutionFile _solutionFile;
         private readonly HashSet<string> _registeredSources = new HashSet<string>();
+        private readonly Dictionary<string, FileInfo> _projectSourcesFilesByChecksum = new Dictionary<string, FileInfo>();
+        private readonly Dictionary<string, string> _interfaceFileChecksumsByFilePath = new Dictionary<string, string>();
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
@@ -26,6 +28,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         public void Analyze()
         {
+            RegisterInterfaceFiles();
             AnalyzeSolution();
             RegisterDotNetTypes();
             RegisterDotNetRelations();
@@ -49,6 +52,49 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 {
                     RegisterDotNetType(_solutionFile, visualStudioProject, type);
                 }
+            }
+        }
+
+        private void RegisterInterfaceFiles()
+        {
+            foreach (string interfaceDirectory in _analyzerSettings.InterfaceIncludeDirectories)
+            {
+                DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(interfaceDirectory);
+                RegisterInterfaceFiles(interfaceDirectoryInfo);
+            }
+
+            foreach (ExternalIncludeDirectory externalDirectory in _analyzerSettings.ExternalIncludeDirectories)
+            {
+                DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(externalDirectory.Path);
+                RegisterInterfaceFiles(interfaceDirectoryInfo);
+            }
+        }
+
+        private void RegisterInterfaceFiles(DirectoryInfo interfaceDirectoryInfo)
+        {
+            if (interfaceDirectoryInfo.Exists)
+            {
+                foreach (FileInfo interfaceFile in interfaceDirectoryInfo.EnumerateFiles())
+                {
+                    if (interfaceFile.Exists)
+                    {
+                        SourceFile sourceFile = new SourceFile(interfaceFile.FullName);
+                        _interfaceFileChecksumsByFilePath[interfaceFile.FullName] = sourceFile.Checksum;
+                    }
+                    else
+                    {
+                        Logger.LogError($"Interface file {interfaceFile.FullName} does not exist");
+                    }
+                }
+
+                foreach (DirectoryInfo subDirectoryInfo in interfaceDirectoryInfo.EnumerateDirectories())
+                {
+                    RegisterInterfaceFiles(subDirectoryInfo);
+                }
+            }
+            else
+            {
+                Logger.LogError($"Interface directory {interfaceDirectoryInfo.FullName} does not exist");
             }
         }
 
@@ -101,24 +147,36 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
                         if (consumerName != null)
                         {
-                            if (IsProjectInclude(includedFile))
+                            if (IsInterfaceInclude(includedFile))
                             {
-                                RegisterIncludeRelation(consumerName, includedFile);
+                                // Interface includes must be clones of includes files in other visual studio projects
+                                string resolvedIncludedFile = ResolveInterfaceFile(includedFile, sourceFile);
+                                if (resolvedIncludedFile != null)
+                                {
+                                    RegisterIncludeRelation(consumerName, resolvedIncludedFile);
+                                }
+                                else
+                                {
+                                    _model.SkipRelation(consumerName, includedFile, "include");
+                                }
                             }
-                            else if (IsSystemInclude(includedFile))
+                            else if (IsExternalInclude(includedFile))
                             {
-                                // System includes are ignored
+                                // External includes can be clones of includes files in other visual studio projects or 
+                                // reference external software
+                                string resolvedIncludedFile = ResolveInterfaceFile(includedFile, sourceFile);
+                                if (resolvedIncludedFile != null)
+                                {
+                                    RegisterIncludeRelation(consumerName, resolvedIncludedFile);
+                                }
+                                else
+                                {
+                                    RegisterExternalIncludeRelation(includedFile, consumerName);
+                                }
                             }
                             else
                             {
-                                SourceFile includedSourceFile = new SourceFile(includedFile);
-                                string providerName = GetExternalName(includedSourceFile);
-                                string type = includedSourceFile.FileType;
-                                if (providerName != null)
-                                {
-                                    _model.AddElement(providerName, type, includedFile);
-                                    _model.AddRelation(consumerName, providerName, "include", 1, null);
-                                }
+                                RegisterIncludeRelation(consumerName, includedFile);
                             }
                         }
                     }
@@ -166,6 +224,34 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             _model.AddRelation(consumerName, providerName, "include", 1, null);
         }
 
+        private void RegisterExternalIncludeRelation(string includedFile, string consumerName)
+        {
+            // Add include element to model
+            SourceFile includedSourceFile = new SourceFile(includedFile);
+            string providerName = GetExternalName(includedSourceFile);
+            string type = includedSourceFile.FileType;
+            _model.AddElement(providerName, type, includedFile);
+
+            // Add relation to model
+            _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
+        }
+
+        private string ResolveInterfaceFile(string includedFile, SourceFile sourceFile)
+        {
+            // Interface files can be clones of source files found in visual studio projects 
+            string resolvedIncludedFile = null;
+            if (_interfaceFileChecksumsByFilePath.ContainsKey(includedFile))
+            {
+                string checksum = _interfaceFileChecksumsByFilePath[includedFile];
+                if (_projectSourcesFilesByChecksum.ContainsKey(checksum))
+                {
+                    resolvedIncludedFile = _projectSourcesFilesByChecksum[checksum].FullName;
+                    Logger.LogInfo("Included interface resolved: " + sourceFile.Name + " -> " + includedFile + " -> " + resolvedIncludedFile);
+                }
+            }
+            return resolvedIncludedFile;
+        }
+
         private void RegisterGeneratedFileRelations()
         {
             foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
@@ -204,6 +290,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             Logger.LogInfo("Source file registered: " + sourceFile.Name);
 
             string type = sourceFile.FileType;
+            _projectSourcesFilesByChecksum[sourceFile.Checksum] = sourceFile.SourceFileInfo;
 
             if (sourceFile.SourceFileInfo.Exists)
             {
@@ -265,7 +352,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
             return isSystemInclude;
         }
-        
+
         private bool IsExternalInclude(string includedFile)
         {
             bool isExternalInclude = false;
@@ -281,6 +368,19 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return isExternalInclude;
         }
 
+        private bool IsInterfaceInclude(string includedFile)
+        {
+            bool isInterfaceInclude = false;
+
+            foreach (string interfaceIncludeDirectory in _analyzerSettings.InterfaceIncludeDirectories)
+            {
+                if (includedFile.StartsWith(interfaceIncludeDirectory))
+                {
+                    isInterfaceInclude = true;
+                }
+            }
+            return isInterfaceInclude;
+        }
         private bool FindIncludeFileInVisualStudioProject(string includedFile, out SolutionFile solutionFile, out ProjectFileBase projectFile, out SourceFile sourceFile)
         {
             bool found = false;
