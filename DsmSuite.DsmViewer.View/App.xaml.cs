@@ -23,7 +23,7 @@ namespace DsmSuite.DsmViewer.View
 
             ViewerSetting.Read();
 
-            Logger.LoggingEnabled = ViewerSetting.LoggingEnabled;
+            Logger.LogLevel = ViewerSetting.LogLevel;
             Skin = ViewerSetting.Theme;
         }
 

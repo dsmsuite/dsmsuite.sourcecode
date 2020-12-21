@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.Serialization;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.ViewModel.Settings
 {
@@ -10,7 +11,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
     [Serializable]
     public class ViewerSettingsData
     {
-        private bool _loggingEnabled;
+        private LogLevel _logLevel;
         private bool _showCycles;
         private bool _caseSensitiveSearch;
         private bool _betaFeaturesEnabled;
@@ -20,7 +21,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         {
             ViewerSettingsData settings = new ViewerSettingsData
             {
-                LoggingEnabled = false,
+                LogLevel = LogLevel.None,
                 ShowCycles = true,
                 BetaFeaturesEnabled = false,
                 Theme = Theme.Light,
@@ -29,10 +30,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             return settings;
         }
 
-        public bool LoggingEnabled
+        public LogLevel LogLevel
         {
-            get { return _loggingEnabled; }
-            set { _loggingEnabled = value; }
+            get { return _logLevel; }
+            set { _logLevel = value; }
         }
 
         public bool ShowCycles

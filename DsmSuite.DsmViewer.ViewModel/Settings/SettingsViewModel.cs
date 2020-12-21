@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
@@ -12,7 +13,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         private const string LightThemeName = "Light";
 
         private readonly IDsmApplication _application;
-        private bool _loggingEnabled;
+        private LogLevel _logLevel;
         private string _selectedThemeName;
 
         private readonly Dictionary<Theme, string> _supportedThemes;
@@ -26,7 +27,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
                 [Theme.Light] = LightThemeName
             };
 
-            LoggingEnabled = ViewerSetting.LoggingEnabled;
+            LogLevel = ViewerSetting.LogLevel;
             SelectedThemeName = _supportedThemes[ViewerSetting.Theme];
 
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
@@ -34,12 +35,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
 
         public ICommand AcceptChangeCommand { get; }
 
-        public bool LoggingEnabled
+        public LogLevel LogLevel
         {
-            get { return _loggingEnabled; }
+            get { return _logLevel; }
             set
             {
-                _loggingEnabled = value;
+                _logLevel = value;
                 OnPropertyChanged();
             }
         }
@@ -58,7 +59,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
 
         private void AcceptChangeExecute(object parameter)
         {
-            ViewerSetting.LoggingEnabled = LoggingEnabled;
+            ViewerSetting.LogLevel = LogLevel;
             ViewerSetting.Theme = _supportedThemes.FirstOrDefault(x => x.Value == SelectedThemeName).Key;
         }
 

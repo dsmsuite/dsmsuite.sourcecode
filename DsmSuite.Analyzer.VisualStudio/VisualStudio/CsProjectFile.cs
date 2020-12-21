@@ -87,7 +87,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 {
                     props += $" {globalProperty.Key} {globalProperty.Value}";
                 }
-                Logger.LogToFileAlways("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
+                Logger.LogToFile("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
             return project;
@@ -118,7 +118,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 {
                     props += $" {globalProperty.Key} {globalProperty.Value}";
                 }
-                Logger.LogToFileAlways("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
+                Logger.LogToFile("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
         }

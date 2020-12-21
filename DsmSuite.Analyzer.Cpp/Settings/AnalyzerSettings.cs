@@ -28,7 +28,7 @@ namespace DsmSuite.Analyzer.Cpp.Settings
     [Serializable]
     public class AnalyzerSettings
     {
-        private bool _loggingEnabled;
+        private LogLevel _logLevel;
         private string _rootDirectory;
         private List<string> _sourceDirectories;
         private List<string> _externalIncludeDirectories;
@@ -41,7 +41,7 @@ namespace DsmSuite.Analyzer.Cpp.Settings
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
-                LoggingEnabled = true,
+                LogLevel = LogLevel.None,
                 RootDirectory = @"C:\",
                 SourceDirectories = new List<string>(),
                 ExternalIncludeDirectories = new List<string>(),
@@ -58,10 +58,10 @@ namespace DsmSuite.Analyzer.Cpp.Settings
             return analyzerSettings;
         }
 
-        public bool LoggingEnabled
+        public LogLevel LogLevel
         {
-            get { return _loggingEnabled; }
-            set { _loggingEnabled = value; }
+            get { return _logLevel; }
+            set { _logLevel = value; }
         }
 
         public string RootDirectory

@@ -55,7 +55,7 @@ namespace DsmSuite.Transformer.Settings
     [Serializable]
     public class TransformerSettings
     {
-        private bool _loggingEnabled;
+        private LogLevel _logLevel;
         private string _inputFilename;
         private AddTransitiveRelationsSettings _addTransitiveRelationsSettings;
         private MoveElementsSettings _moveElementsSettings;
@@ -69,7 +69,7 @@ namespace DsmSuite.Transformer.Settings
         {
             TransformerSettings transformerSettings = new TransformerSettings
             {
-                LoggingEnabled = true,
+                LogLevel = LogLevel.None,
                 InputFilename = @"C:\exampleIn.dsi",
                 AddTransitiveRelationsSettings = new AddTransitiveRelationsSettings(),
                 MoveElementsSettings = new MoveElementsSettings(),
@@ -93,10 +93,10 @@ namespace DsmSuite.Transformer.Settings
             return transformerSettings;
         }
 
-        public bool LoggingEnabled
+        public LogLevel LogLevel
         {
-            get { return _loggingEnabled; }
-            set { _loggingEnabled = value; }
+            get { return _logLevel; }
+            set { _logLevel = value; }
         }
 
         public string InputFilename

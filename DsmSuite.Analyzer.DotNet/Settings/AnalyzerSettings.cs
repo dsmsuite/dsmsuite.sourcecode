@@ -13,7 +13,7 @@ namespace DsmSuite.Analyzer.DotNet.Settings
     [Serializable]
     public class AnalyzerSettings
     {
-        private bool _loggingEnabled;
+        private LogLevel _logLevel;
         private string _assemblyDirectory;
         private List<string> _ignoredNames;
         private string _outputFilename;
@@ -23,7 +23,7 @@ namespace DsmSuite.Analyzer.DotNet.Settings
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
-                LoggingEnabled = true,
+                LogLevel = Common.Util.LogLevel.None,
                 AssemblyDirectory = "",
                 IgnoredNames = new List<string>(),
                 OutputFilename = "Output.dsi",
@@ -43,10 +43,10 @@ namespace DsmSuite.Analyzer.DotNet.Settings
             return analyzerSettings;
         }
 
-        public bool LoggingEnabled
+        public LogLevel LogLevel
         {
-            get { return _loggingEnabled; }
-            set { _loggingEnabled = value; }
+            get { return _logLevel; }
+            set { _logLevel = value; }
         }
 
         public string AssemblyDirectory

@@ -71,7 +71,7 @@ namespace DsmSuite.DsmViewer.Builder
                 else
                 {
                     BuilderSettings builderSettings = BuilderSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.LoggingEnabled = builderSettings.LoggingEnabled;
+                    Logger.LogLevel = builderSettings.LogLevel;
 
                     ConsoleAction action = new ConsoleAction(builderSettings);
                     action.Execute();

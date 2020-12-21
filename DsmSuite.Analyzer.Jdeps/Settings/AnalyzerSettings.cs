@@ -12,7 +12,7 @@ namespace DsmSuite.Analyzer.Jdeps.Settings
     [Serializable]
     public class AnalyzerSettings
     {
-        private bool _loggingEnabled;
+        private LogLevel _logLevel;
         private string _inputFilename;
         private string _outputFilename;
         private bool _compressOutputFile;
@@ -21,7 +21,7 @@ namespace DsmSuite.Analyzer.Jdeps.Settings
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
-                LoggingEnabled = true,
+                LogLevel = LogLevel.None,
                 InputFilename = @"C:\Example.dot",
                 OutputFilename = "Output.dsi",
                 CompressOutputFile = true
@@ -30,10 +30,10 @@ namespace DsmSuite.Analyzer.Jdeps.Settings
             return analyzerSettings;
         }
 
-        public bool LoggingEnabled
+        public LogLevel LogLevel
         {
-            get { return _loggingEnabled; }
-            set { _loggingEnabled = value; }
+            get { return _logLevel; }
+            set { _logLevel = value; }
         }
 
         public string InputFilename

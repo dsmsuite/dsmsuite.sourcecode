@@ -460,7 +460,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
             foreach (string line in lines)
             {
-                Logger.LogToFileAlways("foundProjects.log", line);
+                Logger.LogToFile("foundProjects.log", line);
             }
         }
 

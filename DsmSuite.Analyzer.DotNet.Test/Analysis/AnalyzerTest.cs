@@ -4,6 +4,7 @@ using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.DotNet.Test.Util;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
+using DsmSuite.Common.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.Analyzer.DotNet.Test.Analysis
@@ -16,7 +17,7 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
-                LoggingEnabled = true,
+                LogLevel = LogLevel.None,
                 AssemblyDirectory = TestData.RootDirectory,
                 IgnoredNames = new List<string>()
             };

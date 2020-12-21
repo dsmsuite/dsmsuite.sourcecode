@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.ViewModel.Settings
 {
@@ -28,10 +29,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             }
         }
 
-        public static bool LoggingEnabled
+        public static LogLevel LogLevel
         {
-            set { _viewerSettings.LoggingEnabled = value; }
-            get { return _viewerSettings.LoggingEnabled; }
+            set { _viewerSettings.LogLevel = value; }
+            get { return _viewerSettings.LogLevel; }
         }
 
         public static Theme Theme

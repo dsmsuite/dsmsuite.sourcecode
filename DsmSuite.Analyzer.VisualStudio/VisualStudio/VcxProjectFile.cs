@@ -137,7 +137,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     props += $" {globalProperty.Key} {globalProperty.Value}";
                 }
 
-                Logger.LogToFileAlways("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
+                Logger.LogToFile("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
 
@@ -148,40 +148,40 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         {
             string filename = $"project{ProjectFileInfo.Name}.log";
 
-            Logger.LogToFileAlways(filename, $"Properties");
-            Logger.LogToFileAlways(filename, "--------------------------------------------------------------");
-            Logger.LogToFileAlways(filename, "");
+            Logger.LogToFile(filename, $"Properties");
+            Logger.LogToFile(filename, "--------------------------------------------------------------");
+            Logger.LogToFile(filename, "");
 
             foreach (ProjectProperty projectProperty in project.AllEvaluatedProperties)
             {
-                Logger.LogToFileAlways(filename, $" property={projectProperty.Name}");
-                Logger.LogToFileAlways(filename, $"  unevaluatedValue={projectProperty.UnevaluatedValue}");
-                Logger.LogToFileAlways(filename, $"  evaluatedValue={projectProperty.EvaluatedValue}");
-                Logger.LogToFileAlways(filename, "");
+                Logger.LogToFile(filename, $" property={projectProperty.Name}");
+                Logger.LogToFile(filename, $"  unevaluatedValue={projectProperty.UnevaluatedValue}");
+                Logger.LogToFile(filename, $"  evaluatedValue={projectProperty.EvaluatedValue}");
+                Logger.LogToFile(filename, "");
             }
 
-            Logger.LogToFileAlways(filename, $"Item Definitions");
-            Logger.LogToFileAlways(filename, "--------------------------------------------------------------");
-            Logger.LogToFileAlways(filename, "");
+            Logger.LogToFile(filename, $"Item Definitions");
+            Logger.LogToFile(filename, "--------------------------------------------------------------");
+            Logger.LogToFile(filename, "");
 
             foreach (ProjectMetadata projectMetadata in project.AllEvaluatedItemDefinitionMetadata)
             {
-                Logger.LogToFileAlways(filename, $" itemDefinition={projectMetadata.Name}");
-                Logger.LogToFileAlways(filename, $"  unevaluatedValue={projectMetadata.UnevaluatedValue}");
-                Logger.LogToFileAlways(filename, $"  evaluatedValue={projectMetadata.EvaluatedValue}");
-                Logger.LogToFileAlways(filename, "");
+                Logger.LogToFile(filename, $" itemDefinition={projectMetadata.Name}");
+                Logger.LogToFile(filename, $"  unevaluatedValue={projectMetadata.UnevaluatedValue}");
+                Logger.LogToFile(filename, $"  evaluatedValue={projectMetadata.EvaluatedValue}");
+                Logger.LogToFile(filename, "");
             }
 
-            Logger.LogToFileAlways(filename, $"Items");
-            Logger.LogToFileAlways(filename, "--------------------------------------------------------------");
-            Logger.LogToFileAlways(filename, "");
+            Logger.LogToFile(filename, $"Items");
+            Logger.LogToFile(filename, "--------------------------------------------------------------");
+            Logger.LogToFile(filename, "");
 
             foreach (ProjectItem projectItem in project.AllEvaluatedItems)
             {
-                Logger.LogToFileAlways(filename, $" item={projectItem.ItemType}");
-                Logger.LogToFileAlways(filename, $"  unevaluatedValue={projectItem.UnevaluatedInclude}");
-                Logger.LogToFileAlways(filename, $"  evaluatedValue={projectItem.EvaluatedInclude}");
-                Logger.LogToFileAlways(filename, "");
+                Logger.LogToFile(filename, $" item={projectItem.ItemType}");
+                Logger.LogToFile(filename, $"  unevaluatedValue={projectItem.UnevaluatedInclude}");
+                Logger.LogToFile(filename, $"  evaluatedValue={projectItem.EvaluatedInclude}");
+                Logger.LogToFile(filename, "");
             }
         }
 
@@ -211,7 +211,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 {
                     props += $" {globalProperty.Key} {globalProperty.Value}";
                 }
-                Logger.LogToFileAlways("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
+                Logger.LogToFile("failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
         }

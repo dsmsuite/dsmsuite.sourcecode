@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.Builder.Settings
     [Serializable]
     public class BuilderSettings
     {
-        private bool _loggingEnabled;
+        private LogLevel _logLevel;
         private string _inputFilename;
         private bool _applyPartitioningAlgorithm;
         private bool _recordChanges;
@@ -23,7 +23,7 @@ namespace DsmSuite.DsmViewer.Builder.Settings
         {
             BuilderSettings settings = new BuilderSettings
             {
-                LoggingEnabled = false,
+                LogLevel = LogLevel.None,
                 InputFilename = "Input.dsi",
                 ApplyPartitioningAlgorithm = false,
                 RecordChanges = false,
@@ -35,10 +35,10 @@ namespace DsmSuite.DsmViewer.Builder.Settings
             return settings;
         }
 
-        public bool LoggingEnabled
+        public LogLevel LogLevel
         {
-            get { return _loggingEnabled; }
-            set { _loggingEnabled = value; }
+            get { return _logLevel; }
+            set { _logLevel = value; }
         }
 
         public string InputFilename

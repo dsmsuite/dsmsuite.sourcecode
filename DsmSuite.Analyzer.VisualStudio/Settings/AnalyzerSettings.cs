@@ -28,7 +28,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
     [Serializable]
     public class AnalyzerSettings
     {
-        private bool _loggingEnabled;
+        private LogLevel _logLevel;
         private string _inputFilename;
         private string _rootDirectory;
         private List<string> _systemIncludeDirectories;
@@ -44,7 +44,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
-                LoggingEnabled = true,
+                LogLevel = LogLevel.None,
                 InputFilename = @"C:\Example.sln",
                 RootDirectory = "",
                 SystemIncludeDirectories = new List<string>(),
@@ -72,10 +72,10 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
             return analyzerSettings;
         }
 
-        public bool LoggingEnabled
+        public LogLevel LogLevel
         {
-            get { return _loggingEnabled; }
-            set { _loggingEnabled = value; }
+            get { return _logLevel; }
+            set { _logLevel = value; }
         }
 
         public string InputFilename

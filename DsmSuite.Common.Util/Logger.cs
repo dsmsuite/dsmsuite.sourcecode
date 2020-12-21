@@ -27,9 +27,21 @@ namespace DsmSuite.Common.Util
             {
                 _logPath = @"C:\Temp\DsmSuiteLogging\";
             }
+
+            LogLevel = LogLevel.None;
         }
 
-        public static bool LoggingEnabled { get; set; }
+        public static LogLevel LogLevel { get; set; }
+
+        public static void LogException(string message, Exception e,
+            [CallerFilePath] string sourceFile = "",
+            [CallerMemberName] string method = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            LogToFile("exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
+            LogToFile("exceptions.log", e.StackTrace);
+            LogToFile("exceptions.log", "");
+        }
 
         public static void LogAssemblyInfo(Assembly assembly)
         {
@@ -38,14 +50,40 @@ namespace DsmSuite.Common.Util
             DateTime buildDate = new FileInfo(assembly.Location).LastWriteTime;
             LogUserMessage(name + " version =" + version + " build=" + buildDate);
         }
-        
+
         public static void LogUserMessage(string message,
             [CallerFilePath] string sourceFile = "",
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
             Console.WriteLine(message);
-            LogToFileAlways("userMessages.log", message);
+
+            if (LogLevel >= LogLevel.User)
+            {
+                LogToFile("userMessages.log", message);
+            }
+        }
+
+        public static void LogError(string message,
+            [CallerFilePath] string sourceFile = "",
+            [CallerMemberName] string method = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            if (LogLevel >= LogLevel.Error)
+            {
+                LogToFile("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
+            }
+        }
+
+        public static void LogInfo(string message,
+            [CallerFilePath] string sourceFile = "",
+            [CallerMemberName] string method = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            if (LogLevel >= LogLevel.Info)
+            {
+                LogToFile("infoMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
+            }
         }
 
         public static void LogDataModelMessage(string message,
@@ -54,34 +92,6 @@ namespace DsmSuite.Common.Util
             [CallerLineNumber] int lineNumber = 0)
         {
             LogToFile("dataModelMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
-        }
-
-        public static void LogInfo(string message,
-            [CallerFilePath] string sourceFile = "",
-            [CallerMemberName] string method = "",
-            [CallerLineNumber] int lineNumber = 0)
-        {
-            LogToFile("infoMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
-        }
-
-        public static void LogError(string message,
-            [CallerFilePath] string sourceFile = "",
-            [CallerMemberName] string method = "",
-            [CallerLineNumber] int lineNumber = 0)
-        {
-            LogToFile("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
-        }
-
-        public static void LogException(string message, Exception e,
-            [CallerFilePath] string sourceFile = "",
-            [CallerMemberName] string method = "",
-            [CallerLineNumber] int lineNumber = 0)
-        {
-            LogToFile("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
-
-            LogToFileAlways("exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
-            LogToFileAlways("exceptions.log", e.StackTrace);
-            LogToFileAlways("exceptions.log", "");
         }
 
         public static void LogResourceUsage()
@@ -96,26 +106,13 @@ namespace DsmSuite.Common.Util
             LogUserMessage($"Peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
         }
 
-        public static void LogToFileAlways(string logFilename, string line)
+        public static void LogToFile(string logFilename, string line)
         {
             string path = GetLogFullPath(logFilename);
             FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write);
             using (StreamWriter writetext = new StreamWriter(fs))
             {
                 writetext.WriteLine(line);
-            }
-        }
-
-        public static void LogToFile(string logFilename, string line)
-        {
-            if (LoggingEnabled)
-            {
-                string path = GetLogFullPath(logFilename);
-                FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write);
-                using (StreamWriter writetext = new StreamWriter(fs))
-                {
-                    writetext.WriteLine(line);
-                }
             }
         }
 

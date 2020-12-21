@@ -68,7 +68,7 @@ namespace DsmSuite.Transformer
                 else
                 {
                     TransformerSettings transformerSettings = TransformerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.LoggingEnabled = transformerSettings.LoggingEnabled;
+                    Logger.LogLevel = transformerSettings.LogLevel;
 
                     ConsoleAction action = new ConsoleAction(transformerSettings);
                     action.Execute();

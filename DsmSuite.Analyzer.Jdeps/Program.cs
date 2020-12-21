@@ -67,7 +67,7 @@ namespace DsmSuite.Analyzer.Jdeps
                 else
                 {
                     AnalyzerSettings analyzerSettings = AnalyzerSettings.ReadFromFile(settingsFileInfo.FullName);
-                    Logger.LoggingEnabled = analyzerSettings.LoggingEnabled;
+                    Logger.LogLevel = analyzerSettings.LogLevel;
 
                     ConsoleAction action = new ConsoleAction(analyzerSettings);
                     action.Execute();
