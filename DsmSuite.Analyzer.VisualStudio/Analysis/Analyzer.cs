@@ -451,16 +451,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             List<string> lines = new List<string>();
             foreach (ProjectFileBase project in _solutionFile.Projects)
             {
-                string fullname = GetLogicalName(_solutionFile, project, null);
+                string projectName = GetLogicalName(_solutionFile, project, null);
                 string status = project.Success ? "ok" : "failed";
-                lines.Add($"{fullname} status={status}");
-            }
-
-            lines.Sort();
-
-            foreach (string line in lines)
-            {
-                Logger.LogToFile(LogLevel.Info, "foundVisualStudioProjects.log", line);
+                AnalyzerLogger.LogProjectStatus(projectName, status);
             }
         }
 

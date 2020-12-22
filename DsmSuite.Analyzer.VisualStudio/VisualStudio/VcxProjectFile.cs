@@ -49,7 +49,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             {
                 if (AnalyzerSettings.LogLevel == LogLevel.Detailed)
                 {
-                    LogProjectData(project);
+                    string filename = $"project{ProjectFileInfo.Name}.log";
+                    AnalyzerLogger.LogProjectProperties(filename, project);
                 }
 
                 DefineProjectIncludeDirectories(project);
@@ -144,46 +145,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             return project;
         }
 
-        private void LogProjectData(Project project)
-        {
-            string filename = $"project{ProjectFileInfo.Name}.log";
 
-            Logger.LogToFile(LogLevel.Detailed, filename, $"Properties");
-            Logger.LogToFile(LogLevel.Detailed, filename, "--------------------------------------------------------------");
-            Logger.LogToFile(LogLevel.Detailed, filename, "");
-
-            foreach (ProjectProperty projectProperty in project.AllEvaluatedProperties)
-            {
-                Logger.LogToFile(LogLevel.Detailed, filename, $" property={projectProperty.Name}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  unevaluatedValue={projectProperty.UnevaluatedValue}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  evaluatedValue={projectProperty.EvaluatedValue}");
-                Logger.LogToFile(LogLevel.Detailed, filename, "");
-            }
-
-            Logger.LogToFile(LogLevel.Detailed, filename, $"Item Definitions");
-            Logger.LogToFile(LogLevel.Detailed, filename, "--------------------------------------------------------------");
-            Logger.LogToFile(LogLevel.Detailed, filename, "");
-
-            foreach (ProjectMetadata projectMetadata in project.AllEvaluatedItemDefinitionMetadata)
-            {
-                Logger.LogToFile(LogLevel.Detailed, filename, $" itemDefinition={projectMetadata.Name}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  unevaluatedValue={projectMetadata.UnevaluatedValue}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  evaluatedValue={projectMetadata.EvaluatedValue}");
-                Logger.LogToFile(LogLevel.Detailed, filename, "");
-            }
-
-            Logger.LogToFile(LogLevel.Detailed, filename, $"Items");
-            Logger.LogToFile(LogLevel.Detailed, filename, "--------------------------------------------------------------");
-            Logger.LogToFile(LogLevel.Detailed, filename, "");
-
-            foreach (ProjectItem projectItem in project.AllEvaluatedItems)
-            {
-                Logger.LogToFile(LogLevel.Detailed, filename, $" item={projectItem.ItemType}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  unevaluatedValue={projectItem.UnevaluatedInclude}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  evaluatedValue={projectItem.EvaluatedInclude}");
-                Logger.LogToFile(LogLevel.Detailed, filename, "");
-            }
-        }
 
         private void DetermineGlobalProperties()
         {
@@ -211,7 +173,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 {
                     props += $" {globalProperty.Key} {globalProperty.Value}";
                 }
-                Logger.LogToFile(LogLevel.Error, "failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
         }

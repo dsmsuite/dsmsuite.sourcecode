@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DsmSuite.Common.Util;
+using Microsoft.Build.Evaluation;
 
 namespace DsmSuite.Analyzer.Util
 {
@@ -79,7 +80,51 @@ namespace DsmSuite.Analyzer.Util
             }
             IncludeFilesNotFoundLogMessages[key].Add(message);
         }
+
+        public static void LogProjectStatus(string projectName, string status)
+        {
+            Logger.LogToFile(LogLevel.Info, "foundVisualStudioProjects.log", $"{projectName} status={status}");
+        }
         
+        public static void LogProjectProperties(string filename, Project project)
+        {
+            Logger.LogToFile(LogLevel.Detailed, filename, $"Properties");
+            Logger.LogToFile(LogLevel.Detailed, filename, "--------------------------------------------------------------");
+            Logger.LogToFile(LogLevel.Detailed, filename, "");
+
+            foreach (ProjectProperty projectProperty in project.AllEvaluatedProperties)
+            {
+                Logger.LogToFile(LogLevel.Detailed, filename, $" property={projectProperty.Name}");
+                Logger.LogToFile(LogLevel.Detailed, filename, $"  unevaluatedValue={projectProperty.UnevaluatedValue}");
+                Logger.LogToFile(LogLevel.Detailed, filename, $"  evaluatedValue={projectProperty.EvaluatedValue}");
+                Logger.LogToFile(LogLevel.Detailed, filename, "");
+            }
+
+            Logger.LogToFile(LogLevel.Detailed, filename, $"Item Definitions");
+            Logger.LogToFile(LogLevel.Detailed, filename, "--------------------------------------------------------------");
+            Logger.LogToFile(LogLevel.Detailed, filename, "");
+
+            foreach (ProjectMetadata projectMetadata in project.AllEvaluatedItemDefinitionMetadata)
+            {
+                Logger.LogToFile(LogLevel.Detailed, filename, $" itemDefinition={projectMetadata.Name}");
+                Logger.LogToFile(LogLevel.Detailed, filename, $"  unevaluatedValue={projectMetadata.UnevaluatedValue}");
+                Logger.LogToFile(LogLevel.Detailed, filename, $"  evaluatedValue={projectMetadata.EvaluatedValue}");
+                Logger.LogToFile(LogLevel.Detailed, filename, "");
+            }
+
+            Logger.LogToFile(LogLevel.Detailed, filename, $"Items");
+            Logger.LogToFile(LogLevel.Detailed, filename, "--------------------------------------------------------------");
+            Logger.LogToFile(LogLevel.Detailed, filename, "");
+
+            foreach (ProjectItem projectItem in project.AllEvaluatedItems)
+            {
+                Logger.LogToFile(LogLevel.Detailed, filename, $" item={projectItem.ItemType}");
+                Logger.LogToFile(LogLevel.Detailed, filename, $"  unevaluatedValue={projectItem.UnevaluatedInclude}");
+                Logger.LogToFile(LogLevel.Detailed, filename, $"  evaluatedValue={projectItem.EvaluatedInclude}");
+                Logger.LogToFile(LogLevel.Detailed, filename, "");
+            }
+        }
+
         public static void Flush()
         {
             Flush(LogLevel.Error, FilesNotFoundLogMessages, "Files not found", "filesNotFound", 0);
