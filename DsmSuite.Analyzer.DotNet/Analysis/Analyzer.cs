@@ -4,7 +4,6 @@ using System.IO;
 using DsmSuite.Analyzer.DotNet.Lib;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.DotNet.Analysis
@@ -29,7 +28,6 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
             FindAssemblies();
             FindTypes();
             FindRelations();
-            AnalyzerLogger.Flush();
         }
 
         private void FindAssemblies()

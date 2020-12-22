@@ -1,7 +1,6 @@
 ﻿using System;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Uml.Settings;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Uml.Analysis
@@ -55,7 +54,6 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             {
                 Logger.LogException($"Reading EA model failed file={_analyzerSettings.InputFilename}", e);
             }
-            AnalyzerLogger.Flush();
         }
 
         private void FindPackageElements(EA.Package package)

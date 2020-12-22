@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Transformer.Transformation
@@ -97,9 +96,6 @@ namespace DsmSuite.Transformer.Transformation
             {
                 string type = "transitive";
                 _model.AddRelation(consumer.Name, provider.Name, type, 1, null);
-
-                string description = "consumer=" + consumer.Name + " provider=" + provider.Name;
-                AnalyzerLogger.LogTransformation(ActionName, description);
             }
         }
     }

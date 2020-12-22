@@ -138,7 +138,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     props += $" {globalProperty.Key} {globalProperty.Value}";
                 }
 
-                Logger.LogToFile(LogLevel.Error, "failedToLoadProjects.log", $"{ProjectFileInfo.FullName} {e.Message} {props}");
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
 

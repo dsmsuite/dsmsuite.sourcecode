@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Model.Persistency;
 using DsmSuite.Common.Util;
-using DsmSuite.Analyzer.Util;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
@@ -48,7 +47,7 @@ namespace DsmSuite.Analyzer.Model.Core
             }
             else
             {
-                AnalyzerLogger.LogErrorDataModelRelationNotResolved(consumerId.ToString(), providerId.ToString());
+                Logger.LogErrorDataModelRelationNotResolved(consumerId.ToString(), providerId.ToString());
             }
             return relation;
         }
@@ -70,7 +69,7 @@ namespace DsmSuite.Analyzer.Model.Core
             }
             else
             {
-                AnalyzerLogger.LogErrorDataModelRelationNotResolved(consumerName, providerName);
+                Logger.LogErrorDataModelRelationNotResolved(consumerName, providerName);
             }
 
             return relation;
@@ -99,7 +98,7 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             Logger.LogDataModelMessage($"Skip relation consumerName={consumerName} providerName={providerName} type={type}");
 
-            AnalyzerLogger.LogErrorDataModelRelationNotResolved(consumerName, providerName);
+            Logger.LogErrorDataModelRelationNotResolved(consumerName, providerName);
 
             _relationCount++;
         }

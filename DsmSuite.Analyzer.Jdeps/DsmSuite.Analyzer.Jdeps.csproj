@@ -38,10 +38,6 @@
       <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
       <Name>DsmSuite.Analyzer.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.Analyzer.Util\DsmSuite.Analyzer.Util.csproj">
-      <Project>{b73fdffb-08d3-4573-a682-825c1a79fc54}</Project>
-      <Name>DsmSuite.Analyzer.Util</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
       <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
       <Name>DsmSuite.Common.Util</Name>

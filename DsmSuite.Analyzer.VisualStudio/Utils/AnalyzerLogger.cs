@@ -15,7 +15,6 @@ namespace DsmSuite.Analyzer.Util
         private static readonly Dictionary<string, HashSet<string>> PathsNotResolvedLogMessages;
         private static readonly Dictionary<string, HashSet<string>> IncludePathsNotFoundLogMessages;
         private static readonly Dictionary<string, HashSet<string>> IncludeFilesNotFoundLogMessages;
-        private static readonly Dictionary<string, HashSet<string>> DataModelRelationNotResolvedLogMessages;
 
         static AnalyzerLogger()
         {
@@ -24,7 +23,6 @@ namespace DsmSuite.Analyzer.Util
             PathsNotResolvedLogMessages = new Dictionary<string, HashSet<string>>();
             IncludePathsNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
             IncludeFilesNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
-            DataModelRelationNotResolvedLogMessages = new Dictionary<string, HashSet<string>>();
         }
        
         public static void LogErrorFileNotFound(string filename, string context)
@@ -81,38 +79,7 @@ namespace DsmSuite.Analyzer.Util
             }
             IncludeFilesNotFoundLogMessages[key].Add(message);
         }
-
-        public static void LogErrorIncludeFileAmbigious(string sourceFile,
-                                                        string includeFile,
-                                                        List<Tuple<string, bool>> candidates)
-        {
-            string logFile = "ambigiousIncludes.log";
-            string message = "Include file ambiguous: " + includeFile + " in " + sourceFile;
-            Logger.LogToFile(LogLevel.Error, logFile, message);
-
-            foreach (Tuple<string, bool> candidate in candidates)
-            {
-                string details = " resolved=" + candidate.Item2 + " file=" + candidate.Item1;
-                Logger.LogToFile(LogLevel.Error, logFile, details);
-            }
-        }
-
-        public static void LogTransformation(string actionName, string description)
-        {
-            Logger.LogToFile(LogLevel.Info, "transformation.log", actionName + ": " + description);
-        }
-
-        public static void LogErrorDataModelRelationNotResolved(string consumerName, string providerName)
-        {
-            string key = providerName;
-            string message = " From " + consumerName;
-            if (!DataModelRelationNotResolvedLogMessages.ContainsKey(key))
-            {
-                DataModelRelationNotResolvedLogMessages[key] = new HashSet<string>();
-            }
-            DataModelRelationNotResolvedLogMessages[key].Add(message);
-        }
-
+        
         public static void Flush()
         {
             Flush(LogLevel.Error, FilesNotFoundLogMessages, "Files not found", "filesNotFound", 0);
@@ -120,7 +87,6 @@ namespace DsmSuite.Analyzer.Util
             Flush(LogLevel.Error, PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved", 0);
             Flush(LogLevel.Error, IncludePathsNotFoundLogMessages, "Absolute paths not found", "includePathsNotFound", 0);
             Flush(LogLevel.Error, IncludeFilesNotFoundLogMessages, "Includes files not found", "includeFilesNotFound", 0);
-            Flush(LogLevel.Error, DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved", 0);
         }
 
         private static void Flush(LogLevel loglevel, Dictionary<string, HashSet<string>> messages, string title, string filename, int minCount)

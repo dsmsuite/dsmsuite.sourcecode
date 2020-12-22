@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 using DsmSuite.Transformer.Settings;
 
@@ -36,8 +35,6 @@ namespace DsmSuite.Transformer.Transformation
                 _model.AddMetaData(action.Name, action.IsEnabled ? "Enabled" : "Disabled");
                 action.Execute();
             }
-
-            AnalyzerLogger.Flush();
         }
     }
 }

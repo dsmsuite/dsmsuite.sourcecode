@@ -38,10 +38,6 @@
     <Compile Include="Core\DsiRelation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DsmSuite.Analyzer.Util\DsmSuite.Analyzer.Util.csproj">
-      <Project>{b73fdffb-08d3-4573-a682-825c1a79fc54}</Project>
-      <Name>DsmSuite.Analyzer.Util</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj">
       <Project>{6e26eaa0-d0d6-41ab-9aed-61542f7edfc5}</Project>
       <Name>DsmSuite.Common.Model</Name>

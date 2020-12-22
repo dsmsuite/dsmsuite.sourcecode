@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Transformer.Transformation
@@ -59,9 +58,6 @@ namespace DsmSuite.Transformer.Transformation
                                      GetExtension(provider);
 
             _model.RenameElement(provider, newProviderName);
-
-            string description = "consumer=" + consumerName + " provider=" + providerName + "->" + newProviderName;
-            AnalyzerLogger.LogTransformation(ActionName, description);
         }
 
         private bool IsHeader(IDsiElement element)

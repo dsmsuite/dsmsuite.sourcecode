@@ -2,8 +2,8 @@
 using DsmSuite.Analyzer.Cpp.IncludeResolve;
 using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Cpp.Sources;
+using DsmSuite.Analyzer.Cpp.Utils;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Cpp.Analysis

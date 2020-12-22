@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -13,8 +15,14 @@ namespace DsmSuite.Common.Util
     {
         private static Assembly _assembly;
         private static string _logPath;
+        private static readonly Dictionary<string, HashSet<string>> DataModelRelationNotResolvedLogMessages;
 
         public static DirectoryInfo LogDirectory { get; private set; }
+
+        static Logger()
+        {
+            DataModelRelationNotResolvedLogMessages = new Dictionary<string, HashSet<string>>();
+        }
 
         public static void Init(Assembly assembly, bool logInCurrentDirectory)
         {
@@ -105,6 +113,22 @@ namespace DsmSuite.Common.Util
             LogToFile(LogLevel.Detailed, "dataModelMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
+        public static void LogErrorDataModelRelationNotResolved(string consumerName, string providerName)
+        {
+            string key = providerName;
+            string message = " From " + consumerName;
+            if (!DataModelRelationNotResolvedLogMessages.ContainsKey(key))
+            {
+                DataModelRelationNotResolvedLogMessages[key] = new HashSet<string>();
+            }
+            DataModelRelationNotResolvedLogMessages[key].Add(message);
+        }
+
+        public static void Flush()
+        {
+            Flush(LogLevel.Error, DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved", 0);
+        }
+
         public static void LogToFile(LogLevel level, string logFilename, string line)
         {
             if (LogLevel >= level)
@@ -115,6 +139,48 @@ namespace DsmSuite.Common.Util
                 {
                     writetext.WriteLine(line);
                 }
+            }
+        }
+
+        private static void Flush(LogLevel loglevel, Dictionary<string, HashSet<string>> messages, string title, string filename, int minCount)
+        {
+            string overviewFilename = filename + "Overview.txt";
+            string detailsFilename = filename + "Details.txt";
+
+            int totalOccurances = 0;
+
+            List<string> keys = messages.Keys.ToList();
+            keys.Sort();
+
+            if (keys.Count > 0)
+            {
+                Logger.LogToFile(loglevel, overviewFilename, title);
+                Logger.LogToFile(loglevel, detailsFilename, title);
+
+                Logger.LogToFile(loglevel, overviewFilename, "--------------------------------------------");
+                Logger.LogToFile(loglevel, detailsFilename, "---------------------------------------------");
+            }
+
+            foreach (string key in keys)
+            {
+                int occurances = messages[key].Count;
+
+                if (occurances > minCount)
+                {
+                    totalOccurances += occurances;
+                    Logger.LogToFile(loglevel, overviewFilename, $"{key} {occurances} occurances");
+                    Logger.LogToFile(loglevel, detailsFilename, $"{key} {occurances} occurances");
+                    foreach (string message in messages[key])
+                    {
+                        Logger.LogToFile(loglevel, detailsFilename, "  " + message);
+                    }
+                }
+            }
+
+            if (keys.Count > 0)
+            {
+                Logger.LogToFile(loglevel, overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");
+                Logger.LogToFile(loglevel, detailsFilename, $"{keys.Count} items found in {totalOccurances} occurances");
             }
         }
 

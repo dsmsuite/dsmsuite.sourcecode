@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using DsmSuite.Analyzer.Cpp.Utils;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Cpp.IncludeResolve
@@ -68,7 +69,7 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
                 candidateInfo.Add(new Tuple<string, bool>(candidate.Filename, candidate.Resolved));
             }
 
-            Util.AnalyzerLogger.LogErrorIncludeFileAmbigious(sourceFilename, relativeIncludeFilename, candidateInfo);
+            AnalyzerLogger.LogErrorIncludeFileAmbigious(sourceFilename, relativeIncludeFilename, candidateInfo);
         }
     }
 }

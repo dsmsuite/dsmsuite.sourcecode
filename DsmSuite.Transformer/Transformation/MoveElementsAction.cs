@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Common.Util;
 using DsmSuite.Transformer.Settings;
 
@@ -46,9 +45,6 @@ namespace DsmSuite.Transformer.Transformation
                     string newElementName = element.Name.ReplaceIgnoreCase(rule.From, rule.To);
 
                     _model.RenameElement(element, newElementName);
-
-                    string description = elementName + "->" + newElementName;
-                    AnalyzerLogger.LogTransformation(ActionName, description);
                 }
             }
         }
