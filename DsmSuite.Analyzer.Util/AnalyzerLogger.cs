@@ -88,21 +88,21 @@ namespace DsmSuite.Analyzer.Util
         {
             string logFile = "ambigiousIncludes.log";
             string message = "Include file ambiguous: " + includeFile + " in " + sourceFile;
-            Logger.LogToFile(logFile, message);
+            Logger.LogToFile(LogLevel.Error, logFile, message);
 
             foreach (Tuple<string, bool> candidate in candidates)
             {
                 string details = " resolved=" + candidate.Item2 + " file=" + candidate.Item1;
-                Logger.LogToFile(logFile, details);
+                Logger.LogToFile(LogLevel.Error, logFile, details);
             }
         }
 
         public static void LogTransformation(string actionName, string description)
         {
-            Logger.LogToFile("transformation.log", actionName + ": " + description);
+            Logger.LogToFile(LogLevel.Info, "transformation.log", actionName + ": " + description);
         }
 
-        public static void LogDataModelRelationNotResolved(string consumerName, string providerName)
+        public static void LogErrorDataModelRelationNotResolved(string consumerName, string providerName)
         {
             string key = providerName;
             string message = " From " + consumerName;
@@ -115,15 +115,15 @@ namespace DsmSuite.Analyzer.Util
 
         public static void Flush()
         {
-            Flush(FilesNotFoundLogMessages, "Files not found", "filesNotFound", 0);
-            Flush(FilesFoundLogMessages, "Duplicate files found", "duplicateFilesFound", 1);
-            Flush(PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved", 0);
-            Flush(IncludePathsNotFoundLogMessages, "Absolute paths not found", "includePathsNotFound", 0);
-            Flush(IncludeFilesNotFoundLogMessages, "Includes files not found", "includeFilesNotFound", 0);
-            Flush(DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved", 0);
+            Flush(LogLevel.Error, FilesNotFoundLogMessages, "Files not found", "filesNotFound", 0);
+            Flush(LogLevel.Info, FilesFoundLogMessages, "Duplicate files found", "duplicateFilesFound", 1);
+            Flush(LogLevel.Error, PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved", 0);
+            Flush(LogLevel.Error, IncludePathsNotFoundLogMessages, "Absolute paths not found", "includePathsNotFound", 0);
+            Flush(LogLevel.Error, IncludeFilesNotFoundLogMessages, "Includes files not found", "includeFilesNotFound", 0);
+            Flush(LogLevel.Error, DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved", 0);
         }
 
-        private static void Flush(Dictionary<string, HashSet<string>> messages, string title, string filename, int minCount)
+        private static void Flush(LogLevel loglevel, Dictionary<string, HashSet<string>> messages, string title, string filename, int minCount)
         {
             string overviewFilename = filename + "Overview.txt";
             string detailsFilename = filename + "Details.txt";
@@ -135,11 +135,11 @@ namespace DsmSuite.Analyzer.Util
 
             if (keys.Count > 0)
             {
-                Logger.LogToFile(overviewFilename, title);
-                Logger.LogToFile(detailsFilename, title);
+                Logger.LogToFile(loglevel, overviewFilename, title);
+                Logger.LogToFile(loglevel, detailsFilename, title);
 
-                Logger.LogToFile(overviewFilename, "--------------------------------------------");
-                Logger.LogToFile(detailsFilename, "---------------------------------------------");
+                Logger.LogToFile(loglevel, overviewFilename, "--------------------------------------------");
+                Logger.LogToFile(loglevel, detailsFilename, "---------------------------------------------");
             }
             
             foreach (string key in keys)
@@ -149,19 +149,19 @@ namespace DsmSuite.Analyzer.Util
                 if (occurances > minCount)
                 {
                     totalOccurances += occurances;
-                    Logger.LogToFile(overviewFilename, $"{key} {occurances} occurances");
-                    Logger.LogToFile(detailsFilename, $"{key} {occurances} occurances");
+                    Logger.LogToFile(loglevel, overviewFilename, $"{key} {occurances} occurances");
+                    Logger.LogToFile(loglevel, detailsFilename, $"{key} {occurances} occurances");
                     foreach (string message in messages[key])
                     {
-                        Logger.LogToFile(detailsFilename, "  " + message);
+                        Logger.LogToFile(loglevel, detailsFilename, "  " + message);
                     }
                 }
             }
 
             if (keys.Count > 0)
             {
-                Logger.LogToFile(overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");
-                Logger.LogToFile(detailsFilename, $"{keys.Count} items found in {totalOccurances} occurances");
+                Logger.LogToFile(loglevel, overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");
+                Logger.LogToFile(loglevel, detailsFilename, $"{keys.Count} items found in {totalOccurances} occurances");
             }
         }
     }

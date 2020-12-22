@@ -38,9 +38,22 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            LogToFile("exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
-            LogToFile("exceptions.log", e.StackTrace);
-            LogToFile("exceptions.log", "");
+            // Log always
+            LogToFile(LogLevel.None,"exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
+            LogToFile(LogLevel.None, "exceptions.log", e.StackTrace);
+            LogToFile(LogLevel.None, "exceptions.log", "");
+        }
+
+        public static void LogResourceUsage()
+        {
+            Process currentProcess = Process.GetCurrentProcess();
+            const long million = 1000000;
+            long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
+            long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
+            long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
+            LogUserMessage($"Peak physical memory usage {peakWorkingSetMb:0.000}MB");
+            LogUserMessage($"Peak paged memory usage    {peakPagedMemMb:0.000}MB");
+            LogUserMessage($"Peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
         }
 
         public static void LogAssemblyInfo(Assembly assembly)
@@ -57,11 +70,7 @@ namespace DsmSuite.Common.Util
             [CallerLineNumber] int lineNumber = 0)
         {
             Console.WriteLine(message);
-
-            if (LogLevel >= LogLevel.User)
-            {
-                LogToFile("userMessages.log", message);
-            }
+            LogToFile(LogLevel.User, "userMessages.log", message);
         }
 
         public static void LogError(string message,
@@ -69,10 +78,15 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            if (LogLevel >= LogLevel.Error)
-            {
-                LogToFile("errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
-            }
+            LogToFile(LogLevel.Error, "errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
+        }
+
+        public static void LogWarning(string message,
+            [CallerFilePath] string sourceFile = "",
+            [CallerMemberName] string method = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            LogToFile(LogLevel.Warning, "warningMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
         }
 
         public static void LogInfo(string message,
@@ -80,10 +94,7 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            if (LogLevel >= LogLevel.Info)
-            {
-                LogToFile("infoMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
-            }
+            LogToFile(LogLevel.Info, "infoMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
         public static void LogDataModelMessage(string message,
@@ -91,28 +102,19 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            LogToFile("dataModelMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
+            LogToFile(LogLevel.Detailed, "dataModelMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
-        public static void LogResourceUsage()
+        public static void LogToFile(LogLevel level, string logFilename, string line)
         {
-            Process currentProcess = Process.GetCurrentProcess();
-            const long million = 1000000;
-            long peakPagedMemMb = currentProcess.PeakPagedMemorySize64 / million;
-            long peakVirtualMemMb = currentProcess.PeakVirtualMemorySize64 / million;
-            long peakWorkingSetMb = currentProcess.PeakWorkingSet64 / million;
-            LogUserMessage($"Peak physical memory usage {peakWorkingSetMb:0.000}MB");
-            LogUserMessage($"Peak paged memory usage    {peakPagedMemMb:0.000}MB");
-            LogUserMessage($"Peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
-        }
-
-        public static void LogToFile(string logFilename, string line)
-        {
-            string path = GetLogFullPath(logFilename);
-            FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write);
-            using (StreamWriter writetext = new StreamWriter(fs))
+            if (LogLevel >= level)
             {
-                writetext.WriteLine(line);
+                string path = GetLogFullPath(logFilename);
+                FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write);
+                using (StreamWriter writetext = new StreamWriter(fs))
+                {
+                    writetext.WriteLine(line);
+                }
             }
         }
 

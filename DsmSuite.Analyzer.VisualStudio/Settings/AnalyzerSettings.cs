@@ -36,7 +36,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
         private List<ExternalIncludeDirectory> _externalIncludeDirectories;
         private string _toolsVersion;
         private ViewMode _viewMode;
-        private bool _logProjectData;
         private string _outputFilename;
         private bool _compressOutputFile;
 
@@ -52,7 +51,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
                 ExternalIncludeDirectories = new List<ExternalIncludeDirectory>(),
                 ToolsVersion = "14.0",
                 ViewMode = ViewMode.LogicalView,
-                LogProjectData = true,
                 OutputFilename = "Output.dsi",
                 CompressOutputFile = true
             };
@@ -118,12 +116,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
         {
             get { return _viewMode; }
             set { _viewMode = value; }
-        }
-
-        public bool LogProjectData
-        {
-            get { return _logProjectData; }
-            set { _logProjectData = value; }
         }
 
         public string OutputFilename
