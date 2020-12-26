@@ -302,15 +302,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                         IsLoaded = true;
                         break;
                     case ".dsi":
-                        await _application.AsyncImportDsiModel(fileToOpen, ModelFilename, false, false, true, progress);
-                        IsLoaded = true;
-                        break;
-                    case ".dot":
-                        await _application.AsyncImportGraphVizModel(fileToOpen, ModelFilename, false, false, true, progress);
-                        IsLoaded = true;
-                        break;
-                    case ".grapML":
-                        await _application.AsyncImportGraphMlModel(fileToOpen, ModelFilename, false, false, true, progress);
+                        await _application.AsyncImportDsiModel(fileToOpen, ModelFilename, false, true, progress);
                         IsLoaded = true;
                         break;
                 }

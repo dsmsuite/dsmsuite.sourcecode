@@ -1,10 +1,9 @@
 ﻿using System;
-
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Application.Import.Common
+namespace DsmSuite.DsmViewer.Application.Import
 {
     public class ImporterBase
     {

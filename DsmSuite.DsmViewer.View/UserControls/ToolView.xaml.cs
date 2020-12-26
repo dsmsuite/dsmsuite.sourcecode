@@ -40,11 +40,10 @@ namespace DsmSuite.DsmViewer.View.UserControls
                 CheckFileExists = true,
                 CheckPathExists = true,
                 DefaultExt = "dsm",
-                Filter = "DSM model|*.dsm|DSM import|*.dsi|GraphViz import|*.dot|GraphML import|*.graphML|All Types|*.dsm;*.dsi;*.dot;*.graphML",
+                Filter = "DSM model|*.dsm|DSI import|*.dsi|All Types|*.dsm;*.dsi",
                 Title = "Open DSM project"
             };
-
-
+            
             bool? result = dlg.ShowDialog();
 
             if (result.HasValue && result.Value)

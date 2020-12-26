@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.Reflection;
-using DsmSuite.Analyzer.Compare;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Util;
 
-namespace DsmSuite.Analyzer.Cpp
+namespace DsmSuite.Analyzer.Compare
 {
     public class ConsoleAction : ConsoleActionBase
     {

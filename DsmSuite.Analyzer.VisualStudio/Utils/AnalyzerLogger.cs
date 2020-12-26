@@ -3,7 +3,7 @@ using System.Linq;
 using DsmSuite.Common.Util;
 using Microsoft.Build.Evaluation;
 
-namespace DsmSuite.Analyzer.Util
+namespace DsmSuite.Analyzer.VisualStudio.Utils
 {
     /// <summary>
     /// Provides logging to be used for diagnostic purposes

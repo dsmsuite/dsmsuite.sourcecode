@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using DsmSuite.Analyzer.DotNet.Lib;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
+using DsmSuite.Analyzer.VisualStudio.Utils;
 using DsmSuite.Common.Util;
 using Microsoft.Build.Construction;
 

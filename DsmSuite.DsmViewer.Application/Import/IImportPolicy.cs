@@ -3,7 +3,7 @@ using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Application.Import.Common
+namespace DsmSuite.DsmViewer.Application.Import
 {
     public interface IImportPolicy
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using Microsoft.Build.Evaluation;
 using DsmSuite.Analyzer.DotNet.Lib;
+using DsmSuite.Analyzer.VisualStudio.Utils;
 using Microsoft.Build.Construction;
 using Logger = DsmSuite.Common.Util.Logger;
 using DsmSuite.Common.Util;

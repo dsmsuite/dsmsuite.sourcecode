@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Analyzer.Util;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
 using DsmSuite.Common.Util;
 using DsmSuite.Analyzer.DotNet.Lib;
+using DsmSuite.Analyzer.VisualStudio.Utils;
 
 namespace DsmSuite.Analyzer.VisualStudio.Analysis
 {

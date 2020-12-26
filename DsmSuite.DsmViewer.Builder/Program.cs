@@ -39,7 +39,6 @@ namespace DsmSuite.DsmViewer.Builder
             application.ImportDsiModel(_builderSettings.Input.Filename,
                                     _builderSettings.Output.Filename,
                                     _builderSettings.Transformation.ApplyPartitioningAlgorithm,
-                                    false,
                                     _builderSettings.Output.Compress,
                                     this);
         }

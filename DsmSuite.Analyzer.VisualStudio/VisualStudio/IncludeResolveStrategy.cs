@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using DsmSuite.Analyzer.Util;
+using DsmSuite.Analyzer.VisualStudio.Utils;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
