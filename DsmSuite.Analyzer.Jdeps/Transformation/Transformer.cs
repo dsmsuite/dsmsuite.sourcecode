@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using DsmSuite.Analyzer.DotNet.Settings;
+using DsmSuite.Analyzer.Jdeps.Settings;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Transformations.Transformation;
 using DsmSuite.Common.Util;
 
-namespace DsmSuite.Analyzer.DotNet.Transfromation
+namespace DsmSuite.Analyzer.Jdeps.Transformation
 {
     public class Transformer
     {

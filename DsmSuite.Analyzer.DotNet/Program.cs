@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.DotNet.Settings;
-using DsmSuite.Analyzer.DotNet.Transfromation;
+using DsmSuite.Analyzer.DotNet.Transformation;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Util;
 

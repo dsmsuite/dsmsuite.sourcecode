@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Jdeps.Settings;
+using DsmSuite.Analyzer.Jdeps.Transformation;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Util;
 
@@ -38,7 +39,7 @@ namespace DsmSuite.Analyzer.Jdeps
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
             analyzer.Analyze();
 
-            Transformer.Transformer transformer = new Transformer.Transformer(model, _analyzerSettings.Transformation, this);
+            Transformer transformer = new Transformer(model, _analyzerSettings.Transformation, this);
             transformer.Transform();
 
             model.Save(_analyzerSettings.Output.Filename, _analyzerSettings.Output.Compress, this);
