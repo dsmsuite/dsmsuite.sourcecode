@@ -7,7 +7,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace DsmSuite.DsmViewer.Application.Test.Import.Common
+namespace DsmSuite.DsmViewer.Application.Test.Import.Dsi
 {
     [TestClass]
     public class DsiImporterTest

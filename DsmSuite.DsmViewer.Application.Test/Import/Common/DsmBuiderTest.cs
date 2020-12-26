@@ -1,5 +1,4 @@
 ﻿using DsmSuite.Common.Model.Interface;
-using DsmSuite.DsmViewer.Application.Import;
 using DsmSuite.DsmViewer.Application.Import.Common;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Application.Test.Stubs;
@@ -7,10 +6,10 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace DsmSuite.DsmViewer.Application.Test.Import
+namespace DsmSuite.DsmViewer.Application.Test.Import.Common
 {
     [TestClass]
-    public class CreateNewModelPolicyTest
+    public class DsmBuiderTest
     {
         Mock<IDsmModel> _dsmModel;
 
