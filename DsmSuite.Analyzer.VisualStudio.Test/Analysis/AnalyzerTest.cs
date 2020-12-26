@@ -13,14 +13,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
     public class AnalyzerTest
     {
         [TestMethod]
-        public void TestAnalyzeLogicalView()
+        public void TestAnalyzeSolutionView()
         {
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             analyzerSettings.Input.Filename = Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln");
             analyzerSettings.Input.ExternalIncludeDirectories.Clear();
             analyzerSettings.Input.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path = Path.Combine(TestData.TestDataDirectory, "DirExternal"), ResolveAs = "External" });
             analyzerSettings.Input.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
-            analyzerSettings.Analysis.ViewMode = ViewMode.LogicalView;
+            analyzerSettings.Analysis.ViewMode = ViewMode.SolutionView;
 
             DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
 
@@ -91,7 +91,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
         }
 
         [TestMethod]
-        public void TestAnalyzePhysicalView()
+        public void TestAnalyzeDirectoryView()
         {
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             analyzerSettings.Input.Filename = Path.Combine(TestData.SolutionDirectory, "DsmSuite.sln");
@@ -99,7 +99,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             analyzerSettings.Input.ExternalIncludeDirectories.Clear();
             analyzerSettings.Input.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory { Path = Path.Combine(TestData.TestDataDirectory, "DirExternal"), ResolveAs = "External" });
             analyzerSettings.Input.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
-            analyzerSettings.Analysis.ViewMode = ViewMode.PhysicalView;
+            analyzerSettings.Analysis.ViewMode = ViewMode.DirectoryView;
 
             DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
 

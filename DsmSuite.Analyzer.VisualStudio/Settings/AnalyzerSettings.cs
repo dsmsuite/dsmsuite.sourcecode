@@ -51,8 +51,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
     [Serializable]
     public enum ViewMode
     {
-        LogicalView,
-        PhysicalView
+        SolutionView,
+        DirectoryView
     }
 
     [Serializable]
@@ -105,7 +105,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
             });
 
             analyzerSettings.Analysis.ToolsVersion = "14.0";
-            analyzerSettings.Analysis.ViewMode = ViewMode.LogicalView;
+            analyzerSettings.Analysis.ViewMode = ViewMode.SolutionView;
 
             analyzerSettings.Transformation.IgnoredNames = new List<string>();
             analyzerSettings.Transformation.AddTransitiveIncludes = false;

@@ -134,11 +134,11 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                         string consumerName = null;
                         switch (_analyzerSettings.Analysis.ViewMode)
                         {
-                            case ViewMode.LogicalView:
-                                consumerName = GetLogicalName(_solutionFile, visualStudioProject, sourceFile);
+                            case ViewMode.SolutionView:
+                                consumerName = GetSolutionViewName(_solutionFile, visualStudioProject, sourceFile);
                                 break;
-                            case ViewMode.PhysicalView:
-                                consumerName = GetPhysicalName(sourceFile);
+                            case ViewMode.DirectoryView:
+                                consumerName = GetDirectoryViewName(sourceFile);
                                 break;
                             default:
                                 Logger.LogError("Unknown view mode");
@@ -188,10 +188,10 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             switch (_analyzerSettings.Analysis.ViewMode)
             {
-                case ViewMode.LogicalView:
+                case ViewMode.SolutionView:
                     RegisterLogicalIncludeRelations(consumerName, resolvedIncludedFile);
                     break;
-                case ViewMode.PhysicalView:
+                case ViewMode.DirectoryView:
                     RegisterPhysicalIncludeRelations(consumerName, resolvedIncludedFile);
                     break;
                 default:
@@ -208,7 +208,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             SourceFile includeFile;
             if (FindIncludeFileInVisualStudioProject(includedFile, out solutionFile, out projectFile, out includeFile))
             {
-                string providerName = GetLogicalName(solutionFile, projectFile, includeFile);
+                string providerName = GetSolutionViewName(solutionFile, projectFile, includeFile);
                 _model.AddRelation(consumerName, providerName, "include", 1, null);
             }
             else
@@ -220,7 +220,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         private void RegisterPhysicalIncludeRelations(string consumerName, string includedFile)
         {
             SourceFile includedSourceFile = new SourceFile(includedFile);
-            string providerName = GetPhysicalName(includedSourceFile);
+            string providerName = GetDirectoryViewName(includedSourceFile);
             _model.AddRelation(consumerName, providerName, "include", 1, null);
         }
 
@@ -262,17 +262,17 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
                     switch (_analyzerSettings.Analysis.ViewMode)
                     {
-                        case ViewMode.LogicalView:
+                        case ViewMode.SolutionView:
                             {
-                                string consumerName = GetLogicalName(_solutionFile, visualStudioProject, relation.Consumer);
-                                string providerName = GetLogicalName(_solutionFile, visualStudioProject, relation.Provider);
+                                string consumerName = GetSolutionViewName(_solutionFile, visualStudioProject, relation.Consumer);
+                                string providerName = GetSolutionViewName(_solutionFile, visualStudioProject, relation.Provider);
                                 _model.AddRelation(consumerName, providerName, "generated", 1, null);
                                 break;
                             }
-                        case ViewMode.PhysicalView:
+                        case ViewMode.DirectoryView:
                             {
-                                string consumerName = GetPhysicalName(relation.Consumer);
-                                string providerName = GetPhysicalName(relation.Provider);
+                                string consumerName = GetDirectoryViewName(relation.Consumer);
+                                string providerName = GetDirectoryViewName(relation.Provider);
                                 _model.AddRelation(consumerName, providerName, "generated", 1, null);
                                 break;
                             }
@@ -302,15 +302,15 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
                 switch (_analyzerSettings.Analysis.ViewMode)
                 {
-                    case ViewMode.LogicalView:
+                    case ViewMode.SolutionView:
                         {
-                            string name = GetLogicalName(solutionFile, visualStudioProject, sourceFile);
+                            string name = GetSolutionViewName(solutionFile, visualStudioProject, sourceFile);
                             _model.AddElement(name, type, sourceFile.SourceFileInfo.FullName);
                             break;
                         }
-                    case ViewMode.PhysicalView:
+                    case ViewMode.DirectoryView:
                         {
-                            string name = GetPhysicalName(sourceFile);
+                            string name = GetDirectoryViewName(sourceFile);
                             _model.AddElement(name, type, sourceFile.SourceFileInfo.FullName);
                             break;
                         }
@@ -452,16 +452,15 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void WriteFoundProjects()
         {
-            List<string> lines = new List<string>();
             foreach (ProjectFileBase project in _solutionFile.Projects)
             {
-                string projectName = GetLogicalName(_solutionFile, project, null);
+                string projectName = GetSolutionViewName(_solutionFile, project, null);
                 string status = project.Success ? "ok" : "failed";
                 AnalyzerLogger.LogProjectStatus(projectName, status);
             }
         }
 
-        private string GetLogicalName(SolutionFile solutionFile, ProjectFileBase visualStudioProject, SourceFile sourceFile)
+        private string GetSolutionViewName(SolutionFile solutionFile, ProjectFileBase visualStudioProject, SourceFile sourceFile)
         {
             string name = "";
 
@@ -538,7 +537,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return name;
         }
 
-        private string GetPhysicalName(SourceFile sourceFile)
+        private string GetDirectoryViewName(SourceFile sourceFile)
         {
             string name = "";
 
