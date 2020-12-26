@@ -34,7 +34,7 @@
     <Compile Include="Transformation\TransformationAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transformation\MergeHeaderAndSourceFileDirectoriesTransformationAction.cs" />
-    <Compile Include="Settings\TransformationMergeRule.cs" />
+    <Compile Include="Settings\TransformationModuleMergeRule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">

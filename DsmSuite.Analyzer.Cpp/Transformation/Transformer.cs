@@ -34,20 +34,20 @@ namespace DsmSuite.Analyzer.Cpp.Transformation
                 actions.Add(new RemoveIgnoreNamesTransformationAction(_model, _transformerSettings.IgnoredNames, _progress));
             }
 
-            switch (_transformerSettings.HeaderSourceFileMergeStrategy)
+            switch (_transformerSettings.ModuleMergeStrategy)
             {
-                case TransformationHeaderSourceFileMergeStrategy.None:
+                case TransformationModuleMergeStrategy.None:
                     {
                     }
                     break;
-                case TransformationHeaderSourceFileMergeStrategy.MoveHeaderFileToSourceFile:
+                case TransformationModuleMergeStrategy.MoveHeaderFileToSourceFile:
                     {
                         actions.Add(new MoveHeaderToSourceFileDirectoryTransformationAction(_model, _progress));
                     }
                     break;
-                case TransformationHeaderSourceFileMergeStrategy.MergeHeaderAndSourceFileDirectory:
+                case TransformationModuleMergeStrategy.MergeHeaderAndSourceFileDirectory:
                     {
-                        actions.Add(new MergeHeaderAndSourceFileDirectoriesTransformationAction(_model, _transformerSettings.MergeHeaderAndSourceFileDirectoryRules, _progress));
+                        actions.Add(new MergeHeaderAndSourceFileDirectoriesTransformationAction(_model, _transformerSettings.ModuleMergeRules, _progress));
                     }
                     break;
             }

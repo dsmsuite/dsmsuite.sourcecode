@@ -27,10 +27,10 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
             IDsiElement element4Before = dataModel.FindElementByName("element4Name");
             Assert.IsNull(element4Before);
 
-            List<TransformationMergeRule> rules = new List<TransformationMergeRule>
+            List<TransformationModuleMergeRule> rules = new List<TransformationModuleMergeRule>
             {
-                new TransformationMergeRule() {From = "element1Name", To = "element3Name"},
-                new TransformationMergeRule() {From = "ELEMENT2NAME", To = "element4Name"}
+                new TransformationModuleMergeRule() {From = "element1Name", To = "element3Name"},
+                new TransformationModuleMergeRule() {From = "ELEMENT2NAME", To = "element4Name"}
             };
 
             MergeHeaderAndSourceFileDirectoriesTransformationAction transformation = new MergeHeaderAndSourceFileDirectoriesTransformationAction(dataModel, rules, null);

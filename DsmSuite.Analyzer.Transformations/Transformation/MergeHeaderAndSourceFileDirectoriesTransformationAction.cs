@@ -11,9 +11,9 @@ namespace DsmSuite.Analyzer.Transformations.Transformation
     {
         private const string ActionName = "Move elements according specified rules";
         private readonly IDsiModel _model;
-        private readonly List<TransformationMergeRule> _transformationRules;
+        private readonly List<TransformationModuleMergeRule> _transformationRules;
 
-        public MergeHeaderAndSourceFileDirectoriesTransformationAction(IDsiModel model, List<TransformationMergeRule> transformationRules, IProgress<ProgressInfo> progress) :
+        public MergeHeaderAndSourceFileDirectoriesTransformationAction(IDsiModel model, List<TransformationModuleMergeRule> transformationRules, IProgress<ProgressInfo> progress) :
             base(ActionName, progress)
         {
             _model = model;
@@ -37,7 +37,7 @@ namespace DsmSuite.Analyzer.Transformations.Transformation
 
         private void MoveElement(IDsiElement element)
         {
-            foreach (TransformationMergeRule rule in _transformationRules)
+            foreach (TransformationModuleMergeRule rule in _transformationRules)
             {
                 if (element.Name.Contains(rule.From))
                 {

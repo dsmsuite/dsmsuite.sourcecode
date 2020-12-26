@@ -39,7 +39,7 @@ namespace DsmSuite.Analyzer.Cpp.Settings
     }
 
     [Serializable]
-    public enum TransformationHeaderSourceFileMergeStrategy
+    public enum TransformationModuleMergeStrategy
     {
         None,
         MoveHeaderFileToSourceFile,
@@ -51,8 +51,8 @@ namespace DsmSuite.Analyzer.Cpp.Settings
     {
         public List<string> IgnoredNames { get; set; }
         public bool AddTransitiveIncludes { get; set; }
-        public TransformationHeaderSourceFileMergeStrategy HeaderSourceFileMergeStrategy { get; set; }
-        public List<TransformationMergeRule> MergeHeaderAndSourceFileDirectoryRules { get; set; }
+        public TransformationModuleMergeStrategy ModuleMergeStrategy { get; set; }
+        public List<TransformationModuleMergeRule> ModuleMergeRules { get; set; }
     }
 
     [Serializable]
@@ -96,10 +96,10 @@ namespace DsmSuite.Analyzer.Cpp.Settings
             analyzerSettings.Analysis.ResolveMethod = ResolveMethod.AddBestMatch;
             analyzerSettings.Transformation.IgnoredNames = new List<string>();
             analyzerSettings.Transformation.AddTransitiveIncludes = false;
-            analyzerSettings.Transformation.HeaderSourceFileMergeStrategy = TransformationHeaderSourceFileMergeStrategy.None;
-            analyzerSettings.Transformation.MergeHeaderAndSourceFileDirectoryRules = new List<TransformationMergeRule>
+            analyzerSettings.Transformation.ModuleMergeStrategy = TransformationModuleMergeStrategy.None;
+            analyzerSettings.Transformation.ModuleMergeRules = new List<TransformationModuleMergeRule>
             {
-                new TransformationMergeRule() {From = "inc.", To = "src."}
+                new TransformationModuleMergeRule() {From = "inc.", To = "src."}
             };
 
             analyzerSettings.Output.Filename = "Output.dsi";
