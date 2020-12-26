@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 
-namespace DsmSuite.Transformer.Transformation
+namespace DsmSuite.Analyzer.Transformations.Transformation
 {
-    public class AddTransitiveRelationsAction : Action
+    public class AddTransitiveRelationsTransformationAction : TransformationAction
     {
         private const string ActionName = "Add transitive relations between elements";
         private readonly IDsiModel _model;
         private readonly Dictionary<string, HashSet<IDsiElement>> _directProviders;
         private readonly Dictionary<string, HashSet<IDsiElement>> _transitiveProviders;
 
-        public AddTransitiveRelationsAction(IDsiModel model, bool enabled, IProgress<ProgressInfo> progress) :
-           base(ActionName, enabled, progress)
+        public AddTransitiveRelationsTransformationAction(IDsiModel model, IProgress<ProgressInfo> progress) :
+           base(ActionName, progress)
         {
             _model = model;
 
@@ -21,7 +21,7 @@ namespace DsmSuite.Transformer.Transformation
             _transitiveProviders = new Dictionary<string, HashSet<IDsiElement>>();
         }
 
-        protected override void ExecuteImpl()
+        public override void Execute()
         {
             FindDirectProviders();
 

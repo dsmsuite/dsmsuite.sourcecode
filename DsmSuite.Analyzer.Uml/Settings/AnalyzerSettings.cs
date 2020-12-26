@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -6,52 +7,43 @@ using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Uml.Settings
 {
+    [Serializable]
+    public class Input
+    {
+        public string Filename { get; set; }
+    }
+
+    [Serializable]
+    public class Output
+    {
+        public string Filename { get; set; }
+        public bool Compress { get; set; }
+    }
+
     /// <summary>
     /// Settings used during analysis. Persisted in XML format using serialization.
     /// </summary>
     [Serializable]
     public class AnalyzerSettings
     {
-        private LogLevel _logLevel;
-        private string _inputFilename;
-        private string _outputFilename;
-        private bool _compressOutputFile;
+        public LogLevel LogLevel { get; set; }
+        public Input Input { get; set; }
+        public Output Output { get; set; }
 
         public static AnalyzerSettings CreateDefault()
         {
-            AnalyzerSettings umlAnalyzerSettings = new AnalyzerSettings
+            AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
                 LogLevel = LogLevel.None,
-                InputFilename = "Model.eap",
-                OutputFilename = "Output.dsi",
-                CompressOutputFile = true
+                Input = new Input(),
+                Output = new Output(),
             };
 
-            return umlAnalyzerSettings;
-        }
+            analyzerSettings.Input.Filename = "Model.eap";
+            analyzerSettings.Output.Filename = "Output.dsi";
+            analyzerSettings.Output.Compress = true;
 
-        public LogLevel LogLevel
-        {
-            get { return _logLevel; }
-            set { _logLevel = value; }
-        }
-
-        public string InputFilename
-        {
-            get { return _inputFilename; }
-            set { _inputFilename = value; }
-        }
-
-        public string OutputFilename
-        {
-            get { return _outputFilename; }
-            set { _outputFilename = value; }
-        }
-
-        public bool CompressOutputFile
-        {
-            get { return _compressOutputFile; }
-            set { _compressOutputFile = value; }
+            return analyzerSettings;
         }
 
         public static void WriteToFile(string filename, AnalyzerSettings analyzerSettings)
@@ -81,8 +73,8 @@ namespace DsmSuite.Analyzer.Uml.Settings
 
         private void ResolvePaths(string settingFilePath)
         {
-            InputFilename = FilePath.ResolveFile(settingFilePath, InputFilename);
-            OutputFilename = FilePath.ResolveFile(settingFilePath, OutputFilename);
+            Input.Filename = FilePath.ResolveFile(settingFilePath, Input.Filename);
+            Output.Filename = FilePath.ResolveFile(settingFilePath, Output.Filename);
         }
     }
 }

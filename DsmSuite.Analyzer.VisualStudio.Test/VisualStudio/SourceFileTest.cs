@@ -100,7 +100,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
                 Path.Combine(testDataDirectory, "DirG"),
                 Path.Combine(testDataDirectory, "DirExternal")
             };
-            List<string> systemIncludes = AnalyzerSettings.CreateDefault().SystemIncludeDirectories;
+            List<string> systemIncludes = AnalyzerSettings.CreateDefault().Input.SystemIncludeDirectories;
 
             IncludeResolveStrategy includeResolveStrategy = new IncludeResolveStrategy(projectIncludes, systemIncludes);
             SourceFile sourceFile = new SourceFile(fileInfo1, null, includeResolveStrategy);

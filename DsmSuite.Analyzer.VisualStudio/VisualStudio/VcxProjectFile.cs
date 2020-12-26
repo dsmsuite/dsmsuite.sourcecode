@@ -152,7 +152,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             try
             {
                 ProjectRootElement project = ProjectRootElement.Open(ProjectFileInfo.FullName);
-                _toolsVersion = AnalyzerSettings.ToolsVersion;
+                _toolsVersion = AnalyzerSettings.Analysis.ToolsVersion;
 
                 foreach (ProjectItemElement item in project.Items)
                 {
@@ -454,7 +454,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
             }
 
-            _includeResolveStrategy = new IncludeResolveStrategy(_includeDirectories, AnalyzerSettings.SystemIncludeDirectories);
+            _includeResolveStrategy = new IncludeResolveStrategy(_includeDirectories, AnalyzerSettings.Input.SystemIncludeDirectories);
         }
 
         private bool ResolveReferencedProjectItems(Project evaluatedProject, ref string includeDirectory, ref string errorText)

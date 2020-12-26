@@ -3,20 +3,20 @@ using System.Linq;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 
-namespace DsmSuite.Transformer.Transformation
+namespace DsmSuite.Analyzer.Transformations.Transformation
 {
-    public class MoveHeaderElementsAction : Action
+    public class MoveHeaderToSourceFileDirectoryTransformationAction : TransformationAction
     {
         private const string ActionName = "Move C/C++ header file element near to implementation file element";
         private readonly IDsiModel _model;
 
-        public MoveHeaderElementsAction(IDsiModel model, bool enabled, IProgress<ProgressInfo> progress) :
-            base(ActionName, enabled, progress)
+        public MoveHeaderToSourceFileDirectoryTransformationAction(IDsiModel model, IProgress<ProgressInfo> progress) :
+            base(ActionName, progress)
         {
             _model = model;
         }
 
-        protected override void ExecuteImpl()
+        public override void Execute()
         {
             IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
 

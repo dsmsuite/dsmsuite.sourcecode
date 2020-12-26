@@ -15,12 +15,9 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
         [TestMethod]
         public void TestAnalyze()
         {
-            AnalyzerSettings analyzerSettings = new AnalyzerSettings
-            {
-                LogLevel = LogLevel.None,
-                AssemblyDirectory = TestData.RootDirectory,
-                IgnoredNames = new List<string>()
-            };
+            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.Input.AssemblyDirectory = TestData.RootDirectory;
+            analyzerSettings.Transformation.IgnoredNames = new List<string>();
 
             IDsiModel model = new DsiModel("Test", Assembly.GetExecutingAssembly());
             DotNet.Analysis.Analyzer analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings, null);

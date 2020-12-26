@@ -23,7 +23,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
-            _solutionFile = new SolutionFile(analyzerSettings.InputFilename, _analyzerSettings, progress);
+            _solutionFile = new SolutionFile(analyzerSettings.Input.Filename, _analyzerSettings, progress);
         }
 
         public void Analyze()
@@ -57,13 +57,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void RegisterInterfaceFiles()
         {
-            foreach (string interfaceDirectory in _analyzerSettings.InterfaceIncludeDirectories)
+            foreach (string interfaceDirectory in _analyzerSettings.Input.InterfaceIncludeDirectories)
             {
                 DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(interfaceDirectory);
                 RegisterInterfaceFiles(interfaceDirectoryInfo);
             }
 
-            foreach (ExternalIncludeDirectory externalDirectory in _analyzerSettings.ExternalIncludeDirectories)
+            foreach (ExternalIncludeDirectory externalDirectory in _analyzerSettings.Input.ExternalIncludeDirectories)
             {
                 DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(externalDirectory.Path);
                 RegisterInterfaceFiles(interfaceDirectoryInfo);
@@ -132,7 +132,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                         Logger.LogInfo("Include relation registered: " + sourceFile.Name + " -> " + includedFile);
 
                         string consumerName = null;
-                        switch (_analyzerSettings.ViewMode)
+                        switch (_analyzerSettings.Analysis.ViewMode)
                         {
                             case ViewMode.LogicalView:
                                 consumerName = GetLogicalName(_solutionFile, visualStudioProject, sourceFile);
@@ -186,7 +186,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void RegisterIncludeRelation(string consumerName, string resolvedIncludedFile)
         {
-            switch (_analyzerSettings.ViewMode)
+            switch (_analyzerSettings.Analysis.ViewMode)
             {
                 case ViewMode.LogicalView:
                     RegisterLogicalIncludeRelations(consumerName, resolvedIncludedFile);
@@ -260,7 +260,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 {
                     Logger.LogInfo("Generated file relation registered: " + relation.Consumer.Name + " -> " + relation.Provider.Name);
 
-                    switch (_analyzerSettings.ViewMode)
+                    switch (_analyzerSettings.Analysis.ViewMode)
                     {
                         case ViewMode.LogicalView:
                             {
@@ -296,7 +296,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             {
                 AnalyzerLogger.LogFileFound(sourceFile.Name, visualStudioProject.ProjectName);
 
-                switch (_analyzerSettings.ViewMode)
+                switch (_analyzerSettings.Analysis.ViewMode)
                 {
                     case ViewMode.LogicalView:
                         {
@@ -343,7 +343,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             bool isSystemInclude = false;
 
-            foreach (string systemIncludeDirectory in _analyzerSettings.SystemIncludeDirectories)
+            foreach (string systemIncludeDirectory in _analyzerSettings.Input.SystemIncludeDirectories)
             {
                 if (includedFile.StartsWith(systemIncludeDirectory))
                 {
@@ -357,7 +357,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             bool isExternalInclude = false;
 
-            foreach (ExternalIncludeDirectory externalIncludeDirectory in _analyzerSettings.ExternalIncludeDirectories)
+            foreach (ExternalIncludeDirectory externalIncludeDirectory in _analyzerSettings.Input.ExternalIncludeDirectories)
             {
                 if (includedFile.StartsWith(externalIncludeDirectory.Path))
                 {
@@ -372,7 +372,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             bool isInterfaceInclude = false;
 
-            foreach (string interfaceIncludeDirectory in _analyzerSettings.InterfaceIncludeDirectories)
+            foreach (string interfaceIncludeDirectory in _analyzerSettings.Input.InterfaceIncludeDirectories)
             {
                 if (includedFile.StartsWith(interfaceIncludeDirectory))
                 {
@@ -514,7 +514,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             string usedExternalIncludeDirectory = null;
             string resolveAs = null;
-            foreach (ExternalIncludeDirectory externalIncludeDirectory in _analyzerSettings.ExternalIncludeDirectories)
+            foreach (ExternalIncludeDirectory externalIncludeDirectory in _analyzerSettings.Input.ExternalIncludeDirectories)
             {
                 if (sourceFile.SourceFileInfo.FullName.StartsWith(externalIncludeDirectory.Path))
                 {
@@ -538,7 +538,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             string name = "";
 
-            string rootDirectory = _analyzerSettings.RootDirectory.Trim('\\'); // Ensure without trailing \
+            string rootDirectory = _analyzerSettings.Input.RootDirectory.Trim('\\'); // Ensure without trailing \
             if (sourceFile.SourceFileInfo.FullName.StartsWith(rootDirectory))
             {
                 int start = rootDirectory.Length + 1;

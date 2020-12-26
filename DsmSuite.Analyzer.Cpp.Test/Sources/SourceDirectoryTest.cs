@@ -12,17 +12,15 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         [TestMethod]
         public void TestSourceFilesFound()
         {
-            AnalyzerSettings analyzerSettings = new AnalyzerSettings
-            {
-                ResolveMethod = ResolveMethod.AddBestMatch,
-                SourceDirectories = new List<string>(),
-                ExternalIncludeDirectories = new List<string>(),
-                IgnorePaths = new List<string>()
-            };
-            analyzerSettings.SourceDirectories.Add(TestData.RootDirectory);
-            analyzerSettings.RootDirectory = TestData.RootDirectory;
+            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.Input.RootDirectory = TestData.RootDirectory;
+            analyzerSettings.Input.SourceDirectories.Clear();
+            analyzerSettings.Input.SourceDirectories.Add(TestData.RootDirectory);
+            analyzerSettings.Input.ExternalIncludeDirectories.Clear();
+            analyzerSettings.Input.IgnorePaths.Clear();
+            analyzerSettings.Analysis.ResolveMethod = ResolveMethod.AddBestMatch;
 
-            SourceDirectory sourceDirectory = new SourceDirectory(analyzerSettings);
+        SourceDirectory sourceDirectory = new SourceDirectory(analyzerSettings);
             sourceDirectory.Analyze();
             const int numberOfHeaderFiles = 7;
             const int numberOfImplementationFiles = 5;

@@ -4,9 +4,19 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using DsmSuite.Common.Util;
+using DsmSuite.Analyzer.Transformations.Settings;
 
 namespace DsmSuite.Analyzer.Cpp.Settings
 {
+    [Serializable]
+    public class InputSettings
+    {
+        public string RootDirectory { get; set; }
+        public List<string> SourceDirectories { get; set; }
+        public List<string> ExternalIncludeDirectories { get; set; }
+        public List<string> IgnorePaths { get; set; }
+    }
+
     /// <summary>
     /// Because this analyzer does not uses include paths, included files can be ambiguous. This enum defines how to resolve this.
     /// Each option has its downsides. 
@@ -22,88 +32,80 @@ namespace DsmSuite.Analyzer.Cpp.Settings
         AddAll,
     }
 
+    [Serializable]
+    public class AnalysisSettings
+    {
+        public ResolveMethod ResolveMethod { get; set; }
+    }
+
+    [Serializable]
+    public enum TransformationHeaderSourceFileMergeStrategy
+    {
+        None,
+        MoveHeaderFileToSourceFile,
+        MergeHeaderAndSourceFileDirectory
+    }
+
+    [Serializable]
+    public class TransformationSettings
+    {
+        public List<string> IgnoredNames { get; set; }
+        public bool AddTransitiveIncludes { get; set; }
+        public TransformationHeaderSourceFileMergeStrategy HeaderSourceFileMergeStrategy { get; set; }
+        public List<TransformationMergeRule> MergeHeaderAndSourceFileDirectoryRules { get; set; }
+    }
+
+    [Serializable]
+    public class OutputSettings
+    {
+        public string Filename { get; set; }
+        public bool Compress { get; set; }
+    }
+    
     /// <summary>
     /// Settings used during code analysis. Persisted in XML format using serialization.
     /// </summary>
     [Serializable]
     public class AnalyzerSettings
     {
-        private LogLevel _logLevel;
-        private string _rootDirectory;
-        private List<string> _sourceDirectories;
-        private List<string> _externalIncludeDirectories;
-        private List<string> _ignorePaths;
-        private ResolveMethod _resolveMethod;
-        private string _outputFilename;
-        private bool _compressOutputFile;
+        public LogLevel LogLevel { get; set; }
+        public InputSettings Input { get; set; }
+        public AnalysisSettings Analysis { get; set; }
+        public TransformationSettings Transformation { get; set; }
+        public OutputSettings Output { get; set; }
 
         public static AnalyzerSettings CreateDefault()
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
                 LogLevel = LogLevel.None,
-                RootDirectory = @"C:\",
-                SourceDirectories = new List<string>(),
-                ExternalIncludeDirectories = new List<string>(),
-                IgnorePaths = new List<string>(),
-                ResolveMethod = ResolveMethod.AddBestMatch,
-                OutputFilename = "Output.dsi",
-                CompressOutputFile = true
+                Input = new InputSettings(),
+                Analysis = new AnalysisSettings(),
+                Transformation = new TransformationSettings(),
+                Output = new OutputSettings(),
             };
 
-            analyzerSettings.SourceDirectories.Add(@"C:\");
-            analyzerSettings.ExternalIncludeDirectories.Add(@"C:\");
-            analyzerSettings.IgnorePaths.Add(@"C:\");
+            analyzerSettings.Input.RootDirectory = @"C:\";
+            analyzerSettings.Input.SourceDirectories = new List<string>();
+            analyzerSettings.Input.SourceDirectories.Add(@"C:\");
+            analyzerSettings.Input.ExternalIncludeDirectories = new List<string>();
+            analyzerSettings.Input.ExternalIncludeDirectories.Add(@"C:\");
+            analyzerSettings.Input.IgnorePaths = new List<string>();
+            analyzerSettings.Input.IgnorePaths.Add(@"C:\");
 
+            analyzerSettings.Analysis.ResolveMethod = ResolveMethod.AddBestMatch;
+            analyzerSettings.Transformation.IgnoredNames = new List<string>();
+            analyzerSettings.Transformation.AddTransitiveIncludes = false;
+            analyzerSettings.Transformation.HeaderSourceFileMergeStrategy = TransformationHeaderSourceFileMergeStrategy.None;
+            analyzerSettings.Transformation.MergeHeaderAndSourceFileDirectoryRules = new List<TransformationMergeRule>
+            {
+                new TransformationMergeRule() {From = "inc.", To = "src."}
+            };
+
+            analyzerSettings.Output.Filename = "Output.dsi";
+            analyzerSettings.Output.Compress = true;
+            
             return analyzerSettings;
-        }
-
-        public LogLevel LogLevel
-        {
-            get { return _logLevel; }
-            set { _logLevel = value; }
-        }
-
-        public string RootDirectory
-        {
-            get { return _rootDirectory; }
-            set { _rootDirectory = value; }
-        }
-
-        public List<string> SourceDirectories
-        {
-            get { return _sourceDirectories; }
-            set { _sourceDirectories = value; }
-        }
-
-        public List<string> ExternalIncludeDirectories
-        {
-            get { return _externalIncludeDirectories; }
-            set { _externalIncludeDirectories = value; }
-        }
-
-        public List<string> IgnorePaths
-        {
-            get { return _ignorePaths; }
-            set { _ignorePaths = value; }
-        }
-
-        public ResolveMethod ResolveMethod
-        {
-            get { return _resolveMethod; }
-            set { _resolveMethod = value; }
-        }
-
-        public string OutputFilename
-        {
-            get { return _outputFilename; }
-            set { _outputFilename = value; }
-        }
-
-        public bool CompressOutputFile
-        {
-            get { return _compressOutputFile; }
-            set { _compressOutputFile = value; }
         }
 
         public static void WriteToFile(string filename, AnalyzerSettings analyzerSettings)
@@ -133,11 +135,11 @@ namespace DsmSuite.Analyzer.Cpp.Settings
 
         private void ResolvePaths(string settingFilePath)
         {
-            RootDirectory = FilePath.ResolveFile(settingFilePath, RootDirectory);
-            SourceDirectories = FilePath.ResolveFiles(settingFilePath, SourceDirectories);
-            ExternalIncludeDirectories = FilePath.ResolveFiles(settingFilePath, ExternalIncludeDirectories);
-            IgnorePaths = FilePath.ResolveFiles(settingFilePath, IgnorePaths);
-            OutputFilename = FilePath.ResolveFile(settingFilePath, OutputFilename);
+            Input.RootDirectory = FilePath.ResolveFile(settingFilePath, Input.RootDirectory);
+            Input.SourceDirectories = FilePath.ResolveFiles(settingFilePath, Input.SourceDirectories);
+            Input.ExternalIncludeDirectories = FilePath.ResolveFiles(settingFilePath, Input.ExternalIncludeDirectories);
+            Input.IgnorePaths = FilePath.ResolveFiles(settingFilePath, Input.IgnorePaths);
+            Output.Filename = FilePath.ResolveFile(settingFilePath, Output.Filename);
         }
     }
 }

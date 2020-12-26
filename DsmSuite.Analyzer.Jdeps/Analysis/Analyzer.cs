@@ -25,7 +25,7 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
         public void Analyze()
         {
             int lineNumber = 0;
-            FileInfo dotFile = new FileInfo(_analyzerSettings.InputFilename);
+            FileInfo dotFile = new FileInfo(_analyzerSettings.Input.Filename);
             using (FileStream stream = dotFile.Open(FileMode.Open))
             {
                 StreamReader sr = new StreamReader(stream);

@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Transformer.Transformation;
+using DsmSuite.Analyzer.Transformations.Transformation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.Transformer.Test.Transformation
+namespace DsmSuite.Analyzer.Transformations.Test.Transformation
 {
     [TestClass]
-    public class AddTransitiveRelationsActionUnitTest
+    public class AddTransitiveRelationsTransformationActionTest
     {
         [TestMethod]
         public void AddTransitiveRelations()
@@ -40,7 +40,7 @@ namespace DsmSuite.Transformer.Test.Transformation
             Assert.IsTrue(dataModel.DoesRelationExist(element4.Id, element5.Id));
             Assert.AreEqual(0, dataModel.GetRelationsOfConsumer(element5.Id).Count);
 
-            AddTransitiveRelationsAction transformation = new AddTransitiveRelationsAction(dataModel, true, null);
+            AddTransitiveRelationsTransformationAction transformation = new AddTransitiveRelationsTransformationAction(dataModel, null);
             transformation.Execute();
 
             Assert.AreEqual(4, dataModel.GetRelationsOfConsumer(element1.Id).Count);

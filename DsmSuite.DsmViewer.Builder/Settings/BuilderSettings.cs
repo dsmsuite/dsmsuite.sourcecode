@@ -6,69 +6,54 @@ using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.Builder.Settings
 {
+    [Serializable]
+    public class InputSettings
+    {
+        public string Filename { get; set; }
+    }
+
+    [Serializable]
+    public class TransformationSettings
+    {
+        public bool ApplyPartitioningAlgorithm { get; set; }
+    }
+
+    [Serializable]
+    public class OutputSettings
+    {
+        public string Filename { get; set; }
+        public bool Compress { get; set; }
+    }
+
     /// <summary>
     /// Settings used by dsm builder. Persisted in XML format using serialization.
     /// </summary>
     [Serializable]
     public class BuilderSettings
     {
-        private LogLevel _logLevel;
-        private string _inputFilename;
-        private bool _applyPartitioningAlgorithm;
-        private bool _recordChanges;
-        private string _outputFilename;
-        private bool _compressOutputFile;
+        public LogLevel LogLevel { get; set; }
+        public InputSettings Input { get; set; }
+        public TransformationSettings Transformation { get; set; }
+        public OutputSettings Output { get; set; }
 
         public static BuilderSettings CreateDefault()
         {
-            BuilderSettings settings = new BuilderSettings
+            BuilderSettings builderSettings = new BuilderSettings
             {
                 LogLevel = LogLevel.None,
-                InputFilename = "Input.dsi",
-                ApplyPartitioningAlgorithm = false,
-                RecordChanges = false,
-                OutputFilename = "Output.dsm",
-
-                CompressOutputFile = true
+                Input = new InputSettings(),
+                Transformation = new TransformationSettings(),
+                Output = new OutputSettings(),
             };
 
-            return settings;
-        }
+            builderSettings.Input.Filename = "Input.dsi";
 
-        public LogLevel LogLevel
-        {
-            get { return _logLevel; }
-            set { _logLevel = value; }
-        }
+            builderSettings.Transformation.ApplyPartitioningAlgorithm = false;
 
-        public string InputFilename
-        {
-            get { return _inputFilename; }
-            set { _inputFilename = value; }
-        }
+            builderSettings.Output.Filename = "Output.dsm";
+            builderSettings.Output.Compress = true;
 
-        public string OutputFilename
-        {
-            get { return _outputFilename; }
-            set { _outputFilename = value; }
-        }
-
-        public bool ApplyPartitioningAlgorithm
-        {
-            get { return _applyPartitioningAlgorithm; }
-            set { _applyPartitioningAlgorithm = value; }
-        }
-
-        public bool RecordChanges
-        {
-            get { return _recordChanges; }
-            set { _recordChanges = value; }
-        }
-
-        public bool CompressOutputFile
-        {
-            get { return _compressOutputFile; }
-            set { _compressOutputFile = value; }
+            return builderSettings;
         }
 
         public static void WriteToFile(string filename, BuilderSettings builderSettings)
@@ -98,8 +83,8 @@ namespace DsmSuite.DsmViewer.Builder.Settings
 
         private void ResolvePaths(string settingFilePath)
         {
-            InputFilename = Resolve(settingFilePath, InputFilename);
-            OutputFilename = Resolve(settingFilePath, OutputFilename);
+            Input.Filename = Resolve(settingFilePath, Input.Filename);
+            Output.Filename = Resolve(settingFilePath, Output.Filename);
         }
 
         private static string Resolve(string path, string filename)

@@ -18,31 +18,36 @@ namespace DsmSuite.Analyzer.Jdeps
         protected override bool CheckPrecondition()
         {
             bool result = true;
-            if (!File.Exists(_analyzerSettings.InputFilename))
+            if (!File.Exists(_analyzerSettings.Input.Filename))
             {
                 result = false;
-                Logger.LogUserMessage($"Input file '{_analyzerSettings.InputFilename}' does not exist.");
+                Logger.LogUserMessage($"Input file '{_analyzerSettings.Input.Filename}' does not exist.");
             }
             return result;
         }
 
         protected override void LogInputParameters()
         {
-            Logger.LogUserMessage($"Input filename:{_analyzerSettings.InputFilename}");
+            Logger.LogUserMessage($"Input filename:{_analyzerSettings.Input.Filename}");
         }
 
         protected override void Action()
         {
             DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
             analyzer.Analyze();
-            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, this);
+
+            Transformer.Transformer transformer = new Transformer.Transformer(model, _analyzerSettings.Transformation, this);
+            transformer.Transform();
+
+            model.Save(_analyzerSettings.Output.Filename, _analyzerSettings.Output.Compress, this);
             Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}%");
         }
 
         protected override void LogOutputParameters()
         {
-            Logger.LogUserMessage($"Output file: {_analyzerSettings.OutputFilename} compressed={_analyzerSettings.CompressOutputFile}");
+            Logger.LogUserMessage($"Output file: {_analyzerSettings.Output.Filename} compressed={_analyzerSettings.Output.Compress}");
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.DotNet.Settings;
+using DsmSuite.Analyzer.DotNet.Transfromation;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Util;
 
@@ -18,31 +19,36 @@ namespace DsmSuite.Analyzer.DotNet
         protected override bool CheckPrecondition()
         {
             bool result = true;
-            if (!Directory.Exists(_analyzerSettings.AssemblyDirectory))
+            if (!Directory.Exists(_analyzerSettings.Input.AssemblyDirectory))
             {
                 result = false;
-                Logger.LogUserMessage($"Input directory '{_analyzerSettings.AssemblyDirectory}' does not exist.");
+                Logger.LogUserMessage($"Input directory '{_analyzerSettings.Input.AssemblyDirectory}' does not exist.");
             }
             return result;
         }
 
         protected override void LogInputParameters()
         {
-            Logger.LogUserMessage($"Assembly directory:{_analyzerSettings.AssemblyDirectory}");
+            Logger.LogUserMessage($"Assembly directory:{_analyzerSettings.Input.AssemblyDirectory}");
         }
 
         protected override void Action()
         {
             DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
             analyzer.Analyze();
-            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, this);
+
+            Transformer transformer = new Transformer(model, _analyzerSettings.Transformation, this);
+            transformer.Transform();
+
+            model.Save(_analyzerSettings.Output.Filename, _analyzerSettings.Output.Compress, this);
             Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}%");
         }
 
         protected override void LogOutputParameters()
         {
-            Logger.LogUserMessage($"Output file: {_analyzerSettings.OutputFilename} compressed={_analyzerSettings.CompressOutputFile}");
+            Logger.LogUserMessage($"Output file: {_analyzerSettings.Output.Filename} compressed={_analyzerSettings.Output.Compress}");
         }
     }
 

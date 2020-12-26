@@ -7,70 +7,63 @@ using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.DotNet.Settings
 {
+    [Serializable]
+    public class InputSettings
+    {
+        public string AssemblyDirectory { get; set; }
+    }
+
+    [Serializable]
+    public class TransformationSettings
+    {
+        public List<string> IgnoredNames { get; set; }
+    }
+
+    [Serializable]
+    public class OutputSettings
+    {
+        public string Filename { get; set; }
+        public bool Compress { get; set; }
+    }
+
     /// <summary>
     /// Settings used during code analysis. Persisted in XML format using serialization.
     /// </summary>
     [Serializable]
     public class AnalyzerSettings
     {
-        private LogLevel _logLevel;
-        private string _assemblyDirectory;
-        private List<string> _ignoredNames;
-        private string _outputFilename;
-        private bool _compressOutputFile;
+        public LogLevel LogLevel { get; set; }
+        public InputSettings Input { get; set; }
+        public TransformationSettings Transformation { get; set; }
+        public OutputSettings Output { get; set; }
 
         public static AnalyzerSettings CreateDefault()
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
-                LogLevel = Common.Util.LogLevel.None,
-                AssemblyDirectory = "",
-                IgnoredNames = new List<string>(),
-                OutputFilename = "Output.dsi",
-                CompressOutputFile = true
+                LogLevel = LogLevel.None,
+                Input = new InputSettings(),
+                Transformation = new TransformationSettings(),
+                Output = new OutputSettings(),
             };
 
-            // Ignore Microsoft stuff
-            analyzerSettings.IgnoredNames.Add("^System.");
-            analyzerSettings.IgnoredNames.Add("^Microsoft.");
+            analyzerSettings.Input.AssemblyDirectory = "";
 
-            // Ignore COM/C++ Interop stuff
-            analyzerSettings.IgnoredNames.Add("^Interop");
+            analyzerSettings.Transformation.IgnoredNames = new List<string>
+            {
+                // Ignore Microsoft stuff
+                "^System.",
+                "^Microsoft.",
+                // Ignore COM/C++ Interop stuff
+                "^Interop",
+                // Ignore anonymous classes
+                "<>",
+                "^_"
+            };
 
-            // Ignore anonymousness classes
-            analyzerSettings.IgnoredNames.Add("&lt;");
-            analyzerSettings.IgnoredNames.Add("^_");
+            analyzerSettings.Output.Filename = "Output.dsi";
+            analyzerSettings.Output.Compress = true;
             return analyzerSettings;
-        }
-
-        public LogLevel LogLevel
-        {
-            get { return _logLevel; }
-            set { _logLevel = value; }
-        }
-
-        public string AssemblyDirectory
-        {
-            get { return _assemblyDirectory; }
-            set { _assemblyDirectory = value; }
-        }
-
-        public List<string> IgnoredNames
-        {
-            get { return _ignoredNames; }
-            set { _ignoredNames = value; }
-        }
-
-        public string OutputFilename
-        {
-            get { return _outputFilename; }
-            set { _outputFilename = value; }
-        }
-
-        public bool CompressOutputFile
-        {
-            get { return _compressOutputFile; }
-            set { _compressOutputFile = value; }
         }
 
         public static void WriteToFile(string filename, AnalyzerSettings analyzerSettings)
@@ -100,8 +93,8 @@ namespace DsmSuite.Analyzer.DotNet.Settings
 
         private void ResolvePaths(string settingFilePath)
         {
-            AssemblyDirectory = FilePath.ResolveFile(settingFilePath, AssemblyDirectory);
-            OutputFilename = FilePath.ResolveFile(settingFilePath, OutputFilename);
+            Input.AssemblyDirectory = FilePath.ResolveFile(settingFilePath, Input.AssemblyDirectory);
+            Output.Filename = FilePath.ResolveFile(settingFilePath, Output.Filename);
         }
     }
 }

@@ -78,7 +78,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             };
 
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
-            List<string> systemIncludeDirectories = analyzerSettings.SystemIncludeDirectories;
+            List<string> systemIncludeDirectories = analyzerSettings.Input.SystemIncludeDirectories;
             return new IncludeResolveStrategy(projectIncludeDirectories, systemIncludeDirectories);
         }
     }

@@ -32,9 +32,9 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
         private void FindAssemblies()
         {
-            foreach (string assemblyFilename in Directory.EnumerateFiles(_analyzerSettings.AssemblyDirectory))
+            foreach (string assemblyFilename in Directory.EnumerateFiles(_analyzerSettings.Input.AssemblyDirectory))
             {
-                BinaryFile assemblyFile = new BinaryFile(assemblyFilename, _analyzerSettings.IgnoredNames, _progress);
+                BinaryFile assemblyFile = new BinaryFile(assemblyFilename, _analyzerSettings.Transformation.IgnoredNames, _progress);
 
                 if (assemblyFile.Exists && assemblyFile.IsAssembly)
                 {

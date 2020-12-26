@@ -26,7 +26,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
         {
             try
             {
-                bool success = _repository.OpenFile(_analyzerSettings.InputFilename);
+                bool success = _repository.OpenFile(_analyzerSettings.Input.Filename);
                 if (success)
                 {
                     _elementCount = 0;
@@ -52,7 +52,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
             }
             catch (Exception e)
             {
-                Logger.LogException($"Reading EA model failed file={_analyzerSettings.InputFilename}", e);
+                Logger.LogException($"Reading EA model failed file={_analyzerSettings.Input.Filename}", e);
             }
         }
 
@@ -116,7 +116,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
         private void RegisterElement(EA.Element element)
         {
             Logger.LogInfo("Register model element:" + ExtractUniqueName(element));
-            _model.AddElement(ExtractUniqueName(element), element.Type, _analyzerSettings.InputFilename);
+            _model.AddElement(ExtractUniqueName(element), element.Type, _analyzerSettings.Input.Filename);
             _elementCount++;
             UpdateElementProgress(false);
         }

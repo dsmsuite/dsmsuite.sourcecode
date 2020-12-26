@@ -13,11 +13,8 @@ namespace DsmSuite.Analyzer.Jdeps.Test.Analysis
         [TestMethod]
         public void TestAnalyze()
         {
-            AnalyzerSettings analyzerSettings = new AnalyzerSettings
-            {
-                LogLevel = LogLevel.None,
-                InputFilename = "example.dot",
-            };
+            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.Input.Filename = "example.dot";
 
             IDsiModel model = new DsiModel("Test", Assembly.GetExecutingAssembly());
             Jdeps.Analysis.Analyzer analyzer = new Jdeps.Analysis.Analyzer(model, analyzerSettings, null);

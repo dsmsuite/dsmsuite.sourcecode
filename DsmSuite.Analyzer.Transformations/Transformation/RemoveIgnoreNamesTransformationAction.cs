@@ -4,26 +4,24 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
-using DsmSuite.Transformer.Settings;
 
-namespace DsmSuite.Transformer.Transformation
+namespace DsmSuite.Analyzer.Transformations.Transformation
 {
-    public class IncludeFilterAction : Action
+    public class RemoveIgnoreNamesTransformationAction : TransformationAction
     {
         private const string ActionName = "Include filter";
         private readonly IDsiModel _model;
-        private readonly List<string> _names;
+        private readonly List<string> _ignoredNames;
 
-        public IncludeFilterAction(IDsiModel model, IncludeFilterSettings includeFilterSettings, IProgress<ProgressInfo> progress) :
-            base(ActionName, includeFilterSettings.Enabled, progress)
+        public RemoveIgnoreNamesTransformationAction(IDsiModel model, List<string> ignoredNames, IProgress<ProgressInfo> progress) :
+            base(ActionName, progress)
         {
             _model = model;
-            _names = includeFilterSettings.Names;
+            _ignoredNames = ignoredNames;
         }
 
-        protected override void ExecuteImpl()
+        public override void Execute()
         {
-
             IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
 
             int totalElements = _model.GetElementCount();
@@ -47,15 +45,15 @@ namespace DsmSuite.Transformer.Transformation
 
         private bool ShouldElementBeIncluded(IDsiElement element)
         {
-            bool include = false;
+            bool include = true;
 
-            foreach (string name in _names)
+            foreach (string name in _ignoredNames)
             {
                 Regex regex = new Regex(name);
                 Match match = regex.Match(element.Name);
                 if (match.Success)
                 {
-                    include = true;
+                    include = false;
                 }
             }
             return include;

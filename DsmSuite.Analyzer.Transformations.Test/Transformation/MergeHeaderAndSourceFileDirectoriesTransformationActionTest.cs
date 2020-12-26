@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Transformer.Settings;
-using DsmSuite.Transformer.Transformation;
+using DsmSuite.Analyzer.Transformations.Settings;
+using DsmSuite.Analyzer.Transformations.Transformation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.Transformer.Test.Transformation
+namespace DsmSuite.Analyzer.Transformations.Test.Transformation
 {
     [TestClass]
-    public class TransformationActionTest
+    public class MergeHeaderAndSourceFileDirectoriesTransformationActionTest
     {
         [TestMethod]
         public void RenameOnlyMatchingElements()
@@ -27,17 +27,13 @@ namespace DsmSuite.Transformer.Test.Transformation
             IDsiElement element4Before = dataModel.FindElementByName("element4Name");
             Assert.IsNull(element4Before);
 
-            MoveElementsSettings moveElementsSettings = new MoveElementsSettings
+            List<TransformationMergeRule> rules = new List<TransformationMergeRule>
             {
-                Enabled = true,
-                Rules = new List<MoveElementRule>
-                {
-                    new MoveElementRule() {From = "element1Name", To = "element3Name"},
-                    new MoveElementRule() {From = "ELEMENT2NAME", To = "element4Name"}
-                }
+                new TransformationMergeRule() {From = "element1Name", To = "element3Name"},
+                new TransformationMergeRule() {From = "ELEMENT2NAME", To = "element4Name"}
             };
 
-            MoveElementsAction transformation = new MoveElementsAction(dataModel, moveElementsSettings, null);
+            MergeHeaderAndSourceFileDirectoriesTransformationAction transformation = new MergeHeaderAndSourceFileDirectoriesTransformationAction(dataModel, rules, null);
             transformation.Execute();
 
             IDsiElement element1After = dataModel.FindElementByName("element1Name");

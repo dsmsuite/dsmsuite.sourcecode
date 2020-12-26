@@ -19,34 +19,34 @@ namespace DsmSuite.DsmViewer.Builder
         protected override bool CheckPrecondition()
         {
             bool result = true;
-            if (!File.Exists(_builderSettings.InputFilename))
+            if (!File.Exists(_builderSettings.Input.Filename))
             {
                 result = false;
-                Logger.LogUserMessage($"Input file '{_builderSettings.InputFilename}' does not exist.");
+                Logger.LogUserMessage($"Input file '{_builderSettings.Input.Filename}' does not exist.");
             }
             return result;
         }
 
         protected override void LogInputParameters()
         {
-            Logger.LogUserMessage($"Input filename:{_builderSettings.InputFilename}");
+            Logger.LogUserMessage($"Input filename:{_builderSettings.Input.Filename}");
         }
 
         protected override void Action()
         {
             DsmModel model = new DsmModel("Builder", Assembly.GetExecutingAssembly());
             DsmApplication application = new DsmApplication(model);
-            application.ImportDsiModel(_builderSettings.InputFilename,
-                                    _builderSettings.OutputFilename,
-                                    _builderSettings.ApplyPartitioningAlgorithm,
-                                    _builderSettings.RecordChanges,
-                                    _builderSettings.CompressOutputFile,
+            application.ImportDsiModel(_builderSettings.Input.Filename,
+                                    _builderSettings.Output.Filename,
+                                    _builderSettings.Transformation.ApplyPartitioningAlgorithm,
+                                    false,
+                                    _builderSettings.Output.Compress,
                                     this);
         }
 
         protected override void LogOutputParameters()
         {
-            Logger.LogUserMessage($"Output file: {_builderSettings.OutputFilename} compressed={_builderSettings.CompressOutputFile}");
+            Logger.LogUserMessage($"Output file: {_builderSettings.Output.Filename} compressed={_builderSettings.Output.Compress}");
         }
     }
 

@@ -4,14 +4,47 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using DsmSuite.Common.Util;
+using DsmSuite.Analyzer.Transformations.Settings;
 
 namespace DsmSuite.Analyzer.VisualStudio.Settings
 {
     [Serializable]
+    public class InputSettings
+    {
+        public string Filename { get; set; }
+        public string RootDirectory { get; set; }
+        public List<string> SystemIncludeDirectories { get; set; }
+        public List<ExternalIncludeDirectory> ExternalIncludeDirectories { get; set; }
+        public List<string> InterfaceIncludeDirectories { get; set; }
+    }
+
+    [Serializable]
+    public class AnalysisSettings
+    {
+        public string ToolsVersion { get; set; }
+        public ViewMode ViewMode { get; set; }
+    }
+
+    [Serializable]
+    public class TransformationSettings
+    {
+        public List<string> IgnoredNames { get; set; }
+        public bool AddTransitiveIncludes { get; set; }
+        public TransformationHeaderSourceFileMergeStrategy HeaderSourceFileMergeStrategy { get; set; }
+        public List<TransformationMergeRule> MergeHeaderAndSourceFileDirectoryRules { get; set; }
+    }
+
+    [Serializable]
+    public class OutputSettings
+    {
+        public string Filename { get; set; }
+        public bool Compress { get; set; }
+    }
+
+    [Serializable]
     public class ExternalIncludeDirectory
     {
         public string Path { get; set; }
-
         public string ResolveAs { get; set; }
     }
 
@@ -22,112 +55,70 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
         PhysicalView
     }
 
+    [Serializable]
+    public enum TransformationHeaderSourceFileMergeStrategy
+    {
+        None,
+        MoveHeaderFileToSourceFile,
+        MergeHeaderAndSourceFileDirectory
+    }
+
     /// <summary>
     /// Settings used during code analysis. Persisted in XML format using serialization.
     /// </summary>
     [Serializable]
     public class AnalyzerSettings
     {
-        private LogLevel _logLevel;
-        private string _inputFilename;
-        private string _rootDirectory;
-        private List<string> _systemIncludeDirectories;
-        private List<string> _interfaceIncludeDirectories;
-        private List<ExternalIncludeDirectory> _externalIncludeDirectories;
-        private string _toolsVersion;
-        private ViewMode _viewMode;
-        private string _outputFilename;
-        private bool _compressOutputFile;
+        public LogLevel LogLevel { get; set; }
+        public InputSettings Input { get; set; }
+        public AnalysisSettings Analysis { get; set; }
+        public TransformationSettings Transformation { get; set; }
+        public OutputSettings Output { get; set; }
 
         public static AnalyzerSettings CreateDefault()
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
                 LogLevel = LogLevel.None,
-                InputFilename = @"C:\Example.sln",
-                RootDirectory = "",
-                SystemIncludeDirectories = new List<string>(),
-                InterfaceIncludeDirectories = new List<string>(),
-                ExternalIncludeDirectories = new List<ExternalIncludeDirectory>(),
-                ToolsVersion = "14.0",
-                ViewMode = ViewMode.LogicalView,
-                OutputFilename = "Output.dsi",
-                CompressOutputFile = true
+                Input = new InputSettings(),
+                Analysis = new AnalysisSettings(),
+                Transformation = new TransformationSettings(),
+                Output = new OutputSettings(),
             };
 
-            analyzerSettings.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\8.1\Include\um");
-            analyzerSettings.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\8.1\Include\shared");
-            analyzerSettings.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt");
-            analyzerSettings.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include");
-            analyzerSettings.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include");
+            analyzerSettings.Input.Filename = @"C:\Example.sln";
+            analyzerSettings.Input.RootDirectory = @"C:\";
+            analyzerSettings.Input.SystemIncludeDirectories = new List<string>();
+            analyzerSettings.Input.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\8.1\Include\um");
+            analyzerSettings.Input.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\8.1\Include\shared");
+            analyzerSettings.Input.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt");
+            analyzerSettings.Input.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include");
+            analyzerSettings.Input.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include");
 
-            analyzerSettings.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory
+
+            analyzerSettings.Input.InterfaceIncludeDirectories = new List<string>();
+            analyzerSettings.Input.ExternalIncludeDirectories = new List<ExternalIncludeDirectory>();
+            analyzerSettings.Input.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory
             {
                 Path = @"C\:External",
                 ResolveAs = "External"
             });
 
+            analyzerSettings.Analysis.ToolsVersion = "14.0";
+            analyzerSettings.Analysis.ViewMode = ViewMode.LogicalView;
+
+            analyzerSettings.Transformation.IgnoredNames = new List<string>();
+            analyzerSettings.Transformation.AddTransitiveIncludes = false;
+            analyzerSettings.Transformation.HeaderSourceFileMergeStrategy = TransformationHeaderSourceFileMergeStrategy.None;
+            analyzerSettings.Transformation.MergeHeaderAndSourceFileDirectoryRules = new List<TransformationMergeRule>
+            {
+                new TransformationMergeRule() {From = "Header Files.", To = "Source Files."}
+            };
+
+            analyzerSettings.Output.Filename = "Output.dsi";
+            analyzerSettings.Output.Compress = true;
+            
             return analyzerSettings;
-        }
-
-        public LogLevel LogLevel
-        {
-            get { return _logLevel; }
-            set { _logLevel = value; }
-        }
-
-        public string InputFilename
-        {
-            get { return _inputFilename; }
-            set { _inputFilename = value; }
-        }
-
-        public string RootDirectory
-        {
-            get { return _rootDirectory; }
-            set { _rootDirectory = value; }
-        }
-
-        public List<string> SystemIncludeDirectories
-        {
-            get { return _systemIncludeDirectories; }
-            set { _systemIncludeDirectories = value; }
-        }
-
-        public List<string> InterfaceIncludeDirectories
-        {
-            get { return _interfaceIncludeDirectories; }
-            set { _interfaceIncludeDirectories = value; }
-        }
-
-        public List<ExternalIncludeDirectory> ExternalIncludeDirectories
-        {
-            get { return _externalIncludeDirectories; }
-            set { _externalIncludeDirectories = value; }
-        }
-
-        public string ToolsVersion
-        {
-            get { return _toolsVersion; }
-            set { _toolsVersion = value; }
-        }
-
-        public ViewMode ViewMode
-        {
-            get { return _viewMode; }
-            set { _viewMode = value; }
-        }
-
-        public string OutputFilename
-        {
-            get { return _outputFilename; }
-            set { _outputFilename = value; }
-        }
-
-        public bool CompressOutputFile
-        {
-            get { return _compressOutputFile; }
-            set { _compressOutputFile = value; }
         }
 
         public static void WriteToFile(string filename, AnalyzerSettings analyzerSettings)
@@ -157,15 +148,15 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
 
         private void ResolvePaths(string settingFilePath)
         {
-            InputFilename = FilePath.ResolveFile(settingFilePath, InputFilename);
-            RootDirectory = FilePath.ResolveFile(settingFilePath, RootDirectory);
-            SystemIncludeDirectories = FilePath.ResolveFiles(settingFilePath, SystemIncludeDirectories);
-            foreach (ExternalIncludeDirectory externalIncludeDirectory in ExternalIncludeDirectories)
+            Input.Filename = FilePath.ResolveFile(settingFilePath, Input.Filename);
+            Input.RootDirectory = FilePath.ResolveFile(settingFilePath, Input.RootDirectory);
+            Input.SystemIncludeDirectories = FilePath.ResolveFiles(settingFilePath, Input.SystemIncludeDirectories);
+            foreach (ExternalIncludeDirectory externalIncludeDirectory in Input.ExternalIncludeDirectories)
             {
                 externalIncludeDirectory.Path = FilePath.ResolveFile(settingFilePath, externalIncludeDirectory.Path);
             }
-            InterfaceIncludeDirectories = FilePath.ResolveFiles(settingFilePath, InterfaceIncludeDirectories);
-            OutputFilename = FilePath.ResolveFile(settingFilePath, OutputFilename);
+            Input.InterfaceIncludeDirectories = FilePath.ResolveFiles(settingFilePath, Input.InterfaceIncludeDirectories);
+            Output.Filename = FilePath.ResolveFile(settingFilePath, Output.Filename);
         }
     }
 }

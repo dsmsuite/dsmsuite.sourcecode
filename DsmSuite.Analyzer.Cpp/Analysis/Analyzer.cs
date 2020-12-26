@@ -57,7 +57,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
         private IIncludeResolveStrategy GetIncludeResolveStrategy()
         {
             IIncludeResolveStrategy includeResolveStrategy;
-            switch (_analyzerSettings.ResolveMethod)
+            switch (_analyzerSettings.Analysis.ResolveMethod)
             {
                 case ResolveMethod.AddBestMatch:
                     includeResolveStrategy = new BestMatchIncludeFileResolveStrategy(_sourceDirectory.IncludeDirectories);
@@ -144,7 +144,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
         {
             bool isSystemInclude = false;
 
-            foreach (string externalIncludeDirectories in _analyzerSettings.ExternalIncludeDirectories)
+            foreach (string externalIncludeDirectories in _analyzerSettings.Input.ExternalIncludeDirectories)
             {
                 if (includedFile.StartsWith(externalIncludeDirectories))
                 {
@@ -156,7 +156,7 @@ namespace DsmSuite.Analyzer.Cpp.Analysis
 
         private string ExtractSourceFileUniqueName(string filename)
         {
-            int start = _analyzerSettings.RootDirectory.Length + 1;
+            int start = _analyzerSettings.Input.RootDirectory.Length + 1;
 
             string relativePath = filename.Substring(start);
             string logicalName = relativePath.Replace("\\", ".");

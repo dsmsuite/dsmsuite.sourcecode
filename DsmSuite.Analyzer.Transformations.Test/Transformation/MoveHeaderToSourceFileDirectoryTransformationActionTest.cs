@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Transformer.Transformation;
+using DsmSuite.Analyzer.Transformations.Transformation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DsmSuite.Transformer.Test.Transformation
+namespace DsmSuite.Analyzer.Transformations.Test.Transformation
 {
     [TestClass]
     public class MergeHeaderTransformationUnitTest
@@ -23,7 +23,7 @@ namespace DsmSuite.Transformer.Test.Transformation
             Assert.IsNotNull(dataModel.FindElementByName("namespace3.namespace4.element1Name.h"));
             Assert.IsNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.h"));
             
-            MoveHeaderElementsAction transformation = new MoveHeaderElementsAction(dataModel, true,null);
+            MoveHeaderToSourceFileDirectoryTransformationAction transformation = new MoveHeaderToSourceFileDirectoryTransformationAction(dataModel, null);
             transformation.Execute();
 
             Assert.IsNotNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.cpp"));
@@ -45,7 +45,7 @@ namespace DsmSuite.Transformer.Test.Transformation
             Assert.IsNotNull(dataModel.FindElementByName("namespace3.namespace4.ELEMENT1NAME.h"));
             Assert.IsNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.h"));
 
-            MoveHeaderElementsAction transformation = new MoveHeaderElementsAction(dataModel, true, null);
+            MoveHeaderToSourceFileDirectoryTransformationAction transformation = new MoveHeaderToSourceFileDirectoryTransformationAction(dataModel, null);
             transformation.Execute();
 
             Assert.IsNotNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.cpp"));
@@ -65,7 +65,7 @@ namespace DsmSuite.Transformer.Test.Transformation
             Assert.IsNotNull(dataModel.FindElementByName("namespace3.namespace4.element1Name.h"));
             Assert.IsNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.h"));
 
-            MoveHeaderElementsAction transformation = new MoveHeaderElementsAction(dataModel, true, null);
+            MoveHeaderToSourceFileDirectoryTransformationAction transformation = new MoveHeaderToSourceFileDirectoryTransformationAction(dataModel, null);
             transformation.Execute();
 
             Assert.IsNotNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.cpp"));

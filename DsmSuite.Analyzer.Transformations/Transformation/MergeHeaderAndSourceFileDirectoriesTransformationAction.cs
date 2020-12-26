@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using DsmSuite.Analyzer.Model.Interface;
+using DsmSuite.Analyzer.Transformations.Settings;
 using DsmSuite.Common.Util;
-using DsmSuite.Transformer.Settings;
 
-namespace DsmSuite.Transformer.Transformation
+namespace DsmSuite.Analyzer.Transformations.Transformation
 {
-    public class MoveElementsAction : Action
+    public class MergeHeaderAndSourceFileDirectoriesTransformationAction : TransformationAction
     {
         private const string ActionName = "Move elements according specified rules";
         private readonly IDsiModel _model;
-        private readonly List<MoveElementRule> _transformationRules;
+        private readonly List<TransformationMergeRule> _transformationRules;
 
-        public MoveElementsAction(IDsiModel model, MoveElementsSettings moveElementsSettings, IProgress<ProgressInfo> progress) :
-            base(ActionName, moveElementsSettings.Enabled, progress)
+        public MergeHeaderAndSourceFileDirectoriesTransformationAction(IDsiModel model, List<TransformationMergeRule> transformationRules, IProgress<ProgressInfo> progress) :
+            base(ActionName, progress)
         {
             _model = model;
-            _transformationRules = moveElementsSettings.Rules;
+            _transformationRules = transformationRules;
         }
 
-        protected override void ExecuteImpl()
+        public override void Execute()
         {
             IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
 
@@ -37,7 +37,7 @@ namespace DsmSuite.Transformer.Transformation
 
         private void MoveElement(IDsiElement element)
         {
-            foreach (MoveElementRule rule in _transformationRules)
+            foreach (TransformationMergeRule rule in _transformationRules)
             {
                 if (element.Name.Contains(rule.From))
                 {

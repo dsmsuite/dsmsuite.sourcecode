@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Cpp.Settings;
+using DsmSuite.Analyzer.Cpp.Transformation;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Util;
 
@@ -23,11 +24,11 @@ namespace DsmSuite.Analyzer.Cpp
         protected override void LogInputParameters()
         {
             Logger.LogUserMessage("Input directories:");
-            foreach (string sourceDirectory in _analyzerSettings.SourceDirectories)
+            foreach (string sourceDirectory in _analyzerSettings.Input.SourceDirectories)
             {
                 Logger.LogUserMessage($" {sourceDirectory}");
             }
-            Logger.LogUserMessage($"Resolve method: {_analyzerSettings.ResolveMethod}");
+            Logger.LogUserMessage($"Resolve method: {_analyzerSettings.Analysis.ResolveMethod}");
         }
 
         protected override void Action()
@@ -35,13 +36,17 @@ namespace DsmSuite.Analyzer.Cpp
             DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
             analyzer.Analyze();
-            model.Save(_analyzerSettings.OutputFilename, _analyzerSettings.CompressOutputFile, this);
+
+            Transformer transformer = new Transformer(model, _analyzerSettings.Transformation, this);
+            transformer.Transform();
+
+            model.Save(_analyzerSettings.Output.Filename, _analyzerSettings.Output.Compress, this);
             Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}% ambiguousRelations={model.AmbiguousRelationPercentage:0.0}%");
         }
 
         protected override void LogOutputParameters()
         {
-            Logger.LogUserMessage($"Output file: {_analyzerSettings.OutputFilename} compressed={_analyzerSettings.CompressOutputFile}");
+            Logger.LogUserMessage($"Output file: {_analyzerSettings.Output.Filename} compressed={_analyzerSettings.Output.Compress}");
         }
     }
 

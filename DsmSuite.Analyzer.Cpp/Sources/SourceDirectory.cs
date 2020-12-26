@@ -24,12 +24,12 @@ namespace DsmSuite.Analyzer.Cpp.Sources
 
         private void FindIncludeDirectories()
         {
-            foreach (string sourceCodeDirectory in _analyzerSettings.SourceDirectories)
+            foreach (string sourceCodeDirectory in _analyzerSettings.Input.SourceDirectories)
             {
                 RecursiveFindIncludeDirectories(sourceCodeDirectory);
             }
 
-            foreach (string includeDirectory in _analyzerSettings.ExternalIncludeDirectories)
+            foreach (string includeDirectory in _analyzerSettings.Input.ExternalIncludeDirectories)
             {
                 RecursiveFindIncludeDirectories(includeDirectory);
             }
@@ -37,7 +37,7 @@ namespace DsmSuite.Analyzer.Cpp.Sources
 
         private void FindSourceFiles()
         {
-            foreach (string sourceCodeDirectory in _analyzerSettings.SourceDirectories)
+            foreach (string sourceCodeDirectory in _analyzerSettings.Input.SourceDirectories)
             {
                 RecursiveFindSourceFiles(sourceCodeDirectory);
             }
@@ -84,7 +84,7 @@ namespace DsmSuite.Analyzer.Cpp.Sources
         {
             bool ignore = false;
 
-            foreach (string ignoredDirectory in _analyzerSettings.IgnorePaths)
+            foreach (string ignoredDirectory in _analyzerSettings.Input.IgnorePaths)
             {
                 if (directory.StartsWith(ignoredDirectory))
                 {
