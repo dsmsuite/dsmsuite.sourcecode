@@ -79,6 +79,8 @@ namespace DsmSuite.Analyzer.DotNet
                     action.Execute();
                 }
             }
+
+            Logger.Flush();
         }
     }
 }

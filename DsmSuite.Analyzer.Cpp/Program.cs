@@ -77,6 +77,8 @@ namespace DsmSuite.Analyzer.Cpp
                     action.Execute();
                 }
             }
+
+            Logger.Flush();
         }
     }
 }

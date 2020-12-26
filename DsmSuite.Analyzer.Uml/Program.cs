@@ -73,6 +73,8 @@ namespace DsmSuite.Analyzer.Uml
                     action.Execute();
                 }
             }
+
+            Logger.Flush();
         }
     }
 }

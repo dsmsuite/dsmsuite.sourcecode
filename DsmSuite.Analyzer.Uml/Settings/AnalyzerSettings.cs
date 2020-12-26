@@ -33,7 +33,7 @@ namespace DsmSuite.Analyzer.Uml.Settings
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
-                LogLevel = LogLevel.None,
+                LogLevel = LogLevel.Error,
                 Input = new Input(),
                 Output = new Output(),
             };

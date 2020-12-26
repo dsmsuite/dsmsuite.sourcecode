@@ -41,7 +41,7 @@ namespace DsmSuite.Analyzer.Jdeps.Settings
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
-                LogLevel = LogLevel.None,
+                LogLevel = LogLevel.Error,
                 Input = new InputSettings(),
                 Transformation = new TransformationSettings(),
                 Output = new OutputSettings(),

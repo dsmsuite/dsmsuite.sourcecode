@@ -79,7 +79,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
         {
             AnalyzerSettings analyzerSettings = new AnalyzerSettings
             {
-                LogLevel = LogLevel.None,
+                LogLevel = LogLevel.Error,
                 Input = new InputSettings(),
                 Analysis = new AnalysisSettings(),
                 Transformation = new TransformationSettings(),
