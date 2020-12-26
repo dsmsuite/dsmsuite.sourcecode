@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using DsmSuite.Common.Util;
 using Mono.Cecil;
 
@@ -10,14 +9,12 @@ namespace DsmSuite.Analyzer.DotNet.Lib
 {
     public class BinaryFile
     {
-        private readonly ICollection<string> _ignoredNames;
         private readonly IProgress<ProgressInfo> _progress;
         private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
 
-        public BinaryFile(string filename, ICollection<string> ignoredNames, IProgress<ProgressInfo> progress)
+        public BinaryFile(string filename, IProgress<ProgressInfo> progress)
         {
             FileInfo = new FileInfo(filename);
-            _ignoredNames = ignoredNames;
             _progress = progress;
         }
 
@@ -46,7 +43,7 @@ namespace DsmSuite.Analyzer.DotNet.Lib
                 }
             }
         }
-        
+
         public void FindTypes(DotNetResolver resolver)
         {
             try
@@ -158,7 +155,7 @@ namespace DsmSuite.Analyzer.DotNet.Lib
             }
             UpdateRelationProgress(true);
         }
-        
+
         private void AnalyseTypeRelations(TypeDefinition typeDecl)
         {
             AnalyzeTypeInterfaces(typeDecl);
@@ -395,12 +392,9 @@ namespace DsmSuite.Analyzer.DotNet.Lib
         private void RegisterType(TypeDefinition typeDecl)
         {
             string typeName = typeDecl.GetElementType().ToString();
-            if (!Ignore(typeName))
-            {
-                Types.Add(new DotNetType(typeDecl.GetElementType().ToString(), DetermineType(typeDecl)));
-                _typeList.Add(typeDecl);
-                UpdateTypeProgress(false);
-            }
+            Types.Add(new DotNetType(typeDecl.GetElementType().ToString(), DetermineType(typeDecl)));
+            _typeList.Add(typeDecl);
+            UpdateTypeProgress(false);
         }
 
         private void RegisterRelation(TypeReference providerType, TypeReference consumerType, string type,
@@ -411,8 +405,7 @@ namespace DsmSuite.Analyzer.DotNet.Lib
                 string consumerName = consumerType.GetElementType().ToString();
                 string providerName = providerType.GetElementType().ToString();
 
-                if (!providerType.ContainsGenericParameter &&
-                    !Ignore(providerName))
+                if (!providerType.ContainsGenericParameter)
                 {
                     Relations.Add(new DotNetRelation(consumerName, providerName, type));
                 }
@@ -426,23 +419,6 @@ namespace DsmSuite.Analyzer.DotNet.Lib
                     }
                 }
             }
-        }
-
-        private bool Ignore(string providerName)
-        {
-            bool ignore = false;
-
-            foreach (string ignoredName in _ignoredNames)
-            {
-                Regex regex = new Regex(ignoredName);
-                Match match = regex.Match(providerName);
-                if (match.Success)
-                {
-                    Logger.LogInfo($"Ignored {providerName} due to {ignoredName}");
-                    ignore = true;
-                }
-            }
-            return ignore;
         }
 
         private void UpdateTypeProgress(bool done)

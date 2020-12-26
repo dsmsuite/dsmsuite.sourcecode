@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DsmSuite.Common.Util;
 using Microsoft.Build.Evaluation;

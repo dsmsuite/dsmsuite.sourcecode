@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using System.Windows.Markup;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
-using DsmSuite.DsmViewer.Application.Import;
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.DsmViewer.Application.Interfaces;

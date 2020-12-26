@@ -3,7 +3,6 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {

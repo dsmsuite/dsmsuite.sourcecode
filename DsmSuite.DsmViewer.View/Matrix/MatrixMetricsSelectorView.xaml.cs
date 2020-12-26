@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace DsmSuite.DsmViewer.View.Matrix
+﻿namespace DsmSuite.DsmViewer.View.Matrix
 {
     /// <summary>
     /// Interaction logic for MatrixMetricsSelectorView.xaml

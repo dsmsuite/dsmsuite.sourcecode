@@ -31,7 +31,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
                         if (File.Exists(assemblyFilename))
                         {
-                            BinaryFile assembly = new BinaryFile(assemblyFilename, new List<string>(), null);
+                            BinaryFile assembly = new BinaryFile(assemblyFilename, null);
                             if (assembly.IsAssembly)
                             {
                                 _assembly = assembly;

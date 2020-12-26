@@ -34,7 +34,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         {
             foreach (string assemblyFilename in Directory.EnumerateFiles(_analyzerSettings.Input.AssemblyDirectory))
             {
-                BinaryFile assemblyFile = new BinaryFile(assemblyFilename, _analyzerSettings.Transformation.IgnoredNames, _progress);
+                BinaryFile assemblyFile = new BinaryFile(assemblyFilename, _progress);
 
                 if (assemblyFile.Exists && assemblyFile.IsAssembly)
                 {

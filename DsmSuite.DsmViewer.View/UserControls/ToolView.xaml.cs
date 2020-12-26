@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Input;
 using DsmSuite.DsmViewer.ViewModel.Main;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
