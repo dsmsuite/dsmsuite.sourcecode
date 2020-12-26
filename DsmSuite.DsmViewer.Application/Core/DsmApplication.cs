@@ -14,6 +14,8 @@ using DsmSuite.Analyzer.Model.Core;
 using System.Reflection;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Import;
+using DsmSuite.DsmViewer.Application.Import.Common;
+using DsmSuite.DsmViewer.Application.Import.Dsi;
 using DsmSuite.DsmViewer.Application.Metrics;
 
 namespace DsmSuite.DsmViewer.Application.Core
@@ -101,7 +103,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             DsiModel dsiModel = new DsiModel(processStep, assembly);
             dsiModel.Load(dsiFilename, progress);
 
-            IImportPolicy importPolicy = new CreateNewModelPolicy(_dsmModel);
+            IDsmBuilder importPolicy = new DsmBuilder(_dsmModel);
             DsiImporter importer = new DsiImporter(dsiModel, _dsmModel, importPolicy, autoPartition);
             importer.Import(progress);
             _actionStore.SaveToModel();

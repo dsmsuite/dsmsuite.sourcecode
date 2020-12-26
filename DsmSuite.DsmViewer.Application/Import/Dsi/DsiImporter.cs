@@ -4,18 +4,19 @@ using System.Linq;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.Application.Import.Common;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
-namespace DsmSuite.DsmViewer.Application.Import
+namespace DsmSuite.DsmViewer.Application.Import.Dsi
 {
     public class DsiImporter : ImporterBase
     {
         private readonly IDsiModel _dsiModel;
-        private readonly IImportPolicy _importPolicy;
+        private readonly IDsmBuilder _importPolicy;
         private readonly bool _autoPartition;
         private readonly Dictionary<int, int> _dsiToDsmMapping;
 
-        public DsiImporter(IDsiModel dsiModel, IDsmModel dsmModel, IImportPolicy importPolicy, bool autoPartition) : base(dsmModel)
+        public DsiImporter(IDsiModel dsiModel, IDsmModel dsmModel, IDsmBuilder importPolicy, bool autoPartition) : base(dsmModel)
         {
             _dsiModel = dsiModel;
             _importPolicy = importPolicy;

@@ -1,5 +1,6 @@
 ﻿using DsmSuite.Common.Model.Interface;
 using DsmSuite.DsmViewer.Application.Import;
+using DsmSuite.DsmViewer.Application.Import.Common;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Application.Test.Stubs;
 using DsmSuite.DsmViewer.Model.Interfaces;
@@ -63,7 +64,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenPolicyIsConstructedThenModelIsCleared()
         {
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
+            DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
 
             _dsmModel.Verify(x => x.Clear(), Times.Once());
         }
@@ -73,7 +74,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             _dsmModel.Setup(x => x.AddMetaData(MetaDataGroup, MetaDataItemName, MetaDataItemValue)).Returns(_createMetaDataItem.Object);
 
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
+            DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
             IMetaDataItem metaDataItem = policy.ImportMetaDataItem(MetaDataGroup, MetaDataItemName, MetaDataItemValue);
             Assert.AreEqual(_createMetaDataItem.Object, metaDataItem);
 
@@ -87,7 +88,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
             _dsmModel.Setup(x => x.AddElement(ElementName, ElementType, ElementParentId)).Returns(_createdElement.Object);
 
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
+            DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
             IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, string.Empty);
             Assert.AreEqual(_createdElement.Object, element);
 
@@ -100,7 +101,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
             IDsmElement foundElement = _existingElement.Object;
             _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
 
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
+            DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
             IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, string.Empty);
             Assert.AreEqual(_existingElement.Object, element);
 
@@ -112,7 +113,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             _dsmModel.Setup(x => x.AddRelation(_consumer.Object, _provider.Object, RelationType, RelationWeight)).Returns(_createdRelation.Object);
 
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
+            DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
             IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight, string.Empty);
             Assert.AreEqual(_createdRelation.Object, relation);
 
@@ -122,7 +123,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         [TestMethod]
         public void WhenImportIsFinalizedThenElementOrderIsAssigned()
         {
-            CreateNewModelPolicy policy = new CreateNewModelPolicy(_dsmModel.Object);
+            DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
 
             policy.FinalizeImport(null);
 

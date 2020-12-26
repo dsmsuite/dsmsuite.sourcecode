@@ -78,7 +78,7 @@
     <Compile Include="Algorithm\PermutationTest.cs" />
     <Compile Include="Algorithm\WeightsMatrixTest.cs" />
     <Compile Include="Import\CreateNewModelPolicyTest.cs" />
-    <Compile Include="Import\DsiImporterTest.cs" />
+    <Compile Include="Import\Common\DsmBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetupAssemblyInitializer.cs" />
     <Compile Include="Stubs\StubbedSortAlgorithm.cs" />
@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
+    <Folder Include="Import\Dsi\" />
     <Folder Include="Queries\" />
   </ItemGroup>
   <Choose>

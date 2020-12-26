@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Model.Interface;
-using DsmSuite.DsmViewer.Application.Import;
+using DsmSuite.DsmViewer.Application.Import.Common;
+using DsmSuite.DsmViewer.Application.Import.Dsi;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace DsmSuite.DsmViewer.Application.Test.Import
+namespace DsmSuite.DsmViewer.Application.Test.Import.Common
 {
     [TestClass]
     public class DsiImporterTest
@@ -49,7 +50,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
 
         Mock<IDsiModel> _dsiModel;
         Mock<IDsmModel> _dsmModel;
-        Mock<IImportPolicy> _importPolicy;
+        Mock<IDsmBuilder> _importPolicy;
 
         Mock<IMetaDataItem> _metaDataItem1;
         Mock<IMetaDataItem> _metaDataItem2;
@@ -73,7 +74,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import
         {
             _dsiModel = new Mock<IDsiModel>();
             _dsmModel = new Mock<IDsmModel>();
-            _importPolicy = new Mock<IImportPolicy>();
+            _importPolicy = new Mock<IDsmBuilder>();
 
             List<string> metaDataGroups = new List<string>() { MetaDataGroup };
             _dsiModel.Setup(x => x.GetMetaDataGroups()).Returns(metaDataGroups);
