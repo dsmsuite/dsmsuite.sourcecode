@@ -40,7 +40,7 @@ namespace DsmSuite.DsmViewer.Builder.Settings
         {
             BuilderSettings builderSettings = new BuilderSettings
             {
-                LogLevel = LogLevel.None,
+                LogLevel = LogLevel.Error,
                 Input = new InputSettings(),
                 Transformation = new TransformationSettings(),
                 Output = new OutputSettings(),

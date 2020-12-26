@@ -290,7 +290,11 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             Logger.LogInfo("Source file registered: " + sourceFile.Name);
 
             string type = sourceFile.FileType;
-            _projectSourcesFilesByChecksum[sourceFile.Checksum] = sourceFile.SourceFileInfo;
+
+            if (_interfaceFileChecksumsByFilePath.Count > 0)
+            {
+                _projectSourcesFilesByChecksum[sourceFile.Checksum] = sourceFile.SourceFileInfo;
+            }
 
             if (sourceFile.SourceFileInfo.Exists)
             {

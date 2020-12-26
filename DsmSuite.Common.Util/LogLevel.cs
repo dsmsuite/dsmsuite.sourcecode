@@ -10,6 +10,7 @@ namespace DsmSuite.Common.Util
         Warning,
         Error,
         Info,
-        Detailed
+        Data,
+        All
     }
 }

@@ -87,47 +87,48 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
         
         public static void LogProjectProperties(string filename, Project project)
         {
-            Logger.LogToFile(LogLevel.Detailed, filename, $"Properties");
-            Logger.LogToFile(LogLevel.Detailed, filename, "--------------------------------------------------------------");
-            Logger.LogToFile(LogLevel.Detailed, filename, "");
+            Logger.LogToFile(LogLevel.All, filename, $"Properties");
+            Logger.LogToFile(LogLevel.All, filename, "--------------------------------------------------------------");
+            Logger.LogToFile(LogLevel.All, filename, "");
 
             foreach (ProjectProperty projectProperty in project.AllEvaluatedProperties)
             {
-                Logger.LogToFile(LogLevel.Detailed, filename, $" property={projectProperty.Name}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  unevaluatedValue={projectProperty.UnevaluatedValue}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  evaluatedValue={projectProperty.EvaluatedValue}");
-                Logger.LogToFile(LogLevel.Detailed, filename, "");
+                Logger.LogToFile(LogLevel.All, filename, $" property={projectProperty.Name}");
+                Logger.LogToFile(LogLevel.All, filename, $"  unevaluatedValue={projectProperty.UnevaluatedValue}");
+                Logger.LogToFile(LogLevel.All, filename, $"  evaluatedValue={projectProperty.EvaluatedValue}");
+                Logger.LogToFile(LogLevel.All, filename, "");
             }
 
-            Logger.LogToFile(LogLevel.Detailed, filename, $"Item Definitions");
-            Logger.LogToFile(LogLevel.Detailed, filename, "--------------------------------------------------------------");
-            Logger.LogToFile(LogLevel.Detailed, filename, "");
+            Logger.LogToFile(LogLevel.All, filename, $"Item Definitions");
+            Logger.LogToFile(LogLevel.All, filename, "--------------------------------------------------------------");
+            Logger.LogToFile(LogLevel.All, filename, "");
 
             foreach (ProjectMetadata projectMetadata in project.AllEvaluatedItemDefinitionMetadata)
             {
-                Logger.LogToFile(LogLevel.Detailed, filename, $" itemDefinition={projectMetadata.Name}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  unevaluatedValue={projectMetadata.UnevaluatedValue}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  evaluatedValue={projectMetadata.EvaluatedValue}");
-                Logger.LogToFile(LogLevel.Detailed, filename, "");
+                Logger.LogToFile(LogLevel.All, filename, $" itemDefinition={projectMetadata.Name}");
+                Logger.LogToFile(LogLevel.All, filename, $"  unevaluatedValue={projectMetadata.UnevaluatedValue}");
+                Logger.LogToFile(LogLevel.All, filename, $"  evaluatedValue={projectMetadata.EvaluatedValue}");
+                Logger.LogToFile(LogLevel.All, filename, "");
             }
 
-            Logger.LogToFile(LogLevel.Detailed, filename, $"Items");
-            Logger.LogToFile(LogLevel.Detailed, filename, "--------------------------------------------------------------");
-            Logger.LogToFile(LogLevel.Detailed, filename, "");
+            Logger.LogToFile(LogLevel.All, filename, $"Items");
+            Logger.LogToFile(LogLevel.All, filename, "--------------------------------------------------------------");
+            Logger.LogToFile(LogLevel.All, filename, "");
 
             foreach (ProjectItem projectItem in project.AllEvaluatedItems)
             {
-                Logger.LogToFile(LogLevel.Detailed, filename, $" item={projectItem.ItemType}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  unevaluatedValue={projectItem.UnevaluatedInclude}");
-                Logger.LogToFile(LogLevel.Detailed, filename, $"  evaluatedValue={projectItem.EvaluatedInclude}");
-                Logger.LogToFile(LogLevel.Detailed, filename, "");
+                Logger.LogToFile(LogLevel.All, filename, $" item={projectItem.ItemType}");
+                Logger.LogToFile(LogLevel.All, filename, $"  unevaluatedValue={projectItem.UnevaluatedInclude}");
+                Logger.LogToFile(LogLevel.All, filename, $"  evaluatedValue={projectItem.EvaluatedInclude}");
+                Logger.LogToFile(LogLevel.All, filename, "");
             }
         }
 
         public static void Flush()
         {
-            Flush(LogLevel.Error, FilesNotFoundLogMessages, "Files not found", "filesNotFound", 0);
             Flush(LogLevel.Info, FilesFoundLogMessages, "Duplicate files found", "duplicateFilesFound", 1);
+
+            Flush(LogLevel.Error, FilesNotFoundLogMessages, "Files not found", "filesNotFound", 0);
             Flush(LogLevel.Error, PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved", 0);
             Flush(LogLevel.Error, IncludePathsNotFoundLogMessages, "Absolute paths not found", "includePathsNotFound", 0);
             Flush(LogLevel.Error, IncludeFilesNotFoundLogMessages, "Includes files not found", "includeFilesNotFound", 0);

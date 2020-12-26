@@ -47,7 +47,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
             if (project != null)
             {
-                if (AnalyzerSettings.LogLevel == LogLevel.Detailed)
+                if (AnalyzerSettings.LogLevel == LogLevel.All)
                 {
                     string filename = $"project{ProjectFileInfo.Name}.log";
                     AnalyzerLogger.LogProjectProperties(filename, project);

@@ -76,6 +76,8 @@ namespace DsmSuite.DsmViewer.Builder
                     action.Execute();
                 }
             }
+
+            Logger.Flush();
         }
     }
 }

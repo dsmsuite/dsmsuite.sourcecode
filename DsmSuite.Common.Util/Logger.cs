@@ -41,16 +41,7 @@ namespace DsmSuite.Common.Util
 
         public static LogLevel LogLevel { get; set; }
 
-        public static void LogException(string message, Exception e,
-            [CallerFilePath] string sourceFile = "",
-            [CallerMemberName] string method = "",
-            [CallerLineNumber] int lineNumber = 0)
-        {
-            // Log always
-            LogToFile(LogLevel.None,"exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
-            LogToFile(LogLevel.None, "exceptions.log", e.StackTrace);
-            LogToFile(LogLevel.None, "exceptions.log", "");
-        }
+
 
         public static void LogResourceUsage()
         {
@@ -89,6 +80,23 @@ namespace DsmSuite.Common.Util
             LogToFile(LogLevel.Error, "errorMessages.log", FormatLine(sourceFile, method, lineNumber, "error", message));
         }
 
+        public static void LogException(string message, Exception e,
+            [CallerFilePath] string sourceFile = "",
+            [CallerMemberName] string method = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            string exceptionMessage = FormatLine(sourceFile, method, lineNumber, message, e.Message);
+            Console.WriteLine(exceptionMessage);
+            LogToFile(LogLevel.Error, "exceptions.log", exceptionMessage);
+
+            string exceptionStackTrace = e.StackTrace;
+            Console.WriteLine(exceptionStackTrace);
+            LogToFile(LogLevel.Error, "exceptions.log", exceptionStackTrace);
+
+            Console.WriteLine("");
+            LogToFile(LogLevel.Error, "exceptions.log", "");
+        }
+
         public static void LogWarning(string message,
             [CallerFilePath] string sourceFile = "",
             [CallerMemberName] string method = "",
@@ -110,7 +118,7 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            LogToFile(LogLevel.Detailed, "dataModelMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
+            LogToFile(LogLevel.Data, "dataModelMessages.log", FormatLine(sourceFile, method, lineNumber, "info", message));
         }
 
         public static void LogErrorDataModelRelationNotResolved(string consumerName, string providerName)
@@ -126,7 +134,7 @@ namespace DsmSuite.Common.Util
 
         public static void Flush()
         {
-            Flush(LogLevel.Error, DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved", 0);
+            Flush(LogLevel.Data, DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved", 0);
         }
 
         public static void LogToFile(LogLevel level, string logFilename, string line)
