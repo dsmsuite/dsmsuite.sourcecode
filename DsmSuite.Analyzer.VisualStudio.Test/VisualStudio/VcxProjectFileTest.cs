@@ -183,9 +183,10 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string solutionFolder = "Analyzers.VisualStudioAnalyzer";
             string testDataDirectory = TestData.TestDataDirectory;
             string solutionDir = Path.GetFullPath(Path.Combine(testDataDirectory, @"..\"));
+            string solutionName = "DsmSuite";
             string projecPath = Path.GetFullPath(Path.Combine(testDataDirectory, "DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj"));
             DotNetResolver resolver = new DotNetResolver();
-            return new VcxProjectFile(solutionFolder, solutionDir, projecPath, analyzerSettings, resolver);
+            return new VcxProjectFile(solutionFolder, solutionDir, solutionName, projecPath, analyzerSettings, resolver);
         }
 
         private static HashSet<string> GetSourceFiles(VcxProjectFile projectFile)

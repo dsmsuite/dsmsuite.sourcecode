@@ -25,8 +25,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private Dictionary<string, string> _globalProperties = new Dictionary<string, string>();
         private string _toolsVersion;
 
-        public VcxProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
-            base(solutionFolder, solutionDir, projectPath, analyzerSettings, resolver)
+        public VcxProjectFile(string solutionFolder, string solutionDir, string solutionName, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
+            base(solutionFolder, solutionDir, solutionName, projectPath, analyzerSettings, resolver)
         {
             _filterFile = new FilterFile(ProjectFileInfo.FullName + ".filters");
             GeneratedFileRelations = new List<GeneratedFileRelation>();
@@ -162,6 +162,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                         _globalProperties["Configuration"] = projectConfiguration[0];
                         _globalProperties["Platform"] = projectConfiguration[1];
                         _globalProperties["SolutionDir"] = NormalizeDirectory(SolutionDir);
+                        _globalProperties["SolutionName"] = SolutionName;
                         break;
                     }
                 }

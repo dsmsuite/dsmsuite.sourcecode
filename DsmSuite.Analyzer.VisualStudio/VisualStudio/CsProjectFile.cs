@@ -15,8 +15,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private Dictionary<string, string> _globalProperties = new Dictionary<string, string>();
         private string _toolsVersion;
 
-        public CsProjectFile(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
-            base(solutionFolder, solutionDir, projectPath, analyzerSettings, resolver)
+        public CsProjectFile(string solutionFolder, string solutionDir, string solutionName, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
+            base(solutionFolder, solutionDir, solutionName, projectPath, analyzerSettings, resolver)
         {
             Project project = OpenProject();
 

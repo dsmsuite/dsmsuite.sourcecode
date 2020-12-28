@@ -122,14 +122,15 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             FileInfo projectFileInfo = new FileInfo(absoluteProjectFilename);
             if (projectFileInfo.Exists)
             {
+                string solutionName = _solutionFileInfo.Name.Replace(".sln", "");
                 if (absoluteProjectFilename.EndsWith("vcxproj"))
                 {
-                    VcxProjectFile projectFile = new VcxProjectFile(solutionFolder, _solutionFileInfo.DirectoryName, absoluteProjectFilename, _analyzerSettings, _resolver);
+                    VcxProjectFile projectFile = new VcxProjectFile(solutionFolder, _solutionFileInfo.DirectoryName, solutionName, absoluteProjectFilename, _analyzerSettings, _resolver);
                     _projects[guid] = projectFile;
                 }
                 else if (absoluteProjectFilename.EndsWith("csproj"))
                 {
-                    //CsProjectFile projectFile = new CsProjectFile(solutionFolder, _solutionFileInfo.DirectoryName, absoluteProjectFilename, _analyzerSettings, _resolver);
+                    //CsProjectFile projectFile = new CsProjectFile(solutionFolder, _solutionFileInfo.DirectoryName, solutionName, absoluteProjectFilename, _analyzerSettings, _resolver);
                     //_projects[guid] = projectFile;
                 }
                 else

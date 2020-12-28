@@ -10,10 +10,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public abstract class ProjectFileBase
     {
-        protected ProjectFileBase(string solutionFolder, string solutionDir, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver)
+        protected ProjectFileBase(string solutionFolder, string solutionDir, string solutionName, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver)
         {
             SolutionFolder = solutionFolder;
             SolutionDir = solutionDir;
+            SolutionName = solutionName;
             ProjectFileInfo = new FileInfo(projectPath);
             ProjectName = ProjectFileInfo.Name;
             SourceFiles = new HashSet<SourceFile>();
@@ -26,6 +27,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         public string SolutionFolder { get; }
 
         public string SolutionDir { get; }
+
+        public string SolutionName { get; }
 
         public string ProjectName { get; }
 
