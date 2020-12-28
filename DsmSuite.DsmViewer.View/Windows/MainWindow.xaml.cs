@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Drawing;
+using System.Reflection;
 using System.Windows;
 using DsmSuite.DsmViewer.ViewModel.Main;
 using DsmSuite.DsmViewer.Application.Core;
@@ -195,16 +197,13 @@ namespace DsmSuite.DsmViewer.View.Windows
 
         private void OnScreenshotRequested(object sender, System.EventArgs e)
         {
-            int width = (int) (Matrix.UsedWidth * _mainViewModel.ActiveMatrix.ZoomLevel);
-            int height = (int) (Matrix.UsedHeight * _mainViewModel.ActiveMatrix.ZoomLevel);
+            int width = (int)(Matrix.UsedWidth * _mainViewModel.ActiveMatrix.ZoomLevel);
+            int height = (int)(Matrix.UsedHeight * _mainViewModel.ActiveMatrix.ZoomLevel) + 24;
             RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
             renderTargetBitmap.Render(Matrix);
             Int32Rect rect = new Int32Rect(0, 24, width, height - 24);
             CroppedBitmap croppedBitmap = new CroppedBitmap(renderTargetBitmap, rect);
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                Clipboard.SetImage(croppedBitmap);
-            }
+            Clipboard.SetImage(croppedBitmap);
         }
     }
 }

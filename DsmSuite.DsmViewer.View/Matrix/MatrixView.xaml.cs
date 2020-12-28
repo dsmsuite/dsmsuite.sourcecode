@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             InitializeComponent();
         }
 
-        public double UsedWidth => RowHeaderView.ActualWidth + Splitter.ActualWidth + /*RowMetricsView.ActualWidth*/ + CellsView.UsedWidth;
+        public double UsedWidth => RowHeaderView.ActualWidth + Splitter.ActualWidth + MatrixMetricsSelectorView.ActualWidth + CellsView.UsedWidth;
 
         public double UsedHeight => ColumnHeaderView.ActualHeight + CellsView.UsedHeight;
 
