@@ -27,7 +27,7 @@ namespace DsmSuite.Common.Util
             LogTitle();
             EmptyLine();
 
-            Logger.LogAssemblyInfo(Assembly.GetExecutingAssembly());
+            Logger.LogAssemblyInfo();
             EmptyLine();
 
             if (CheckPrecondition())

@@ -55,11 +55,11 @@ namespace DsmSuite.Common.Util
             LogUserMessage($"Peak virtual memory usage  {peakVirtualMemMb:0.000}MB");
         }
 
-        public static void LogAssemblyInfo(Assembly assembly)
+        public static void LogAssemblyInfo()
         {
-            string name = assembly.GetName().Name;
-            string version = assembly.GetName().Version.ToString();
-            DateTime buildDate = new FileInfo(assembly.Location).LastWriteTime;
+            string name = _assembly.GetName().Name;
+            string version = _assembly.GetName().Version.ToString();
+            DateTime buildDate = new FileInfo(_assembly.Location).LastWriteTime;
             LogUserMessage(name + " version =" + version + " build=" + buildDate);
         }
 
@@ -85,15 +85,8 @@ namespace DsmSuite.Common.Util
             [CallerMemberName] string method = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            string exceptionMessage = FormatLine(sourceFile, method, lineNumber, message, e.Message);
-            Console.WriteLine(exceptionMessage);
-            LogToFile(LogLevel.Error, "exceptions.log", exceptionMessage);
-
-            string exceptionStackTrace = e.StackTrace;
-            Console.WriteLine(exceptionStackTrace);
-            LogToFile(LogLevel.Error, "exceptions.log", exceptionStackTrace);
-
-            Console.WriteLine("");
+            LogToFile(LogLevel.Error, "exceptions.log", FormatLine(sourceFile, method, lineNumber, message, e.Message));
+            LogToFile(LogLevel.Error, "exceptions.log", e.StackTrace);
             LogToFile(LogLevel.Error, "exceptions.log", "");
         }
 

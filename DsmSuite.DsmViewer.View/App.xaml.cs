@@ -34,7 +34,7 @@ namespace DsmSuite.DsmViewer.View
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Logger.LogAssemblyInfo(Assembly.GetExecutingAssembly());
+            Logger.LogAssemblyInfo();
 
             CommandLineArguments = e.Args;
 
