@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 
 namespace DsmSuite.Common.Util
@@ -24,6 +25,9 @@ namespace DsmSuite.Common.Util
         public void Execute()
         {
             LogTitle();
+            EmptyLine();
+
+            Logger.LogAssemblyInfo(Assembly.GetExecutingAssembly());
             EmptyLine();
 
             if (CheckPrecondition())

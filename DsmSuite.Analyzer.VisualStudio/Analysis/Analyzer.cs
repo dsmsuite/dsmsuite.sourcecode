@@ -62,12 +62,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(interfaceDirectory);
                 RegisterInterfaceFiles(interfaceDirectoryInfo);
             }
-
-            foreach (ExternalIncludeDirectory externalDirectory in _analyzerSettings.Input.ExternalIncludeDirectories)
-            {
-                DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(externalDirectory.Path);
-                RegisterInterfaceFiles(interfaceDirectoryInfo);
-            }
         }
 
         private void RegisterInterfaceFiles(DirectoryInfo interfaceDirectoryInfo)
