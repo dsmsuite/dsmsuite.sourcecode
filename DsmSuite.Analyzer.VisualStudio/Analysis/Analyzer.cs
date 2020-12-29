@@ -147,29 +147,28 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                                 string resolvedIncludedFile = ResolveInterfaceFile(includedFile, sourceFile);
                                 if (resolvedIncludedFile != null)
                                 {
+                                    // Register resolved interface as normal visual studio project include
+                                    // if source of clone in visual studio project found
                                     RegisterIncludeRelation(consumerName, resolvedIncludedFile);
                                 }
                                 else
                                 {
+                                    // Skip not resolved interface
                                     _model.SkipRelation(consumerName, includedFile, "include");
                                 }
                             }
                             else if (IsExternalInclude(includedFile))
                             {
-                                // External includes can be clones of includes files in other visual studio projects or 
-                                // reference external software
-                                string resolvedIncludedFile = ResolveInterfaceFile(includedFile, sourceFile);
-                                if (resolvedIncludedFile != null)
-                                {
-                                    RegisterIncludeRelation(consumerName, resolvedIncludedFile);
-                                }
-                                else
-                                {
-                                    RegisterExternalIncludeRelation(includedFile, consumerName);
-                                }
+                                // Register external include
+                                RegisterExternalIncludeRelation(includedFile, consumerName);
+                            }
+                            else if (IsSystemInclude(includedFile))
+                            {
+                                // Ignore system include
                             }
                             else
                             {
+                                // Register as normal visual studio project include
                                 RegisterIncludeRelation(consumerName, includedFile);
                             }
                         }
