@@ -165,7 +165,7 @@
         <Canvas x:Name="ColumnHeaderCanvas" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="{StaticResource MatrixHeaderHeight}" ClipToBounds="True">
             <matrix:MatrixColumnHeaderView x:Name="ColumnHeaderView"  Height="{StaticResource MatrixHeaderHeight}" Width="Auto" />
         </Canvas>
-        <ScrollViewer Grid.Column="3" Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="CellsViewOnScrollChanged">
+        <ScrollViewer x:Name="ScrolledCellsView" Grid.Column="3" Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ScrollChanged="CellsViewOnScrollChanged">
             <matrix:MatrixCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,20,20">
                 <matrix:MatrixCellsView.ContextMenu>
                     <ContextMenu>

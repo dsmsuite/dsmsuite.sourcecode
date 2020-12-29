@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
@@ -12,9 +13,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
             InitializeComponent();
         }
 
-        public double UsedWidth => RowHeaderView.ActualWidth + Splitter.ActualWidth + MatrixMetricsSelectorView.ActualWidth + CellsView.UsedWidth;
+        public double UsedWidth => RowHeaderView.ActualWidth + Splitter.ActualWidth + MatrixMetricsSelectorView.ActualWidth + Math.Min(CellsView.ActualWidth, ScrolledCellsView.ActualWidth);
 
-        public double UsedHeight => ColumnHeaderView.ActualHeight + CellsView.UsedHeight;
+        public double UsedHeight => ColumnHeaderView.ActualHeight + Math.Min(CellsView.ActualHeight, ScrolledCellsView.ActualHeight);
 
         private void CellsViewOnScrollChanged(object sender, ScrollChangedEventArgs e)
         {
