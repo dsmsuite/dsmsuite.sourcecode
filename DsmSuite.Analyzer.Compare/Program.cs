@@ -30,11 +30,15 @@ namespace DsmSuite.Analyzer.Compare
 
         protected override void Action()
         {
-            DsiModel model1 = new DsiModel("Diff", Assembly.GetExecutingAssembly());
-            DsiModel model2 = new DsiModel("Diff", Assembly.GetExecutingAssembly());
-            model1.Load(_inputFile1.FullName, this);
-            model2.Load(_inputFile2.FullName, this);
-            Comparer comparer = new Comparer(model1, model2, this);
+            bool secondFileIsOlder = _inputFile1.CreationTime < _inputFile2.CreationTime;
+            FileInfo oldModelFile = secondFileIsOlder ? _inputFile1 : _inputFile2;
+            FileInfo newModelFile = secondFileIsOlder ? _inputFile2 : _inputFile1;
+
+            DsiModel oldModel = new DsiModel("Diff", Assembly.GetExecutingAssembly());
+            DsiModel newModel = new DsiModel("Diff", Assembly.GetExecutingAssembly());
+            oldModel.Load(oldModelFile.FullName, this);
+            newModel.Load(newModelFile.FullName, this);
+            Comparer comparer = new Comparer(oldModel, newModel, this);
             comparer.Compare();
         }
 
