@@ -27,39 +27,39 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void WhenModelIsConstructedThenItIsEmpty()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
         }
 
         [TestMethod]
         public void GivenModelIsNotEmptyWhenClearIsCalledThenItIsEmpty()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             model.AddRelation(_a.Name, _b.Name, "type", 2, "annotation");
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(1, model.ImportedRelationCount);
 
             model.Clear();
 
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
         }
 
         [TestMethod]
         public void GivenModelIsEmptyWhenAddRelationIsCalledThenItsHasOneRelation()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation = model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
             Assert.IsNotNull(relation);
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(1, model.ImportedRelationCount);
         }
 
         [TestMethod]
         public void GivenModelIsEmptyWhenAddRelationIsCalledThenTheRelationExists()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation = model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
             Assert.IsNotNull(relation);
@@ -71,12 +71,12 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void GivenAnRelationIsInTheModelWhenAddRelationIsCalledAgainForThatRelationThenItsHasOneRelationButWeightHasIncreased()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation1 = model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
             Assert.IsNotNull(relation1);
 
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(1, model.ImportedRelationCount);
 
             List<IDsiRelation> relationsBefore = model.GetRelationsOfConsumer(_a.Id).ToList();
             Assert.AreEqual(1, relationsBefore.Count);
@@ -88,7 +88,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             IDsiRelation relation2 = model.AddRelation(_a.Name, _b.Name, "type", 3, "context");
             Assert.IsNotNull(relation2);
 
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(2, model.ImportedRelationCount);
 
             List<IDsiRelation> relationsAfter = model.GetRelationsOfConsumer(_a.Id).ToList();
             Assert.AreEqual(1, relationsAfter.Count);
@@ -102,58 +102,58 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void GivenAnRelationIsInTheModelWhenAddRelationtIsCalledWithAnotherProviderThenItHasTwoRelations()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation1 = model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
             Assert.IsNotNull(relation1);
 
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(1, model.ImportedRelationCount);
 
             IDsiRelation relation2 = model.AddRelation(_a.Name, _c.Name, "type", 3, "context");
             Assert.IsNotNull(relation2);
 
-            Assert.AreEqual(2, model.TotalRelationCount);
+            Assert.AreEqual(2, model.ImportedRelationCount);
         }
 
         [TestMethod]
         public void GivenAnRelationIsInTheModelWhenAddRelationtIsCalledWithAnotherTypeThenItHasTwoRelations()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation1 = model.AddRelation(_a.Name, _b.Name, "type1", 2, "context");
             Assert.IsNotNull(relation1);
 
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(1, model.ImportedRelationCount);
 
             IDsiRelation relation2 = model.AddRelation(_a.Name, _b.Name, "type2", 3, "context");
             Assert.IsNotNull(relation2);
 
-            Assert.AreEqual(2, model.TotalRelationCount);
+            Assert.AreEqual(2, model.ImportedRelationCount);
         }
 
         [TestMethod]
         public void GivenModelIsEmptyWhenImportRelationIsCalledThenItsHasOneRelation()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation = model.ImportRelation(_a.Id, _b.Id, "type", 2, "annotation");
             Assert.IsNotNull(relation);
 
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(1, model.ImportedRelationCount);
         }
 
         [TestMethod]
         public void GivenAnRelationIsInTheModelWhenDoesRelationExistIsCalledThenTrueIsReturned()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation = model.ImportRelation(_a.Id, _b.Id, "type", 2, "annotation");
             Assert.IsNotNull(relation);
 
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(1, model.ImportedRelationCount);
 
             Assert.IsTrue(model.DoesRelationExist(_a.Id, _b.Id));
         }
@@ -162,11 +162,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void GivenAnRelationIsNotInTheModelWhenDoesRelationExistIsCalledThenFalseIsReturned()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation = model.ImportRelation(_a.Id, _b.Id, "type", 2, "annotation");
             Assert.IsNotNull(relation);
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(1, model.ImportedRelationCount);
 
             Assert.IsFalse(model.DoesRelationExist(_a.Id, _c.Id));
         }
@@ -175,17 +175,17 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void WhenAddRelationIsCalledUsingTwoDifferentTypesThenTwoRelationTypesAreFound()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation1 = model.ImportRelation(_a.Id, _b.Id, "type1", 2, "annotation");
             Assert.IsNotNull(relation1);
 
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(1, model.ImportedRelationCount);
 
             IDsiRelation relation2 = model.ImportRelation(_a.Id, _b.Id, "type2", 2, "annotation");
             Assert.IsNotNull(relation2);
 
-            Assert.AreEqual(2, model.TotalRelationCount);
+            Assert.AreEqual(2, model.ImportedRelationCount);
 
             List<string> relationTypes = model.GetRelationTypes().ToList();
             Assert.AreEqual(2, relationTypes.Count);
@@ -200,7 +200,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void GivenMultipleElementAreInTheModelWhenGetElementsIsCalledTheyAreAllReturned()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation1 = model.ImportRelation(_a.Id, _b.Id, "type1", 1, "annotation");
             Assert.IsNotNull(relation1);
@@ -232,12 +232,12 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void GivenModelIsEmptyWhenGetRelationsOfConsumerIsCalledThenItsHasReturnsOneRelation()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation = model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
             Assert.IsNotNull(relation);
 
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(1, model.ImportedRelationCount);
 
             List<IDsiRelation> relations = model.GetRelationsOfConsumer(_a.Id).ToList();
             Assert.AreEqual(1, relations.Count);
@@ -251,7 +251,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void GivenMultipleElementAreInTheModelWhenAddRelationIsCalled4Times1TimeWithNotExistingConsumerThenResolvedPercentageis75Percent()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, "");
             Assert.IsNotNull(relation1);
@@ -262,7 +262,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             IDsiRelation relation4 = model.AddRelation("d", "c", "type4", 4, "");
             Assert.IsNull(relation4);
 
-            Assert.AreEqual(4, model.TotalRelationCount);
+            Assert.AreEqual(4, model.ImportedRelationCount);
             Assert.AreEqual(3, model.ResolvedRelationCount);
             Assert.AreEqual(75.0, model.ResolvedRelationPercentage);
         }
@@ -271,7 +271,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void GivenMultipleElementAreInTheModelWhenAddRelationIsCalled4Times1TimeWithNotExistingProviderThenResolvedPercentageis75Percent()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, "");
             Assert.IsNotNull(relation1);
@@ -282,7 +282,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             IDsiRelation relation4 = model.AddRelation("c", "d", "type4", 4, "");
             Assert.IsNull(relation4);
 
-            Assert.AreEqual(4, model.TotalRelationCount);
+            Assert.AreEqual(4, model.ImportedRelationCount);
             Assert.AreEqual(3, model.ResolvedRelationCount);
             Assert.AreEqual(75.0, model.ResolvedRelationPercentage);
         }
@@ -291,7 +291,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void GivenMultipleElementAreInTheModelWhenAddRelationIsCalled3TimesAndSkipRelation1TimeThenResolvedPercentageis75Percent()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, "");
             Assert.IsNotNull(relation1);
@@ -301,7 +301,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             Assert.IsNotNull(relation3);
             model.SkipRelation("d", "c", "type4");
 
-            Assert.AreEqual(4, model.TotalRelationCount);
+            Assert.AreEqual(4, model.ImportedRelationCount);
             Assert.AreEqual(3, model.ResolvedRelationCount);
             Assert.AreEqual(75.0, model.ResolvedRelationPercentage);
         }
@@ -310,7 +310,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void GivenMultipleElementAreInTheModelWhenAnElementIsRemovedThenAllRelationUsingThisElementAreRemoved()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
-            Assert.AreEqual(0, model.TotalRelationCount);
+            Assert.AreEqual(0, model.ImportedRelationCount);
 
             IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, "");
             Assert.IsNotNull(relation1);
@@ -318,10 +318,10 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             Assert.IsNotNull(relation2);
             IDsiRelation relation3 = model.AddRelation("a", "c", "type3", 3, "");
             Assert.IsNotNull(relation3);
-            Assert.AreEqual(3, model.TotalRelationCount);
+            Assert.AreEqual(3, model.ImportedRelationCount);
 
             _elementsDataModel.RemoveElement(_b);
-            Assert.AreEqual(1, model.TotalRelationCount);
+            Assert.AreEqual(3, model.ImportedRelationCount);
 
             List<IDsiRelation> relations = model.GetRelations().OrderBy(x => x.Weight).ToList();
             Assert.AreEqual(1, relations.Count);

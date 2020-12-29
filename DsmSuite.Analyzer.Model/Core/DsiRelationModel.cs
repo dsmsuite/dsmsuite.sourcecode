@@ -11,7 +11,8 @@ namespace DsmSuite.Analyzer.Model.Core
         private readonly DsiElementModel _elementsDataModel;
         private readonly Dictionary<int, Dictionary<int, Dictionary<string, DsiRelation>>> _relationsByConsumerId;
         private readonly Dictionary<string, int> _relationTypeCount;
-        private int _relationCount;
+        private int _importedRelationCount;
+        private int _resolvedRelationCount;
         private int _ambiguousRelationCount;
 
         public DsiRelationModel(DsiElementModel elementsDataModel)
@@ -26,7 +27,8 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             _relationsByConsumerId.Clear();
             _relationTypeCount.Clear();
-            _relationCount = 0;
+            _importedRelationCount = 0;
+            _resolvedRelationCount = 0;
             _ambiguousRelationCount = 0;
         }
 
@@ -34,7 +36,7 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             Logger.LogDataModelMessage($"Import relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
 
-            _relationCount++;
+            _importedRelationCount++;
 
             DsiRelation relation = null;
 
@@ -43,6 +45,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
             if ((consumer != null) && (provider != null))
             {
+                _resolvedRelationCount++;
                 relation = AddOrUpdateRelation(consumer.Id, provider.Id, type, weight, annotation);
             }
             else
@@ -58,13 +61,14 @@ namespace DsmSuite.Analyzer.Model.Core
 
             DsiRelation relation = null;
 
-            _relationCount++;
+            _importedRelationCount++;
 
             IDsiElement consumer = _elementsDataModel.FindElementByName(consumerName);
             IDsiElement provider = _elementsDataModel.FindElementByName(providerName);
 
             if ((consumer != null) && (provider != null))
             {
+                _resolvedRelationCount++;
                 relation = AddOrUpdateRelation(consumer.Id, provider.Id, type, weight, annotation);
             }
             else
@@ -83,7 +87,6 @@ namespace DsmSuite.Analyzer.Model.Core
 
             if (relations.ContainsKey(type))
             {
-                _relationCount--; // Revert previous increment when relation exists and just weight increased
                 relations[type].Weight += weight;
             }
             else
@@ -100,7 +103,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
             Logger.LogErrorDataModelRelationNotResolved(consumerName, providerName);
 
-            _relationCount++;
+            _importedRelationCount++;
         }
 
         public void AmbiguousRelation(string consumerName, string providerName, string type)
@@ -154,7 +157,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public int GetRelationCount()
         {
-            return _relationCount;
+            return GetRelations().Count();
         }
 
         public bool DoesRelationExist(int consumerId, int providerId)
@@ -163,9 +166,9 @@ namespace DsmSuite.Analyzer.Model.Core
                    _relationsByConsumerId[consumerId].ContainsKey(providerId);
         }
 
-        public int TotalRelationCount => _relationCount;
+        public int ImportedRelationCount => _importedRelationCount;
 
-        public int ResolvedRelationCount => GetRelations().Count();
+        public int ResolvedRelationCount => _resolvedRelationCount;
 
         public int AmbiguousRelationCount => _ambiguousRelationCount;
 
@@ -174,9 +177,9 @@ namespace DsmSuite.Analyzer.Model.Core
             get
             {
                 double resolvedRelationPercentage = 0.0;
-                if (TotalRelationCount > 0)
+                if (ImportedRelationCount > 0)
                 {
-                    resolvedRelationPercentage = (ResolvedRelationCount * 100.0) / TotalRelationCount;
+                    resolvedRelationPercentage = (ResolvedRelationCount * 100.0) / ImportedRelationCount;
                 }
                 return resolvedRelationPercentage;
             }
@@ -187,9 +190,9 @@ namespace DsmSuite.Analyzer.Model.Core
             get
             {
                 double ambiguousRelationPercentage = 0.0;
-                if (TotalRelationCount > 0)
+                if (ImportedRelationCount > 0)
                 {
-                    ambiguousRelationPercentage = (AmbiguousRelationCount * 100.0) / TotalRelationCount;
+                    ambiguousRelationPercentage = (AmbiguousRelationCount * 100.0) / ImportedRelationCount;
                 }
                 return ambiguousRelationPercentage;
             }
@@ -223,10 +226,6 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             if (_relationsByConsumerId.ContainsKey(elementId))
             {
-                foreach (var relationsByProviderId in _relationsByConsumerId[elementId].Values)
-                {
-                    _relationCount -= relationsByProviderId.Count;
-                }
                 _relationsByConsumerId.Remove(elementId);
             }
 
@@ -234,7 +233,6 @@ namespace DsmSuite.Analyzer.Model.Core
             {
                 if (relationsByProviderId.ContainsKey(elementId))
                 {
-                    _relationCount -= relationsByProviderId[elementId].Count;
                     relationsByProviderId.Remove(elementId);
                 }
             }
