@@ -79,6 +79,8 @@ namespace DsmSuite.Analyzer.Jdeps
                     action.Execute();
                 }
             }
+
+            Logger.Flush();
         }
     }
 }
