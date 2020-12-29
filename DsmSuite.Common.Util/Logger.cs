@@ -127,7 +127,7 @@ namespace DsmSuite.Common.Util
 
         public static void Flush()
         {
-            Flush(LogLevel.Data, DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved", 0);
+            Flush(LogLevel.Error, DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved", 0);
         }
 
         public static void LogToFile(LogLevel level, string logFilename, string line)
