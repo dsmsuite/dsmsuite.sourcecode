@@ -13,6 +13,54 @@
     <sys:String x:Key="UpArrow">&#x25B2;</sys:String>
     <sys:String x:Key="DownArrow">&#x25BC;</sys:String>
 
+    <!-- Window style-->
+    <Style x:Key="WindowStyle"  TargetType="{x:Type Window}">
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="15"
+                              CornerRadius="0"
+                              GlassFrameThickness="0,0,0,-1"
+                              NonClientFrameEdges="None"
+                              ResizeBorderThickness="5"
+                              UseAeroCaptionButtons="true"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Mimimize, Maximize and Close Button -->
+    <Style x:Key="CaptionButtonStyle" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="LayoutRoot" Background="{StaticResource BackgroundColor}" Width="44" Height="30" >
+                        <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="12" 
+                                   Foreground="{StaticResource ForegroundStandardColor}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   TextOptions.TextFormattingMode="Display"
+                                   FontWeight="Heavy" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="LayoutRoot" Property="Background" Value="White"/>
+                            <Setter TargetName="txt" Property="Background" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+        <Setter Property="Content" Value="&#xE949;"/>
+    </Style>
+
+    <Style x:Key="MaximizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+        <Setter Property="Content" Value="&#xE739;"/>
+    </Style>
+
+    <Style x:Key="CloseButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+        <Setter Property="Content" Value="&#xE106;"/>
+    </Style>
+
     <!-- Rich tooltip styles -->
     <Style x:Key="RichToolTipTitleStyle" TargetType="TextBlock">
         <Setter Property="FontWeight" Value="Bold" />

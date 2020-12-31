@@ -11,15 +11,25 @@
         Width="Auto"
         Loaded="MainWindow_OnLoaded"
         Background="{StaticResource BackgroundColor}" 
-        Icon="/DsmSuite.DsmViewer.View;component/Resources/DSM.ico">
+        Style="{StaticResource WindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
             <RowDefinition Height="24" />
             <RowDefinition Height="*" />
             <RowDefinition Height="16" />
         </Grid.RowDefinitions>
-        <userControls:ToolView Grid.Row="0"/>
-        <matrix:MatrixView x:Name="Matrix" Grid.Row="1"/>
-        <userControls:LegendView Grid.Row="2"/>
+        <DockPanel Grid.Row="0" >
+            <Label DockPanel.Dock="Left" Content="{Binding Title}"/>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="Minimize" Style="{StaticResource MinimizeButtonStyle}"/>
+                <Button x:Name="Maximize" Style="{StaticResource MaximizeButtonStyle}"/>
+                <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
+            </StackPanel>
+        </DockPanel>
+
+        <userControls:ToolView Grid.Row="1"/>
+        <matrix:MatrixView x:Name="Matrix" Grid.Row="2"/>
+        <userControls:LegendView Grid.Row="3"/>
     </Grid>
 </Window>

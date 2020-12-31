@@ -127,7 +127,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             _modelFilename = "";
             _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            _title = $"DSM Viewer - {_version}";
+            _title = $"DSM Viewer";
 
             _isModified = false;
             _isLoaded = false;
@@ -293,7 +293,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 FileInfo fileInfo = new FileInfo(fileToOpen);
                 ModelFilename = fileToOpen.Replace(fileInfo.Extension, ".dsm");
 
-                Title = $"DSM Viewer - {_version} ({ModelFilename})";
+                Title = $"DSM Viewer - {fileInfo.Name}";
 
                 switch (fileInfo.Extension)
                 {

@@ -7,13 +7,20 @@
         Title="{Binding Title}" 
         Height="600" 
         Width="800"
-        Style="{StaticResource DialogWindow}">
+        Style="{StaticResource WindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListView Margin="10" Grid.Row="0" ItemsSource="{Binding Relations}">
+        <DockPanel Grid.Row="0" >
+            <Label DockPanel.Dock="Left" Content="{Binding Title}"/>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
+            </StackPanel>
+        </DockPanel>
+        <ListView Margin="10" Grid.Row="1" ItemsSource="{Binding Relations}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Index" Width="auto" DisplayMemberBinding="{Binding Path=Index}" />
@@ -26,7 +33,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource DialogButton}" Content="Copy to clipboard" Command="{Binding CopyToClipboardCommand}"/>
         </StackPanel>
     </Grid>
