@@ -4,13 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        WindowStyle="None"        
-        Height="160" 
+        Height="200" 
         Width="450"
-        Style="{StaticResource DialogWindow}">        
+        Style="{StaticResource DialogStyle}">        
     <StackPanel Orientation="Vertical">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
@@ -18,10 +18,15 @@
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="340" />
             </Grid.ColumnDefinitions>
-
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Content="Add snapshot description" Margin="5"/>
-            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Description" Margin="5"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
+            <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                <Label DockPanel.Dock="Left" Content="{Binding Title}"/>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
+                </StackPanel>
+            </DockPanel>
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Content="Add snapshot description" Margin="5"/>
+            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Description" Margin="5"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>

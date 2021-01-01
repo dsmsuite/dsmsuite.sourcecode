@@ -15,6 +15,8 @@
 
     <!-- Window style-->
     <Style x:Key="WindowStyle"  TargetType="{x:Type Window}">
+        <Setter Property="Background" Value="{StaticResource BackgroundColor}" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CaptionHeight="15"
@@ -174,9 +176,20 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="DialogWindow" TargetType="Window">
+    <Style x:Key="DialogStyle" TargetType="Window">
+        <Setter Property="ResizeMode" Value="NoResize" />
         <Setter Property="Background" Value="{StaticResource BackgroundColor}" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="15"
+                              CornerRadius="0"
+                              GlassFrameThickness="0,0,0,-1"
+                              NonClientFrameEdges="None"
+                              ResizeBorderThickness="5"
+                              UseAeroCaptionButtons="true"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="DialogTextBoxWithValidation" TargetType="TextBox">

@@ -10,7 +10,6 @@
         Height="Auto" 
         Width="Auto"
         Loaded="MainWindow_OnLoaded"
-        Background="{StaticResource BackgroundColor}" 
         Style="{StaticResource WindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
