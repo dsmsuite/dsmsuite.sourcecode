@@ -15,7 +15,7 @@
 
     <GridLength x:Key="TitleBarHeight">40</GridLength>
     <GridLength x:Key="TitleHeight">50</GridLength>
-    <GridLength x:Key="SubTitleHeight">30</GridLength>
+    <GridLength x:Key="SubTitleHeight">50</GridLength>
     <GridLength x:Key="EditFieldHeight">40</GridLength>
 
     <!-- Window style-->
