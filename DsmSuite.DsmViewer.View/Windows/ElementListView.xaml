@@ -15,6 +15,7 @@
             <RowDefinition Height="{StaticResource SubTitleHeight}" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="{StaticResource BottomRowHeight}" />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" >
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -23,7 +24,7 @@
         </DockPanel>
         <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogTitle}" Text="{Binding Title}" Margin="5"/>
         <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogSubTitle}" Text="{Binding SubTitle}" Margin="5"/>
-        <ListView Margin="10" Grid.Row="3" ItemsSource="{Binding Elements}">
+        <ListView Grid.Row="3" ItemsSource="{Binding Elements}" Style="{StaticResource DialogListView}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Index" Width="auto" DisplayMemberBinding="{Binding Index}" />

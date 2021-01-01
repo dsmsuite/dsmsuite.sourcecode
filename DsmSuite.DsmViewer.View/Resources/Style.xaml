@@ -17,12 +17,13 @@
     <sys:String x:Key="MaximizeAppIcon">&#xE739;</sys:String>
     <sys:String x:Key="CloseAppIcon">&#xE106;</sys:String>
 
-    <GridLength x:Key="TitleBarHeight">Auto</GridLength>
-    <GridLength x:Key="TitleHeight">Auto</GridLength>
-    <GridLength x:Key="SubTitleHeight">Auto</GridLength>
-    <GridLength x:Key="EditFieldHeight">Auto</GridLength>
-    <GridLength x:Key="ButtonRowHeight">Auto</GridLength>
-    <GridLength x:Key="BottomRowHeight">Auto</GridLength>
+    <GridLength x:Key="TitleBarHeight">40</GridLength>
+    <GridLength x:Key="TitleHeight">40</GridLength>
+    <GridLength x:Key="SubTitleHeight">40</GridLength>
+    <GridLength x:Key="EditFieldHeight">40</GridLength>
+    <GridLength x:Key="HelpFieldHeight">40</GridLength>
+    <GridLength x:Key="ButtonRowHeight">40</GridLength>
+    <GridLength x:Key="BottomRowHeight">20</GridLength>
 
     <!-- Window style-->
     <Style x:Key="WindowStyle"  TargetType="{x:Type Window}">
@@ -147,6 +148,7 @@
 
     <!-- Dialog styles -->
     <Style x:Key="DialogLabel" TargetType="Label">
+        <Setter Property="Padding" Value="20,0,0,0" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="Background" Value="Transparent" />
     </Style>
@@ -217,14 +219,21 @@
     </Style>
 
     <Style x:Key="DialogTitle" TargetType="TextBlock">
+        <Setter Property="Padding" Value="10,0,0,0" />
         <Setter Property="FontSize" Value="18" />
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
     </Style>
 
     <Style x:Key="DialogSubTitle" TargetType="TextBlock">
+        <Setter Property="Padding" Value="20,0,0,0" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style x:Key="DialogListView" TargetType="ListView">
+        <Setter Property="Margin" Value="20,0,0,0" />
     </Style>
 
     <!-- Toolbar styles -->
@@ -248,10 +257,12 @@
     <Style x:Key="ToolbarComboBox" TargetType="ComboBox">
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
     </Style>
 
     <Style x:Key="ToolbarTextBox" TargetType="TextBox">
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
     </Style>
 
     <Style x:Key="ToolbarLabel" TargetType="Label">

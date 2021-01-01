@@ -21,7 +21,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             _element = element;
 
             Title = $"Change element name";
-            SubTitle = $"For element '{element.Fullname}'";
+            Help = "";
 
             Name = _element.Name;
 
@@ -29,7 +29,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         }
 
         public string Title { get; }
-        public string SubTitle { get; }
 
         public string Help
         {

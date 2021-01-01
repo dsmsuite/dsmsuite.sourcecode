@@ -10,6 +10,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
         private readonly IDsmApplication _application;
         private readonly IDsmRelation _relation;
         private string _type;
+        private string _help;
 
         public ICommand AcceptChangeCommand { get; }
 
@@ -19,14 +20,19 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
             _relation = relation;
 
             Title = "Change relation type";
-            SubTitle = $"Between element '{relation.Consumer.Fullname}' and '{relation.Provider.Fullname}'";
+            Help = "";
 
             Type = relation.Type;
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public string Title { get; }
-        public string SubTitle { get; }
+
+        public string Help
+        {
+            get { return _help; }
+            private set { _help = value; OnPropertyChanged(); }
+        }
 
         public string Type
         {

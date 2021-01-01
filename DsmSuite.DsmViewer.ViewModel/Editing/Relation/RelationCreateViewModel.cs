@@ -12,6 +12,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
         private readonly IDsmElement _provider;
         private string _type;
         private int _weight;
+        private string _help;
 
         public ICommand AcceptChangeCommand { get; }
 
@@ -22,7 +23,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
             _provider = provider;
 
             Title = $"Create relation";
-            SubTitle = $"Between element '{consumer.Fullname}' and '{provider.Fullname}'";
+            Help = "";
 
             Type = "";
             Weight = 1;
@@ -30,7 +31,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
         }
 
         public string Title { get; }
-        public string SubTitle { get; }
+
+        public string Help
+        {
+            get { return _help; }
+            private set { _help = value; OnPropertyChanged(); }
+        }
 
         public string Type
         {

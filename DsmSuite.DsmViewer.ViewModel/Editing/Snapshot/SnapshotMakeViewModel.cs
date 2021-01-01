@@ -8,6 +8,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Snapshot
     {
         private readonly IDsmApplication _application;
         private string _description;
+        private string _help;
 
         public ICommand AcceptChangeCommand { get; }
 
@@ -16,14 +17,19 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Snapshot
             _application = application;
 
             Title = "Make snapshot";
-            SubTitle = "To mark point during editing";
+            Help = "";
 
             Description = "";
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public string Title { get; }
-        public string SubTitle { get; }
+
+        public string Help
+        {
+            get { return _help; }
+            private set { _help = value; OnPropertyChanged(); }
+        }
 
         public string Description
         {

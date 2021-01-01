@@ -10,6 +10,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         private readonly IDsmApplication _application;
         private readonly IDsmElement _element;
         private string _annotation;
+        private string _help;
 
         public ICommand AcceptChangeCommand { get; }
 
@@ -19,7 +20,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             _element = element;
 
             Title = $"Edit element annotation";
-            SubTitle = $"For element '{element.Fullname}'";
+            Help = "";
 
             IDsmElementAnnotation annotation = _application.FindElementAnnotation(element);
             Annotation = annotation?.Text;
@@ -27,7 +28,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         }
 
         public string Title { get; }
-        public string SubTitle { get; }
+
+        public string Help
+        {
+            get { return _help; }
+            private set { _help = value; OnPropertyChanged(); }
+        }
 
         public string Annotation
         {

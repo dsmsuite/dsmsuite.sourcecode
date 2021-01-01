@@ -12,9 +12,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="{StaticResource TitleBarHeight}"  />
             <RowDefinition Height="{StaticResource TitleHeight}" />
-            <RowDefinition Height="{StaticResource SubTitleHeight}" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="{StaticResource BottomRowHeight}" />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" >
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -22,8 +22,7 @@
             </StackPanel>
         </DockPanel>
         <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogTitle}" Text="{Binding Title}" Margin="5"/>
-        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogSubTitle}" Text="{Binding SubTitle}" Margin="5"/>
-        <ListView Margin="10" Grid.Row="3" ItemsSource="{Binding Actions}">
+        <ListView Grid.Row="2" ItemsSource="{Binding Actions}" Style="{StaticResource DialogListView}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Index" Width="20" DisplayMemberBinding="{Binding Index}" />
@@ -32,7 +31,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
             <Button Style="{StaticResource DialogButton}" Content="Copy" ToolTip="Copy action list to clipboard" Command="{Binding CopyToClipboardCommand}"/>
             <Button Style="{StaticResource DialogButton}" Content="Clear" ToolTip="Clear action list" Command="{Binding ClearCommand}"/>
         </StackPanel>
