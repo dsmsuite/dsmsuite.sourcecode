@@ -15,7 +15,7 @@
             <ColumnDefinition Width="80" />
             <ColumnDefinition Width="30" />
         </Grid.ColumnDefinitions>
-        <ToolBar Grid.Column="0" Style="{StaticResource ToolBar}">
+        <ToolBar Grid.Column="0" Style="{StaticResource ToolBar}" Loaded="ToolBar_Loaded">
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Open model" Click="OpenButtonClick" Content="{StaticResource OpenIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Save model" Command="{Binding SaveFileCommand}" Content="{StaticResource SaveIcon}"/>
             <Separator/>
