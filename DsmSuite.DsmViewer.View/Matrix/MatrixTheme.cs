@@ -25,10 +25,10 @@ namespace DsmSuite.DsmViewer.View.Matrix
             MatrixColorAnnotation = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorAnnotation");
             MatrixColorCycle = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorCycle");
 
-            LeftArrow = (string)_frameworkElement.FindResource("LeftArrow");
-            RightArrow = (string)_frameworkElement.FindResource("RightArrow");
-            UpArrow = (string)_frameworkElement.FindResource("UpArrow");
-            DownArrow = (string)_frameworkElement.FindResource("DownArrow");
+            LeftArrow = (string)_frameworkElement.FindResource("LeftArrowIcon");
+            RightArrow = (string)_frameworkElement.FindResource("RightArrowIcon");
+            UpArrow = (string)_frameworkElement.FindResource("UpArrowIcon");
+            DownArrow = (string)_frameworkElement.FindResource("DownArrowIcon");
 
             RightArrowFormattedText = new FormattedText(RightArrow,
                 CultureInfo.GetCultureInfo("en-us"),

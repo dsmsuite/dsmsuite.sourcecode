@@ -8,10 +8,14 @@
     <sys:Double x:Key="MatrixHeaderHeight">60</sys:Double>
     <sys:Double x:Key="MatrixMetricsViewWidth">120</sys:Double>
 
-    <sys:String x:Key="LeftArrow">&#x25C0;</sys:String>
-    <sys:String x:Key="RightArrow">&#x25B6;</sys:String>
-    <sys:String x:Key="UpArrow">&#x25B2;</sys:String>
-    <sys:String x:Key="DownArrow">&#x25BC;</sys:String>
+    <sys:String x:Key="LeftArrowIcon">&#x25C0;</sys:String>
+    <sys:String x:Key="RightArrowIcon">&#x25B6;</sys:String>
+    <sys:String x:Key="UpArrowIcon">&#x25B2;</sys:String>
+    <sys:String x:Key="DownArrowIcon">&#x25BC;</sys:String>
+
+    <sys:String x:Key="MinimizeAppIcon">&#xE949;</sys:String>
+    <sys:String x:Key="MaximizeAppIcon">&#xE739;</sys:String>
+    <sys:String x:Key="CloseAppIcon">&#xE106;</sys:String>
 
     <GridLength x:Key="TitleBarHeight">40</GridLength>
     <GridLength x:Key="TitleHeight">50</GridLength>
@@ -57,15 +61,15 @@
     </Style>
 
     <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
-        <Setter Property="Content" Value="&#xE949;"/>
+        <Setter Property="Content" Value="{StaticResource MinimizeAppIcon}"/>
     </Style>
 
     <Style x:Key="MaximizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
-        <Setter Property="Content" Value="&#xE739;"/>
+        <Setter Property="Content" Value="{StaticResource MaximizeAppIcon}"/>
     </Style>
 
     <Style x:Key="CloseButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
-        <Setter Property="Content" Value="&#xE106;"/>
+        <Setter Property="Content" Value="{StaticResource CloseAppIcon}"/>
     </Style>
 
     <!-- Rich tooltip styles -->
