@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DsmSuite.DsmViewer.View.Dialogs
+namespace DsmSuite.DsmViewer.View.Editing
 {
     /// <summary>
     /// Interaction logic for SnapshotCreateDialog.xaml

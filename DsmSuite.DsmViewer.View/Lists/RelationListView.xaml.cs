@@ -1,4 +1,4 @@
-﻿namespace DsmSuite.DsmViewer.View.Windows
+﻿namespace DsmSuite.DsmViewer.View.Lists
 {
     /// <summary>
     /// Interaction logic for RelationListView.xaml

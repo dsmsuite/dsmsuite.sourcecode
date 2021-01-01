@@ -1,7 +1,10 @@
-﻿<Window x:Class="DsmSuite.DsmViewer.View.Dialogs.RelationCreateDialog"
+﻿<Window x:Class="DsmSuite.DsmViewer.View.Editing.ElementEditTypeDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="280" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Height="240" 
         Width="450"
         Style="{StaticResource DialogStyle}">
     <Grid FocusManager.FocusedElement="{Binding ElementName=NameTextBox}" Height="228" VerticalAlignment="Top">
@@ -9,7 +12,6 @@
             <RowDefinition Height="{StaticResource TitleBarHeight}"  />
             <RowDefinition Height="{StaticResource TitleHeight}" />
             <RowDefinition Height="{StaticResource SubTitleHeight}" />
-            <RowDefinition Height="{StaticResource EditFieldHeight}" />
             <RowDefinition Height="{StaticResource EditFieldHeight}" />
             <RowDefinition Height="{StaticResource HelpFieldHeight}" />
             <RowDefinition Height="{StaticResource ButtonRowHeight}" />
@@ -25,12 +27,10 @@
             </StackPanel>
         </DockPanel>
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogTitle}" Text="{Binding Title}" Margin="5"/>
-        <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Weight" Margin="5"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"  PreviewTextInput="NumberValidationTextBox" Name="WeightTextBox"/>
-        <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Type" Margin="5"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Margin="10" Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Grid.Row="4" Grid.Column="1" Margin="10" Text="{Binding Help, UpdateSourceTrigger=PropertyChanged}" Name="HelpTextBlock" Foreground="Red"/>
-        <StackPanel Grid.Row="5"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Type" Margin="5"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Name="TypeTextBox"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Margin="10" Text="{Binding Help, UpdateSourceTrigger=PropertyChanged}" Name="HelpTextBlock" Foreground="Red"/>
+        <StackPanel Grid.Row="4"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
             <Button Style="{StaticResource DialogButton}" Content="Cancel" IsCancel="True" />
         </StackPanel>

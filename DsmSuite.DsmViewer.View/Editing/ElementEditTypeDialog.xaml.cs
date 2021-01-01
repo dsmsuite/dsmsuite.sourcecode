@@ -1,13 +1,14 @@
-﻿using System.Windows;
+﻿
+using System.Windows;
 
-namespace DsmSuite.DsmViewer.View.Dialogs
+namespace DsmSuite.DsmViewer.View.Editing
 {
     /// <summary>
-    /// Interaction logic for ElementEditNameDialog.xaml
+    /// Interaction logic for ElementEditTypeDialog.xaml
     /// </summary>
-    public partial class ElementEditNameDialog
+    public partial class ElementEditTypeDialog
     {
-        public ElementEditNameDialog()
+        public ElementEditTypeDialog()
         {
             InitializeComponent();
         }

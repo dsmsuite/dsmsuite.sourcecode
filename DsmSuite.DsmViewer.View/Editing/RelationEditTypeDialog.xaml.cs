@@ -1,13 +1,13 @@
 ﻿using System.Windows;
 
-namespace DsmSuite.DsmViewer.View.Dialogs
+namespace DsmSuite.DsmViewer.View.Editing
 {
     /// <summary>
-    /// Interaction logic for ElementEditAnnotationDialog.xaml
+    /// Interaction logic for RelationEditTypeDialog.xaml
     /// </summary>
-    public partial class ElementEditAnnotationDialog
+    public partial class RelationEditTypeDialog
     {
-        public ElementEditAnnotationDialog()
+        public RelationEditTypeDialog()
         {
             InitializeComponent();
         }

@@ -2,7 +2,7 @@
 using System.Windows;
 using DsmSuite.DsmViewer.ViewModel.Settings;
 
-namespace DsmSuite.DsmViewer.View.Settings
+namespace DsmSuite.DsmViewer.View.Resources.Themes
 {
     public class ThemeResourceDictionary : ResourceDictionary
     {

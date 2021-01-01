@@ -5,7 +5,6 @@ using System.Windows;
 using DsmSuite.DsmViewer.ViewModel.Main;
 using DsmSuite.DsmViewer.Application.Core;
 using DsmSuite.DsmViewer.Model.Core;
-using DsmSuite.DsmViewer.View.Dialogs;
 using DsmSuite.DsmViewer.ViewModel.Editing.Element;
 using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
 using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
@@ -14,6 +13,8 @@ using SettingsView = DsmSuite.DsmViewer.View.Settings.SettingsView;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.IO;
+using DsmSuite.DsmViewer.View.Editing;
+using DsmSuite.DsmViewer.View.Lists;
 using DsmSuite.DsmViewer.View.Settings;
 
 namespace DsmSuite.DsmViewer.View.Windows

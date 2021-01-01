@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace DsmSuite.DsmViewer.View.Dialogs
+namespace DsmSuite.DsmViewer.View.Editing
 {
     /// <summary>
     /// Interaction logic for RelationEditWeightDialog.xaml
