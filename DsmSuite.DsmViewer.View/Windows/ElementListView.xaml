@@ -11,16 +11,17 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" >
-            <Label DockPanel.Dock="Left" Content="{Binding Title}"/>
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
             </StackPanel>
         </DockPanel>
-        <ListView Margin="10" Grid.Row="1" ItemsSource="{Binding Elements}">
+        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Content="{Binding Title}" Margin="5"/>
+        <ListView Margin="10" Grid.Row="2" ItemsSource="{Binding Elements}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Index" Width="auto" DisplayMemberBinding="{Binding Index}" />
@@ -29,8 +30,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Style="{StaticResource DialogButton}" Content="Copy to clipboard" Command="{Binding CopyToClipboardCommand}"/>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button Style="{StaticResource DialogButton}" Content="Copy" ToolTip="Copy element list to clipboard" Command="{Binding CopyToClipboardCommand}"/>
         </StackPanel>        
     </Grid>
 </Window>

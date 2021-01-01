@@ -16,7 +16,6 @@
                 <ColumnDefinition Width="340" />
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
-                <Label DockPanel.Dock="Left" Content="{Binding Title}"/>
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
                 </StackPanel>
