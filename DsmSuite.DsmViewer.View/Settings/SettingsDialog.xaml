@@ -21,6 +21,7 @@
                     <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
                 </StackPanel>
             </DockPanel>
+            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogTitle}" Text="Application Settings" Margin="5"/>
             <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Enable logging" Margin="5"/>
             <CheckBox Grid.Row="2" Grid.Column="1" Margin="10" IsChecked="{Binding LogLevel, Mode=TwoWay}" HorizontalAlignment="Left"/>
              <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Theme" Margin="5"/>
