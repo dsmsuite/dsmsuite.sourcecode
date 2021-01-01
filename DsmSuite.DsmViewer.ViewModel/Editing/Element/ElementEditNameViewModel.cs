@@ -21,12 +21,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             _element = element;
 
             Title = $"Edit element name {element.Fullname}";
+            SubTitle = $"Edit element name {element.Fullname}";
+
             Name = _element.Name;
 
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public string Title { get; }
+        public string SubTitle { get; }
 
         public string Help
         {

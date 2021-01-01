@@ -14,7 +14,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         public ActionListViewModel(IDsmApplication application)
         {
-            Title = "Actions";
+            Title = "Edit history";
+            SubTitle = "Modifications on model";
 
             _application = application;
             _application.ActionPerformed += OnActionPerformed;
@@ -31,6 +32,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         }
 
         public string Title { get; }
+        public string SubTitle { get; }
 
         public IEnumerable<ActionListItemViewModel> Actions
         {

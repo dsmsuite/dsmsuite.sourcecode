@@ -13,6 +13,11 @@
     <sys:String x:Key="UpArrow">&#x25B2;</sys:String>
     <sys:String x:Key="DownArrow">&#x25BC;</sys:String>
 
+    <GridLength x:Key="TitleBarHeight">40</GridLength>
+    <GridLength x:Key="TitleHeight">50</GridLength>
+    <GridLength x:Key="SubTitleHeight">30</GridLength>
+    <GridLength x:Key="EditFieldHeight">40</GridLength>
+
     <!-- Window style-->
     <Style x:Key="WindowStyle"  TargetType="{x:Type Window}">
         <Setter Property="Background" Value="{StaticResource BackgroundColor}" />
@@ -205,9 +210,14 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DialogSubTitle" TargetType="Label">
+    <Style x:Key="DialogTitle" TargetType="Label">
         <Setter Property="FontSize" Value="18" />
         <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
+    </Style>
+
+    <Style x:Key="DialogSubTitle" TargetType="Label">
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
     </Style>
 

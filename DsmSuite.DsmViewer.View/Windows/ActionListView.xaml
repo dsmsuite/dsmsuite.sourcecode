@@ -10,8 +10,9 @@
         Style="{StaticResource DialogStyle}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="{StaticResource TitleBarHeight}"  />
+            <RowDefinition Height="{StaticResource TitleHeight}" />
+            <RowDefinition Height="{StaticResource SubTitleHeight}" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -20,8 +21,9 @@
                 <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
             </StackPanel>
         </DockPanel>
-        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Content="{Binding Title}" Margin="5"/>
-        <ListView Margin="10" Grid.Row="2" ItemsSource="{Binding Actions}">
+        <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogTitle}" Content="{Binding Title}" Margin="5"/>
+        <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogSubTitle}" Content="{Binding SubTitle}" Margin="5"/>
+        <ListView Margin="10" Grid.Row="3" ItemsSource="{Binding Actions}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Index" Width="20" DisplayMemberBinding="{Binding Index}" />
@@ -30,7 +32,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
             <Button Style="{StaticResource DialogButton}" Content="Copy" ToolTip="Copy action list to clipboard" Command="{Binding CopyToClipboardCommand}"/>
             <Button Style="{StaticResource DialogButton}" Content="Clear" ToolTip="Clear action list" Command="{Binding ClearCommand}"/>
         </StackPanel>

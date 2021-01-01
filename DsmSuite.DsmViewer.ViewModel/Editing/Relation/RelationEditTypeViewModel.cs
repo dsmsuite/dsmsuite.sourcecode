@@ -19,11 +19,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
             _relation = relation;
 
             Title = "Edit relation type";
+            SubTitle = "Edit relation type";
+
             Type = relation.Type;
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public string Title { get; }
+        public string SubTitle { get; }
 
         public string Type
         {

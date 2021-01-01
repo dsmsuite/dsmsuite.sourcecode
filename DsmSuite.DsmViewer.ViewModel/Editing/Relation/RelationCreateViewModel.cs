@@ -22,12 +22,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
             _provider = provider;
 
             Title = $"Create relation between {consumer.Fullname} and {provider.Fullname}";
+            SubTitle = $"Create relation between {consumer.Fullname} and {provider.Fullname}";
+
             Type = "";
             Weight = 1;
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public string Title { get; }
+        public string SubTitle { get; }
 
         public string Type
         {

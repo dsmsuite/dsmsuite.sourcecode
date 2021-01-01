@@ -9,9 +9,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class ElementListViewModel : ViewModelBase
     {
-        public ElementListViewModel(string title, IEnumerable<IDsmElement> elements)
+        public ElementListViewModel(string subtitle, IEnumerable<IDsmElement> elements)
         {
-            Title = title;
+            Title = "Element List";
+            SubTitle = subtitle;
 
             List<ElementListItemViewModel> elementViewModels = new List<ElementListItemViewModel>();
 
@@ -35,6 +36,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         }
 
         public string Title { get; }
+        public string SubTitle { get; }
 
         public List<ElementListItemViewModel> Elements { get;  }
 

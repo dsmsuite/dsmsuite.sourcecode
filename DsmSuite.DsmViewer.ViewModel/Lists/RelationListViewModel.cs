@@ -9,9 +9,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListViewModel : ViewModelBase
     {
-        public RelationListViewModel(string title, IEnumerable<IDsmRelation> relations)
+        public RelationListViewModel(string subtitle, IEnumerable<IDsmRelation> relations)
         {
-            Title = title;
+            Title = "Relation List";
+            SubTitle = subtitle;
 
             List<RelationListItemViewModel> relationViewModels = new List<RelationListItemViewModel>();
 
@@ -35,6 +36,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         }
 
         public string Title { get; }
+        public string SubTitle { get; }
 
         public List<RelationListItemViewModel> Relations { get; }
 

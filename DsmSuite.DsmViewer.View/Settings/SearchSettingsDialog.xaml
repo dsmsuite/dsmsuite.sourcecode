@@ -21,7 +21,6 @@
                     <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
                 </StackPanel>
             </DockPanel>
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Content="Search Settings" Margin="5"/>
             <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Case sensitive search" Margin="5"/>
             <CheckBox Grid.Row="2" Grid.Column="1" Margin="10" IsChecked="{Binding CaseSensitiveSearch, Mode=TwoWay}" HorizontalAlignment="Left"/>
             <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Search scope" Margin="5"/>

@@ -7,9 +7,10 @@
     <StackPanel Orientation="Vertical" FocusManager.FocusedElement="{Binding ElementName=NameTextBox}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="40" />
+                <RowDefinition Height="{StaticResource TitleBarHeight}"  />
+                <RowDefinition Height="{StaticResource TitleHeight}" />
+                <RowDefinition Height="{StaticResource SubTitleHeight}" />
+                <RowDefinition Height="{StaticResource EditFieldHeight}" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100" />
@@ -20,9 +21,10 @@
                     <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
                 </StackPanel>
             </DockPanel>
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Content="Change element annotation" Margin="5"/>
-            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Annotation" Margin="5"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding Annotation, UpdateSourceTrigger=PropertyChanged}" Name="NameTextBox"/>
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogTitle}" Content="{Binding Title}" Margin="5"/>
+            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Content="{Binding SubTitle}" Margin="5"/>
+            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Annotation" Margin="5"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Margin="10" Text="{Binding Annotation, UpdateSourceTrigger=PropertyChanged}" Name="NameTextBox"/>
         </Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>

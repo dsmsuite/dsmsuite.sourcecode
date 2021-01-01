@@ -21,6 +21,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             _element = element;
 
             Title = $"Create child element for {element.Fullname}";
+            SubTitle = $"Create child element for {element.Fullname}";
             Name = "";
             Type = "";
 
@@ -28,6 +29,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         }
 
         public string Title { get; }
+        public string SubTitle { get; }
 
         public string Name
         {

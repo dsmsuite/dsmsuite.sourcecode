@@ -19,12 +19,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             _element = element;
 
             Title = $"Edit element annotation {element.Fullname}";
+            SubTitle = $"Edit element annotation {element.Fullname}";
+
             IDsmElementAnnotation annotation = _application.FindElementAnnotation(element);
             Annotation = annotation?.Text;
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public string Title { get; }
+        public string SubTitle { get; }
 
         public string Annotation
         {

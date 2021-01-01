@@ -16,11 +16,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Snapshot
             _application = application;
 
             Title = "Make snapshot";
+            SubTitle = "Enter name of snapshot";
+
             Description = "";
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public string Title { get; }
+        public string SubTitle { get; }
 
         public string Description
         {
