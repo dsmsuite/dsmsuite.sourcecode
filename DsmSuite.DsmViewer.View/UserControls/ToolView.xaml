@@ -44,12 +44,10 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="20" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0"  Content="{StaticResource SearchIcon}" Padding="4" Background="White" />
-                <TextBox Grid.Column="1"  Style="{StaticResource ToolbarTextBox}" Height="26" BorderThickness="0" ToolTip="Enter search text and show matching elements"  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
-                <Button Grid.Column="2"   Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Clear search text" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}"/>
-                <Button Grid.Column="3"  Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Search settings" Command="{Binding SearchSettingsCommand}" Content="{StaticResource SettingsIcon}"/>
+                <Button Grid.Column="0"  Style="{StaticResource ToolbarButton}" Padding="3" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Change search settings" Command="{Binding SearchSettingsCommand}" Content="{StaticResource SearchIcon}" />
+                <TextBox Grid.Column="1" Style="{StaticResource ToolbarTextBox}" Height="26" BorderThickness="0" ToolTip="Enter search text and show matching elements"  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
+                <Button Grid.Column="2"  Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Clear search text" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}" />
             </Grid>
         </Border>
         <Label Grid.Column="2"  Style="{StaticResource ToolbarLabel}" Content="{Binding SearchResult}" Width="80"/>
