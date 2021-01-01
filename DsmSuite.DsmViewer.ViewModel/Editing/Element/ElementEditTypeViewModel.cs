@@ -18,8 +18,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             _application = application;
             _element = element;
 
-            Title = $"Edit element type {element.Fullname}";
-            SubTitle = $"Edit element type {element.Fullname}";
+            Title = $"Change element type";
+            SubTitle = $"For element '{element.Fullname}'";
 
             Type = _element.Type;
 

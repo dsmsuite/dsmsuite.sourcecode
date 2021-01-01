@@ -21,8 +21,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
             _consumer = consumer;
             _provider = provider;
 
-            Title = $"Create relation between {consumer.Fullname} and {provider.Fullname}";
-            SubTitle = $"Create relation between {consumer.Fullname} and {provider.Fullname}";
+            Title = $"Create relation";
+            SubTitle = $"Between element '{consumer.Fullname}' and '{provider.Fullname}'";
 
             Type = "";
             Weight = 1;

@@ -18,8 +18,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
             _application = application;
             _relation = relation;
 
-            Title = "Edit relation";
-            SubTitle = "Edit relation";
+            Title = "Change relation weight";
+            SubTitle = $"Between element '{relation.Consumer.Fullname}' and '{relation.Provider.Fullname}'";
 
             Weight = relation.Weight;
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);

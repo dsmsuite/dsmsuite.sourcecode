@@ -15,7 +15,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         public ActionListViewModel(IDsmApplication application)
         {
             Title = "Edit history";
-            SubTitle = "Modifications on model";
+            SubTitle = "List of edit actions on the model";
 
             _application = application;
             _application.ActionPerformed += OnActionPerformed;

@@ -16,7 +16,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Snapshot
             _application = application;
 
             Title = "Make snapshot";
-            SubTitle = "Enter name of snapshot";
+            SubTitle = "To mark point during editing";
 
             Description = "";
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);

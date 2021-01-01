@@ -18,8 +18,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             _application = application;
             _element = element;
 
-            Title = $"Edit element annotation {element.Fullname}";
-            SubTitle = $"Edit element annotation {element.Fullname}";
+            Title = $"Edit element annotation";
+            SubTitle = $"For element '{element.Fullname}'";
 
             IDsmElementAnnotation annotation = _application.FindElementAnnotation(element);
             Annotation = annotation?.Text;

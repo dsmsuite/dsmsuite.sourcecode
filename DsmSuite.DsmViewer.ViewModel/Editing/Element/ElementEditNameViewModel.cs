@@ -20,8 +20,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             _application = application;
             _element = element;
 
-            Title = $"Edit element name {element.Fullname}";
-            SubTitle = $"Edit element name {element.Fullname}";
+            Title = $"Change element name";
+            SubTitle = $"For element '{element.Fullname}'";
 
             Name = _element.Name;
 

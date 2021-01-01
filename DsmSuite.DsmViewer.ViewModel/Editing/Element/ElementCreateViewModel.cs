@@ -20,8 +20,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             _application = application;
             _element = element;
 
-            Title = $"Create child element for {element.Fullname}";
-            SubTitle = $"Create child element for {element.Fullname}";
+            Title = $"Create child element";
+            SubTitle = $"For element '{element.Fullname}'";
             Name = "";
             Type = "";
 

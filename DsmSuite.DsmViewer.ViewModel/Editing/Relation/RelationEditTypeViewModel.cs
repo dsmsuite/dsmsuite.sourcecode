@@ -18,8 +18,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
             _application = application;
             _relation = relation;
 
-            Title = "Edit relation type";
-            SubTitle = "Edit relation type";
+            Title = "Change relation type";
+            SubTitle = $"Between element '{relation.Consumer.Fullname}' and '{relation.Provider.Fullname}'";
 
             Type = relation.Type;
             AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);

@@ -21,8 +21,8 @@
                 <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
             </StackPanel>
         </DockPanel>
-        <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogTitle}" Content="{Binding Title}" Margin="5"/>
-        <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogSubTitle}" Content="{Binding SubTitle}" Margin="5"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogTitle}" Text="{Binding Title}" Margin="5"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogSubTitle}" Text="{Binding SubTitle}" Margin="5"/>
         <ListView Margin="10" Grid.Row="3" ItemsSource="{Binding Actions}">
             <ListView.View>
                 <GridView>
