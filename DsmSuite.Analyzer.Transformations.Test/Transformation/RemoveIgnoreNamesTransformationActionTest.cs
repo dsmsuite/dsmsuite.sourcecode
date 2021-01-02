@@ -38,7 +38,7 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
             Assert.IsNotNull(dataModel.FindElementByName("element5Name"));
             Assert.AreEqual(5, dataModel.TotalElementCount);
 
-            Assert.AreEqual(4, dataModel.TotalRelationCount);
+            Assert.AreEqual(4, dataModel.GetRelationCount());
             
             List<string> ignoredNames = new List<string>();
             ignoredNames.Add("element[34]"); // Names can be regular expressions
@@ -50,7 +50,7 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
             Assert.IsNotNull(dataModel.FindElementByName("element5Name"));
             Assert.AreEqual(3, dataModel.TotalElementCount);
 
-            Assert.AreEqual(1, dataModel.TotalRelationCount);
+            Assert.AreEqual(1, dataModel.GetRelationCount());
         }
     }
 }

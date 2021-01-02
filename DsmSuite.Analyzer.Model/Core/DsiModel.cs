@@ -49,7 +49,7 @@ namespace DsmSuite.Analyzer.Model.Core
             {
                 _metaDataModel.AddMetaDataItemToDefaultGroup($"- '{type}' relations found", $"{GetRelationTypeCount(type)}");
             }
-            _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations found", $"{TotalRelationCount}");
+            _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations found", $"{ImportedRelationCount}");
             _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations resolved", $"{ResolvedRelationCount} (confidence={ResolvedRelationPercentage:0.000} %)");
 
             DsiModelFile modelFile = new DsiModelFile(dsiFilename, _metaDataModel, _elementsDataModel, _relationsDataModel);
@@ -163,7 +163,7 @@ namespace DsmSuite.Analyzer.Model.Core
             return _relationsDataModel.DoesRelationExist(consumerId, providerId);
         }
 
-        public int TotalRelationCount => _relationsDataModel.ImportedRelationCount;
+        public int ImportedRelationCount => _relationsDataModel.ImportedRelationCount;
 
         public int ResolvedRelationCount => _relationsDataModel.ResolvedRelationCount;
 

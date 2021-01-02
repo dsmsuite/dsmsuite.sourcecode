@@ -45,7 +45,7 @@ namespace DsmSuite.Analyzer.Model.Interface
         IEnumerable<IDsiRelation> GetRelations();
         int GetRelationCount();
         bool DoesRelationExist(int consumerId, int providerId);
-        int TotalRelationCount { get; }
+        int ImportedRelationCount { get; }
         int ResolvedRelationCount { get; }
         ICollection<string> GetRelationTypes();
         int GetRelationTypeCount(string type);
