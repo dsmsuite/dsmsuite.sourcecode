@@ -19,7 +19,7 @@ namespace DsmSuite.Analyzer.Jdeps.Test.Analysis
             Jdeps.Analysis.Analyzer analyzer = new Jdeps.Analysis.Analyzer(model, analyzerSettings, null);
             analyzer.Analyze();
 
-            Assert.AreEqual(5, model.TotalElementCount);
+            Assert.AreEqual(5, model.CurrentElementCount);
 
             IDsiElement elementJavaxCryptoCipher = model.FindElementByName("javax.crypto.Cipher");
             Assert.IsNotNull(elementJavaxCryptoCipher);

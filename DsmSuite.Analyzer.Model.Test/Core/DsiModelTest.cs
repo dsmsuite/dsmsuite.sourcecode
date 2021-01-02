@@ -32,10 +32,10 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiModel dataModel2 = new DsiModel("Test", Assembly.GetExecutingAssembly());
             dataModel2.Load(filename, null);
 
-            Assert.AreEqual(dataModel1.TotalElementCount, dataModel2.TotalElementCount);
+            Assert.AreEqual(dataModel1.CurrentElementCount, dataModel2.CurrentElementCount);
             List<IDsiElement> dataModel1Elements = dataModel1.GetElements().ToList();
             List<IDsiElement> dataModel2Elements = dataModel2.GetElements().ToList();
-            for (int elementIndex = 0; elementIndex < dataModel1.TotalElementCount; elementIndex++)
+            for (int elementIndex = 0; elementIndex < dataModel1.CurrentElementCount; elementIndex++)
             {
                 Assert.AreEqual(dataModel1Elements[elementIndex].Id, dataModel2Elements[elementIndex].Id);
                 Assert.AreEqual(dataModel1Elements[elementIndex].Name, dataModel2Elements[elementIndex].Name);

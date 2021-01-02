@@ -37,7 +37,7 @@ namespace DsmSuite.Analyzer.Uml
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
             analyzer.Analyze();
             model.Save(_analyzerSettings.Output.Filename, _analyzerSettings.Output.Compress, null);
-            Logger.LogUserMessage($"Found elements={model.GetElementCount()} relations={model.GetRelationCount()} resolvedRelations={model.ResolvedRelationPercentage:0.0}% ambiguousRelations={model.AmbiguousRelationPercentage:0.0}%");
+            Logger.LogUserMessage($"Found elements={model.CurrentElementCount} relations={model.CurrentRelationCount} resolvedRelations={model.ResolvedRelationPercentage:0.0}% ambiguousRelations={model.AmbiguousRelationPercentage:0.0}%");
         }
 
         protected override void LogOutputParameters()

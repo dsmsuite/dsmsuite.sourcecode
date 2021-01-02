@@ -120,11 +120,11 @@ namespace DsmSuite.Analyzer.Model.Persistency
 
         private void WriteModelAttributes(XmlWriter writer)
         {
-            _totalElementCount = _elementModelCallback.GetElementCount();
+            _totalElementCount = _elementModelCallback.CurrentElementCount;
             writer.WriteAttributeString(ModelElementCountXmlAttribute, _totalElementCount.ToString());
             _progressedElementCount = 0;
 
-            _totalRelationCount = _relationModelCallback.GetRelationCount();
+            _totalRelationCount = _relationModelCallback.CurrentRelationCount;
             writer.WriteAttributeString(ModelRelationCountXmlAttribute, _totalRelationCount.ToString());
             _progressedRelationCount = 0;
         }

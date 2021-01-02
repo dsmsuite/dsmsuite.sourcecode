@@ -29,7 +29,8 @@ namespace DsmSuite.Analyzer.Model.Core
             Logger.LogDataModelMessage($"Load data model file={dsiFilename}");
 
             Filename = dsiFilename;
-            DsiModelFile modelFile = new DsiModelFile(dsiFilename, _metaDataModel, _elementsDataModel, _relationsDataModel);
+            DsiModelFile modelFile =
+                new DsiModelFile(dsiFilename, _metaDataModel, _elementsDataModel, _relationsDataModel);
             modelFile.Load(progress);
         }
 
@@ -41,18 +42,24 @@ namespace DsmSuite.Analyzer.Model.Core
 
             foreach (string type in GetElementTypes())
             {
-                _metaDataModel.AddMetaDataItemToDefaultGroup($"- '{type}' elements found", $"{GetElementTypeCount(type)}");
+                _metaDataModel.AddMetaDataItemToDefaultGroup($"- '{type}' elements found",
+                    $"{GetElementTypeCount(type)}");
             }
-            _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{TotalElementCount}");
+
+            _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{CurrentElementCount}");
 
             foreach (string type in GetRelationTypes())
             {
-                _metaDataModel.AddMetaDataItemToDefaultGroup($"- '{type}' relations found", $"{GetRelationTypeCount(type)}");
+                _metaDataModel.AddMetaDataItemToDefaultGroup($"- '{type}' relations found",
+                    $"{GetRelationTypeCount(type)}");
             }
-            _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations found", $"{ImportedRelationCount}");
-            _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations resolved", $"{ResolvedRelationCount} (confidence={ResolvedRelationPercentage:0.000} %)");
 
-            DsiModelFile modelFile = new DsiModelFile(dsiFilename, _metaDataModel, _elementsDataModel, _relationsDataModel);
+            _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations found", $"{ImportedRelationCount}");
+            _metaDataModel.AddMetaDataItemToDefaultGroup("Total relations resolved",
+                $"{ResolvedRelationCount} (confidence={ResolvedRelationPercentage:0.000} %)");
+
+            DsiModelFile modelFile =
+                new DsiModelFile(dsiFilename, _metaDataModel, _elementsDataModel, _relationsDataModel);
             modelFile.Save(compressFile, progress);
         }
 
@@ -75,7 +82,7 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             return _elementsDataModel.AddElement(name, type, annotation);
         }
-        
+
         public void RemoveElement(IDsiElement element)
         {
             _elementsDataModel.RemoveElement(element);
@@ -95,15 +102,10 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             return _elementsDataModel.FindElementByName(name);
         }
-        
+
         public IEnumerable<IDsiElement> GetElements()
         {
             return _elementsDataModel.GetElements();
-        }
-
-        public int GetElementCount()
-        {
-            return _elementsDataModel.GetElementCount();
         }
 
         public ICollection<string> GetElementTypes()
@@ -115,10 +117,11 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             return _elementsDataModel.GetElementTypeCount(type);
         }
-        
-        public int TotalElementCount => _elementsDataModel.TotalElementCount;
-        
-        public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string annotation)
+
+        public int CurrentElementCount => _elementsDataModel.CurrentElementCount;
+
+        public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight,
+            string annotation)
         {
             return _relationsDataModel.AddRelation(consumerName, providerName, type, weight, annotation);
         }
@@ -142,7 +145,7 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             return _relationsDataModel.GetRelationTypeCount(type);
         }
-        
+
         public ICollection<IDsiRelation> GetRelationsOfConsumer(int consumerId)
         {
             return _relationsDataModel.GetRelationsOfConsumer(consumerId);
@@ -153,9 +156,12 @@ namespace DsmSuite.Analyzer.Model.Core
             return _relationsDataModel.GetRelations();
         }
 
-        public int GetRelationCount()
+        public int CurrentRelationCount
         {
-            return _relationsDataModel.GetRelationCount();
+            get
+            { 
+                return _relationsDataModel.CurrentRelationCount;
+            }
         }
 
         public bool DoesRelationExist(int consumerId, int providerId)

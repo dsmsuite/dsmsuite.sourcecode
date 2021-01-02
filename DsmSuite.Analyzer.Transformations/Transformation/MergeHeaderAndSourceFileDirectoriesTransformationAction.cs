@@ -24,7 +24,7 @@ namespace DsmSuite.Analyzer.Transformations.Transformation
         {
             IDsiElement[] clonedElements = _model.GetElements().ToArray(); // Because elements in collection change during iteration
 
-            int totalElements = _model.GetElementCount();
+            int totalElements = _model.CurrentElementCount;
             int transformedElements = 0;
             foreach (IDsiElement element in clonedElements)
             {

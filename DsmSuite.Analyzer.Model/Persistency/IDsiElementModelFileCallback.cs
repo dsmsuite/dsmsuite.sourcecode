@@ -7,6 +7,6 @@ namespace DsmSuite.Analyzer.Model.Persistency
     {
         IDsiElement ImportElement(int id, string name, string type, string annotation);
         IEnumerable<IDsiElement> GetElements();
-        int GetElementCount();
+        int CurrentElementCount { get; }
     }
 }

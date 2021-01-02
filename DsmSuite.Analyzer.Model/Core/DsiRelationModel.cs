@@ -155,9 +155,12 @@ namespace DsmSuite.Analyzer.Model.Core
             return relations;
         }
 
-        public int GetRelationCount()
+        public int CurrentRelationCount
         {
-            return GetRelations().Count();
+            get
+            {
+                return GetRelations().Count();
+            }
         }
 
         public bool DoesRelationExist(int consumerId, int providerId)

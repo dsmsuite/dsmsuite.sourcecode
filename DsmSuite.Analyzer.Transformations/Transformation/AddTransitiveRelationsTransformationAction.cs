@@ -25,7 +25,7 @@ namespace DsmSuite.Analyzer.Transformations.Transformation
         {
             FindDirectProviders();
 
-            int totalElements = _model.GetElementCount();
+            int totalElements = _model.CurrentElementCount;
             int transformedElements = 0;
             foreach (IDsiElement consumer in _model.GetElements())
             {

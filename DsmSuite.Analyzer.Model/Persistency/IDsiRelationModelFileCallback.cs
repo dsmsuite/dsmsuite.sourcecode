@@ -7,6 +7,6 @@ namespace DsmSuite.Analyzer.Model.Persistency
     {
         IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight, string annotation);
         IEnumerable<IDsiRelation> GetRelations();
-        int GetRelationCount();
+        int CurrentRelationCount { get; }
     }
 }

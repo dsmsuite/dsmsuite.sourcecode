@@ -102,11 +102,6 @@ namespace DsmSuite.Analyzer.Model.Core
             return _elementsById.Values;
         }
 
-        public int GetElementCount()
-        {
-            return _elementsById.Count;
-        }
-
         public ICollection<string> GetElementTypes()
         {
             return _elementTypeCount.Keys;
@@ -124,7 +119,7 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
 
-        public int TotalElementCount => _elementsByName.Values.Count;
+        public int CurrentElementCount => _elementsByName.Values.Count;
 
         private void IncrementElementTypeCount(string type)
         {
