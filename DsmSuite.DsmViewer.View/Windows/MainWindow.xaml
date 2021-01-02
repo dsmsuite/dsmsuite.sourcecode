@@ -10,7 +10,8 @@
         Height="Auto" 
         Width="Auto"
         Loaded="MainWindow_OnLoaded"
-        Style="{StaticResource WindowStyle}">
+        Style="{StaticResource WindowStyle}"
+        Icon="/DsmSuite.DsmViewer.View;component/Resources/DSM.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -19,7 +20,8 @@
             <RowDefinition Height="16" />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" >
-            <Label DockPanel.Dock="Left" Content="{Binding Title}"/>
+            <Image DockPanel.Dock="Left" Source="{StaticResource ApplicationIcon}" Width="20" Height="20" Margin="10,0,10,0"/>
+            <Label DockPanel.Dock="Left" Content="{Binding Title}" VerticalAlignment="Center"/>
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="Minimize" Style="{StaticResource MinimizeButtonStyle}"/>
                 <Button x:Name="Maximize" Style="{StaticResource MaximizeButtonStyle}"/>
