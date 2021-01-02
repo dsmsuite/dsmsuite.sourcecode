@@ -7,6 +7,7 @@
              xmlns:matrix1="clr-namespace:DsmSuite.DsmViewer.ViewModel.Matrix;assembly=DsmSuite.DsmViewer.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
+             Margin="5"
              Background="{StaticResource BackgroundColor}">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type matrix1:ElementToolTipViewModel}">
@@ -153,7 +154,7 @@
         </Canvas>
 
         <!--  colomn 1 matrix splitter -->
-        <GridSplitter x:Name="Splitter" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="5" Style="{StaticResource GridSplitterStyle}"/>
+        <GridSplitter x:Name="Splitter" Background="Transparent" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="5" Style="{StaticResource GridSplitterStyle}"/>
 
         <!--  colomn 2 matrix metrics -->
         <matrix:MatrixMetricsSelectorView x:Name="MatrixMetricsSelectorView" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
