@@ -47,7 +47,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 
         private bool AcceptChangeCanExecute(object parameter)
         {
-            return true;
+            return Type != _relation.Type;
         }
     }
 }

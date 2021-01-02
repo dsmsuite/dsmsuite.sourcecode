@@ -57,7 +57,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 
         private bool AcceptChangeCanExecute(object parameter)
         {
-            return Weight > 0;
+            if (Weight < 0)
+            {
+                Help = "Weight can not be negative";
+                return false;
+            }
+            else if (Weight == 0)
+            {
+                Help = "Weight can not be zero";
+                return false;
+            }
+            else
+            {
+                Help = "";
+                return true;
+            }
         }
     }
 }

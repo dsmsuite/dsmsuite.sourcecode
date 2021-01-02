@@ -51,27 +51,25 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         {
             ElementName elementName = new ElementName(_element.Fullname);
 
-            string newName = elementName.ParentName.Length > 0 ? elementName.ParentName + "." + Name : Name;
-            string existingName = _element.Fullname;
+            string fullname = elementName.ParentName.Length > 0 ? elementName.ParentName + "." + Name : Name;
 
-            if (newName == existingName)
+            if (fullname == _element.Fullname)
             {
-                Help = "Name is unchanged";
                 return false;
             }
             else if (Name.Length == 0)
             {
-                Help = "Name is empty";
+                Help = "Name can not be empty";
                 return false;
             }
             else if (Name.Contains("."))
             {
-                Help = "Name should not contain dot character";
+                Help = "Name can not be contain dot character";
                 return false;
             }
-            else if (_application.GetElementByFullname(newName) != null)
+            else if (_application.GetElementByFullname(fullname) != null)
             {
-                Help = "Name conflicts with existing name";
+                Help = "Name can not be an existing name";
                 return false;
             }
             else

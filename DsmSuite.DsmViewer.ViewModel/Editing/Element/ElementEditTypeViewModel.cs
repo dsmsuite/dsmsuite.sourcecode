@@ -48,7 +48,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
 
         private bool AcceptChangeCanExecute(object parameter)
         {
-            return true;
+            return Type != _element.Type;
         }
     }
 }

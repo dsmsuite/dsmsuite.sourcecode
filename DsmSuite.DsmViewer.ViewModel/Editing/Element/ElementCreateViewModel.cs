@@ -58,7 +58,27 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         {
             ElementName elementName = new ElementName(_element.Fullname);
             elementName.AddNamePart(Name);
-            return (Name.Length > 0) && (_application.GetElementByFullname(elementName.FullName) == null);
+
+            if (Name.Length == 0)
+            {
+                Help = "Name can not be empty";
+                return false;
+            }
+            else if (Name.Contains("."))
+            {
+                Help = "Name can not be contain dot character";
+                return false;
+            }
+            else if (_application.GetElementByFullname(Name) != null)
+            {
+                Help = "Name can not be an existing name";
+                return false;
+            }
+            else
+            {
+                Help = "";
+                return true;
+            }
         }
     }
 }
