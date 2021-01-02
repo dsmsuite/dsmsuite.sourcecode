@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
@@ -16,8 +15,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly SolutionFile _solutionFile;
-        private readonly ConcurrentDictionary<string, FileInfo> _projectSourcesFilesByChecksum = new ConcurrentDictionary<string, FileInfo>();
-        private readonly ConcurrentDictionary<string, string> _interfaceFileChecksumsByFilePath = new ConcurrentDictionary<string, string>();
+        private readonly HashSet<string> _registeredSources = new HashSet<string>();
+        private readonly Dictionary<string, FileInfo> _projectSourcesFilesByChecksum = new Dictionary<string, FileInfo>();
+        private readonly Dictionary<string, string> _interfaceFileChecksumsByFilePath = new Dictionary<string, string>();
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
@@ -39,20 +39,31 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             AnalyzerLogger.Flush();
         }
 
-        private void RegisterInterfaceFiles()
-        {
-            Parallel.ForEach(_analyzerSettings.Input.InterfaceIncludeDirectories, interfaceDirectory =>
-            {
-                DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(interfaceDirectory);
-                RegisterInterfaceFiles(interfaceDirectoryInfo);
-            });
-        }
-
         private void AnalyzeSolution()
         {
             _solutionFile.Analyze();
         }
-        
+
+        private void RegisterDotNetTypes()
+        {
+            foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
+            {
+                foreach (DotNetType type in visualStudioProject.DotNetTypes)
+                {
+                    RegisterDotNetType(_solutionFile, visualStudioProject, type);
+                }
+            }
+        }
+
+        private void RegisterInterfaceFiles()
+        {
+            foreach (string interfaceDirectory in _analyzerSettings.Input.InterfaceIncludeDirectories)
+            {
+                DirectoryInfo interfaceDirectoryInfo = new DirectoryInfo(interfaceDirectory);
+                RegisterInterfaceFiles(interfaceDirectoryInfo);
+            }
+        }
+
         private void RegisterInterfaceFiles(DirectoryInfo interfaceDirectoryInfo)
         {
             if (interfaceDirectoryInfo.Exists)
@@ -81,42 +92,32 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
         }
 
-        private void RegisterDotNetTypes()
-        {
-            Parallel.ForEach(_solutionFile.Projects, visualStudioProject =>
-            {
-                foreach (DotNetType type in visualStudioProject.DotNetTypes)
-                {
-                    RegisterDotNetType(_solutionFile, visualStudioProject, type);
-                }
-            });
-        }
-
         private void RegisterDotNetRelations()
         {
-            Parallel.ForEach(_solutionFile.Projects, visualStudioProject =>
+            foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
             {
                 foreach (DotNetRelation relation in visualStudioProject.DotNetRelations)
                 {
                     RegisterDotNetRelation(_solutionFile, visualStudioProject, relation);
                 }
-            });
+            }
         }
 
         private void RegisterSourceFiles()
         {
-            Parallel.ForEach(_solutionFile.Projects, visualStudioProject =>
+            foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
             {
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
                     RegisterSourceFile(_solutionFile, visualStudioProject, sourceFile);
+                    _registeredSources.Add(sourceFile.SourceFileInfo.FullName);
                 }
-            });
+            }
         }
 
         private void RegisterDirectIncludeRelations()
         {
-            Parallel.ForEach(_solutionFile.Projects, visualStudioProject =>
+            foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
             {
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
@@ -173,7 +174,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                         }
                     }
                 }
-            });
+            }
         }
 
         private void RegisterIncludeRelation(string consumerName, string resolvedIncludedFile)
@@ -246,38 +247,35 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void RegisterGeneratedFileRelations()
         {
-            Parallel.ForEach(_solutionFile.Projects, visualStudioProject =>
+            foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
             {
                 foreach (GeneratedFileRelation relation in visualStudioProject.GeneratedFileRelations)
                 {
-                    Logger.LogInfo("Generated file relation registered: " + relation.Consumer.Name + " -> " +
-                                   relation.Provider.Name);
+                    Logger.LogInfo("Generated file relation registered: " + relation.Consumer.Name + " -> " + relation.Provider.Name);
 
                     switch (_analyzerSettings.Analysis.ViewMode)
                     {
                         case ViewMode.SolutionView:
-                        {
-                            string consumerName =
-                                GetSolutionViewName(_solutionFile, visualStudioProject, relation.Consumer);
-                            string providerName =
-                                GetSolutionViewName(_solutionFile, visualStudioProject, relation.Provider);
-                            _model.AddRelation(consumerName, providerName, "generated", 1, null);
-                            break;
-                        }
+                            {
+                                string consumerName = GetSolutionViewName(_solutionFile, visualStudioProject, relation.Consumer);
+                                string providerName = GetSolutionViewName(_solutionFile, visualStudioProject, relation.Provider);
+                                _model.AddRelation(consumerName, providerName, "generated", 1, null);
+                                break;
+                            }
                         case ViewMode.DirectoryView:
-                        {
-                            string consumerName = GetDirectoryViewName(relation.Consumer);
-                            string providerName = GetDirectoryViewName(relation.Provider);
-                            _model.AddRelation(consumerName, providerName, "generated", 1, null);
-                            break;
-                        }
+                            {
+                                string consumerName = GetDirectoryViewName(relation.Consumer);
+                                string providerName = GetDirectoryViewName(relation.Provider);
+                                _model.AddRelation(consumerName, providerName, "generated", 1, null);
+                                break;
+                            }
                         default:
                             Logger.LogError("Unknown view mode");
                             break;
                     }
 
                 }
-            });
+            }
         }
 
         private void RegisterSourceFile(SolutionFile solutionFile, ProjectFileBase visualStudioProject, SourceFile sourceFile)
@@ -333,6 +331,11 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             _model.AddRelation(consumerName, providerName, relation.Type, 1, null);
         }
 
+        private bool IsProjectInclude(string includedFile)
+        {
+            return _registeredSources.Contains(includedFile);
+        }
+
         private bool IsSystemInclude(string includedFile)
         {
             bool isSystemInclude = false;
@@ -375,7 +378,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
             return isInterfaceInclude;
         }
-
         private bool FindIncludeFileInVisualStudioProject(string includedFile, out SolutionFile solutionFile, out ProjectFileBase projectFile, out SourceFile sourceFile)
         {
             bool found = false;

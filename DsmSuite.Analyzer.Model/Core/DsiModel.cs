@@ -11,7 +11,6 @@ namespace DsmSuite.Analyzer.Model.Core
 {
     public class DsiModel : IDsiModel
     {
-        private readonly object lockObject = new object();
         private readonly MetaDataModel _metaDataModel;
         private readonly DsiElementModel _elementsDataModel;
         private readonly DsiRelationModel _relationsDataModel;
@@ -66,10 +65,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void AddMetaData(string name, string value)
         {
-            lock (lockObject)
-            {
-                _metaDataModel.AddMetaDataItemToDefaultGroup(name, value);
-            }
+            _metaDataModel.AddMetaDataItemToDefaultGroup(name, value);
         }
 
         public IEnumerable<string> GetMetaDataGroups()
@@ -84,26 +80,17 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public IDsiElement AddElement(string name, string type, string annotation)
         {
-            lock (lockObject)
-            {
-                return _elementsDataModel.AddElement(name, type, annotation);
-            }
+            return _elementsDataModel.AddElement(name, type, annotation);
         }
 
         public void RemoveElement(IDsiElement element)
         {
-            lock (lockObject)
-            {
-                _elementsDataModel.RemoveElement(element);
-            }
+            _elementsDataModel.RemoveElement(element);
         }
 
         public void RenameElement(IDsiElement element, string newName)
         {
-            lock (lockObject)
-            {
-                _elementsDataModel.RenameElement(element, newName);
-            }
+            _elementsDataModel.RenameElement(element, newName);
         }
 
         public IDsiElement FindElementById(int id)
@@ -136,26 +123,17 @@ namespace DsmSuite.Analyzer.Model.Core
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight,
             string annotation)
         {
-            lock (lockObject)
-            {
-                return _relationsDataModel.AddRelation(consumerName, providerName, type, weight, annotation);
-            }
+            return _relationsDataModel.AddRelation(consumerName, providerName, type, weight, annotation);
         }
 
         public void SkipRelation(string consumerName, string providerName, string type)
         {
-            lock (lockObject)
-            {
-                _relationsDataModel.SkipRelation(consumerName, providerName, type);
-            }
+            _relationsDataModel.SkipRelation(consumerName, providerName, type);
         }
 
         public void AmbiguousRelation(string consumerName, string providerName, string type)
         {
-            lock (lockObject)
-            {
-                _relationsDataModel.AmbiguousRelation(consumerName, providerName, type);
-            }
+            _relationsDataModel.AmbiguousRelation(consumerName, providerName, type);
         }
 
         public ICollection<string> GetRelationTypes()
@@ -178,7 +156,13 @@ namespace DsmSuite.Analyzer.Model.Core
             return _relationsDataModel.GetRelations();
         }
 
-        public int CurrentRelationCount => _relationsDataModel.CurrentRelationCount;
+        public int CurrentRelationCount
+        {
+            get
+            { 
+                return _relationsDataModel.CurrentRelationCount;
+            }
+        }
 
         public bool DoesRelationExist(int consumerId, int providerId)
         {
