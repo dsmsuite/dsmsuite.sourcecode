@@ -126,7 +126,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
 
         public static void Flush()
         {
-            Flush(LogLevel.Info, FilesFoundLogMessages, "Duplicate files found", "duplicateFilesFound", 1);
+            Flush(LogLevel.Info, FilesFoundLogMessages, "Files found in multiple visual studio projects", "filesFoundInMultipleProjects", 1);
 
             Flush(LogLevel.Error, FilesNotFoundLogMessages, "Files not found", "filesNotFound", 0);
             Flush(LogLevel.Error, PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved", 0);
