@@ -35,7 +35,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public event EventHandler<ElementEditNameViewModel> ElementEditNameStarted;
         public event EventHandler<ElementEditTypeViewModel> ElementEditTypeStarted;
         public event EventHandler<ElementEditAnnotationViewModel> ElementEditAnnotationStarted;
-        
+
         public event EventHandler<RelationCreateViewModel> RelationCreateStarted;
         public event EventHandler<RelationEditWeightViewModel> RelationEditWeightStarted;
         public event EventHandler<RelationEditTypeViewModel> RelationEditTypeStarted;
@@ -116,7 +116,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
             ChangeRelationWeightCommand = new RelayCommand<object>(ChangeRelationWeightExecute, ChangeRelationWeightCanExecute);
             ChangeRelationTypeCommand = new RelayCommand<object>(ChangeRelationTypeExecute, ChangeRelationTypeCanExecute);
- 
+
             MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
             ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
             ShowSettingsCommand = new RelayCommand<object>(ShowSettingsExecute, ShowSettingsCanExecute);
@@ -287,23 +287,31 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             });
 
             _progressViewModel.Action = "Reading";
-            string fileToOpen = parameter as string;
-            if (fileToOpen != null)
+            string filename = parameter as string;
+            if (filename != null)
             {
-                FileInfo fileInfo = new FileInfo(fileToOpen);
-                ModelFilename = fileToOpen.Replace(fileInfo.Extension, ".dsm");
-
-                Title = $"DSM Viewer - {fileInfo.Name}";
+                FileInfo fileInfo = new FileInfo(filename);
 
                 switch (fileInfo.Extension)
                 {
                     case ".dsm":
-                        await _application.OpenModel(fileToOpen, progress);
-                        IsLoaded = true;
+                        {
+                            FileInfo dsmFileInfo = fileInfo;
+                            await _application.OpenModel(dsmFileInfo.FullName, progress);
+                            ModelFilename = dsmFileInfo.FullName;
+                            Title = $"DSM Viewer - {dsmFileInfo.Name}";
+                            IsLoaded = true;
+                        }
                         break;
                     case ".dsi":
-                        await _application.AsyncImportDsiModel(fileToOpen, ModelFilename, false, true, progress);
-                        IsLoaded = true;
+                        {
+                            FileInfo dsiFileInfo = fileInfo;
+                            FileInfo dsmFileInfo = new FileInfo(fileInfo.FullName.Replace(".dsi", ".dsm"));
+                            await _application.AsyncImportDsiModel(dsiFileInfo.FullName, dsmFileInfo.FullName, false, true, progress);
+                            ModelFilename = dsmFileInfo.FullName;
+                            Title = $"DSM Viewer - {dsmFileInfo.Name}";
+                            IsLoaded = true;
+                        }
                         break;
                 }
                 ActiveMatrix = new MatrixViewModel(this, _application, GetRootElements());
@@ -611,7 +619,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void MoveElementExecute(object parameter)
         {
-            Tuple<IDsmElement, IDsmElement,int> moveParameter = parameter as Tuple<IDsmElement, IDsmElement, int>;
+            Tuple<IDsmElement, IDsmElement, int> moveParameter = parameter as Tuple<IDsmElement, IDsmElement, int>;
             if (moveParameter != null)
             {
                 _application.ChangeElementParent(moveParameter.Item1, moveParameter.Item2, moveParameter.Item3);
