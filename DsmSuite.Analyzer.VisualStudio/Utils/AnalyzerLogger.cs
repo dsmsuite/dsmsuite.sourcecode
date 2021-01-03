@@ -11,7 +11,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
     public static class AnalyzerLogger
     {
         private static readonly Dictionary<string, HashSet<string>> FilesNotFoundLogMessages;
-        private static readonly Dictionary<string, HashSet<string>> FilesFoundLogMessages;
+        private static readonly Dictionary<string, HashSet<string>> FilesFoundInVisualStudioProjectLogMessages;
+        private static readonly Dictionary<string, HashSet<string>> IncludeFilesNotFoundInVisualStudioProjectLogMessages;
         private static readonly Dictionary<string, HashSet<string>> PathsNotResolvedLogMessages;
         private static readonly Dictionary<string, HashSet<string>> IncludePathsNotFoundLogMessages;
         private static readonly Dictionary<string, HashSet<string>> IncludeFilesNotFoundLogMessages;
@@ -19,16 +20,17 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
         static AnalyzerLogger()
         {
             FilesNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
-            FilesFoundLogMessages = new Dictionary<string, HashSet<string>>();
+            FilesFoundInVisualStudioProjectLogMessages = new Dictionary<string, HashSet<string>>();
+            IncludeFilesNotFoundInVisualStudioProjectLogMessages = new Dictionary<string, HashSet<string>>();
             PathsNotResolvedLogMessages = new Dictionary<string, HashSet<string>>();
             IncludePathsNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
             IncludeFilesNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
         }
        
-        public static void LogErrorFileNotFound(string filename, string context)
+        public static void LogErrorFileNotFound(string filename, string visualStudioProject)
         {
             string key = filename;
-            string message = "In " + context;
+            string message = "In " + visualStudioProject;
             if (!FilesNotFoundLogMessages.ContainsKey(key))
             {
                 FilesNotFoundLogMessages[key] = new HashSet<string>();
@@ -36,21 +38,32 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
             FilesNotFoundLogMessages[key].Add(message);
         }
 
-        public static void LogFileFound(string filename, string context)
+        public static void LogFileFoundInVisualStudioProject(string filename, string visualStudioProject)
         {
             string key = filename;
-            string message = "In " + context;
-            if (!FilesFoundLogMessages.ContainsKey(key))
+            string message = "In " + visualStudioProject;
+            if (!FilesFoundInVisualStudioProjectLogMessages.ContainsKey(key))
             {
-                FilesFoundLogMessages[key] = new HashSet<string>();
+                FilesFoundInVisualStudioProjectLogMessages[key] = new HashSet<string>();
             }
-            FilesFoundLogMessages[key].Add(message);
+            FilesFoundInVisualStudioProjectLogMessages[key].Add(message);
         }
 
-        public static void LogErrorPathNotResolved(string relativePath, string context)
+        public static void LogIncludeFileNotFoundInVisualStudioProject(string filename, string visualStudioProject)
+        {
+            string key = filename;
+            string message = "In " + visualStudioProject;
+            if (!IncludeFilesNotFoundInVisualStudioProjectLogMessages.ContainsKey(key))
+            {
+                IncludeFilesNotFoundInVisualStudioProjectLogMessages[key] = new HashSet<string>();
+            }
+            IncludeFilesNotFoundInVisualStudioProjectLogMessages[key].Add(message);
+        }
+
+        public static void LogErrorPathNotResolved(string relativePath, string visualStudioProject)
         {
             string key = relativePath;
-            string message = "In " + context;
+            string message = "In " + visualStudioProject;
             if (!PathsNotResolvedLogMessages.ContainsKey(key))
             {
                 PathsNotResolvedLogMessages[key] = new HashSet<string>();
@@ -58,10 +71,10 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
             PathsNotResolvedLogMessages[key].Add(message);
         }
 
-        public static void LogErrorIncludePathNotFound(string includePath, string context)
+        public static void LogErrorIncludePathNotFound(string includePath, string visualStudioProject)
         {
             string key = includePath;
-            string message = "In " + context;
+            string message = "In " + visualStudioProject;
             if (!IncludePathsNotFoundLogMessages.ContainsKey(key))
             {
                 IncludePathsNotFoundLogMessages[key] = new HashSet<string>();
@@ -69,10 +82,10 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
             IncludePathsNotFoundLogMessages[key].Add(message);
         }
 
-        public static void LogErrorIncludeFileNotFound(string includeFile, string context)
+        public static void LogErrorIncludeFileNotFound(string includeFile, string visualStudioProject)
         {
             string key = includeFile;
-            string message = "In " + context;
+            string message = "In " + visualStudioProject;
             if (!IncludeFilesNotFoundLogMessages.ContainsKey(key))
             {
                 IncludeFilesNotFoundLogMessages[key] = new HashSet<string>();
@@ -126,7 +139,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
 
         public static void Flush()
         {
-            Flush(LogLevel.Info, FilesFoundLogMessages, "Files found in multiple visual studio projects", "filesFoundInMultipleProjects", 1);
+            Flush(LogLevel.Info, FilesFoundInVisualStudioProjectLogMessages, "Files found in multiple visual studio projects", "filesFoundInMultipleVisualProjects", 1);
+            Flush(LogLevel.Info, IncludeFilesNotFoundInVisualStudioProjectLogMessages, "Includes files not found in any visual studio projects", "includeFilesNotFoundInAnyVisualStudioProject", 0);
 
             Flush(LogLevel.Error, FilesNotFoundLogMessages, "Files not found", "filesNotFound", 0);
             Flush(LogLevel.Error, PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved", 0);

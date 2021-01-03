@@ -180,6 +180,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 else
                 {
                     // Skip not resolved interface
+                    AnalyzerLogger.LogIncludeFileNotFoundInVisualStudioProject(includedFile, visualStudioProject.ProjectName);
                     _model.SkipRelation(consumerName, includedFile, "include");
                 }
             }
@@ -285,7 +286,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
             if (sourceFile.SourceFileInfo.Exists)
             {
-                AnalyzerLogger.LogFileFound(sourceFile.Name, visualStudioProject.ProjectName);
+                AnalyzerLogger.LogFileFoundInVisualStudioProject(sourceFile.Name, visualStudioProject.ProjectName);
 
                 switch (_analyzerSettings.Analysis.ViewMode)
                 {
