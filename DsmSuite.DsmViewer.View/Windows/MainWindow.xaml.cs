@@ -198,14 +198,14 @@ namespace DsmSuite.DsmViewer.View.Windows
 
         private void OnScreenshotRequested(object sender, System.EventArgs e)
         {
-            
-            int width = (int)(Matrix.UsedWidth * _mainViewModel.ActiveMatrix.ZoomLevel);
-            int height = (int)(Matrix.UsedHeight * _mainViewModel.ActiveMatrix.ZoomLevel) + 24;
-
-
+            const int leftMargin = 5;
+            const int topMargin = 70;
+            const int bottomMargin = 2;
+            int width = (int)(Matrix.UsedWidth * _mainViewModel.ActiveMatrix.ZoomLevel) + leftMargin;
+            int height = (int)(Matrix.UsedHeight * _mainViewModel.ActiveMatrix.ZoomLevel) + topMargin;
             RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
             renderTargetBitmap.Render(Matrix);
-            Int32Rect rect = new Int32Rect(0, 24, width, height - 24);
+            Int32Rect rect = new Int32Rect(leftMargin, topMargin, width - leftMargin, height - topMargin - bottomMargin);
             CroppedBitmap croppedBitmap = new CroppedBitmap(renderTargetBitmap, rect);
             Clipboard.SetImage(croppedBitmap);
         }
