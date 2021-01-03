@@ -141,7 +141,12 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
                         if (consumerName != null)
                         {
-                            if (IsInterfaceInclude(includedFile))
+                            if (IsProjectInclude(includedFile))
+                            {
+                                // Register as normal visual studio project include
+                                RegisterIncludeRelation(consumerName, includedFile);
+                            }
+                            else if (IsInterfaceInclude(includedFile))
                             {
                                 // Interface includes must be clones of includes files in other visual studio projects
                                 string resolvedIncludedFile = ResolveInterfaceFile(includedFile, sourceFile);
@@ -168,8 +173,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                             }
                             else
                             {
-                                // Register as normal visual studio project include
-                                RegisterIncludeRelation(consumerName, includedFile);
+                                // Ignore other
                             }
                         }
                     }
