@@ -125,79 +125,67 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     {
                         Logger.LogInfo("Include relation registered: " + sourceFile.Name + " -> " + includedFile);
 
-                        string consumerName = null;
                         switch (_analyzerSettings.Analysis.ViewMode)
                         {
                             case ViewMode.SolutionView:
-                                consumerName = GetSolutionViewName(_solutionFile, visualStudioProject, sourceFile);
+                                RegisterDirectIncludeRelationSolutionView(visualStudioProject, sourceFile, includedFile);
                                 break;
                             case ViewMode.DirectoryView:
-                                consumerName = GetDirectoryViewName(sourceFile);
+                                RegisterDirectIncludeRelationDirectoryView(sourceFile, includedFile);
                                 break;
                             default:
                                 Logger.LogError("Unknown view mode");
                                 break;
                         }
-
-                        if (consumerName != null)
-                        {
-                            if (IsProjectInclude(includedFile))
-                            {
-                                // Register as normal visual studio project include
-                                RegisterIncludeRelation(consumerName, includedFile);
-                            }
-                            else if (IsInterfaceInclude(includedFile))
-                            {
-                                // Interface includes must be clones of includes files in other visual studio projects
-                                string resolvedIncludedFile = ResolveInterfaceFile(includedFile, sourceFile);
-                                if (resolvedIncludedFile != null)
-                                {
-                                    // Register resolved interface as normal visual studio project include
-                                    // if source of clone in visual studio project found
-                                    RegisterIncludeRelation(consumerName, resolvedIncludedFile);
-                                }
-                                else
-                                {
-                                    // Skip not resolved interface
-                                    _model.SkipRelation(consumerName, includedFile, "include");
-                                }
-                            }
-                            else if (IsExternalInclude(includedFile))
-                            {
-                                // Register external include
-                                RegisterExternalIncludeRelation(includedFile, consumerName);
-                            }
-                            else if (IsSystemInclude(includedFile))
-                            {
-                                // Ignore system include
-                            }
-                            else
-                            {
-                                // Ignore other
-                            }
-                        }
                     }
                 }
             }
         }
-
-        private void RegisterIncludeRelation(string consumerName, string resolvedIncludedFile)
+        
+        private void RegisterDirectIncludeRelationSolutionView(ProjectFileBase visualStudioProject, SourceFile sourceFile, string includedFile)
         {
-            switch (_analyzerSettings.Analysis.ViewMode)
+            string consumerName = GetSolutionViewName(_solutionFile, visualStudioProject, sourceFile);
+            if (consumerName != null)
             {
-                case ViewMode.SolutionView:
-                    RegisterLogicalIncludeRelations(consumerName, resolvedIncludedFile);
-                    break;
-                case ViewMode.DirectoryView:
-                    RegisterPhysicalIncludeRelations(consumerName, resolvedIncludedFile);
-                    break;
-                default:
-                    Logger.LogError("Unknown view mode");
-                    break;
+                if (IsProjectInclude(includedFile))
+                {
+                    // Register as normal visual studio project include
+                    RegisterIncludeRelationSolutionView(consumerName, includedFile);
+                }
+                else if (IsInterfaceInclude(includedFile))
+                {
+                    // Interface includes must be clones of includes files in other visual studio projects
+                    string resolvedIncludedFile = ResolveInterfaceFile(includedFile, sourceFile);
+                    if (resolvedIncludedFile != null)
+                    {
+                        // Register resolved interface as normal visual studio project include
+                        // if source of clone in visual studio project found
+                        RegisterIncludeRelationSolutionView(consumerName, resolvedIncludedFile);
+                    }
+                    else
+                    {
+                        // Skip not resolved interface
+                        _model.SkipRelation(consumerName, includedFile, "include");
+                    }
+                }
+                else if (IsExternalInclude(includedFile))
+                {
+                    // Register external include
+                    RegisterExternalIncludeRelationSolutionView(includedFile, consumerName);
+                }
+                else if (IsSystemInclude(includedFile))
+                {
+                    // Ignore system include
+                }
+                else
+                {
+                    // Skip not resolved interface
+                    _model.SkipRelation(consumerName, includedFile, "include");
+                }
             }
         }
 
-        private void RegisterLogicalIncludeRelations(string consumerName, string includedFile)
+        private void RegisterIncludeRelationSolutionView(string consumerName, string includedFile)
         {
             // First check if the included file can be found in a visual studio project
             SolutionFile solutionFile;
@@ -214,14 +202,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
         }
 
-        private void RegisterPhysicalIncludeRelations(string consumerName, string includedFile)
-        {
-            SourceFile includedSourceFile = new SourceFile(includedFile);
-            string providerName = GetDirectoryViewName(includedSourceFile);
-            _model.AddRelation(consumerName, providerName, "include", 1, null);
-        }
-
-        private void RegisterExternalIncludeRelation(string includedFile, string consumerName)
+        private void RegisterExternalIncludeRelationSolutionView(string includedFile, string consumerName)
         {
             // Add include element to model
             SourceFile includedSourceFile = new SourceFile(includedFile);
@@ -231,6 +212,16 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
             // Add relation to model
             _model.AddRelation(consumerName, providerName, "include", 1, "include file is an external include");
+        }
+
+        private void RegisterDirectIncludeRelationDirectoryView(SourceFile sourceFile, string includedFile)
+        {
+            SourceFile includedSourceFile = new SourceFile(includedFile);
+            string consumerName = GetDirectoryViewName(sourceFile);
+            string providerName = GetDirectoryViewName(includedSourceFile);
+            string type = includedSourceFile.FileType;
+            _model.AddElement(providerName, type, includedFile);
+            _model.AddRelation(consumerName, providerName, "include", 1, null);
         }
 
         private string ResolveInterfaceFile(string includedFile, SourceFile sourceFile)
@@ -277,7 +268,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                             Logger.LogError("Unknown view mode");
                             break;
                     }
-
                 }
             }
         }

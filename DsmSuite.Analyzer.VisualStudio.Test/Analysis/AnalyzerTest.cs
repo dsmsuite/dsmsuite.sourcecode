@@ -155,7 +155,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
 
             Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.targetver.h"));
 
-            Assert.IsTrue(elementNames.Contains("External.External.h"));
+            Assert.IsTrue(elementNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirExternal.External.h"));
 
             HashSet<string> classA2ProviderNames = providerNames["DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirA.ClassA2.cpp"];
             Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirA.ClassA2.h"));
@@ -164,9 +164,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirC.ClassC1.h"));
             Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirD.ClassD1.h"));
 
-            Assert.IsTrue(classA2ProviderNames.Contains("External.External.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirExternal.External.h"));
 
-            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirA.ClassA3.h"));
+            Assert.IsTrue(classA2ProviderNames.Contains("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.DirInterfaces.ClassA3.h"));
         }
     }
 }
