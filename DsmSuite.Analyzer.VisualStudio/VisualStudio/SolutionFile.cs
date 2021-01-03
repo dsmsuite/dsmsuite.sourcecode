@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using DsmSuite.Analyzer.DotNet.Lib;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.Utils;
@@ -39,12 +40,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
 
             int analyzedProjects = 0;
-            foreach (ProjectFileBase visualStudioProject in _projects.Values)
+            Parallel.ForEach(_projects.Values, visualStudioProject =>
             {
                 visualStudioProject.Analyze();
                 analyzedProjects++;
                 UpdateProjectFileProgress(analyzedProjects, _projects.Count);
-            }
+            });
 
             int totalSourceFiles = 0;
             foreach (ProjectFileBase visualStudioProject in _projects.Values)
@@ -53,7 +54,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
 
             int analyzedSourceFiles = 0;
-            foreach (ProjectFileBase visualStudioProject in _projects.Values)
+            Parallel.ForEach(_projects.Values, visualStudioProject =>
             {
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
@@ -61,7 +62,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     analyzedSourceFiles++;
                     UpdateSourceFileProgress(analyzedSourceFiles, totalSourceFiles);
                 }
-            }
+            });
         }
 
         public string Name { get; }
