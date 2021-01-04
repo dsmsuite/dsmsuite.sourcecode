@@ -139,9 +139,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
 
         public static void Flush()
         {
-            Flush(LogLevel.Info, FilesFoundInVisualStudioProjectLogMessages, "Files found in multiple visual studio projects", "filesFoundInMultipleVisualProjects", 1);
-            Flush(LogLevel.Info, IncludeFilesNotFoundInVisualStudioProjectLogMessages, "Includes files not found in any visual studio projects", "includeFilesNotFoundInAnyVisualStudioProject", 0);
-
+            Flush(LogLevel.Error, FilesFoundInVisualStudioProjectLogMessages, "Files found in multiple visual studio projects", "filesFoundInMultipleVisualProjects", 1);
+            Flush(LogLevel.Error, IncludeFilesNotFoundInVisualStudioProjectLogMessages, "Includes files not found in any visual studio projects", "includeFilesNotFoundInAnyVisualStudioProject", 0);
             Flush(LogLevel.Error, FilesNotFoundLogMessages, "Files not found", "filesNotFound", 0);
             Flush(LogLevel.Error, PathsNotResolvedLogMessages, "Relative paths not resolved", "pathsNotResolved", 0);
             Flush(LogLevel.Error, IncludePathsNotFoundLogMessages, "Absolute paths not found", "includePathsNotFound", 0);
