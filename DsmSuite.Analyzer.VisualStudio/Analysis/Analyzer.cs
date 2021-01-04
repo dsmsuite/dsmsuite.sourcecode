@@ -73,7 +73,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     if (interfaceFile.Exists)
                     {
                         SourceFile sourceFile = new SourceFile(interfaceFile.FullName);
-                        _interfaceFileChecksumsByFilePath[interfaceFile.FullName] = sourceFile.Checksum;
+                        _interfaceFileChecksumsByFilePath[interfaceFile.FullName.ToLower()] = sourceFile.Checksum;
                     }
                     else
                     {
@@ -110,7 +110,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
                     RegisterSourceFile(_solutionFile, visualStudioProject, sourceFile);
-                    _registeredSources.Add(sourceFile.SourceFileInfo.FullName);
+                    _registeredSources.Add(sourceFile.SourceFileInfo.FullName.ToLower());
                 }
             }
         }
@@ -229,9 +229,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             // Interface files can be clones of source files found in visual studio projects 
             string resolvedIncludedFile = null;
-            if (_interfaceFileChecksumsByFilePath.ContainsKey(includedFile))
+            if (_interfaceFileChecksumsByFilePath.ContainsKey(includedFile.ToLower()))
             {
-                string checksum = _interfaceFileChecksumsByFilePath[includedFile];
+                string checksum = _interfaceFileChecksumsByFilePath[includedFile.ToLower()];
                 if (_projectSourcesFilesByChecksum.ContainsKey(checksum))
                 {
                     resolvedIncludedFile = _projectSourcesFilesByChecksum[checksum].FullName;
@@ -328,7 +328,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private bool IsProjectInclude(string includedFile)
         {
-            return _registeredSources.Contains(includedFile);
+            return _registeredSources.Contains(includedFile.ToLower());
         }
 
         private bool IsSystemInclude(string includedFile)
