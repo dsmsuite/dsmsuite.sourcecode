@@ -15,7 +15,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         private readonly IDsiModel _model;
         private readonly AnalyzerSettings _analyzerSettings;
         private readonly SolutionFile _solutionFile;
-        private readonly HashSet<string> _registeredSources = new HashSet<string>();
+        private readonly Dictionary<string, ProjectFileBase> _registeredSources = new Dictionary<string, ProjectFileBase>();
         private readonly Dictionary<string, FileInfo> _projectSourcesFilesByChecksum = new Dictionary<string, FileInfo>();
         private readonly Dictionary<string, string> _interfaceFileChecksumsByFilePath = new Dictionary<string, string>();
         private readonly IProgress<ProgressInfo> _progress;
@@ -116,7 +116,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     UpdateSourceFileProgress("Registering source files", processedSourceFiles, _solutionFile.TotalSourceFiles);
 
                     RegisterSourceFile(_solutionFile, visualStudioProject, sourceFile);
-                    _registeredSources.Add(sourceFile.SourceFileInfo.FullName.ToLower());
+                    _registeredSources[sourceFile.SourceFileInfo.FullName.ToLower()] = visualStudioProject;
                 }
             }
         }
@@ -338,7 +338,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private bool IsProjectInclude(string includedFile)
         {
-            return _registeredSources.Contains(includedFile.ToLower());
+            return _registeredSources.ContainsKey(includedFile.ToLower());
         }
 
         private bool IsSystemInclude(string includedFile)
