@@ -388,18 +388,12 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             projectFile = null;
             sourceFile = null;
 
-            string key = includedFile.ToLower();
-            if (_registeredSources.ContainsKey(key))
+            string caseInsenstiveFilename = includedFile.ToLower();
+            if (_registeredSources.ContainsKey(caseInsenstiveFilename))
             {
-                projectFile = _registeredSources[key];
-                foreach (SourceFile source in projectFile.SourceFiles)
-                {
-                    if (includedFile.ToLower() == source.SourceFileInfo.FullName.ToLower())
-                    {
-                        sourceFile = source;
-                        found = true;
-                    }
-                }
+                projectFile = _registeredSources[caseInsenstiveFilename];
+                sourceFile = projectFile.GetSourceFile(caseInsenstiveFilename);
+                found = true;
             }
 
             return found;

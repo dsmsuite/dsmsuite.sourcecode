@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.Test.Util;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
@@ -110,7 +111,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
 
             Assert.IsTrue(sourceFilenames.Contains(Path.Combine(TestData.TestDataDirectory, "targetver.h")));
 
-            Assert.AreEqual(29, projectFile.SourceFiles.Count); // 18 files plus 6 IDL generated files
+            Assert.AreEqual(29, projectFile.SourceFiles.Count()); // 18 files plus 6 IDL generated files
         }
 
         [TestMethod]

@@ -287,8 +287,9 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         private SourceFile AddSourceFile(FileInfo fileInfo, string projectFolder)
         {
+            string caseInsenstiveFilename = fileInfo.FullName.ToLower();
             SourceFile sourceFile = new SourceFile(fileInfo, projectFolder, _includeResolveStrategy);
-            SourceFiles.Add(sourceFile);
+            AddSourceFile(caseInsenstiveFilename, sourceFile);
             return sourceFile;
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using DsmSuite.Analyzer.DotNet.Lib;
 using DsmSuite.Analyzer.VisualStudio.Settings;
@@ -50,7 +51,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             int totalSourceFiles = 0;
             foreach (ProjectFileBase visualStudioProject in _projects.Values)
             {
-                totalSourceFiles += visualStudioProject.SourceFiles.Count;
+                totalSourceFiles += visualStudioProject.SourceFiles.Count();
             }
 
             int analyzedSourceFiles = 0;
@@ -78,7 +79,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             BuildSolutionNodeHierarchy();
             AddFoundSolutionNodesAsProjects();
         }
-        
+
         private void FindSolutionNodes()
         {
             Microsoft.Build.Construction.SolutionFile solutionFile =
@@ -147,7 +148,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 AnalyzerLogger.LogErrorFileNotFound(absoluteProjectFilename, _solutionFileInfo.FullName);
             }
         }
-        
+
         private void UpdateProjectFileProgress(int currentItemCount, int totalItemCount)
         {
             ProgressInfo progressInfo = new ProgressInfo();

@@ -10,6 +10,8 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public abstract class ProjectFileBase
     {
+        private Dictionary<string, SourceFile> _sourceFiles = new Dictionary<string, SourceFile>();
+
         protected ProjectFileBase(string solutionFolder, string solutionDir, string solutionName, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver)
         {
             SolutionFolder = solutionFolder;
@@ -17,11 +19,27 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             SolutionName = solutionName;
             ProjectFileInfo = new FileInfo(projectPath);
             ProjectName = ProjectFileInfo.Name;
-            SourceFiles = new HashSet<SourceFile>();
             AnalyzerSettings = analyzerSettings;
             TargetExtension = "";
             GeneratedFileRelations = new List<GeneratedFileRelation>();
             Resolver = resolver;
+        }
+
+        protected void AddSourceFile(string caseInsenstiveFilename, SourceFile sourceFile)
+        {
+            _sourceFiles[caseInsenstiveFilename] = sourceFile;
+        }
+
+        public SourceFile GetSourceFile(string caseInsenstiveFilename)
+        {
+            if (_sourceFiles.ContainsKey(caseInsenstiveFilename))
+            {
+                return _sourceFiles[caseInsenstiveFilename];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public string SolutionFolder { get; }
@@ -42,7 +60,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public string TargetExtension { get; protected set; }
 
-        public HashSet<SourceFile> SourceFiles { get; }
+        public IEnumerable<SourceFile> SourceFiles => _sourceFiles.Values;
 
         public abstract IEnumerable<DotNetType> DotNetTypes { get; }
 
