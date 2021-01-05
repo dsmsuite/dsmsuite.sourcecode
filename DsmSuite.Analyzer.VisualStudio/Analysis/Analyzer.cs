@@ -199,10 +199,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         private void RegisterIncludeRelationSolutionView(string consumerName, string includedFile)
         {
             // First check if the included file can be found in a visual studio project
-            SolutionFile solutionFile;
             ProjectFileBase projectFile;
             SourceFile includeFile;
-            if (FindIncludeFileInVisualStudioProject(includedFile, out solutionFile, out projectFile, out includeFile))
+            if (FindIncludeFileInVisualStudioProject(includedFile, out projectFile, out includeFile))
             {
                 string providerName = GetSolutionViewName(projectFile, includeFile);
                 _model.AddRelation(consumerName, providerName, "include", 1, null);
@@ -383,10 +382,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
             return isInterfaceInclude;
         }
-        private bool FindIncludeFileInVisualStudioProject(string includedFile, out SolutionFile solutionFile, out ProjectFileBase projectFile, out SourceFile sourceFile)
+        private bool FindIncludeFileInVisualStudioProject(string includedFile, out ProjectFileBase projectFile, out SourceFile sourceFile)
         {
             bool found = false;
-            solutionFile = null;
             projectFile = null;
             sourceFile = null;
 
@@ -396,7 +394,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 {
                     if (includedFile.ToLower() == source.SourceFileInfo.FullName.ToLower())
                     {
-                        solutionFile = _solutionFile;
                         projectFile = project;
                         sourceFile = source;
                         found = true;
