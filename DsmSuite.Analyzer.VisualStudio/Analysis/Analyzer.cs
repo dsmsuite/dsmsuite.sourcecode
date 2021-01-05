@@ -388,13 +388,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             projectFile = null;
             sourceFile = null;
 
-            foreach (ProjectFileBase project in _solutionFile.Projects)
+            string key = includedFile.ToLower();
+            if (_registeredSources.ContainsKey(key))
             {
-                foreach (SourceFile source in project.SourceFiles)
+                projectFile = _registeredSources[key];
+                foreach (SourceFile source in projectFile.SourceFiles)
                 {
                     if (includedFile.ToLower() == source.SourceFileInfo.FullName.ToLower())
                     {
-                        projectFile = project;
                         sourceFile = source;
                         found = true;
                     }
