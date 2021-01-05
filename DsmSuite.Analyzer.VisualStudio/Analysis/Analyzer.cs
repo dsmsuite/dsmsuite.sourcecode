@@ -18,11 +18,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         private readonly HashSet<string> _registeredSources = new HashSet<string>();
         private readonly Dictionary<string, FileInfo> _projectSourcesFilesByChecksum = new Dictionary<string, FileInfo>();
         private readonly Dictionary<string, string> _interfaceFileChecksumsByFilePath = new Dictionary<string, string>();
+        private readonly IProgress<ProgressInfo> _progress;
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
             _model = model;
             _analyzerSettings = analyzerSettings;
+            _progress = progress;
             _solutionFile = new SolutionFile(analyzerSettings.Input.Filename, _analyzerSettings, progress);
         }
 
@@ -105,10 +107,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void RegisterSourceFiles()
         {
+            int processedSourceFiles = 0;
             foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
             {
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
+                    processedSourceFiles++;
+                    UpdateSourceFileProgress("Registering source files", processedSourceFiles, _solutionFile.TotalSourceFiles);
+
                     RegisterSourceFile(_solutionFile, visualStudioProject, sourceFile);
                     _registeredSources.Add(sourceFile.SourceFileInfo.FullName.ToLower());
                 }
@@ -117,10 +123,14 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void RegisterDirectIncludeRelations()
         {
+            int processedSourceFiles = 0;
             foreach (ProjectFileBase visualStudioProject in _solutionFile.Projects)
             {
                 foreach (SourceFile sourceFile in visualStudioProject.SourceFiles)
                 {
+                    processedSourceFiles++;
+                    UpdateSourceFileProgress("Registering source file includes", processedSourceFiles, _solutionFile.TotalSourceFiles);
+
                     foreach (string includedFile in sourceFile.Includes)
                     {
                         Logger.LogInfo("Include relation registered: " + sourceFile.Name + " -> " + includedFile);
@@ -537,6 +547,18 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
 
             return name;
+        }
+
+        private void UpdateSourceFileProgress(string text, int currentItemCount, int totalItemCount)
+        {
+            ProgressInfo progressInfo = new ProgressInfo();
+            progressInfo.ActionText = text;
+            progressInfo.CurrentItemCount = currentItemCount;
+            progressInfo.TotalItemCount = totalItemCount;
+            progressInfo.ItemType = "files";
+            progressInfo.Percentage = currentItemCount * 100 / totalItemCount;
+            progressInfo.Done = currentItemCount == totalItemCount;
+            _progress?.Report(progressInfo);
         }
     }
 }

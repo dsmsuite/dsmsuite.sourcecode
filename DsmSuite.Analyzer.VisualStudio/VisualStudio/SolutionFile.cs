@@ -63,9 +63,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     UpdateSourceFileProgress(analyzedSourceFiles, totalSourceFiles);
                 }
             });
+
+            TotalSourceFiles = totalSourceFiles;
         }
 
         public string Name { get; }
+        public int TotalSourceFiles { get; private set; }
 
         public IReadOnlyCollection<ProjectFileBase> Projects => _projects.Values;
 
@@ -144,9 +147,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 AnalyzerLogger.LogErrorFileNotFound(absoluteProjectFilename, _solutionFileInfo.FullName);
             }
         }
-
-
-
+        
         private void UpdateProjectFileProgress(int currentItemCount, int totalItemCount)
         {
             ProgressInfo progressInfo = new ProgressInfo();
