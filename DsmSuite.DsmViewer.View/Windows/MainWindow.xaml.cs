@@ -148,7 +148,7 @@ namespace DsmSuite.DsmViewer.View.Windows
             if ((app != null) && (app.CommandLineArguments.Length == 1))
             {
                 string filename = app.CommandLineArguments[0];
-                if (filename.EndsWith(".dsm"))
+                if (filename.EndsWith(".dsm") || filename.EndsWith(".dsi"))
                 {
                     _mainViewModel.OpenFileCommand.Execute(filename);
                 }
