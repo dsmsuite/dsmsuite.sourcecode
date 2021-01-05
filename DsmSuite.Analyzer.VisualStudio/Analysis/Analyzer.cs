@@ -52,7 +52,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             {
                 foreach (DotNetType type in visualStudioProject.DotNetTypes)
                 {
-                    RegisterDotNetType(_solutionFile, visualStudioProject, type);
+                    RegisterDotNetType(visualStudioProject, type);
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             {
                 foreach (DotNetRelation relation in visualStudioProject.DotNetRelations)
                 {
-                    RegisterDotNetRelation(_solutionFile, visualStudioProject, relation);
+                    RegisterDotNetRelation(visualStudioProject, relation);
                 }
             }
         }
@@ -115,7 +115,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     processedSourceFiles++;
                     UpdateSourceFileProgress("Registering source files", processedSourceFiles, _solutionFile.TotalSourceFiles);
 
-                    RegisterSourceFile(_solutionFile, visualStudioProject, sourceFile);
+                    RegisterSourceFile(visualStudioProject, sourceFile);
                     _registeredSources[sourceFile.SourceFileInfo.FullName.ToLower()] = visualStudioProject;
                 }
             }
@@ -154,7 +154,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         
         private void RegisterDirectIncludeRelationSolutionView(ProjectFileBase visualStudioProject, SourceFile sourceFile, string includedFile)
         {
-            string consumerName = GetSolutionViewName(_solutionFile, visualStudioProject, sourceFile);
+            string consumerName = GetSolutionViewName(visualStudioProject, sourceFile);
             if (consumerName != null)
             {
                 if (IsProjectInclude(includedFile))
@@ -204,7 +204,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             SourceFile includeFile;
             if (FindIncludeFileInVisualStudioProject(includedFile, out solutionFile, out projectFile, out includeFile))
             {
-                string providerName = GetSolutionViewName(solutionFile, projectFile, includeFile);
+                string providerName = GetSolutionViewName(projectFile, includeFile);
                 _model.AddRelation(consumerName, providerName, "include", 1, null);
             }
             else
@@ -263,8 +263,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     {
                         case ViewMode.SolutionView:
                             {
-                                string consumerName = GetSolutionViewName(_solutionFile, visualStudioProject, relation.Consumer);
-                                string providerName = GetSolutionViewName(_solutionFile, visualStudioProject, relation.Provider);
+                                string consumerName = GetSolutionViewName(visualStudioProject, relation.Consumer);
+                                string providerName = GetSolutionViewName(visualStudioProject, relation.Provider);
                                 _model.AddRelation(consumerName, providerName, "generated", 1, null);
                                 break;
                             }
@@ -283,7 +283,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
         }
 
-        private void RegisterSourceFile(SolutionFile solutionFile, ProjectFileBase visualStudioProject, SourceFile sourceFile)
+        private void RegisterSourceFile(ProjectFileBase visualStudioProject, SourceFile sourceFile)
         {
             Logger.LogInfo("Source file registered: " + sourceFile.Name);
 
@@ -302,7 +302,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 {
                     case ViewMode.SolutionView:
                         {
-                            string name = GetSolutionViewName(solutionFile, visualStudioProject, sourceFile);
+                            string name = GetSolutionViewName(visualStudioProject, sourceFile);
                             _model.AddElement(name, type, sourceFile.SourceFileInfo.FullName);
                             break;
                         }
@@ -323,16 +323,16 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
         }
 
-        private void RegisterDotNetType(SolutionFile solutionFile, ProjectFileBase visualStudioProject, DotNetType type)
+        private void RegisterDotNetType(ProjectFileBase visualStudioProject, DotNetType type)
         {
-            string name = GetDotNetTypeName(solutionFile, visualStudioProject, type.Name);
+            string name = GetDotNetTypeName(visualStudioProject, type.Name);
             _model.AddElement(name, type.Type, "");
         }
 
-        private void RegisterDotNetRelation(SolutionFile solutionFile, ProjectFileBase visualStudioProject, DotNetRelation relation)
+        private void RegisterDotNetRelation(ProjectFileBase visualStudioProject, DotNetRelation relation)
         {
-            string consumerName = GetDotNetTypeName(solutionFile, visualStudioProject, relation.ConsumerName);
-            string providerName = GetDotNetTypeName(solutionFile, visualStudioProject, relation.ProviderName);
+            string consumerName = GetDotNetTypeName(visualStudioProject, relation.ConsumerName);
+            string providerName = GetDotNetTypeName(visualStudioProject, relation.ProviderName);
             _model.AddRelation(consumerName, providerName, relation.Type, 1, null);
         }
 
@@ -407,13 +407,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return found;
         }
 
-        private string GetDotNetTypeName(SolutionFile solutionFile, ProjectFileBase visualStudioProject, string typeName)
+        private string GetDotNetTypeName(ProjectFileBase visualStudioProject, string typeName)
         {
             string name = "";
 
-            if (!string.IsNullOrEmpty(solutionFile?.Name))
+            if (!string.IsNullOrEmpty(_solutionFile?.Name))
             {
-                name += solutionFile.Name;
+                name += _solutionFile.Name;
                 name += ".";
             }
 
@@ -452,19 +452,19 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             foreach (ProjectFileBase project in _solutionFile.Projects)
             {
-                string projectName = GetSolutionViewName(_solutionFile, project, null);
+                string projectName = GetSolutionViewName(project, null);
                 string status = project.Success ? "ok" : "failed";
                 AnalyzerLogger.LogProjectStatus(projectName, status);
             }
         }
 
-        private string GetSolutionViewName(SolutionFile solutionFile, ProjectFileBase visualStudioProject, SourceFile sourceFile)
+        private string GetSolutionViewName(ProjectFileBase visualStudioProject, SourceFile sourceFile)
         {
             string name = "";
 
-            if (!string.IsNullOrEmpty(solutionFile?.Name))
+            if (!string.IsNullOrEmpty(_solutionFile?.Name))
             {
-                name += solutionFile.Name;
+                name += _solutionFile.Name;
                 name += ".";
             }
 
