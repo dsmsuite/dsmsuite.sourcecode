@@ -131,6 +131,11 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationsDataModel.SkipRelation(consumerName, providerName, type);
         }
 
+        public void IgnoreRelation(string consumerName, string providerName, string type)
+        {
+            _relationsDataModel.IgnoreRelation(consumerName, providerName, type);
+        }
+
         public void AmbiguousRelation(string consumerName, string providerName, string type)
         {
             _relationsDataModel.AmbiguousRelation(consumerName, providerName, type);

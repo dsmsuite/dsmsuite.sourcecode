@@ -97,6 +97,11 @@ namespace DsmSuite.Analyzer.Model.Core
             return relations[type];
         }
 
+        public void IgnoreRelation(string consumerName, string providerName, string type)
+        {
+            Logger.LogDataModelMessage($"Ignore relation consumerName={consumerName} providerName={providerName} type={type}");
+        }
+
         public void SkipRelation(string consumerName, string providerName, string type)
         {
             Logger.LogDataModelMessage($"Skip relation consumerName={consumerName} providerName={providerName} type={type}");

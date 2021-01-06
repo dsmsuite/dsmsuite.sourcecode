@@ -60,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Analyzer.cs" />
+    <Compile Include="Analysis\ViewBase.cs" />
+    <Compile Include="Analysis\DirectoryView.cs" />
+    <Compile Include="Analysis\SolutionView.cs" />
     <Compile Include="Settings\AnalyzerSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
