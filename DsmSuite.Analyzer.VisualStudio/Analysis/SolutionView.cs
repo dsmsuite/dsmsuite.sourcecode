@@ -32,7 +32,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             _projectForSourceFilePath[sourceFile.SourceFileInfo.FullName.ToLower()] = visualStudioProject;
         }
 
-        public override string GetName(ProjectFileBase visualStudioProject, SourceFile sourceFile)
+        public override string GetSourceFileElementName(ProjectFileBase visualStudioProject, SourceFile sourceFile)
         {
             string name = "";
 
@@ -85,7 +85,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return name.Replace("\\", ".");
         }
 
-        public override string ResolveProvider(ProjectFileBase visualStudioProject, string includedFile)
+        public override string ResolveIncludeFileProviderName(ProjectFileBase visualStudioProject, string includedFile)
         {
             if (includedFile.Contains("ClassA3.h"))
             {
@@ -95,7 +95,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             if (IsProjectInclude(includedFile))
             {
                 // Register as normal visual studio project include
-                providerName = ResolveProjectInclude(visualStudioProject, includedFile);
+                providerName = ResolveProjectInclude(includedFile);
             }
             else if (IsInterfaceInclude(includedFile))
             {
@@ -103,7 +103,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 string resolvedIncludedFile = ResolveInterfaceInclude(includedFile);
                 if (resolvedIncludedFile != null)
                 {
-                    providerName = ResolveProjectInclude(visualStudioProject, resolvedIncludedFile);
+                    providerName = ResolveProjectInclude(resolvedIncludedFile);
                 }
             }
             else if (IsExternalInclude(includedFile))
@@ -125,7 +125,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             return providerName;
         }
 
-        private string ResolveProjectInclude(ProjectFileBase visualStudioProject, string includedFile)
+        private string ResolveProjectInclude(string includedFile)
         {
             string providerName = null;
             string caseInsensitiveFilename = includedFile.ToLower();
@@ -134,7 +134,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             {
                 ProjectFileBase projectFile = _projectForSourceFilePath[caseInsensitiveFilename];
                 SourceFile includeFile = projectFile.GetSourceFile(caseInsensitiveFilename);
-                providerName = GetName(projectFile, includeFile);
+                providerName = GetSourceFileElementName(projectFile, includeFile);
             }
 
             return providerName;

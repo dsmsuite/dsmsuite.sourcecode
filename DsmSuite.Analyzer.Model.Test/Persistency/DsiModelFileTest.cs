@@ -164,25 +164,13 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             return _elements;
         }
 
-        public int CurrentElementCount
-        {
-            get
-            {
-                return _elements.Count;
-            }
-        }
+        public int CurrentElementCount => _elements.Count;
 
         public IEnumerable<IDsiRelation> GetRelations()
         {
             return _relations;
         }
 
-        public int CurrentRelationCount
-        {
-            get
-            {
-                return _relations.Count;
-            }
-        }
+        public int CurrentRelationCount => _relations.Count;
     }
 }

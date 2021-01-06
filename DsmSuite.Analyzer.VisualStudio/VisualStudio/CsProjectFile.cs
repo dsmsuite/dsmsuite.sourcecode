@@ -12,7 +12,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
     public class CsProjectFile : ProjectFileBase
     {
         private readonly BinaryFile _assembly;
-        private Dictionary<string, string> _globalProperties = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _globalProperties = new Dictionary<string, string>();
         private string _toolsVersion;
 
         public CsProjectFile(string solutionFolder, string solutionDir, string solutionName, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
@@ -82,11 +82,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
             catch (Exception e)
             {
-                string props = "";
-                foreach (var globalProperty in _globalProperties)
-                {
-                    props += $" {globalProperty.Key} {globalProperty.Value}";
-                }
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
             return project;
@@ -97,26 +92,24 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             try
             {
                 ProjectRootElement project = ProjectRootElement.Open(ProjectFileInfo.FullName);
-                _toolsVersion = project.ToolsVersion;
-
-                foreach (ProjectItemElement item in project.Items)
+                if (project != null)
                 {
-                    if (item.ElementName == "ProjectConfiguration")
+                    _toolsVersion = project.ToolsVersion;
+
+                    foreach (ProjectItemElement item in project.Items)
                     {
-                        string[] projectConfiguration = item.Include.Split('|'); // eg. "Release|x64"
-                        _globalProperties["Configuration"] = projectConfiguration[0];
-                        _globalProperties["Platform"] = projectConfiguration[1];
-                        break;
+                        if (item.ElementName == "ProjectConfiguration")
+                        {
+                            string[] projectConfiguration = item.Include.Split('|'); // eg. "Release|x64"
+                            _globalProperties["Configuration"] = projectConfiguration[0];
+                            _globalProperties["Platform"] = projectConfiguration[1];
+                            break;
+                        }
                     }
                 }
             }
             catch (Exception e)
             {
-                string props = "";
-                foreach (var globalProperty in _globalProperties)
-                {
-                    props += $" {globalProperty.Key} {globalProperty.Value}";
-                }
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
         }

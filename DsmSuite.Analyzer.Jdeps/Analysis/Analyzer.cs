@@ -74,13 +74,15 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
 
         private void UpdateLineProgress(int lineNumber, bool done)
         {
-            ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = "Parse lines";
-            progressInfo.CurrentItemCount = lineNumber;
-            progressInfo.TotalItemCount = 0;
-            progressInfo.ItemType = "lines";
-            progressInfo.Percentage = null;
-            progressInfo.Done = done;
+            ProgressInfo progressInfo = new ProgressInfo
+            {
+                ActionText = "Parse lines",
+                CurrentItemCount = lineNumber,
+                TotalItemCount = 0,
+                ItemType = "lines",
+                Percentage = null,
+                Done = done
+            };
             _progress?.Report(progressInfo);
         }
     }

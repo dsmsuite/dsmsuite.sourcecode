@@ -94,8 +94,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             {
                 foreach (DotNetType type in visualStudioProject.DotNetTypes)
                 {
-                    string name = _view.GetDotNetTypeName(visualStudioProject, type.Name);
-                    _model.AddElement(name, type.Type, "");
+                    string elementName = _view.GetDotNetTypeElementName(visualStudioProject, type.Name);
+                    _model.AddElement(elementName, type.Type, "");
                 }
             }
         }
@@ -106,8 +106,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             {
                 foreach (DotNetRelation relation in visualStudioProject.DotNetRelations)
                 {
-                    string consumerName = _view.GetDotNetTypeName(visualStudioProject, relation.ConsumerName);
-                    string providerName = _view.GetDotNetTypeName(visualStudioProject, relation.ProviderName);
+                    string consumerName = _view.GetDotNetTypeElementName(visualStudioProject, relation.ConsumerName);
+                    string providerName = _view.GetDotNetTypeElementName(visualStudioProject, relation.ProviderName);
                     _model.AddRelation(consumerName, providerName, relation.Type, 1, null);
                 }
             }
@@ -137,8 +137,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 AnalyzerLogger.LogFileFoundInVisualStudioProject(sourceFile.Name, visualStudioProject.ProjectName);
 
                 _view.RegisterSourceFile(visualStudioProject, sourceFile);
-                string name = _view.GetName(visualStudioProject, sourceFile);
-                _model.AddElement(name, sourceFile.FileType, sourceFile.SourceFileInfo.FullName);
+                string elementName = _view.GetSourceFileElementName(visualStudioProject, sourceFile);
+                _model.AddElement(elementName, sourceFile.FileType, sourceFile.SourceFileInfo.FullName);
             }
             else
             {
@@ -168,8 +168,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         {
             Logger.LogInfo("Include relation registered: " + sourceFile.Name + " -> " + includedFile);
 
-            string consumerName = _view.GetName(visualStudioProject, sourceFile);
-            string providerName = _view.ResolveProvider(visualStudioProject, includedFile);
+            string consumerName = _view.GetSourceFileElementName(visualStudioProject, sourceFile);
+            string providerName = _view.ResolveIncludeFileProviderName(visualStudioProject, includedFile);
 
             if (providerName != null)
             {
@@ -199,8 +199,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 {
                     Logger.LogInfo("Generated file relation registered: " + relation.Consumer.Name + " -> " + relation.Provider.Name);
 
-                    string consumerName = _view.GetName(visualStudioProject, relation.Consumer);
-                    string providerName = _view.GetName(visualStudioProject, relation.Provider);
+                    string consumerName = _view.GetSourceFileElementName(visualStudioProject, relation.Consumer);
+                    string providerName = _view.GetSourceFileElementName(visualStudioProject, relation.Provider);
                     _model.AddRelation(consumerName, providerName, "generated", 1, null);
                 }
             }
@@ -218,13 +218,15 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private void UpdateSourceFileProgress(string text, int currentItemCount, int totalItemCount)
         {
-            ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = text;
-            progressInfo.CurrentItemCount = currentItemCount;
-            progressInfo.TotalItemCount = totalItemCount;
-            progressInfo.ItemType = "files";
-            progressInfo.Percentage = currentItemCount * 100 / totalItemCount;
-            progressInfo.Done = currentItemCount == totalItemCount;
+            ProgressInfo progressInfo = new ProgressInfo
+            {
+                ActionText = text,
+                CurrentItemCount = currentItemCount,
+                TotalItemCount = totalItemCount,
+                ItemType = "files",
+                Percentage = currentItemCount * 100 / totalItemCount,
+                Done = currentItemCount == totalItemCount
+            };
             _progress?.Report(progressInfo);
         }
     }

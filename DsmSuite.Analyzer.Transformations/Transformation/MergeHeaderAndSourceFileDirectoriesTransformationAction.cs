@@ -41,7 +41,6 @@ namespace DsmSuite.Analyzer.Transformations.Transformation
             {
                 if (element.Name.Contains(rule.From))
                 {
-                    string elementName = element.Name;
                     string newElementName = element.Name.ReplaceIgnoreCase(rule.From, rule.To);
 
                     _model.RenameElement(element, newElementName);

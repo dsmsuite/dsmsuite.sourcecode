@@ -9,7 +9,7 @@ using Moq;
 namespace DsmSuite.Analyzer.Cpp.Test.Sources
 {
     [TestClass]
-    public class SourcFileTest
+    public class SourceFileTest
     {
         [TestMethod]
         public void TestName()

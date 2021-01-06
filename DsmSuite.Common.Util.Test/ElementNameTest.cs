@@ -16,7 +16,7 @@ namespace DsmSuite.Common.Util.Test
         }
 
         [TestMethod]
-        public void WhenElementNameIsConstructedWithSingleMultiPartArgumentThenItsHasMutipleNameParts()
+        public void WhenElementNameIsConstructedWithSingleMultiPartArgumentThenItsHasMultipleNameParts()
         {
             ElementName elementName = new ElementName("a.b.c");
             Assert.AreEqual("a.b.c", elementName.FullName);

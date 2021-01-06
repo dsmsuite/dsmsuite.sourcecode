@@ -20,11 +20,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     XmlNodeList clCompileNodes = xmlDocument.SelectNodes("//vs:Project/vs:ItemGroup/vs:ClCompile", GetXmlNamespaceManager(xmlDocument));
                     ScanSourceFileXmlNodes(clCompileNodes);
 
-                    XmlNodeList clIncludenodes = xmlDocument.SelectNodes("//vs:Project/vs:ItemGroup/vs:ClInclude", GetXmlNamespaceManager(xmlDocument));
-                    ScanSourceFileXmlNodes(clIncludenodes);
+                    XmlNodeList clIncludeNodes = xmlDocument.SelectNodes("//vs:Project/vs:ItemGroup/vs:ClInclude", GetXmlNamespaceManager(xmlDocument));
+                    ScanSourceFileXmlNodes(clIncludeNodes);
 
-                    XmlNodeList midlnodes = xmlDocument.SelectNodes("//vs:Project/vs:ItemGroup/vs:Midl", GetXmlNamespaceManager(xmlDocument));
-                    ScanSourceFileXmlNodes(midlnodes);
+                    XmlNodeList midlNodes = xmlDocument.SelectNodes("//vs:Project/vs:ItemGroup/vs:Midl", GetXmlNamespaceManager(xmlDocument));
+                    ScanSourceFileXmlNodes(midlNodes);
                 }
                 catch(Exception e)
                 {

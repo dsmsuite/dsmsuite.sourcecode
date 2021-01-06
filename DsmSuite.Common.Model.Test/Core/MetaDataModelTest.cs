@@ -11,7 +11,7 @@ namespace DsmSuite.Common.Model.Test.Core
     public class MetaDataModelTest
     {
         [TestMethod]
-        public void When_ModelIsConstructed_Then_OnlyDefaultGroupAndItemsArePresen()
+        public void When_ModelIsConstructed_Then_OnlyDefaultGroupAndItemsArePresent()
         {
             string defaultGroupName = "SomeGroupName";
             MetaDataModel model = new MetaDataModel(defaultGroupName, Assembly.GetExecutingAssembly());

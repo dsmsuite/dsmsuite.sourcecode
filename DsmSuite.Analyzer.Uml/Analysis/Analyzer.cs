@@ -159,25 +159,29 @@ namespace DsmSuite.Analyzer.Uml.Analysis
 
         private void UpdateElementProgress(bool done)
         {
-            ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = "Reading UML elements";
-            progressInfo.CurrentItemCount = _elementCount;
-            progressInfo.TotalItemCount = 0;
-            progressInfo.ItemType = "elements";
-            progressInfo.Percentage = null;
-            progressInfo.Done = done;
+            ProgressInfo progressInfo = new ProgressInfo
+            {
+                ActionText = "Reading UML elements",
+                CurrentItemCount = _elementCount,
+                TotalItemCount = 0,
+                ItemType = "elements",
+                Percentage = null,
+                Done = done
+            };
             _progress?.Report(progressInfo);
         }
 
         private void UpdateRelationProgress(bool done)
         {
-            ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = "Reading UML relations";
-            progressInfo.CurrentItemCount = _relationCount;
-            progressInfo.TotalItemCount = 0;
-            progressInfo.ItemType = "relations";
-            progressInfo.Percentage = null;
-            progressInfo.Done = done;
+            ProgressInfo progressInfo = new ProgressInfo
+            {
+                ActionText = "Reading UML relations",
+                CurrentItemCount = _relationCount,
+                TotalItemCount = 0,
+                ItemType = "relations",
+                Percentage = null,
+                Done = done
+            };
             _progress?.Report(progressInfo);
         }
     }

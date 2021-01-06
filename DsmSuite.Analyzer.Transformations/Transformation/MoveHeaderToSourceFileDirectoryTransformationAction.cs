@@ -50,9 +50,6 @@ namespace DsmSuite.Analyzer.Transformations.Transformation
 
         private void MergeHeaderAndImplementation(IDsiElement consumer, IDsiElement provider)
         {
-            string consumerName = consumer.Name;
-            string providerName = provider.Name;
-
             string newProviderName = GetNamespace(consumer) + "." +
                                      GetName(provider) + "." +
                                      GetExtension(provider);

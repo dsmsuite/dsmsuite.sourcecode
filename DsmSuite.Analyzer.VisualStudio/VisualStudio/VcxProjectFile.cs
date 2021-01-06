@@ -21,8 +21,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private readonly List<string> _includeDirectories = new List<string>();
         private readonly FilterFile _filterFile;
         private IncludeResolveStrategy _includeResolveStrategy;
-        private BinaryFile _assembly;
-        private Dictionary<string, string> _globalProperties = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _globalProperties = new Dictionary<string, string>();
         private string _toolsVersion;
 
         public VcxProjectFile(string solutionFolder, string solutionDir, string solutionName, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
@@ -32,14 +31,14 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             GeneratedFileRelations = new List<GeneratedFileRelation>();
         }
 
-        public override BinaryFile BuildAssembly => _assembly;
+        public override BinaryFile BuildAssembly => null;
 
         public IReadOnlyCollection<string> ProjectIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.ProjectIncludeDirectories : new List<string>();
 
         public IReadOnlyCollection<string> SystemIncludeDirectories => _includeResolveStrategy != null ? _includeResolveStrategy.SystemIncludeDirectories : new List<string>();
 
-        public override IEnumerable<DotNetType> DotNetTypes => (_assembly != null) ? _assembly.Types : new List<DotNetType>();
-        public override IEnumerable<DotNetRelation> DotNetRelations => (_assembly != null) ? _assembly.Relations : new List<DotNetRelation>();
+        public override IEnumerable<DotNetType> DotNetTypes => new List<DotNetType>();
+        public override IEnumerable<DotNetRelation> DotNetRelations => new List<DotNetRelation>();
 
         public override void Analyze()
         {
@@ -133,20 +132,12 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
             catch (Exception e)
             {
-                string props = "";
-                foreach (var globalProperty in _globalProperties)
-                {
-                    props += $" {globalProperty.Key} {globalProperty.Value}";
-                }
-
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
 
             return project;
         }
-
-
-
+        
         private void DetermineGlobalProperties()
         {
             try
@@ -154,26 +145,24 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 ProjectRootElement project = ProjectRootElement.Open(ProjectFileInfo.FullName);
                 _toolsVersion = AnalyzerSettings.Analysis.ToolsVersion;
 
-                foreach (ProjectItemElement item in project.Items)
+                if (project != null)
                 {
-                    if (item.ElementName == "ProjectConfiguration")
+                    foreach (ProjectItemElement item in project.Items)
                     {
-                        string[] projectConfiguration = item.Include.Split('|'); // eg. "Release|x64"
-                        _globalProperties["Configuration"] = projectConfiguration[0];
-                        _globalProperties["Platform"] = projectConfiguration[1];
-                        _globalProperties["SolutionDir"] = NormalizeDirectory(SolutionDir);
-                        _globalProperties["SolutionName"] = SolutionName;
-                        break;
+                        if (item.ElementName == "ProjectConfiguration")
+                        {
+                            string[] projectConfiguration = item.Include.Split('|'); // eg. "Release|x64"
+                            _globalProperties["Configuration"] = projectConfiguration[0];
+                            _globalProperties["Platform"] = projectConfiguration[1];
+                            _globalProperties["SolutionDir"] = NormalizeDirectory(SolutionDir);
+                            _globalProperties["SolutionName"] = SolutionName;
+                            break;
+                        }
                     }
                 }
             }
             catch (Exception e)
             {
-                string props = "";
-                foreach (var globalProperty in _globalProperties)
-                {
-                    props += $" {globalProperty.Key} {globalProperty.Value}";
-                }
                 Logger.LogException($"Open project failed project={ProjectFileInfo.FullName}", e);
             }
         }

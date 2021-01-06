@@ -39,9 +39,8 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
             Assert.AreEqual(5, dataModel.CurrentElementCount);
 
             Assert.AreEqual(4, dataModel.CurrentRelationCount);
-            
-            List<string> ignoredNames = new List<string>();
-            ignoredNames.Add("element[34]"); // Names can be regular expressions
+
+            List<string> ignoredNames = new List<string> {"element[34]"}; // Names can be regular expressions
             RemoveIgnoreNamesTransformationAction transformation = new RemoveIgnoreNamesTransformationAction(dataModel, ignoredNames, null);
             transformation.Execute();
 

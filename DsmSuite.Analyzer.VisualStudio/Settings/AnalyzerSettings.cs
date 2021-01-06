@@ -88,21 +88,21 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
 
             analyzerSettings.Input.Filename = @"C:\Example.sln";
             analyzerSettings.Input.RootDirectory = @"C:\";
-            analyzerSettings.Input.SystemIncludeDirectories = new List<string>();
-            analyzerSettings.Input.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\8.1\Include\um");
-            analyzerSettings.Input.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\8.1\Include\shared");
-            analyzerSettings.Input.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt");
-            analyzerSettings.Input.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include");
-            analyzerSettings.Input.SystemIncludeDirectories.Add(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include");
+            analyzerSettings.Input.SystemIncludeDirectories = new List<string>
+            {
+                @"C:\Program Files (x86)\Windows Kits\8.1\Include\um",
+                @"C:\Program Files (x86)\Windows Kits\8.1\Include\shared",
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt",
+                @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include",
+                @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include"
+            };
 
 
             analyzerSettings.Input.InterfaceIncludeDirectories = new List<string>();
-            analyzerSettings.Input.ExternalIncludeDirectories = new List<ExternalIncludeDirectory>();
-            analyzerSettings.Input.ExternalIncludeDirectories.Add(new ExternalIncludeDirectory
+            analyzerSettings.Input.ExternalIncludeDirectories = new List<ExternalIncludeDirectory>
             {
-                Path = @"C\:External",
-                ResolveAs = "External"
-            });
+                new ExternalIncludeDirectory {Path = @"C\:External", ResolveAs = "External"}
+            };
 
             analyzerSettings.Analysis.ToolsVersion = "14.0";
             analyzerSettings.Analysis.ViewMode = ViewMode.SolutionView;

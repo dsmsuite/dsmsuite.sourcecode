@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.IO;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 
@@ -214,13 +212,15 @@ namespace DsmSuite.Analyzer.Compare
 
         private void UpdateProgress(string actionText, int currentItemCount, int totalItemCount, string itemType)
         {
-            ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = actionText;
-            progressInfo.CurrentItemCount = currentItemCount;
-            progressInfo.TotalItemCount = totalItemCount;
-            progressInfo.ItemType = itemType;
-            progressInfo.Percentage = currentItemCount * 100 / totalItemCount;
-            progressInfo.Done = currentItemCount == totalItemCount;
+            ProgressInfo progressInfo = new ProgressInfo
+            {
+                ActionText = actionText,
+                CurrentItemCount = currentItemCount,
+                TotalItemCount = totalItemCount,
+                ItemType = itemType,
+                Percentage = currentItemCount * 100 / totalItemCount,
+                Done = currentItemCount == totalItemCount
+            };
             _progress?.Report(progressInfo);
         }
     }

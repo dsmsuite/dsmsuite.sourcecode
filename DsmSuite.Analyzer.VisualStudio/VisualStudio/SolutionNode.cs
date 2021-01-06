@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using Microsoft.Build.Construction;
+﻿using Microsoft.Build.Construction;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public class SolutionNode
     {
-        private readonly List<SolutionNode> _children = new List<SolutionNode>();
         private SolutionNode _parent;
 
         public SolutionNode(ProjectInSolution project)
@@ -27,7 +25,6 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         {
             if (child != null)
             {
-                _children.Add(child);
                 child._parent = this;
             }
         }

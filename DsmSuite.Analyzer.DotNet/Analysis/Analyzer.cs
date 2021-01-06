@@ -72,13 +72,15 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
         private void UpdateAssemblyProgress(bool done)
         {
-            ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = "Finding assemblies";
-            progressInfo.CurrentItemCount = _assemblyFiles.Count;
-            progressInfo.TotalItemCount = 0;
-            progressInfo.ItemType = "assemblies";
-            progressInfo.Percentage = null;
-            progressInfo.Done = done;
+            ProgressInfo progressInfo = new ProgressInfo
+            {
+                ActionText = "Finding assemblies",
+                CurrentItemCount = _assemblyFiles.Count,
+                TotalItemCount = 0,
+                ItemType = "assemblies",
+                Percentage = null,
+                Done = done
+            };
             _progress?.Report(progressInfo);
         }
     }

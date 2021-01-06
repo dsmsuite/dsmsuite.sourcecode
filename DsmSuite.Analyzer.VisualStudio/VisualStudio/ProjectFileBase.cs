@@ -10,7 +10,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
     public abstract class ProjectFileBase
     {
-        private Dictionary<string, SourceFile> _sourceFiles = new Dictionary<string, SourceFile>();
+        private readonly Dictionary<string, SourceFile> _sourceFiles = new Dictionary<string, SourceFile>();
 
         protected ProjectFileBase(string solutionFolder, string solutionDir, string solutionName, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver)
         {
@@ -25,16 +25,16 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             Resolver = resolver;
         }
 
-        protected void AddSourceFile(string caseInsenstiveFilename, SourceFile sourceFile)
+        protected void AddSourceFile(string caseInsensitiveFilename, SourceFile sourceFile)
         {
-            _sourceFiles[caseInsenstiveFilename] = sourceFile;
+            _sourceFiles[caseInsensitiveFilename] = sourceFile;
         }
 
-        public SourceFile GetSourceFile(string caseInsenstiveFilename)
+        public SourceFile GetSourceFile(string caseInsensitiveFilename)
         {
-            if (_sourceFiles.ContainsKey(caseInsenstiveFilename))
+            if (_sourceFiles.ContainsKey(caseInsensitiveFilename))
             {
-                return _sourceFiles[caseInsenstiveFilename];
+                return _sourceFiles[caseInsensitiveFilename];
             }
             else
             {

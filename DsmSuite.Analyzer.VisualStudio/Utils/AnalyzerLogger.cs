@@ -100,7 +100,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
         
         public static void LogProjectProperties(string filename, Project project)
         {
-            Logger.LogToFile(LogLevel.All, filename, $"Properties");
+            Logger.LogToFile(LogLevel.All, filename, "Properties");
             Logger.LogToFile(LogLevel.All, filename, "--------------------------------------------------------------");
             Logger.LogToFile(LogLevel.All, filename, "");
 
@@ -112,7 +112,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
                 Logger.LogToFile(LogLevel.All, filename, "");
             }
 
-            Logger.LogToFile(LogLevel.All, filename, $"Item Definitions");
+            Logger.LogToFile(LogLevel.All, filename, "Item Definitions");
             Logger.LogToFile(LogLevel.All, filename, "--------------------------------------------------------------");
             Logger.LogToFile(LogLevel.All, filename, "");
 
@@ -124,7 +124,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
                 Logger.LogToFile(LogLevel.All, filename, "");
             }
 
-            Logger.LogToFile(LogLevel.All, filename, $"Items");
+            Logger.LogToFile(LogLevel.All, filename, "Items");
             Logger.LogToFile(LogLevel.All, filename, "--------------------------------------------------------------");
             Logger.LogToFile(LogLevel.All, filename, "");
 
@@ -147,45 +147,45 @@ namespace DsmSuite.Analyzer.VisualStudio.Utils
             Flush(LogLevel.Error, IncludeFilesNotFoundLogMessages, "Includes files not found", "includeFilesNotFound", 0);
         }
 
-        private static void Flush(LogLevel loglevel, Dictionary<string, HashSet<string>> messages, string title, string filename, int minCount)
+        private static void Flush(LogLevel logLevel, Dictionary<string, HashSet<string>> messages, string title, string filename, int minCount)
         {
             string overviewFilename = filename + "Overview.txt";
             string detailsFilename = filename + "Details.txt";
 
-            int totalOccurances = 0;
+            int totalOccurrences = 0;
 
             List<string> keys = messages.Keys.ToList();
             keys.Sort();
 
             if (keys.Count > 0)
             {
-                Logger.LogToFile(loglevel, overviewFilename, title);
-                Logger.LogToFile(loglevel, detailsFilename, title);
+                Logger.LogToFile(logLevel, overviewFilename, title);
+                Logger.LogToFile(logLevel, detailsFilename, title);
 
-                Logger.LogToFile(loglevel, overviewFilename, "--------------------------------------------");
-                Logger.LogToFile(loglevel, detailsFilename, "---------------------------------------------");
+                Logger.LogToFile(logLevel, overviewFilename, "--------------------------------------------");
+                Logger.LogToFile(logLevel, detailsFilename, "---------------------------------------------");
             }
             
             foreach (string key in keys)
             {
-                int occurances = messages[key].Count;
+                int occurrences = messages[key].Count;
 
-                if (occurances > minCount)
+                if (occurrences > minCount)
                 {
-                    totalOccurances += occurances;
-                    Logger.LogToFile(loglevel, overviewFilename, $"{key} {occurances} occurances");
-                    Logger.LogToFile(loglevel, detailsFilename, $"{key} {occurances} occurances");
+                    totalOccurrences += occurrences;
+                    Logger.LogToFile(logLevel, overviewFilename, $"{key} {occurrences} occurrences");
+                    Logger.LogToFile(logLevel, detailsFilename, $"{key} {occurrences} occurrences");
                     foreach (string message in messages[key])
                     {
-                        Logger.LogToFile(loglevel, detailsFilename, "  " + message);
+                        Logger.LogToFile(logLevel, detailsFilename, "  " + message);
                     }
                 }
             }
 
             if (keys.Count > 0)
             {
-                Logger.LogToFile(loglevel, overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");
-                Logger.LogToFile(loglevel, detailsFilename, $"{keys.Count} items found in {totalOccurances} occurances");
+                Logger.LogToFile(logLevel, overviewFilename, $"{keys.Count} items found in {totalOccurrences} occurrences");
+                Logger.LogToFile(logLevel, detailsFilename, $"{keys.Count} items found in {totalOccurrences} occurrences");
             }
         }
     }

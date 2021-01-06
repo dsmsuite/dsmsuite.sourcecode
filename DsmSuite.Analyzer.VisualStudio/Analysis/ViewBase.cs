@@ -8,13 +8,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         protected AnalyzerSettings AnalyzerSettings { get; }
         protected SolutionFile SolutionFile { get; }
 
-        public ViewBase(SolutionFile solutionFile, AnalyzerSettings analyzerSettings)
+        protected ViewBase(SolutionFile solutionFile, AnalyzerSettings analyzerSettings)
         {
             SolutionFile = solutionFile;
             AnalyzerSettings = analyzerSettings;
         }
 
-        public string GetDotNetTypeName(ProjectFileBase visualStudioProject, string typeName)
+        public string GetDotNetTypeElementName(ProjectFileBase visualStudioProject, string typeName)
         {
             string name = "";
 
@@ -57,7 +57,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         public abstract void RegisterInterfaceFile(string interfaceFile);
         public abstract void RegisterSourceFile(ProjectFileBase visualStudioProject, SourceFile sourceFile);
-        public abstract string GetName(ProjectFileBase visualStudioProject, SourceFile sourceFile);
-        public abstract string ResolveProvider(ProjectFileBase visualStudioProject, string includedFile);
+        public abstract string GetSourceFileElementName(ProjectFileBase visualStudioProject, SourceFile sourceFile);
+        public abstract string ResolveIncludeFileProviderName(ProjectFileBase visualStudioProject, string includedFile);
     }
 }

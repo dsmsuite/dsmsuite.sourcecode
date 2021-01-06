@@ -5,20 +5,20 @@ using System.IO.Compression;
 namespace DsmSuite.Common.Util
 {
     /// <typeparam name="TProggressType"></typeparam>
-    public class CompressedFile<TProggressType>
+    public class CompressedFile<TProgressType>
     {
         private readonly string _filename;
         private const int ZipLeadBytes = 0x04034b50;
 
-        public delegate void ReadContent(Stream stream, IProgress<TProggressType> progress);
-        public delegate void WriteContent(Stream stream, IProgress<TProggressType> progress);
+        public delegate void ReadContent(Stream stream, IProgress<TProgressType> progress);
+        public delegate void WriteContent(Stream stream, IProgress<TProgressType> progress);
 
         public CompressedFile(string filename)
         {
             _filename = filename;
         }
 
-        public void ReadFile(ReadContent readContent, IProgress<TProggressType> progress)
+        public void ReadFile(ReadContent readContent, IProgress<TProgressType> progress)
         {
             FileInfo fileInfo = new FileInfo(_filename);
             if (fileInfo.Exists)
@@ -46,7 +46,7 @@ namespace DsmSuite.Common.Util
             }
         }
 
-        public void WriteFile(WriteContent writeContent, IProgress<TProggressType> progress, bool compressed)
+        public void WriteFile(WriteContent writeContent, IProgress<TProgressType> progress, bool compressed)
         {
             FileInfo fileInfo = new FileInfo(_filename);
             if (compressed)

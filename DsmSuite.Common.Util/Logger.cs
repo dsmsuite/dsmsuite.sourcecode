@@ -130,58 +130,58 @@ namespace DsmSuite.Common.Util
             Flush(LogLevel.Error, DataModelRelationNotResolvedLogMessages, "Relations not resolved", "dataModelRelationsNotResolved", 0);
         }
 
-        public static void LogToFile(LogLevel level, string logFilename, string line)
+        public static void LogToFile(LogLevel logLevel, string logFilename, string line)
         {
-            if (LogLevel >= level)
+            if (LogLevel >= logLevel)
             {
                 string path = GetLogFullPath(logFilename);
                 FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write);
-                using (StreamWriter writetext = new StreamWriter(fs))
+                using (StreamWriter writer = new StreamWriter(fs))
                 {
-                    writetext.WriteLine(line);
+                    writer.WriteLine(line);
                 }
             }
         }
 
-        private static void Flush(LogLevel loglevel, Dictionary<string, HashSet<string>> messages, string title, string filename, int minCount)
+        private static void Flush(LogLevel logLevel, Dictionary<string, HashSet<string>> messages, string title, string filename, int minCount)
         {
             string overviewFilename = filename + "Overview.txt";
             string detailsFilename = filename + "Details.txt";
 
-            int totalOccurances = 0;
+            int totalOccurrances = 0;
 
             List<string> keys = messages.Keys.ToList();
             keys.Sort();
 
             if (keys.Count > 0)
             {
-                Logger.LogToFile(loglevel, overviewFilename, title);
-                Logger.LogToFile(loglevel, detailsFilename, title);
+                Logger.LogToFile(logLevel, overviewFilename, title);
+                Logger.LogToFile(logLevel, detailsFilename, title);
 
-                Logger.LogToFile(loglevel, overviewFilename, "--------------------------------------------");
-                Logger.LogToFile(loglevel, detailsFilename, "---------------------------------------------");
+                Logger.LogToFile(logLevel, overviewFilename, "--------------------------------------------");
+                Logger.LogToFile(logLevel, detailsFilename, "---------------------------------------------");
             }
 
             foreach (string key in keys)
             {
-                int occurances = messages[key].Count;
+                int occurrances = messages[key].Count;
 
-                if (occurances > minCount)
+                if (occurrances > minCount)
                 {
-                    totalOccurances += occurances;
-                    Logger.LogToFile(loglevel, overviewFilename, $"{key} {occurances} occurances");
-                    Logger.LogToFile(loglevel, detailsFilename, $"{key} {occurances} occurances");
+                    totalOccurrances += occurrances;
+                    Logger.LogToFile(logLevel, overviewFilename, $"{key} {occurrances} occurrances");
+                    Logger.LogToFile(logLevel, detailsFilename, $"{key} {occurrances} occurrances");
                     foreach (string message in messages[key])
                     {
-                        Logger.LogToFile(loglevel, detailsFilename, "  " + message);
+                        Logger.LogToFile(logLevel, detailsFilename, "  " + message);
                     }
                 }
             }
 
             if (keys.Count > 0)
             {
-                Logger.LogToFile(loglevel, overviewFilename, $"{keys.Count} items found in {totalOccurances} occurances");
-                Logger.LogToFile(loglevel, detailsFilename, $"{keys.Count} items found in {totalOccurances} occurances");
+                Logger.LogToFile(logLevel, overviewFilename, $"{keys.Count} items found in {totalOccurrances} occurrances");
+                Logger.LogToFile(logLevel, detailsFilename, $"{keys.Count} items found in {totalOccurrances} occurrances");
             }
         }
 

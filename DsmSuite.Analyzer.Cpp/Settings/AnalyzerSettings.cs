@@ -86,12 +86,9 @@ namespace DsmSuite.Analyzer.Cpp.Settings
             };
 
             analyzerSettings.Input.RootDirectory = @"C:\";
-            analyzerSettings.Input.SourceDirectories = new List<string>();
-            analyzerSettings.Input.SourceDirectories.Add(@"C:\");
-            analyzerSettings.Input.ExternalIncludeDirectories = new List<string>();
-            analyzerSettings.Input.ExternalIncludeDirectories.Add(@"C:\");
-            analyzerSettings.Input.IgnorePaths = new List<string>();
-            analyzerSettings.Input.IgnorePaths.Add(@"C:\");
+            analyzerSettings.Input.SourceDirectories = new List<string> {@"C:\"};
+            analyzerSettings.Input.ExternalIncludeDirectories = new List<string> {@"C:\"};
+            analyzerSettings.Input.IgnorePaths = new List<string> {@"C:\"};
 
             analyzerSettings.Analysis.ResolveMethod = ResolveMethod.AddBestMatch;
             analyzerSettings.Transformation.IgnoredNames = new List<string>();

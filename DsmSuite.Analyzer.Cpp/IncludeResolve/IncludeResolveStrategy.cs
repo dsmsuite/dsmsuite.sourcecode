@@ -69,7 +69,7 @@ namespace DsmSuite.Analyzer.Cpp.IncludeResolve
                 candidateInfo.Add(new Tuple<string, bool>(candidate.Filename, candidate.Resolved));
             }
 
-            AnalyzerLogger.LogErrorIncludeFileAmbigious(sourceFilename, relativeIncludeFilename, candidateInfo);
+            AnalyzerLogger.LogErrorIncludeFileAmbiguous(sourceFilename, relativeIncludeFilename, candidateInfo);
         }
     }
 }

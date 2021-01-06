@@ -151,25 +151,29 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         private void UpdateProjectFileProgress(int currentItemCount, int totalItemCount)
         {
-            ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = "Analyzing project files";
-            progressInfo.CurrentItemCount = currentItemCount;
-            progressInfo.TotalItemCount = totalItemCount;
-            progressInfo.ItemType = "files";
-            progressInfo.Percentage = currentItemCount * 100 / totalItemCount;
-            progressInfo.Done = currentItemCount == totalItemCount;
+            ProgressInfo progressInfo = new ProgressInfo
+            {
+                ActionText = "Analyzing project files",
+                CurrentItemCount = currentItemCount,
+                TotalItemCount = totalItemCount,
+                ItemType = "files",
+                Percentage = currentItemCount * 100 / totalItemCount,
+                Done = currentItemCount == totalItemCount
+            };
             _progress?.Report(progressInfo);
         }
 
         private void UpdateSourceFileProgress(int currentItemCount, int totalItemCount)
         {
-            ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = "Analyzing source files";
-            progressInfo.CurrentItemCount = currentItemCount;
-            progressInfo.TotalItemCount = totalItemCount;
-            progressInfo.ItemType = "files";
-            progressInfo.Percentage = currentItemCount * 100 / totalItemCount;
-            progressInfo.Done = currentItemCount == totalItemCount;
+            ProgressInfo progressInfo = new ProgressInfo
+            {
+                ActionText = "Analyzing source files",
+                CurrentItemCount = currentItemCount,
+                TotalItemCount = totalItemCount,
+                ItemType = "files",
+                Percentage = currentItemCount * 100 / totalItemCount,
+                Done = currentItemCount == totalItemCount
+            };
             _progress?.Report(progressInfo);
         }
     }

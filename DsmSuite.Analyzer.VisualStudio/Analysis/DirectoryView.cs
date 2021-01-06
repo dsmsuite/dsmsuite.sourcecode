@@ -12,25 +12,23 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         public override void RegisterInterfaceFile(string interfaceFile)
         {
-
         }
 
         public override void RegisterSourceFile(ProjectFileBase visualStudioProject, SourceFile sourceFile)
         {
-
         }
 
-        public override string GetName(ProjectFileBase visualStudioProject, SourceFile sourceFile)
+        public override string GetSourceFileElementName(ProjectFileBase visualStudioProject, SourceFile sourceFile)
         {
-            return GetName2(sourceFile.SourceFileInfo.FullName);
+            return GetElementName(sourceFile.SourceFileInfo.FullName);
         }
 
-        public override string ResolveProvider(ProjectFileBase visualStudioProject, string includedFile)
+        public override string ResolveIncludeFileProviderName(ProjectFileBase visualStudioProject, string includedFile)
         {
-            return GetName2(includedFile);
+            return GetElementName(includedFile);
         }
 
-        private string GetName2(string filename)
+        private string GetElementName(string filename)
         {
             string name = "";
 

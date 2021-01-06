@@ -36,18 +36,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 
         public string ProjectFolder { get; }
 
-        public string Checksum
-        {
-            get
-            {
-                // Calculated once when needed
-                if (_checksum == null)
-                {
-                    _checksum = DetermineId(_sourceFileInfo);
-                }
-                return _checksum;
-            }
-        }
+        public string Checksum => _checksum ?? (_checksum = DetermineId(_sourceFileInfo)); // Calculated once when needed
 
         public ICollection<string> Includes => _includes;
       

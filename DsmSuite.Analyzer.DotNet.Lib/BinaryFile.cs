@@ -391,14 +391,12 @@ namespace DsmSuite.Analyzer.DotNet.Lib
 
         private void RegisterType(TypeDefinition typeDecl)
         {
-            string typeName = typeDecl.GetElementType().ToString();
             Types.Add(new DotNetType(typeDecl.GetElementType().ToString(), DetermineType(typeDecl)));
             _typeList.Add(typeDecl);
             UpdateTypeProgress(false);
         }
 
-        private void RegisterRelation(TypeReference providerType, TypeReference consumerType, string type,
-            string context)
+        private void RegisterRelation(TypeReference providerType, TypeReference consumerType, string type, string context)
         {
             if ((providerType != null) && (consumerType != null))
             {
@@ -423,25 +421,29 @@ namespace DsmSuite.Analyzer.DotNet.Lib
 
         private void UpdateTypeProgress(bool done)
         {
-            ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = "Finding types: " + FileInfo.Name;
-            progressInfo.CurrentItemCount = Types.Count;
-            progressInfo.TotalItemCount = 0;
-            progressInfo.ItemType = "types";
-            progressInfo.Percentage = null;
-            progressInfo.Done = done;
+            ProgressInfo progressInfo = new ProgressInfo
+            {
+                ActionText = "Finding types: " + FileInfo.Name,
+                CurrentItemCount = Types.Count,
+                TotalItemCount = 0,
+                ItemType = "types",
+                Percentage = null,
+                Done = done
+            };
             _progress?.Report(progressInfo);
         }
 
         private void UpdateRelationProgress(bool done)
         {
-            ProgressInfo progressInfo = new ProgressInfo();
-            progressInfo.ActionText = "Finding relations: " + FileInfo.Name;
-            progressInfo.CurrentItemCount = Relations.Count;
-            progressInfo.TotalItemCount = 0;
-            progressInfo.ItemType = "relations";
-            progressInfo.Percentage = null;
-            progressInfo.Done = done;
+            ProgressInfo progressInfo = new ProgressInfo
+            {
+                ActionText = "Finding relations: " + FileInfo.Name,
+                CurrentItemCount = Relations.Count,
+                TotalItemCount = 0,
+                ItemType = "relations",
+                Percentage = null,
+                Done = done
+            };
             _progress?.Report(progressInfo);
         }
     }
