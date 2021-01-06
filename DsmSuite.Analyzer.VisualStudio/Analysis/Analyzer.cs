@@ -175,6 +175,9 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             {
                 if (providerName.Length > 0)
                 {
+                    FileInfo includedFileInfo = new FileInfo(includedFile);
+                    string type = includedFileInfo.Extension.Substring(1);
+                    _model.AddElement(providerName, type, includedFile);
                     _model.AddRelation(consumerName, providerName, "include", 1, null);
                 }
                 else

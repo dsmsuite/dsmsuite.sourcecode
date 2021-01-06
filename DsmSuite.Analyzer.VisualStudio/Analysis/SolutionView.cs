@@ -3,6 +3,7 @@ using System.IO;
 using DsmSuite.Analyzer.VisualStudio.Settings;
 using DsmSuite.Analyzer.VisualStudio.Utils;
 using DsmSuite.Analyzer.VisualStudio.VisualStudio;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.VisualStudio.Analysis
 {
@@ -86,6 +87,10 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         public override string ResolveProvider(ProjectFileBase visualStudioProject, string includedFile)
         {
+            if (includedFile.Contains("ClassA3.h"))
+            {
+
+            }
             string providerName = null;
             if (IsProjectInclude(includedFile))
             {
@@ -95,7 +100,11 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             else if (IsInterfaceInclude(includedFile))
             {
                 // Interface includes must be clones of includes files in other visual studio projects
-                providerName = ResolveInterfaceInclude(includedFile);
+                string resolvedIncludedFile = ResolveInterfaceInclude(includedFile);
+                if (resolvedIncludedFile != null)
+                {
+                    providerName = ResolveProjectInclude(visualStudioProject, resolvedIncludedFile);
+                }
             }
             else if (IsExternalInclude(includedFile))
             {
@@ -118,11 +127,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         private string ResolveProjectInclude(ProjectFileBase visualStudioProject, string includedFile)
         {
-            return GetName(visualStudioProject, new SourceFile(includedFile));
-        }
-
-        private string ResolveInterfaceInclude(string includedFile)
-        {
             string providerName = null;
             string caseInsensitiveFilename = includedFile.ToLower();
 
@@ -134,6 +138,22 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             }
 
             return providerName;
+        }
+
+        private string ResolveInterfaceInclude(string includedFile)
+        {
+            // Interface files can be clones of source files found in visual studio projects 
+            string resolvedIncludedFile = null;
+            if (_interfaceFileChecksumsByFilePath.ContainsKey(includedFile.ToLower()))
+            {
+                string checksum = _interfaceFileChecksumsByFilePath[includedFile.ToLower()];
+                if (_sourcesFilesByChecksum.ContainsKey(checksum))
+                {
+                    resolvedIncludedFile = _sourcesFilesByChecksum[checksum].FullName;
+                    Logger.LogInfo("Included interface resolved: " + includedFile + " -> " + resolvedIncludedFile);
+                }
+            }
+            return resolvedIncludedFile;
         }
 
         public string ResolveExternalInclude(string includedFile)
