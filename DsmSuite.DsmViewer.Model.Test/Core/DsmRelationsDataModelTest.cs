@@ -30,7 +30,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
     /// </summary>
     /// 
     [TestClass]
-    public class DsmRelationssDataModelTest
+    public class DsmRelationsDataModelTest
     {
         private DsmRelationModel _relationsModel;
         private DsmAnnotationModel _annotationModel;
@@ -48,7 +48,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         private IDsmElement _c1;
         private IDsmElement _c2;
 
-        private Dictionary<IDsmElement, Dictionary<IDsmElement, int>> _expectedlWeights;
+        private Dictionary<IDsmElement, Dictionary<IDsmElement, int>> _expectedWeights;
         private Dictionary<IDsmElement, Dictionary<IDsmElement, int>> _actualWeights;
 
         [TestInitialize]
@@ -58,7 +58,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             _annotationModel = new DsmAnnotationModel();
             _elementsDataModel = new DsmElementModel(_relationsModel, _annotationModel);
             _root = _elementsDataModel.GetRootElement() as DsmElement;
-            _expectedlWeights = new Dictionary<IDsmElement, Dictionary<IDsmElement, int>>();
+            _expectedWeights = new Dictionary<IDsmElement, Dictionary<IDsmElement, int>>();
             _actualWeights = new Dictionary<IDsmElement, Dictionary<IDsmElement, int>>();
 
             CreateElementHierarchy();
@@ -71,7 +71,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void WhenOutgoingRelatonsAreAddedThenGetOutgoingRelationsReturnsAll()
+        public void WhenOutgoingRelationsAreAddedThenGetOutgoingRelationsReturnsAll()
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
@@ -89,7 +89,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void WhenIngoingRelatonsAreAddedThenGetIngoingRelationsReturnsAll()
+        public void WhenIngoingRelationsAreAddedThenGetIngoingRelationsReturnsAll()
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
@@ -107,7 +107,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void WhenIngoingAndOutgoingRelatonsAreAddedThenGetExternalRelationsReturnsOnlyExternalOnes()
+        public void WhenIngoingAndOutgoingRelationsAreAddedThenGetExternalRelationsReturnsOnlyExternalOnes()
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
@@ -137,7 +137,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void WhenIngoingAndOutgoingRelatonsAreAddedThenGetInternalRelationsReturnsOnlyInternalOnes()
+        public void WhenIngoingAndOutgoingRelationsAreAddedThenGetInternalRelationsReturnsOnlyInternalOnes()
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
@@ -204,7 +204,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsFilledWhenGetWeightWithSelfThenReturnsZero()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
             Assert.AreEqual(11, _relationsModel.GetExportedRelationCount());
 
             foreach(IDsmElement element in _elementsDataModel.GetElements())
@@ -216,7 +216,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsFilledWhenGetWeightWithOtherThenReturnsCalculatedDerivedWeights()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             CheckDependencyWeights();
         }
@@ -224,16 +224,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsFilledWhenChangeRelationWeightThenUpdatesCalculatedDerivedWeights()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             IDsmRelation relation = _relationsModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
             _relationsModel.ChangeRelationWeight(relation, 5);
 
-            _expectedlWeights[_a2][_b2] = 5;
-            _expectedlWeights[_a2][_b] = 205;
-            _expectedlWeights[_a][_b2] = 35;
-            _expectedlWeights[_a][_b] = 1235;
+            _expectedWeights[_a2][_b2] = 5;
+            _expectedWeights[_a2][_b] = 205;
+            _expectedWeights[_a][_b2] = 35;
+            _expectedWeights[_a][_b] = 1235;
 
             CheckDependencyWeights();
         }
@@ -241,7 +241,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsFilledWhenRemovingRelationThenReducesRelationCount()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
             int relationCountBefore = _relationsModel.GetRelationCount();
 
             IDsmRelation relation = _relationsModel.FindRelations(_a2, _b2).FirstOrDefault();
@@ -254,7 +254,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsFilledWhenUnremovingRelationThenRestoresRelationCount()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             IDsmRelation relation = _relationsModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
@@ -269,16 +269,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsFilledWhenRemovingRelationThenReducesCalculatedDerivedWeights()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             IDsmRelation relation = _relationsModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
             _relationsModel.RemoveRelation(relation.Id);
 
-            _expectedlWeights[_a2][_b2] = 0;
-            _expectedlWeights[_a2][_b] = 200;
-            _expectedlWeights[_a][_b2] = 30;
-            _expectedlWeights[_a][_b] = 1230;
+            _expectedWeights[_a2][_b2] = 0;
+            _expectedWeights[_a2][_b] = 200;
+            _expectedWeights[_a][_b2] = 30;
+            _expectedWeights[_a][_b] = 1230;
 
             CheckDependencyWeights();
         }
@@ -286,25 +286,25 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenModelIsFilledWhenUnremovingRelationThenRestoresCalculatedDerivedWeights()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             IDsmRelation relation = _relationsModel.FindRelations(_a2, _b2).FirstOrDefault();
             Assert.IsNotNull(relation);
             _relationsModel.RemoveRelation(relation.Id);
 
-            _expectedlWeights[_a2][_b2] = 0;
-            _expectedlWeights[_a2][_b] = 200;
-            _expectedlWeights[_a][_b2] = 30;
-            _expectedlWeights[_a][_b] = 1230;
+            _expectedWeights[_a2][_b2] = 0;
+            _expectedWeights[_a2][_b] = 200;
+            _expectedWeights[_a][_b2] = 30;
+            _expectedWeights[_a][_b] = 1230;
 
             CheckDependencyWeights();
 
             _relationsModel.UnremoveRelation(relation.Id);
 
-            _expectedlWeights[_a2][_b2] = 4;
-            _expectedlWeights[_a2][_b] = 204;
-            _expectedlWeights[_a][_b2] = 34;
-            _expectedlWeights[_a][_b] = 1234;
+            _expectedWeights[_a2][_b2] = 4;
+            _expectedWeights[_a2][_b] = 204;
+            _expectedWeights[_a][_b2] = 34;
+            _expectedWeights[_a][_b] = 1234;
 
             CheckDependencyWeights();
         }
@@ -312,7 +312,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenNoCyclicRelationExistsBetweenElementsWhenIsCyclicDependencyThenReturnsCycleTypeNone()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             Assert.AreEqual(0, _relationsModel.GetDependencyWeight(_b1, _b2));
             Assert.AreEqual(0, _relationsModel.GetDependencyWeight(_b2, _b1));
@@ -322,7 +322,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenDirectCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsCycleTypeSystem()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             Assert.AreEqual(1, _relationsModel.GetDirectDependencyWeight(_c1, _c2));
             Assert.AreEqual(1, _relationsModel.GetDirectDependencyWeight(_c2, _c1));
@@ -332,7 +332,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenIndirectCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsCycleTypeHierarchical()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             Assert.AreEqual(1234, _relationsModel.GetDependencyWeight(_a, _b));
             Assert.AreEqual(5, _relationsModel.GetDependencyWeight(_b, _a));
@@ -342,7 +342,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenNoCycleExistsBetweenElementsWhenIsCyclicDependencyThenReturnsFalse()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             Assert.AreEqual(5, _relationsModel.GetDependencyWeight(_a1, _c2));
             Assert.AreEqual(0, _relationsModel.GetDependencyWeight(_c2, _a1));
@@ -350,9 +350,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
         
         [TestMethod]
-        public void GivenRelationExistsBetweenElementsWhenFindRelationsThenReturnsRelationBwetweenTheElements()
+        public void GivenRelationExistsBetweenElementsWhenFindRelationsThenReturnsRelationBetweenTheElements()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             List<DsmRelation> relations = _relationsModel.FindRelations(_a, _b).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(4, relations.Count);
@@ -376,7 +376,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenRelationExistsBetweenElementsWhenFindRelationsWhereElementHasProviderRoleThenReturnsRelationFromConsumers()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             List<IDsmRelation> relations = _relationsModel.FindIngoingRelations(_a).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(3, relations.Count);
@@ -397,7 +397,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenRelationExistsBetweenElementsWhenFindRelationsWhereElementHasConsumerRoleThenReturnsRelationFromConsumers()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             List<IDsmRelation> relations = _relationsModel.FindOutgoingRelations(_a).OrderBy(x => x.Id).ToList();
             Assert.AreEqual(5, relations.Count);
@@ -426,26 +426,26 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenMatrixIsFilledWhenChildElementParentIsChangedThenWeightsAreUpdated()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             _elementsDataModel.ChangeElementParent(_c2, _b, 0);
 
             // Derived a 
-            _expectedlWeights[_a1][_b] = 1035;
-            _expectedlWeights[_a][_b] = 1239;
+            _expectedWeights[_a1][_b] = 1035;
+            _expectedWeights[_a][_b] = 1239;
 
-            _expectedlWeights[_a][_c] = 0;
-            _expectedlWeights[_a1][_c] = 0;
+            _expectedWeights[_a][_c] = 0;
+            _expectedWeights[_a1][_c] = 0;
 
             // Derived b
-            _expectedlWeights[_b][_c] = 1;
-            _expectedlWeights[_b][_c1] = 1;
+            _expectedWeights[_b][_c] = 1;
+            _expectedWeights[_b][_c1] = 1;
 
             // Derived c
-            _expectedlWeights[_c][_b] = 1;
-            _expectedlWeights[_c1][_b] = 1;
-            _expectedlWeights[_c][_c2] = 1;
-            _expectedlWeights[_c2][_c] = 1;
+            _expectedWeights[_c][_b] = 1;
+            _expectedWeights[_c1][_b] = 1;
+            _expectedWeights[_c][_c2] = 1;
+            _expectedWeights[_c2][_c] = 1;
             
             CheckDependencyWeights();
         }
@@ -453,7 +453,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void GivenMatrixIsFilledWhenRootElementParentIsChangedThenWeightsAreUpdated()
         {
-            CreateElementRelations(_relationsModel);
+            CreateElementRelations();
 
             Assert.AreEqual(1234, _relationsModel.GetDependencyWeight(_a, _b));
 
@@ -475,7 +475,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             _c2 = _elementsDataModel.ImportElement(19, "c2", "etc", 9, false, _c.Id, false);
         }
 
-        private void CreateElementRelations(DsmRelationModel relationsDataModel)
+        private void CreateElementRelations()
         {
             _relationsModel.AddRelation(_a1, _a2, "", 1);
 
@@ -503,56 +503,56 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             {
                 foreach (DsmElement provider in children.Values)
                 {
-                    if (!_expectedlWeights.ContainsKey(consumer))
+                    if (!_expectedWeights.ContainsKey(consumer))
                     {
-                        _expectedlWeights[consumer] = new Dictionary<IDsmElement, int>();
+                        _expectedWeights[consumer] = new Dictionary<IDsmElement, int>();
                     }
-                    _expectedlWeights[consumer][provider] = 0;
+                    _expectedWeights[consumer][provider] = 0;
                 }
             }
 
             // Direct a
-            _expectedlWeights[_a1][_a2] = 1;
+            _expectedWeights[_a1][_a2] = 1;
 
-            _expectedlWeights[_a1][_b1] = 1000;
-            _expectedlWeights[_a2][_b1] = 200;
-            _expectedlWeights[_a1][_b2] = 30;
-            _expectedlWeights[_a2][_b2] = 4;
+            _expectedWeights[_a1][_b1] = 1000;
+            _expectedWeights[_a2][_b1] = 200;
+            _expectedWeights[_a1][_b2] = 30;
+            _expectedWeights[_a2][_b2] = 4;
 
-            _expectedlWeights[_a1][_c2] = 5;
+            _expectedWeights[_a1][_c2] = 5;
 
             // Direct b
-            _expectedlWeights[_b2][_a1] = 2;
-            _expectedlWeights[_b2][_a2] = 3;
+            _expectedWeights[_b2][_a1] = 2;
+            _expectedWeights[_b2][_a2] = 3;
 
             // Direct c
-            _expectedlWeights[_c1][_a2] = 4;
+            _expectedWeights[_c1][_a2] = 4;
 
-            _expectedlWeights[_c1][_c2] = 1;
-            _expectedlWeights[_c2][_c1] = 1;
+            _expectedWeights[_c1][_c2] = 1;
+            _expectedWeights[_c2][_c1] = 1;
 
             // Derived a
-            _expectedlWeights[_a1][_b] = 1030;
-            _expectedlWeights[_a2][_b] = 204;
-            _expectedlWeights[_a][_b1] = 1200;
-            _expectedlWeights[_a][_b2] = 34;
+            _expectedWeights[_a1][_b] = 1030;
+            _expectedWeights[_a2][_b] = 204;
+            _expectedWeights[_a][_b1] = 1200;
+            _expectedWeights[_a][_b2] = 34;
 
-            _expectedlWeights[_a][_b] = 1234;
+            _expectedWeights[_a][_b] = 1234;
 
-            _expectedlWeights[_a][_c2] = 5;
-            _expectedlWeights[_a1][_c] = 5;
-            _expectedlWeights[_a][_c] = 5;
+            _expectedWeights[_a][_c2] = 5;
+            _expectedWeights[_a1][_c] = 5;
+            _expectedWeights[_a][_c] = 5;
 
             // Derived b
-            _expectedlWeights[_b][_a1] = 2;
-            _expectedlWeights[_b][_a2] = 3;
-            _expectedlWeights[_b2][_a] = 5;
-            _expectedlWeights[_b][_a] = 5;
+            _expectedWeights[_b][_a1] = 2;
+            _expectedWeights[_b][_a2] = 3;
+            _expectedWeights[_b2][_a] = 5;
+            _expectedWeights[_b][_a] = 5;
 
             // Derived c
-            _expectedlWeights[_c1][_a] = 4;
-            _expectedlWeights[_c][_a2] = 4;
-            _expectedlWeights[_c][_a] = 4;
+            _expectedWeights[_c1][_a] = 4;
+            _expectedWeights[_c][_a2] = 4;
+            _expectedWeights[_c][_a] = 4;
         }
         
         private void CheckDependencyWeights()
@@ -563,7 +563,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             {
                 foreach (DsmElement provider in children.Values)
                 {
-                    int expected = _expectedlWeights[consumer][provider];
+                    int expected = _expectedWeights[consumer][provider];
                     int actual = _actualWeights[consumer][provider];
                     Assert.AreEqual(expected, actual, $"Weight not equal consumer={consumer.Fullname} provider={provider.Fullname} expected={expected}");
                 }

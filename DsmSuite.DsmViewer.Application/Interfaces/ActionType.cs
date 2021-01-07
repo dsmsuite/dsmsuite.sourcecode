@@ -12,7 +12,6 @@
         ElementMoveDown,
         ElementSort,
         
-        RelationChangeAnnotation,
         RelationChangeType,
         RelationChangeWeight,
         RelationCreate,

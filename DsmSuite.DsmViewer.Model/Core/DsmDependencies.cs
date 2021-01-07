@@ -44,18 +44,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relations;
         }
 
-        public IEnumerable<DsmRelation> GetIngoingRelations(IDsmElement consumer)
-        {
-            if (_ingoingRelations.ContainsKey(consumer.Id))
-            {
-                return _ingoingRelations[consumer.Id];
-            }
-            else
-            {
-                return new List<DsmRelation>();
-            }
-        }
-
         public void AddOutgoingRelation(DsmRelation relation)
         {
             if (!_outgoingRelations.ContainsKey(relation.Provider.Id))

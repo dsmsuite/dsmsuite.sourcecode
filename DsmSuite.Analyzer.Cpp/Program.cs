@@ -58,7 +58,7 @@ namespace DsmSuite.Analyzer.Cpp
 
             if (args.Length < 1)
             {
-                Logger.LogUserMessage("Usage: DsmSuite.Analyzer.Cpp <settingsfile>");
+                Logger.LogUserMessage("Usage: DsmSuite.Analyzer.Cpp <settings-file>");
             }
             else
             {

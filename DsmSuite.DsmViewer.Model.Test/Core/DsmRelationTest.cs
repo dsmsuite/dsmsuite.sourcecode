@@ -13,8 +13,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             int relationId = 1;
             int consumerId = 2;
             int providerId = 3;
-            IDsmElement consumer = new DsmElement(consumerId, "dontcare", "dontcare");
-            IDsmElement provider = new DsmElement(providerId, "dontcare", "dontcare");
+            IDsmElement consumer = new DsmElement(consumerId, "element1", "type1");
+            IDsmElement provider = new DsmElement(providerId, "element2", "type2");
             string relationType = "include";
             int weight = 4;
             DsmRelation relation = new DsmRelation(relationId, consumer, provider, relationType, weight);

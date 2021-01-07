@@ -7,7 +7,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 {
     public interface IDsmModel
     {
-        // CLeanup
+        // Cleanup
         void Clear();
 
         // Model persistency
@@ -18,9 +18,6 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         // Meta data
         IMetaDataItem AddMetaData(string group, string name, string value);
-        IMetaDataItem AddMetaData(string itemName, string itemValue);
-        IEnumerable<string> GetMetaDataGroups();
-        IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
 
         // Element editing
         IDsmElement AddElement(string name, string type, int? parentId);

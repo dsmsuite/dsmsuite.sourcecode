@@ -41,8 +41,6 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         IEnumerable<IDsmElement> GetRelationConsumers(IDsmElement consumer, IDsmElement provider);
         int GetHierarchicalCycleCount(IDsmElement element);
         int GetSystemCycleCount(IDsmElement element);
-        bool IsFirstChild(IDsmElement element);
-        bool IsLastChild(IDsmElement element);
         IDsmElement NextSibling(IDsmElement element);
         IDsmElement PreviousSibling(IDsmElement element);
         bool HasChildren(IDsmElement element);
@@ -53,7 +51,6 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
 
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
-        int GetDirectDependencyWeight(IDsmElement consumer, IDsmElement provider);
         CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
         int SearchElements(string searchText);
         IDsmElement GetElementByFullname(string fullname);
@@ -78,7 +75,6 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         int GetElementCount();
 
         void AddElementAnnotation(IDsmElement element, string text);
-        void AddRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text);
         IDsmElementAnnotation FindElementAnnotation(IDsmElement element);
         IDsmRelationAnnotation FindRelationAnnotation(IDsmElement consumer, IDsmElement provider);
     }

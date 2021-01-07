@@ -9,7 +9,7 @@ using Moq;
 namespace DsmSuite.DsmViewer.Application.Test.Import.Common
 {
     [TestClass]
-    public class DsmBuiderTest
+    public class DsmBuilderTest
     {
         Mock<IDsmModel> _dsmModel;
 
@@ -58,14 +58,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Common
             _elementParent.Setup(x => x.Id).Returns(ElementParentId);
 
             SortAlgorithmFactory.RegisterAlgorithm(PartitionSortAlgorithm.AlgorithmName, typeof(StubbedSortAlgorithm));
-        }
-
-        [TestMethod]
-        public void WhenPolicyIsConstructedThenModelIsCleared()
-        {
-            DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
-
-            _dsmModel.Verify(x => x.Clear(), Times.Once());
         }
 
         [TestMethod]

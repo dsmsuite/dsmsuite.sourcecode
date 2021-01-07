@@ -36,7 +36,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void WhenIdenticalIngoingRelationTypesAreAddedThenGetOutgoingRelationsRetrunsThenmAll()
+        public void WhenIdenticalIngoingRelationTypesAreAddedThenGetOutgoingRelationsReturnsThenAll()
         {
             DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2);
             DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type1", 3);
@@ -57,7 +57,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void WhenDifferentIngoingRelationTypesAreAddedThenGetOutgoingRelationsRetrunsThenmAll()
+        public void WhenDifferentIngoingRelationTypesAreAddedThenGetOutgoingRelationsReturnsThenAll()
         {
             DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2);
             DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type2", 3);
@@ -78,7 +78,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void WhenIdenticalOutgoingRelationTypesAreAddedThenGetOutgoingRelationsRetrunsThenmAll()
+        public void WhenIdenticalOutgoingRelationTypesAreAddedThenGetOutgoingRelationsReturnsThenAll()
         {
             DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2);
             DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type1", 3);
@@ -99,7 +99,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void WhenDifferentOutgoingRelationTypesAreAddedThenGetOutgoingRelationsRetrunsThenmAll()
+        public void WhenDifferentOutgoingRelationTypesAreAddedThenGetOutgoingRelationsReturnsThenAll()
         {
             DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2);
             DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type2", 3);

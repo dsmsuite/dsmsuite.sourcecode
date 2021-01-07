@@ -3,14 +3,14 @@ using System.Collections.Generic;
 namespace DsmSuite.DsmViewer.Application.Sorting
 {
     /// <summary>
-    /// This class is responsable for the partitioning calculation which for a given square matrix orders the rows
+    /// This class is responsible for the partitioning calculation which for a given square matrix orders the rows
     /// as close as possible to the lower block triangular form.  The idea being that as many empty cells are pushed
     /// into the upper triangle as possible.  It is probable that some cells will be non-zero - in this
     /// case they are pushed towards the bottom right corner
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The alogorithm first pushes empty rows to the top and complete rows to the bottom.  Partially complete rows
+    /// The algorithm first pushes empty rows to the top and complete rows to the bottom.  Partially complete rows
     /// are then processed using a distance score to push them below but as close as possible to the diagonal</para>
     /// <para>The result of the calculation is contained in the vector class which specifies how the new order of row indexes</para>
     /// </remarks>
@@ -19,7 +19,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
         readonly WeightsMatrix _sm;
 
         /// <summary>
-        /// Constructor of calcualtion on a given n * n matrix
+        /// Constructor of calculation on a given n * n matrix
         /// </summary>
         /// <param name="matrix"></param>
         public PartitioningCalculation(WeightsMatrix matrix)
@@ -41,7 +41,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
         }
 
         /// <summary>
-        /// the main partitioning algo.
+        /// the main partitioning algorithm.
         /// </summary>
         /// <param name="vector"></param>
         void DoPartitioning(SortResult vector)
@@ -86,7 +86,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
                     vector.Swap(nextSwapRow, i);
                     nextSwapRow++; // points to next swap position
 
-                    // don't decrement i as it has not yet been tested - we've chnaged the order remember !!
+                    // don't decrement i as it has not yet been tested - we've changed the order remember !!
                 }
                 else
                 {
@@ -168,7 +168,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
         }
 
         /// <summary>
-        /// Get the dependency weight from the original sqaure matrix given the current vector and i,j indexes
+        /// Get the dependency weight from the original square matrix given the current vector and i,j indexes
         /// </summary>
         /// <param name="vector"></param>
         /// <param name="i"></param>
@@ -196,7 +196,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
                 {
                     for (int j = end; j > i; j--) // cols in upper triangle
                     {
-                        if (TrueMatrixValue(vector, i, j) != 0) // not zero so we want to possibley move it
+                        if (TrueMatrixValue(vector, i, j) != 0) // not zero so we want to possibly move it
                         {
                             // now find first zero from the left hand side
 
@@ -245,12 +245,12 @@ namespace DsmSuite.DsmViewer.Application.Sorting
 
         long Score(SortResult vector)
         {
-            // We're trying to maximise the number of empty cells in the upper triangle
+            // We're trying to maximize the number of empty cells in the upper triangle
             // filled in cells are pushed down - for a set of two orderings the one with the higher
             // score should be the most preferable
 
 
-            // calculate score for cells in upper triangle (TODO possible optimisation between start and end)
+            // calculate score for cells in upper triangle (TODO possible optimization between start and end)
             long score = 0;
 
             for (int i = 0; i < vector.GetNumberOfElements() - 1; i++)

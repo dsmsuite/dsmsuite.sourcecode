@@ -24,11 +24,9 @@ class ATL_NO_VTABLE CComA :
 	public IDispatchImpl<IComA, &IID_IComA, &LIBID_DsmSuiteAnalyzerVisualStudioTestDataComLib, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
 public:
-	CComA()
-	{
-	}
+	CComA()	= default;
 
-DECLARE_REGISTRY_RESOURCEID(IDR_COMA)
+	DECLARE_REGISTRY_RESOURCEID(IDR_COMA)
 
 
 BEGIN_COM_MAP(CComA)

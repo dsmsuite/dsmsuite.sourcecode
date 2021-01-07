@@ -7,17 +7,17 @@ namespace DsmSuite.DsmViewer.Application.Metrics
         public int GetElementSize(IDsmElement element)
         {
             int count = 0;
-            CountChildern(element, ref count);
+            CountChildren(element, ref count);
             return count;
         }
 
-        private void CountChildern(IDsmElement element, ref int count)
+        private void CountChildren(IDsmElement element, ref int count)
         {
             count++;
 
             foreach (IDsmElement child in element.Children)
             {
-                CountChildern(child, ref count);
+                CountChildren(child, ref count);
             }
         }
     }

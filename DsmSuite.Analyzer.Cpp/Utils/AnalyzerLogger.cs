@@ -69,13 +69,13 @@ namespace DsmSuite.Analyzer.Cpp.Utils
             
             foreach (string key in keys)
             {
-                int occurrances = messages[key].Count;
+                int occurrences = messages[key].Count;
 
-                if (occurrances > minCount)
+                if (occurrences > minCount)
                 {
-                    totalOccurrances += occurrances;
-                    Logger.LogToFile(logLevel, overviewFilename, $"{key} {occurrances} occurrances");
-                    Logger.LogToFile(logLevel, detailsFilename, $"{key} {occurrances} occurrances");
+                    totalOccurrances += occurrences;
+                    Logger.LogToFile(logLevel, overviewFilename, $"{key} {occurrences} occurrences");
+                    Logger.LogToFile(logLevel, detailsFilename, $"{key} {occurrences} occurrences");
                     foreach (string message in messages[key])
                     {
                         Logger.LogToFile(logLevel, detailsFilename, "  " + message);
@@ -85,8 +85,8 @@ namespace DsmSuite.Analyzer.Cpp.Utils
 
             if (keys.Count > 0)
             {
-                Logger.LogToFile(logLevel, overviewFilename, $"{keys.Count} items found in {totalOccurrances} occurrances");
-                Logger.LogToFile(logLevel, detailsFilename, $"{keys.Count} items found in {totalOccurrances} occurrances");
+                Logger.LogToFile(logLevel, overviewFilename, $"{keys.Count} items found in {totalOccurrances} occurrences");
+                Logger.LogToFile(logLevel, detailsFilename, $"{keys.Count} items found in {totalOccurrances} occurrences");
             }
         }
     }

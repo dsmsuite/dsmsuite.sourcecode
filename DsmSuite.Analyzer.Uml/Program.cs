@@ -54,7 +54,7 @@ namespace DsmSuite.Analyzer.Uml
 
             if (args.Length < 1)
             {
-                Logger.LogUserMessage("Usage: DsmSuite.Analyzer.Uml <settingsfile>");
+                Logger.LogUserMessage("Usage: DsmSuite.Analyzer.Uml <settings-file>");
             }
             else
             {

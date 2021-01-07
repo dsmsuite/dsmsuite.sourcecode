@@ -60,7 +60,7 @@ namespace DsmSuite.Analyzer.VisualStudio
 
             if (args.Length < 1)
             {
-                Logger.LogUserMessage("Usage: DsmSuite.Analyzer.VisualStudio <settingsfile>");
+                Logger.LogUserMessage("Usage: DsmSuite.Analyzer.VisualStudio <settings-file>");
             }
             else
             {

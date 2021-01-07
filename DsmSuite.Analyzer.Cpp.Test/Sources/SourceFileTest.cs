@@ -14,15 +14,15 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         [TestMethod]
         public void TestName()
         {
-            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\myfile.cpp"));
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
             Assert.IsTrue(sourceFile.IsSourceCodeFile);
-            Assert.AreEqual(@"D:\Data\myfile.cpp", sourceFile.Name);
+            Assert.AreEqual(@"D:\Data\my-file.cpp", sourceFile.Name);
         }
 
         [TestMethod]
         public void TestCppFileIsSourceCodeFile()
         {
-            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\myfile.cpp"));
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
             Assert.IsTrue(sourceFile.IsSourceCodeFile);
             Assert.AreEqual("cpp", sourceFile.Extension);
         }
@@ -30,7 +30,7 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         [TestMethod]
         public void TestCFileIsSourceCodeFile()
         {
-            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\myfile.c"));
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.c"));
             Assert.IsTrue(sourceFile.IsSourceCodeFile);
             Assert.AreEqual("c", sourceFile.Extension);
         }
@@ -38,7 +38,7 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         [TestMethod]
         public void TestHppFileIsSourceCodeFile()
         {
-            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\myfile.hpp"));
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.hpp"));
             Assert.IsTrue(sourceFile.IsSourceCodeFile);
             Assert.AreEqual("hpp", sourceFile.Extension);
         }
@@ -46,7 +46,7 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         [TestMethod]
         public void TestHFileIsSourceCodeFile()
         {
-            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\myfile.h"));
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.h"));
             Assert.IsTrue(sourceFile.IsSourceCodeFile);
             Assert.AreEqual("h", sourceFile.Extension);
         }
@@ -54,31 +54,31 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         [TestMethod]
         public void TestFindSystemInclude()
         {
-            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\myfile.cpp"));
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
             Assert.AreEqual("stdio.h", sourceFile.ExtractFileFromIncludeStatement("#include <stdio.h>"));
         }
 
         [TestMethod]
         public void TestFindNormalInclude()
         {
-            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\myfile.cpp"));
-            Assert.AreEqual("myfile.h", sourceFile.ExtractFileFromIncludeStatement("#include \"myfile.h\""));
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
+            Assert.AreEqual("my-file.h", sourceFile.ExtractFileFromIncludeStatement("#include \"my-file.h\""));
         }
 
         [TestMethod]
         public void TestFindRelativeInclude()
         {
-            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\myfile.cpp"));
-            Assert.AreEqual("myfile.h", sourceFile.ExtractFileFromIncludeStatement("#include \"..\\..\\myfile.h\""));
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
+            Assert.AreEqual("my-file.h", sourceFile.ExtractFileFromIncludeStatement("#include \"..\\..\\my-file.h\""));
         }
 
         [TestMethod]
         public void TestResolveIncludeFile()
         {
-            string implementationFile = @"D:\Data\myfile.cpp";
-            string headerFile = "myfile.h";
-            List<IncludeCandidate> candidates = new List<IncludeCandidate> {new IncludeCandidate(@"D:\Data\myfile.h")};
-            List<string> resolvedIncludes = new List<string> {@"D:\Data\myfile.h"};
+            string implementationFile = @"D:\Data\my-file.cpp";
+            string headerFile = "my-file.h";
+            List<IncludeCandidate> candidates = new List<IncludeCandidate> {new IncludeCandidate(@"D:\Data\my-file.h")};
+            List<string> resolvedIncludes = new List<string> {@"D:\Data\my-file.h"};
 
             SourceFile sourceFile = new SourceFile(new FileInfo(implementationFile));
 

@@ -19,18 +19,18 @@ namespace DsmSuite.DsmViewer.Application.Sorting
             Algorithms[name] = algorithm;
         }
 
-        public static ISortAlgorithm CreateAlgorithm(IDsmModel model, IDsmElement element, string algorithName)
+        public static ISortAlgorithm CreateAlgorithm(IDsmModel model, IDsmElement element, string algorithmName)
         {
-            ISortAlgorithm algoritm = null;
+            ISortAlgorithm algorithm = null;
 
-            if (Algorithms.ContainsKey(algorithName))
+            if (Algorithms.ContainsKey(algorithmName))
             {
-                Type type = Algorithms[algorithName];
+                Type type = Algorithms[algorithmName];
                 object[] args = { model , element };
                 object argumentList = args;
-                algoritm = Activator.CreateInstance(type, argumentList) as ISortAlgorithm;
+                algorithm = Activator.CreateInstance(type, argumentList) as ISortAlgorithm;
             }
-            return algoritm;
+            return algorithm;
         }
 
         public static IEnumerable<string> GetSupportedAlgorithms()

@@ -27,14 +27,7 @@ namespace DsmSuite.Common.Util
         public static void Init(Assembly assembly, bool logInCurrentDirectory)
         {
             _assembly = assembly;
-            if (logInCurrentDirectory)
-            {
-                _logPath = Directory.GetCurrentDirectory();
-            }
-            else
-            {
-                _logPath = @"C:\Temp\DsmSuiteLogging\";
-            }
+            _logPath = logInCurrentDirectory ? Directory.GetCurrentDirectory() : @"C:\Temp\DsmSuiteLogging\";
 
             LogLevel = LogLevel.None;
         }
@@ -148,7 +141,7 @@ namespace DsmSuite.Common.Util
             string overviewFilename = filename + "Overview.txt";
             string detailsFilename = filename + "Details.txt";
 
-            int totalOccurrances = 0;
+            int totalOccurrences = 0;
 
             List<string> keys = messages.Keys.ToList();
             keys.Sort();
@@ -164,13 +157,13 @@ namespace DsmSuite.Common.Util
 
             foreach (string key in keys)
             {
-                int occurrances = messages[key].Count;
+                int occurrences = messages[key].Count;
 
-                if (occurrances > minCount)
+                if (occurrences > minCount)
                 {
-                    totalOccurrances += occurrances;
-                    Logger.LogToFile(logLevel, overviewFilename, $"{key} {occurrances} occurrances");
-                    Logger.LogToFile(logLevel, detailsFilename, $"{key} {occurrances} occurrances");
+                    totalOccurrences += occurrences;
+                    Logger.LogToFile(logLevel, overviewFilename, $"{key} {occurrences} occurrences");
+                    Logger.LogToFile(logLevel, detailsFilename, $"{key} {occurrences} occurrences");
                     foreach (string message in messages[key])
                     {
                         Logger.LogToFile(logLevel, detailsFilename, "  " + message);
@@ -180,8 +173,8 @@ namespace DsmSuite.Common.Util
 
             if (keys.Count > 0)
             {
-                Logger.LogToFile(logLevel, overviewFilename, $"{keys.Count} items found in {totalOccurrances} occurrances");
-                Logger.LogToFile(logLevel, detailsFilename, $"{keys.Count} items found in {totalOccurrances} occurrances");
+                Logger.LogToFile(logLevel, overviewFilename, $"{keys.Count} items found in {totalOccurrences} occurrences");
+                Logger.LogToFile(logLevel, detailsFilename, $"{keys.Count} items found in {totalOccurrences} occurrences");
             }
         }
 
@@ -203,9 +196,9 @@ namespace DsmSuite.Common.Util
             return Path.GetFullPath(Path.Combine(LogDirectory.FullName, logFilename));
         }
 
-        private static string FormatLine(string sourceFile, string method, int lineNumber, string catagory, string text)
+        private static string FormatLine(string sourceFile, string method, int lineNumber, string category, string text)
         {
-            return StripPath(sourceFile) + " " + method + "() line=" + lineNumber + " " + catagory + "=" + text;
+            return StripPath(sourceFile) + " " + method + "() line=" + lineNumber + " " + category + "=" + text;
         }
 
         private static string StripPath(string sourceFile)

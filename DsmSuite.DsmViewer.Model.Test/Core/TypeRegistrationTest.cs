@@ -9,16 +9,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void TestTypeRegistration()
         {
-            string typea = "typea";
-            string typeb = "typeb";
-            string typec = "typec";
+            string typeA = "type1";
+            string typeB = "type2";
+            string typeC = "type3";
             TypeRegistration typeRegistration = new TypeRegistration();
-            char ida = typeRegistration.AddTypeName(typea);
-            char idb = typeRegistration.AddTypeName(typeb);
-            char idc = typeRegistration.AddTypeName(typec);
-            Assert.AreEqual(typea, typeRegistration.GetTypeName(ida));
-            Assert.AreEqual(typeb, typeRegistration.GetTypeName(idb));
-            Assert.AreEqual(typec, typeRegistration.GetTypeName(idc));
+            char ida = typeRegistration.AddTypeName(typeA);
+            char idb = typeRegistration.AddTypeName(typeB);
+            char idc = typeRegistration.AddTypeName(typeC);
+            Assert.AreEqual(typeA, typeRegistration.GetTypeName(ida));
+            Assert.AreEqual(typeB, typeRegistration.GetTypeName(idb));
+            Assert.AreEqual(typeC, typeRegistration.GetTypeName(idc));
         }
     }
 }

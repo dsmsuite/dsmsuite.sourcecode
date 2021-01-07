@@ -492,7 +492,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                                 includeDirectory = new DirectoryInfo(itemValue).FullName;
                                 success = true;
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             {
                                 errorText = $"{itemName} item has value {itemValue} which is not a valid path";
                             }
@@ -505,7 +505,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                     else
                     {
                         // e.g. @(ItemName->'%(%(RootDir))')
-                        errorText = $"Format unsupported";
+                        errorText = "Format unsupported";
                     }
                 }
             }

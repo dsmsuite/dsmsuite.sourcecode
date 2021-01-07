@@ -89,9 +89,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return isRecursiveChildOf;
         }
 
-        public IList<IDsmElement> Children => _children.Where(child => ((child.IsDeleted == false) && (child.IsIncludedInTree == true))).ToList();
-
-        public int ChildCount => Children.Count;
+        public IList<IDsmElement> Children => _children.Where(child => ((child.IsDeleted == false) && child.IsIncludedInTree)).ToList();
 
         public IList<IDsmElement> AllChildren => _children;
 

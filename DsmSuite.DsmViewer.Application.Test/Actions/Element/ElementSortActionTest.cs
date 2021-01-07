@@ -41,7 +41,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         }
 
         [TestMethod]
-        public void WhenDoActionThenElementsChilderenAreSorted()
+        public void WhenDoActionThenElementsChildrenAreSorted()
         {
             ElementSortAction action = new ElementSortAction(_model.Object, _element.Object, UsedAlgorithm);
             action.Do();
@@ -51,7 +51,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         }
 
         [TestMethod]
-        public void WhenUndoActionThenElementsChilderenAreSortIsReverted()
+        public void WhenUndoActionThenElementsChildrenAreSortIsReverted()
         {
             object[] args = { _model.Object, _data };
             ElementSortAction action = new ElementSortAction(args);

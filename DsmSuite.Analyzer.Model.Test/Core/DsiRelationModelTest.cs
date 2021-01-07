@@ -99,7 +99,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void GivenAnRelationIsInTheModelWhenAddRelationtIsCalledWithAnotherProviderThenItHasTwoRelations()
+        public void GivenAnRelationIsInTheModelWhenAddRelationIsCalledWithAnotherProviderThenItHasTwoRelations()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
@@ -116,7 +116,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void GivenAnRelationIsInTheModelWhenAddRelationtIsCalledWithAnotherTypeThenItHasTwoRelations()
+        public void GivenAnRelationIsInTheModelWhenAddRelationIsCalledWithAnotherTypeThenItHasTwoRelations()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);

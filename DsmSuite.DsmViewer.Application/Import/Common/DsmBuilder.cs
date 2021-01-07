@@ -9,9 +9,9 @@ namespace DsmSuite.DsmViewer.Application.Import.Common
     {
         private readonly IDsmModel _dsmModel;
 
-        public DsmBuilder(IDsmModel dsmmodel)
+        public DsmBuilder(IDsmModel dsmModel)
         {
-            _dsmModel = dsmmodel;
+            _dsmModel = dsmModel;
             _dsmModel.Clear();
         }
 

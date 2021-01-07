@@ -6,8 +6,8 @@ namespace DsmSuite.DsmViewer.Model.Core
 {
     public class DsmAnnotationModel : IDsmAnnotationModelFileCallback
     {
-        Dictionary<int, DsmElementAnnotation> _elementAnnotations = new Dictionary<int, DsmElementAnnotation>();
-        Dictionary<int, Dictionary<int, DsmRelationAnnotation>> _relationAnnotations = new Dictionary<int, Dictionary<int, DsmRelationAnnotation>>();
+        private readonly Dictionary<int, DsmElementAnnotation> _elementAnnotations = new Dictionary<int, DsmElementAnnotation>();
+        private readonly Dictionary<int, Dictionary<int, DsmRelationAnnotation>> _relationAnnotations = new Dictionary<int, Dictionary<int, DsmRelationAnnotation>>();
 
         public void ImportElementAnnotation(int elementId, string text)
         {

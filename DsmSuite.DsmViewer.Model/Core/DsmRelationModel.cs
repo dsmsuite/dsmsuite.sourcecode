@@ -274,11 +274,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             return FindRelations(element, RelationDirection.Both, RelationScope.External);
         }
 
-        public IEnumerable<IDsmRelation> FindAllRelations(IDsmElement element)
-        {
-            return FindRelations(element, RelationDirection.Both, RelationScope.Both);
-        }
-
         private IEnumerable<IDsmRelation> FindRelations(IDsmElement element, RelationDirection direction, RelationScope scope)
         {
             List<DsmRelation> relations = new List<DsmRelation>();

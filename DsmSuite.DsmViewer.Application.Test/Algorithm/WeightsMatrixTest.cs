@@ -45,7 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Algorithm
         }
 
         [TestMethod]
-        public void WhenMaxtrixClonedThenValuesIdentical()
+        public void WhenMatrixClonedThenValuesIdentical()
         {
             int size = 5;
             WeightsMatrix matrix = new WeightsMatrix(size);

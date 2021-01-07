@@ -41,7 +41,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void SaveModel(string dsmFilename, bool compressFile, IProgress<ProgressInfo> progress)
         {
-            Logger.LogDataModelMessage($"Save data model file={dsmFilename} compresss={compressFile}");
+            Logger.LogDataModelMessage($"Save data model file={dsmFilename} compress={compressFile}");
 
             _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{GetExportedElementCount()}"); 
 

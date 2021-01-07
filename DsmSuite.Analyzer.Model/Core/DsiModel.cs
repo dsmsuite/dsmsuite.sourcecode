@@ -36,7 +36,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public void Save(string dsiFilename, bool compressFile, IProgress<ProgressInfo> progress)
         {
-            Logger.LogDataModelMessage($"Save data model file={dsiFilename} compresss={compressFile}");
+            Logger.LogDataModelMessage($"Save data model file={dsiFilename} compress={compressFile}");
 
             Filename = dsiFilename;
 
@@ -173,8 +173,6 @@ namespace DsmSuite.Analyzer.Model.Core
         public int ResolvedRelationCount => _relationsDataModel.ResolvedRelationCount;
 
         public double ResolvedRelationPercentage => _relationsDataModel.ResolvedRelationPercentage;
-
-        public int AmbiguousRelationCount => _relationsDataModel.AmbiguousRelationCount;
 
         public double AmbiguousRelationPercentage => _relationsDataModel.AmbiguousRelationPercentage;
     }

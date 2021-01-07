@@ -47,14 +47,14 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
-        public void WhenModelIsConstructedThenOnlyRootElementIsinModel()
+        public void WhenModelIsConstructedThenOnlyRootElementIsInModel()
         {
             DsmElementModel model = new DsmElementModel(_relationsModel, _annotationModel);
             Assert.AreEqual(1, model.GetElementCount());
         }
 
         [TestMethod]
-        public void GivenOneElementHasBeenAddedToTheModelWhenClearIsCalledThenOnlyRootElementIsinModelAgain()
+        public void GivenOneElementHasBeenAddedToTheModelWhenClearIsCalledThenOnlyRootElementIsInModelAgain()
         {
             DsmElementModel model = new DsmElementModel(_relationsModel, _annotationModel);
             Assert.AreEqual(1, model.GetElementCount());
