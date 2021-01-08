@@ -153,6 +153,16 @@
     <ComponentGroup Id="DsmViewerComponents" Directory="VIEWER_INSTALL_FOLDER">
       <Component Id="DsmSuite.DsmViewer.View.exe" Guid="9E39FD85-9B8E-4B76-9366-13CF6AC732B3">
         <File Id="DsmSuite.DsmViewer.View.exe" Source="..\build\bin\DsmSuite.DsmViewer.View.exe" KeyPath="yes" Checksum="yes"/>
+        <ProgId Id="DsmViewerDsi" Description="DSM viewer">
+          <Extension Id="dsi">
+            <Verb Id="open" TargetFile="DsmSuite.DsmViewer.View.exe" Argument="&quot;%1&quot;" />
+          </Extension>
+        </ProgId>
+        <ProgId Id="DsmViewerDsm" Description="DSM viewer">
+          <Extension Id="dsm">
+            <Verb Id="open" TargetFile="DsmSuite.DsmViewer.View.exe" Argument="&quot;%1&quot;" />
+          </Extension>
+        </ProgId>
       </Component>
       <Component Id="DsmSuite.DsmViewer.ViewModel.dll" Guid="2E011513-1100-4610-A661-EE667AC06151">
         <File Id="DsmSuite.DsmViewer.ViewModel.dll" Source="..\build\bin\DsmSuite.DsmViewer.ViewModel.dll" KeyPath="yes" Checksum="yes"/>
