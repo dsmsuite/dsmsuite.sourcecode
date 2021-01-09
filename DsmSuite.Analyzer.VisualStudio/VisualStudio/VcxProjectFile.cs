@@ -64,7 +64,13 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                         {
                             if (forcedInclude.Length > 0)
                             {
-                                _forcedIncludes.Add(Path.GetFullPath(forcedInclude));
+                                string fullpath = Path.GetFullPath(forcedInclude);
+                                _forcedIncludes.Add(fullpath);
+                                FileInfo fileInfo = new FileInfo(fullpath);
+                                if (fileInfo.Exists)
+                                {
+                                    AddSourceFile(fileInfo, "", null);
+                                }
                             }
                         }
                     }
