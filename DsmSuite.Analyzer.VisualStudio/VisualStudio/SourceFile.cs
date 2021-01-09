@@ -50,7 +50,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             {
                 foreach (string forcedInclude in _forcedIncludes)
                 {
-                    _includes.Add(forcedInclude);
+                    string absoluteIncludeFilename = _includeResolveStrategy.Resolve(_sourceFileInfo.FullName, forcedInclude);
+                    if (absoluteIncludeFilename != null)
+                    {
+                        _includes.Add(absoluteIncludeFilename);
+                    }
                 }
             }
 
