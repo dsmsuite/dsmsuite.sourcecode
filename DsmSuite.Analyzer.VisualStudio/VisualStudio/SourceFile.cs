@@ -9,6 +9,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
     {
         private readonly FileInfo _sourceFileInfo;
         private readonly HashSet<string> _includes;
+        private readonly IEnumerable<string> _forcedIncludes;
         private readonly IncludeResolveStrategy _includeResolveStrategy;
         private string _checksum;
 
@@ -19,9 +20,10 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             _includes = new HashSet<string>();
         }
 
-        public SourceFile(FileInfo sourceFileInfo, string projectProjectFolder, IncludeResolveStrategy includeResolveStrategy)
+        public SourceFile(FileInfo sourceFileInfo, string projectProjectFolder, IEnumerable<string> forcedIncludes, IncludeResolveStrategy includeResolveStrategy)
         {
             ProjectFolder = projectProjectFolder;
+            _forcedIncludes = forcedIncludes;
             _sourceFileInfo = sourceFileInfo;
             _includes = new HashSet<string>();
             _checksum = DetermineId(sourceFileInfo);
@@ -43,6 +45,14 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         public void Analyze()
         {
             _includes.Clear();
+
+            if (_forcedIncludes != null)
+            {
+                foreach (string forcedInclude in _forcedIncludes)
+                {
+                    _includes.Add(forcedInclude);
+                }
+            }
 
             if (_sourceFileInfo.Exists && (_includeResolveStrategy != null))
             {

@@ -17,7 +17,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string testDataDirectory = TestData.TestDataDirectory;
             FileInfo fileInfo = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA1.cpp"));
 
-            SourceFile sourceFile = new SourceFile(fileInfo, null, null);
+            SourceFile sourceFile = new SourceFile(fileInfo, null, null, null);
             Assert.AreEqual(fileInfo, sourceFile.SourceFileInfo);
         }
 
@@ -27,7 +27,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string testDataDirectory = TestData.TestDataDirectory;
             FileInfo fileInfo = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA1.cpp"));
 
-            SourceFile sourceFile = new SourceFile(fileInfo, null, null);
+            SourceFile sourceFile = new SourceFile(fileInfo, null, null, null);
             Assert.AreEqual(fileInfo.FullName, sourceFile.Name);
         }
 
@@ -37,7 +37,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string testDataDirectory = TestData.TestDataDirectory;
             FileInfo fileInfo = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA1.cpp"));
 
-            SourceFile sourceFile = new SourceFile(fileInfo, null, null);
+            SourceFile sourceFile = new SourceFile(fileInfo, null, null, null);
             Assert.AreEqual("cpp", sourceFile.FileType);
         }
 
@@ -47,7 +47,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string testDataDirectory = TestData.TestDataDirectory;
             FileInfo fileInfo = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA1.cpp"));
 
-            SourceFile sourceFile = new SourceFile(fileInfo, "ProjectFolderName", null);
+            SourceFile sourceFile = new SourceFile(fileInfo, "ProjectFolderName", null, null);
             Assert.AreEqual("ProjectFolderName", sourceFile.ProjectFolder);
         }
 
@@ -57,8 +57,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string testDataDirectory = TestData.TestDataDirectory;
             FileInfo fileInfo1 = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA1.cpp"));
             FileInfo fileInfo2 = new FileInfo(Path.Combine(testDataDirectory, "DirClones/Identical/ClassA1.cpp"));
-            SourceFile sourceFile1 = new SourceFile(fileInfo1, null, null);
-            SourceFile sourceFile2 = new SourceFile(fileInfo2, null, null);
+            SourceFile sourceFile1 = new SourceFile(fileInfo1, null, null, null);
+            SourceFile sourceFile2 = new SourceFile(fileInfo2, null, null, null);
             Assert.AreEqual(sourceFile1.Checksum, sourceFile2.Checksum);
         }
 
@@ -68,8 +68,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string testDataDirectory = TestData.TestDataDirectory;
             FileInfo fileInfo1 = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA1.cpp"));
             FileInfo fileInfo2 = new FileInfo(Path.Combine(testDataDirectory, "DirClones/NotIdentical/ClassA1.cpp"));
-            SourceFile sourceFile1 = new SourceFile(fileInfo1, null, null);
-            SourceFile sourceFile2 = new SourceFile(fileInfo2, null, null);
+            SourceFile sourceFile1 = new SourceFile(fileInfo1, null, null, null);
+            SourceFile sourceFile2 = new SourceFile(fileInfo2, null, null, null);
             Assert.AreNotEqual(sourceFile1.Checksum, sourceFile2.Checksum);
         }
 
@@ -79,8 +79,8 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             string testDataDirectory = TestData.TestDataDirectory;
             FileInfo fileInfo1 = new FileInfo(Path.Combine(testDataDirectory, @"DirA\ClassA1.cpp"));
             FileInfo fileInfo2 = new FileInfo(Path.Combine(testDataDirectory, "DirClones/Identical/CopyClassA1.cpp"));
-            SourceFile sourceFile1 = new SourceFile(fileInfo1, null, null);
-            SourceFile sourceFile2 = new SourceFile(fileInfo2, null, null);
+            SourceFile sourceFile1 = new SourceFile(fileInfo1, null, null, null);
+            SourceFile sourceFile2 = new SourceFile(fileInfo2, null, null, null);
             Assert.AreNotEqual(sourceFile1.Checksum, sourceFile2.Checksum);
         }
        
@@ -103,7 +103,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             List<string> systemIncludes = AnalyzerSettings.CreateDefault().Input.SystemIncludeDirectories;
 
             IncludeResolveStrategy includeResolveStrategy = new IncludeResolveStrategy(projectIncludes, systemIncludes);
-            SourceFile sourceFile = new SourceFile(fileInfo1, null, includeResolveStrategy);
+            SourceFile sourceFile = new SourceFile(fileInfo1, null, null, includeResolveStrategy);
             sourceFile.Analyze();
 
             ImmutableHashSet<string> includes = sourceFile.Includes.ToImmutableHashSet();

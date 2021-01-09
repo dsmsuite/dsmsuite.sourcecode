@@ -23,6 +23,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         private IncludeResolveStrategy _includeResolveStrategy;
         private readonly Dictionary<string, string> _globalProperties = new Dictionary<string, string>();
         private string _toolsVersion;
+        private List<string> _forcedIncludes = new List<string>();
 
         public VcxProjectFile(string solutionFolder, string solutionDir, string solutionName, string projectPath, AnalyzerSettings analyzerSettings, DotNetResolver resolver) :
             base(solutionFolder, solutionDir, solutionName, projectPath, analyzerSettings, resolver)
@@ -53,6 +54,21 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 }
 
                 DefineProjectIncludeDirectories(project);
+
+                foreach (var itemDefinition in project.AllEvaluatedItemDefinitionMetadata)
+                {
+                    if (itemDefinition.Name == "ForcedIncludeFiles")
+                    {
+                        char[] separators = {';'};
+                        foreach (string forcedInclude in itemDefinition.EvaluatedValue.Split(separators))
+                        {
+                            if (forcedInclude.Length > 0)
+                            {
+                                _forcedIncludes.Add(Path.GetFullPath(forcedInclude));
+                            }
+                        }
+                    }
+                }
 
                 foreach (var property in project.AllEvaluatedProperties)
                 {
@@ -185,7 +201,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 FileInfo fileInfo = new FileInfo(GetAbsolutePath(ProjectFileInfo.DirectoryName, projectItem.EvaluatedInclude));
                 if (fileInfo.Exists)
                 {
-                    SourceFile sourceFile = AddSourceFile(fileInfo, projectFolder);
+                    SourceFile sourceFile = AddSourceFile(fileInfo, projectFolder, null);
                     if (sourceFile != null)
                     {
                         AnalyzeIdlGeneratedFiles(projectItem, projectFolder, sourceFile);
@@ -210,7 +226,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 FileInfo fileInfo = new FileInfo(GetAbsolutePath(ProjectFileInfo.DirectoryName, projectItem.EvaluatedInclude));
                 if (fileInfo.Exists)
                 {
-                    AddSourceFile(fileInfo, projectFolder);
+                    AddSourceFile(fileInfo, projectFolder, _forcedIncludes);
                 }
                 else
                 {
@@ -231,7 +247,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                 FileInfo fileInfo = new FileInfo(GetAbsolutePath(ProjectFileInfo.DirectoryName, projectItem.EvaluatedInclude));
                 if (fileInfo.Exists)
                 {
-                    AddSourceFile(fileInfo, projectFolder);
+                    AddSourceFile(fileInfo, projectFolder, null);
                 }
                 else
                 {
@@ -266,7 +282,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             FileInfo generatedFileInfo = new FileInfo(GetAbsolutePath(outputDirectory, generatedFileName));
             if (generatedFileInfo.Exists)
             {
-                SourceFile generatedFile = AddSourceFile(generatedFileInfo, projectFolder);
+                SourceFile generatedFile = AddSourceFile(generatedFileInfo, projectFolder, null);
                 if (generatedFile != null)
                 {
                     GeneratedFileRelations.Add(new GeneratedFileRelation(generatedFile, idlSourceFile));
@@ -274,10 +290,10 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
         }
 
-        private SourceFile AddSourceFile(FileInfo fileInfo, string projectFolder)
+        private SourceFile AddSourceFile(FileInfo fileInfo, string projectFolder, IEnumerable<string> forcedIncludes)
         {
             string caseInsenstiveFilename = fileInfo.FullName.ToLower();
-            SourceFile sourceFile = new SourceFile(fileInfo, projectFolder, _includeResolveStrategy);
+            SourceFile sourceFile = new SourceFile(fileInfo, projectFolder, forcedIncludes, _includeResolveStrategy);
             AddSourceFile(caseInsenstiveFilename, sourceFile);
             return sourceFile;
         }
