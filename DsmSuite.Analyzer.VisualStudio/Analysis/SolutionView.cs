@@ -87,10 +87,6 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         public override string ResolveIncludeFileProviderName(ProjectFileBase visualStudioProject, string includedFile)
         {
-            if (includedFile.Contains("ClassA3.h"))
-            {
-
-            }
             string providerName = null;
             if (IsProjectInclude(includedFile))
             {
