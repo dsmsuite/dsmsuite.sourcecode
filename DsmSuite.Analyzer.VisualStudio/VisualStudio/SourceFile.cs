@@ -26,7 +26,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             _forcedIncludes = forcedIncludes;
             _sourceFileInfo = sourceFileInfo;
             _includes = new HashSet<string>();
-            _checksum = DetermineId(sourceFileInfo);
+            _checksum = null;
             _includeResolveStrategy = includeResolveStrategy;
         }
 
