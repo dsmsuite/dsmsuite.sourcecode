@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using DsmSuite.Analyzer.Cpp.IncludeResolve;
 
 namespace DsmSuite.Analyzer.Cpp.Sources
@@ -77,20 +78,16 @@ namespace DsmSuite.Analyzer.Cpp.Sources
         {
             string includedFilename = null;
 
-            if (line.StartsWith("#include"))
+            Regex regex = new Regex("#[ ]{0,}include");
+            Match match = regex.Match(line);
+            if (match.Success)
             {
-                char[] separators = { '\t', ' ', '\"', '>', '<' };
-                string[] elements = line.Split(separators);
+                string normalizedFilename = line.Substring(match.Value.Length + 1).Replace("\"", "").Replace(">", "").Replace("<", "");
 
-                if (elements.Length > 1 && elements[2].Length > 1)
-                {
-                    string normalizedFilename = elements[2];
+                char[] separators = { '\\', '/' };
+                string[] elements = normalizedFilename.Split(separators);
 
-                    char[] separators2 = {'\\', '/'};
-                    string[] elements2 = normalizedFilename.Split(separators2);
-
-                    includedFilename = elements2.Length > 1 ? elements2[elements2.Length - 1] : normalizedFilename;
-                }
+                includedFilename = elements.Length > 1 ? elements[elements.Length - 1] : normalizedFilename;
             }
 
             return includedFilename;
