@@ -25,7 +25,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             Resolver = resolver;
         }
 
-        protected void AddSourceFile(string caseInsensitiveFilename, SourceFile sourceFile)
+        protected void RegisterSourceFile(string caseInsensitiveFilename, SourceFile sourceFile)
         {
             _sourceFiles[caseInsensitiveFilename] = sourceFile;
         }

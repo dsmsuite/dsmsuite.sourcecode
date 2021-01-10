@@ -64,13 +64,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                         {
                             if (forcedInclude.Length > 0)
                             {
-                                string fullpath = Path.GetFullPath(forcedInclude);
-                                _forcedIncludes.Add(fullpath);
-                                FileInfo fileInfo = new FileInfo(fullpath);
-                                if (fileInfo.Exists)
-                                {
-                                    AddSourceFile(fileInfo, "", null);
-                                }
+                                AddForcedInclude(forcedInclude);
                             }
                         }
                     }
@@ -108,23 +102,23 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
                                 {
                                     if (projectItem.EvaluatedInclude.EndsWith(".inl"))
                                     {
-                                        AddHeaderFile(projectItem);
+                                        AddIncludeItem(projectItem);
                                     }
                                     break;
                                 }
                             case "ClInclude":
                                 {
-                                    AddHeaderFile(projectItem);
+                                    AddIncludeItem(projectItem);
                                     break;
                                 }
                             case "ClCompile":
                                 {
-                                    AddSourceFile(projectItem);
+                                    AddCompileItem(projectItem);
                                     break;
                                 }
                             case "Midl":
                                 {
-                                    AddIdlFile(projectItem);
+                                    AddMidlItem(projectItem);
                                     break;
                                 }
                         }
@@ -199,7 +193,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             return normalizedDirectory;
         }
 
-        private void AddIdlFile(ProjectItem projectItem)
+        private void AddMidlItem(ProjectItem projectItem)
         {
             try
             {
@@ -224,7 +218,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
         }
 
-        private void AddSourceFile(ProjectItem projectItem)
+        private void AddCompileItem(ProjectItem projectItem)
         {
             try
             {
@@ -245,7 +239,7 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
         }
 
-        private void AddHeaderFile(ProjectItem projectItem)
+        private void AddIncludeItem(ProjectItem projectItem)
         {
             try
             {
@@ -296,11 +290,20 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
             }
         }
 
+        private void AddForcedInclude(string forcedInclude)
+        {
+            FileInfo fileInfo = new FileInfo(Path.GetFullPath(forcedInclude));
+            if (fileInfo.Exists)
+            { 
+                _forcedIncludes.Add(fileInfo.FullName);
+            }
+        }
+
         private SourceFile AddSourceFile(FileInfo fileInfo, string projectFolder, IEnumerable<string> forcedIncludes)
         {
             string caseInsenstiveFilename = fileInfo.FullName.ToLower();
             SourceFile sourceFile = new SourceFile(fileInfo, projectFolder, forcedIncludes, _includeResolveStrategy);
-            AddSourceFile(caseInsenstiveFilename, sourceFile);
+            RegisterSourceFile(caseInsenstiveFilename, sourceFile);
             return sourceFile;
         }
 

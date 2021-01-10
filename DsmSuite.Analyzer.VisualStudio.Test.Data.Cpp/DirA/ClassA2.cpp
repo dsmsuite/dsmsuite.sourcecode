@@ -1,6 +1,6 @@
 #include <windows.h>
 
-#include "ClassA2.h"
+# include "ClassA2.h"
 
 #include "ClassA1.h"
 #include "ClassB1.h"

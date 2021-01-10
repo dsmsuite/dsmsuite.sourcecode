@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
 {
@@ -85,15 +86,11 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         {
             string includedFilename = null;
 
-            if (line.StartsWith("#include"))
+            Regex regex = new Regex("#[ ]{0,}include");
+            Match match = regex.Match(line);
+            if (match.Success)
             {
-                char[] separators = { '\t', ' ', '\"', '>', '<' };
-                string[] elements = line.Split(separators);
-
-                if (elements.Length > 2 && elements[2].Length > 1)
-                {
-                    includedFilename = elements[2];
-                }
+                includedFilename = line.Substring(match.Value.Length+1).Replace("\"", "").Replace(">", "").Replace("<", "");
             }
 
             return includedFilename;
