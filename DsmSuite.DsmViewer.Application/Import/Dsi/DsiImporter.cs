@@ -15,6 +15,8 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
         private readonly IDsmBuilder _importPolicy;
         private readonly bool _autoPartition;
         private readonly Dictionary<int, int> _dsiToDsmMapping;
+        private int _totalItemCount;
+        private int _progressedItemCount;
 
         public DsiImporter(IDsiModel dsiModel, IDsmModel dsmModel, IDsmBuilder importPolicy, bool autoPartition) : base(dsmModel)
         {
@@ -22,6 +24,8 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
             _importPolicy = importPolicy;
             _autoPartition = autoPartition;
             _dsiToDsmMapping = new Dictionary<int, int>();
+
+            _totalItemCount = _dsiModel.GetElements().Count() + _dsiModel.GetRelations().Count();
         }
 
         public void Import(IProgress<ProgressInfo> progress)
@@ -51,13 +55,11 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
 
         private void ImportElements(IProgress<ProgressInfo> progress)
         {
-            int totalElements = _dsiModel.GetElements().Count();
-            int progressedElements = 0;
             foreach (IDsiElement dsiElement in _dsiModel.GetElements())
             {
                 ImportElement(dsiElement);
-                progressedElements++;
-                UpdateProgress(progress, "Import elements", totalElements, progressedElements);
+                _progressedItemCount++;
+                UpdateProgress(progress, "Importing dsi model", _totalItemCount, _progressedItemCount);
             }
         }
 
@@ -84,13 +86,11 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
 
         private void ImportRelations(IProgress<ProgressInfo> progress)
         {
-            int totalRelations = _dsiModel.GetRelations().Count();
-            int progressedRelations = 0;
             foreach (IDsiRelation dsiRelation in _dsiModel.GetRelations())
             {
                 ImportRelation(dsiRelation);
-                progressedRelations++;
-                UpdateProgress(progress, "Import relations", totalRelations, progressedRelations);
+                _progressedItemCount++;
+                UpdateProgress(progress, "Importing dsi model", _totalItemCount, _progressedItemCount);
             }
         }
         
