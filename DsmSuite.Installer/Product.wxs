@@ -139,6 +139,9 @@
       <Component Id="DsmSuite.Analyzer.Compare.exe" Guid="B4779E46-41B7-468F-A7E3-58D42ACF70D4">
         <File Id="DsmSuite.Analyzer.Compare.exe" Source="..\build\bin\DsmSuite.Analyzer.Compare.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Id="DsmSuite.Analyzer.CompareLib.dll" Guid="772A8523-7304-4059-91CC-92001264E16D">
+        <File Id="DsmSuite.Analyzer.CompareLib.dll" Source="..\build\bin\DsmSuite.Analyzer.CompareLib.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="DsmSuite.Analyzer.Model.Compare.dll" Guid="1E4F5108-E51E-4DBA-8AAC-F1C91CB9C003">
         <File Id="DsmSuite.Analyzer.Model.Compare.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -274,8 +277,9 @@
       <ComponentRef Id="System.Threading.Tasks.Dataflow.dll" />
     </Feature>
 
-    <Feature Id="DiffFeature" Title="DSM Suite Compare Tool" Level="1">
+    <Feature Id="CompareFeature" Title="DSM Suite Compare Tool" Level="1">
       <ComponentRef Id="DsmSuite.Analyzer.Compare.exe" />
+      <ComponentRef Id="DsmSuite.Analyzer.CompareLib.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.Compare.dll" />
       <ComponentRef Id="DsmSuite.Common.Model.Compare.dll" />
       <ComponentRef Id="DsmSuite.Common.Util.Compare.dll" />

@@ -147,6 +147,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Compare", "Compare", "{F8AA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.Compare", "DsmSuite.Analyzer.Compare\DsmSuite.Analyzer.Compare.csproj", "{F0F09701-6A36-479E-97B9-BCC0DEF3C050}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.Compare.Test", "DsmSuite.Analyzer.Compare.Test\DsmSuite.Analyzer.Compare.Test.csproj", "{AE26E765-3E28-45C0-87FC-A45A88AE431B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsmSuite.Analyzer.CompareLib", "DsmSuite.Analyzer.CompareLib\DsmSuite.Analyzer.CompareLib.csproj", "{4DEF3EDB-91A6-4C95-BF74-D11B3363BEE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -289,6 +293,14 @@ Global
 		{F0F09701-6A36-479E-97B9-BCC0DEF3C050}.Debug|x64.Build.0 = Debug|x64
 		{F0F09701-6A36-479E-97B9-BCC0DEF3C050}.Release|x64.ActiveCfg = Release|x64
 		{F0F09701-6A36-479E-97B9-BCC0DEF3C050}.Release|x64.Build.0 = Release|x64
+		{AE26E765-3E28-45C0-87FC-A45A88AE431B}.Debug|x64.ActiveCfg = Debug|x64
+		{AE26E765-3E28-45C0-87FC-A45A88AE431B}.Debug|x64.Build.0 = Debug|x64
+		{AE26E765-3E28-45C0-87FC-A45A88AE431B}.Release|x64.ActiveCfg = Release|x64
+		{AE26E765-3E28-45C0-87FC-A45A88AE431B}.Release|x64.Build.0 = Release|x64
+		{4DEF3EDB-91A6-4C95-BF74-D11B3363BEE2}.Debug|x64.ActiveCfg = Debug|x64
+		{4DEF3EDB-91A6-4C95-BF74-D11B3363BEE2}.Debug|x64.Build.0 = Debug|x64
+		{4DEF3EDB-91A6-4C95-BF74-D11B3363BEE2}.Release|x64.ActiveCfg = Release|x64
+		{4DEF3EDB-91A6-4C95-BF74-D11B3363BEE2}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -340,5 +352,7 @@ Global
 		{E7777E3D-34E7-4ACB-928A-FB70D25F0C64} = {3C5EA8D2-047D-4492-A5BB-FF468210CF87}
 		{F8AA6562-B5AC-4660-8B53-6708FBF43AFA} = {253991D0-5167-48FC-A767-5537AB5C18DE}
 		{F0F09701-6A36-479E-97B9-BCC0DEF3C050} = {F8AA6562-B5AC-4660-8B53-6708FBF43AFA}
+		{AE26E765-3E28-45C0-87FC-A45A88AE431B} = {F8AA6562-B5AC-4660-8B53-6708FBF43AFA}
+		{4DEF3EDB-91A6-4C95-BF74-D11B3363BEE2} = {F8AA6562-B5AC-4660-8B53-6708FBF43AFA}
 	EndGlobalSection
 EndGlobal

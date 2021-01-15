@@ -1,7 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Util;
+using DsmSuite.Analyzer.CompareLib;
 
 namespace DsmSuite.Analyzer.Compare
 {
@@ -38,8 +42,66 @@ namespace DsmSuite.Analyzer.Compare
             DsiModel newModel = new DsiModel("Diff", Assembly.GetExecutingAssembly());
             oldModel.Load(oldModelFile.FullName, this);
             newModel.Load(newModelFile.FullName, this);
-            Comparer comparer = new Comparer(oldModel, newModel, this);
+
+            DsiModelCompare comparer = new DsiModelCompare(oldModel, newModel, this);
             comparer.Compare();
+
+            if (comparer.AreIdentical)
+            {
+                Logger.LogUserMessage("Models are identical");
+            }
+            else
+            {
+                Logger.LogUserMessage("Models are different");
+                ReportDeltas(comparer);
+            }
+        }
+
+        private void ReportDeltas(DsiModelCompare comparer)
+        {
+            Logger.LogUserMessage("Added Elements");
+            Logger.LogUserMessage("==============");
+            foreach (string elementName in comparer.AddedElements)
+            {
+                Logger.LogUserMessage($" {elementName}");
+            }
+
+            Logger.LogUserMessage("");
+
+            Logger.LogUserMessage("Removed Elements");
+            Logger.LogUserMessage("===============");
+            foreach (string elementName in comparer.RemovedElements)
+            {
+                Logger.LogUserMessage($" {elementName}");
+            }
+
+            Logger.LogUserMessage("");
+
+            Logger.LogUserMessage("Added Relations");
+            Logger.LogUserMessage("==============");
+            foreach (KeyValuePair<string, HashSet<string>> relations in comparer.AddedRelations)
+            {
+                string consumer = relations.Key;
+                foreach (string provider in relations.Value)
+                {
+                    Logger.LogUserMessage($" {consumer} -> {provider}");
+                }
+            }
+
+            Logger.LogUserMessage("");
+
+            Logger.LogUserMessage("Removed Relations");
+            Logger.LogUserMessage("=================");
+            foreach (KeyValuePair<string, HashSet<string>> relations in comparer.RemovedRelations)
+            {
+                string consumer = relations.Key;
+                foreach (string provider in relations.Value)
+                {
+                    Logger.LogUserMessage($" {consumer} -> {provider}");
+                }
+            }
+
+            Console.WriteLine("");
         }
 
         protected override void LogOutputParameters()
