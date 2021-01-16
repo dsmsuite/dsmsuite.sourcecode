@@ -28,7 +28,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             BookmarkElementCommand = matrixViewModel.ToggleElementBookmarkCommand;
             AnnotateElementCommand = matrixViewModel.ChangeElementAnnotationCommand;
 
-            IndicatorViewMode = mainViewModel.IndicatorViewMode;
+            IndicatorViewMode = mainViewModel.SelectedIndicatorViewMode;
 
             ToolTipViewModel = new ElementToolTipViewModel(Element, application);
             HasAnnotation = ToolTipViewModel.HasAnnotation;

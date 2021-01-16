@@ -65,14 +65,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private readonly double _minZoom = 0.50;
         private readonly double _maxZoom = 2.00;
         private readonly double _zoomFactor = 1.25;
-        private string _reportText;
 
         private MatrixViewModel _activeMatrix;
-        private IndicatorViewMode _indicatorViewMode;
+
         private readonly ProgressViewModel _progressViewModel;
         private string _redoText;
         private string _undoText;
         private string _selectedSortAlgorithm;
+        private IndicatorViewMode _selectedIndicatorViewMode;
 
         public MainViewModel(IDsmApplication application)
         {
@@ -137,9 +137,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             _selectedSortAlgorithm = SupportedSortAlgorithms[0];
 
-            _progressViewModel = new ProgressViewModel();
+            _selectedIndicatorViewMode = IndicatorViewMode.Default;
 
-            IndicatorViewMode = IndicatorViewMode.ConsumersProviders;
+            _progressViewModel = new ProgressViewModel();
 
             ActiveMatrix = new MatrixViewModel(this, _application, new List<IDsmElement>());
         }
@@ -163,22 +163,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool _isMetricsViewExpanded;
 
-        public IndicatorViewMode IndicatorViewMode
-        {
-            get { return _indicatorViewMode; }
-            set { _indicatorViewMode = value; OnPropertyChanged(); }
-        }
-
         public bool IsMetricsViewExpanded
         {
             get { return _isMetricsViewExpanded; }
             set { _isMetricsViewExpanded = value; OnPropertyChanged(); }
-        }
-
-        public string ReportText
-        {
-            get { return _reportText; }
-            set { _reportText = value; OnPropertyChanged(); }
         }
 
         public List<string> SupportedSortAlgorithms => _application.GetSupportedSortAlgorithms().ToList();
@@ -187,6 +175,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             get { return _selectedSortAlgorithm; }
             set { _selectedSortAlgorithm = value; OnPropertyChanged(); }
+        }
+
+        public List<IndicatorViewMode> SupportedIndicatorViewModes => Enum.GetValues(typeof(IndicatorViewMode)).Cast<IndicatorViewMode>().ToList();
+
+        public IndicatorViewMode SelectedIndicatorViewMode
+        {
+            get { return _selectedIndicatorViewMode; }
+            set { _selectedIndicatorViewMode = value; OnPropertyChanged(); ActiveMatrix?.Reload(); }
         }
 
         public ICommand OpenFileCommand { get; }
@@ -522,7 +518,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void SelectDefaultIndicatorMode()
         {
-            IndicatorViewMode = string.IsNullOrEmpty(SearchText) ? IndicatorViewMode.ConsumersProviders : IndicatorViewMode.SearchResults;
+            SelectedIndicatorViewMode = string.IsNullOrEmpty(SearchText) ? IndicatorViewMode.Default : IndicatorViewMode.Search;
             ActiveMatrix?.Reload();
         }
 
@@ -709,7 +705,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ShowBookmarkedElementsCommandExecute(object parameter)
         {
-            IndicatorViewMode = IndicatorViewMode.Bookmarks;
+            SelectedIndicatorViewMode = IndicatorViewMode.Bookmarks;
             ActiveMatrix?.Reload();
         }
 
@@ -720,7 +716,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void ShowAnnotatedElementExecute(object parameter)
         {
-            IndicatorViewMode = IndicatorViewMode.Annotations;
+            SelectedIndicatorViewMode = IndicatorViewMode.Annotations;
             ActiveMatrix?.Reload();
         }
 
@@ -740,7 +736,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ToggleElementBookmarkCanExecute(object parameter)
         {
-            return _indicatorViewMode == IndicatorViewMode.Bookmarks;
+            return _selectedIndicatorViewMode == IndicatorViewMode.Bookmarks;
         }
 
         private void ChangeElementAnnotationExecute(object parameter)
@@ -755,7 +751,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ChangeElementAnnotationCanExecute(object parameter)
         {
-            return _indicatorViewMode == IndicatorViewMode.Annotations;
+            return _selectedIndicatorViewMode == IndicatorViewMode.Annotations;
         }
 
         private void MakeSnapshotExecute(object parameter)

@@ -2,8 +2,8 @@
 {
     public enum IndicatorViewMode
     {
-        ConsumersProviders,
-        SearchResults,
+        Default,
+        Search,
         Bookmarks,
         Annotations,
     }

@@ -273,11 +273,13 @@
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
     </Style>
 
     <Style x:Key="ToolbarTextBox" TargetType="TextBox">
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
     </Style>
 
     <Style x:Key="ToolbarLabel" TargetType="Label">

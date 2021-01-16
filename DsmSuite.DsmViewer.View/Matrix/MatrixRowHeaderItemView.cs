@@ -139,7 +139,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
                     switch (_viewModel.IndicatorViewMode)
                     {
-                        case IndicatorViewMode.ConsumersProviders:
+                        case IndicatorViewMode.Default:
                             {
                                 SolidColorBrush brush = GetIndicatorColor();
                                 if (brush != null)
@@ -148,7 +148,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                                 };
                             }
                             break;
-                        case IndicatorViewMode.SearchResults:
+                        case IndicatorViewMode.Search:
                             {
                                 if (_viewModel.IsMatch)
                                 {

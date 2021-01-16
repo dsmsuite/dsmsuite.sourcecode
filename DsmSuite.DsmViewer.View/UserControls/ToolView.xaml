@@ -35,8 +35,7 @@
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Content="{StaticResource ZoomOutIcon}"/>
             <Button Style="{StaticResource ToolbarButton}" ToolTip="Paste screenshot to clipboard" Command="{Binding TakeScreenshotCommand}" Content="{StaticResource SnapshotIcon}"/>
             <Separator/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Show bookmark elements" Command="{Binding ShowBookmarkedElementsCommand}" Content="{StaticResource BookmarkIcon}"/>
-            <Button Style="{StaticResource ToolbarButton}" ToolTip="Show annotated elements" Command="{Binding ShowAnnotatedElementsCommand}" Content="{StaticResource AnnotateIcon}"/>
+            <ComboBox Style="{StaticResource ToolbarComboBox}" ToolTip="Select element indicator mode" ItemsSource="{Binding SupportedIndicatorViewModes}" SelectedItem="{Binding SelectedIndicatorViewMode}" Width="80" />
         </ToolBar>
         <Border Grid.Column="1" BorderBrush="{StaticResource ForegroundDisabledColor}" BorderThickness="1">
             <Grid>

@@ -32,6 +32,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand ChangeRelationTypeCommand { get; }
         ICommand DeleteRelationCommand { get; }
 
-        IndicatorViewMode IndicatorViewMode { get; }
+        IndicatorViewMode SelectedIndicatorViewMode { get; }
     }
 }
