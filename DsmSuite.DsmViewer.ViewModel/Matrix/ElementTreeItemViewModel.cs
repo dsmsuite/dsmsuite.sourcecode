@@ -28,7 +28,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             BookmarkElementCommand = matrixViewModel.ToggleElementBookmarkCommand;
             AnnotateElementCommand = matrixViewModel.ChangeElementAnnotationCommand;
 
-            IndicatorViewMode = mainViewModel.SelectedIndicatorViewMode;
+            SelectedIndicatorViewMode = mainViewModel.SelectedIndicatorViewMode;
 
             ToolTipViewModel = new ElementToolTipViewModel(Element, application);
             HasAnnotation = ToolTipViewModel.HasAnnotation;
@@ -60,7 +60,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand BookmarkElementCommand { get; }
         public ICommand AnnotateElementCommand { get; }
 
-        public IndicatorViewMode IndicatorViewMode { get; }
+        public IndicatorViewMode SelectedIndicatorViewMode { get; }
 
         public bool IsExpandable => Element.HasChildren;
 

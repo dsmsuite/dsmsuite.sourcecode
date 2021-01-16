@@ -137,7 +137,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 {
                     Rect indicatorRect =  new Rect(backgroundRect.Width - _indicatorWith, 1.0, _indicatorWith, ActualHeight - _theme.SpacingWidth);
 
-                    switch (_viewModel.IndicatorViewMode)
+                    switch (_viewModel.SelectedIndicatorViewMode)
                     {
                         case IndicatorViewMode.Default:
                             {

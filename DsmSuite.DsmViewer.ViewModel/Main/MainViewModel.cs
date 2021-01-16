@@ -89,9 +89,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             MoveDownElementCommand = new RelayCommand<object>(MoveDownElementExecute, MoveDownElementCanExecute);
             SortElementCommand = new RelayCommand<object>(SortElementExecute, SortElementCanExecute);
 
-            ShowBookmarkedElementsCommand = new RelayCommand<object>(ShowBookmarkedElementsCommandExecute, ShowBookmarkedElementsCommandCanExecute);
-            ShowAnnotatedElementsCommand = new RelayCommand<object>(ShowAnnotatedElementExecute, ShowAnnotatedElementCanExecute);
-
             ToggleElementBookmarkCommand = new RelayCommand<object>(ToggleElementBookmarkExecute, ToggleElementBookmarkCanExecute);
             ChangeElementAnnotationCommand = new RelayCommand<object>(ChangeElementAnnotationExecute, ChangeElementAnnotationCanExecute);
 
@@ -191,9 +188,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         public ICommand MoveUpElementCommand { get; }
         public ICommand MoveDownElementCommand { get; }
-
-        public ICommand ShowBookmarkedElementsCommand { get; }
-        public ICommand ShowAnnotatedElementsCommand { get; }
 
         public ICommand ToggleElementBookmarkCommand { get; }
         public ICommand ChangeElementAnnotationCommand { get; }
@@ -701,28 +695,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private bool DeleteRelationCanExecute(object parameter)
         {
             return ActiveMatrix?.SelectedCellHasRelationCount == 1;
-        }
-
-        private void ShowBookmarkedElementsCommandExecute(object parameter)
-        {
-            SelectedIndicatorViewMode = IndicatorViewMode.Bookmarks;
-            ActiveMatrix?.Reload();
-        }
-
-        private bool ShowBookmarkedElementsCommandCanExecute(object parameter)
-        {
-            return true;
-        }
-
-        private void ShowAnnotatedElementExecute(object parameter)
-        {
-            SelectedIndicatorViewMode = IndicatorViewMode.Annotations;
-            ActiveMatrix?.Reload();
-        }
-
-        private bool ShowAnnotatedElementCanExecute(object parameter)
-        {
-            return true;
         }
 
         private void ToggleElementBookmarkExecute(object parameter)
