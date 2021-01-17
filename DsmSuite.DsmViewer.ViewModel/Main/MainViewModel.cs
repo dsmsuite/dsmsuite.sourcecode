@@ -513,7 +513,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private void SelectDefaultIndicatorMode()
         {
             SelectedIndicatorViewMode = string.IsNullOrEmpty(SearchText) ? IndicatorViewMode.Default : IndicatorViewMode.Search;
-            ActiveMatrix?.Reload();
         }
 
         private void OnSearchTextUpdated()
