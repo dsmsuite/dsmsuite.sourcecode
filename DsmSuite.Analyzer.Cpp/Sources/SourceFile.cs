@@ -79,7 +79,7 @@ namespace DsmSuite.Analyzer.Cpp.Sources
         {
             string includedFilename = null;
 
-            line = StripComments(line).Trim();
+            line = StripComments(line);
 
             Regex regex = new Regex("#[ ]{0,}include");
             Match match = regex.Match(line);
@@ -93,7 +93,7 @@ namespace DsmSuite.Analyzer.Cpp.Sources
                 includedFilename = elements.Length > 1 ? elements[elements.Length - 1] : normalizedFilename;
             }
 
-            return includedFilename;
+            return includedFilename.Trim();
         }
 
         private static string StripComments(string line)

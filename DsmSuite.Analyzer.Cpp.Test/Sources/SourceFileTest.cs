@@ -66,6 +66,13 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         }
 
         [TestMethod]
+        public void TestFindNormalIncludeWithAdditionalSpaces()
+        {
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
+            Assert.AreEqual("my-file.h", sourceFile.ExtractFileFromIncludeStatement("#include  \"my-file.h\""));
+        }
+
+        [TestMethod]
         public void TestFindNormalIncludeWithCommentStyle1()
         {
             SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
