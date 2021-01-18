@@ -86,13 +86,13 @@ namespace DsmSuite.Analyzer.VisualStudio.VisualStudio
         {
             string includedFilename = null;
 
-            line = StripComments(line).Trim();
+            string lineWithoutComments = StripComments(line);
 
-            Regex regex = new Regex("#[ ]{0,}include");
-            Match match = regex.Match(line);
+            Regex regex = new Regex("#[ ]{0,}include[ ]{1,}");
+            Match match = regex.Match(lineWithoutComments);
             if (match.Success)
             {
-                includedFilename = line.Substring(match.Value.Length+1).Replace("\"", "").Replace(">", "").Replace("<", "");
+                includedFilename = lineWithoutComments.Substring(match.Value.Length+1).Replace("\"", "").Replace(">", "").Replace("<", "").Trim();
             }
 
             return includedFilename;

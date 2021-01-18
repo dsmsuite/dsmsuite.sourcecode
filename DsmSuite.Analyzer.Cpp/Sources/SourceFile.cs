@@ -79,13 +79,13 @@ namespace DsmSuite.Analyzer.Cpp.Sources
         {
             string includedFilename = null;
 
-            line = StripComments(line);
+            string lineWithoutComments = StripComments(line);
 
-            Regex regex = new Regex("#[ ]{0,}include");
-            Match match = regex.Match(line);
+            Regex regex = new Regex("#[ ]{0,}include[ ]{1,}");
+            Match match = regex.Match(lineWithoutComments);
             if (match.Success)
             {
-                string normalizedFilename = line.Substring(match.Value.Length + 1).Replace("\"", "").Replace(">", "").Replace("<", "");
+                string normalizedFilename = lineWithoutComments.Substring(match.Value.Length + 1).Replace("\"", "").Replace(">", "").Replace("<", "").Trim();
 
                 char[] separators = { '\\', '/' };
                 string[] elements = normalizedFilename.Split(separators);
@@ -93,7 +93,7 @@ namespace DsmSuite.Analyzer.Cpp.Sources
                 includedFilename = elements.Length > 1 ? elements[elements.Length - 1] : normalizedFilename;
             }
 
-            return includedFilename.Trim();
+            return includedFilename;
         }
 
         private static string StripComments(string line)
