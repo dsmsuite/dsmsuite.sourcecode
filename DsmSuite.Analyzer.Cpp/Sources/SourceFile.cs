@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using DsmSuite.Analyzer.Cpp.IncludeResolve;
@@ -78,6 +79,8 @@ namespace DsmSuite.Analyzer.Cpp.Sources
         {
             string includedFilename = null;
 
+            line = StripComments(line).Trim();
+
             Regex regex = new Regex("#[ ]{0,}include");
             Match match = regex.Match(line);
             if (match.Success)
@@ -91,6 +94,25 @@ namespace DsmSuite.Analyzer.Cpp.Sources
             }
 
             return includedFilename;
+        }
+
+        private static string StripComments(string line)
+        {
+            string result = line;
+
+            int beginCommentStyle1 = line.IndexOf("//", StringComparison.Ordinal);
+            if (beginCommentStyle1 != -1)
+            {
+                result = line.Substring(0, beginCommentStyle1).Trim();
+            }
+
+            int beginCommentStyle2 = line.IndexOf("/*", StringComparison.Ordinal);
+            if (beginCommentStyle2 != -1)
+            {
+                result = line.Substring(0, beginCommentStyle2);
+            }
+
+            return result;
         }
     }
 }

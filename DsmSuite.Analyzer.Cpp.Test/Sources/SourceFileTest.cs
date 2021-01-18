@@ -66,6 +66,41 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         }
 
         [TestMethod]
+        public void TestFindNormalIncludeWithCommentStyle1()
+        {
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
+            Assert.AreEqual("my-file.h", sourceFile.ExtractFileFromIncludeStatement("#include \"my-file.h\" // Some comment"));
+        }
+
+        [TestMethod]
+        public void TestFindNormalIncludeWithCommentStyle2()
+        {
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
+            Assert.AreEqual("my-file.h", sourceFile.ExtractFileFromIncludeStatement("#include \"my-file.h\" /* Some comment */"));
+        }
+
+        [TestMethod]
+        public void TestFindNormalIncludeWithCommentMultilineStyle2()
+        {
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
+            Assert.AreEqual("my-file.h", sourceFile.ExtractFileFromIncludeStatement("#include \"my-file.h\" /* Some comment "));
+        }
+
+        [TestMethod]
+        public void TestFindNormalIncludeWithSpaceInFrontOfInclude()
+        {
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
+            Assert.AreEqual("my-file.h", sourceFile.ExtractFileFromIncludeStatement(" #include \"my-file.h\""));
+        }
+
+        [TestMethod]
+        public void TestFindNormalIncludeWithSpaceInFrontInInclude()
+        {
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
+            Assert.AreEqual("my-file.h", sourceFile.ExtractFileFromIncludeStatement("# include \"my-file.h\""));
+        }
+
+        [TestMethod]
         public void TestFindRelativeInclude()
         {
             SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
