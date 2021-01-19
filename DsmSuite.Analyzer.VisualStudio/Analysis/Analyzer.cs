@@ -171,19 +171,12 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             string consumerName = _view.GetSourceFileElementName(visualStudioProject, sourceFile);
             string providerName = _view.ResolveIncludeFileProviderName(visualStudioProject, includedFile);
 
-            if (providerName != null)
+            if (providerName != null && providerName.Length > 0)
             {
-                if (providerName.Length > 0)
-                {
-                    FileInfo includedFileInfo = new FileInfo(includedFile);
-                    string type = (includedFileInfo.Extension.Length > 0) ? includedFileInfo.Extension.Substring(1) : "";
-                    _model.AddElement(providerName, type, includedFile);
-                    _model.AddRelation(consumerName, providerName, "include", 1, null);
-                }
-                else
-                {
-                    _model.IgnoreRelation(consumerName, includedFile, "include");
-                }
+                FileInfo includedFileInfo = new FileInfo(includedFile);
+                string type = (includedFileInfo.Extension.Length > 0) ? includedFileInfo.Extension.Substring(1) : "";
+                _model.AddElement(providerName, type, includedFile);
+                _model.AddRelation(consumerName, providerName, "include", 1, null);
             }
             else
             {
@@ -205,7 +198,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 }
             }
         }
-        
+
         private void WriteFoundProjects()
         {
             foreach (ProjectFileBase project in _solutionFile.Projects)
