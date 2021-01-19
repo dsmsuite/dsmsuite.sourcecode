@@ -171,12 +171,21 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
             string consumerName = _view.GetSourceFileElementName(visualStudioProject, sourceFile);
             string providerName = _view.ResolveIncludeFileProviderName(visualStudioProject, includedFile);
 
-            if (providerName != null && providerName.Length > 0)
+            if (providerName != null)
             {
-                FileInfo includedFileInfo = new FileInfo(includedFile);
-                string type = (includedFileInfo.Extension.Length > 0) ? includedFileInfo.Extension.Substring(1) : "";
-                _model.AddElement(providerName, type, includedFile);
-                _model.AddRelation(consumerName, providerName, "include", 1, null);
+                if (providerName.Length > 0)
+                {
+                    FileInfo includedFileInfo = new FileInfo(includedFile);
+                    string type = (includedFileInfo.Extension.Length > 0)
+                        ? includedFileInfo.Extension.Substring(1)
+                        : "";
+                    _model.AddElement(providerName, type, includedFile);
+                    _model.AddRelation(consumerName, providerName, "include", 1, null);
+                }
+                else
+                {
+                    // Ignore
+                }
             }
             else
             {

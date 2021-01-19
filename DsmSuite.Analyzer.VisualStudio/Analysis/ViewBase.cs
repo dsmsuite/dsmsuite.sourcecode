@@ -59,5 +59,48 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
         public abstract void RegisterSourceFile(ProjectFileBase visualStudioProject, SourceFile sourceFile);
         public abstract string GetSourceFileElementName(ProjectFileBase visualStudioProject, SourceFile sourceFile);
         public abstract string ResolveIncludeFileProviderName(ProjectFileBase visualStudioProject, string includedFile);
+
+        protected bool IsSystemInclude(string includedFile)
+        {
+            bool isSystemInclude = false;
+
+            foreach (string systemIncludeDirectory in AnalyzerSettings.Input.SystemIncludeDirectories)
+            {
+                if (includedFile.StartsWith(systemIncludeDirectory))
+                {
+                    isSystemInclude = true;
+                }
+            }
+            return isSystemInclude;
+        }
+
+        protected bool IsExternalInclude(string includedFile)
+        {
+            bool isExternalInclude = false;
+
+            foreach (ExternalIncludeDirectory externalIncludeDirectory in AnalyzerSettings.Input.ExternalIncludeDirectories)
+            {
+                if (includedFile.StartsWith(externalIncludeDirectory.Path))
+                {
+                    isExternalInclude = true;
+                }
+            }
+
+            return isExternalInclude;
+        }
+
+        protected bool IsInterfaceInclude(string includedFile)
+        {
+            bool isInterfaceInclude = false;
+
+            foreach (string interfaceIncludeDirectory in AnalyzerSettings.Input.InterfaceIncludeDirectories)
+            {
+                if (includedFile.StartsWith(interfaceIncludeDirectory))
+                {
+                    isInterfaceInclude = true;
+                }
+            }
+            return isInterfaceInclude;
+        }
     }
 }

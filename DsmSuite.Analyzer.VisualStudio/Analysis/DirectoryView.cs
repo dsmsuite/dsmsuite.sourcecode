@@ -25,7 +25,15 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
         public override string ResolveIncludeFileProviderName(ProjectFileBase visualStudioProject, string includedFile)
         {
-            return GetElementName(includedFile);
+            if (!IsSystemInclude(includedFile))
+            {
+                return GetElementName(includedFile);
+            }
+            else
+            {
+                // Ignore system include
+                return "";
+            }
         }
 
         private string GetElementName(string filename)
