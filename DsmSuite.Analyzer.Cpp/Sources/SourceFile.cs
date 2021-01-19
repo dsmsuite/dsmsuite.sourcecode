@@ -77,13 +77,18 @@ namespace DsmSuite.Analyzer.Cpp.Sources
         
         internal string ExtractFileFromIncludeStatement(string line)
         {
+            // Preprocessing directives are lines in your program that start with #.
+            // The # is followed by an identifier that is the directive name.
+            // For example, #define is the directive that defines a macro.
+            // Whitespace is also allowed before and after the `#'.
+
             string includedFilename = null;
 
-            string lineWithoutComments = StripComments(line);
+            string lineWithoutComments = StripComments(line).Trim();
 
             Regex regex = new Regex("#[ ]{0,}include[ ]{1,}");
             Match match = regex.Match(lineWithoutComments);
-            if (match.Success)
+            if (match.Success && match.Index == 0)
             {
                 string normalizedFilename = lineWithoutComments.Substring(match.Value.Length + 1).Replace("\"", "").Replace(">", "").Replace("<", "").Trim();
 

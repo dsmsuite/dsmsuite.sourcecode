@@ -43,7 +43,6 @@
     <Compile Include="Transformation\MoveHeaderToSourceFileDirectoryTransformationActionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transformation\MergeHeaderAndSourceFileDirectoriesTransformationActionTest.cs" />
-    <Compile Include="Transformation\RemoveIgnoreNamesTransformationActionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">

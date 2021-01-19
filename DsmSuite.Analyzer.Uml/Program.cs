@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Uml.Settings;
@@ -33,7 +34,8 @@ namespace DsmSuite.Analyzer.Uml
 
         protected override void Action()
         {
-            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+            List<string> ignoredNames = new List<string>();
+            DsiModel model = new DsiModel("Analyzer", ignoredNames, Assembly.GetExecutingAssembly());
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
             analyzer.Analyze();
             model.Save(_analyzerSettings.Output.Filename, _analyzerSettings.Output.Compress, null);

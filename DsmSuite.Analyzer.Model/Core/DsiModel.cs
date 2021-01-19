@@ -6,6 +6,7 @@ using DsmSuite.Common.Model.Core;
 using DsmSuite.Common.Util;
 using DsmSuite.Common.Model.Interface;
 using System;
+using System.Text.RegularExpressions;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
@@ -14,12 +15,15 @@ namespace DsmSuite.Analyzer.Model.Core
         private readonly MetaDataModel _metaDataModel;
         private readonly DsiElementModel _elementsDataModel;
         private readonly DsiRelationModel _relationsDataModel;
+        private readonly List<string> _ignoredNames;
 
-        public DsiModel(string processStep, Assembly executingAssembly)
+        public DsiModel(string processStep, List<string> ignoredNames, Assembly executingAssembly)
         {
             _metaDataModel = new MetaDataModel(processStep, executingAssembly);
             _elementsDataModel = new DsiElementModel();
             _relationsDataModel = new DsiRelationModel(_elementsDataModel);
+
+            _ignoredNames = ignoredNames;
         }
 
         public string Filename { get; private set; }
@@ -80,7 +84,18 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public IDsiElement AddElement(string name, string type, string annotation)
         {
-            return _elementsDataModel.AddElement(name, type, annotation);
+            IDsiElement element = null;
+
+            if (!Ignore(name))
+            {
+                element = _elementsDataModel.AddElement(name, type, annotation);
+            }
+            else
+            {
+                _elementsDataModel.IgnoreElement(name, type, annotation); ;
+            }
+
+            return element;
         }
 
         public void RemoveElement(IDsiElement element)
@@ -123,7 +138,18 @@ namespace DsmSuite.Analyzer.Model.Core
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight,
             string annotation)
         {
-            return _relationsDataModel.AddRelation(consumerName, providerName, type, weight, annotation);
+            IDsiRelation relation = null;
+
+            if (!Ignore(consumerName) && !Ignore(providerName))
+            {
+                relation = _relationsDataModel.AddRelation(consumerName, providerName, type, weight, annotation);
+            }
+            else
+            {
+                _relationsDataModel.IgnoreRelation(consumerName, providerName, type, weight, annotation);
+            }
+
+            return relation;
         }
 
         public void SkipRelation(string consumerName, string providerName, string type)
@@ -175,5 +201,21 @@ namespace DsmSuite.Analyzer.Model.Core
         public double ResolvedRelationPercentage => _relationsDataModel.ResolvedRelationPercentage;
 
         public double AmbiguousRelationPercentage => _relationsDataModel.AmbiguousRelationPercentage;
+
+        private bool Ignore(string name)
+        {
+            bool ignore = false;
+
+            foreach (string ignoredName in _ignoredNames)
+            {
+                Regex regex = new Regex(ignoredName);
+                Match match = regex.Match(name);
+                if (match.Success)
+                {
+                    ignore = true;
+                }
+            }
+            return ignore;
+        }
     }
 }

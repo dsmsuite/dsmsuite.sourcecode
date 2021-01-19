@@ -60,6 +60,11 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
 
+        public void IgnoreElement(string name, string type, string source)
+        {
+            Logger.LogDataModelMessage($"Ignore element name={name} type={type} source={source}");
+        }
+        
         public void RemoveElement(IDsiElement element)
         {
             Logger.LogDataModelMessage($"Remove element id={element.Id} name={element.Name} type={element.Type}");

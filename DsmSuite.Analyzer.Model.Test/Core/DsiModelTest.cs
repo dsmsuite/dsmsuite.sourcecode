@@ -15,7 +15,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         {
             string filename = "temp.dsi";
 
-            DsiModel dataModel1 = new DsiModel("Test", Assembly.GetExecutingAssembly());
+            DsiModel dataModel1 = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
             IDsiElement consumer = dataModel1.AddElement("consumerName", "class", "consumerSource");
             Assert.IsNotNull(consumer);
@@ -29,7 +29,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
 
             dataModel1.Save(filename, false, null);
 
-            DsiModel dataModel2 = new DsiModel("Test", Assembly.GetExecutingAssembly());
+            DsiModel dataModel2 = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
             dataModel2.Load(filename, null);
 
             Assert.AreEqual(dataModel1.CurrentElementCount, dataModel2.CurrentElementCount);
@@ -40,21 +40,45 @@ namespace DsmSuite.Analyzer.Model.Test.Core
                 Assert.AreEqual(dataModel1Elements[elementIndex].Id, dataModel2Elements[elementIndex].Id);
                 Assert.AreEqual(dataModel1Elements[elementIndex].Name, dataModel2Elements[elementIndex].Name);
                 Assert.AreEqual(dataModel1Elements[elementIndex].Type, dataModel2Elements[elementIndex].Type);
-                Assert.AreEqual(dataModel1Elements[elementIndex].Annotation, dataModel2Elements[elementIndex].Annotation);
-                Assert.AreEqual(dataModel1.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).Count, dataModel2.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).Count);
+                Assert.AreEqual(dataModel1Elements[elementIndex].Annotation,
+                    dataModel2Elements[elementIndex].Annotation);
+                Assert.AreEqual(dataModel1.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).Count,
+                    dataModel2.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).Count);
 
-                List<IDsiRelation> dataModel1Relations = dataModel1.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).ToList();
-                List<IDsiRelation> dataModel2Relations = dataModel2.GetRelationsOfConsumer(dataModel2Elements[elementIndex].Id).ToList();
+                List<IDsiRelation> dataModel1Relations =
+                    dataModel1.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).ToList();
+                List<IDsiRelation> dataModel2Relations =
+                    dataModel2.GetRelationsOfConsumer(dataModel2Elements[elementIndex].Id).ToList();
 
-                for (int relationIndex = 0; relationIndex < dataModel1.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).Count;
+                for (int relationIndex = 0;
+                    relationIndex < dataModel1.GetRelationsOfConsumer(dataModel1Elements[elementIndex].Id).Count;
                     relationIndex++)
                 {
-                    Assert.AreEqual(dataModel1Relations[relationIndex].ConsumerId, dataModel2Relations[relationIndex].ConsumerId);
-                    Assert.AreEqual(dataModel1Relations[relationIndex].ProviderId, dataModel2Relations[relationIndex].ProviderId);
+                    Assert.AreEqual(dataModel1Relations[relationIndex].ConsumerId,
+                        dataModel2Relations[relationIndex].ConsumerId);
+                    Assert.AreEqual(dataModel1Relations[relationIndex].ProviderId,
+                        dataModel2Relations[relationIndex].ProviderId);
                     Assert.AreEqual(dataModel1Relations[relationIndex].Type, dataModel2Relations[relationIndex].Type);
-                    Assert.AreEqual(dataModel1Relations[relationIndex].Weight, dataModel2Relations[relationIndex].Weight);
+                    Assert.AreEqual(dataModel1Relations[relationIndex].Weight,
+                        dataModel2Relations[relationIndex].Weight);
                 }
             }
+        }
+
+        [TestMethod]
+        public void IgnoredElementIsNotAddedToModel()
+        {
+            List<string> ignoredNames = new List<string>();
+            ignoredNames.Add("^doNotAdd");
+            DsiModel dataModel = new DsiModel("Test", ignoredNames, Assembly.GetExecutingAssembly());
+
+            IDsiElement consumer1 = dataModel.AddElement("addThis", "class", "consumerSource");
+            Assert.IsNotNull(consumer1);
+            Assert.AreEqual(1, dataModel.CurrentElementCount);
+
+            IDsiElement consumer2 = dataModel.AddElement("doNotAddThis", "class", "consumerSource");
+            Assert.IsNull(consumer2);
+            Assert.AreEqual(1, dataModel.CurrentElementCount);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
         [TestMethod]
         public void RenameOnlyMatchingElements()
         {
-            DsiModel dataModel = new DsiModel("Test", System.Reflection.Assembly.GetExecutingAssembly());
+            DsiModel dataModel = new DsiModel("Test", new List<string>(), System.Reflection.Assembly.GetExecutingAssembly());
 
             dataModel.AddElement("element1Name", "class", "element1Source");
             dataModel.AddElement("element2Name", "class", "element2Source");

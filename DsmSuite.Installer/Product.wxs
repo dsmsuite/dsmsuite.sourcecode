@@ -34,9 +34,6 @@
       <Component Id="DsmSuite.Analyzer.DotNet.Lib.dll" Guid="F3C5C5B7-F110-493A-B9DB-2BA4B29F0A5A">
         <File Id="DsmSuite.Analyzer.DotNet.Lib.dll" Source="..\build\bin\DsmSuite.Analyzer.DotNet.Lib.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="DsmSuite.Analyzer.Transformations.DotNet.dll" Guid="4D2652C6-C283-4989-BF42-DD77B203F1BC">
-        <File Id="DsmSuite.Analyzer.Transformations.DotNet.dll" Source="..\build\bin\DsmSuite.Analyzer.Transformations.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
       <Component Id="DsmSuite.Analyzer.Model.DotNet.dll" Guid="08FB95B9-7649-4EE0-9A55-FB6327F1D7C4">
         <File Id="DsmSuite.Analyzer.Model.DotNet.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -63,9 +60,6 @@
     <ComponentGroup Id="JavaAnalyzerComponents" Directory="JAVA_ANALYZER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Analyzer.Jdeps.exe" Guid="01EC8FED-31D0-45B4-B3FA-E864BCF54EA0">
         <File Id="DsmSuite.Analyzer.Jdeps.exe" Source="..\build\bin\DsmSuite.Analyzer.Jdeps.exe" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.Transformations.Jdeps.dll" Guid="8A7F9A01-D670-46E0-9104-85B2918A6D39">
-        <File Id="DsmSuite.Analyzer.Transformations.Jdeps.dll" Source="..\build\bin\DsmSuite.Analyzer.Transformations.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="DsmSuite.Analyzer.Model.Jdeps.dll" Guid="6D750515-B877-48F2-8C10-939D7720DAD1">
         <File Id="DsmSuite.Analyzer.Model.Jdeps.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
@@ -236,7 +230,6 @@
     <Feature Id="DotNetAnalyzerFeature" Title="DSM Suite .Net Analyzer" Level="1">
       <ComponentRef Id="DsmSuite.Analyzer.DotNet.exe" />
       <ComponentRef Id="DsmSuite.Analyzer.DotNet.Lib.dll" />
-      <ComponentRef Id="DsmSuite.Analyzer.Transformations.DotNet.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.DotNet.dll" />
       <ComponentRef Id="DsmSuite.Common.Model.DotNet.dll" />
       <ComponentRef Id="DsmSuite.Common.Util.DotNet.dll" />
@@ -248,7 +241,6 @@
 
     <Feature Id="JavaAnalyzerFeature" Title="DSM Suite JDeps Analyzer" Level="1">
       <ComponentRef Id="DsmSuite.Analyzer.Jdeps.exe" />
-      <ComponentRef Id="DsmSuite.Analyzer.Transformations.Jdeps.dll" />
       <ComponentRef Id="DsmSuite.Analyzer.Model.Jdeps.dll" />
       <ComponentRef Id="DsmSuite.Common.Model.Jdeps.dll" />
       <ComponentRef Id="DsmSuite.Common.Util.Jdeps.dll" />

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Transformations.Transformation;
@@ -12,7 +13,7 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
         [TestMethod]
         public void MergeWhenImplementationDependsOnHeaderFileWithSameName()
         {
-            DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
+            DsiModel dataModel = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
             IDsiElement elementCpp = dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", "");
             IDsiElement elementH = dataModel.AddElement("namespace3.namespace4.element1Name.h", "class", "");
@@ -34,7 +35,7 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
         [TestMethod]
         public void DoNotMergeWhenImplementationDependsOnHeaderFileWithOtherName()
         {
-            DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
+            DsiModel dataModel = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
             IDsiElement elementCpp = dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", "");
             IDsiElement elementH = dataModel.AddElement("namespace3.namespace4.ELEMENT1NAME.h", "class", "");
@@ -56,7 +57,7 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
         [TestMethod]
         public void DoNotMergeWhenImplementationDoesNotDependOnHeaderFileWithSameName()
         {
-            DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
+            DsiModel dataModel = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
             dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", "");
             dataModel.AddElement("namespace3.namespace4.element1Name.h", "class", "");

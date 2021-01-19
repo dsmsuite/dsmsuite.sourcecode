@@ -38,8 +38,8 @@ namespace DsmSuite.Analyzer.Compare
             FileInfo oldModelFile = secondFileIsOlder ? _inputFile1 : _inputFile2;
             FileInfo newModelFile = secondFileIsOlder ? _inputFile2 : _inputFile1;
 
-            DsiModel oldModel = new DsiModel("Diff", Assembly.GetExecutingAssembly());
-            DsiModel newModel = new DsiModel("Diff", Assembly.GetExecutingAssembly());
+            DsiModel oldModel = new DsiModel("Diff", new List<string>(), Assembly.GetExecutingAssembly());
+            DsiModel newModel = new DsiModel("Diff", new List<string>(), Assembly.GetExecutingAssembly());
             oldModel.Load(oldModelFile.FullName, this);
             newModel.Load(newModelFile.FullName, this);
 

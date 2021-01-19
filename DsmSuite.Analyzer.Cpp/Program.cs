@@ -33,7 +33,7 @@ namespace DsmSuite.Analyzer.Cpp
 
         protected override void Action()
         {
-            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+            DsiModel model = new DsiModel("Analyzer", _analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
             analyzer.Analyze();
 

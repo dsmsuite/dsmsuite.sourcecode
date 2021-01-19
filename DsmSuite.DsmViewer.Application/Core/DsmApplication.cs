@@ -98,7 +98,7 @@ namespace DsmSuite.DsmViewer.Application.Core
         {
             string processStep = "Builder";
             Assembly assembly = Assembly.GetEntryAssembly();
-            DsiModel dsiModel = new DsiModel(processStep, assembly);
+            DsiModel dsiModel = new DsiModel(processStep, new List<string>(), assembly);
             dsiModel.Load(dsiFilename, progress);
 
             IDsmBuilder importPolicy = new DsmBuilder(_dsmModel);

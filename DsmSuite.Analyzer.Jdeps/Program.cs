@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.Jdeps.Settings;
-using DsmSuite.Analyzer.Jdeps.Transformation;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Util;
 
@@ -34,13 +33,10 @@ namespace DsmSuite.Analyzer.Jdeps
 
         protected override void Action()
         {
-            DsiModel model = new DsiModel("Analyzer", Assembly.GetExecutingAssembly());
+            DsiModel model = new DsiModel("Analyzer", _analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());
 
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
             analyzer.Analyze();
-
-            Transformer transformer = new Transformer(model, _analyzerSettings.Transformation, this);
-            transformer.Transform();
 
             model.Save(_analyzerSettings.Output.Filename, _analyzerSettings.Output.Compress, this);
             Logger.LogUserMessage($"Found elements={model.CurrentElementCount} relations={model.CurrentRelationCount} resolvedRelations={model.ResolvedRelationPercentage:0.0}%");

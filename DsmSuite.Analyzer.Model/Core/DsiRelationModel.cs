@@ -79,6 +79,11 @@ namespace DsmSuite.Analyzer.Model.Core
             return relation;
         }
 
+        public void IgnoreRelation(string consumerName, string providerName, string type, int weight, string annotation)
+        {
+            Logger.LogDataModelMessage($"Ignore relation consumerName={consumerName} providerName={providerName} type={type} weight={weight} annotation={annotation}");
+        }
+
         private DsiRelation AddOrUpdateRelation(int consumerId, int providerId, string type, int weight, string annotation)
         {
             Dictionary<string, DsiRelation> relations = GetRelations(consumerId, providerId);

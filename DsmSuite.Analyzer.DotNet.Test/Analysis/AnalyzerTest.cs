@@ -18,7 +18,7 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
             analyzerSettings.Input.AssemblyDirectory = TestData.RootDirectory;
             analyzerSettings.Transformation.IgnoredNames = new List<string>();
 
-            IDsiModel model = new DsiModel("Test", Assembly.GetExecutingAssembly());
+            IDsiModel model = new DsiModel("Test", analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());
             DotNet.Analysis.Analyzer analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings, null);
             analyzer.Analyze();
 

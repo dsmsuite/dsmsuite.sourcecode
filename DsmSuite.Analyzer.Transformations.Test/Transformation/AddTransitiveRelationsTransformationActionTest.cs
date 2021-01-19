@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Transformations.Transformation;
@@ -12,7 +13,7 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
         [TestMethod]
         public void AddTransitiveRelations()
         {
-            DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
+            DsiModel dataModel = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
             IDsiElement element1 = dataModel.AddElement("element1Name", "class", "");
             Assert.IsNotNull(element1);

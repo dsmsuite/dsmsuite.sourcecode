@@ -22,7 +22,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             analyzerSettings.Input.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             analyzerSettings.Analysis.ViewMode = ViewMode.SolutionView;
 
-            DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
+            DsiModel dataModel = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
             Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings, null);
             analyzer.Analyze();
@@ -101,7 +101,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.Analysis
             analyzerSettings.Input.InterfaceIncludeDirectories.Add(Path.Combine(TestData.TestDataDirectory, "DirInterfaces"));
             analyzerSettings.Analysis.ViewMode = ViewMode.DirectoryView;
 
-            DsiModel dataModel = new DsiModel("Test", Assembly.GetExecutingAssembly());
+            DsiModel dataModel = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
             Analyzer.VisualStudio.Analysis.Analyzer analyzer = new Analyzer.VisualStudio.Analysis.Analyzer(dataModel, analyzerSettings, null);
             analyzer.Analyze();

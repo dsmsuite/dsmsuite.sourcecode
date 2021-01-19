@@ -94,17 +94,24 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         }
 
         [TestMethod]
-        public void TestFindNormalIncludeWithSpaceInFrontOfInclude()
+        public void TestFindNormalIncludeWithSpaceInBeforeHash()
         {
             SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
             Assert.AreEqual("my-file.h", sourceFile.ExtractFileFromIncludeStatement(" #include \"my-file.h\""));
         }
 
         [TestMethod]
-        public void TestFindNormalIncludeWithSpaceInFrontInInclude()
+        public void TestFindNormalIncludeWithSpaceBeforeInclude()
         {
             SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
             Assert.AreEqual("my-file.h", sourceFile.ExtractFileFromIncludeStatement("# include \"my-file.h\""));
+        }
+
+        [TestMethod]
+        public void TestDoNotFindNormalIncludeWithNonSpaceBeforeHash()
+        {
+            SourceFile sourceFile = new SourceFile(new FileInfo(@"D:\Data\my-file.cpp"));
+            Assert.IsNull(sourceFile.ExtractFileFromIncludeStatement("a #include \"my-file.h\""));
         }
 
         [TestMethod]

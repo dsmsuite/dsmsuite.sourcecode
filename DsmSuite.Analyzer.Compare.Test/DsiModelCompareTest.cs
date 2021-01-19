@@ -20,8 +20,8 @@ namespace DsmSuite.Analyzer.Compare.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            _oldModel = new DsiModel("Test1", Assembly.GetExecutingAssembly());
-            _newModel = new DsiModel("Test2", Assembly.GetExecutingAssembly());
+            _oldModel = new DsiModel("Test1", new List<string>(), Assembly.GetExecutingAssembly());
+            _newModel = new DsiModel("Test2", new List<string>(), Assembly.GetExecutingAssembly());
             _dsiModelCompare = new DsiModelCompare(_oldModel, _newModel, null);
             _allModels = new [] {_oldModel, _newModel};
             _onlyOldModel = new [] { _oldModel };

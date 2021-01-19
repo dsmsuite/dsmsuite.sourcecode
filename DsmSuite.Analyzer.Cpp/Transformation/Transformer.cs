@@ -29,11 +29,6 @@ namespace DsmSuite.Analyzer.Cpp.Transformation
                 actions.Add(new AddTransitiveRelationsTransformationAction(_model, _progress));
             }
 
-            if (_transformerSettings.IgnoredNames.Count > 0)
-            {
-                actions.Add(new RemoveIgnoreNamesTransformationAction(_model, _transformerSettings.IgnoredNames, _progress));
-            }
-
             switch (_transformerSettings.ModuleMergeStrategy)
             {
                 case TransformationModuleMergeStrategy.None:

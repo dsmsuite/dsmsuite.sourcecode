@@ -29,7 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Transformation\AddTransitiveRelationsTransformationAction.cs" />
-    <Compile Include="Transformation\RemoveIgnoreNamesTransformationAction.cs" />
     <Compile Include="Transformation\MoveHeaderToSourceFileDirectoryTransformationAction.cs" />
     <Compile Include="Transformation\TransformationAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
