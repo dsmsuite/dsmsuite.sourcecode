@@ -18,9 +18,9 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         public void TestInitialize()
         {
             _elementsDataModel = new DsiElementModel();
-            _a = _elementsDataModel.AddElement("a", "", "");
-            _b = _elementsDataModel.AddElement("b", "", "");
-            _c = _elementsDataModel.AddElement("c", "", "");
+            _a = _elementsDataModel.AddElement("a", "", null);
+            _b = _elementsDataModel.AddElement("b", "", null);
+            _c = _elementsDataModel.AddElement("c", "", null);
         }
 
         [TestMethod]
@@ -36,7 +36,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            model.AddRelation(_a.Name, _b.Name, "type", 2, "annotation");
+            model.AddRelation(_a.Name, _b.Name, "type", 2, null);
             Assert.AreEqual(1, model.ImportedRelationCount);
 
             model.Clear();
@@ -50,7 +50,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation = model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
+            IDsiRelation relation = model.AddRelation(_a.Name, _b.Name, "type", 2, null);
             Assert.IsNotNull(relation);
             Assert.AreEqual(1, model.ImportedRelationCount);
         }
@@ -61,7 +61,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation = model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
+            IDsiRelation relation = model.AddRelation(_a.Name, _b.Name, "type", 2, null);
             Assert.IsNotNull(relation);
 
             Assert.IsTrue(model.DoesRelationExist(relation.ConsumerId, relation.ProviderId));
@@ -73,7 +73,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation1 = model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
+            IDsiRelation relation1 = model.AddRelation(_a.Name, _b.Name, "type", 2, null);
             Assert.IsNotNull(relation1);
 
             Assert.AreEqual(1, model.ImportedRelationCount);
@@ -85,7 +85,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             Assert.AreEqual("type", relationsBefore[0].Type);
             Assert.AreEqual(2, relationsBefore[0].Weight);
 
-            IDsiRelation relation2 = model.AddRelation(_a.Name, _b.Name, "type", 3, "context");
+            IDsiRelation relation2 = model.AddRelation(_a.Name, _b.Name, "type", 3, null);
             Assert.IsNotNull(relation2);
 
             Assert.AreEqual(2, model.ImportedRelationCount);
@@ -104,12 +104,12 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation1 = model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
+            IDsiRelation relation1 = model.AddRelation(_a.Name, _b.Name, "type", 2, null);
             Assert.IsNotNull(relation1);
 
             Assert.AreEqual(1, model.ImportedRelationCount);
 
-            IDsiRelation relation2 = model.AddRelation(_a.Name, _c.Name, "type", 3, "context");
+            IDsiRelation relation2 = model.AddRelation(_a.Name, _c.Name, "type", 3, null);
             Assert.IsNotNull(relation2);
 
             Assert.AreEqual(2, model.ImportedRelationCount);
@@ -121,12 +121,12 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation1 = model.AddRelation(_a.Name, _b.Name, "type1", 2, "context");
+            IDsiRelation relation1 = model.AddRelation(_a.Name, _b.Name, "type1", 2, null);
             Assert.IsNotNull(relation1);
 
             Assert.AreEqual(1, model.ImportedRelationCount);
 
-            IDsiRelation relation2 = model.AddRelation(_a.Name, _b.Name, "type2", 3, "context");
+            IDsiRelation relation2 = model.AddRelation(_a.Name, _b.Name, "type2", 3, null);
             Assert.IsNotNull(relation2);
 
             Assert.AreEqual(2, model.ImportedRelationCount);
@@ -138,7 +138,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation = model.ImportRelation(_a.Id, _b.Id, "type", 2, "annotation");
+            IDsiRelation relation = model.ImportRelation(_a.Id, _b.Id, "type", 2, null);
             Assert.IsNotNull(relation);
 
             Assert.AreEqual(1, model.ImportedRelationCount);
@@ -150,7 +150,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation = model.ImportRelation(_a.Id, _b.Id, "type", 2, "annotation");
+            IDsiRelation relation = model.ImportRelation(_a.Id, _b.Id, "type", 2, null);
             Assert.IsNotNull(relation);
 
             Assert.AreEqual(1, model.ImportedRelationCount);
@@ -164,7 +164,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation = model.ImportRelation(_a.Id, _b.Id, "type", 2, "annotation");
+            IDsiRelation relation = model.ImportRelation(_a.Id, _b.Id, "type", 2, null);
             Assert.IsNotNull(relation);
             Assert.AreEqual(1, model.ImportedRelationCount);
 
@@ -177,12 +177,12 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation1 = model.ImportRelation(_a.Id, _b.Id, "type1", 2, "annotation");
+            IDsiRelation relation1 = model.ImportRelation(_a.Id, _b.Id, "type1", 2, null);
             Assert.IsNotNull(relation1);
 
             Assert.AreEqual(1, model.ImportedRelationCount);
 
-            IDsiRelation relation2 = model.ImportRelation(_a.Id, _b.Id, "type2", 2, "annotation");
+            IDsiRelation relation2 = model.ImportRelation(_a.Id, _b.Id, "type2", 2, null);
             Assert.IsNotNull(relation2);
 
             Assert.AreEqual(2, model.ImportedRelationCount);
@@ -202,11 +202,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation1 = model.ImportRelation(_a.Id, _b.Id, "type1", 1, "annotation");
+            IDsiRelation relation1 = model.ImportRelation(_a.Id, _b.Id, "type1", 1, null);
             Assert.IsNotNull(relation1);
-            IDsiRelation relation2 = model.ImportRelation(_b.Id, _c.Id, "type2", 2, "annotation");
+            IDsiRelation relation2 = model.ImportRelation(_b.Id, _c.Id, "type2", 2, null);
             Assert.IsNotNull(relation2);
-            IDsiRelation relation3 = model.ImportRelation(_a.Id, _c.Id, "type3", 3, "annotation");
+            IDsiRelation relation3 = model.ImportRelation(_a.Id, _c.Id, "type3", 3, null);
             Assert.IsNotNull(relation3);
 
             List<IDsiRelation> relations = model.GetRelations().OrderBy(x => x.Weight).ToList();
@@ -234,7 +234,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation = model.AddRelation(_a.Name, _b.Name, "type", 2, "context");
+            IDsiRelation relation = model.AddRelation(_a.Name, _b.Name, "type", 2, null);
             Assert.IsNotNull(relation);
 
             Assert.AreEqual(1, model.ImportedRelationCount);
@@ -253,13 +253,13 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, "");
+            IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, null);
             Assert.IsNotNull(relation1);
-            IDsiRelation relation2 = model.AddRelation("b", "c", "type2", 2, "");
+            IDsiRelation relation2 = model.AddRelation("b", "c", "type2", 2, null);
             Assert.IsNotNull(relation2);
-            IDsiRelation relation3 = model.AddRelation("a", "c", "type3", 3, "");
+            IDsiRelation relation3 = model.AddRelation("a", "c", "type3", 3, null);
             Assert.IsNotNull(relation3);
-            IDsiRelation relation4 = model.AddRelation("d", "c", "type4", 4, "");
+            IDsiRelation relation4 = model.AddRelation("d", "c", "type4", 4, null);
             Assert.IsNull(relation4);
 
             Assert.AreEqual(4, model.ImportedRelationCount);
@@ -273,13 +273,13 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, "");
+            IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, null);
             Assert.IsNotNull(relation1);
-            IDsiRelation relation2 = model.AddRelation("b", "c", "type2", 2, "");
+            IDsiRelation relation2 = model.AddRelation("b", "c", "type2", 2, null);
             Assert.IsNotNull(relation2);
-            IDsiRelation relation3 = model.AddRelation("a", "c", "type3", 3, "");
+            IDsiRelation relation3 = model.AddRelation("a", "c", "type3", 3, null);
             Assert.IsNotNull(relation3);
-            IDsiRelation relation4 = model.AddRelation("c", "d", "type4", 4, "");
+            IDsiRelation relation4 = model.AddRelation("c", "d", "type4", 4, null);
             Assert.IsNull(relation4);
 
             Assert.AreEqual(4, model.ImportedRelationCount);
@@ -293,11 +293,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, "");
+            IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, null);
             Assert.IsNotNull(relation1);
-            IDsiRelation relation2 = model.AddRelation("b", "c", "type2", 2, "");
+            IDsiRelation relation2 = model.AddRelation("b", "c", "type2", 2, null);
             Assert.IsNotNull(relation2);
-            IDsiRelation relation3 = model.AddRelation("a", "c", "type3", 3, "");
+            IDsiRelation relation3 = model.AddRelation("a", "c", "type3", 3, null);
             Assert.IsNotNull(relation3);
             model.SkipRelation("d", "c", "type4");
 
@@ -312,11 +312,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
 
-            IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, "");
+            IDsiRelation relation1 = model.AddRelation("a", "b", "type1", 1, null);
             Assert.IsNotNull(relation1);
-            IDsiRelation relation2 = model.AddRelation("b", "c", "type2", 2, "");
+            IDsiRelation relation2 = model.AddRelation("b", "c", "type2", 2, null);
             Assert.IsNotNull(relation2);
-            IDsiRelation relation3 = model.AddRelation("a", "c", "type3", 3, "");
+            IDsiRelation relation3 = model.AddRelation("a", "c", "type3", 3, null);
             Assert.IsNotNull(relation3);
             Assert.AreEqual(3, model.ImportedRelationCount);
 

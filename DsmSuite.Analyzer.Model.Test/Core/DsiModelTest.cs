@@ -17,11 +17,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
 
             DsiModel dataModel1 = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
-            IDsiElement consumer = dataModel1.AddElement("consumerName", "class", "consumerSource");
+            IDsiElement consumer = dataModel1.AddElement("consumerName", "class", null);
             Assert.IsNotNull(consumer);
-            IDsiElement provider1 = dataModel1.AddElement("provider1Name", "class", "provider1Source");
+            IDsiElement provider1 = dataModel1.AddElement("provider1Name", "class", null);
             Assert.IsNotNull(provider1);
-            IDsiElement provider2 = dataModel1.AddElement("provider2Name", "class", "provider2Source");
+            IDsiElement provider2 = dataModel1.AddElement("provider2Name", "class", null);
             Assert.IsNotNull(provider2);
 
             dataModel1.AddRelation(consumer.Name, provider1.Name, "relationType2", 2, null);
@@ -72,11 +72,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             ignoredNames.Add("^doNotAdd");
             DsiModel dataModel = new DsiModel("Test", ignoredNames, Assembly.GetExecutingAssembly());
 
-            IDsiElement consumer1 = dataModel.AddElement("addThis", "class", "consumerSource");
+            IDsiElement consumer1 = dataModel.AddElement("addThis", "class", null);
             Assert.IsNotNull(consumer1);
             Assert.AreEqual(1, dataModel.CurrentElementCount);
 
-            IDsiElement consumer2 = dataModel.AddElement("doNotAddThis", "class", "consumerSource");
+            IDsiElement consumer2 = dataModel.AddElement("doNotAddThis", "class", null);
             Assert.IsNull(consumer2);
             Assert.AreEqual(1, dataModel.CurrentElementCount);
         }

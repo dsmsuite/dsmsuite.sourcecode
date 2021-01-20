@@ -22,7 +22,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            model.ImportElement(1, "name", "type", "source");
+            model.ImportElement(1, "name", "type", null);
             Assert.AreEqual(1, model.CurrentElementCount);
 
             model.Clear();
@@ -36,7 +36,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            IDsiElement element = model.AddElement("name", "type", "source");
+            IDsiElement element = model.AddElement("name", "type", null);
             Assert.IsNotNull(element);
             Assert.AreEqual(1, model.CurrentElementCount);
         }
@@ -47,11 +47,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            IDsiElement element1 = model.AddElement("name", "type", "source");
+            IDsiElement element1 = model.AddElement("name", "type", null);
             Assert.IsNotNull(element1);
             Assert.AreEqual(1, model.CurrentElementCount);
 
-            IDsiElement element2 = model.AddElement("name", "type", "source");
+            IDsiElement element2 = model.AddElement("name", "type", null);
             Assert.IsNull(element2);
             Assert.AreEqual(1, model.CurrentElementCount);
         }
@@ -62,11 +62,11 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            IDsiElement element1 = model.AddElement("name1", "type", "source");
+            IDsiElement element1 = model.AddElement("name1", "type", null);
             Assert.IsNotNull(element1);
             Assert.AreEqual(1, model.CurrentElementCount);
 
-            IDsiElement element2 = model.AddElement("name2", "type", "source");
+            IDsiElement element2 = model.AddElement("name2", "type", null);
             Assert.IsNotNull(element2);
             Assert.AreEqual(2, model.CurrentElementCount);
         }
@@ -77,7 +77,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            model.ImportElement(1, "name", "type", "source");
+            model.ImportElement(1, "name", "type", null);
             Assert.AreEqual(1, model.CurrentElementCount);
         }
 
@@ -103,7 +103,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            model.ImportElement(1, "name", "type", "source");
+            model.ImportElement(1, "name", "type", null);
 
             IDsiElement foundElement = model.FindElementById(2);
             Assert.IsNull(foundElement);
@@ -115,7 +115,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            model.ImportElement(1, "name", "type", "source");
+            model.ImportElement(1, "name", "type", null);
             IDsiElement foundElementBefore = model.FindElementById(1);
             Assert.IsNotNull(foundElementBefore);
 
@@ -147,7 +147,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            model.ImportElement(1, "name", "type", "source");
+            model.ImportElement(1, "name", "type", null);
 
             IDsiElement foundElement = model.FindElementByName("unknown");
             Assert.IsNull(foundElement);
@@ -159,7 +159,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            model.ImportElement(1, "name", "type", "source");
+            model.ImportElement(1, "name", "type", null);
             IDsiElement foundElementBefore = model.FindElementByName("name");
             Assert.IsNotNull(foundElementBefore);
 
@@ -196,15 +196,15 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            IDsiElement element1 = model.AddElement("name1", "type1", "elementannotation1");
+            IDsiElement element1 = model.AddElement("name1", "type1", null);
             Assert.IsNotNull(element1);
             Assert.AreEqual(1, model.CurrentElementCount);
 
-            IDsiElement element2 = model.AddElement("name2", "type2", "elementannotation2");
+            IDsiElement element2 = model.AddElement("name2", "type2", null);
             Assert.IsNotNull(element2);
             Assert.AreEqual(2, model.CurrentElementCount);
 
-            IDsiElement element3 = model.AddElement("name3", "type2", "elementannotation3");
+            IDsiElement element3 = model.AddElement("name3", "type2", null);
             Assert.IsNotNull(element3);
             Assert.AreEqual(3, model.CurrentElementCount);
 
