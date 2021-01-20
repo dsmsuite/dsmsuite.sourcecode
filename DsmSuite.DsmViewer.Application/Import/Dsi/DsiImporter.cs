@@ -73,8 +73,9 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
 
                 bool isElementLeaf = (dsiElement.Name == elementName.FullName);
                 string elementType = isElementLeaf ? dsiElement.Type : "";
+                string annotation = isElementLeaf ? dsiElement.Annotation : null;
 
-                IDsmElement element = _importPolicy.ImportElement(elementName.FullName, name, elementType, parent, dsiElement.Annotation);
+                IDsmElement element = _importPolicy.ImportElement(elementName.FullName, name, elementType, parent, annotation);
                 parent = element;
 
                 if (isElementLeaf)
