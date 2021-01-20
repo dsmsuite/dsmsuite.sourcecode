@@ -95,7 +95,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                 foreach (DotNetType type in visualStudioProject.DotNetTypes)
                 {
                     string elementName = _view.GetDotNetTypeElementName(visualStudioProject, type.Name);
-                    _model.AddElement(elementName, type.Type, "");
+                    _model.AddElement(elementName, type.Type, null);
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
 
                 _view.RegisterSourceFile(visualStudioProject, sourceFile);
                 string elementName = _view.GetSourceFileElementName(visualStudioProject, sourceFile);
-                _model.AddElement(elementName, sourceFile.FileType, sourceFile.SourceFileInfo.FullName);
+                _model.AddElement(elementName, sourceFile.FileType, null);
             }
             else
             {
@@ -179,7 +179,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Analysis
                     string type = (includedFileInfo.Extension.Length > 0)
                         ? includedFileInfo.Extension.Substring(1)
                         : "";
-                    _model.AddElement(providerName, type, includedFile);
+                    _model.AddElement(providerName, type, null);
                     _model.AddRelation(consumerName, providerName, "include", 1, null);
                 }
                 else

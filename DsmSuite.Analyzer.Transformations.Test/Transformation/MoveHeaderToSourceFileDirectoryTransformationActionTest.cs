@@ -15,10 +15,10 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
         {
             DsiModel dataModel = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
-            IDsiElement elementCpp = dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", "");
-            IDsiElement elementH = dataModel.AddElement("namespace3.namespace4.element1Name.h", "class", "");
+            IDsiElement elementCpp = dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", null);
+            IDsiElement elementH = dataModel.AddElement("namespace3.namespace4.element1Name.h", "class", null);
 
-            dataModel.AddRelation(elementCpp.Name, elementH.Name, "", 1, "annotation");
+            dataModel.AddRelation(elementCpp.Name, elementH.Name, "", 1, null);
 
             Assert.IsNotNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.cpp"));
             Assert.IsNotNull(dataModel.FindElementByName("namespace3.namespace4.element1Name.h"));
@@ -37,10 +37,10 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
         {
             DsiModel dataModel = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
-            IDsiElement elementCpp = dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", "");
-            IDsiElement elementH = dataModel.AddElement("namespace3.namespace4.ELEMENT1NAME.h", "class", "");
+            IDsiElement elementCpp = dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", null);
+            IDsiElement elementH = dataModel.AddElement("namespace3.namespace4.ELEMENT1NAME.h", "class", null);
 
-            dataModel.AddRelation(elementCpp.Name, elementH.Name, "", 1, "context");
+            dataModel.AddRelation(elementCpp.Name, elementH.Name, "", 1, null);
 
             Assert.IsNotNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.cpp"));
             Assert.IsNotNull(dataModel.FindElementByName("namespace3.namespace4.ELEMENT1NAME.h"));
@@ -59,8 +59,8 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
         {
             DsiModel dataModel = new DsiModel("Test", new List<string>(), Assembly.GetExecutingAssembly());
 
-            dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", "");
-            dataModel.AddElement("namespace3.namespace4.element1Name.h", "class", "");
+            dataModel.AddElement("namespace1.namespace1.element1Name.cpp", "class", null);
+            dataModel.AddElement("namespace3.namespace4.element1Name.h", "class", null);
 
             Assert.IsNotNull(dataModel.FindElementByName("namespace1.namespace1.element1Name.cpp"));
             Assert.IsNotNull(dataModel.FindElementByName("namespace3.namespace4.element1Name.h"));
