@@ -10,4 +10,9 @@
                     ViewWidth="120"/>
     <valueConverters:MatrixSizeToVisbilityConverter x:Key="MatrixSizeToVisbilityConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+    <valueConverters:AnnotationIndicatorModeToVisibilityConverter x:Key="AnnotationIndicatorModeToVisibilityConverter" />
+    <valueConverters:BookmarkIndicatorModeToVisibilityConverter x:Key="BookmarkIndicatorModeToVisibilityConverter" />
+    <valueConverters:DefaultIndicatorModeToVisibilityConverter x:Key="DefaultIndicatorModeToVisibilityConverter" />
+    <valueConverters:SearchIndicatorModeToVisibilityConverter x:Key="SearchIndicatorModeToVisibilityConverter" />
 </ResourceDictionary>

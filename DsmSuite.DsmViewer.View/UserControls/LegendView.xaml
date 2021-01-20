@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DsmSuite.DsmViewer.View.UserControls"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             Loaded="LegendView_OnLoaded">
     <Grid Height="16">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
@@ -13,25 +14,30 @@
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-
-        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorConsumer}" Grid.Column="0"/>
-        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="1">Consumer</TextBlock>
-        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorProvider}" Grid.Column="2"/>
-        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="3">Provider</TextBlock>
-        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorCycle}" Grid.Column="4"/>
-        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="5">Cyclic</TextBlock>
-        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorMatch}" Grid.Column="6"/>
-        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="7">Search match</TextBlock>
-        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorBookmark}" Grid.Column="8"/>
-        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="9">Bookmarked</TextBlock>
-        <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorAnnotation}" Grid.Column="10"/>
-        <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="11">Annotated</TextBlock>
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Visibility="{Binding SelectedIndicatorViewMode, Converter={StaticResource DefaultIndicatorModeToVisibilityConverter}}">
+            <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorConsumer}" />
+            <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="1">Consumer</TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Visibility="{Binding SelectedIndicatorViewMode, Converter={StaticResource DefaultIndicatorModeToVisibilityConverter}}">
+            <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorProvider}"/>
+            <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="3">Provider</TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="{Binding SelectedIndicatorViewMode, Converter={StaticResource DefaultIndicatorModeToVisibilityConverter}}">
+            <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorCycle}"/>
+            <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="5">Cyclic</TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Column="3" Orientation="Horizontal" Visibility="{Binding SelectedIndicatorViewMode, Converter={StaticResource SearchIndicatorModeToVisibilityConverter}}">
+            <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorMatch}"/>
+            <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="7">Search match</TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Column="4" Orientation="Horizontal" Visibility="{Binding SelectedIndicatorViewMode, Converter={StaticResource BookmarkIndicatorModeToVisibilityConverter}}">
+            <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorBookmark}"/>
+            <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="9">Bookmarked</TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Column="5" Orientation="Horizontal" Visibility="{Binding SelectedIndicatorViewMode, Converter={StaticResource AnnotationIndicatorModeToVisibilityConverter}}">
+            <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorAnnotation}"/>
+            <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="11">Annotated</TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>
