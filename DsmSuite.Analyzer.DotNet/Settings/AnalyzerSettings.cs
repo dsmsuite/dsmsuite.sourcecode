@@ -57,7 +57,7 @@ namespace DsmSuite.Analyzer.DotNet.Settings
                 // Ignore COM/C++ Interop stuff
                 "^Interop",
                 // Ignore anonymous classes
-                "<>",
+                "<",
                 "^_"
             };
 
