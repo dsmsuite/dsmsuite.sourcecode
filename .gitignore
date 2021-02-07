@@ -18,3 +18,4 @@ DsmSuite.Analyzer.VisualStudio.Test.Data.Com/DsmSuiteAnalyzerVisualStudioTestDat
 DsmSuite.Analyzer.VisualStudio.Test.Data.Com/DsmSuiteAnalyzerVisualStudioTestDataCom_i.h
 DsmSuite.Analyzer.VisualStudio.Test.Data.Com/DsmSuiteAnalyzerVisualStudioTestDataCom_p.c
 ipch/
+.vs/
