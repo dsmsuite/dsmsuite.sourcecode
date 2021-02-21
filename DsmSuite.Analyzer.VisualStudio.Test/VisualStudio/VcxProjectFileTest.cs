@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             VcxProjectFile projectFile = CreateProjectFile();
             Assert.AreEqual("DsmSuite.Analyzer.VisualStudio.Test.Data.Cpp.vcxproj", projectFile.ProjectName);
         }
-        
+
         [TestMethod]
         public void TestProjectIncludeDirectoriesFound()
         {
@@ -61,14 +62,17 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
             VcxProjectFile projectFile = CreateProjectFile(analyzerSettings);
             projectFile.Analyze();
-            Assert.AreEqual(5, projectFile.SystemIncludeDirectories.Count);
 
             ImmutableHashSet<string> includes = projectFile.SystemIncludeDirectories.ToImmutableHashSet();
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\8.1\Include\um"));
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\8.1\Include\shared"));
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt"));
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include"));
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include"));
+
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt"));
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um"));
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared"));
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\winrt"));
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\cppwinrt"));
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\Include\um"));
+
+            Assert.AreEqual(6, projectFile.SystemIncludeDirectories.Count);
         }
 
         [TestMethod]
@@ -126,7 +130,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
                     sourceFile.Analyze();
 
                     ImmutableHashSet<string> includes = sourceFile.Includes.ToImmutableHashSet();
-                    Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\8.1\Include\um\windows.h"));
+                    Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\windows.h"));
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirA\ClassA2.h")));
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirA\ClassA1.h")));
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirB\ClassB1.h")));
@@ -156,7 +160,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
                 consumerNames.Add(generatedFileRelation.Consumer.Name);
             }
 
-            Assert.IsTrue(providerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirIDL\IInterface1.idl"))); 
+            Assert.IsTrue(providerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirIDL\IInterface1.idl")));
             Assert.IsTrue(providerNames.Contains(Path.Combine(TestData.TestDataDirectory, @"DirIDL\IInterface2.idl")));
             Assert.AreEqual(2, providerNames.Count);
 

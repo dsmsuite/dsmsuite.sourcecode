@@ -90,13 +90,13 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
             analyzerSettings.Input.RootDirectory = @"C:\";
             analyzerSettings.Input.SystemIncludeDirectories = new List<string>
             {
-                @"C:\Program Files (x86)\Windows Kits\8.1\Include\um",
-                @"C:\Program Files (x86)\Windows Kits\8.1\Include\shared",
-                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt",
-                @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include",
-                @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include"
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt",
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um",
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared",
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\winrt",
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\cppwinrt",
+                @"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\Include\um",
             };
-
 
             analyzerSettings.Input.InterfaceIncludeDirectories = new List<string>();
             analyzerSettings.Input.ExternalIncludeDirectories = new List<ExternalIncludeDirectory>
@@ -104,7 +104,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
                 new ExternalIncludeDirectory {Path = @"C\:External", ResolveAs = "External"}
             };
 
-            analyzerSettings.Analysis.ToolsVersion = "14.0";
+            analyzerSettings.Analysis.ToolsVersion = "Current";
             analyzerSettings.Analysis.ViewMode = ViewMode.SolutionView;
 
             analyzerSettings.Transformation.IgnoredNames = new List<string>();
@@ -117,7 +117,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
 
             analyzerSettings.Output.Filename = "Output.dsi";
             analyzerSettings.Output.Compress = true;
-            
+
             return analyzerSettings;
         }
 

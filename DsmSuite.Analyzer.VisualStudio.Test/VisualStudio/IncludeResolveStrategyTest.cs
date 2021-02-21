@@ -60,7 +60,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             IncludeResolveStrategy includeResolveStrategy = CreateIncludeResolveStrategy();
             string sourceFile = Path.Combine(TestData.TestDataDirectory, @"DirA\ClassA1.cpp");
             string includeFile = "windows.h";
-            string expectedResolvedIncludeFile = @"C:\Program Files (x86)\Windows Kits\8.1\Include\um\windows.h";
+            string expectedResolvedIncludeFile = @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\windows.h";
             string actualResolvedIncludeFile = includeResolveStrategy.Resolve(sourceFile, includeFile);
             Assert.AreEqual(expectedResolvedIncludeFile, actualResolvedIncludeFile);
         }
