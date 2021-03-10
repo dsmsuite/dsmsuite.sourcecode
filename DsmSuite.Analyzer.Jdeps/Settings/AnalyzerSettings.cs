@@ -10,7 +10,7 @@ namespace DsmSuite.Analyzer.Jdeps.Settings
     [Serializable]
     public class InputSettings
     {
-        public string Filename { get; set; }
+        public string DotFileDirectory { get; set; }
     }
 
     [Serializable]
@@ -47,7 +47,7 @@ namespace DsmSuite.Analyzer.Jdeps.Settings
                 Output = new OutputSettings(),
             };
 
-            analyzerSettings.Input.Filename = @"C:\Example.dot";
+            analyzerSettings.Input.DotFileDirectory = "."; // Use analyzer from directory containing dot files
 
             analyzerSettings.Transformation.IgnoredNames = new List<string>();
 
@@ -84,7 +84,7 @@ namespace DsmSuite.Analyzer.Jdeps.Settings
 
         private void ResolvePaths(string settingFilePath)
         {
-            Input.Filename = FilePath.ResolveFile(settingFilePath, Input.Filename);
+            Input.DotFileDirectory = FilePath.ResolveFile(settingFilePath, Input.DotFileDirectory);
             Output.Filename = FilePath.ResolveFile(settingFilePath, Output.Filename);
         }
     }

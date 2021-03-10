@@ -18,17 +18,17 @@ namespace DsmSuite.Analyzer.Jdeps
         protected override bool CheckPrecondition()
         {
             bool result = true;
-            if (!File.Exists(_analyzerSettings.Input.Filename))
+            if (!Directory.Exists(_analyzerSettings.Input.DotFileDirectory))
             {
                 result = false;
-                Logger.LogUserMessage($"Input file '{_analyzerSettings.Input.Filename}' does not exist.");
+                Logger.LogUserMessage($"Input directory '{_analyzerSettings.Input.DotFileDirectory}' does not exist.");
             }
             return result;
         }
 
         protected override void LogInputParameters()
         {
-            Logger.LogUserMessage($"Input filename:{_analyzerSettings.Input.Filename}");
+            Logger.LogUserMessage($"Input directory:{_analyzerSettings.Input.DotFileDirectory}");
         }
 
         protected override void Action()

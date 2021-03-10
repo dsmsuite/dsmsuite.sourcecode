@@ -25,29 +25,37 @@ namespace DsmSuite.Analyzer.Jdeps.Analysis
         public void Analyze()
         {
             int lineNumber = 0;
-            FileInfo dotFile = new FileInfo(_analyzerSettings.Input.Filename);
-            using (FileStream stream = dotFile.Open(FileMode.Open))
+
+            foreach (string filename in Directory.EnumerateFiles(_analyzerSettings.Input.DotFileDirectory))
             {
-                StreamReader sr = new StreamReader(stream);
-                string line;
-                while ((line = sr.ReadLine()) != null)
+                FileInfo fileInfo = new FileInfo(filename);
+                if (fileInfo.Extension == ".dot")
                 {
-                    lineNumber++;
-                    UpdateLineProgress(lineNumber, false);
-
-                    if (line.Contains("->"))
+                    using (FileStream stream = fileInfo.Open(FileMode.Open))
                     {
-                        string[] items = line.Split('"');
-                        if (items.Length == 5)
+                        StreamReader sr = new StreamReader(stream);
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
                         {
-                            string consumer = ReplaceNestedClassMarker(items[1]);
-                            string provider = ReplaceNestedClassMarker(RemoveTrailingText(items[3]));
+                            lineNumber++;
+                            UpdateLineProgress(lineNumber, false);
 
-                            RegisterRelation(consumer, provider);
+                            if (line.Contains("->"))
+                            {
+                                string[] items = line.Split('"');
+                                if (items.Length == 5)
+                                {
+                                    string consumer = ReplaceNestedClassMarker(items[1]);
+                                    string provider = ReplaceNestedClassMarker(RemoveTrailingText(items[3]));
+
+                                    RegisterRelation(consumer, provider);
+                                }
+                            }
                         }
                     }
                 }
             }
+
             UpdateLineProgress(lineNumber, true);
         }
 
