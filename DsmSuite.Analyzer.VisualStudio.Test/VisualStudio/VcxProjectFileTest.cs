@@ -65,11 +65,11 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
 
             ImmutableHashSet<string> includes = projectFile.SystemIncludeDirectories.ToImmutableHashSet();
 
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt"));
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um"));
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared"));
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\winrt"));
-            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\cppwinrt"));
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt"));
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um"));
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared"));
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\winrt"));
+            Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\cppwinrt"));
             Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\Include\um"));
 
             Assert.AreEqual(6, projectFile.SystemIncludeDirectories.Count);
@@ -130,7 +130,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
                     sourceFile.Analyze();
 
                     ImmutableHashSet<string> includes = sourceFile.Includes.ToImmutableHashSet();
-                    Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\windows.h"));
+                    Assert.IsTrue(includes.Contains(@"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\windows.h"));
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirA\ClassA2.h")));
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirA\ClassA1.h")));
                     Assert.IsTrue(includes.Contains(Path.Combine(projectFile.ProjectFileInfo.DirectoryName, @"DirB\ClassB1.h")));

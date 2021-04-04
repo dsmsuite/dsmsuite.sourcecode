@@ -90,11 +90,11 @@ namespace DsmSuite.Analyzer.VisualStudio.Settings
             analyzerSettings.Input.RootDirectory = @"C:\";
             analyzerSettings.Input.SystemIncludeDirectories = new List<string>
             {
-                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt",
-                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um",
-                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared",
-                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\winrt",
-                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\cppwinrt",
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt",
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um",
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared",
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\winrt",
+                @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\cppwinrt",
                 @"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\Include\um",
             };
 

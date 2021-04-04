@@ -107,7 +107,7 @@ namespace DsmSuite.Analyzer.VisualStudio.Test.VisualStudio
             sourceFile.Analyze();
 
             ImmutableHashSet<string> includes = sourceFile.Includes.ToImmutableHashSet();
-            Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\windows.h")));
+            Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\windows.h")));
             Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirA\ClassA2.h")));
             Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirA\ClassA1.h")));
             Assert.IsTrue(includes.Contains(Path.Combine(testDataDirectory, @"DirB\ClassB1.h")));
