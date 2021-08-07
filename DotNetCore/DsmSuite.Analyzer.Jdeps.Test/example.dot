@@ -1,6 +1,0 @@
-digraph "jce.jar" {
-    // Path: C:\Program Files\Java\jdk1.8.0_45\jre\lib\jce.jar
-   "javax.crypto.Cipher"                              -> "javax.crypto.spec.RC5ParameterSpec";
-   "javax.crypto.Cipher"                              -> "sun.security.jca.GetInstance (JDK internal API (rt.jar))";
-   "javax.crypto.Cipher$Transform"                    -> "java.lang.CharSequence";
-}
