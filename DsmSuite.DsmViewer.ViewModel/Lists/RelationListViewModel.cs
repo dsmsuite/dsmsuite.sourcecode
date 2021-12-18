@@ -4,12 +4,13 @@ using System.Windows.Input;
 using System.Windows;
 using System.Text;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.Application.Interfaces;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListViewModel : ViewModelBase
     {
-        public RelationListViewModel(string subtitle, IEnumerable<IDsmRelation> relations)
+        public RelationListViewModel(string subtitle, IEnumerable<IDsmRelation> relations, IDsmApplication application)
         {
             Title = "Relation List";
             SubTitle = subtitle;
@@ -18,7 +19,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
             foreach (IDsmRelation relation in relations)
             {
-                relationViewModels.Add(new RelationListItemViewModel(relation));
+                relationViewModels.Add(new RelationListItemViewModel(relation, application));
             }
 
             relationViewModels.Sort();

@@ -1,12 +1,13 @@
 ﻿using System;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
+using DsmSuite.DsmViewer.Application.Interfaces;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListItemViewModel : ViewModelBase, IComparable
     {
-        public RelationListItemViewModel(IDsmRelation relation)
+        public RelationListItemViewModel(IDsmRelation relation, IDsmApplication application)
         {
             ConsumerName = relation.Consumer.Fullname;
             ConsumerType = relation.Consumer.Type;
@@ -14,6 +15,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             ProviderType = relation.Provider.Type;
             RelationType = relation.Type;
             RelationWeight = relation.Weight;
+            if (application != null)
+            {
+                IDsmRelationAnnotation annotation = application.FindRelationAnnotation(relation.Consumer, relation.Provider);
+                if (annotation != null)
+                {
+                    Annotation = annotation.Text;
+                }
+                else
+                {
+                    Annotation = "";
+                }
+            }
         }
 
         public int Index { get; set; }
@@ -24,6 +37,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         public string ProviderType { get; }
         public string RelationType { get; }
         public int RelationWeight { get; }
+        public string Annotation { get; }
 
         public int CompareTo(object obj)
         {
