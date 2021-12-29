@@ -36,6 +36,7 @@
                     <GridViewColumn Header="Provider type" Width="auto" DisplayMemberBinding="{Binding Path=ProviderType}" />
                     <GridViewColumn Header="Relation type" Width="auto" DisplayMemberBinding="{Binding Path=RelationType}" />
                     <GridViewColumn Header="Relation weight" Width="auto" DisplayMemberBinding="{Binding Path=RelationWeight}" />
+                    <GridViewColumn Header="Properties" Width="auto" DisplayMemberBinding="{Binding Properties}" />                                      
                 </GridView>
             </ListView.View>
         </ListView>

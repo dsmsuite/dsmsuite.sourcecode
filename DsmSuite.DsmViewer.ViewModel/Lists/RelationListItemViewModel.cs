@@ -2,6 +2,7 @@
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using DsmSuite.DsmViewer.Application.Interfaces;
+using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
@@ -15,6 +16,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             ProviderType = relation.Provider.Type;
             RelationType = relation.Type;
             RelationWeight = relation.Weight;
+            if (relation.Properties != null)
+            {
+                foreach (KeyValuePair<string, string> elementProperty in relation.Properties)
+                {
+                    Properties += string.Format("{0}={1} ", elementProperty.Key, elementProperty.Value);
+                }
+            }
         }
 
         public int Index { get; set; }
@@ -25,6 +33,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         public string ProviderType { get; }
         public string RelationType { get; }
         public int RelationWeight { get; }
+        public string Properties { get; }
 
         public int CompareTo(object obj)
         {

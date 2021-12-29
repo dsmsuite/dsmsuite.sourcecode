@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
@@ -10,11 +11,20 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         {
             ElementName = element.Fullname;
             ElementType = element.Type;
+            Properties = "";
+            if (element.Properties != null)
+            {
+                foreach (KeyValuePair<string, string> elementProperty in element.Properties)
+                {
+                    Properties += string.Format("{0}={1} ", elementProperty.Key, elementProperty.Value);
+                }
+            }
         }
 
         public int Index { get; set; }
         public string ElementName { get; }
         public string ElementType { get; }
+        public string Properties { get; }
 
         public int CompareTo(object obj)
         {
