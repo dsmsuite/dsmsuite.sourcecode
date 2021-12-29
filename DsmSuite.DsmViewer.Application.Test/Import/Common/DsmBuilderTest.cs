@@ -77,13 +77,13 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Common
         {
             IDsmElement foundElement = null;
             _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
-            _dsmModel.Setup(x => x.AddElement(ElementName, ElementType, ElementParentId)).Returns(_createdElement.Object);
+            _dsmModel.Setup(x => x.AddElement(ElementName, ElementType, ElementParentId, null)).Returns(_createdElement.Object);
 
             DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
-            IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, string.Empty);
+            IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, null);
             Assert.AreEqual(_createdElement.Object, element);
 
-            _dsmModel.Verify(x => x.AddElement(ElementName, ElementType, ElementParentId), Times.Once());
+            _dsmModel.Verify(x => x.AddElement(ElementName, ElementType, ElementParentId, null), Times.Once());
         }
 
         [TestMethod]
@@ -93,22 +93,22 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Common
             _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
 
             DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
-            IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, string.Empty);
+            IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, null);
             Assert.AreEqual(_existingElement.Object, element);
 
-            _dsmModel.Verify(x => x.AddElement(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int?>()), Times.Never());
+            _dsmModel.Verify(x => x.AddElement(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int?>(), null), Times.Never());
         }
 
         [TestMethod]
         public void WhenRelationIsImportedThenRelationIsAddedToModel()
         {
-            _dsmModel.Setup(x => x.AddRelation(_consumer.Object, _provider.Object, RelationType, RelationWeight)).Returns(_createdRelation.Object);
+            _dsmModel.Setup(x => x.AddRelation(_consumer.Object, _provider.Object, RelationType, RelationWeight, null)).Returns(_createdRelation.Object);
 
             DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
-            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight, string.Empty);
+            IDsmRelation relation = policy.ImportRelation(ConsumerId, ProviderId, RelationType, RelationWeight, null);
             Assert.AreEqual(_createdRelation.Object, relation);
 
-            _dsmModel.Verify(x => x.AddRelation(_consumer.Object, _provider.Object, RelationType, RelationWeight), Times.Once());
+            _dsmModel.Verify(x => x.AddRelation(_consumer.Object, _provider.Object, RelationType, RelationWeight, null), Times.Once());
         }
 
         [TestMethod]

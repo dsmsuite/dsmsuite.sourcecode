@@ -42,8 +42,6 @@
                 <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="4" Grid.Column="1" Text="Type"/>
                 <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="4" Grid.Column="2" Text=":"/>
                 <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="4" Grid.Column="3" Text="{Binding Type}"/>
-                
-                <TextBlock Style="{StaticResource RichToolTipAnnotationsStyle}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Annotation}"/>
             </Grid>
         </DataTemplate>
 
@@ -96,8 +94,6 @@
                 <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="9" Grid.Column="1" Text="Cycality"/>
                 <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="9" Grid.Column="2" Text=":"/>
                 <TextBlock Style="{StaticResource RichToolTipPropertiesStyle}" Grid.Row="9" Grid.Column="3" Text="{Binding CycleType}"/>
-
-                <TextBlock Style="{StaticResource RichToolTipAnnotationsStyle}" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Annotation}"/>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
@@ -131,7 +127,6 @@
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Move down" Command="{Binding MoveDownElementCommand}" />
                         <Separator />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Toggle element bookmark" Command="{Binding ToggleElementBookmarkCommand}" />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Edit element annotation" Command="{Binding ChangeElementAnnotationCommand}" />
                         <Separator />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Create element" Command="{Binding CreateElementCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Change element name" Command="{Binding ChangeElementNameCommand}" />

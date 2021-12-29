@@ -32,7 +32,7 @@ namespace DsmSuite.Analyzer.Model.Core
             _ambiguousRelationCount = 0;
         }
 
-        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight, string annotation)
+        public IDsiRelation ImportRelation(int consumerId, int providerId, string type, int weight, IDictionary<string, string> properties)
         {
             Logger.LogDataModelMessage($"Import relation consumerId={consumerId} providerId={providerId} type={type} weight={weight}");
 
@@ -46,7 +46,7 @@ namespace DsmSuite.Analyzer.Model.Core
             if ((consumer != null) && (provider != null))
             {
                 _resolvedRelationCount++;
-                relation = AddOrUpdateRelation(consumer.Id, provider.Id, type, weight, annotation);
+                relation = AddOrUpdateRelation(consumer.Id, provider.Id, type, weight, properties);
             }
             else
             {
@@ -55,9 +55,9 @@ namespace DsmSuite.Analyzer.Model.Core
             return relation;
         }
         
-        public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string annotation)
+        public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, IDictionary<string, string> properties)
         {
-            Logger.LogDataModelMessage($"Add relation consumerName={consumerName} providerName={providerName} type={type} weight={weight} annotation={annotation}");
+            Logger.LogDataModelMessage($"Add relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
 
             DsiRelation relation = null;
 
@@ -69,7 +69,7 @@ namespace DsmSuite.Analyzer.Model.Core
             if ((consumer != null) && (provider != null))
             {
                 _resolvedRelationCount++;
-                relation = AddOrUpdateRelation(consumer.Id, provider.Id, type, weight, annotation);
+                relation = AddOrUpdateRelation(consumer.Id, provider.Id, type, weight, properties);
             }
             else
             {
@@ -79,12 +79,12 @@ namespace DsmSuite.Analyzer.Model.Core
             return relation;
         }
 
-        public void IgnoreRelation(string consumerName, string providerName, string type, int weight, string annotation)
+        public void IgnoreRelation(string consumerName, string providerName, string type, int weight)
         {
-            Logger.LogDataModelMessage($"Ignore relation consumerName={consumerName} providerName={providerName} type={type} weight={weight} annotation={annotation}");
+            Logger.LogDataModelMessage($"Ignore relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
         }
 
-        private DsiRelation AddOrUpdateRelation(int consumerId, int providerId, string type, int weight, string annotation)
+        private DsiRelation AddOrUpdateRelation(int consumerId, int providerId, string type, int weight, IDictionary<string, string> properties)
         {
             Dictionary<string, DsiRelation> relations = GetRelations(consumerId, providerId);
 
@@ -96,7 +96,7 @@ namespace DsmSuite.Analyzer.Model.Core
             }
             else
             {
-                relations[type] = new DsiRelation(consumerId, providerId, type, weight, annotation);
+                relations[type] = new DsiRelation(consumerId, providerId, type, weight, properties);
             }
 
             return relations[type];

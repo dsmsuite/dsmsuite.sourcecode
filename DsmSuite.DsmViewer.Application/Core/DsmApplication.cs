@@ -289,12 +289,6 @@ namespace DsmSuite.DsmViewer.Application.Core
             _actionManager.Execute(action);
         }
 
-        public void ChangeElementAnnotation(IDsmElement element, string annotation)
-        {
-            ElementChangeAnnotationAction action = new ElementChangeAnnotationAction(_dsmModel, element, annotation);
-            _actionManager.Execute(action);
-        }
-
         public void ChangeElementType(IDsmElement element, string type)
         {
             ElementChangeTypeAction action = new ElementChangeTypeAction(_dsmModel, element, type);
@@ -361,26 +355,6 @@ namespace DsmSuite.DsmViewer.Application.Core
         public int GetElementCount()
         {
             return _dsmModel.GetElementCount();
-        }
-
-        public void AddElementAnnotation(IDsmElement element, string text)
-        {
-            _dsmModel.ChangeElementAnnotation(element, text);
-        }
-
-        public void AddRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text)
-        {
-            _dsmModel.ChangeRelationAnnotation(consumer, provider, text);
-        }
-
-        public IDsmElementAnnotation FindElementAnnotation(IDsmElement element)
-        {
-            return _dsmModel.FindElementAnnotation(element);
-        }
-
-        public IDsmRelationAnnotation FindRelationAnnotation(IDsmElement consumer, IDsmElement provider)
-        {
-            return _dsmModel.FindRelationAnnotation(consumer, provider);
         }
     }
 }

@@ -14,16 +14,14 @@ namespace DsmSuite.DsmViewer.Model.Core
         private int _lastElementId;
         private readonly DsmElement _root;
         private readonly DsmRelationModel _relationModel;
-        private readonly DsmAnnotationModel _annotationModel;
 
-        public DsmElementModel(DsmRelationModel relationModel, DsmAnnotationModel annotationModel)
+        public DsmElementModel(DsmRelationModel relationModel)
         {
             _relationModel = relationModel;
-            _annotationModel = annotationModel;
             _elementsById = new Dictionary<int, DsmElement>();
             _elementsByName = new Dictionary<string, DsmElement>();
             _deletedElementsById = new Dictionary<int, DsmElement>();
-            _root = new DsmElement(0, "", "");
+            _root = new DsmElement(0, "", "", null);
             Clear();
         }
 
@@ -41,7 +39,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _deletedElementsById.Clear();
         }
 
-        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted)
+        public IDsmElement ImportElement(int id, string name, string type, IDictionary<string, string> properties, int order, bool expanded, int? parentId, bool deleted)
         {
             Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} order={order} expanded={expanded} parentId={parentId}");
 
@@ -49,10 +47,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 _lastElementId = id;
             }
-            return AddElement(id, name, type, order, expanded, parentId, deleted);
+            return AddElement(id, name, type, properties, order, expanded, parentId, deleted);
         }
 
-        public IDsmElement AddElement(string name, string type, int? parentId)
+        public IDsmElement AddElement(string name, string type, int? parentId, IDictionary<string, string> properties)
         {
             Logger.LogDataModelMessage($"Add element name={name} type={type} parentId={parentId}");
 
@@ -71,7 +69,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (element == null)
             {
                 _lastElementId++;
-                element = AddElement(_lastElementId, name, type, 0, false, parentId, false);
+                element = AddElement(_lastElementId, name, type, properties, 0, false, parentId, false);
             }
 
             return element;
@@ -273,8 +271,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 case SearchMode.Bookmarked:
                     return element.IsBookmarked;
                 case SearchMode.Annotated:
-                    IDsmElementAnnotation annotation = _annotationModel.FindElementAnnotation(element);
-                    return (annotation != null) && !string.IsNullOrEmpty(annotation.Text);
+                    return false;
                 default:
                     return true;
             }
@@ -361,9 +358,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return previousSibling;
         }
 
-        private IDsmElement AddElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted)
+        private IDsmElement AddElement(int id, string name, string type, IDictionary<string, string> properties, int order, bool expanded, int? parentId, bool deleted)
         {
-            DsmElement element = new DsmElement(id, name, type) { Order = order, IsExpanded = expanded, IsDeleted = deleted };
+            DsmElement element = new DsmElement(id, name, type, properties) { Order = order, IsExpanded = expanded, IsDeleted = deleted };
 
             if (parentId.HasValue)
             {

@@ -55,7 +55,6 @@ namespace DsmSuite.DsmViewer.View.Windows
             _mainViewModel.ElementCreateStarted += OnElementCreateStarted;
             _mainViewModel.ElementEditNameStarted += OnElementEditNameStarted;
             _mainViewModel.ElementEditTypeStarted += OnElementEditTypeStarted;
-            _mainViewModel.ElementEditAnnotationStarted += OnElementEditAnnotationStarted;
 
             _mainViewModel.RelationCreateStarted += OnRelationCreateStarted;
             _mainViewModel.RelationEditWeightStarted += OnRelationEditWeightStarted;
@@ -106,12 +105,6 @@ namespace DsmSuite.DsmViewer.View.Windows
         private void OnElementEditNameStarted(object sender, ElementEditNameViewModel viewModel)
         {
             ElementEditNameDialog view = new ElementEditNameDialog { DataContext = viewModel};
-            view.ShowDialog();
-        }
-
-        private void OnElementEditAnnotationStarted(object sender, ElementEditAnnotationViewModel viewModel)
-        {
-            ElementEditAnnotationDialog view = new ElementEditAnnotationDialog { DataContext = viewModel };
             view.ShowDialog();
         }
 

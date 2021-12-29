@@ -1,4 +1,5 @@
 using DsmSuite.Analyzer.Model.Interface;
+using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
@@ -7,19 +8,19 @@ namespace DsmSuite.Analyzer.Model.Core
     /// </summary>
     public class DsiRelation : IDsiRelation
     {
-        public DsiRelation(int consumerId, int providerId, string type, int weight, string annotation)
+        public DsiRelation(int consumerId, int providerId, string type, int weight, IDictionary<string, string> properties)
         {
             ConsumerId = consumerId;
             ProviderId = providerId;
             Type = type;
             Weight = weight;
-            Annotation = annotation;
+            Properties = properties;
         }
 
         public int ConsumerId { get; }
         public int ProviderId { get; }
         public string Type { get; }
         public int Weight { get; set; }
-        public string Annotation { get; }
+        public IDictionary<string, string> Properties { get; }
     }
 }

@@ -84,10 +84,6 @@
         <Setter Property="FontStyle" Value="Normal" />
     </Style>
 
-    <Style x:Key="RichToolTipAnnotationsStyle" TargetType="TextBlock">
-        <Setter Property="FontStyle" Value="Italic" />
-    </Style>
-
     <!-- Legend styles -->
     <Style x:Key="LegendRectangleStyle" TargetType="Rectangle">
         <Setter Property="Width" Value="7" />

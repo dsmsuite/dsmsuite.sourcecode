@@ -7,7 +7,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
     public class CellToolTipViewModel : ViewModelBase
     {
-        public CellToolTipViewModel(IDsmElement consumer, IDsmElement provider, int weight, CycleType cycleType, IDsmApplication application)
+        public CellToolTipViewModel(IDsmElement consumer, IDsmElement provider, int weight, CycleType cycleType)
         {
             Title = $"Relation {consumer.Name} - {provider.Name}";
             ConsumerId = consumer.Id;
@@ -16,12 +16,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ProviderName = provider.Fullname; 
             Weight = weight;
             CycleType = cycleType.ToString();
-
-            IDsmRelationAnnotation annotation = application?.FindRelationAnnotation(consumer, provider);
-            if (annotation != null)
-            {
-                Annotation = annotation.Text;
-            }
 
             Legend = new List<LegendViewModel>();
             Legend.Add(new LegendViewModel(LegendColor.Cycle, "cycle"));
@@ -34,7 +28,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public string ProviderName { get; }
         public int Weight { get; }
         public string CycleType { get; }
-        public string Annotation { get; }
 
         public List<LegendViewModel> Legend { get; }
     }

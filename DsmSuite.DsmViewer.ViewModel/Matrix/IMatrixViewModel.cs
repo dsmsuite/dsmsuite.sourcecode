@@ -10,7 +10,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         ICommand MoveDownElementCommand { get; }
 
         ICommand ToggleElementBookmarkCommand { get; }
-        ICommand ChangeElementAnnotationCommand { get; }
 
         ICommand ChangeElementParentCommand { get; }
     }

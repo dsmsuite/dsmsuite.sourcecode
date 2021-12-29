@@ -34,7 +34,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public event EventHandler<ElementCreateViewModel> ElementCreateStarted;
         public event EventHandler<ElementEditNameViewModel> ElementEditNameStarted;
         public event EventHandler<ElementEditTypeViewModel> ElementEditTypeStarted;
-        public event EventHandler<ElementEditAnnotationViewModel> ElementEditAnnotationStarted;
 
         public event EventHandler<RelationCreateViewModel> RelationCreateStarted;
         public event EventHandler<RelationEditWeightViewModel> RelationEditWeightStarted;
@@ -90,7 +89,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             SortElementCommand = new RelayCommand<object>(SortElementExecute, SortElementCanExecute);
 
             ToggleElementBookmarkCommand = new RelayCommand<object>(ToggleElementBookmarkExecute, ToggleElementBookmarkCanExecute);
-            ChangeElementAnnotationCommand = new RelayCommand<object>(ChangeElementAnnotationExecute, ChangeElementAnnotationCanExecute);
 
             ShowElementDetailMatrixCommand = new RelayCommand<object>(ShowElementDetailMatrixExecute, ShowElementDetailMatrixCanExecute);
             ShowElementContextMatrixCommand = new RelayCommand<object>(ShowElementContextMatrixExecute, ShowElementContextMatrixCanExecute);
@@ -190,7 +188,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand MoveDownElementCommand { get; }
 
         public ICommand ToggleElementBookmarkCommand { get; }
-        public ICommand ChangeElementAnnotationCommand { get; }
 
         public ICommand SortElementCommand { get; }
         public ICommand ShowElementDetailMatrixCommand { get; }
@@ -708,21 +705,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private bool ToggleElementBookmarkCanExecute(object parameter)
         {
             return _selectedIndicatorViewMode == IndicatorViewMode.Bookmarks;
-        }
-
-        private void ChangeElementAnnotationExecute(object parameter)
-        {
-            if (SelectedProvider != null)
-            {
-                ElementEditAnnotationViewModel elementEditViewModel = new ElementEditAnnotationViewModel(_application, SelectedProvider);
-                ElementEditAnnotationStarted?.Invoke(this, elementEditViewModel);
-                ActiveMatrix?.Reload();
-            }
-        }
-
-        private bool ChangeElementAnnotationCanExecute(object parameter)
-        {
-            return _selectedIndicatorViewMode == IndicatorViewMode.Annotations;
         }
 
         private void MakeSnapshotExecute(object parameter)

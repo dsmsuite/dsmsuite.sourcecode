@@ -18,28 +18,28 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestInitialize]
         public void TestInitialize()
         {
-            _root = new DsmElement(1, "root", "");
+            _root = new DsmElement(1, "root", "", null);
 
-            _a = new DsmElement(2, "a", "");
+            _a = new DsmElement(2, "a", "", null);
             _root.AddChild(_a);
-            _a1 = new DsmElement(3, "a1", "");
+            _a1 = new DsmElement(3, "a1", "", null);
             _a.AddChild(_a1);
-            _a2 = new DsmElement(4, "a2", "");
+            _a2 = new DsmElement(4, "a2", "", null);
             _a.AddChild(_a2);
 
-            _b = new DsmElement(5, "a", "");
+            _b = new DsmElement(5, "a", "", null);
             _root.AddChild(_b);
-            _b1 = new DsmElement(6, "b1", "");
+            _b1 = new DsmElement(6, "b1", "", null);
             _b.AddChild(_b1);
-            _b2 = new DsmElement(7, "b2", "");
+            _b2 = new DsmElement(7, "b2", "", null);
             _b.AddChild(_b2);
         }
 
         [TestMethod]
         public void WhenIdenticalIngoingRelationTypesAreAddedThenGetOutgoingRelationsReturnsThenAll()
         {
-            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2);
-            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type1", 3);
+            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2, null);
+            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type1", 3, null);
 
             DsmDependencies b1Dependencies = new DsmDependencies(_b1);
 
@@ -59,8 +59,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void WhenDifferentIngoingRelationTypesAreAddedThenGetOutgoingRelationsReturnsThenAll()
         {
-            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2);
-            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type2", 3);
+            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2, null);
+            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type2", 3, null);
 
             DsmDependencies b1Dependencies = new DsmDependencies(_b1);
 
@@ -80,8 +80,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void WhenIdenticalOutgoingRelationTypesAreAddedThenGetOutgoingRelationsReturnsThenAll()
         {
-            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2);
-            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type1", 3);
+            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2, null);
+            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type1", 3, null);
 
             DsmDependencies a1Dependencies = new DsmDependencies(_a1);
 
@@ -101,8 +101,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void WhenDifferentOutgoingRelationTypesAreAddedThenGetOutgoingRelationsReturnsThenAll()
         {
-            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2);
-            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type2", 3);
+            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2, null);
+            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type2", 3, null);
 
             DsmDependencies a1Dependencies = new DsmDependencies(_a1);
 
@@ -123,8 +123,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void WhenIdenticalOutgoingRelationTypesAreAddedThenTheirDirectWeightIsTheSumOfWeights()
         {
-            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2);
-            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type1", 3);
+            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2, null);
+            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type1", 3, null);
 
             DsmDependencies a1Dependencies = new DsmDependencies(_a1);
 
@@ -144,8 +144,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void WhenDifferentOutgoingRelationTypesAreAddedThenTheirDirectWeightIsTheSumOfWeights()
         {
-            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2);
-            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type2", 3);
+            DsmRelation a1Tob1Type1 = new DsmRelation(1, _a1, _b1, "type1", 2, null);
+            DsmRelation a1Tob1Type2 = new DsmRelation(2, _a1, _b1, "type2", 3, null);
 
             DsmDependencies a1Dependencies = new DsmDependencies(_a1);
 

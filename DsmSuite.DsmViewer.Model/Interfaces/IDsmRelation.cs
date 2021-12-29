@@ -1,4 +1,6 @@
-﻿namespace DsmSuite.DsmViewer.Model.Interfaces
+﻿using System.Collections.Generic;
+
+namespace DsmSuite.DsmViewer.Model.Interfaces
 {
     public interface IDsmRelation
     {
@@ -28,5 +30,7 @@
         int Weight { get; }
 
         bool IsDeleted { get; }
+
+        IDictionary<string, string> Properties { get; }
     }
 }

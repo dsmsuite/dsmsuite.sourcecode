@@ -54,7 +54,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public object Do()
         {
-            _element = _model.AddElement(_name, _type, _parent.Id);
+            _element = _model.AddElement(_name, _type, _parent.Id, null);
             Debug.Assert(_element != null);
 
             _model.AssignElementOrder();

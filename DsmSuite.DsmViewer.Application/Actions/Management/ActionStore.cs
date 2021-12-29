@@ -63,7 +63,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
 
         private void RegisterActionTypes()
         {
-            _types[ElementChangeAnnotationAction.RegisteredType] = typeof(ElementChangeAnnotationAction);
             _types[ElementChangeNameAction.RegisteredType] = typeof(ElementChangeNameAction);
             _types[ElementChangeTypeAction.RegisteredType] = typeof(ElementChangeTypeAction);
             _types[ElementChangeParentAction.RegisteredType] = typeof(ElementChangeParentAction);

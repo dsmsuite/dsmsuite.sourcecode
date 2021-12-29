@@ -12,7 +12,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             int elementId = 1;
             string elementName = "name1";
             string elementType = "file";
-            DsmElement element = new DsmElement(elementId, elementName, elementType);
+            DsmElement element = new DsmElement(elementId, elementName, elementType, null);
             Assert.AreEqual(elementId, element.Id);
             Assert.AreEqual(elementName, element.Name);
             Assert.AreEqual(elementType, element.Type);
@@ -25,13 +25,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             int parentId = 1;
             string parentName = "parent";
-            DsmElement parent = new DsmElement(parentId, parentName, "");
+            DsmElement parent = new DsmElement(parentId, parentName, "", null);
             Assert.AreEqual(null, parent.Parent);
             Assert.AreEqual(0, parent.Children.Count);
 
             int child1Id = 10;
             string child1Name = "child1";
-            DsmElement child1 = new DsmElement(child1Id, child1Name, "");
+            DsmElement child1 = new DsmElement(child1Id, child1Name, "", null);
             Assert.AreEqual(null, child1.Parent);
 
             parent.AddChild(child1);
@@ -44,7 +44,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             int child2Id = 100;
             string child2Name = "child2";
-            DsmElement child2 = new DsmElement(child2Id, child2Name, "");
+            DsmElement child2 = new DsmElement(child2Id, child2Name, "", null);
             Assert.AreEqual(null, child2.Parent);
 
             parent.AddChild(child2);
@@ -58,7 +58,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             int child3Id = 1000;
             string child3Name = "child3";
-            DsmElement child3 = new DsmElement(child3Id, child3Name, "");
+            DsmElement child3 = new DsmElement(child3Id, child3Name, "", null);
             Assert.AreEqual(null, child3.Parent);
             Assert.AreEqual(null, child3.Parent);
 

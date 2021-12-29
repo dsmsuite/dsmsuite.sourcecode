@@ -35,9 +35,5 @@
             <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorBookmark}"/>
             <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="9">Bookmarked</TextBlock>
         </StackPanel>
-        <StackPanel Grid.Column="5" Orientation="Horizontal" Visibility="{Binding SelectedIndicatorViewMode, Converter={StaticResource AnnotationIndicatorModeToVisibilityConverter}}">
-            <Rectangle Style="{StaticResource LegendRectangleStyle}" Fill="{StaticResource MatrixColorAnnotation}"/>
-            <TextBlock Style="{StaticResource LegendTextBlockStyle}" Grid.Column="11">Annotated</TextBlock>
-        </StackPanel>
     </Grid>
 </UserControl>

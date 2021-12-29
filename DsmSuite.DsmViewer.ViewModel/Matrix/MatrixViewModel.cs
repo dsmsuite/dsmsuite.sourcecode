@@ -55,7 +55,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             MoveDownElementCommand = mainViewModel.MoveDownElementCommand;
 
             ToggleElementBookmarkCommand = mainViewModel.ToggleElementBookmarkCommand;
-            ChangeElementAnnotationCommand = mainViewModel.ChangeElementAnnotationCommand;
 
             CreateElementCommand = mainViewModel.CreateElementCommand;
             ChangeElementNameCommand = mainViewModel.ChangeElementNameCommand;
@@ -123,7 +122,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand MoveDownElementCommand { get; }
 
         public ICommand ToggleElementBookmarkCommand { get; }
-        public ICommand ChangeElementAnnotationCommand { get; }
 
         public ICommand CreateElementCommand { get; }
         public ICommand ChangeElementNameCommand { get; }
@@ -816,7 +814,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 {
                     int weight = _application.GetDependencyWeight(consumer, provider);
                     CycleType cycleType = _application.IsCyclicDependency(consumer, provider);
-                    CellToolTipViewModel = new CellToolTipViewModel(consumer, provider, weight, cycleType, null);
+                    CellToolTipViewModel = new CellToolTipViewModel(consumer, provider, weight, cycleType);
                 }
             }
         }

@@ -171,7 +171,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Dsi
             _importPolicy.Verify(x => x.ImportElement(DsiElementNameAbc, DsmElementNameC, DsiElementTypeAbc, _dsmElementB.Object, null), Times.Exactly(1)); // For a.b.c
             _importPolicy.Verify(x => x.ImportElement(DsiElementNameAbd, DsmElementNameD, DsiElementTypeAbd, _dsmElementB.Object, null), Times.Exactly(1)); // For a.b.d
             _importPolicy.Verify(x => x.ImportElement(DsiElementNameE, DsmElementNameE, DsiElementTypeE, null, null), Times.Exactly(1)); // For e
-            _importPolicy.Verify(x => x.ImportElement(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IDsmElement>(), It.IsAny<string>()), Times.Exactly(7));
+            _importPolicy.Verify(x => x.ImportElement(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IDsmElement>(), null), Times.Exactly(7));
         }
 
         [TestMethod]

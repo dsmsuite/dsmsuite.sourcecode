@@ -49,13 +49,11 @@ namespace DsmSuite.Analyzer.Transformations.Test.Transformation
             Assert.AreEqual(element1Before.Id, element3After.Id);
             Assert.AreEqual("element3Name", element3After.Name);
             Assert.AreEqual(element1Before.Type, element3After.Type);
-            Assert.AreEqual(element1Before.Annotation, element3After.Annotation);
 
             // Element2 not renamed because replace is case sensitive
             Assert.AreEqual(element2Before.Id, element2After.Id);
             Assert.AreEqual(element2Before.Name, element2After.Name);
             Assert.AreEqual(element2Before.Type, element2After.Type);
-            Assert.AreEqual(element2Before.Annotation, element2After.Annotation);
         }
     }
 }

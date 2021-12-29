@@ -32,7 +32,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
 
             _model.Setup(x => x.GetElementById(ConsumerId)).Returns(_consumer.Object);
             _model.Setup(x => x.GetElementById(ProviderId)).Returns(_provider.Object);
-            _model.Setup(x => x.AddRelation(_consumer.Object, _provider.Object, Type, Weight)).Returns(_relation.Object);
+            _model.Setup(x => x.AddRelation(_consumer.Object, _provider.Object, Type, Weight, null)).Returns(_relation.Object);
             _relation.Setup(x => x.Id).Returns(RelationId);
             _relation.Setup(x => x.Consumer.Id).Returns(ConsumerId);
             _relation.Setup(x => x.Provider.Id).Returns(ProviderId);
@@ -55,7 +55,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             RelationCreateAction action = new RelationCreateAction(_model.Object, ConsumerId, ProviderId, Type, Weight);
             action.Do();
 
-            _model.Verify(x => x.AddRelation(_consumer.Object, _provider.Object, Type, Weight), Times.Once());
+            _model.Verify(x => x.AddRelation(_consumer.Object, _provider.Object, Type, Weight, null), Times.Once());
         }
 
         [TestMethod]

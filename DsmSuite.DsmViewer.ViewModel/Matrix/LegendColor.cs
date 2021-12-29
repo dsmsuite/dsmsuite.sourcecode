@@ -7,6 +7,5 @@
         Cycle,
         Search,
         Bookmark,
-        Annotation,
     }
 }

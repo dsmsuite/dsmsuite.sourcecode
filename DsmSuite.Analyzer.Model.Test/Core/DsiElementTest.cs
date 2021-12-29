@@ -10,11 +10,10 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         [TestMethod]
         public void WhenElementIsConstructedThenPropertiesAreSetAccordingArguments()
         {
-            IDsiElement element = new DsiElement(1, "name", "type", "annotation");
+            IDsiElement element = new DsiElement(1, "name", "type", null);
             Assert.AreEqual(1, element.Id);
             Assert.AreEqual("name", element.Name);
             Assert.AreEqual("type", element.Type);
-            Assert.AreEqual("annotation", element.Annotation);
         }
     }
 }

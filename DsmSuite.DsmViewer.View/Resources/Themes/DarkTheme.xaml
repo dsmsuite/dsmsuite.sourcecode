@@ -23,7 +23,6 @@
     <SolidColorBrush x:Key="MatrixColorProvider" po:Freeze="True">#90c1d7</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColorMatch" po:Freeze="True">#ff0000</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColorBookmark" po:Freeze="True">#00ff00</SolidColorBrush>
-    <SolidColorBrush x:Key="MatrixColorAnnotation" po:Freeze="True">#0000ff</SolidColorBrush>
 
     <sys:Double x:Key="HighlightFactorHovered" >1.1</sys:Double>
     <sys:Double x:Key="HighlightFactorSelected" >1.2</sys:Double>

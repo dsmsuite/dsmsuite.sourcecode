@@ -5,6 +5,5 @@
         Default,
         Search,
         Bookmarks,
-        Annotations,
     }
 }

@@ -26,12 +26,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             SortElementCommand = matrixViewModel.SortElementCommand;
             ToggleElementExpandedCommand = matrixViewModel.ToggleElementExpandedCommand;
             BookmarkElementCommand = matrixViewModel.ToggleElementBookmarkCommand;
-            AnnotateElementCommand = matrixViewModel.ChangeElementAnnotationCommand;
 
             SelectedIndicatorViewMode = mainViewModel.SelectedIndicatorViewMode;
 
             ToolTipViewModel = new ElementToolTipViewModel(Element, application);
-            HasAnnotation = ToolTipViewModel.HasAnnotation;
         }
 
         public ElementToolTipViewModel ToolTipViewModel { get; }
@@ -46,8 +44,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public bool IsProvider { get; set; }
         public bool IsMatch => Element.IsMatch;
         public bool IsBookmarked => Element.IsBookmarked;
-        public bool HasAnnotation { get; }
-
         public string Name => Element.IsRoot ? "Root" : Element.Name;
 
         public string Fullname => Element.Fullname;
@@ -58,7 +54,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand SortElementCommand { get; }
         public ICommand ToggleElementExpandedCommand { get; }
         public ICommand BookmarkElementCommand { get; }
-        public ICommand AnnotateElementCommand { get; }
 
         public IndicatorViewMode SelectedIndicatorViewMode { get; }
 

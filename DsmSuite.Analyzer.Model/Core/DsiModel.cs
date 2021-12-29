@@ -82,17 +82,17 @@ namespace DsmSuite.Analyzer.Model.Core
             return _metaDataModel.GetExportedMetaDataGroupItems(groupName);
         }
 
-        public IDsiElement AddElement(string name, string type, string annotation)
+        public IDsiElement AddElement(string name, string type, IDictionary<string, string> properties)
         {
             IDsiElement element = null;
 
             if (!Ignore(name))
             {
-                element = _elementsDataModel.AddElement(name, type, annotation);
+                element = _elementsDataModel.AddElement(name, type, properties);
             }
             else
             {
-                _elementsDataModel.IgnoreElement(name, type, annotation); ;
+                _elementsDataModel.IgnoreElement(name, type);
             }
 
             return element;
@@ -135,18 +135,17 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public int CurrentElementCount => _elementsDataModel.CurrentElementCount;
 
-        public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight,
-            string annotation)
+        public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, IDictionary<string, string> properties)
         {
             IDsiRelation relation = null;
 
             if (!Ignore(consumerName) && !Ignore(providerName))
             {
-                relation = _relationsDataModel.AddRelation(consumerName, providerName, type, weight, annotation);
+                relation = _relationsDataModel.AddRelation(consumerName, providerName, type, weight, properties);
             }
             else
             {
-                _relationsDataModel.IgnoreRelation(consumerName, providerName, type, weight, annotation);
+                _relationsDataModel.IgnoreRelation(consumerName, providerName, type, weight);
             }
 
             return relation;

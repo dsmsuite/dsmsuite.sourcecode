@@ -26,16 +26,11 @@
   <ItemGroup>
     <Compile Include="Core\DsmAction.cs" />
     <Compile Include="Core\DsmActionModel.cs" />
-    <Compile Include="Core\DsmAnnotationModel.cs" />
     <Compile Include="Core\DsmDependencies.cs" />
-    <Compile Include="Core\DsmElementAnnotation.cs" />
     <Compile Include="Core\DsmElementModel.cs" />
-    <Compile Include="Core\DsmRelationAnnotation.cs" />
     <Compile Include="Core\DsmRelationModel.cs" />
     <Compile Include="Interfaces\CycleType.cs" />
     <Compile Include="Interfaces\IDsmAction.cs" />
-    <Compile Include="Interfaces\IDsmElementAnnotation.cs" />
-    <Compile Include="Interfaces\IDsmRelationAnnotation.cs" />
     <Compile Include="Interfaces\ISortResult.cs" />
     <Compile Include="Core\DsmModel.cs" />
     <Compile Include="Interfaces\RelationDirection.cs" />
@@ -43,7 +38,6 @@
     <Compile Include="Interfaces\SearchMode.cs" />
     <Compile Include="Persistency\DsmModelFile.cs" />
     <Compile Include="Persistency\IDsmActionModelFileCallback.cs" />
-    <Compile Include="Persistency\IDsmAnnotationModelFileCallback.cs" />
     <Compile Include="Persistency\IDsmElementModelFileCallback.cs" />
     <Compile Include="Interfaces\IDsmModel.cs" />
     <Compile Include="Interfaces\IDsmElement.cs" />

@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace DsmSuite.Analyzer.Model.Interface
 {
     public interface IDsiRelation
@@ -7,6 +9,6 @@ namespace DsmSuite.Analyzer.Model.Interface
         int ProviderId { get; }
         string Type { get; }
         int Weight { get; }
-        string Annotation { get; }
+        IDictionary<string, string> Properties { get; }
     }
 }

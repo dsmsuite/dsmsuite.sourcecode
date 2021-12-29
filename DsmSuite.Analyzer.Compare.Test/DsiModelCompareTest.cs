@@ -139,7 +139,7 @@ namespace DsmSuite.Analyzer.Compare.Test
         {
             foreach(var model in models)
             {
-                model.AddElement(name, "type", "");
+                model.AddElement(name, "type", null);
             }
         }
 
@@ -147,7 +147,7 @@ namespace DsmSuite.Analyzer.Compare.Test
         {
             foreach (var model in models)
             {
-                model.AddRelation(consumer, provider, "type", 1, "");
+                model.AddRelation(consumer, provider, "type", 1, null);
             }
         }
     }

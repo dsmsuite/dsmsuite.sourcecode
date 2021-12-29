@@ -1,4 +1,5 @@
 ﻿using DsmSuite.DsmViewer.Model.Interfaces;
+using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
@@ -10,13 +11,14 @@ namespace DsmSuite.DsmViewer.Model.Core
         private char _typeId;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
 
-        public DsmRelation(int id, IDsmElement consumer, IDsmElement provider, string type, int weight)
+        public DsmRelation(int id, IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties)
         {
             Id = id;
             Consumer = consumer;
             Provider = provider;
             _typeId = TypeRegistration.AddTypeName(type);
             Weight = weight;
+            Properties = properties;
         }
 
         public int Id { get; }
@@ -32,6 +34,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         }
 
         public int Weight { get; set; }
+
+        public IDictionary<string, string> Properties { get; }
 
         public bool IsDeleted { get; set; }
     }

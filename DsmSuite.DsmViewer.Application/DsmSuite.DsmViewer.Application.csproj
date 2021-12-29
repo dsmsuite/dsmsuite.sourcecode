@@ -27,7 +27,6 @@
   <ItemGroup>
     <Compile Include="Interfaces\ActionType.cs" />
     <Compile Include="Actions\Base\ActionAttributes.cs" />
-    <Compile Include="Actions\Element\ElementChangeAnnotationAction.cs" />
     <Compile Include="Actions\Management\ActionStore.cs" />
     <Compile Include="Actions\Management\ActionManager.cs" />
     <Compile Include="Actions\Base\ActionReadOnlyAttributes.cs" />

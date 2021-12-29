@@ -22,7 +22,7 @@ namespace DsmSuite.Analyzer.Model.Interface
         IEnumerable<IMetaDataItem> GetMetaDataGroupItems(string groupName);
 
         // Element editing
-        IDsiElement AddElement(string name, string type, string annotation);
+        IDsiElement AddElement(string name, string type, IDictionary<string, string> properties);
         void RemoveElement(IDsiElement element);
         void RenameElement(IDsiElement element, string newName);
 
@@ -36,7 +36,7 @@ namespace DsmSuite.Analyzer.Model.Interface
         int GetElementTypeCount(string type);
 
         // Relation editing
-        IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, string annotation);
+        IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, IDictionary<string, string> properties);
         void SkipRelation(string consumerName, string providerName, string type);
         void AmbiguousRelation(string consumerName, string providerName, string type);
         // Relation queries

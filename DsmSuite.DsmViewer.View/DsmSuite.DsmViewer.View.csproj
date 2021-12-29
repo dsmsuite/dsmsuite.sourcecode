@@ -44,9 +44,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Editing\ElementEditAnnotationDialog.xaml.cs">
-      <DependentUpon>ElementEditAnnotationDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Editing\SnapshotCreateDialog.xaml.cs">
       <DependentUpon>SnapshotCreateDialog.xaml</DependentUpon>
     </Compile>
@@ -78,7 +75,6 @@
     </Compile>
     <Compile Include="Validation\ElementNameMustBeNonEmptyRule.cs" />
     <Compile Include="Validation\WeightMustBePositiveNumberRule.cs" />
-    <Compile Include="ValueConverters\AnnotationIndicatorModeToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\BookmarkIndicatorModeToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\DefaultIndicatorModeToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\MatrixSizeToVisbilityConverter.cs" />
@@ -121,10 +117,6 @@
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Editing\ElementCreateDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Editing\ElementEditAnnotationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

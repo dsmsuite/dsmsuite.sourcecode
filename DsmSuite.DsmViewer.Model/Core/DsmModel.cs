@@ -12,19 +12,16 @@ namespace DsmSuite.DsmViewer.Model.Core
     public class DsmModel : IDsmModel
     {
         private readonly MetaDataModel _metaDataModel;
-        private readonly DsmAnnotationModel _annotationModel;
         private readonly DsmElementModel _elementsDataModel;
         private readonly DsmRelationModel _relationsDataModel;
         private readonly DsmActionModel _actionsDataModel;
-
 
         public DsmModel(string processStep, Assembly executingAssembly)
         {
             _metaDataModel = new MetaDataModel(processStep, executingAssembly);
 
-            _annotationModel = new DsmAnnotationModel();
             _relationsDataModel = new DsmRelationModel();
-            _elementsDataModel = new DsmElementModel(_relationsDataModel, _annotationModel);
+            _elementsDataModel = new DsmElementModel(_relationsDataModel);
             _actionsDataModel = new DsmActionModel();
         }
 
@@ -33,7 +30,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             Logger.LogDataModelMessage($"Load data model file={dsmFilename}");
 
             Clear();
-            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel, _annotationModel);
+            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel);
             dsmModelFile.Load(progress);
             IsCompressed = dsmModelFile.IsCompressedFile();
             ModelFilename = dsmFilename;
@@ -45,7 +42,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             _metaDataModel.AddMetaDataItemToDefaultGroup("Total elements found", $"{GetExportedElementCount()}"); 
 
-            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel, _annotationModel);
+            DsmModelFile dsmModelFile = new DsmModelFile(dsmFilename, _metaDataModel, _elementsDataModel, _relationsDataModel, _actionsDataModel);
             dsmModelFile.Save(compressFile, progress);
             ModelFilename = dsmFilename;
         }
@@ -96,9 +93,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _actionsDataModel.GetExportedActions();
         }
 
-        public IDsmElement AddElement(string name, string type, int? parentId)
+        public IDsmElement AddElement(string name, string type, int? parentId, IDictionary<string, string> properties)
         {
-            return _elementsDataModel.AddElement(name, type, parentId);
+            return _elementsDataModel.AddElement(name, type, parentId, properties);
         }
 
         public void ChangeElementName(IDsmElement element, string name)
@@ -176,9 +173,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.GetDeletedElementById(id);
         }
 
-        public IDsmRelation AddRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
+        public IDsmRelation AddRelation(IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties)
         {
-            return _relationsDataModel.AddRelation(consumer, provider, type, weight);
+            return _relationsDataModel.AddRelation(consumer, provider, type, weight, properties);
         }
 
         public void ChangeRelationType(IDsmRelation relation, string type)
@@ -304,36 +301,6 @@ namespace DsmSuite.DsmViewer.Model.Core
         public int GetActionCount()
         {
             return _actionsDataModel.GetExportedActionCount();
-        }
-
-        public void ChangeElementAnnotation(IDsmElement element, string text)
-        {
-            _annotationModel.ChangeElementAnnotation(element, text);
-        }
-
-        public void ChangeRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text)
-        {
-            _annotationModel.ChangeRelationAnnotation(consumer, provider, text);
-        }
-
-        public IEnumerable<IDsmElementAnnotation> GetElementAnnotations()
-        {
-            return _annotationModel.GetElementAnnotations();
-        }
-
-        public IEnumerable<IDsmRelationAnnotation> GetRelationAnnotations()
-        {
-            return _annotationModel.GetRelationAnnotations();
-        }
-
-        public IDsmElementAnnotation FindElementAnnotation(IDsmElement element)
-        {
-            return _annotationModel.FindElementAnnotation(element);
-        }
-
-        public IDsmRelationAnnotation FindRelationAnnotation(IDsmElement consumer, IDsmElement provider)
-        {
-            return _annotationModel.FindRelationAnnotation(consumer, provider);
         }
     }
 }

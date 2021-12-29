@@ -15,8 +15,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ModelElementCountXmlAttribute = "elementCount";
         private const string ModelRelationCountXmlAttribute = "relationCount";
         private const string ModelActionCountXmlAttribute = "actionCount";
-        private const string ModelElementAnnotationCountXmlAttribute = "elementAnnotationCount";
-        private const string ModelRelationAnnotationCountXmlAttribute = "relationAnnotationCount";
 
         private const string MetaDataGroupXmlNode = "metadatagroup";
         private const string MetaDataGroupNameXmlAttribute = "name";
@@ -54,34 +52,17 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         private const string ActionTypeXmlAttribute = "type";
         private const string ActionDataXmlNode = "data";
 
-        private const string ElementAnnotationGroupXmlNode = "elementAnnotations";
-        private const string ElementAnnotationXmlNode = "elementAnnotation";
-        private const string ElementAnnotationIdXmlAttribute = "id";
-        private const string ElementAnnotationTextXmlAttribute = "text";
-
-        private const string RelationAnnotationGroupXmlNode = "relationAnnotations";
-        private const string RelationAnnotationXmlNode = "relationAnnotation";
-        private const string RelationAnnotationToIdXmlAttribute = "to";
-        private const string RelationAnnotationFromIdXmlAttribute = "from";
-        private const string RelationAnnotationTextXmlAttribute = "text";
-
-
         private readonly string _filename;
         private readonly IMetaDataModelFileCallback _metaDataModelCallback;
         private readonly IDsmElementModelFileCallback _elementModelCallback;
         private readonly IDsmRelationModelFileCallback _relationModelCallback;
         private readonly IDsmActionModelFileCallback _actionModelCallback;
-        private readonly IDsmAnnotationModelFileCallback _annotationModelCallback;
         private int _totalElementCount;
         private int _progressedElementCount;
         private int _totalRelationCount;
         private int _progressedRelationCount;
         private int _totalActionCount;
         private int _progressedActionCount;
-        private int _totalElementAnnotationCount;
-        private int _progressedElementAnnotationCount;
-        private int _totalRelationAnnotationCount;
-        private int _progressedRelationAnnotationCount;
         private int _progress;
         private string _progressActionText;
 
@@ -89,15 +70,13 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                             IMetaDataModelFileCallback metaDataModelCallback,
                             IDsmElementModelFileCallback elementModelCallback,
                             IDsmRelationModelFileCallback relationModelCallback,
-                            IDsmActionModelFileCallback actionModelCallback,
-                            IDsmAnnotationModelFileCallback annotationModelCallback)
+                            IDsmActionModelFileCallback actionModelCallback)
         {
             _filename = filename;
             _metaDataModelCallback = metaDataModelCallback;
             _elementModelCallback = elementModelCallback;
             _relationModelCallback = relationModelCallback;
             _actionModelCallback = actionModelCallback;
-            _annotationModelCallback = annotationModelCallback;
         }
 
         public void Save(bool compressed, IProgress<ProgressInfo> progress)
@@ -140,8 +119,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                     WriteElements(writer, progress);
                     WriteRelations(writer, progress);
                     WriteActions(writer, progress);
-                    WriteElementAnnotations(writer, progress);
-                    WriteRelationAnnotations(writer, progress);
                 }
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
@@ -162,8 +139,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                             ReadElement(xReader, progress);
                             ReadRelation(xReader, progress);
                             ReadAction(xReader, progress);
-                            ReadElementAnnotation(xReader, progress);
-                            ReadRelationAnnotation(xReader, progress);
                             break;
                         case XmlNodeType.Text:
                             break;
@@ -187,14 +162,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             _totalActionCount = _actionModelCallback.GetExportedActionCount();
             writer.WriteAttributeString(ModelActionCountXmlAttribute, _totalActionCount.ToString());
             _progressedActionCount = 0;
-
-            _totalElementAnnotationCount = _annotationModelCallback.GetElementAnnotationCount();
-            writer.WriteAttributeString(ModelElementAnnotationCountXmlAttribute, _totalElementAnnotationCount.ToString());
-            _progressedElementAnnotationCount = 0;
-
-            _totalRelationAnnotationCount = _annotationModelCallback.GetRelationAnnotationCount();
-            writer.WriteAttributeString(ModelRelationAnnotationCountXmlAttribute, _totalRelationAnnotationCount.ToString());
-            _progressedRelationAnnotationCount = 0;
         }
 
         private void ReadModelAttributes(XmlReader xReader)
@@ -204,8 +171,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 int? elementCount = ParseInt(xReader.GetAttribute(ModelElementCountXmlAttribute));
                 int? relationCount = ParseInt(xReader.GetAttribute(ModelRelationCountXmlAttribute));
                 int? actionCount = ParseInt(xReader.GetAttribute(ModelActionCountXmlAttribute));
-                int? elementAnnotationCount = ParseInt(xReader.GetAttribute(ModelElementAnnotationCountXmlAttribute));
-                int? relationAnnotationCount = ParseInt(xReader.GetAttribute(ModelRelationAnnotationCountXmlAttribute));
 
                 _totalElementCount = elementCount ?? 0;
                 _progressedElementCount = 0;
@@ -213,10 +178,6 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                 _progressedRelationCount = 0;
                 _totalActionCount = actionCount ?? 0;
                 _progressedActionCount = 0;
-                _totalElementAnnotationCount = elementAnnotationCount ?? 0;
-                _progressedElementAnnotationCount = 0;
-                _totalRelationAnnotationCount = relationAnnotationCount ?? 0;
-                _progressedRelationAnnotationCount = 0;
             }
         }
 
@@ -294,6 +255,13 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             {
                 writer.WriteAttributeString(ElementParentXmlAttribute, element.Parent.Id.ToString());
             }
+            if (element.Properties != null)
+            {
+                foreach (KeyValuePair<string, string> elementProperty in element.Properties)
+                {
+                    writer.WriteAttributeString(elementProperty.Key, elementProperty.Value);
+                }
+            }
             writer.WriteEndElement();
 
             _progressedElementCount++;
@@ -309,18 +277,66 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             if (xReader.Name == ElementXmlNode)
             {
-                int? id = ParseInt(xReader.GetAttribute(ElementIdXmlAttribute));
-                int? order = ParseInt(xReader.GetAttribute(ElementOrderXmlAttribute));
-                string name = xReader.GetAttribute(ElementNameXmlAttribute);
-                string type = xReader.GetAttribute(ElementTypeXmlAttribute);
-                bool expanded = ParseBool(xReader.GetAttribute(ElementExpandedXmlAttribute));
-                int? parent = ParseInt(xReader.GetAttribute(ElementParentXmlAttribute));
-                bool deleted = ParseBool(xReader.GetAttribute(ElementDeletedXmlAttribute));
-                bool bookmarked  = ParseBool(xReader.GetAttribute(ElementBookmarkedXmlAttribute));
+                int? id = null;
+                int? order = null;
+                string name = "";
+                string type = "";
+                bool expanded = false;
+                int? parent = null;
+                bool deleted = false;
+                bool bookmarked = false;
+
+                Dictionary<string, string> elementProperties = new Dictionary<string, string>();
+                for (int attInd = 0; attInd < xReader.AttributeCount; attInd++)
+                {
+                    xReader.MoveToAttribute(attInd);
+                    switch (xReader.Name)
+                    {
+                        case ElementIdXmlAttribute:
+                            id = ParseInt(xReader.Value);
+                            break;
+                        case ElementOrderXmlAttribute:
+                            order = ParseInt(xReader.Value);
+                            break;
+                        case ElementNameXmlAttribute:
+                            name = xReader.Value;
+                            break;
+                        case ElementTypeXmlAttribute:
+                            type = xReader.Value;
+                            break;
+                        case ElementExpandedXmlAttribute:
+                            expanded = ParseBool(xReader.Value);
+                            break;
+                        case ElementParentXmlAttribute:
+                            parent = ParseInt(xReader.Value);
+                            break;
+                        case ElementDeletedXmlAttribute:
+                            deleted = ParseBool(xReader.Value);
+                            break;
+                        case ElementBookmarkedXmlAttribute:
+                            bookmarked = ParseBool(xReader.Value);
+                            break;
+                        default:
+                            if (!string.IsNullOrEmpty(xReader.Value))
+                            {
+                                elementProperties[xReader.Name] = xReader.Value;
+                            }
+                            break;
+                    }
+                }
+        
                 if (id.HasValue && order.HasValue)
                 {
-                    IDsmElement element = _elementModelCallback.ImportElement(id.Value, name, type, order.Value, expanded, parent, deleted);
-                    element.IsBookmarked = bookmarked;
+                    if (elementProperties.Count > 0)
+                    {
+                        IDsmElement element = _elementModelCallback.ImportElement(id.Value, name, type, elementProperties, order.Value, expanded, parent, deleted);
+                        element.IsBookmarked = bookmarked;
+                    }
+                    else
+                    {
+                        IDsmElement element = _elementModelCallback.ImportElement(id.Value, name, type, null, order.Value, expanded, parent, deleted);
+                        element.IsBookmarked = bookmarked;
+                    }
                 }
 
                 _progressedElementCount++;
@@ -350,6 +366,13 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             {
                 writer.WriteAttributeString(RelationDeletedXmlAttribute, "true");
             }
+            if (relation.Properties != null)
+            {
+                foreach (KeyValuePair<string, string> relationProperty in relation.Properties)
+                {
+                    writer.WriteAttributeString(relationProperty.Key, relationProperty.Value);
+                }
+            }
             writer.WriteEndElement();
 
             _progressedRelationCount++;
@@ -360,22 +383,59 @@ namespace DsmSuite.DsmViewer.Model.Persistency
         {
             if (xReader.Name == RelationXmlNode)
             {
-                int? id = ParseInt(xReader.GetAttribute(RelationIdXmlAttribute));
-                int? consumerId = ParseInt(xReader.GetAttribute(RelationFromXmlAttribute));
-                int? providerId = ParseInt(xReader.GetAttribute(RelationToXmlAttribute));
-                string type = xReader.GetAttribute(RelationTypeXmlAttribute);
-                int? weight = ParseInt(xReader.GetAttribute(RelationWeightXmlAttribute));
-                bool deleted = ParseBool(xReader.GetAttribute(RelationDeletedXmlAttribute));
+                int? id = null;
+                int? consumerId = null;
+                int? providerId = null;
+                string type = "";
+                int? weight = null;
+                bool deleted = false;
 
-                if (id.HasValue &&
-                    consumerId.HasValue &&
-                    providerId.HasValue &&
-                    weight.HasValue)
+                Dictionary<string, string> relationProperties = new Dictionary<string, string>();
+                for (int attInd = 0; attInd < xReader.AttributeCount; attInd++)
+                {
+                    xReader.MoveToAttribute(attInd);
+                    switch (xReader.Name)
+                    {
+                        case RelationIdXmlAttribute:
+                            id = ParseInt(xReader.Value);
+                            break;
+                        case RelationFromXmlAttribute:
+                            consumerId = ParseInt(xReader.Value);
+                            break;
+                        case RelationToXmlAttribute:
+                            providerId = ParseInt(xReader.Value);
+                            break;
+                        case RelationTypeXmlAttribute:
+                            type = xReader.Value;
+                            break;
+                        case RelationWeightXmlAttribute:
+                            weight = ParseInt(xReader.Value);
+                            break;
+                        case RelationDeletedXmlAttribute:
+                            deleted = ParseBool(xReader.Value);
+                            break;
+                        default:
+                            if (!string.IsNullOrEmpty(xReader.Value))
+                            {
+                                relationProperties[xReader.Name] = xReader.Value;
+                            }
+                            break;
+                    }
+                }
+
+                if (id.HasValue && consumerId.HasValue && providerId.HasValue && weight.HasValue)
                 {
                     IDsmElement consumer = _elementModelCallback.FindElementById(consumerId.Value);
                     IDsmElement provider = _elementModelCallback.FindElementById(providerId.Value);
 
-                    _relationModelCallback.ImportRelation(id.Value, consumer, provider, type, weight.Value, deleted);
+                    if (relationProperties.Count > 0)
+                    {
+                        _relationModelCallback.ImportRelation(id.Value, consumer, provider, type, weight.Value, relationProperties, deleted);
+                    }
+                    else
+                    {
+                        _relationModelCallback.ImportRelation(id.Value, consumer, provider, type, weight.Value, null, deleted);
+                    }
                 }
 
                 _progressedRelationCount++;
@@ -441,90 +501,12 @@ namespace DsmSuite.DsmViewer.Model.Persistency
             }
         }
 
-        private void WriteElementAnnotations(XmlWriter writer, IProgress<ProgressInfo> progress)
-        {
-            writer.WriteStartElement(ElementAnnotationGroupXmlNode);
-            foreach (IDsmElementAnnotation annotation in _annotationModelCallback.GetElementAnnotations())
-            {
-                WriteElementAnnotation(writer, annotation, progress);
-            }
-            writer.WriteEndElement();
-        }
-
-        private void WriteElementAnnotation(XmlWriter writer, IDsmElementAnnotation annotation, IProgress<ProgressInfo> progress)
-        {
-            writer.WriteStartElement(ElementAnnotationXmlNode);
-            writer.WriteAttributeString(ElementAnnotationIdXmlAttribute, annotation.ElementId.ToString());
-            writer.WriteAttributeString(ElementAnnotationTextXmlAttribute, annotation.Text);
-            writer.WriteEndElement();
-
-            _progressedElementAnnotationCount++;
-            UpdateProgress(progress, false);
-        }
-
-        private void ReadElementAnnotation(XmlReader xReader, IProgress<ProgressInfo> progress)
-        {
-            if (xReader.Name == ElementAnnotationXmlNode)
-            {
-                int? id = ParseInt(xReader.GetAttribute(ElementAnnotationIdXmlAttribute));
-                string text = xReader.GetAttribute(ElementAnnotationTextXmlAttribute);
-
-                if (id.HasValue)
-                {
-                    _annotationModelCallback.ImportElementAnnotation(id.Value, text);
-                }
-
-                _progressedElementAnnotationCount++;
-                UpdateProgress(progress, false);
-            }
-        }
-
-        private void WriteRelationAnnotations(XmlWriter writer, IProgress<ProgressInfo> progress)
-        {
-            writer.WriteStartElement(RelationAnnotationGroupXmlNode);
-            foreach (IDsmRelationAnnotation annotation in _annotationModelCallback.GetRelationAnnotations())
-            {
-                WriteRelationAnnotation(writer, annotation, progress);
-            }
-            writer.WriteEndElement();
-        }
-
-        private void WriteRelationAnnotation(XmlWriter writer, IDsmRelationAnnotation annotation, IProgress<ProgressInfo> progress)
-        {
-            writer.WriteStartElement(RelationAnnotationXmlNode);
-            writer.WriteAttributeString(RelationAnnotationToIdXmlAttribute, annotation.ConsumerId.ToString());
-            writer.WriteAttributeString(RelationAnnotationFromIdXmlAttribute, annotation.ProviderId.ToString());
-            writer.WriteAttributeString(RelationAnnotationTextXmlAttribute, annotation.Text);
-            writer.WriteEndElement();
-
-            _progressedRelationAnnotationCount++;
-            UpdateProgress(progress, false);
-        }
-
-        private void ReadRelationAnnotation(XmlReader xReader, IProgress<ProgressInfo> progress)
-        {
-            if (xReader.Name == RelationAnnotationXmlNode)
-            {
-                int? consumerId = ParseInt(xReader.GetAttribute(RelationAnnotationToIdXmlAttribute));
-                int? providerId = ParseInt(xReader.GetAttribute(RelationAnnotationFromIdXmlAttribute));
-                string text = xReader.GetAttribute(RelationAnnotationTextXmlAttribute);
-
-                if (providerId.HasValue && providerId.HasValue)
-                {
-                    _annotationModelCallback.ImportRelationAnnotation(consumerId.Value, providerId.Value, text);
-                }
-
-                _progressedRelationAnnotationCount++;
-                UpdateProgress(progress, false);
-            }
-        }
-
         private void UpdateProgress(IProgress<ProgressInfo> progress, bool done)
         {
             if (progress != null)
             {
-                int totalItemCount = _totalElementCount + _totalRelationCount + _totalActionCount + _totalElementAnnotationCount + _totalRelationAnnotationCount;
-                int progressedItemCount = _progressedElementCount + _progressedRelationCount + _progressedActionCount + _progressedElementAnnotationCount + _progressedRelationAnnotationCount;
+                int totalItemCount = _totalElementCount + _totalRelationCount + _totalActionCount;
+                int progressedItemCount = _progressedElementCount + _progressedRelationCount + _progressedActionCount;
 
                 int currentProgress = 0;
                 if (totalItemCount > 0)

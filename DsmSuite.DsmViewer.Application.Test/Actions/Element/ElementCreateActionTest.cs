@@ -32,7 +32,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             _model.Setup(x => x.GetElementById(ParentId)).Returns(_parent.Object);
             _parent.Setup(x => x.Id).Returns(ParentId);
 
-            _model.Setup(x => x.AddElement(Name, Type, ParentId)).Returns(_element.Object);
+            _model.Setup(x => x.AddElement(Name, Type, ParentId, null)).Returns(_element.Object);
 
             _data = new Dictionary<string, string>
             {
@@ -50,7 +50,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             action.Do();
             Assert.IsTrue(action.IsValid());
 
-            _model.Verify(x => x.AddElement(Name, Type, ParentId), Times.Once());
+            _model.Verify(x => x.AddElement(Name, Type, ParentId, null), Times.Once());
         }
 
         [TestMethod]

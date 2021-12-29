@@ -20,7 +20,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IMetaDataItem AddMetaData(string group, string name, string value);
 
         // Element editing
-        IDsmElement AddElement(string name, string type, int? parentId);
+        IDsmElement AddElement(string name, string type, int? parentId, IDictionary<string, string> properties);
         void RemoveElement(int elementId);
         void UnremoveElement(int elementId);
         void ChangeElementName(IDsmElement element, string name);
@@ -43,7 +43,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         int GetElementCount();
 
         // Relation editing
-        IDsmRelation AddRelation(IDsmElement consumer, IDsmElement provider, string type, int weight);
+        IDsmRelation AddRelation(IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties);
         void ChangeRelationType(IDsmRelation relation, string type);
         void ChangeRelationWeight(IDsmRelation relation, int weight);
         void RemoveRelation(int relationId);
@@ -69,13 +69,5 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmAction AddAction(string type, IReadOnlyDictionary<string, string> data);
         void ClearActions();
         IEnumerable<IDsmAction> GetActions();
-
-        // Annotations
-        void ChangeElementAnnotation(IDsmElement element, string text);
-        void ChangeRelationAnnotation(IDsmElement consumer, IDsmElement provider, string text);
-        IEnumerable<IDsmElementAnnotation> GetElementAnnotations();
-        IEnumerable<IDsmRelationAnnotation> GetRelationAnnotations();
-        IDsmElementAnnotation FindElementAnnotation(IDsmElement element);
-        IDsmRelationAnnotation FindRelationAnnotation(IDsmElement consumer, IDsmElement provider);
     }
 }

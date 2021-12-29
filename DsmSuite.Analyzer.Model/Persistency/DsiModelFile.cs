@@ -5,6 +5,7 @@ using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Model.Persistency;
+using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.Model.Persistency
 {
@@ -26,7 +27,6 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private const string ElementIdXmlAttribute = "id";
         private const string ElementNameXmlAttribute = "name";
         private const string ElementTypeXmlAttribute = "type";
-        private const string ElementAnnotationXmlAttribute = "annotation";
 
         private const string RelationGroupXmlNode = "relations";
 
@@ -35,7 +35,6 @@ namespace DsmSuite.Analyzer.Model.Persistency
         private const string RelationToXmlAttribute = "to";
         private const string RelationTypeXmlAttribute = "type";
         private const string RelationWeightXmlAttribute = "weight";
-        private const string RelationAnnotationXmlAttribute = "annotation";
 
         private readonly string _filename;
         private readonly IMetaDataModelFileCallback _metaDataModelCallback;
@@ -206,9 +205,12 @@ namespace DsmSuite.Analyzer.Model.Persistency
             writer.WriteAttributeString(ElementIdXmlAttribute, element.Id.ToString());
             writer.WriteAttributeString(ElementNameXmlAttribute, element.Name);
             writer.WriteAttributeString(ElementTypeXmlAttribute, element.Type);
-            if (!string.IsNullOrEmpty(element.Annotation))
+            if (element.Properties != null)
             {
-                writer.WriteAttributeString(ElementAnnotationXmlAttribute, element.Annotation);
+                foreach (KeyValuePair<string, string> elementProperty in element.Properties)
+                {
+                    writer.WriteAttributeString(elementProperty.Key, elementProperty.Value);
+                }
             }
             writer.WriteEndElement();
 
@@ -220,14 +222,44 @@ namespace DsmSuite.Analyzer.Model.Persistency
         {
             if (xReader.Name == ElementXmlNode)
             {
-                int? id = ParseInt(xReader.GetAttribute(ElementIdXmlAttribute));
-                string name = xReader.GetAttribute(ElementNameXmlAttribute);
-                string type = xReader.GetAttribute(ElementTypeXmlAttribute);
-                string annotation = xReader.GetAttribute(ElementAnnotationXmlAttribute);
+                int? id = null;
+                string name = "";
+                string type = "";
+
+                Dictionary<string, string> elementProperties = new Dictionary<string, string>();
+                for (int attInd = 0; attInd < xReader.AttributeCount; attInd++)
+                {
+                    xReader.MoveToAttribute(attInd);
+                    switch(xReader.Name)
+                    {
+                        case ElementIdXmlAttribute:
+                            id = ParseInt(xReader.Value);
+                            break;
+                        case ElementNameXmlAttribute:
+                            name = xReader.Value;
+                            break;
+                        case ElementTypeXmlAttribute:
+                            type = xReader.Value;
+                            break;
+                        default:
+                            if (!string.IsNullOrEmpty(xReader.Value))
+                            {
+                                elementProperties[xReader.Name] = xReader.Value;
+                            }
+                            break;
+                    }
+                }
 
                 if (id.HasValue)
                 {
-                    _elementModelCallback.ImportElement(id.Value, name, type, annotation);
+                    if (elementProperties.Count > 0)
+                    {
+                        _elementModelCallback.ImportElement(id.Value, name, type, elementProperties);
+                    }
+                    else
+                    {
+                        _elementModelCallback.ImportElement(id.Value, name, type, null);
+                    }
                 }
 
                 _progressedElementCount++;
@@ -252,9 +284,12 @@ namespace DsmSuite.Analyzer.Model.Persistency
             writer.WriteAttributeString(RelationToXmlAttribute, relation.ProviderId.ToString());
             writer.WriteAttributeString(RelationTypeXmlAttribute, relation.Type);
             writer.WriteAttributeString(RelationWeightXmlAttribute, relation.Weight.ToString());
-            if (!string.IsNullOrEmpty(relation.Annotation))
+            if (relation.Properties != null)
             {
-                writer.WriteAttributeString(RelationAnnotationXmlAttribute, relation.Annotation);
+                foreach (KeyValuePair<string, string> relationProperty in relation.Properties)
+                {
+                    writer.WriteAttributeString(relationProperty.Key, relationProperty.Value);
+                }
             }
             writer.WriteEndElement();
 
@@ -266,15 +301,48 @@ namespace DsmSuite.Analyzer.Model.Persistency
         {
             if (xReader.Name == RelationXmlNode)
             {
-                int? consumerId = ParseInt(xReader.GetAttribute(RelationFromXmlAttribute));
-                int? providerId = ParseInt(xReader.GetAttribute(RelationToXmlAttribute));
-                string type = xReader.GetAttribute(RelationTypeXmlAttribute);
-                int? weight = ParseInt(xReader.GetAttribute(RelationWeightXmlAttribute));
-                string annotation = xReader.GetAttribute(RelationAnnotationXmlAttribute);
+                int? consumerId = null;
+                int? providerId = null;
+                string type = "";
+                int? weight = null;
+
+                Dictionary<string, string> relationProperties = new Dictionary<string, string>();
+                for (int attInd = 0; attInd < xReader.AttributeCount; attInd++)
+                {
+                    xReader.MoveToAttribute(attInd);
+                    switch (xReader.Name)
+                    {
+                        case RelationFromXmlAttribute:
+                            consumerId = ParseInt(xReader.Value);
+                            break;
+                        case RelationToXmlAttribute:
+                            providerId = ParseInt(xReader.Value);
+                            break;
+                        case RelationTypeXmlAttribute:
+                            type = xReader.Value;
+                            break;
+                        case RelationWeightXmlAttribute:
+                            weight = ParseInt(xReader.Value);
+                            break;
+                        default:
+                            if (!string.IsNullOrEmpty(xReader.Value))
+                            {
+                                relationProperties[xReader.Name] = xReader.Value;
+                            }
+                            break;
+                    }
+                }
 
                 if (consumerId.HasValue && providerId.HasValue && weight.HasValue)
                 {
-                    _relationModelCallback.ImportRelation(consumerId.Value, providerId.Value, type, weight.Value, annotation);
+                    if (relationProperties.Count > 0)
+                    {
+                        _relationModelCallback.ImportRelation(consumerId.Value, providerId.Value, type, weight.Value, relationProperties);
+                    }
+                    else
+                    {
+                        _relationModelCallback.ImportRelation(consumerId.Value, providerId.Value, type, weight.Value, null);
+                    }
                 }
 
                 _progressedRelationCount++;

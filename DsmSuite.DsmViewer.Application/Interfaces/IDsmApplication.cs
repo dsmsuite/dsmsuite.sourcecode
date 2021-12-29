@@ -57,7 +57,6 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         void CreateElement(string name, string type, IDsmElement parent);
         void DeleteElement(IDsmElement element);
         void ChangeElementName(IDsmElement element, string name);
-        void ChangeElementAnnotation(IDsmElement element, string annotation);
         void ChangeElementType(IDsmElement element, string type);
         void ChangeElementParent(IDsmElement element, IDsmElement newParent, int index);
 
@@ -73,9 +72,5 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         int GetElementSize(IDsmElement element);
         int GetElementCount();
-
-        void AddElementAnnotation(IDsmElement element, string text);
-        IDsmElementAnnotation FindElementAnnotation(IDsmElement element);
-        IDsmRelationAnnotation FindRelationAnnotation(IDsmElement consumer, IDsmElement provider);
     }
 }

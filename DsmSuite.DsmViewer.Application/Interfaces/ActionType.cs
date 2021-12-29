@@ -2,7 +2,6 @@
 {
     public enum ActionType
     {
-        ElementChangeAnnotation,
         ElementChangeName,
         ElementChangeParent,
         ElementChangeType,

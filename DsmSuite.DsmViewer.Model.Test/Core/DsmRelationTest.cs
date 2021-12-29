@@ -13,11 +13,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             int relationId = 1;
             int consumerId = 2;
             int providerId = 3;
-            IDsmElement consumer = new DsmElement(consumerId, "element1", "type1");
-            IDsmElement provider = new DsmElement(providerId, "element2", "type2");
+            IDsmElement consumer = new DsmElement(consumerId, "element1", "type1", null);
+            IDsmElement provider = new DsmElement(providerId, "element2", "type2", null);
             string relationType = "include";
             int weight = 4;
-            DsmRelation relation = new DsmRelation(relationId, consumer, provider, relationType, weight);
+            DsmRelation relation = new DsmRelation(relationId, consumer, provider, relationType, weight, null);
             Assert.AreEqual(relationId, relation.Id);
             Assert.AreEqual(consumerId, relation.Consumer.Id);
             Assert.AreEqual(providerId, relation.Provider.Id);

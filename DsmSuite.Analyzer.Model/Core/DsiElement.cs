@@ -1,4 +1,5 @@
 using DsmSuite.Analyzer.Model.Interface;
+using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
@@ -7,17 +8,17 @@ namespace DsmSuite.Analyzer.Model.Core
     /// </summary>
     public class DsiElement : IDsiElement
     {
-        public DsiElement(int id, string name, string type, string annotation)
+        public DsiElement(int id, string name, string type, IDictionary<string, string> properties)
         {
             Id = id;
             Name = name;
             Type = type;
-            Annotation = annotation;
+            Properties = properties;
         }
 
         public int Id { get; }
         public string Name { get; set;}
         public string Type { get; }
-        public string Annotation { get; }
+        public IDictionary<string, string> Properties { get; }
     }
 }

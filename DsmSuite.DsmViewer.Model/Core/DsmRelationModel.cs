@@ -33,7 +33,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             _deletedRelationsById.Clear();
         }
 
-        public IDsmRelation ImportRelation(int relationId, IDsmElement consumer, IDsmElement provider, string type, int weight, bool deleted)
+        public IDsmRelation ImportRelation(int relationId, IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties, bool deleted)
         {
             DsmRelation relation = null;
 
@@ -50,7 +50,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
                 if (consumer.Id != provider.Id)
                 {
-                    relation = new DsmRelation(relationId, consumer, provider, type, weight) {IsDeleted = deleted};
+                    relation = new DsmRelation(relationId, consumer, provider, type, weight, properties) {IsDeleted = deleted};
                     if (deleted)
                     {
                         UnregisterRelation(relation);
@@ -65,7 +65,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relation;
         }
 
-        public IDsmRelation AddRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
+        public IDsmRelation AddRelation(IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties)
         {
             DsmRelation relation = null;
 
@@ -77,7 +77,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 if (consumer.Id != provider.Id)
                 {
                     _lastRelationId++;
-                    relation = new DsmRelation(_lastRelationId, consumer, provider, type, weight) {IsDeleted = false};
+                    relation = new DsmRelation(_lastRelationId, consumer, provider, type, weight, properties) {IsDeleted = false};
                     RegisterRelation(relation);
                 }
             }

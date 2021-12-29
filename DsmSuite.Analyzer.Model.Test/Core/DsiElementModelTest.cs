@@ -87,14 +87,13 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            model.ImportElement(1, "name", "type", "annotation");
+            model.ImportElement(1, "name", "type", null);
 
             IDsiElement foundElement = model.FindElementById(1);
             Assert.IsNotNull(foundElement);
             Assert.AreEqual(1, foundElement.Id);
             Assert.AreEqual("name", foundElement.Name);
             Assert.AreEqual("type", foundElement.Type);
-            Assert.AreEqual("annotation", foundElement.Annotation);
         }
 
         [TestMethod]
@@ -131,14 +130,13 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            model.ImportElement(1, "name", "type", "annotation");
+            model.ImportElement(1, "name", "type", null);
 
             IDsiElement foundElement = model.FindElementByName("name");
             Assert.IsNotNull(foundElement);
             Assert.AreEqual(1, foundElement.Id);
             Assert.AreEqual("name", foundElement.Name);
             Assert.AreEqual("type", foundElement.Type);
-            Assert.AreEqual("annotation", foundElement.Annotation);
         }
 
         [TestMethod]
@@ -175,7 +173,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            IDsiElement element = model.AddElement("name", "type", "annotation");
+            IDsiElement element = model.AddElement("name", "type", null);
             Assert.IsNotNull(element);
             Assert.AreEqual(1, model.CurrentElementCount);
 
@@ -187,7 +185,6 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             Assert.AreEqual(1, foundElement.Id);
             Assert.AreEqual("newname", foundElement.Name);
             Assert.AreEqual("type", foundElement.Type);
-            Assert.AreEqual("annotation", foundElement.Annotation);
         }
 
         [TestMethod]
@@ -223,9 +220,9 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             DsiElementModel model = new DsiElementModel();
             Assert.AreEqual(0, model.CurrentElementCount);
 
-            model.ImportElement(1, "name1", "type1", "annotation1");
-            model.ImportElement(2, "name2", "type2", "annotation2");
-            model.ImportElement(3, "name3", "type3", "annotation3");
+            model.ImportElement(1, "name1", "type1", null);
+            model.ImportElement(2, "name2", "type2", null);
+            model.ImportElement(3, "name3", "type3", null);
 
             List<IDsiElement> elements = model.GetElements().ToList();
             Assert.AreEqual(3, elements.Count);
@@ -233,17 +230,14 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             Assert.AreEqual(1, elements[0].Id);
             Assert.AreEqual("name1", elements[0].Name);
             Assert.AreEqual("type1", elements[0].Type);
-            Assert.AreEqual("annotation1", elements[0].Annotation);
 
             Assert.AreEqual(2, elements[1].Id);
             Assert.AreEqual("name2", elements[1].Name);
             Assert.AreEqual("type2", elements[1].Type);
-            Assert.AreEqual("annotation2", elements[1].Annotation);
 
             Assert.AreEqual(3, elements[2].Id);
             Assert.AreEqual("name3", elements[2].Name);
             Assert.AreEqual("type3", elements[2].Type);
-            Assert.AreEqual("annotation3", elements[2].Annotation);
         }
     }
 }

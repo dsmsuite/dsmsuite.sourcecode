@@ -15,11 +15,12 @@ namespace DsmSuite.DsmViewer.Model.Core
         private DsmElement _parent;
         private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
 
-        public DsmElement(int id, string name, string type, int order = 0, bool isExpanded = false)
+        public DsmElement(int id, string name, string type, IDictionary<string, string> properties, int order = 0, bool isExpanded = false)
         {
             Id = id;
             Name = name;
             _typeId = TypeRegistration.AddTypeName(type);
+            Properties = properties;
             Order = order;
             IsExpanded = isExpanded;
             IsIncludedInTree = true;
@@ -39,6 +40,8 @@ namespace DsmSuite.DsmViewer.Model.Core
         }
 
         public string Name { get; set; }
+
+        public IDictionary<string, string> Properties { get; }
 
         public bool IsDeleted { get; set; }
 

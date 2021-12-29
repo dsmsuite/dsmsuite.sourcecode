@@ -25,6 +25,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// </summary>
         string Name { get; }
 
+        IDictionary<string, string> Properties { get; }
+
         /// <summary>
         /// Full name of the element based on its position in the element hierarchy
         /// </summary>

@@ -33,7 +33,6 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
     public class DsmRelationsDataModelTest
     {
         private DsmRelationModel _relationsModel;
-        private DsmAnnotationModel _annotationModel;
         private DsmElementModel _elementsDataModel;
 
         private DsmElement _root;
@@ -55,8 +54,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         public void TestInitialize()
         {
             _relationsModel = new DsmRelationModel();
-            _annotationModel = new DsmAnnotationModel();
-            _elementsDataModel = new DsmElementModel(_relationsModel, _annotationModel);
+            _elementsDataModel = new DsmElementModel(_relationsModel);
             _root = _elementsDataModel.GetRootElement() as DsmElement;
             _expectedWeights = new Dictionary<IDsmElement, Dictionary<IDsmElement, int>>();
             _actualWeights = new Dictionary<IDsmElement, Dictionary<IDsmElement, int>>();
@@ -75,10 +73,10 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
-            IDsmRelation relation1 = _relationsModel.AddRelation(_a, _b, "type", 1);
+            IDsmRelation relation1 = _relationsModel.AddRelation(_a, _b, "type", 1, null);
             Assert.AreEqual(1, _relationsModel.FindOutgoingRelations(_a).Count());
 
-            IDsmRelation relation2 = _relationsModel.AddRelation(_a, _c, "type", 1);
+            IDsmRelation relation2 = _relationsModel.AddRelation(_a, _c, "type", 1, null);
             Assert.AreEqual(2, _relationsModel.FindOutgoingRelations(_a).Count());
 
             _relationsModel.RemoveRelation(relation1.Id);
@@ -93,10 +91,10 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
-            IDsmRelation relation1 = _relationsModel.AddRelation(_a, _b, "type", 1);
+            IDsmRelation relation1 = _relationsModel.AddRelation(_a, _b, "type", 1, null);
             Assert.AreEqual(1, _relationsModel.FindIngoingRelations(_b).Count());
 
-            IDsmRelation relation2 = _relationsModel.AddRelation(_c, _b, "type", 1);
+            IDsmRelation relation2 = _relationsModel.AddRelation(_c, _b, "type", 1, null);
             Assert.AreEqual(2, _relationsModel.FindIngoingRelations(_b).Count());
 
             _relationsModel.RemoveRelation(relation1.Id);
@@ -111,15 +109,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
-            IDsmRelation relation1 = _relationsModel.AddRelation(_a1, _b1, "type", 1);
+            IDsmRelation relation1 = _relationsModel.AddRelation(_a1, _b1, "type", 1, null);
             Assert.AreEqual(1, _relationsModel.FindExternalRelations(_a).Count());
             Assert.AreEqual(1, _relationsModel.FindExternalRelations(_b).Count());
 
-            IDsmRelation relation2 = _relationsModel.AddRelation(_b2, _a1, "type", 1);
+            IDsmRelation relation2 = _relationsModel.AddRelation(_b2, _a1, "type", 1, null);
             Assert.AreEqual(2, _relationsModel.FindExternalRelations(_a).Count());
             Assert.AreEqual(2, _relationsModel.FindExternalRelations(_b).Count());
 
-            IDsmRelation relation3 = _relationsModel.AddRelation(_a1, _a2, "type", 1);
+            IDsmRelation relation3 = _relationsModel.AddRelation(_a1, _a2, "type", 1, null);
             Assert.AreEqual(2, _relationsModel.FindExternalRelations(_a).Count());
             Assert.AreEqual(2, _relationsModel.FindExternalRelations(_b).Count());
 
@@ -141,15 +139,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
-            IDsmRelation relation1 = _relationsModel.AddRelation(_a1, _b1, "type", 1);
+            IDsmRelation relation1 = _relationsModel.AddRelation(_a1, _b1, "type", 1, null);
             Assert.AreEqual(0, _relationsModel.FindInternalRelations(_a).Count());
             Assert.AreEqual(0, _relationsModel.FindInternalRelations(_b).Count());
 
-            IDsmRelation relation2 = _relationsModel.AddRelation(_b2, _a1, "type", 1);
+            IDsmRelation relation2 = _relationsModel.AddRelation(_b2, _a1, "type", 1, null);
             Assert.AreEqual(0, _relationsModel.FindInternalRelations(_a).Count());
             Assert.AreEqual(0, _relationsModel.FindInternalRelations(_b).Count());
 
-            IDsmRelation relation3 = _relationsModel.AddRelation(_a1, _a2, "type", 1);
+            IDsmRelation relation3 = _relationsModel.AddRelation(_a1, _a2, "type", 1, null);
             Assert.AreEqual(1, _relationsModel.FindInternalRelations(_a).Count());
             Assert.AreEqual(1, _relationsModel.FindInternalRelations(_a).Count());
 
@@ -171,7 +169,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
-            _relationsModel.AddRelation(_a, _b, "type", 1);
+            _relationsModel.AddRelation(_a, _b, "type", 1, null);
             Assert.AreEqual(1, _relationsModel.GetExportedRelationCount());
 
             _relationsModel.Clear();
@@ -184,7 +182,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
-            IDsmRelation relation = _relationsModel.AddRelation(_a, _b, "type", 1);
+            IDsmRelation relation = _relationsModel.AddRelation(_a, _b, "type", 1, null);
             Assert.IsNotNull(relation);
 
             Assert.AreEqual(1, _relationsModel.GetExportedRelationCount());
@@ -195,7 +193,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             Assert.AreEqual(0, _relationsModel.GetExportedRelationCount());
 
-            IDsmRelation relation = _relationsModel.ImportRelation(1, _a, _b, "type", 1, false);
+            IDsmRelation relation = _relationsModel.ImportRelation(1, _a, _b, "type", 1, null, false);
             Assert.IsNotNull(relation);
 
             Assert.AreEqual(1, _relationsModel.GetExportedRelationCount());
@@ -464,34 +462,34 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
         private void CreateElementHierarchy()
         {
-            _a = _elementsDataModel.ImportElement(11, "a", "", 1, false, null, false);
-            _a1 = _elementsDataModel.ImportElement(12, "a1", "eta", 2, false, _a.Id, false);
-            _a2 = _elementsDataModel.ImportElement(13, "a2", "eta", 3, false, _a.Id, false);
-            _b = _elementsDataModel.ImportElement(14, "b", "", 4, false, null, false);
-            _b1 = _elementsDataModel.ImportElement(15, "b1", "etb", 5, false, _b.Id, false);
-            _b2 = _elementsDataModel.ImportElement(16, "b2", "etb", 6, false, _b.Id, false);
-            _c = _elementsDataModel.ImportElement(17, "c", "", 7, false, null, false);
-            _c1 = _elementsDataModel.ImportElement(18, "c1", "etc", 8, false, _c.Id, false);
-            _c2 = _elementsDataModel.ImportElement(19, "c2", "etc", 9, false, _c.Id, false);
+            _a = _elementsDataModel.ImportElement(11, "a", "", null, 1, false, null, false);
+            _a1 = _elementsDataModel.ImportElement(12, "a1", "eta", null, 2, false, _a.Id, false);
+            _a2 = _elementsDataModel.ImportElement(13, "a2", "eta", null, 3, false, _a.Id, false);
+            _b = _elementsDataModel.ImportElement(14, "b", "", null, 4, false, null, false);
+            _b1 = _elementsDataModel.ImportElement(15, "b1", "etb", null, 5, false, _b.Id, false);
+            _b2 = _elementsDataModel.ImportElement(16, "b2", "etb", null, 6, false, _b.Id, false);
+            _c = _elementsDataModel.ImportElement(17, "c", "", null, 7, false, null, false);
+            _c1 = _elementsDataModel.ImportElement(18, "c1", "etc", null, 8, false, _c.Id, false);
+            _c2 = _elementsDataModel.ImportElement(19, "c2", "etc", null, 9, false, _c.Id, false);
         }
 
         private void CreateElementRelations()
         {
-            _relationsModel.AddRelation(_a1, _a2, "", 1);
+            _relationsModel.AddRelation(_a1, _a2, "", 1, null);
 
-            _relationsModel.AddRelation(_a1, _b1, "", 1000);
-            _relationsModel.AddRelation(_a2, _b1, "", 200);
-            _relationsModel.AddRelation(_a1, _b2, "", 30);
-            _relationsModel.AddRelation(_a2, _b2, "", 4);
+            _relationsModel.AddRelation(_a1, _b1, "", 1000, null);
+            _relationsModel.AddRelation(_a2, _b1, "", 200, null);
+            _relationsModel.AddRelation(_a1, _b2, "", 30, null);
+            _relationsModel.AddRelation(_a2, _b2, "", 4, null);
 
-            _relationsModel.AddRelation(_a1, _c2, "", 5);
+            _relationsModel.AddRelation(_a1, _c2, "", 5, null);
 
-            _relationsModel.AddRelation(_b2, _a1, "", 2);
-            _relationsModel.AddRelation(_b2, _a2, "", 3);
-            _relationsModel.AddRelation(_c1, _a2, "", 4);
+            _relationsModel.AddRelation(_b2, _a1, "", 2, null);
+            _relationsModel.AddRelation(_b2, _a2, "", 3, null);
+            _relationsModel.AddRelation(_c1, _a2, "", 4, null);
 
-            _relationsModel.AddRelation(_c1, _c2, "", 1);
-            _relationsModel.AddRelation(_c2, _c1, "", 1);
+            _relationsModel.AddRelation(_c1, _c2, "", 1, null);
+            _relationsModel.AddRelation(_c2, _c1, "", 1, null);
 
             SetExpectedDependencyWeights();
         }

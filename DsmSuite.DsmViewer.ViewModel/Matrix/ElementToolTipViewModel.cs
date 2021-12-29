@@ -14,27 +14,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             Name = element.Fullname;
             Type = element.Type;
 
-            IDsmElementAnnotation annotation = application?.FindElementAnnotation(element);
-            if (annotation != null)
-            {
-                Annotation = annotation.Text;
-                HasAnnotation = !string.IsNullOrEmpty(Annotation);
-            }
             Legend = new List<LegendViewModel>();
             Legend.Add(new LegendViewModel(LegendColor.Consumer, "Consumer"));
             Legend.Add(new LegendViewModel(LegendColor.Provider, "Provider"));
             Legend.Add(new LegendViewModel(LegendColor.Cycle, "Cycle"));
             Legend.Add(new LegendViewModel(LegendColor.Search, "Search"));
             Legend.Add(new LegendViewModel(LegendColor.Bookmark, "Bookmark"));
-            Legend.Add(new LegendViewModel(LegendColor.Annotation, "Annotation"));
         }
 
         public string Title { get; }
         public int Id { get; }
         public string Name { get; }
         public string Type { get; }
-        public string Annotation { get; }
-        public bool HasAnnotation { get; }
         public List<LegendViewModel> Legend { get; }
     }
 }

@@ -22,7 +22,6 @@ namespace DsmSuite.DsmViewer.View.Matrix
             MatrixColorProvider = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorProvider");
             MatrixColorMatch = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorMatch");
             MatrixColorBookmark = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorBookmark");
-            MatrixColorAnnotation = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorAnnotation");
             MatrixColorCycle = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorCycle");
 
             LeftArrow = (string)_frameworkElement.FindResource("LeftArrowIcon");
@@ -56,7 +55,6 @@ namespace DsmSuite.DsmViewer.View.Matrix
         public SolidColorBrush MatrixColorProvider { get; }
         public SolidColorBrush MatrixColorMatch { get; }
         public SolidColorBrush MatrixColorBookmark { get; }
-        public SolidColorBrush MatrixColorAnnotation { get; }
         public SolidColorBrush MatrixColorCycle { get; }
         public string LeftArrow { get; }
         public string RightArrow { get; }

@@ -9,12 +9,12 @@
     <metadata name="item4" value="value4" />
   </metadatagroup>
   <elements>
-    <element id="1" name="a.a1" type="elementtype1" annotation="elementannotation1" />
-    <element id="2" name="a.a2" type="elementtype2" annotation="elementannotation2" />
-    <element id="3" name="b.b1" type="elementtype3" annotation="elementannotation3" />
+    <element id="1" name="a.a1" type="elementtype1" />
+    <element id="2" name="a.a2" type="elementtype2" />
+    <element id="3" name="b.b1" type="elementtype3" />
   </elements>
   <relations>
-    <relation from="1" to="2" type="relationtype1" weight="100" annotation="relationannotation1" />
-    <relation from="2" to="3" type="relationtype2" weight="200" annotation="relationannotation2" />
+    <relation from="1" to="2" type="relationtype1" weight="100" />
+    <relation from="2" to="3" type="relationtype2" weight="200" />
   </relations>
 </dsimodel>

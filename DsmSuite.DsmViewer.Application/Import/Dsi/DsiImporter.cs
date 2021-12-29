@@ -73,9 +73,8 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
 
                 bool isElementLeaf = (dsiElement.Name == elementName.FullName);
                 string elementType = isElementLeaf ? dsiElement.Type : "";
-                string annotation = isElementLeaf ? dsiElement.Annotation : null;
 
-                IDsmElement element = _importPolicy.ImportElement(elementName.FullName, name, elementType, parent, annotation);
+                IDsmElement element = _importPolicy.ImportElement(elementName.FullName, name, elementType, parent, null);
                 parent = element;
 
                 if (isElementLeaf)
@@ -106,7 +105,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
 
                 if (consumerId != providerId)
                 {
-                    _importPolicy.ImportRelation(consumerId, providerId, type, weight, dsiRelation.Annotation);
+                    _importPolicy.ImportRelation(consumerId, providerId, type, weight, null);
                 }
             }
             else

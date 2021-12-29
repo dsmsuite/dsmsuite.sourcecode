@@ -28,11 +28,11 @@ namespace DsmSuite.Analyzer.Model.Core
             _elementTypeCount.Clear();
         }
 
-        public IDsiElement ImportElement(int id, string name, string type, string annotation)
+        public IDsiElement ImportElement(int id, string name, string type, IDictionary<string, string> properties)
         {
-            Logger.LogDataModelMessage($"Import element id={id} name={name} type={type} annotation={annotation}");
+            Logger.LogDataModelMessage($"Import element id={id} name={name} type={type}");
 
-            DsiElement element = new DsiElement(id, name, type, annotation);
+            DsiElement element = new DsiElement(id, name, type, properties);
             string key = CreateKey(element.Name);
             _elementsByName[key] = element;
             _elementsById[element.Id] = element;
@@ -40,16 +40,16 @@ namespace DsmSuite.Analyzer.Model.Core
             return element;
         }
 
-        public IDsiElement AddElement(string name, string type, string source)
+        public IDsiElement AddElement(string name, string type, IDictionary<string, string> properties)
         {
-            Logger.LogDataModelMessage($"Add element name={name} type={type} source={source}");
+            Logger.LogDataModelMessage($"Add element name={name} type={type}");
 
             string key = CreateKey(name);
             if (!_elementsByName.ContainsKey(key))
             {
                 IncrementElementTypeCount(type);
                 int id = _elementsByName.Count + 1;
-                DsiElement element = new DsiElement(id, name, type, source);
+                DsiElement element = new DsiElement(id, name, type, properties);
                 _elementsByName[key] = element;
                 _elementsById[id] = element;
                 return element;
@@ -60,9 +60,9 @@ namespace DsmSuite.Analyzer.Model.Core
             }
         }
 
-        public void IgnoreElement(string name, string type, string source)
+        public void IgnoreElement(string name, string type)
         {
-            Logger.LogDataModelMessage($"Ignore element name={name} type={type} source={source}");
+            Logger.LogDataModelMessage($"Ignore element name={name} type={type}");
         }
         
         public void RemoveElement(IDsiElement element)

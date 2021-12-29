@@ -51,7 +51,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public object Do()
         {
-            return _model.AddRelation(_consumer, _provider, _type, _weight);
+            return _model.AddRelation(_consumer, _provider, _type, _weight, null);
         }
 
         public void Undo()

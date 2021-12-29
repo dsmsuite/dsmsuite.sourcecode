@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<dsmmodel elementCount="9" relationCount="8" actionCount="2" elementAnnotationCount="4" relationAnnotationCount="3">
+<dsmmodel elementCount="9" relationCount="8" actionCount="2">
   <metadatagroup name="group1">
     <metadata name="item1" value="value1" />
     <metadata name="item2" value="value2" />
@@ -37,15 +37,4 @@
       <data key2a="value2a" key2b="value2b" key2c="value2c" />
     </action>
   </actions>
-  <elementAnnotations>
-    <elementAnnotation id="12" text="Annotation a1" />
-    <elementAnnotation id="13" text="Annotation a2" />
-    <elementAnnotation id="15" text="Annotation b1" />
-    <elementAnnotation id="16" text="Annotation b2" />
-  </elementAnnotations>
-  <relationAnnotations>
-    <relationAnnotation to="12" from="13" text="Annotation a1 to a2" />
-    <relationAnnotation to="15" from="16" text="Annotation b1 to b2" />
-    <relationAnnotation to="13" from="16" text="Annotation a1 to b2" />
-  </relationAnnotations>
 </dsmmodel>

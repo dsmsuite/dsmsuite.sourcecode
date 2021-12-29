@@ -15,7 +15,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand MoveDownElementCommand { get; }
 
         ICommand ToggleElementBookmarkCommand { get; }
-        ICommand ChangeElementAnnotationCommand { get; }
 
         ICommand SortElementCommand { get; }
         ICommand ShowElementDetailMatrixCommand { get; }

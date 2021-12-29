@@ -34,14 +34,12 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
     /// --+----+------+------+------+------+------+------+
     /// </summary>
     [TestClass]
-    public class DsmModelFileTest : IMetaDataModelFileCallback, IDsmElementModelFileCallback, IDsmRelationModelFileCallback, IDsmActionModelFileCallback, IDsmAnnotationModelFileCallback
+    public class DsmModelFileTest : IMetaDataModelFileCallback, IDsmElementModelFileCallback, IDsmRelationModelFileCallback, IDsmActionModelFileCallback
     {
-        private readonly DsmElement _rootElement = new DsmElement(0, "", "");
+        private readonly DsmElement _rootElement = new DsmElement(0, "", "", null);
         private readonly List<DsmRelation> _relations = new List<DsmRelation>();
         private readonly Dictionary<string, List<IMetaDataItem>> _metaData = new Dictionary<string, List<IMetaDataItem>>();
         private readonly List<DsmAction> _actions = new List<DsmAction>();
-        private readonly List<DsmElementAnnotation> _elementAnnotations = new List<DsmElementAnnotation>();
-        private readonly List<DsmRelationAnnotation> _relationAnnotations = new List<DsmRelationAnnotation>();
 
         [TestInitialize()]
         public void MyTestInitialize()
@@ -52,7 +50,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         public void TestLoadModel()
         {
             string inputFile = "DsmSuite.DsmViewer.Model.Test.Input.dsm";
-            DsmModelFile readModelFile = new DsmModelFile(inputFile, this, this, this, this, this);
+            DsmModelFile readModelFile = new DsmModelFile(inputFile, this, this, this, this);
             readModelFile.Load(null);
             Assert.IsFalse(readModelFile.IsCompressedFile());
 
@@ -215,7 +213,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
 
             FillModelData();
 
-            DsmModelFile writtenModelFile = new DsmModelFile(outputFile, this, this, this, this, this);
+            DsmModelFile writtenModelFile = new DsmModelFile(outputFile, this, this, this, this);
             writtenModelFile.Save(false, null);
             Assert.IsFalse(writtenModelFile.IsCompressedFile());
 
@@ -236,15 +234,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
                 new MetaDataItem("item4", "value4")
             };
 
-            DsmElement a = new DsmElement(11, "a", "", 1, true);
-            DsmElement a1 = new DsmElement(12, "a1", "eta", 2);
-            DsmElement a2 = new DsmElement(13, "a2", "eta", 3);
-            DsmElement b = new DsmElement(14, "b", "", 4);
-            DsmElement b1 = new DsmElement(15, "b1", "etb", 5);
-            DsmElement b2 = new DsmElement(16, "b2", "etb", 6);
-            DsmElement c = new DsmElement(17, "c", "", 7);
-            DsmElement c1 = new DsmElement(18, "c1", "etc", 8);
-            DsmElement c2 = new DsmElement(19, "c2", "etc", 9);
+            DsmElement a = new DsmElement(11, "a", "", null, 1, true);
+            DsmElement a1 = new DsmElement(12, "a1", "eta", null, 2);
+            DsmElement a2 = new DsmElement(13, "a2", "eta", null, 3);
+            DsmElement b = new DsmElement(14, "b", "", null, 4);
+            DsmElement b1 = new DsmElement(15, "b1", "etb", null, 5);
+            DsmElement b2 = new DsmElement(16, "b2", "etb", null, 6);
+            DsmElement c = new DsmElement(17, "c", "", null, 7);
+            DsmElement c1 = new DsmElement(18, "c1", "etc", null, 8);
+            DsmElement c2 = new DsmElement(19, "c2", "etc", null, 9);
 
             _rootElement.AddChild(a);
             a.AddChild(a1);
@@ -256,14 +254,14 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             c.AddChild(c1);
             c.AddChild(c2);
 
-            _relations.Add(new DsmRelation(91, a1, b1, "ra", 1000));
-            _relations.Add(new DsmRelation(92, a2, b1, "ra", 200));
-            _relations.Add(new DsmRelation(93, a1, b2, "ra", 30));
-            _relations.Add(new DsmRelation(94, a2, b2, "ra", 4));
-            _relations.Add(new DsmRelation(95, a1, c2, "ra", 5));
-            _relations.Add(new DsmRelation(96, b2, a1, "rb", 1));
-            _relations.Add(new DsmRelation(97, b2, a2, "rb", 2));
-            _relations.Add(new DsmRelation(98, c1, a2, "rc", 4));
+            _relations.Add(new DsmRelation(91, a1, b1, "ra", 1000, null));
+            _relations.Add(new DsmRelation(92, a2, b1, "ra", 200, null));
+            _relations.Add(new DsmRelation(93, a1, b2, "ra", 30, null));
+            _relations.Add(new DsmRelation(94, a2, b2, "ra", 4, null));
+            _relations.Add(new DsmRelation(95, a1, c2, "ra", 5, null));
+            _relations.Add(new DsmRelation(96, b2, a1, "rb", 1, null));
+            _relations.Add(new DsmRelation(97, b2, a2, "rb", 2, null));
+            _relations.Add(new DsmRelation(98, c1, a2, "rc", 4, null));
 
             Dictionary<string, string> data1 = new Dictionary<string, string>
             {
@@ -279,15 +277,6 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
                 ["key2c"] = "value2c"
             };
             _actions.Add(new DsmAction(2, "Action2", data2));
-
-            _elementAnnotations.Add(new DsmElementAnnotation(12, "Annotation a1"));
-            _elementAnnotations.Add(new DsmElementAnnotation(13, "Annotation a2"));
-            _elementAnnotations.Add(new DsmElementAnnotation(15, "Annotation b1"));
-            _elementAnnotations.Add(new DsmElementAnnotation(16, "Annotation b2"));
-
-            _relationAnnotations.Add(new DsmRelationAnnotation(12,13, "Annotation a1 to a2"));
-            _relationAnnotations.Add(new DsmRelationAnnotation(15, 16, "Annotation b1 to b2"));
-            _relationAnnotations.Add(new DsmRelationAnnotation(13, 16, "Annotation a1 to b2"));
         }
 
         public IMetaDataItem ImportMetaDataItem(string groupName, string name, string value)
@@ -309,9 +298,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return action;
         }
 
-        public IDsmElement ImportElement(int id, string name, string type, int order, bool expanded, int? parentId, bool deleted)
+        public IDsmElement ImportElement(int id, string name, string type, IDictionary<string, string> properties, int order, bool expanded, int? parentId, bool deleted)
         {
-            DsmElement element = new DsmElement(id, name, type, order, expanded);
+            DsmElement element = new DsmElement(id, name, type, properties, order, expanded);
             if (!parentId.HasValue)
             {
                 _rootElement.AddChild(element);
@@ -329,9 +318,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return element;
         }
 
-        public IDsmRelation ImportRelation(int relationId, IDsmElement consumer, IDsmElement provider, string type, int weight, bool deleted)
+        public IDsmRelation ImportRelation(int relationId, IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties, bool deleted)
         {
-            DsmRelation relation = new DsmRelation(relationId, consumer, provider, type, weight);
+            DsmRelation relation = new DsmRelation(relationId, consumer, provider, type, weight, properties);
             _relations.Add(relation);
             return relation;
         }
@@ -408,36 +397,6 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
         public int GetExportedActionCount()
         {
             return _actions.Count; 
-        }
-
-        public IEnumerable<IDsmElementAnnotation> GetElementAnnotations()
-        {
-            return _elementAnnotations;
-        }
-
-        public IEnumerable<IDsmRelationAnnotation> GetRelationAnnotations()
-        {
-            return _relationAnnotations;
-        }
-
-        public int GetElementAnnotationCount()
-        {
-            return _elementAnnotations.Count;
-        }
-
-        public int GetRelationAnnotationCount()
-        {
-            return _relationAnnotations.Count;
-        }
-
-        public void ImportElementAnnotation(int elementId, string text)
-        {
-            _elementAnnotations.Add(new DsmElementAnnotation(elementId, text));
-        }
-
-        public void ImportRelationAnnotation(int consumerId, int providerId, string text)
-        {
-            _relationAnnotations.Add(new DsmRelationAnnotation(consumerId, providerId, text));
         }
     }
 }
