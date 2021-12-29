@@ -53,14 +53,19 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             Assert.AreEqual(1, _elements[0].Id);
             Assert.AreEqual("a.a1", _elements[0].Name);
             Assert.AreEqual("elementtype1", _elements[0].Type);
+            Assert.IsNotNull(_elements[0].Properties);
+            Assert.AreEqual("some element text", _elements[0].Properties["annotation"]);
+            Assert.AreEqual("1.0", _elements[0].Properties["version"]);
 
             Assert.AreEqual(2, _elements[1].Id);
             Assert.AreEqual("a.a2", _elements[1].Name);
             Assert.AreEqual("elementtype2", _elements[1].Type);
+            Assert.IsNull(_elements[1].Properties);
 
             Assert.AreEqual(3, _elements[2].Id);
             Assert.AreEqual("b.b1", _elements[2].Name);
             Assert.AreEqual("elementtype3", _elements[2].Type);
+            Assert.IsNull(_elements[2].Properties);
 
             Assert.AreEqual(2, _relations.Count);
 
@@ -68,11 +73,15 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
             Assert.AreEqual(2, _relations[0].ProviderId);
             Assert.AreEqual("relationtype1", _relations[0].Type);
             Assert.AreEqual(100, _relations[0].Weight);
+            Assert.IsNotNull(_relations[0].Properties);
+            Assert.AreEqual("some relation text", _relations[0].Properties["annotation"]);
+            Assert.AreEqual("1.1", _relations[0].Properties["version"]);
 
             Assert.AreEqual(2, _relations[1].ConsumerId);
             Assert.AreEqual(3, _relations[1].ProviderId);
             Assert.AreEqual("relationtype2", _relations[1].Type);
             Assert.AreEqual(200, _relations[1].Weight);
+            Assert.IsNull(_relations[1].Properties);
         }
 
         [TestMethod]
@@ -103,11 +112,19 @@ namespace DsmSuite.Analyzer.Model.Test.Persistency
                 new MetaDataItem("item4", "value4")
             };
 
-            _elements.Add(new DsiElement(1, "a.a1", "elementtype1", null));
+            Dictionary<string, string> elementProperties = new Dictionary<string, string>();
+            elementProperties["annotation"] = "some element text";
+            elementProperties["version"] = "1.0";
+
+            _elements.Add(new DsiElement(1, "a.a1", "elementtype1", elementProperties));
             _elements.Add(new DsiElement(2, "a.a2", "elementtype2", null));
             _elements.Add(new DsiElement(3, "b.b1", "elementtype3", null));
 
-            _relations.Add(new DsiRelation(1, 2, "relationtype1", 100, null));
+            Dictionary<string, string> relationProperties = new Dictionary<string, string>();
+            relationProperties["annotation"] = "some relation text";
+            relationProperties["version"] = "1.1";
+
+            _relations.Add(new DsiRelation(1, 2, "relationtype1", 100, relationProperties));
             _relations.Add(new DsiRelation(2, 3, "relationtype2", 200, null));
         }
 

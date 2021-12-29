@@ -75,6 +75,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("a", a.Name);
             Assert.AreEqual("a", a.Fullname);
             Assert.IsTrue(a.IsExpanded);
+            Assert.IsNotNull(a.Properties);
+            Assert.AreEqual("some element text", a.Properties["annotation"]);
+            Assert.AreEqual("1.0", a.Properties["version"]);
 
             Assert.AreEqual(2, a.Children.Count);
             IDsmElement a1 = a.Children[0];
@@ -84,6 +87,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("a1", a1.Name);
             Assert.AreEqual("a.a1", a1.Fullname);
             Assert.IsFalse(a1.IsExpanded);
+            Assert.IsNull(a1.Properties);
 
             IDsmElement a2 = a.Children[1];
             Assert.AreEqual(13, a2.Id);
@@ -92,6 +96,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("a2", a2.Name);
             Assert.AreEqual("a.a2", a2.Fullname);
             Assert.IsFalse(a2.IsExpanded);
+            Assert.IsNull(a2.Properties);
 
             IDsmElement b = _rootElement.Children[1];
             Assert.AreEqual(14, b.Id);
@@ -100,6 +105,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("b", b.Name);
             Assert.AreEqual("b", b.Fullname);
             Assert.IsFalse(b.IsExpanded);
+            Assert.IsNull(b.Properties);
 
             Assert.AreEqual(2, b.Children.Count);
             IDsmElement b1 = b.Children[0];
@@ -109,6 +115,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("b1", b1.Name);
             Assert.AreEqual("b.b1", b1.Fullname);
             Assert.IsFalse(b1.IsExpanded);
+            Assert.IsNull(b1.Properties);
 
             IDsmElement b2 = b.Children[1];
             Assert.AreEqual(16, b2.Id);
@@ -117,6 +124,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("b2", b2.Name);
             Assert.AreEqual("b.b2", b2.Fullname);
             Assert.IsFalse(b2.IsExpanded);
+            Assert.IsNull(b2.Properties);
 
             IDsmElement c = _rootElement.Children[2];
             Assert.AreEqual(17, c.Id);
@@ -125,6 +133,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("c", c.Name);
             Assert.AreEqual("c", c.Fullname);
             Assert.IsFalse(c.IsExpanded);
+            Assert.IsNull(c.Properties);
 
             Assert.AreEqual(2, b.Children.Count);
             IDsmElement c1 = c.Children[0];
@@ -134,6 +143,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("c1", c1.Name);
             Assert.AreEqual("c.c1", c1.Fullname);
             Assert.IsFalse(c1.IsExpanded);
+            Assert.IsNull(c1.Properties);
 
             IDsmElement c2 = c.Children[1];
             Assert.AreEqual(19, c2.Id);
@@ -142,54 +152,65 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             Assert.AreEqual("c2", c2.Name);
             Assert.AreEqual("c.c2", c2.Fullname);
             Assert.IsFalse(c2.IsExpanded);
+            Assert.IsNull(c2.Properties);
 
             Assert.AreEqual(91, _relations[0].Id);
             Assert.AreEqual(a1.Id, _relations[0].Consumer.Id);
             Assert.AreEqual(b1.Id, _relations[0].Provider.Id);
             Assert.AreEqual("ra", _relations[0].Type);
             Assert.AreEqual(1000, _relations[0].Weight);
+            Assert.IsNotNull(_relations[0].Properties);
+            Assert.AreEqual("some relation text", _relations[0].Properties["annotation"]);
+            Assert.AreEqual("1.1", _relations[0].Properties["version"]);
 
             Assert.AreEqual(92, _relations[1].Id);
             Assert.AreEqual(a2.Id, _relations[1].Consumer.Id);
             Assert.AreEqual(b1.Id, _relations[1].Provider.Id);
             Assert.AreEqual("ra", _relations[1].Type);
             Assert.AreEqual(200, _relations[1].Weight);
+            Assert.IsNull(_relations[1].Properties);
 
             Assert.AreEqual(93, _relations[2].Id);
             Assert.AreEqual(a1.Id, _relations[2].Consumer.Id);
             Assert.AreEqual(b2.Id, _relations[2].Provider.Id);
             Assert.AreEqual("ra", _relations[2].Type);
             Assert.AreEqual(30, _relations[2].Weight);
+            Assert.IsNull(_relations[2].Properties);
 
             Assert.AreEqual(94, _relations[3].Id);
             Assert.AreEqual(a2.Id, _relations[3].Consumer.Id);
             Assert.AreEqual(b2.Id, _relations[3].Provider.Id);
             Assert.AreEqual("ra", _relations[3].Type);
             Assert.AreEqual(4, _relations[3].Weight);
+            Assert.IsNull(_relations[3].Properties);
 
             Assert.AreEqual(95, _relations[4].Id);
             Assert.AreEqual(a1.Id, _relations[4].Consumer.Id);
             Assert.AreEqual(c2.Id, _relations[4].Provider.Id);
             Assert.AreEqual("ra", _relations[4].Type);
             Assert.AreEqual(5, _relations[4].Weight);
+            Assert.IsNull(_relations[4].Properties);
 
             Assert.AreEqual(96, _relations[5].Id);
             Assert.AreEqual(b2.Id, _relations[5].Consumer.Id);
             Assert.AreEqual(a1.Id, _relations[5].Provider.Id);
             Assert.AreEqual("rb", _relations[5].Type);
             Assert.AreEqual(1, _relations[5].Weight);
+            Assert.IsNull(_relations[5].Properties);
 
             Assert.AreEqual(97, _relations[6].Id);
             Assert.AreEqual(b2.Id, _relations[6].Consumer.Id);
             Assert.AreEqual(a2.Id, _relations[6].Provider.Id);
             Assert.AreEqual("rb", _relations[6].Type);
             Assert.AreEqual(2, _relations[6].Weight);
+            Assert.IsNull(_relations[6].Properties);
 
             Assert.AreEqual(98, _relations[7].Id);
             Assert.AreEqual(c1.Id, _relations[7].Consumer.Id);
             Assert.AreEqual(a2.Id, _relations[7].Provider.Id);
             Assert.AreEqual("rc", _relations[7].Type);
             Assert.AreEqual(4, _relations[7].Weight);
+            Assert.IsNull(_relations[7].Properties);
 
             Assert.AreEqual(2, _actions.Count);
 
@@ -234,7 +255,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
                 new MetaDataItem("item4", "value4")
             };
 
-            DsmElement a = new DsmElement(11, "a", "", null, 1, true);
+            Dictionary<string, string> elementProperties = new Dictionary<string, string>();
+            elementProperties["annotation"] = "some element text";
+            elementProperties["version"] = "1.0";
+
+            DsmElement a = new DsmElement(11, "a", "", elementProperties, 1, true);
             DsmElement a1 = new DsmElement(12, "a1", "eta", null, 2);
             DsmElement a2 = new DsmElement(13, "a2", "eta", null, 3);
             DsmElement b = new DsmElement(14, "b", "", null, 4);
@@ -254,7 +279,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             c.AddChild(c1);
             c.AddChild(c2);
 
-            _relations.Add(new DsmRelation(91, a1, b1, "ra", 1000, null));
+            Dictionary<string, string> relationProperties = new Dictionary<string, string>();
+            relationProperties["annotation"] = "some relation text";
+            relationProperties["version"] = "1.1";
+
+            _relations.Add(new DsmRelation(91, a1, b1, "ra", 1000, relationProperties));
             _relations.Add(new DsmRelation(92, a2, b1, "ra", 200, null));
             _relations.Add(new DsmRelation(93, a1, b2, "ra", 30, null));
             _relations.Add(new DsmRelation(94, a2, b2, "ra", 4, null));

@@ -1,5 +1,6 @@
 ﻿using DsmSuite.DsmViewer.Model.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Test.Core
 {
@@ -7,7 +8,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
     public class ElementTest
     {
         [TestMethod]
-        public void WhenElementIsConstructedThenPropertiesAreSetAccordingArguments()
+        public void WhenElementIsConstructedWithoutPropertiesThenElementAccordingInputArguments()
         {
             int elementId = 1;
             string elementName = "name1";
@@ -18,6 +19,27 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(elementType, element.Type);
             Assert.AreEqual(0, element.Order);
             Assert.AreEqual(elementName, element.Fullname);
+            Assert.IsNull(element.Properties);
+        }
+
+        [TestMethod]
+        public void WhenElementIsConstructedWithPropertiesThenElementAccordingInputArguments()
+        {
+            Dictionary<string, string> elementProperties = new Dictionary<string, string>();
+            elementProperties["annotation"] = "some text";
+            elementProperties["version"] = "1.0";
+            int elementId = 1;
+            string elementName = "name1";
+            string elementType = "file";
+            DsmElement element = new DsmElement(elementId, elementName, elementType, elementProperties);
+            Assert.AreEqual(elementId, element.Id);
+            Assert.AreEqual(elementName, element.Name);
+            Assert.AreEqual(elementType, element.Type);
+            Assert.AreEqual(0, element.Order);
+            Assert.AreEqual(elementName, element.Fullname);
+            Assert.IsNotNull(element.Properties);
+            Assert.AreEqual("some text", element.Properties["annotation"]);
+            Assert.AreEqual("1.0", element.Properties["version"]);
         }
 
         [TestMethod]
