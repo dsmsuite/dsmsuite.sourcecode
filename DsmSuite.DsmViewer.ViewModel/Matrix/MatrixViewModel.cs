@@ -109,7 +109,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
         }
 
-        public int HighlighMatchingElements(string searchText)
+        public IList<IDsmElement> HighlighMatchingElements(string searchText)
         {
             _searchText = searchText;
             return UpdateMatchingRows();
@@ -886,7 +886,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
         }
 
-        private int UpdateMatchingRows()
+        private IList<IDsmElement> UpdateMatchingRows()
         {
             return _application.SearchElements(_searchText);
         }

@@ -14,6 +14,7 @@ using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.ViewModel.Settings;
 using System.Reflection;
+using System.Collections.ObjectModel;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -56,6 +57,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _title;
         private string _version;
         private string _searchText;
+        private ObservableCollection<string> _searchMatches;
         private SearchState _searchState;
         private string _searchResult;
 
@@ -250,6 +252,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             get { return _searchText; }
             set { _searchText = value; OnPropertyChanged(); OnSearchTextUpdated(); }
+        }
+
+        public ObservableCollection<string> SearchMatches
+        {
+            get { return _searchMatches; }
+            private set { _searchMatches = value; OnPropertyChanged(); }
         }
 
         public SearchState SearchState
@@ -516,9 +524,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             SelectDefaultIndicatorMode();
 
-            int count = ActiveMatrix.HighlighMatchingElements(SearchText);
+            IList<IDsmElement> matchingElements = ActiveMatrix.HighlighMatchingElements(SearchText);
+            List<string> matchingElementNames = new List<string>();
+            foreach(IDsmElement matchingElement in matchingElements)
+            {
+                matchingElementNames.Add(matchingElement.Fullname);
+            }
+            SearchMatches = new ObservableCollection<string>(matchingElementNames);
 
-            if (count == 0)
+            if (matchingElements.Count == 0)
             {
                 SearchState = SearchState.NoMatch;
                 SearchResult = SearchText.Length > 0 ? "None found" : "";
@@ -526,16 +540,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             else
             {
                 SearchState = SearchState.Match;
-                SearchResult = $"{count} found";
+                SearchResult = $"{matchingElements.Count} found";
             }
             ActiveMatrix.Reload();
-        }
-
-        private bool HasPrefix(string prefix, ref string searchText)
-        {
-            bool hasPrefix = searchText.StartsWith(prefix);
-            searchText = SearchText.Replace(prefix, string.Empty);
-            return hasPrefix;
         }
 
         private void OnActionPerformed(object sender, EventArgs e)

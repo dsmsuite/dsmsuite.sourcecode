@@ -163,7 +163,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.FindElementByFullname(fullname);
         }
 
-        public int SearchElements(string searchText, bool caseSensitiveSearch, SearchMode searchMode)
+        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitiveSearch, SearchMode searchMode)
         {
             return _elementsDataModel.SearchElements(searchText, caseSensitiveSearch, searchMode);
         }

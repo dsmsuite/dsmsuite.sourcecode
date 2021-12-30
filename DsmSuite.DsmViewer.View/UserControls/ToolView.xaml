@@ -45,7 +45,7 @@
                     <ColumnDefinition Width="20" />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0"  Style="{StaticResource ToolbarButton}" Padding="3" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Change search settings" Command="{Binding SearchSettingsCommand}" Content="{StaticResource SearchIcon}" />
-                <TextBox Grid.Column="1" Style="{StaticResource ToolbarTextBox}" Height="26" BorderThickness="0" ToolTip="Enter search text and show matching elements"  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
+                <ComboBox Grid.Column="1" Style="{StaticResource ToolbarSearchBox}" Height="26" BorderThickness="0" ToolTip="Enter search text and show matching elements" ItemsSource="{Binding SearchMatches, UpdateSourceTrigger=PropertyChanged}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
                 <Button Grid.Column="2"  Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Clear search text" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}" />
             </Grid>
         </Border>

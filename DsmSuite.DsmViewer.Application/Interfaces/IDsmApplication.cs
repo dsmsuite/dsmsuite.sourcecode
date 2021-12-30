@@ -52,7 +52,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
         CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
-        int SearchElements(string searchText);
+        IList<IDsmElement> SearchElements(string searchText);
         IDsmElement GetElementByFullname(string fullname);
         void CreateElement(string name, string type, IDsmElement parent);
         void DeleteElement(IDsmElement element);

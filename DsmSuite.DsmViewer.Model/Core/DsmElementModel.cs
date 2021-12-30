@@ -209,24 +209,24 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsByName.ContainsKey(fullname) ? _elementsByName[fullname] : null;
         }
 
-        public int SearchElements(string searchText, bool caseSensitiveSearch, SearchMode searchMode)
+        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitiveSearch, SearchMode searchMode)
         {
-            int count = 0;
+            List<IDsmElement> matchingElements = new List<IDsmElement>();
             string fullname = "";
             string text = caseSensitiveSearch ? searchText : searchText.ToLower();
 
             if (text.Length > 0)
             {
-                MarkMatchingElements(_root, text, caseSensitiveSearch, searchMode, fullname, ref count);
+                RecursiveSearchElements(_root, text, caseSensitiveSearch, searchMode, fullname, matchingElements);
             }
             else
             {
                 ClearMarkElements(_root);
             }
-            return count;
+            return matchingElements;
         }
 
-        private bool MarkMatchingElements(IDsmElement element, string searchText, bool caseSensitiveSearch, SearchMode searchMode, string fullname, ref int count)
+        private bool RecursiveSearchElements(IDsmElement element, string searchText, bool caseSensitiveSearch, SearchMode searchMode, string fullname, IList<IDsmElement> matchingElements)
         {
             bool isMatch = false;
 
@@ -245,14 +245,16 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             if (fullname.Contains(searchText) && ElementAttributesMatch(element, searchMode) && !element.IsDeleted)
             {
+                // Add to list and mark element as search match
                 isMatch = true;
-                count++;
+                matchingElements.Add(element);
             }
 
             foreach (IDsmElement child in element.Children)
             {
-                if (MarkMatchingElements(child, searchText, caseSensitiveSearch, searchMode, fullname, ref count))
+                if (RecursiveSearchElements(child, searchText, caseSensitiveSearch, searchMode, fullname, matchingElements))
                 {
+                    // Add parent element as match when it contains a matching child
                     isMatch = true;
                 }
             }

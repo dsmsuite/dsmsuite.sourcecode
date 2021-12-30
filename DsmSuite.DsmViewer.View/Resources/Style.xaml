@@ -272,10 +272,11 @@
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
     </Style>
 
-    <Style x:Key="ToolbarTextBox" TargetType="TextBox">
+    <Style x:Key="ToolbarSearchBox" TargetType="ComboBox">
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        <Setter Property="IsEditable" Value="True" />
     </Style>
 
     <Style x:Key="ToolbarLabel" TargetType="Label">
