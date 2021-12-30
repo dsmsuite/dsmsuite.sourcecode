@@ -39,7 +39,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             Relations = new ObservableCollection<RelationListItemViewModel>(relationViewModels);
 
             CopyToClipboardCommand = new RelayCommand<object>(CopyToClipboardExecute);
-            DeleteCommand = new RelayCommand<object>(DeleteExecute, DeleteCanExecute);
+            DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
+            EditRelationCommand = new RelayCommand<object>(EditRelationExecute, EditRelationCanExecute);
+            AddRelationCommand = new RelayCommand<object>(AddRelationExecute, AddRelationCanExecute);
         }
 
         public string Title { get; }
@@ -51,7 +53,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         public ICommand CopyToClipboardCommand { get; }
 
-        public ICommand DeleteCommand { get; }
+        public ICommand DeleteRelationCommand { get; }
+        public ICommand EditRelationCommand { get; }
+        public ICommand AddRelationCommand { get; }
 
         private void CopyToClipboardExecute(object parameter)
         {
@@ -63,15 +67,33 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             Clipboard.SetText(builder.ToString());
         }
 
-        private void DeleteExecute(object parameter)
+        private void DeleteRelationExecute(object parameter)
         {
             _application.DeleteRelation(SelectedRelation.Relation);
             Relations.Remove(SelectedRelation);
         }
 
-        private bool DeleteCanExecute(object parameter)
+        private bool DeleteRelationCanExecute(object parameter)
         {
             return SelectedRelation != null;
+        }
+
+        private void EditRelationExecute(object parameter)
+        {
+        }
+
+        private bool EditRelationCanExecute(object parameter)
+        {
+            return SelectedRelation != null;
+        }
+
+        private void AddRelationExecute(object parameter)
+        {
+        }
+
+        private bool AddRelationCanExecute(object parameter)
+        {
+            return true;
         }
     }
 }

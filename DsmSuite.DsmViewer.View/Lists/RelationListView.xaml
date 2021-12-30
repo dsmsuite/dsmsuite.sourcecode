@@ -42,7 +42,9 @@
         </ListView>
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
             <Button Style="{StaticResource DialogButton}" Content="Copy" ToolTip="Copy relation list to clipboard" Command="{Binding CopyToClipboardCommand}"/>
-            <Button Style="{StaticResource DialogButton}" Content="Delete" ToolTip="Delete selected relation" Command="{Binding DeleteCommand}"/>
+            <Button Style="{StaticResource DialogButton}" Content="Delete" ToolTip="Delete selected relation" Command="{Binding DeleteRelationCommand}"/>
+            <Button Style="{StaticResource DialogButton}" Content="Edit" ToolTip="Edit selected relation" Command="{Binding EditRelationCommand}"/>
+            <Button Style="{StaticResource DialogButton}" Content="Add" ToolTip="Add relation" Command="{Binding AddRelationCommand}"/>
         </StackPanel>
     </Grid>
 </Window>
