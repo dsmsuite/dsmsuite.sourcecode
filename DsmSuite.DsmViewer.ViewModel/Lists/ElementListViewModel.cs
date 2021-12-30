@@ -4,6 +4,7 @@ using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Windows.Input;
 using System.Windows;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
@@ -30,7 +31,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
                 index++;
             }
 
-            Elements = elementViewModels;
+            Elements = new ObservableCollection<ElementListItemViewModel>(elementViewModels);
 
             CopyToClipboardCommand = new RelayCommand<object>(CopyToClipboardExecute);
         }
@@ -38,7 +39,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         public string Title { get; }
         public string SubTitle { get; }
 
-        public List<ElementListItemViewModel> Elements { get;  }
+        public ObservableCollection<ElementListItemViewModel> Elements { get;  }
+
+        public ElementListItemViewModel SelectedElement { get; set; }
 
         public ICommand CopyToClipboardCommand { get; }
 

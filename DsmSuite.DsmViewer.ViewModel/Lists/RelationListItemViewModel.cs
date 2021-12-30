@@ -10,6 +10,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
     {
         public RelationListItemViewModel(IDsmRelation relation)
         {
+            Relation = relation;
             ConsumerName = relation.Consumer.Fullname;
             ConsumerType = relation.Consumer.Type;
             ProviderName = relation.Provider.Fullname;
@@ -24,6 +25,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
                 }
             }
         }
+
+        public IDsmRelation Relation { get; set; }
 
         public int Index { get; set; }
 
