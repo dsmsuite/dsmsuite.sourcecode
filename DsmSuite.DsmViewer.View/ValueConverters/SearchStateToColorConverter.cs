@@ -18,10 +18,16 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
             SearchState searchState = (SearchState)value;
             switch(searchState)
             {
+                case SearchState.NoInput:
+                    brush = NoMatchBrush;
+                    break;
                 case SearchState.NoMatch:
                     brush = NoMatchBrush;
                     break;
-                case SearchState.Match:
+                case SearchState.SingleMatch:
+                    brush = MatchBrush;
+                    break;
+                case SearchState.MultipleMatches:
                     brush = MatchBrush;
                     break;
                 default:

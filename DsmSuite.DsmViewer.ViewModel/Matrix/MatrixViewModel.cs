@@ -109,12 +109,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
         }
 
-        public IList<IDsmElement> HighlighMatchingElements(string searchText)
-        {
-            _searchText = searchText;
-            return UpdateMatchingRows();
-        }
-
         public ICommand ToggleElementExpandedCommand { get; }
 
         public ICommand SortElementCommand { get; }
@@ -208,8 +202,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             DefineMetrics();
             MatrixSize = _elementViewModelLeafs.Count;
             RestoreSelectionAfterReload();
-
-            UpdateMatchingRows();
         }
 
         public void SelectTreeItem(ElementTreeItemViewModel selectedTreeItem)
@@ -884,11 +876,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     _elementViewModelLeafs[row].IsConsumer = false;
                 }
             }
-        }
-
-        private IList<IDsmElement> UpdateMatchingRows()
-        {
-            return _application.SearchElements(_searchText);
         }
 
         private void BackupSelectionBeforeReload()

@@ -64,7 +64,6 @@ namespace DsmSuite.DsmViewer.View.Windows
 
             _mainViewModel.ActionsVisible += OnActionsVisible;
             _mainViewModel.SettingsVisible += OnSettingsVisible;
-            _mainViewModel.SearchSettingsVisible += OnSearchSettingsVisible;
 
             _mainViewModel.ScreenshotRequested += OnScreenshotRequested;
             DataContext = _mainViewModel;

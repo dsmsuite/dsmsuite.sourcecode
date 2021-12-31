@@ -48,7 +48,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public event EventHandler<ActionListViewModel> ActionsVisible;
 
         public event EventHandler<SettingsViewModel> SettingsVisible;
-        public event EventHandler<SearchSettingsViewModel> SearchSettingsVisible;
 
         public event EventHandler ScreenshotRequested;
 
@@ -56,10 +55,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private string _modelFilename;
         private string _title;
         private string _version;
-        private string _searchText;
-        private ObservableCollection<string> _searchMatches;
-        private SearchState _searchState;
-        private string _searchResult;
 
         private bool _isModified;
         private bool _isLoaded;
@@ -119,8 +114,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ShowSettingsCommand = new RelayCommand<object>(ShowSettingsExecute, ShowSettingsCanExecute);
 
             TakeScreenshotCommand = new RelayCommand<object>(TakeScreenshotExecute);
-            ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute);
-            SearchSettingsCommand = new RelayCommand<object>(SearchSettingExecute);
 
             _modelFilename = "";
             _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -129,9 +122,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             _isModified = false;
             _isLoaded = false;
 
-            _searchText = "";
-            _searchState = SearchState.NoMatch;
-
             _selectedSortAlgorithm = SupportedSortAlgorithms[0];
 
             _selectedIndicatorViewMode = IndicatorViewMode.Default;
@@ -139,6 +129,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             _progressViewModel = new ProgressViewModel();
 
             ActiveMatrix = new MatrixViewModel(this, _application, new List<IDsmElement>());
+            ElementSearchViewModel = new ElementSearchViewModel(_application);
+            ElementSearchViewModel.SearchUpdated += OnSearchUpdated;
+        }
+
+        private void OnSearchUpdated(object sender, EventArgs e)
+        {
+            SelectDefaultIndicatorMode();
+            ActiveMatrix.Reload();
         }
 
         private void OnModelModified(object sender, bool e)
@@ -157,6 +155,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             get { return _activeMatrix; }
             set { _activeMatrix = value; OnPropertyChanged(); }
         }
+
+        public ElementSearchViewModel ElementSearchViewModel { get; }
 
         private bool _isMetricsViewExpanded;
 
@@ -215,8 +215,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand ShowHistoryCommand { get; }
         public ICommand ShowSettingsCommand { get; }
         public ICommand TakeScreenshotCommand { get; }
-        public ICommand ClearSearchCommand { get; }
-        public ICommand SearchSettingsCommand { get; }
 
         public string ModelFilename
         {
@@ -246,30 +244,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         {
             get { return _version; }
             set { _version = value; OnPropertyChanged(); }
-        }
-
-        public string SearchText
-        {
-            get { return _searchText; }
-            set { _searchText = value; OnPropertyChanged(); OnSearchTextUpdated(); }
-        }
-
-        public ObservableCollection<string> SearchMatches
-        {
-            get { return _searchMatches; }
-            private set { _searchMatches = value; OnPropertyChanged(); }
-        }
-
-        public SearchState SearchState
-        {
-            get { return _searchState; }
-            set { _searchState = value; OnPropertyChanged(); }
-        }
-
-        public string SearchResult
-        {
-            get { return _searchResult; }
-            set { _searchResult = value; OnPropertyChanged(); }
         }
 
         public ProgressViewModel ProgressViewModel => _progressViewModel;
@@ -517,32 +491,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void SelectDefaultIndicatorMode()
         {
-            SelectedIndicatorViewMode = string.IsNullOrEmpty(SearchText) ? IndicatorViewMode.Default : IndicatorViewMode.Search;
-        }
-
-        private void OnSearchTextUpdated()
-        {
-            SelectDefaultIndicatorMode();
-
-            IList<IDsmElement> matchingElements = ActiveMatrix.HighlighMatchingElements(SearchText);
-            List<string> matchingElementNames = new List<string>();
-            foreach(IDsmElement matchingElement in matchingElements)
-            {
-                matchingElementNames.Add(matchingElement.Fullname);
-            }
-            SearchMatches = new ObservableCollection<string>(matchingElementNames);
-
-            if (matchingElements.Count == 0)
-            {
-                SearchState = SearchState.NoMatch;
-                SearchResult = SearchText.Length > 0 ? "None found" : "";
-            }
-            else
-            {
-                SearchState = SearchState.Match;
-                SearchResult = $"{matchingElements.Count} found";
-            }
-            ActiveMatrix.Reload();
+            SelectedIndicatorViewMode = string.IsNullOrEmpty(ElementSearchViewModel.SearchText) ? IndicatorViewMode.Default : IndicatorViewMode.Search;
         }
 
         private void OnActionPerformed(object sender, EventArgs e)
@@ -751,18 +700,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private void TakeScreenshotExecute(object parameter)
         {
             ScreenshotRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void ClearSearchExecute(object parameter)
-        {
-            SearchText = "";
-        }
-
-        public void SearchSettingExecute(object parameter)
-        {
-            SearchSettingsViewModel viewModel = new SearchSettingsViewModel(_application);
-            SearchSettingsVisible?.Invoke(this, viewModel);
-            OnSearchTextUpdated();
         }
 
         private void ExcludeAllFromTree()

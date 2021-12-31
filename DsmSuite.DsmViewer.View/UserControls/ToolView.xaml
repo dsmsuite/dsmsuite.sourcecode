@@ -37,8 +37,8 @@
             <Separator/>
             <ComboBox Style="{StaticResource ToolbarComboBox}" ToolTip="Select element indicator mode" ItemsSource="{Binding SupportedIndicatorViewModes}" SelectedItem="{Binding SelectedIndicatorViewMode}" Width="100" />
         </ToolBar>
-        <Border Grid.Column="1" BorderBrush="{StaticResource ForegroundDisabledColor}" BorderThickness="1">
-            <Grid>
+        <Border Grid.Column="1" BorderBrush="{StaticResource ForegroundDisabledColor}" BorderThickness="1" >
+            <Grid DataContext="{Binding Path=ElementSearchViewModel}" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -49,7 +49,7 @@
                 <Button Grid.Column="2"  Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Clear search text" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}" />
             </Grid>
         </Border>
-        <Label Grid.Column="2"  Style="{StaticResource ToolbarLabel}" Content="{Binding SearchResult}" Width="80"/>
+        <Label Grid.Column="2"  Style="{StaticResource ToolbarLabel}" DataContext="{Binding Path=ElementSearchViewModel}" Content="{Binding SearchResult}" Width="80"/>
         <Button Grid.Column="3" Style="{StaticResource ToolbarButton}" ToolTip="Settings" Command="{Binding ShowSettingsCommand}" Content="{StaticResource SettingsIcon}" DockPanel.Dock="Right" Width="24"/>
     </Grid>
 </UserControl>

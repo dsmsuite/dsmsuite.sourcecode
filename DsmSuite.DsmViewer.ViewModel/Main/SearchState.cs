@@ -2,7 +2,9 @@
 {
     public enum SearchState
     {
+        NoInput,
         NoMatch,
-        Match
+        SingleMatch,
+        MultipleMatches
     }
 }
