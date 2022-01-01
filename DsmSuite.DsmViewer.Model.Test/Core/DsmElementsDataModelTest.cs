@@ -249,7 +249,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c = model.ImportElement(3, "c", "type", null, 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
-            Assert.AreEqual(1, model.SearchElements("a.b", true, null)); 
+            IList<IDsmElement> matches = model.SearchElements("a.b", true, null);
+            Assert.AreEqual(1, matches.Count);
+            Assert.AreEqual(b, matches[0]);
 
             Assert.AreEqual(true, model.GetRootElement().IsMatch);
             Assert.AreEqual(true, model.FindElementById(1).IsMatch);
@@ -272,7 +274,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c = model.ImportElement(3, "c", "type", null, 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
-            Assert.AreEqual(1, model.SearchElements("A.B", false, null));
+            IList<IDsmElement> matches = model.SearchElements("A.B", false, null);
+            Assert.AreEqual(1, matches.Count);
+            Assert.AreEqual(b, matches[0]);
 
             Assert.AreEqual(true, model.GetRootElement().IsMatch);
             Assert.AreEqual(true, model.FindElementById(1).IsMatch);
@@ -295,7 +299,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c = model.ImportElement(3, "c", "type", null, 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
-            Assert.AreEqual(0, model.SearchElements(".d", true, null));
+            IList<IDsmElement> matches = model.SearchElements(".d", true, null);
+            Assert.AreEqual(0, matches.Count);
 
             Assert.AreEqual(false, model.GetRootElement().IsMatch);
             Assert.AreEqual(false, model.FindElementById(1).IsMatch);
