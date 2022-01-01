@@ -77,12 +77,6 @@ namespace DsmSuite.DsmViewer.View.Windows
             view.ShowDialog();
         }
 
-        private void OnSearchSettingsVisible(object sender, SearchSettingsViewModel viewModel)
-        {
-            SearchSettingsView view = new SearchSettingsView { DataContext = viewModel };
-            view.ShowDialog();
-        }
-
         private void OnActionsVisible(object sender, ViewModel.Lists.ActionListViewModel viewModel)
         {
             ActionListView view = new ActionListView {DataContext = viewModel};

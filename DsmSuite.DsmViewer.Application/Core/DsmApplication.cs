@@ -41,9 +41,6 @@ namespace DsmSuite.DsmViewer.Application.Core
             _queries = new DsmQueries(dsmModel);
 
             _metrics = new DsmMetrics();
-
-            CaseSensitiveSearch = false;
-            SelectedSearchMode = SearchMode.All;
         }
 
         private void OnActionPerformed(object sender, EventArgs e)
@@ -82,9 +79,6 @@ namespace DsmSuite.DsmViewer.Application.Core
         {
             _actionManager.Redo();
         }
-
-        public bool CaseSensitiveSearch { get; set; }
-        public SearchMode SelectedSearchMode { get; set; }
 
         public async Task AsyncImportDsiModel(string dsiFilename, string dsmFilename, bool autoPartition, bool compressDsmFile, IProgress<ProgressInfo> progress)
         {
@@ -261,9 +255,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.IsCyclicDependency(consumer, provider);
         }
 
-        public IList<IDsmElement> SearchElements(string searchText)
+        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitiveSearch, IEnumerable<string> onlyElementsOfType)
         {
-            return _dsmModel.SearchElements(searchText, CaseSensitiveSearch, SelectedSearchMode);
+            return _dsmModel.SearchElements(searchText, caseSensitiveSearch, onlyElementsOfType);
         }
 
         public IDsmElement GetElementByFullname(string text)

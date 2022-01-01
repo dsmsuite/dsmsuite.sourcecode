@@ -35,7 +35,6 @@
     <Compile Include="Core\DsmModel.cs" />
     <Compile Include="Interfaces\RelationDirection.cs" />
     <Compile Include="Interfaces\RelationScope.cs" />
-    <Compile Include="Interfaces\SearchMode.cs" />
     <Compile Include="Persistency\DsmModelFile.cs" />
     <Compile Include="Persistency\IDsmActionModelFileCallback.cs" />
     <Compile Include="Persistency\IDsmElementModelFileCallback.cs" />

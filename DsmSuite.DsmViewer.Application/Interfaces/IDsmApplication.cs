@@ -13,9 +13,6 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         Task AsyncImportDsiModel(string dsiFilename, string dsmFilename, bool autoPartition, bool compressDsmFile, IProgress<ProgressInfo> progress);
 
-        bool CaseSensitiveSearch { get; set; }
-        SearchMode SelectedSearchMode { get; set; }
-
         void ImportDsiModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool compressDsmFile, IProgress<ProgressInfo> progress);
         Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress);
         Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress);
@@ -52,7 +49,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
         CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
-        IList<IDsmElement> SearchElements(string searchText);
+        IList<IDsmElement> SearchElements(string searchText, bool caseSensitiveSearch, IEnumerable<string> onlyElementsOfType);
         IDsmElement GetElementByFullname(string fullname);
         void CreateElement(string name, string type, IDsmElement parent);
         void DeleteElement(IDsmElement element);

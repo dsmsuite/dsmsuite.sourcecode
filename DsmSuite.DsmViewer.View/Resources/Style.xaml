@@ -279,6 +279,24 @@
         <Setter Property="IsEditable" Value="True" />
     </Style>
 
+    <Style x:Key="CaseSensitiveToggleButton" TargetType="ToggleButton">
+        <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        <Setter Property="Content" Value="{StaticResource CaseInsensitiveIcon}"/>
+        <Setter Property="ToolTip" Value="Click to switch to case sensitive"/>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="true">
+                <Setter Property="Content" Value="{StaticResource CaseSensitiveIcon}"/>
+                <Setter Property="ToolTip" Value="Click to switch to case insensitive"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="false">
+                <Setter Property="Content" Value="{StaticResource CaseInsensitiveIcon}"/>
+                <Setter Property="ToolTip" Value="Click to switch to case sensitive"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="ToolbarLabel" TargetType="Label">
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />

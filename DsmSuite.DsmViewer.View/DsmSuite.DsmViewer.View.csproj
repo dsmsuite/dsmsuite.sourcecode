@@ -63,9 +63,6 @@
     <Compile Include="Matrix\MatrixView.xaml.cs">
       <DependentUpon>MatrixView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings\SearchSettingsDialog.xaml.cs">
-      <DependentUpon>SearchSettingsDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Resources\Themes\ThemeResourceDictionary.cs" />
     <Compile Include="UserControls\LegendView.xaml.cs">
       <DependentUpon>LegendView.xaml</DependentUpon>
@@ -145,10 +142,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Themes\PastelTheme.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Settings\SearchSettingsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

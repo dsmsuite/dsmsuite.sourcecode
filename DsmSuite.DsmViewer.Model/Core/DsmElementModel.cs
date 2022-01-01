@@ -209,24 +209,27 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsByName.ContainsKey(fullname) ? _elementsByName[fullname] : null;
         }
 
-        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitiveSearch, SearchMode searchMode)
+        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitiveSearch, IEnumerable<string> onlyElementsOfType)
         {
             List<IDsmElement> matchingElements = new List<IDsmElement>();
-            string fullname = "";
-            string text = caseSensitiveSearch ? searchText : searchText.ToLower();
+            if (searchText != null)
+            {
+                string fullname = "";
+                string text = caseSensitiveSearch ? searchText : searchText.ToLower();
 
-            if (text.Length > 0)
-            {
-                RecursiveSearchElements(_root, text, caseSensitiveSearch, searchMode, fullname, matchingElements);
-            }
-            else
-            {
-                ClearMarkElements(_root);
+                if (text.Length > 0)
+                {
+                    RecursiveSearchElements(_root, text, caseSensitiveSearch, onlyElementsOfType, fullname, matchingElements);
+                }
+                else
+                {
+                    ClearMarkElements(_root);
+                }
             }
             return matchingElements;
         }
 
-        private bool RecursiveSearchElements(IDsmElement element, string searchText, bool caseSensitiveSearch, SearchMode searchMode, string fullname, IList<IDsmElement> matchingElements)
+        private bool RecursiveSearchElements(IDsmElement element, string searchText, bool caseSensitiveSearch, IEnumerable<string> onlyElementsOfType, string fullname, IList<IDsmElement> matchingElements)
         {
             bool isMatch = false;
 
@@ -243,7 +246,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 fullname += element.Name.ToLower();
             }
 
-            if (fullname.Contains(searchText) && ElementAttributesMatch(element, searchMode) && !element.IsDeleted)
+            if (fullname.Contains(searchText) && !element.IsDeleted)
             {
                 // Add to list and mark element as search match
                 isMatch = true;
@@ -252,7 +255,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             foreach (IDsmElement child in element.Children)
             {
-                if (RecursiveSearchElements(child, searchText, caseSensitiveSearch, searchMode, fullname, matchingElements))
+                if (RecursiveSearchElements(child, searchText, caseSensitiveSearch, onlyElementsOfType, fullname, matchingElements))
                 {
                     // Add parent element as match when it contains a matching child
                     isMatch = true;
@@ -262,21 +265,6 @@ namespace DsmSuite.DsmViewer.Model.Core
             element.IsMatch = isMatch;
 
             return isMatch;
-        }
-
-        private bool ElementAttributesMatch(IDsmElement element, SearchMode searchMode)
-        {
-            switch (searchMode)
-            {
-                case SearchMode.All:
-                    return true;
-                case SearchMode.Bookmarked:
-                    return element.IsBookmarked;
-                case SearchMode.Annotated:
-                    return false;
-                default:
-                    return true;
-            }
         }
 
         private void ClearMarkElements(IDsmElement element)
