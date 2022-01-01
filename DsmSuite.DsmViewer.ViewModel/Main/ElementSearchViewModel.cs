@@ -14,6 +14,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private readonly IDsmApplication _application;
         private string _searchText;
         private bool _caseSensitiveSearch;
+        private ObservableCollection<string> _elementTypes;
         private ObservableCollection<string> _searchMatches;
         private SearchState _searchState;
         private string _searchResult;
@@ -26,6 +27,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
             ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute);
             FoundElement = null;
+            ElementTypes = null;
         }
 
         public ICommand ClearSearchCommand { get; }
@@ -40,7 +42,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public bool CaseSensitiveSearch
         {
             get { return _caseSensitiveSearch; }
-            set { _caseSensitiveSearch = value; OnPropertyChanged(); }
+            set { _caseSensitiveSearch = value; OnPropertyChanged(); OnSearchTextUpdated(); }
+        }
+
+        public ObservableCollection<string> ElementTypes
+        {
+            get { return _elementTypes; }
+            private set { _elementTypes = value; OnPropertyChanged(); OnSearchTextUpdated(); }
         }
 
         public ObservableCollection<string> SearchMatches
@@ -63,7 +71,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OnSearchTextUpdated()
         {
-            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, CaseSensitiveSearch, null);
+            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, CaseSensitiveSearch, _elementTypes);
             if (SearchText != null)
             {
                 List<string> matchingElementNames = new List<string>();
