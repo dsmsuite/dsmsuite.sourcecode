@@ -278,6 +278,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(1, matches.Count);
             Assert.AreEqual(b, matches[0]);
 
+
             Assert.AreEqual(true, model.GetRootElement().IsMatch);
             Assert.AreEqual(true, model.FindElementById(1).IsMatch);
             Assert.AreEqual(true, model.FindElementById(2).IsMatch);
