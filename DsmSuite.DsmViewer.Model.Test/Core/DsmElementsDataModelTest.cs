@@ -240,22 +240,58 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", null, 10, true, null, false);
+            IDsmElement a = model.ImportElement(1, "a", "atype", null, 10, true, null, false);
             Assert.IsNotNull(a);
 
-            IDsmElement b = model.ImportElement(2, "b", "type", null, 11, true, a.Id, false);
+            IDsmElement b = model.ImportElement(2, "b", "btype", null, 11, true, a.Id, false);
             Assert.IsNotNull(b);
 
-            IDsmElement c = model.ImportElement(3, "c", "type", null, 12, true, a.Id, false);
+            IDsmElement c = model.ImportElement(3, "c", "ctype", null, 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
             IList<IDsmElement> matches = model.SearchElements("a.b", true, null);
             Assert.AreEqual(1, matches.Count);
             Assert.AreEqual(b, matches[0]);
 
+
             Assert.AreEqual(true, model.GetRootElement().IsMatch);
             Assert.AreEqual(true, model.FindElementById(1).IsMatch);
             Assert.AreEqual(true, model.FindElementById(2).IsMatch);
+            Assert.AreEqual(false, model.FindElementById(3).IsMatch);
+        }
+
+        [TestMethod]
+        public void GivenAnElementIsInTheModelWhenSearchWithElementFilterIsActiveIsCalledWithTextPartOfItsNameThenElementIsFound()
+        {
+            DsmElementModel model = new DsmElementModel(_relationsModel);
+            Assert.AreEqual(1, model.GetElementCount());
+
+            IDsmElement a = model.ImportElement(1, "a", "atype", null, 10, true, null, false);
+            Assert.IsNotNull(a);
+
+            IDsmElement b = model.ImportElement(2, "b", "btype", null, 11, true, a.Id, false);
+            Assert.IsNotNull(b);
+
+            IDsmElement c = model.ImportElement(3, "c", "ctype", null, 12, true, a.Id, false);
+            Assert.IsNotNull(c);
+
+            IList<IDsmElement> matchesWithoutFilter = model.SearchElements("a", true, null);
+            Assert.AreEqual(3, matchesWithoutFilter.Count);
+            Assert.AreEqual(a, matchesWithoutFilter[0]);
+            Assert.AreEqual(b, matchesWithoutFilter[1]);
+            Assert.AreEqual(c, matchesWithoutFilter[2]);
+
+            Assert.AreEqual(true, model.GetRootElement().IsMatch);
+            Assert.AreEqual(true, model.FindElementById(1).IsMatch);
+            Assert.AreEqual(true, model.FindElementById(2).IsMatch);
+            Assert.AreEqual(true, model.FindElementById(3).IsMatch);
+
+            IList<IDsmElement> matchesWithFilter = model.SearchElements("a", true, "atype");
+            Assert.AreEqual(1, matchesWithFilter.Count);
+
+            Assert.AreEqual(true, model.GetRootElement().IsMatch);
+            Assert.AreEqual(true, model.FindElementById(1).IsMatch);
+            Assert.AreEqual(false, model.FindElementById(2).IsMatch);
             Assert.AreEqual(false, model.FindElementById(3).IsMatch);
         }
 
@@ -265,13 +301,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", null, 10, true, null, false);
+            IDsmElement a = model.ImportElement(1, "a", "atype", null, 10, true, null, false);
             Assert.IsNotNull(a);
 
-            IDsmElement b = model.ImportElement(2, "b", "type", null, 11, true, a.Id, false);
+            IDsmElement b = model.ImportElement(2, "b", "btype", null, 11, true, a.Id, false);
             Assert.IsNotNull(b);
 
-            IDsmElement c = model.ImportElement(3, "c", "type", null, 12, true, a.Id, false);
+            IDsmElement c = model.ImportElement(3, "c", "ctype", null, 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
             IList<IDsmElement> matches = model.SearchElements("A.B", false, null);
@@ -291,13 +327,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.ImportElement(1, "a", "type", null, 10, true, null, false);
+            IDsmElement a = model.ImportElement(1, "a", "atype", null, 10, true, null, false);
             Assert.IsNotNull(a);
 
-            IDsmElement b = model.ImportElement(2, "b", "type", null, 11, true, a.Id, false);
+            IDsmElement b = model.ImportElement(2, "b", "btype", null, 11, true, a.Id, false);
             Assert.IsNotNull(b);
 
-            IDsmElement c = model.ImportElement(3, "c", "type", null, 12, true, a.Id, false);
+            IDsmElement c = model.ImportElement(3, "c", "ctype", null, 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
             IList<IDsmElement> matches = model.SearchElements(".d", true, null);

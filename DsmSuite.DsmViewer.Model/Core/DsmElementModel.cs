@@ -209,17 +209,17 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsByName.ContainsKey(fullname) ? _elementsByName[fullname] : null;
         }
 
-        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitiveSearch, IEnumerable<string> onlyElementsOfType)
+        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitive, string elementTypeFilter)
         {
             List<IDsmElement> matchingElements = new List<IDsmElement>();
             if (searchText != null)
             {
                 string fullname = "";
-                string text = caseSensitiveSearch ? searchText : searchText.ToLower();
+                string text = caseSensitive ? searchText : searchText.ToLower();
 
                 if (text.Length > 0)
                 {
-                    RecursiveSearchElements(_root, text, caseSensitiveSearch, onlyElementsOfType, fullname, matchingElements);
+                    RecursiveSearchElements(_root, text, caseSensitive, elementTypeFilter, fullname, matchingElements);
                 }
                 else
                 {
@@ -229,7 +229,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return matchingElements;
         }
 
-        private bool RecursiveSearchElements(IDsmElement element, string searchText, bool caseSensitiveSearch, IEnumerable<string> onlyElementsOfType, string fullname, IList<IDsmElement> matchingElements)
+        private bool RecursiveSearchElements(IDsmElement element, string searchText, bool caseSensitive, string elementTypeFilter, string fullname, IList<IDsmElement> matchingElements)
         {
             bool isMatch = false;
 
@@ -237,7 +237,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 fullname += ".";
             }
-            if (caseSensitiveSearch)
+            if (caseSensitive)
             {
                 fullname += element.Name;
             }
@@ -246,7 +246,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 fullname += element.Name.ToLower();
             }
 
-            if (fullname.Contains(searchText) && !element.IsDeleted)
+            if (fullname.Contains(searchText) && IsElementFilterMatch(element, elementTypeFilter) && !element.IsDeleted)
             {
                 // Add to list and mark element as search match
                 isMatch = true;
@@ -255,7 +255,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             foreach (IDsmElement child in element.Children)
             {
-                if (RecursiveSearchElements(child, searchText, caseSensitiveSearch, onlyElementsOfType, fullname, matchingElements))
+                if (RecursiveSearchElements(child, searchText, caseSensitive, elementTypeFilter, fullname, matchingElements))
                 {
                     // Add parent element as match when it contains a matching child
                     isMatch = true;
@@ -265,6 +265,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             element.IsMatch = isMatch;
 
             return isMatch;
+        }
+
+        private bool IsElementFilterMatch(IDsmElement element, string elementTypeFilter)
+        {
+            return (elementTypeFilter == null) || (elementTypeFilter == element.Type);
         }
 
         private void ClearMarkElements(IDsmElement element)

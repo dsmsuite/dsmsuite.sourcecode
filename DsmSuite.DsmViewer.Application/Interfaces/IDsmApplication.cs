@@ -49,7 +49,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
 
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
         CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
-        IList<IDsmElement> SearchElements(string searchText, bool caseSensitiveSearch, IEnumerable<string> onlyElementsOfType);
+        IList<IDsmElement> SearchElements(string searchText, bool caseSensitive, string elementTypeFilter);
         IDsmElement GetElementByFullname(string fullname);
         void CreateElement(string name, string type, IDsmElement parent);
         void DeleteElement(IDsmElement element);

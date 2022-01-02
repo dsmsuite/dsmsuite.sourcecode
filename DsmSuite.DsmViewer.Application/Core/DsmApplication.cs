@@ -255,9 +255,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.IsCyclicDependency(consumer, provider);
         }
 
-        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitiveSearch, IEnumerable<string> onlyElementsOfType)
+        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitive, string elementTypeFilter)
         {
-            return _dsmModel.SearchElements(searchText, caseSensitiveSearch, onlyElementsOfType);
+            return _dsmModel.SearchElements(searchText, caseSensitive, elementTypeFilter);
         }
 
         public IDsmElement GetElementByFullname(string text)

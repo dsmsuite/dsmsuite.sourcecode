@@ -163,9 +163,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.FindElementByFullname(fullname);
         }
 
-        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitiveSearch, IEnumerable<string> onlyElementsOfType)
+        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitive, string elementTypeFilter)
         {
-            return _elementsDataModel.SearchElements(searchText, caseSensitiveSearch, onlyElementsOfType);
+            return _elementsDataModel.SearchElements(searchText, caseSensitive, elementTypeFilter);
         }
 
         public IDsmElement GetDeletedElementById(int id)
