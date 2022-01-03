@@ -34,6 +34,7 @@
     <Compile Include="Editing\Element\ElementEditTypeViewModel.cs" />
     <Compile Include="Editing\Relation\RelationCreateViewModel.cs" />
     <Compile Include="Editing\Relation\RelationEditTypeViewModel.cs" />
+    <Compile Include="Editing\Relation\RelationEditViewModel.cs" />
     <Compile Include="Editing\Relation\RelationEditWeightViewModel.cs" />
     <Compile Include="Editing\Snapshot\SnapshotMakeViewModel.cs" />
     <Compile Include="Lists\ActionListItemViewModel.cs" />
@@ -41,6 +42,7 @@
     <Compile Include="Lists\ElementListItemViewModel.cs" />
     <Compile Include="Lists\ElementListViewModel.cs" />
     <Compile Include="Lists\RelationListItemViewModel.cs" />
+    <Compile Include="Lists\RelationsListViewModelType.cs" />
     <Compile Include="Main\ElementSearchViewModel.cs" />
     <Compile Include="Main\IndicatorViewMode.cs" />
     <Compile Include="Main\ProgressViewModel.cs" />

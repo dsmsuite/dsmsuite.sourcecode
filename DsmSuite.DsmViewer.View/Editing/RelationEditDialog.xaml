@@ -1,0 +1,72 @@
+﻿<Window x:Class="DsmSuite.DsmViewer.View.Editing.RelationEditDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+        Height="240" 
+        Width="450"
+             Style="{StaticResource DialogStyle}">
+    <Grid FocusManager.FocusedElement="{Binding ElementName=NameTextBox}" Height="428" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{StaticResource TitleBarHeight}"  />
+            <RowDefinition Height="{StaticResource TitleHeight}" />
+            <RowDefinition Height="{StaticResource EditFieldHeight}" />
+            <RowDefinition Height="{StaticResource EditFieldHeight}" />
+            <RowDefinition Height="{StaticResource EditFieldHeight}" />
+            <RowDefinition Height="{StaticResource EditFieldHeight}" />
+            <RowDefinition Height="{StaticResource HelpFieldHeight}" />
+            <RowDefinition Height="{StaticResource ButtonRowHeight}" />
+            <RowDefinition Height="{StaticResource BottomRowHeight}" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="340" />
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
+            </StackPanel>
+        </DockPanel>
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogTitle}" Text="{Binding Title}" Margin="5"/>
+        <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Consumer" Margin="5"/>
+        <Border Grid.Row="2" Grid.Column="1" BorderBrush="{StaticResource ForegroundDisabledColor}" BorderThickness="1" >
+            <Grid DataContext="{Binding Path=ElementSearchViewModel}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"  Style="{StaticResource ToolbarButton}" Padding="3" Width="20" Height="20" Background="White" VerticalAlignment="Center" Content="{StaticResource SearchIcon}" />
+                <ComboBox Grid.Column="1" Style="{StaticResource ToolbarSearchBox}" Height="20" BorderThickness="0" Background="Orange" ToolTip="Enter search text and show matching elements" ItemsSource="{Binding SearchMatches, UpdateSourceTrigger=PropertyChanged}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
+                <Button Grid.Column="2"  Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="Yellow" VerticalAlignment="Center" ToolTip="Clear search text" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}" />
+                <ToggleButton Grid.Column="3" Style="{StaticResource CaseSensitiveToggleButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" IsChecked="{Binding CaseSensitiveSearch}"/>
+            </Grid>
+        </Border>
+        <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Provider" Margin="5"/>
+        <Border Grid.Row="3" Grid.Column="1" BorderBrush="{StaticResource ForegroundDisabledColor}" BorderThickness="1" Height="20">
+            <Grid DataContext="{Binding Path=ElementSearchViewModel}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"  Style="{StaticResource ToolbarButton}" Padding="3" Width="20" Height="20" Background="White" VerticalAlignment="Center" Content="{StaticResource SearchIcon}" />
+                <ComboBox Grid.Column="1" Style="{StaticResource ToolbarSearchBox}" Height="20" BorderThickness="0" Background="Orange" ToolTip="Enter search text and show matching elements" ItemsSource="{Binding SearchMatches, UpdateSourceTrigger=PropertyChanged}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
+                <Button Grid.Column="2"  Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="Yellow" VerticalAlignment="Center" ToolTip="Clear search text" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}" />
+                <ToggleButton Grid.Column="3" Style="{StaticResource CaseSensitiveToggleButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" IsChecked="{Binding CaseSensitiveSearch}"/>
+            </Grid>
+        </Border>
+        <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Type" Margin="5"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="10" Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Name="TypeTextBox"/>
+        <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Weight" Margin="5"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Margin="10" Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"  PreviewTextInput="NumberValidationTextBox" Name="WeightTextBox"/>
+        <TextBlock Grid.Row="6" Grid.Column="1" Margin="10" Text="{Binding Help, UpdateSourceTrigger=PropertyChanged}" Name="HelpTextBlock" Foreground="Red"/>
+        <StackPanel Grid.Row="7"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
+            <Button Style="{StaticResource DialogButton}" Content="Cancel" IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</Window>

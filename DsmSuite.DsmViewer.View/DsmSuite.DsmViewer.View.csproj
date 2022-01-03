@@ -44,6 +44,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Editing\RelationEditDialog.xaml.cs">
+      <DependentUpon>RelationEditDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Editing\SnapshotCreateDialog.xaml.cs">
       <DependentUpon>SnapshotCreateDialog.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Editing\ElementEditTypeDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Editing\RelationEditDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

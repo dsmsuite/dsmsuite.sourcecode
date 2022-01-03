@@ -26,9 +26,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ElementsReportReady?.Invoke(this, elementListViewModel);
         }
 
-        public void NotifyRelationsReportReady(string title, IEnumerable<IDsmRelation> relations)
+        public void NotifyRelationsReportReady(RelationsListViewModelType viewModelType, IDsmElement selectedConsumer, IDsmElement selectedProvider)
         {
-            RelationListViewModel viewModel = new RelationListViewModel(title, relations, _application);
+            RelationListViewModel viewModel = new RelationListViewModel(viewModelType, _application, selectedConsumer, selectedProvider);
             RelationsReportReady?.Invoke(this, viewModel);
         }
 

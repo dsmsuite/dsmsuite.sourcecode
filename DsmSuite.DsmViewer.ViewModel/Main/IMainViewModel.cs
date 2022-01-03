@@ -2,13 +2,14 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.ViewModel.Lists;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
     public interface IMainViewModel : INotifyPropertyChanged
     {
         void NotifyElementsReportReady(string title, IEnumerable<IDsmElement> elements);
-        void NotifyRelationsReportReady(string title, IEnumerable<IDsmRelation> relations);
+        void NotifyRelationsReportReady(RelationsListViewModelType viewModelType, IDsmElement selectedConsumer, IDsmElement selectedProvider);
 
         ICommand ToggleElementExpandedCommand { get; }
         ICommand MoveUpElementCommand { get; }

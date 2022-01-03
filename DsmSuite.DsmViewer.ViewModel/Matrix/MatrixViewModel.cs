@@ -6,6 +6,7 @@ using System.Windows.Input;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Main;
+using DsmSuite.DsmViewer.ViewModel.Lists;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
@@ -669,9 +670,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowElementIngoingRelationsExecute(object parameter)
         {
-            string title = $"Ingoing relations of {SelectedProvider.Fullname}";
-            var relations = _application.FindIngoingRelations(SelectedProvider);
-            _mainViewModel.NotifyRelationsReportReady(title, relations);
+            _mainViewModel.NotifyRelationsReportReady(RelationsListViewModelType.ElementIngoingRelations, null, SelectedProvider);
         }
 
         private bool ShowElementIngoingRelationsCanExecute(object parameter)
@@ -681,9 +680,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowElementOutgoingRelationExecute(object parameter)
         {
-            string title = $"Outgoing relations of {SelectedProvider.Fullname}";
             var relations = _application.FindOutgoingRelations(SelectedProvider);
-            _mainViewModel.NotifyRelationsReportReady(title, relations);
+            _mainViewModel.NotifyRelationsReportReady(RelationsListViewModelType.ElementOutgoingRelations, null, SelectedProvider);
         }
 
         private bool ShowElementOutgoingRelationCanExecute(object parameter)
@@ -693,9 +691,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowElementinternalRelationsExecute(object parameter)
         {
-            string title = $"Internal relations of {SelectedProvider.Fullname}";
-            var relations = _application.FindInternalRelations(SelectedProvider);
-            _mainViewModel.NotifyRelationsReportReady(title, relations);
+            _mainViewModel.NotifyRelationsReportReady(RelationsListViewModelType.ElementInternalRelations, null, SelectedProvider);
         }
 
         private bool ShowElementinternalRelationsCanExecute(object parameter)
@@ -741,9 +737,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowCellRelationsExecute(object parameter)
         {
-            string title = $"Relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
-            var relations = _application.FindResolvedRelations(SelectedConsumer, SelectedProvider);
-            _mainViewModel.NotifyRelationsReportReady(title, relations);
+            _mainViewModel.NotifyRelationsReportReady(RelationsListViewModelType.ConsumerProviderRelations, SelectedConsumer, SelectedProvider);
         }
 
         private bool ShowCellRelationsCanExecute(object parameter)

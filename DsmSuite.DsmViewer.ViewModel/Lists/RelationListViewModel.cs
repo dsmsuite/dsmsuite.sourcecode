@@ -6,19 +6,51 @@ using System.Text;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using System.Collections.ObjectModel;
+using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
+using System;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListViewModel : ViewModelBase
     {
         private IDsmApplication _application;
+        private IDsmElement _selectedConsumer;
+        private IDsmElement _selectedProvider;
 
-        public RelationListViewModel(string subtitle, IEnumerable<IDsmRelation> relations, IDsmApplication application)
+        public event EventHandler<RelationEditViewModel> RelationAddStarted;
+        public event EventHandler<RelationEditViewModel> RelationEditStarted;
+
+        public RelationListViewModel(RelationsListViewModelType viewModelType, IDsmApplication application, IDsmElement selectedConsumer, IDsmElement selectedProvider)
         {
             _application = application;
+            _selectedConsumer = selectedConsumer;
+            _selectedProvider = selectedProvider;
 
             Title = "Relation List";
-            SubTitle = subtitle;
+            IEnumerable<IDsmRelation> relations;
+            switch (viewModelType)
+            {
+                case RelationsListViewModelType.ElementIngoingRelations:
+                    SubTitle = $"Ingoing relations of {_selectedProvider.Fullname}";
+                    relations = _application.FindIngoingRelations(_selectedProvider);
+                    break;
+                case RelationsListViewModelType.ElementOutgoingRelations:
+                    SubTitle = $"Outgoing relations of {_selectedProvider.Fullname}";
+                    relations = _application.FindOutgoingRelations(_selectedProvider);
+                    break;
+                case RelationsListViewModelType.ElementInternalRelations:
+                    SubTitle = $"Internal relations of {_selectedProvider.Fullname}";
+                    relations = _application.FindInternalRelations(_selectedProvider);
+                    break;
+                case RelationsListViewModelType.ConsumerProviderRelations:
+                    SubTitle = $"Relations between consumer {_selectedConsumer.Fullname} and provider {_selectedProvider.Fullname}";
+                    relations = _application.FindResolvedRelations(_selectedConsumer, _selectedProvider);
+                    break;
+                default:
+                    SubTitle = "";
+                    relations = new List<IDsmRelation>();
+                    break;
+            }
 
             List<RelationListItemViewModel> relationViewModels = new List<RelationListItemViewModel>();
 
@@ -80,6 +112,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void EditRelationExecute(object parameter)
         {
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(_application, SelectedRelation.Relation, null, null);
+            RelationEditStarted?.Invoke(this, relationEditViewModel);
         }
 
         private bool EditRelationCanExecute(object parameter)
@@ -89,6 +123,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void AddRelationExecute(object parameter)
         {
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(_application, null, null, null);
+            RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private bool AddRelationCanExecute(object parameter)
