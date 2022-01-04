@@ -20,9 +20,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 {
     public class MainViewModel : ViewModelBase, IMainViewModel
     {
-        public void NotifyElementsReportReady(string title, IEnumerable<IDsmElement> elements)
+        public void NotifyElementsReportReady(ElementListViewModelType viewModelType, IDsmElement selectedConsumer, IDsmElement selectedProvider)
         {
-            ElementListViewModel elementListViewModel = new ElementListViewModel(title, elements);
+            ElementListViewModel elementListViewModel = new ElementListViewModel(viewModelType, _application, selectedConsumer, selectedProvider);
             ElementsReportReady?.Invoke(this, elementListViewModel);
         }
 

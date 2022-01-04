@@ -34,9 +34,13 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button Style="{StaticResource DialogButton}" Content="Copy" ToolTip="Copy action list to clipboard" Command="{Binding CopyToClipboardCommand}"/>
-            <Button Style="{StaticResource DialogButton}" Content="Clear" ToolTip="Clear action list" Command="{Binding ClearCommand}"/>
-        </StackPanel>
+        <DockPanel Grid.Row="3">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Style="{StaticResource DialogButton}" Content="Clear" ToolTip="Clear action list" Command="{Binding ClearCommand}"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Style="{StaticResource DialogButton}" Content="Copy" ToolTip="Copy action list to clipboard" Command="{Binding CopyToClipboardCommand}"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>

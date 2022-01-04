@@ -8,7 +8,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 {
     public interface IMainViewModel : INotifyPropertyChanged
     {
-        void NotifyElementsReportReady(string title, IEnumerable<IDsmElement> elements);
+        void NotifyElementsReportReady(ElementListViewModelType viewModelType, IDsmElement selectedConsumer, IDsmElement selectedProvider);
         void NotifyRelationsReportReady(RelationsListViewModelType viewModelType, IDsmElement selectedConsumer, IDsmElement selectedProvider);
 
         ICommand ToggleElementExpandedCommand { get; }

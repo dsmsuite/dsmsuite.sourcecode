@@ -646,9 +646,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowCellConsumersExecute(object parameter)
         {
-            string title = $"Consumers in relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
-            var elements = _application.GetRelationConsumers(SelectedConsumer, SelectedProvider);
-            _mainViewModel.NotifyElementsReportReady(title, elements);
+            _mainViewModel.NotifyElementsReportReady(ElementListViewModelType.RelationConsumers, SelectedConsumer, SelectedProvider);
         }
 
         private bool ShowCellConsumersCanExecute(object parameter)
@@ -658,9 +656,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowCellProvidersExecute(object parameter)
         {
-            string title = $"Providers in relations between consumer {SelectedConsumer.Fullname} and provider {SelectedProvider.Fullname}";
-            var elements = _application.GetRelationProviders(SelectedConsumer, SelectedProvider);
-            _mainViewModel.NotifyElementsReportReady(title, elements);
+            _mainViewModel.NotifyElementsReportReady(ElementListViewModelType.RelationProviders, SelectedConsumer, SelectedProvider);
         }
 
         private bool ShowCellProvidersCanExecute(object parameter)
@@ -701,9 +697,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowElementConsumersExecute(object parameter)
         {
-            string title = $"Consumers of {SelectedProvider.Fullname}";
-            var elements = _application.GetElementConsumers(SelectedProvider);
-            _mainViewModel.NotifyElementsReportReady(title, elements);
+            _mainViewModel.NotifyElementsReportReady(ElementListViewModelType.ElementConsumers, null, SelectedProvider);
         }
 
         private bool ShowConsumersCanExecute(object parameter)
@@ -713,9 +707,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowProvidedInterfacesExecute(object parameter)
         {
-            string title = $"Provided interface of {SelectedProvider.Fullname}";
-            var elements = _application.GetElementProvidedElements(SelectedProvider);
-            _mainViewModel.NotifyElementsReportReady(title, elements);
+            _mainViewModel.NotifyElementsReportReady(ElementListViewModelType.ElementProvidedInterface, null, SelectedProvider);
         }
 
         private bool ShowElementProvidedInterfacesCanExecute(object parameter)
@@ -725,9 +717,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         private void ShowElementRequiredInterfacesExecute(object parameter)
         {
-            string title = $"Required interface of {SelectedProvider.Fullname}";
-            var elements = _application.GetElementProviders(SelectedProvider);
-            _mainViewModel.NotifyElementsReportReady(title, elements);
+            _mainViewModel.NotifyElementsReportReady(ElementListViewModelType.ElementRequiredInterface, null, SelectedProvider);
         }
 
         private bool ShowElementRequiredInterfacesCanExecute(object parameter)

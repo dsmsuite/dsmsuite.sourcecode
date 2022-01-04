@@ -5,15 +5,54 @@ using System.Windows.Input;
 using System.Windows;
 using System.Text;
 using System.Collections.ObjectModel;
+using DsmSuite.DsmViewer.Application.Interfaces;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class ElementListViewModel : ViewModelBase
     {
-        public ElementListViewModel(string subtitle, IEnumerable<IDsmElement> elements)
+        private ElementListViewModelType _viewModelType;
+        private IDsmApplication _application;
+        private IDsmElement _selectedConsumer;
+        private IDsmElement _selectedProvider;
+
+        public ElementListViewModel(ElementListViewModelType viewModelType, IDsmApplication application, IDsmElement selectedConsumer, IDsmElement selectedProvider)
         {
+            _viewModelType = viewModelType;
+            _application = application;
+            _selectedConsumer = selectedConsumer;
+            _selectedProvider = selectedProvider;
+
             Title = "Element List";
-            SubTitle = subtitle;
+
+            IEnumerable<IDsmElement> elements;
+            switch (viewModelType)
+            {
+                case ElementListViewModelType.RelationConsumers:
+                    SubTitle = $"Consumers in relations between consumer {_selectedConsumer.Fullname} and provider {_selectedProvider.Fullname}";
+                    elements = _application.GetRelationConsumers(_selectedConsumer, _selectedProvider);
+                    break;
+                case ElementListViewModelType.RelationProviders:
+                    SubTitle = $"Providers in relations between consumer {_selectedConsumer.Fullname} and provider {_selectedProvider.Fullname}";
+                    elements = _application.GetRelationProviders(_selectedConsumer, _selectedProvider);
+                    break;
+                case ElementListViewModelType.ElementConsumers:
+                    SubTitle = $"Consumers of {_selectedProvider.Fullname}";
+                    elements = _application.GetElementConsumers(_selectedProvider);
+                    break;
+                case ElementListViewModelType.ElementProvidedInterface:
+                    SubTitle = $"Provided interface of {_selectedProvider.Fullname}";
+                    elements = _application.GetElementProvidedElements(_selectedProvider);
+                    break;
+                case ElementListViewModelType.ElementRequiredInterface:
+                    SubTitle = $"Required interface of {_selectedProvider.Fullname}";
+                    elements = _application.GetElementProviders(_selectedProvider);
+                    break;
+                default:
+                    SubTitle = "";
+                    elements = new List<IDsmElement>();
+                    break;
+            }
 
             List<ElementListItemViewModel> elementViewModels = new List<ElementListItemViewModel>();
 

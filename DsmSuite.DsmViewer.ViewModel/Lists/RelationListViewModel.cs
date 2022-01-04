@@ -13,6 +13,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListViewModel : ViewModelBase
     {
+        private RelationsListViewModelType _viewModelType;
         private IDsmApplication _application;
         private IDsmElement _selectedConsumer;
         private IDsmElement _selectedProvider;
@@ -22,64 +23,43 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         public RelationListViewModel(RelationsListViewModelType viewModelType, IDsmApplication application, IDsmElement selectedConsumer, IDsmElement selectedProvider)
         {
+            _viewModelType = viewModelType;
             _application = application;
             _selectedConsumer = selectedConsumer;
             _selectedProvider = selectedProvider;
 
             Title = "Relation List";
-            IEnumerable<IDsmRelation> relations;
             switch (viewModelType)
             {
                 case RelationsListViewModelType.ElementIngoingRelations:
                     SubTitle = $"Ingoing relations of {_selectedProvider.Fullname}";
-                    relations = _application.FindIngoingRelations(_selectedProvider);
                     break;
                 case RelationsListViewModelType.ElementOutgoingRelations:
                     SubTitle = $"Outgoing relations of {_selectedProvider.Fullname}";
-                    relations = _application.FindOutgoingRelations(_selectedProvider);
                     break;
                 case RelationsListViewModelType.ElementInternalRelations:
                     SubTitle = $"Internal relations of {_selectedProvider.Fullname}";
-                    relations = _application.FindInternalRelations(_selectedProvider);
                     break;
                 case RelationsListViewModelType.ConsumerProviderRelations:
                     SubTitle = $"Relations between consumer {_selectedConsumer.Fullname} and provider {_selectedProvider.Fullname}";
-                    relations = _application.FindResolvedRelations(_selectedConsumer, _selectedProvider);
                     break;
                 default:
                     SubTitle = "";
-                    relations = new List<IDsmRelation>();
                     break;
             }
-
-            List<RelationListItemViewModel> relationViewModels = new List<RelationListItemViewModel>();
-
-            foreach (IDsmRelation relation in relations)
-            {
-                relationViewModels.Add(new RelationListItemViewModel(relation));
-            }
-
-            relationViewModels.Sort();
-
-            int index = 1;
-            foreach (RelationListItemViewModel viewModel in relationViewModels)
-            {
-                viewModel.Index = index;
-                index++;
-            }
-
-            Relations = new ObservableCollection<RelationListItemViewModel>(relationViewModels);
 
             CopyToClipboardCommand = new RelayCommand<object>(CopyToClipboardExecute);
             DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
             EditRelationCommand = new RelayCommand<object>(EditRelationExecute, EditRelationCanExecute);
             AddRelationCommand = new RelayCommand<object>(AddRelationExecute, AddRelationCanExecute);
+
+            UpdateRelations();
         }
 
         public string Title { get; }
         public string SubTitle { get; }
-
-        public ObservableCollection<RelationListItemViewModel> Relations { get; }
+        
+        public ObservableCollection<RelationListItemViewModel> Relations { get; private set; }
 
         public RelationListItemViewModel SelectedRelation { get; set; }
 
@@ -102,7 +82,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         private void DeleteRelationExecute(object parameter)
         {
             _application.DeleteRelation(SelectedRelation.Relation);
-            Relations.Remove(SelectedRelation);
+            UpdateRelations();
         }
 
         private bool DeleteRelationCanExecute(object parameter)
@@ -129,7 +109,48 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private bool AddRelationCanExecute(object parameter)
         {
-            return true;
+            return (_viewModelType == RelationsListViewModelType.ElementIngoingRelations) || (_viewModelType == RelationsListViewModelType.ElementOutgoingRelations);
+        }
+
+        private void UpdateRelations()
+        {
+            IEnumerable<IDsmRelation> relations;
+            switch (_viewModelType)
+            {
+                case RelationsListViewModelType.ElementIngoingRelations:
+                    relations = _application.FindIngoingRelations(_selectedProvider);
+                    break;
+                case RelationsListViewModelType.ElementOutgoingRelations:
+                    relations = _application.FindOutgoingRelations(_selectedProvider);
+                    break;
+                case RelationsListViewModelType.ElementInternalRelations:
+                    relations = _application.FindInternalRelations(_selectedProvider);
+                    break;
+                case RelationsListViewModelType.ConsumerProviderRelations:
+                    relations = _application.FindResolvedRelations(_selectedConsumer, _selectedProvider);
+                    break;
+                default:
+                    relations = new List<IDsmRelation>();
+                    break;
+            }
+
+            List<RelationListItemViewModel> relationViewModels = new List<RelationListItemViewModel>();
+
+            foreach (IDsmRelation relation in relations)
+            {
+                relationViewModels.Add(new RelationListItemViewModel(relation));
+            }
+
+            relationViewModels.Sort();
+
+            int index = 1;
+            foreach (RelationListItemViewModel viewModel in relationViewModels)
+            {
+                viewModel.Index = index;
+                index++;
+            }
+
+            Relations = new ObservableCollection<RelationListItemViewModel>(relationViewModels);
         }
     }
 }

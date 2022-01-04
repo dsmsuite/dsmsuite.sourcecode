@@ -41,6 +41,7 @@
     <Compile Include="Lists\ActionListViewModel.cs" />
     <Compile Include="Lists\ElementListItemViewModel.cs" />
     <Compile Include="Lists\ElementListViewModel.cs" />
+    <Compile Include="Lists\ElementListViewModelType.cs" />
     <Compile Include="Lists\RelationListItemViewModel.cs" />
     <Compile Include="Lists\RelationsListViewModelType.cs" />
     <Compile Include="Main\ElementSearchViewModel.cs" />

@@ -41,11 +41,15 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button Style="{StaticResource DialogButton}" Content="Copy" ToolTip="Copy relation list to clipboard" Command="{Binding CopyToClipboardCommand}"/>
-            <Button Style="{StaticResource DialogButton}" Content="Delete" ToolTip="Delete selected relation" Command="{Binding DeleteRelationCommand}"/>
-            <Button Style="{StaticResource DialogButton}" Content="Edit" ToolTip="Edit selected relation" Command="{Binding EditRelationCommand}"/>
-            <Button Style="{StaticResource DialogButton}" Content="Add" ToolTip="Add relation" Command="{Binding AddRelationCommand}"/>
-        </StackPanel>
+        <DockPanel Grid.Row="4">
+            <StackPanel DockPanel.Dock="Left" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Style="{StaticResource DialogButton}" Content="Delete" ToolTip="Delete selected relation" Command="{Binding DeleteRelationCommand}"/>
+                <Button Style="{StaticResource DialogButton}" Content="Edit" ToolTip="Edit selected relation" Command="{Binding EditRelationCommand}"/>
+                <Button Style="{StaticResource DialogButton}" Content="Add" ToolTip="Add relation" Command="{Binding AddRelationCommand}"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Left" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Style="{StaticResource DialogButton}" Content="Copy" ToolTip="Copy relation list to clipboard" Command="{Binding CopyToClipboardCommand}"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>

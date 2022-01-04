@@ -37,7 +37,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource DialogButton}" Content="Copy" ToolTip="Copy element list to clipboard" Command="{Binding CopyToClipboardCommand}"/>
         </StackPanel>        
     </Grid>
