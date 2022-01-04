@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:usercontrols="clr-namespace:DsmSuite.DsmViewer.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="1000"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -37,20 +38,7 @@
             <Separator/>
             <ComboBox Style="{StaticResource ToolbarComboBox}" ToolTip="Select element indicator mode" ItemsSource="{Binding SupportedIndicatorViewModes}" SelectedItem="{Binding SelectedIndicatorViewMode}" Width="100" />
         </ToolBar>
-        <Border Grid.Column="1" BorderBrush="{StaticResource ForegroundDisabledColor}" BorderThickness="1" >
-            <Grid DataContext="{Binding Path=ElementSearchViewModel}" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="20" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"  Style="{StaticResource ToolbarButton}" Padding="3" Width="20" Height="20" Background="White" VerticalAlignment="Center" Content="{StaticResource SearchIcon}" />
-                <ComboBox Grid.Column="1" Style="{StaticResource ToolbarSearchBox}" Height="26" BorderThickness="0" ToolTip="Enter search text and show matching elements" ItemsSource="{Binding SearchMatches, UpdateSourceTrigger=PropertyChanged}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Foreground="{Binding SearchState, Converter={StaticResource SearchStateToColorConverter}}" />
-                <Button Grid.Column="2"  Style="{StaticResource ToolbarButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" ToolTip="Clear search text" Command="{Binding ClearSearchCommand}" Content="{StaticResource DeleteIcon}" />
-                <ToggleButton Grid.Column="3" Style="{StaticResource CaseSensitiveToggleButton}" Padding="5" Width="20" Height="20" Background="White" VerticalAlignment="Center" IsChecked="{Binding CaseSensitiveSearch}"/>
-            </Grid>
-        </Border>
+        <usercontrols:ElementSearchBox Grid.Column="1" BorderBrush="{StaticResource ForegroundDisabledColor}" BorderThickness="1" DataContext="{Binding Path=ElementSearchViewModel}" />
         <Label Grid.Column="2"  Style="{StaticResource ToolbarLabel}" DataContext="{Binding Path=ElementSearchViewModel}" Content="{Binding SearchResult}" Width="80"/>
         <Button Grid.Column="3" Style="{StaticResource ToolbarButton}" ToolTip="Settings" Command="{Binding ShowSettingsCommand}" Content="{StaticResource SettingsIcon}" DockPanel.Dock="Right" Width="24"/>
     </Grid>

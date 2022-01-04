@@ -70,6 +70,9 @@
     <Compile Include="UserControls\LegendView.xaml.cs">
       <DependentUpon>LegendView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ElementSearchBox.xaml.cs">
+      <DependentUpon>ElementSearchBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ToolView.xaml.cs">
       <DependentUpon>ToolView.xaml</DependentUpon>
     </Compile>
@@ -161,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Lists\ActionListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ElementSearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
