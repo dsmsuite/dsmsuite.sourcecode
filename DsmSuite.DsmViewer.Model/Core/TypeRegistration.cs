@@ -39,5 +39,10 @@ namespace DsmSuite.DsmViewer.Model.Core
                 return "unknown";
             }
         }
+
+        public IEnumerable<string> GetTypeNames()
+        {
+            return _typeNames.Values;
+        }
     }
 }

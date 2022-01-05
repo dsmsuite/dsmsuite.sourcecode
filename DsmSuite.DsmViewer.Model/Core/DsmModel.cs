@@ -128,6 +128,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             _elementsDataModel.UnremoveElement(elementId);
         }
 
+        public IEnumerable<string> GetElementTypes()
+        {
+            return _elementsDataModel.GetElementTypes();
+        }
+
         public IEnumerable<IDsmElement> GetElements()
         {
             return _elementsDataModel.GetElements();
@@ -196,6 +201,11 @@ namespace DsmSuite.DsmViewer.Model.Core
         public void UnremoveRelation(int relationId)
         {
             _relationsDataModel.UnremoveRelation(relationId);
+        }
+
+        public IEnumerable<string> GetRelationTypes()
+        {
+            return _relationsDataModel.GetRelationTypes();
         }
 
         public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)

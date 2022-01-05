@@ -239,6 +239,11 @@ namespace DsmSuite.DsmViewer.Application.Core
             ElementMoveDownAction action = new ElementMoveDownAction(_dsmModel, element);
             _actionManager.Execute(action);
         }
+        
+        public IEnumerable<string> GetElementTypes()
+        {
+            return _dsmModel.GetElementTypes();
+        }
 
         public int GetDependencyWeight(IDsmElement consumer, IDsmElement provider)
         {
@@ -320,6 +325,11 @@ namespace DsmSuite.DsmViewer.Application.Core
         {
             RelationChangeWeightAction action = new RelationChangeWeightAction(_dsmModel, relation, weight);
             _actionManager.Execute(action);
+        }
+
+        public IEnumerable<string> GetRelationTypes()
+        {
+            return _dsmModel.GetRelationTypes();
         }
 
         public void MakeSnapshot(string description)

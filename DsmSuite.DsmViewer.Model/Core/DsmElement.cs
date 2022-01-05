@@ -196,5 +196,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             DsmElement element = obj as DsmElement;
             return Id.CompareTo(element?.Id);
         }
+
+        public static IEnumerable<string> GetTypeNames()
+        {
+            return TypeRegistration.GetTypeNames();
+        }
     }
 }

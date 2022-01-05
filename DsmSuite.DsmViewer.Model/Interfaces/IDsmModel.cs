@@ -39,6 +39,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IDsmElement GetElementByFullname(string fullname);
         IList<IDsmElement> SearchElements(string searchText, bool caseSensitive, string elementTypeFilter);
         IDsmElement GetRootElement();
+        IEnumerable<string> GetElementTypes();
         IEnumerable<IDsmElement> GetElements();
         int GetElementCount();
 
@@ -48,6 +49,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         void ChangeRelationWeight(IDsmRelation relation, int weight);
         void RemoveRelation(int relationId);
         void UnremoveRelation(int relationId);
+        IEnumerable<string> GetRelationTypes();
 
         // Relation queries
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);

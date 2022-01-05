@@ -164,6 +164,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
+        public IEnumerable<string> GetElementTypes()
+        {
+            return DsmElement.GetTypeNames();
+        }
+
         public IEnumerable<IDsmElement> GetElements()
         {
             return _elementsById.Values;

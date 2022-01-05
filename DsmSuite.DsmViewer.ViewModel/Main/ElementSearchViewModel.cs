@@ -1,7 +1,6 @@
 ﻿using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
-using DsmSuite.DsmViewer.ViewModel.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,24 +13,31 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private readonly IDsmApplication _application;
         private string _searchText;
         private bool _caseSensitiveSearch;
-        private string _elementTypeFilter;
+        private string _selectedElementType;
         private ObservableCollection<string> _searchMatches;
         private SearchState _searchState;
         private string _searchResult;
 
         public event EventHandler SearchUpdated;
 
-        public ElementSearchViewModel(IDsmApplication application)
+        public ElementSearchViewModel(IDsmApplication application, IDsmElement selectedElement)
         {
             _application = application;
+            SelectedElement = selectedElement;
+            IsEditable = selectedElement == null;
+            SearchText = (selectedElement != null) ? selectedElement.Fullname : "";
 
-            ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute);
-            FoundElement = null;
-            ElementTypeFilter = null;
+            ElementTypes = new List<string>(application.GetElementTypes());
+            SelectedElementType = null;
+
+            ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute, ClearSearchCanExecute);
         }
 
+        public List<string> ElementTypes { get; }
+        public IDsmElement SelectedElement { get; private set; }
+        public bool IsEditable { get; }
+
         public ICommand ClearSearchCommand { get; }
-        public IDsmElement FoundElement { get; private set; }
 
         public string SearchText
         {
@@ -45,10 +51,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             set { _caseSensitiveSearch = value; OnPropertyChanged(); OnSearchTextUpdated(); }
         }
 
-        public string ElementTypeFilter
+        public string SelectedElementType
         {
-            get { return _elementTypeFilter; }
-            private set { _elementTypeFilter = value; OnPropertyChanged(); OnSearchTextUpdated(); }
+            get { return _selectedElementType; }
+            set { _selectedElementType = value; OnPropertyChanged(); OnSearchTextUpdated(); }
         }
 
         public ObservableCollection<string> SearchMatches
@@ -71,7 +77,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OnSearchTextUpdated()
         {
-            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, CaseSensitiveSearch, _elementTypeFilter);
+            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, CaseSensitiveSearch, SelectedElementType);
             if (SearchText != null)
             {
                 List<string> matchingElementNames = new List<string>();
@@ -81,7 +87,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 }
                 SearchMatches = new ObservableCollection<string>(matchingElementNames);
 
-                FoundElement = null;
+                SelectedElement = null;
                 if (SearchText.Length == 0)
                 {
                     SearchState = SearchState.NoInput;
@@ -96,7 +102,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 {
                     SearchState = SearchState.SingleMatch;
                     SearchResult = "1 found";
-                    FoundElement = matchingElements[0];
+                    SelectedElement = matchingElements[0];
                 }
                 else
                 {
@@ -111,6 +117,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public void ClearSearchExecute(object parameter)
         {
             SearchText = "";
+        }
+
+        private bool ClearSearchCanExecute(object parameter)
+        {
+            return IsEditable;
         }
     }
 }

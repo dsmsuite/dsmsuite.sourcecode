@@ -98,6 +98,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
+        public IEnumerable<string> GetRelationTypes()
+        {
+            return DsmRelation.GetTypeNames();
+        }
+
         public void ChangeRelationWeight(IDsmRelation relation, int weight)
         {
             DsmRelation changedRelation = relation as DsmRelation;

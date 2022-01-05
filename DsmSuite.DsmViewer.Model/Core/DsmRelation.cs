@@ -38,5 +38,10 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IDictionary<string, string> Properties { get; }
 
         public bool IsDeleted { get; set; }
+
+        public static IEnumerable<string> GetTypeNames()
+        {
+            return TypeRegistration.GetTypeNames();
+        }
     }
 }

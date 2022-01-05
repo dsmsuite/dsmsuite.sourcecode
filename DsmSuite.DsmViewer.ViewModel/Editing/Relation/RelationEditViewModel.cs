@@ -11,46 +11,47 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
     {
         private readonly IDsmApplication _application;
         private readonly IDsmRelation _relation;
-        private string _selectedConsumerType;
-        private readonly IDsmElement _consumer;
-        private string _providerConsumerType;
-        private readonly IDsmElement _provider;
-        private string _type;
+        private readonly IDsmElement _selectedConsumer;
+        private readonly IDsmElement _selectedProvider;
+        private string _selectedRelationType;
         private int _weight;
         private string _help;
 
-        public RelationEditViewModel(IDsmApplication application, IDsmRelation relation, IDsmElement consumer, IDsmElement provider)
+        public RelationEditViewModel(IDsmApplication application, IDsmRelation relation, IDsmElement selectedConsumer, IDsmElement selectedProvider)
         {
             _application = application;
             _relation = relation;
-            _consumer = consumer;
-            _provider = provider;
+            _selectedConsumer = selectedConsumer;
+            _selectedProvider = selectedProvider;
 
-            ElementTypes = new List<string>();
+            ConsumerSearchViewModel = new ElementSearchViewModel(application, _selectedConsumer);
+            ProviderSearchViewModel = new ElementSearchViewModel(application, _selectedProvider);
+            RelationTypes = new List<string>(application.GetRelationTypes());
+            SelectedRelationType = null;
+            Weight = 1;
 
-            ConsumerSearch = new ElementSearchViewModel(application);
-            ProviderSearch = new ElementSearchViewModel(application);
+            AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public string Title { get; }
 
-        public List<string> ElementTypes { get; }
+        public ElementSearchViewModel ConsumerSearchViewModel { get; }
 
-        public string SelectedConsumerType
+        public ElementSearchViewModel ProviderSearchViewModel { get; }
+
+        public List<string> RelationTypes { get; }
+
+        public string SelectedRelationType
         {
-            get { return _selectedConsumerType; }
-            private set { _selectedConsumerType = value; OnPropertyChanged(); }
+            get { return _selectedRelationType; }
+            set { _selectedRelationType = value; OnPropertyChanged(); }
         }
 
-        public ElementSearchViewModel ConsumerSearch { get; }
-
-        public string SelectedProviderType
+        public int Weight
         {
-            get { return _providerConsumerType; }
-            private set { _providerConsumerType = value; OnPropertyChanged(); }
+            get { return _weight; }
+            set { _weight = value; OnPropertyChanged(); }
         }
-
-        public ElementSearchViewModel ProviderSearch { get; }
 
         public string Help
         {
@@ -58,16 +59,45 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
             private set { _help = value; OnPropertyChanged(); }
         }
 
-        public string Type
+        public ICommand AcceptChangeCommand { get; }
+
+        private void AcceptChangeExecute(object parameter)
         {
-            get { return _type; }
-            set { _type = value; OnPropertyChanged(); }
+            _application.CreateRelation(ConsumerSearchViewModel.SelectedElement, ProviderSearchViewModel.SelectedElement, SelectedRelationType, Weight);
         }
 
-        public int Weight
-        {
-            get { return _weight; }
-            set { _weight = value; OnPropertyChanged(); }
+        private bool AcceptChangeCanExecute(object parameter)
+        { 
+            if (ConsumerSearchViewModel.SelectedElement ==  null)
+            {
+                Help = "No consumer selected";
+                return false;
+            }
+            else if (ProviderSearchViewModel.SelectedElement == null)
+            {
+                Help = "No provider selected";
+                return false;
+            }
+            else if (SelectedRelationType == null)
+            {
+                Help = "No relation type selected";
+                return false;
+            }
+            else if (Weight < 0)
+            {
+                Help = "Weight can not be negative";
+                return false;
+            }
+            else if (Weight == 0)
+            {
+                Help = "Weight can not be zero";
+                return false;
+            }
+            else 
+            {
+                Help = "";
+                return true;
+            }
         }
     }
 }

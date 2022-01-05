@@ -45,6 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         IEnumerable<string> GetSupportedSortAlgorithms();
         void MoveUp(IDsmElement element);
         void MoveDown(IDsmElement element);
+        IEnumerable<string> GetElementTypes();
 
 
         int GetDependencyWeight(IDsmElement consumer, IDsmElement provider);
@@ -61,7 +62,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         void DeleteRelation(IDsmRelation relation);
         void ChangeRelationType(IDsmRelation relation, string type);
         void ChangeRelationWeight(IDsmRelation relation, int weight);
-
+        IEnumerable<string> GetRelationTypes();
         void MakeSnapshot(string name);
 
         IEnumerable<IAction> GetActions();
