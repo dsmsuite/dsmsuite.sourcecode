@@ -35,6 +35,7 @@
     <Compile Include="Editing\Relation\RelationCreateViewModel.cs" />
     <Compile Include="Editing\Relation\RelationEditTypeViewModel.cs" />
     <Compile Include="Editing\Relation\RelationEditViewModel.cs" />
+    <Compile Include="Editing\Relation\RelationEditViewModelType.cs" />
     <Compile Include="Editing\Relation\RelationEditWeightViewModel.cs" />
     <Compile Include="Editing\Snapshot\SnapshotMakeViewModel.cs" />
     <Compile Include="Lists\ActionListItemViewModel.cs" />

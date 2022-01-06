@@ -143,9 +143,12 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.GetElementCount();
         }
 
-        public IDsmElement GetRootElement()
-        {
-            return _elementsDataModel.GetRootElement();
+        public IDsmElement RootElement 
+        { 
+            get
+            {
+                return _elementsDataModel.RootElement;
+            }
         }
 
         public int GetExportedElementCount()
@@ -168,9 +171,9 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsDataModel.FindElementByFullname(fullname);
         }
 
-        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitive, string elementTypeFilter)
+        public IList<IDsmElement> SearchElements(string searchText, IDsmElement searchInElement, bool caseSensitive, string elementTypeFilter)
         {
-            return _elementsDataModel.SearchElements(searchText, caseSensitive, elementTypeFilter);
+            return _elementsDataModel.SearchElements(searchText, searchInElement, caseSensitive, elementTypeFilter);
         }
 
         public IDsmElement GetDeletedElementById(int id)

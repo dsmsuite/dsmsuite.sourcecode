@@ -179,9 +179,12 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsById.Count;
         }
 
-        public IDsmElement GetRootElement()
+        public IDsmElement RootElement
         {
-            return _root;
+            get
+            {
+                return _root;
+            }
         }
 
         public int GetExportedElementCount()
@@ -214,7 +217,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsByName.ContainsKey(fullname) ? _elementsByName[fullname] : null;
         }
 
-        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitive, string elementTypeFilter)
+        public IList<IDsmElement> SearchElements(string searchText, IDsmElement searchInElement, bool caseSensitive, string elementTypeFilter)
         {
             List<IDsmElement> matchingElements = new List<IDsmElement>();
             if (searchText != null)
@@ -224,7 +227,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
                 if (text.Length > 0)
                 {
-                    RecursiveSearchElements(_root, text, caseSensitive, elementTypeFilter, fullname, matchingElements);
+                    RecursiveSearchElements(searchInElement, text, caseSensitive, elementTypeFilter, fullname, matchingElements);
                 }
                 else
                 {

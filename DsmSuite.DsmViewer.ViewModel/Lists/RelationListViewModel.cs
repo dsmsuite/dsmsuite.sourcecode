@@ -13,10 +13,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListViewModel : ViewModelBase
     {
-        private RelationsListViewModelType _viewModelType;
-        private IDsmApplication _application;
-        private IDsmElement _selectedConsumer;
-        private IDsmElement _selectedProvider;
+        private readonly RelationsListViewModelType _viewModelType;
+        private readonly IDsmApplication _application;
+        private readonly IDsmElement _selectedConsumer;
+        private readonly IDsmElement _selectedProvider;
 
         public event EventHandler<RelationEditViewModel> RelationAddStarted;
         public event EventHandler<RelationEditViewModel> RelationEditStarted;
@@ -33,9 +33,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             {
                 case RelationsListViewModelType.ElementIngoingRelations:
                     SubTitle = $"Ingoing relations of {_selectedProvider.Fullname}";
+                    AddRelationCommand = new RelayCommand<object>(AddConsumerRelationExecute, AddRelationCanExecute);
                     break;
                 case RelationsListViewModelType.ElementOutgoingRelations:
                     SubTitle = $"Outgoing relations of {_selectedProvider.Fullname}";
+                    AddRelationCommand = new RelayCommand<object>(AddProviderRelationExecute, AddRelationCanExecute);
                     break;
                 case RelationsListViewModelType.ElementInternalRelations:
                     SubTitle = $"Internal relations of {_selectedProvider.Fullname}";
@@ -51,7 +53,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             CopyToClipboardCommand = new RelayCommand<object>(CopyToClipboardExecute);
             DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
             EditRelationCommand = new RelayCommand<object>(EditRelationExecute, EditRelationCanExecute);
-            AddRelationCommand = new RelayCommand<object>(AddRelationExecute, AddRelationCanExecute);
 
             UpdateRelations();
         }
@@ -92,7 +93,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void EditRelationExecute(object parameter)
         {
-            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(_application, SelectedRelation.Relation, null, null);
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Modify, _application, SelectedRelation.Relation, null, null);
             RelationEditStarted?.Invoke(this, relationEditViewModel);
         }
 
@@ -101,15 +102,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             return SelectedRelation != null;
         }
 
-        private void AddRelationExecute(object parameter)
+        private void AddConsumerRelationExecute(object parameter)
         {
-            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(_application, null, null, null);
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, null, _selectedProvider);
+            RelationAddStarted?.Invoke(this, relationEditViewModel);
+        }
+
+        private void AddProviderRelationExecute(object parameter)
+        {
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedProvider, null);
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private bool AddRelationCanExecute(object parameter)
         {
-            return (_viewModelType == RelationsListViewModelType.ElementIngoingRelations) || (_viewModelType == RelationsListViewModelType.ElementOutgoingRelations);
+            return true;
         }
 
         private void UpdateRelations()

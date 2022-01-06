@@ -9,28 +9,46 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 {
     public class RelationEditViewModel : ViewModelBase
     {
+        private readonly RelationEditViewModelType _viewModelType;
         private readonly IDsmApplication _application;
-        private readonly IDsmRelation _relation;
+        private readonly IDsmRelation _selectedRelation;
         private readonly IDsmElement _selectedConsumer;
         private readonly IDsmElement _selectedProvider;
         private string _selectedRelationType;
         private int _weight;
         private string _help;
 
-        public RelationEditViewModel(IDsmApplication application, IDsmRelation relation, IDsmElement selectedConsumer, IDsmElement selectedProvider)
+        public RelationEditViewModel(RelationEditViewModelType viewModelType, IDsmApplication application, IDsmRelation selectedRelation, IDsmElement selectedConsumer, IDsmElement selectedProvider)
         {
+            _viewModelType = viewModelType;
             _application = application;
-            _relation = relation;
-            _selectedConsumer = selectedConsumer;
-            _selectedProvider = selectedProvider;
+
+
+            switch (_viewModelType)
+            {
+                case RelationEditViewModelType.Modify:
+                    _selectedRelation = selectedRelation;
+                    _selectedConsumer = _selectedRelation.Consumer;
+                    _selectedProvider = _selectedRelation.Provider;
+                    SelectedRelationType = _selectedRelation.Type;
+                    Weight = _selectedRelation.Weight;
+                    AcceptChangeCommand = new RelayCommand<object>(AcceptModifyChangeExecute, AcceptChangeCanExecute);
+                    break;
+                case RelationEditViewModelType.Add:
+                    _selectedRelation = null;
+                    _selectedConsumer = selectedConsumer;
+                    _selectedProvider = selectedProvider;
+                    SelectedRelationType = null;
+                    Weight = 1;
+                    AcceptChangeCommand = new RelayCommand<object>(AcceptAddChangeExecute, AcceptChangeCanExecute);
+                    break;
+                default:
+                    break;
+            }
 
             ConsumerSearchViewModel = new ElementSearchViewModel(application, _selectedConsumer);
             ProviderSearchViewModel = new ElementSearchViewModel(application, _selectedProvider);
             RelationTypes = new List<string>(application.GetRelationTypes());
-            SelectedRelationType = null;
-            Weight = 1;
-
-            AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public string Title { get; }
@@ -61,14 +79,20 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 
         public ICommand AcceptChangeCommand { get; }
 
-        private void AcceptChangeExecute(object parameter)
+        private void AcceptModifyChangeExecute(object parameter)
+        {
+            _application.ChangeRelationWeight(_selectedRelation, Weight);
+            _application.ChangeRelationType(_selectedRelation, SelectedRelationType);
+        }
+
+        private void AcceptAddChangeExecute(object parameter)
         {
             _application.CreateRelation(ConsumerSearchViewModel.SelectedElement, ProviderSearchViewModel.SelectedElement, SelectedRelationType, Weight);
         }
 
         private bool AcceptChangeCanExecute(object parameter)
-        { 
-            if (ConsumerSearchViewModel.SelectedElement ==  null)
+        {
+            if (ConsumerSearchViewModel.SelectedElement == null)
             {
                 Help = "No consumer selected";
                 return false;
@@ -93,7 +117,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                 Help = "Weight can not be zero";
                 return false;
             }
-            else 
+            else
             {
                 Help = "";
                 return true;

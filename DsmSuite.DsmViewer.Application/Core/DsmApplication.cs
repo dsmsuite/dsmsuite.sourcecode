@@ -118,7 +118,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             Modified?.Invoke(this, IsModified);
         }
 
-        public IDsmElement RootElement => _dsmModel.GetRootElement();
+        public IDsmElement RootElement => _dsmModel.RootElement;
 
         public bool IsModified { get; private set; }
 
@@ -260,9 +260,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.IsCyclicDependency(consumer, provider);
         }
 
-        public IList<IDsmElement> SearchElements(string searchText, bool caseSensitive, string elementTypeFilter)
+        public IList<IDsmElement> SearchElements(string searchText, IDsmElement searchInElement, bool caseSensitive, string elementTypeFilter)
         {
-            return _dsmModel.SearchElements(searchText, caseSensitive, elementTypeFilter);
+            return _dsmModel.SearchElements(searchText, searchInElement, caseSensitive, elementTypeFilter);
         }
 
         public IDsmElement GetElementByFullname(string text)

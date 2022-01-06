@@ -398,9 +398,12 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
             return _actions;
         }
 
-        public IDsmElement GetRootElement()
+        public IDsmElement RootElement
         {
-            return _rootElement;
+            get
+            {
+                return _rootElement;
+            }
         }
 
         public int GetExportedElementCount()

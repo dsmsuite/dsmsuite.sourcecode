@@ -11,10 +11,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class ElementListViewModel : ViewModelBase
     {
-        private ElementListViewModelType _viewModelType;
-        private IDsmApplication _application;
-        private IDsmElement _selectedConsumer;
-        private IDsmElement _selectedProvider;
+        private readonly ElementListViewModelType _viewModelType;
+        private readonly IDsmApplication _application;
+        private readonly IDsmElement _selectedConsumer;
+        private readonly IDsmElement _selectedProvider;
 
         public ElementListViewModel(ElementListViewModelType viewModelType, IDsmApplication application, IDsmElement selectedConsumer, IDsmElement selectedProvider)
         {

@@ -19,7 +19,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Common
         {
             int totalElements = _dsmModel.GetElementCount();
             int progressedElements = 0;
-            Partition(progress, _dsmModel.GetRootElement(), totalElements, ref progressedElements);
+            Partition(progress, _dsmModel.RootElement, totalElements, ref progressedElements);
         }
 
         protected void Partition(IProgress<ProgressInfo> progress, IDsmElement element, int totalElements, ref int progressedElements)

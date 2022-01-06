@@ -55,7 +55,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         {
             _relationsModel = new DsmRelationModel();
             _elementsDataModel = new DsmElementModel(_relationsModel);
-            _root = _elementsDataModel.GetRootElement() as DsmElement;
+            _root = _elementsDataModel.RootElement as DsmElement;
             _expectedWeights = new Dictionary<IDsmElement, Dictionary<IDsmElement, int>>();
             _actualWeights = new Dictionary<IDsmElement, Dictionary<IDsmElement, int>>();
 

@@ -28,7 +28,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             SearchText = (selectedElement != null) ? selectedElement.Fullname : "";
 
             ElementTypes = new List<string>(application.GetElementTypes());
-            SelectedElementType = null;
+            SelectedElementType = (selectedElement != null) ? selectedElement.Type : "";
 
             ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute, ClearSearchCanExecute);
         }
@@ -77,7 +77,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OnSearchTextUpdated()
         {
-            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, CaseSensitiveSearch, SelectedElementType);
+            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, _application.RootElement, CaseSensitiveSearch, SelectedElementType);
             if (SearchText != null)
             {
                 List<string> matchingElementNames = new List<string>();

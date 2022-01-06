@@ -235,6 +235,32 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         }
 
         [TestMethod]
+        public void GivenAnElementIsInTheModelWhenSearchAndCaseSensitiveIsOnIsCalledWithTextPartOfItsNameThenElementIsFound()
+        {
+            DsmElementModel model = new DsmElementModel(_relationsModel);
+            Assert.AreEqual(1, model.GetElementCount());
+
+            IDsmElement a = model.ImportElement(1, "a", "atype", null, 10, true, null, false);
+            Assert.IsNotNull(a);
+
+            IDsmElement b = model.ImportElement(2, "b", "btype", null, 11, true, a.Id, false);
+            Assert.IsNotNull(b);
+
+            IDsmElement c = model.ImportElement(3, "c", "ctype", null, 12, true, a.Id, false);
+            Assert.IsNotNull(c);
+
+            IList<IDsmElement> matches = model.SearchElements("a.b", model.RootElement, true, null);
+            Assert.AreEqual(1, matches.Count);
+            Assert.AreEqual(b, matches[0]);
+
+
+            Assert.AreEqual(true, model.RootElement.IsMatch);
+            Assert.AreEqual(true, model.FindElementById(1).IsMatch);
+            Assert.AreEqual(true, model.FindElementById(2).IsMatch);
+            Assert.AreEqual(false, model.FindElementById(3).IsMatch);
+        }
+
+        [TestMethod]
         public void GivenAnElementIsInTheModelWhenSearchAndCaseSensitiveIsOffIsCalledWithTextPartOfItsNameThenElementIsFound()
         {
             DsmElementModel model = new DsmElementModel(_relationsModel);
@@ -249,12 +275,12 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c = model.ImportElement(3, "c", "ctype", null, 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
-            IList<IDsmElement> matches = model.SearchElements("a.b", true, null);
+            IList<IDsmElement> matches = model.SearchElements("A.B", model.RootElement, false, null);
             Assert.AreEqual(1, matches.Count);
             Assert.AreEqual(b, matches[0]);
 
 
-            Assert.AreEqual(true, model.GetRootElement().IsMatch);
+            Assert.AreEqual(true, model.RootElement.IsMatch);
             Assert.AreEqual(true, model.FindElementById(1).IsMatch);
             Assert.AreEqual(true, model.FindElementById(2).IsMatch);
             Assert.AreEqual(false, model.FindElementById(3).IsMatch);
@@ -275,49 +301,23 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c = model.ImportElement(3, "c", "ctype", null, 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
-            IList<IDsmElement> matchesWithoutFilter = model.SearchElements("a", true, null);
+            IList<IDsmElement> matchesWithoutFilter = model.SearchElements("a", model.RootElement, true, null);
             Assert.AreEqual(3, matchesWithoutFilter.Count);
             Assert.AreEqual(a, matchesWithoutFilter[0]);
             Assert.AreEqual(b, matchesWithoutFilter[1]);
             Assert.AreEqual(c, matchesWithoutFilter[2]);
 
-            Assert.AreEqual(true, model.GetRootElement().IsMatch);
+            Assert.AreEqual(true, model.RootElement.IsMatch);
             Assert.AreEqual(true, model.FindElementById(1).IsMatch);
             Assert.AreEqual(true, model.FindElementById(2).IsMatch);
             Assert.AreEqual(true, model.FindElementById(3).IsMatch);
 
-            IList<IDsmElement> matchesWithFilter = model.SearchElements("a", true, "atype");
+            IList<IDsmElement> matchesWithFilter = model.SearchElements("a", model.RootElement, true, "atype");
             Assert.AreEqual(1, matchesWithFilter.Count);
 
-            Assert.AreEqual(true, model.GetRootElement().IsMatch);
+            Assert.AreEqual(true, model.RootElement.IsMatch);
             Assert.AreEqual(true, model.FindElementById(1).IsMatch);
             Assert.AreEqual(false, model.FindElementById(2).IsMatch);
-            Assert.AreEqual(false, model.FindElementById(3).IsMatch);
-        }
-
-        [TestMethod]
-        public void GivenAnElementIsInTheModelWhenSearchAndCaseSensitiveIsOnIsCalledWithTextPartOfItsNameThenElementIsFound()
-        {
-            DsmElementModel model = new DsmElementModel(_relationsModel);
-            Assert.AreEqual(1, model.GetElementCount());
-
-            IDsmElement a = model.ImportElement(1, "a", "atype", null, 10, true, null, false);
-            Assert.IsNotNull(a);
-
-            IDsmElement b = model.ImportElement(2, "b", "btype", null, 11, true, a.Id, false);
-            Assert.IsNotNull(b);
-
-            IDsmElement c = model.ImportElement(3, "c", "ctype", null, 12, true, a.Id, false);
-            Assert.IsNotNull(c);
-
-            IList<IDsmElement> matches = model.SearchElements("A.B", false, null);
-            Assert.AreEqual(1, matches.Count);
-            Assert.AreEqual(b, matches[0]);
-
-
-            Assert.AreEqual(true, model.GetRootElement().IsMatch);
-            Assert.AreEqual(true, model.FindElementById(1).IsMatch);
-            Assert.AreEqual(true, model.FindElementById(2).IsMatch);
             Assert.AreEqual(false, model.FindElementById(3).IsMatch);
         }
 
@@ -336,10 +336,10 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c = model.ImportElement(3, "c", "ctype", null, 12, true, a.Id, false);
             Assert.IsNotNull(c);
 
-            IList<IDsmElement> matches = model.SearchElements(".d", true, null);
+            IList<IDsmElement> matches = model.SearchElements(".d", model.RootElement, true, null);
             Assert.AreEqual(0, matches.Count);
 
-            Assert.AreEqual(false, model.GetRootElement().IsMatch);
+            Assert.AreEqual(false, model.RootElement.IsMatch);
             Assert.AreEqual(false, model.FindElementById(1).IsMatch);
             Assert.AreEqual(false, model.FindElementById(2).IsMatch);
             Assert.AreEqual(false, model.FindElementById(3).IsMatch);
@@ -365,7 +365,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(6, model.GetElementCount());
 
-            List<IDsmElement> rootElementsBefore = model.GetRootElement().Children.OrderBy(x => x.Id).ToList();
+            List<IDsmElement> rootElementsBefore = model.RootElement.Children.OrderBy(x => x.Id).ToList();
             Assert.AreEqual(2, rootElementsBefore.Count);
 
             Assert.AreEqual(a, rootElementsBefore[0]);
@@ -381,7 +381,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(3, model.GetElementCount());
 
-            List<IDsmElement> rootElementsAfter = model.GetRootElement().Children.OrderBy(x => x.Id).ToList();
+            List<IDsmElement> rootElementsAfter = model.RootElement.Children.OrderBy(x => x.Id).ToList();
             Assert.AreEqual(1, rootElementsAfter.Count);
 
             Assert.AreEqual(b, rootElementsAfter[0]);
@@ -413,7 +413,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(3, model.GetElementCount());
 
-            List<IDsmElement> rootElementsBefore = model.GetRootElement().Children.OrderBy(x => x.Id).ToList();
+            List<IDsmElement> rootElementsBefore = model.RootElement.Children.OrderBy(x => x.Id).ToList();
             Assert.AreEqual(1, rootElementsBefore.Count);
 
             Assert.AreEqual(b, rootElementsBefore[0]);
@@ -424,7 +424,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             Assert.AreEqual(6, model.GetElementCount());
 
-            List<IDsmElement> rootElementsAfter = model.GetRootElement().Children.OrderBy(x => x.Id).ToList();
+            List<IDsmElement> rootElementsAfter = model.RootElement.Children.OrderBy(x => x.Id).ToList();
             Assert.AreEqual(2, rootElementsAfter.Count);
 
             Assert.AreEqual(a, rootElementsAfter[0]);
@@ -486,7 +486,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement c3 = model.AddElement("c3", "etc", c.Id, null);
             Assert.AreEqual(9, c3.Id);
 
-            List<IDsmElement> rootElements = model.GetRootElement().Children.OrderBy(x => x.Id).ToList();
+            List<IDsmElement> rootElements = model.RootElement.Children.OrderBy(x => x.Id).ToList();
             Assert.AreEqual(3, rootElements.Count);
 
             Assert.AreEqual(a, rootElements[0]);
@@ -520,7 +520,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement a3 = model.AddElement("a3", "eta", a.Id, null);
             Assert.AreEqual(4, a3.Id);
 
-            List<IDsmElement> rootElementsBefore = model.GetRootElement().Children.ToList();
+            List<IDsmElement> rootElementsBefore = model.RootElement.Children.ToList();
             Assert.AreEqual(1, rootElementsBefore.Count);
 
             Assert.AreEqual(a, rootElementsBefore[0]);
@@ -531,7 +531,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             model.Swap(a1, a2);
 
-            List<IDsmElement> rootElementsAfter = model.GetRootElement().Children.ToList();
+            List<IDsmElement> rootElementsAfter = model.RootElement.Children.ToList();
             Assert.AreEqual(1, rootElementsAfter.Count);
 
             Assert.AreEqual(a, rootElementsAfter[0]);
@@ -558,7 +558,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement a4 = model.AddElement("a4", "eta", a.Id, null);
             Assert.AreEqual(5, a4.Id);
 
-            List<IDsmElement> rootElementsBefore = model.GetRootElement().Children.ToList();
+            List<IDsmElement> rootElementsBefore = model.RootElement.Children.ToList();
             Assert.AreEqual(1, rootElementsBefore.Count);
 
             Assert.AreEqual(a, rootElementsBefore[0]);
@@ -571,7 +571,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Sequence sequence = new Sequence(rootElementsBefore[0].Children.Count);
             model.ReorderChildren(a, sequence);
 
-            List<IDsmElement> rootElementsAfter = model.GetRootElement().Children.ToList();
+            List<IDsmElement> rootElementsAfter = model.RootElement.Children.ToList();
             Assert.AreEqual(1, rootElementsAfter.Count);
 
             Assert.AreEqual(a, rootElementsAfter[0]);
