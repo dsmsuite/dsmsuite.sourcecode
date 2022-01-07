@@ -41,9 +41,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
                     break;
                 case RelationsListViewModelType.ElementInternalRelations:
                     SubTitle = $"Internal relations of {_selectedProvider.Fullname}";
+                    AddRelationCommand = new RelayCommand<object>(AddInternalRelationExecute, AddRelationCanExecute);
                     break;
                 case RelationsListViewModelType.ConsumerProviderRelations:
                     SubTitle = $"Relations between consumer {_selectedConsumer.Fullname} and provider {_selectedProvider.Fullname}";
+                    AddRelationCommand = new RelayCommand<object>(AddConsumerProviderRelationExecute, AddRelationCanExecute);
                     break;
                 default:
                     SubTitle = "";
@@ -114,9 +116,17 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
+        private void AddInternalRelationExecute(object parameter)
+        {
+        }
+
+        private void AddConsumerProviderRelationExecute(object parameter)
+        {
+        }
+
         private bool AddRelationCanExecute(object parameter)
         {
-            return true;
+            return (_viewModelType == RelationsListViewModelType.ElementIngoingRelations) || (_viewModelType == RelationsListViewModelType.ElementOutgoingRelations);
         }
 
         private void UpdateRelations()

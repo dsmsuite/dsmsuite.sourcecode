@@ -85,14 +85,8 @@
     <Compile Include="ValueConverters\MetricsExpandedToViewWidthConverter.cs" />
     <Compile Include="ValueConverters\SearchIndicatorModeToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\SearchStateToColorConverter.cs" />
-    <Compile Include="Editing\ElementCreateDialog.xaml.cs">
-      <DependentUpon>ElementCreateDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Editing\ElementEditNameDialog.xaml.cs">
-      <DependentUpon>ElementEditNameDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Editing\ElementEditTypeDialog.xaml.cs">
-      <DependentUpon>ElementEditTypeDialog.xaml</DependentUpon>
+    <Compile Include="Editing\ElementEditDialog.xaml.cs">
+      <DependentUpon>ElementEditDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters\SearchStateToVisibilityConverter.cs" />
     <Compile Include="Lists\ElementListView.xaml.cs">
@@ -104,30 +98,13 @@
     <Compile Include="Windows\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Editing\RelationCreateDialog.xaml.cs">
-      <DependentUpon>RelationCreateDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Editing\RelationEditTypeDialog.xaml.cs">
-      <DependentUpon>RelationEditTypeDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Editing\RelationEditWeightDialog.xaml.cs">
-      <DependentUpon>RelationEditWeightDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Lists\RelationListView.xaml.cs">
       <DependentUpon>RelationListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
-    <Page Include="Editing\ElementCreateDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Editing\ElementEditNameDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Editing\ElementEditTypeDialog.xaml">
+    <Page Include="Editing\ElementEditDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,18 +189,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ProgressWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Editing\RelationCreateDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Editing\RelationEditTypeDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Editing\RelationEditWeightDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

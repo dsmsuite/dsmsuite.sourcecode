@@ -22,15 +22,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand ShowElementContextMatrixCommand { get; }
         ICommand ShowCellDetailMatrixCommand { get; }
 
-        ICommand CreateElementCommand { get; }
+        ICommand AddElementCommand { get; }
+        ICommand ModifyElementCommand { get; }
         ICommand DeleteElementCommand { get; }
         ICommand ChangeElementParentCommand { get; }
-        ICommand ChangeElementNameCommand { get; }
-        ICommand ChangeElementTypeCommand { get; }
-        ICommand CreateRelationCommand { get; }
-        ICommand ChangeRelationWeightCommand { get; }
-        ICommand ChangeRelationTypeCommand { get; }
-        ICommand DeleteRelationCommand { get; }
 
         IndicatorViewMode SelectedIndicatorViewMode { get; }
     }

@@ -32,13 +32,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             RelationsReportReady?.Invoke(this, viewModel);
         }
 
-        public event EventHandler<ElementCreateViewModel> ElementCreateStarted;
-        public event EventHandler<ElementEditNameViewModel> ElementEditNameStarted;
-        public event EventHandler<ElementEditTypeViewModel> ElementEditTypeStarted;
-
-        public event EventHandler<RelationCreateViewModel> RelationCreateStarted;
-        public event EventHandler<RelationEditWeightViewModel> RelationEditWeightStarted;
-        public event EventHandler<RelationEditTypeViewModel> RelationEditTypeStarted;
+        public event EventHandler<ElementEditViewModel> ElementEditStarted;
 
         public event EventHandler<SnapshotMakeViewModel> SnapshotMakeStarted;
 
@@ -98,16 +92,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             UndoCommand = new RelayCommand<object>(UndoExecute, UndoCanExecute);
             RedoCommand = new RelayCommand<object>(RedoExecute, RedoCanExecute);
 
-            CreateElementCommand = new RelayCommand<object>(CreateElementExecute, CreateElementCanExecute);
+            AddElementCommand = new RelayCommand<object>(AddElementExecute, AddElementCanExecute);
+            ModifyElementCommand = new RelayCommand<object>(ModifyElementExecute, ModifyElementCanExecute);
             DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
             ChangeElementParentCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
-            ChangeElementNameCommand = new RelayCommand<object>(ChangeElementNameExecute, ChangeElementNameCanExecute);
-            ChangeElementTypeCommand = new RelayCommand<object>(ChangeElementTypeExecute, ChangeElementTypeCanExecute);
-
-            CreateRelationCommand = new RelayCommand<object>(CreateRelationExecute, CreateRelationCanExecute);
-            DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
-            ChangeRelationWeightCommand = new RelayCommand<object>(ChangeRelationWeightExecute, ChangeRelationWeightCanExecute);
-            ChangeRelationTypeCommand = new RelayCommand<object>(ChangeRelationTypeExecute, ChangeRelationTypeCanExecute);
 
             MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
             ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
@@ -201,15 +189,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
 
-        public ICommand CreateElementCommand { get; }
+        public ICommand AddElementCommand { get; }
+        public ICommand ModifyElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
         public ICommand ChangeElementParentCommand { get; }
-        public ICommand ChangeElementNameCommand { get; }
-        public ICommand ChangeElementTypeCommand { get; }
-        public ICommand CreateRelationCommand { get; }
-        public ICommand DeleteRelationCommand { get; }
-        public ICommand ChangeRelationWeightCommand { get; }
-        public ICommand ChangeRelationTypeCommand { get; }
 
         public ICommand MakeSnapshotCommand { get; }
         public ICommand ShowHistoryCommand { get; }
@@ -501,15 +484,31 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ActiveMatrix?.Reload();
         }
 
-        private void CreateElementExecute(object parameter)
+        private void AddElementExecute(object parameter)
         {
-            ElementCreateViewModel elementCreateViewModel = new ElementCreateViewModel(_application, SelectedProvider);
-            ElementCreateStarted?.Invoke(this, elementCreateViewModel);
+            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.Add, _application, SelectedProvider);
+            ElementEditStarted?.Invoke(this, elementEditViewModel);
         }
 
-        private bool CreateElementCanExecute(object parameter)
+        private bool AddElementCanExecute(object parameter)
         {
             return true;
+        }
+
+        private void ModifyElementExecute(object parameter)
+        {
+            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.Modify, _application, SelectedProvider);
+            ElementEditStarted?.Invoke(this, elementEditViewModel);
+        }
+
+        private bool ModifyElementCanExecute(object parameter)
+        {
+            bool canExecute = false;
+            if (SelectedProvider != null)
+            {
+                canExecute = !SelectedProvider.IsRoot;
+            }
+            return canExecute;
         }
 
         private void DeleteElementExecute(object parameter)
@@ -527,37 +526,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return canExecute;
         }
 
-        private void ChangeElementNameExecute(object parameter)
-        {
-            ElementEditNameViewModel elementEditViewModel = new ElementEditNameViewModel(_application, SelectedProvider);
-            ElementEditNameStarted?.Invoke(this, elementEditViewModel);
-        }
 
-        private bool ChangeElementNameCanExecute(object parameter)
-        {
-            bool canExecute = false;
-            if (SelectedProvider != null)
-            {
-                canExecute = !SelectedProvider.IsRoot;
-            }
-            return canExecute;
-        }
-
-        private void ChangeElementTypeExecute(object parameter)
-        {
-            ElementEditTypeViewModel elementEditViewModel = new ElementEditTypeViewModel(_application, SelectedProvider);
-            ElementEditTypeStarted?.Invoke(this, elementEditViewModel);
-        }
-
-        private bool ChangeElementTypeCanExecute(object parameter)
-        {
-            bool canExecute = false;
-            if (SelectedProvider != null)
-            {
-                canExecute = !SelectedProvider.IsRoot;
-            }
-            return canExecute;
-        }
 
         private void MoveElementExecute(object parameter)
         {
@@ -577,76 +546,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 canExecute = !SelectedProvider.IsRoot;
             }
             return canExecute;
-        }
-
-        private void ChangeRelationWeightExecute(object parameter)
-        {
-            if ((SelectedConsumer != null) && (SelectedProvider != null))
-            {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
-                IDsmRelation relation = relations.FirstOrDefault();
-                if (relation != null)
-                {
-                    RelationEditWeightViewModel relationEditViewModel = new RelationEditWeightViewModel(_application, relation);
-                    RelationEditWeightStarted?.Invoke(this, relationEditViewModel);
-                }
-            }
-        }
-
-        private bool ChangeRelationWeightCanExecute(object parameter)
-        {
-            return ActiveMatrix?.SelectedCellHasRelationCount == 1;
-        }
-
-        private void ChangeRelationTypeExecute(object parameter)
-        {
-            if ((SelectedConsumer != null) && (SelectedProvider != null))
-            {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
-                IDsmRelation relation = relations.FirstOrDefault();
-                if (relation != null)
-                {
-                    RelationEditTypeViewModel relationEditViewModel = new RelationEditTypeViewModel(_application, relation);
-                    RelationEditTypeStarted?.Invoke(this, relationEditViewModel);
-                }
-            }
-        }
-
-        private bool ChangeRelationTypeCanExecute(object parameter)
-        {
-            return ActiveMatrix?.SelectedCellHasRelationCount == 1;
-        }
-
-        private void CreateRelationExecute(object parameter)
-        {
-            RelationCreateViewModel relationCreateViewModel = new RelationCreateViewModel(_application, SelectedConsumer, SelectedProvider);
-            RelationCreateStarted?.Invoke(this, relationCreateViewModel);
-        }
-
-        private bool CreateRelationCanExecute(object parameter)
-        {
-            return (SelectedConsumer != null) &&
-                   (SelectedConsumer.HasChildren == false) &&
-                   (SelectedProvider != null) &&
-                   (SelectedProvider.HasChildren == false);
-        }
-
-        private void DeleteRelationExecute(object parameter)
-        {
-            if ((SelectedConsumer != null) && (SelectedProvider != null))
-            {
-                IEnumerable<IDsmRelation> relations = _application.FindRelations(SelectedConsumer, SelectedProvider);
-                IDsmRelation relation = relations.FirstOrDefault();
-                if (relation != null)
-                {
-                    _application.DeleteRelation(relation);
-                }
-            }
-        }
-
-        private bool DeleteRelationCanExecute(object parameter)
-        {
-            return ActiveMatrix?.SelectedCellHasRelationCount == 1;
         }
 
         private void ToggleElementBookmarkExecute(object parameter)

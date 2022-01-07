@@ -29,14 +29,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Editing\Element\ElementCreateViewModel.cs" />
-    <Compile Include="Editing\Element\ElementEditNameViewModel.cs" />
-    <Compile Include="Editing\Element\ElementEditTypeViewModel.cs" />
-    <Compile Include="Editing\Relation\RelationCreateViewModel.cs" />
-    <Compile Include="Editing\Relation\RelationEditTypeViewModel.cs" />
+    <Compile Include="Editing\Element\ElementEditViewModel.cs" />
+    <Compile Include="Editing\Element\ElementEditViewModelType.cs" />
     <Compile Include="Editing\Relation\RelationEditViewModel.cs" />
     <Compile Include="Editing\Relation\RelationEditViewModelType.cs" />
-    <Compile Include="Editing\Relation\RelationEditWeightViewModel.cs" />
     <Compile Include="Editing\Snapshot\SnapshotMakeViewModel.cs" />
     <Compile Include="Lists\ActionListItemViewModel.cs" />
     <Compile Include="Lists\ActionListViewModel.cs" />

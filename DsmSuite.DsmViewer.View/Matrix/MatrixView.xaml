@@ -128,9 +128,8 @@
                         <Separator />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Toggle element bookmark" Command="{Binding ToggleElementBookmarkCommand}" />
                         <Separator />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Create element" Command="{Binding CreateElementCommand}" />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Change element name" Command="{Binding ChangeElementNameCommand}" />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Change element type" Command="{Binding ChangeElementTypeCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Add element" Command="{Binding AddElementCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Modify element" Command="{Binding ModifyElementCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Delete element" Command="{Binding DeleteElementCommand}" />
                         <Separator />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show ingoing relations" Command="{Binding ShowElementIngoingRelationsCommand}" />
@@ -165,11 +164,6 @@
             <matrix:MatrixCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,20,20">
                 <matrix:MatrixCellsView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Create relation between leaf elements" Command="{Binding CreateRelationCommand}" />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Change relation weight" Command="{Binding ChangeRelationWeightCommand}" />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Change relation type" Command="{Binding ChangeRelationTypeCommand}" />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Delete relation" Command="{Binding DeleteRelationCommand}" />
-                        <Separator />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show relations" Command="{Binding ShowCellRelationsCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show relation consumers" Command="{Binding ShowCellConsumersCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show relation providers" Command="{Binding ShowCellProvidersCommand}" />

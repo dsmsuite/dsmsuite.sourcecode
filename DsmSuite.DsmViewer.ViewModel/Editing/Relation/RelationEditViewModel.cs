@@ -23,24 +23,25 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
             _viewModelType = viewModelType;
             _application = application;
 
-
             switch (_viewModelType)
             {
                 case RelationEditViewModelType.Modify:
+                    Title = "Modify relation";
                     _selectedRelation = selectedRelation;
                     _selectedConsumer = _selectedRelation.Consumer;
                     _selectedProvider = _selectedRelation.Provider;
                     SelectedRelationType = _selectedRelation.Type;
                     Weight = _selectedRelation.Weight;
-                    AcceptChangeCommand = new RelayCommand<object>(AcceptModifyChangeExecute, AcceptChangeCanExecute);
+                    AcceptChangeCommand = new RelayCommand<object>(AcceptModifyExecute, AcceptCanExecute);
                     break;
                 case RelationEditViewModelType.Add:
+                    Title = "Add relation";
                     _selectedRelation = null;
                     _selectedConsumer = selectedConsumer;
                     _selectedProvider = selectedProvider;
                     SelectedRelationType = null;
                     Weight = 1;
-                    AcceptChangeCommand = new RelayCommand<object>(AcceptAddChangeExecute, AcceptChangeCanExecute);
+                    AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
                     break;
                 default:
                     break;
@@ -79,18 +80,25 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 
         public ICommand AcceptChangeCommand { get; }
 
-        private void AcceptModifyChangeExecute(object parameter)
+        private void AcceptModifyExecute(object parameter)
         {
-            _application.ChangeRelationWeight(_selectedRelation, Weight);
-            _application.ChangeRelationType(_selectedRelation, SelectedRelationType);
+            if (_selectedRelation.Type != SelectedRelationType)
+            {
+                _application.ChangeRelationType(_selectedRelation, SelectedRelationType);
+            }
+
+            if (_selectedRelation.Weight != Weight)
+            {
+                _application.ChangeRelationWeight(_selectedRelation, Weight);
+            }
         }
 
-        private void AcceptAddChangeExecute(object parameter)
+        private void AcceptAddExecute(object parameter)
         {
             _application.CreateRelation(ConsumerSearchViewModel.SelectedElement, ProviderSearchViewModel.SelectedElement, SelectedRelationType, Weight);
         }
 
-        private bool AcceptChangeCanExecute(object parameter)
+        private bool AcceptCanExecute(object parameter)
         {
             if (ConsumerSearchViewModel.SelectedElement == null)
             {

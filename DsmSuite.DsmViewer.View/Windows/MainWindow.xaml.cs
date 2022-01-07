@@ -52,13 +52,7 @@ namespace DsmSuite.DsmViewer.View.Windows
             _mainViewModel.RelationsReportReady += OnRelationsReportReady;
             _mainViewModel.ProgressViewModel.BusyChanged += OnProgressViewModelBusyChanged;
 
-            _mainViewModel.ElementCreateStarted += OnElementCreateStarted;
-            _mainViewModel.ElementEditNameStarted += OnElementEditNameStarted;
-            _mainViewModel.ElementEditTypeStarted += OnElementEditTypeStarted;
-
-            _mainViewModel.RelationCreateStarted += OnRelationCreateStarted;
-            _mainViewModel.RelationEditWeightStarted += OnRelationEditWeightStarted;
-            _mainViewModel.RelationEditTypeStarted += OnRelationEditTypeStarted;
+            _mainViewModel.ElementEditStarted += OnElementEditStarted;
 
             _mainViewModel.SnapshotMakeStarted += OnSnapshotMakeStarted;
 
@@ -89,39 +83,9 @@ namespace DsmSuite.DsmViewer.View.Windows
             view.ShowDialog();
         }
 
-        private void OnElementCreateStarted(object sender, ElementCreateViewModel viewModel)
+        private void OnElementEditStarted(object sender, ElementEditViewModel viewModel)
         {
-            ElementCreateDialog view = new ElementCreateDialog { DataContext = viewModel};
-            view.ShowDialog();
-        }
-
-        private void OnElementEditNameStarted(object sender, ElementEditNameViewModel viewModel)
-        {
-            ElementEditNameDialog view = new ElementEditNameDialog { DataContext = viewModel};
-            view.ShowDialog();
-        }
-
-        private void OnElementEditTypeStarted(object sender, ElementEditTypeViewModel viewModel)
-        {
-            ElementEditTypeDialog view = new ElementEditTypeDialog { DataContext = viewModel };
-            view.ShowDialog();
-        }
-
-        private void OnRelationCreateStarted(object sender, RelationCreateViewModel viewModel)
-        {
-            RelationCreateDialog view = new RelationCreateDialog { DataContext = viewModel};
-            view.ShowDialog();
-        }
-
-        private void OnRelationEditWeightStarted(object sender, RelationEditWeightViewModel viewModel)
-        {
-            RelationEditWeightDialog view = new RelationEditWeightDialog { DataContext = viewModel};
-            view.ShowDialog();
-        }
-
-        private void OnRelationEditTypeStarted(object sender, RelationEditTypeViewModel viewModel)
-        {
-            RelationEditTypeDialog view = new RelationEditTypeDialog { DataContext = viewModel };
+            ElementEditDialog view = new ElementEditDialog { DataContext = viewModel};
             view.ShowDialog();
         }
 

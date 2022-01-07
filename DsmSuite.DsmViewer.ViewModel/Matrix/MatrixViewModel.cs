@@ -57,9 +57,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             ToggleElementBookmarkCommand = mainViewModel.ToggleElementBookmarkCommand;
 
-            CreateElementCommand = mainViewModel.CreateElementCommand;
-            ChangeElementNameCommand = mainViewModel.ChangeElementNameCommand;
-            ChangeElementTypeCommand = mainViewModel.ChangeElementTypeCommand;
+            AddElementCommand = mainViewModel.AddElementCommand;
+            ModifyElementCommand = mainViewModel.ModifyElementCommand;
             ChangeElementParentCommand = mainViewModel.ChangeElementParentCommand;
             DeleteElementCommand = mainViewModel.DeleteElementCommand;
 
@@ -71,11 +70,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ShowElementProvidedInterfacesCommand = new RelayCommand<object>(ShowProvidedInterfacesExecute, ShowElementProvidedInterfacesCanExecute);
             ShowElementRequiredInterfacesCommand = new RelayCommand<object>(ShowElementRequiredInterfacesExecute, ShowElementRequiredInterfacesCanExecute);
             ShowCellDetailMatrixCommand = mainViewModel.ShowCellDetailMatrixCommand;
-
-            CreateRelationCommand = mainViewModel.CreateRelationCommand;
-            ChangeRelationWeightCommand = mainViewModel.ChangeRelationWeightCommand;
-            ChangeRelationTypeCommand = mainViewModel.ChangeRelationTypeCommand;
-            DeleteRelationCommand = mainViewModel.DeleteRelationCommand;
 
             ShowCellRelationsCommand = new RelayCommand<object>(ShowCellRelationsExecute, ShowCellRelationsCanExecute);
             ShowCellConsumersCommand = new RelayCommand<object>(ShowCellConsumersExecute, ShowCellConsumersCanExecute);
@@ -118,9 +112,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         public ICommand ToggleElementBookmarkCommand { get; }
 
-        public ICommand CreateElementCommand { get; }
-        public ICommand ChangeElementNameCommand { get; }
-        public ICommand ChangeElementTypeCommand { get; }
+        public ICommand AddElementCommand { get; }
+        public ICommand ModifyElementCommand { get; }
         public ICommand ChangeElementParentCommand { get; }
         public ICommand DeleteElementCommand { get; }
 
@@ -133,11 +126,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand ShowElementRequiredInterfacesCommand { get; }
         public ICommand ShowElementDetailMatrixCommand { get; }
         public ICommand ShowElementContextMatrixCommand { get; }
-
-        public ICommand CreateRelationCommand { get; }
-        public ICommand ChangeRelationWeightCommand { get; }
-        public ICommand ChangeRelationTypeCommand { get; }
-        public ICommand DeleteRelationCommand { get; }
 
         public ICommand ShowCellRelationsCommand { get; }
         public ICommand ShowCellConsumersCommand { get; }

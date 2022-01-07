@@ -27,49 +27,49 @@
         </Grid>
         <Grid DataContext="{Binding Path=ConsumerSearchViewModel}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="{StaticResource EditFieldHeight}" />
-                <RowDefinition Height="{StaticResource EditFieldHeight}" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="340" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Consumer type" Margin="5"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" Margin="10" ItemsSource="{Binding ElementTypes, Mode=OneWay}" SelectedItem="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Consumer name" Margin="5"/>
+            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Consumer type"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding ElementTypes, Mode=OneWay}" SelectedItem="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Consumer name" />
             <usercontrols:ElementSearchBox Grid.Row="1" Grid.Column="1" Margin="10"/>
         </Grid>
         <Grid DataContext="{Binding Path=ProviderSearchViewModel}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="{StaticResource EditFieldHeight}" />
-                <RowDefinition Height="{StaticResource EditFieldHeight}" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="340" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Provider type" Margin="5"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" Margin="10" ItemsSource="{Binding ElementTypes, Mode=OneWay}" SelectedItem="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Provider name" Margin="5"/>
+            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Provider type"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding ElementTypes, Mode=OneWay}" SelectedItem="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Provider name"/>
             <usercontrols:ElementSearchBox Grid.Row="1" Grid.Column="1" Margin="10"/>
         </Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="{StaticResource EditFieldHeight}" />
-                <RowDefinition Height="{StaticResource EditFieldHeight}" />
-                <RowDefinition Height="{StaticResource HelpFieldHeight}" />
-                <RowDefinition Height="{StaticResource ButtonRowHeight}" />
-                <RowDefinition Height="{StaticResource BottomRowHeight}" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="340" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Relation type" Margin="5"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" Margin="10" ItemsSource="{Binding RelationTypes, Mode=OneWay}" SelectedItem="{Binding SelectedRelationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="TypeTextBox"/>
+            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Relation type"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding RelationTypes, Mode=OneWay}" SelectedItem="{Binding SelectedRelationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="TypeTextBox"/>
             <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Weight" Margin="5"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" Name="WeightTextBox"/>
-            <TextBlock Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding Help, UpdateSourceTrigger=PropertyChanged}" Name="HelpTextBlock" Foreground="Red"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource DialogTextBox}" Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" Name="WeightTextBox"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource DialogTextBlock}" Text="{Binding Help, UpdateSourceTrigger=PropertyChanged}" Name="HelpTextBlock" Foreground="Red"/>
             <StackPanel Grid.Row="3"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
                 <Button Style="{StaticResource DialogButton}" Content="Cancel" IsCancel="True" />

@@ -1,4 +1,4 @@
-﻿<Window x:Class="DsmSuite.DsmViewer.View.Editing.ElementCreateDialog"
+﻿<Window x:Class="DsmSuite.DsmViewer.View.Editing.ElementEditDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Height="280" 

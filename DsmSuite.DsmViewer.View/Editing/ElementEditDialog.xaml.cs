@@ -3,11 +3,11 @@
 namespace DsmSuite.DsmViewer.View.Editing
 {
     /// <summary>
-    /// Interaction logic for ElementCreateDialog.xaml
+    /// Interaction logic for ElementEditDialog.xaml
     /// </summary>
-    public partial class ElementCreateDialog
+    public partial class ElementEditDialog
     {
-        public ElementCreateDialog()
+        public ElementEditDialog()
         {
             InitializeComponent();
         }
