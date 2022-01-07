@@ -277,7 +277,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         private bool IsElementFilterMatch(IDsmElement element, string elementTypeFilter)
         {
-            return (elementTypeFilter == null) || (elementTypeFilter == element.Type);
+            return string.IsNullOrEmpty(elementTypeFilter) || (elementTypeFilter == element.Type);
         }
 
         private void ClearMarkElements(IDsmElement element)

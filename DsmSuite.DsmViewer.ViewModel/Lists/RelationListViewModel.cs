@@ -106,27 +106,31 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void AddConsumerRelationExecute(object parameter)
         {
-            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, null, _selectedProvider);
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _application.RootElement, _selectedProvider);
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private void AddProviderRelationExecute(object parameter)
         {
-            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedProvider, null);
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedProvider, _application.RootElement);
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private void AddInternalRelationExecute(object parameter)
         {
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedProvider, _selectedProvider);
+            RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private void AddConsumerProviderRelationExecute(object parameter)
         {
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedConsumer, _selectedProvider);
+            RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private bool AddRelationCanExecute(object parameter)
         {
-            return (_viewModelType == RelationsListViewModelType.ElementIngoingRelations) || (_viewModelType == RelationsListViewModelType.ElementOutgoingRelations);
+            return true;
         }
 
         private void UpdateRelations()

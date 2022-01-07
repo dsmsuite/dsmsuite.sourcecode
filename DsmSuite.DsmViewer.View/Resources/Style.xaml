@@ -212,6 +212,9 @@
         </Setter>
     </Style>
 
+    <Style x:Key="UserControlStyle" TargetType="UserControl">
+    </Style>
+    
     <Style x:Key="DialogTextBoxWithValidation" TargetType="TextBox">
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
@@ -261,6 +264,7 @@
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Height" Value="{StaticResource StandardEditControlHeight}" />
+        <Setter Property="IsEditable" Value="True" />
     </Style>
 
     <Style x:Key="DialogTextBox" TargetType="TextBox">
@@ -304,6 +308,7 @@
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        <Setter Property="IsEditable" Value="True" />
     </Style>
    
     <Style x:Key="ToolbarSearchBox" TargetType="ComboBox">
@@ -312,6 +317,7 @@
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        <Setter Property="IsEditable" Value="True" />
     </Style>
 
     <Style x:Key="CaseSensitiveToggleButton" TargetType="ToggleButton">

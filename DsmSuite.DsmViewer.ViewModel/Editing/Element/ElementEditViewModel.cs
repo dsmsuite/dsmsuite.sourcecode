@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Windows.Input;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
@@ -14,7 +15,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         private readonly IDsmElement _selectedElement;
         private string _name;
         private string _help;
-        private string _type;
+        private string _selectedElementType;
 
         public ICommand AcceptChangeCommand { get; }
 
@@ -23,6 +24,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             _viewModelType = viewModelType;
             _application = application;
 
+            ElementTypes = new List<string>(application.GetElementTypes());
+
             switch (_viewModelType)
             {
                 case ElementEditViewModelType.Modify:
@@ -30,7 +33,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                     _parentElement = selectedElement.Parent;
                     _selectedElement = selectedElement;
                     Name = _selectedElement.Name;
-                    Type = _selectedElement.Type;
+                    SelectedElementType = _selectedElement.Type;
                     AcceptChangeCommand = new RelayCommand<object>(AcceptModifyExecute, AcceptCanExecute);
                     break;
                 case ElementEditViewModelType.Add:
@@ -38,7 +41,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                     _parentElement = selectedElement;
                     _selectedElement = null;
                     Name = "";
-                    Type = "";
+                    SelectedElementType = "";
                     AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
                     break;
                 default:
@@ -60,15 +63,17 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
             set { _name = value; OnPropertyChanged(); }
         }
 
-        public string Type
+        public List<string> ElementTypes { get; }
+
+        public string SelectedElementType
         {
-            get { return _type; }
-            set { _type = value; OnPropertyChanged(); }
+            get { return _selectedElementType; }
+            set { _selectedElementType = value; OnPropertyChanged(); }
         }
 
         private void AcceptAddExecute(object parameter)
         {
-            _application.CreateElement(Name, Type, _parentElement);
+            _application.CreateElement(Name, SelectedElementType, _parentElement);
         }
 
         private void AcceptModifyExecute(object parameter)
@@ -78,9 +83,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                 _application.ChangeElementName(_selectedElement, Name);
             }
 
-            if (_selectedElement.Type != Type)
+            if (_selectedElement.Type != SelectedElementType)
             {
-                _application.ChangeElementType(_selectedElement, Type);
+                _application.ChangeElementType(_selectedElement, SelectedElementType);
             }
         }
 

@@ -132,16 +132,16 @@
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Modify element" Command="{Binding ModifyElementCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Delete element" Command="{Binding DeleteElementCommand}" />
                         <Separator />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show ingoing relations" Command="{Binding ShowElementIngoingRelationsCommand}" />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show outgoing relations" Command="{Binding ShowElementOutgoingRelationCommand}" />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show internal relations" Command="{Binding ShowElementinternalRelationsCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show and edit element ingoing relations" Command="{Binding ShowElementIngoingRelationsCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show and edit element outgoing relations" Command="{Binding ShowElementOutgoingRelationCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show and edit element internal relations" Command="{Binding ShowElementinternalRelationsCommand}" />
                         <Separator />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show element consumers" Command="{Binding ShowElementConsumersCommand}" />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show element interface" Command="{Binding ShowElementProvidedInterfacesCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show element interfaces" Command="{Binding ShowElementProvidedInterfacesCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show element providers" Command="{Binding ShowElementRequiredInterfacesCommand}" />
                         <Separator />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show detail matrix" Command="{Binding ShowElementDetailMatrixCommand}" />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show context matrix" Command="{Binding ShowElementContextMatrixCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show element detail matrix" Command="{Binding ShowElementDetailMatrixCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show element context matrix" Command="{Binding ShowElementContextMatrixCommand}" />
                     </ContextMenu>
                 </matrix:MatrixRowHeaderView.ContextMenu>
             </matrix:MatrixRowHeaderView>
@@ -164,7 +164,8 @@
             <matrix:MatrixCellsView x:Name="CellsView" Height="Auto" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,20,20">
                 <matrix:MatrixCellsView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show relations" Command="{Binding ShowCellRelationsCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show and edit relations" Command="{Binding ShowCellRelationsCommand}" />
+                        <Separator />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show relation consumers" Command="{Binding ShowCellConsumersCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show relation providers" Command="{Binding ShowCellProvidersCommand}" />
                         <Separator />
