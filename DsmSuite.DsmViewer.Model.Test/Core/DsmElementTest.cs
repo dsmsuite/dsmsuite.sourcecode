@@ -58,6 +58,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             parent.AddChild(child1);
             Assert.AreEqual("parent.child1", child1.Fullname);
+            Assert.AreEqual("child1", child1.GetRelativeName(parent));
 
             Assert.AreEqual(1, parent.Children.Count);
             Assert.AreEqual(child1, parent.Children[0]);
@@ -71,6 +72,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             parent.AddChild(child2);
             Assert.AreEqual("parent.child2", child2.Fullname);
+            Assert.AreEqual("child2", child2.GetRelativeName(parent));
 
             Assert.AreEqual(2, parent.Children.Count);
             Assert.AreEqual(child1, parent.Children[0]);
@@ -86,6 +88,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
 
             parent.AddChild(child3);
             Assert.AreEqual("parent.child3", child3.Fullname);
+            Assert.AreEqual("child3", child3.GetRelativeName(parent));
 
             Assert.AreEqual(3, parent.Children.Count);
             Assert.AreEqual(child1, parent.Children[0]);

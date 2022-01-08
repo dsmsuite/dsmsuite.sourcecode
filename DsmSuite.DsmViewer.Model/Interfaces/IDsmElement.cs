@@ -32,6 +32,8 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// </summary>
         string Fullname { get; }
 
+        string GetRelativeName(IDsmElement element);
+
         bool IsDeleted { get; }
         bool IsBookmarked { get; set; }
         bool IsRoot { get; }

@@ -67,6 +67,21 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
+        public string GetRelativeName(IDsmElement element)
+        {
+            string fullname = Name;
+            IDsmElement parent = Parent;
+            while (parent != element)
+            {
+                if (parent.Name.Length > 0)
+                {
+                    fullname = parent.Name + "." + fullname;
+                }
+                parent = parent.Parent;
+            }
+            return fullname;
+        }
+
         public bool IsExpanded { get; set; }
 
         public bool IsMatch { get; set; }
