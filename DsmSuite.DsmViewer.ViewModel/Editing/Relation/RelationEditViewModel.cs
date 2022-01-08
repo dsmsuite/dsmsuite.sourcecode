@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
@@ -17,6 +18,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
         private string _selectedRelationType;
         private int _weight;
         private string _help;
+
+        public event EventHandler<IDsmRelation> RelationUpdated;
 
         public RelationEditViewModel(RelationEditViewModelType viewModelType, IDsmApplication application, IDsmRelation selectedRelation, IDsmElement selectedConsumer, IDsmElement selectedProvider)
         {
@@ -82,20 +85,29 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 
         private void AcceptModifyExecute(object parameter)
         {
+            bool relationUpdated = false;
             if (_selectedRelation.Type != SelectedRelationType)
             {
                 _application.ChangeRelationType(_selectedRelation, SelectedRelationType);
+                relationUpdated = true;
             }
 
             if (_selectedRelation.Weight != Weight)
             {
                 _application.ChangeRelationWeight(_selectedRelation, Weight);
+                relationUpdated = true;
+            }
+
+            if (relationUpdated)
+            {
+                RelationUpdated?.Invoke(this, _selectedRelation);
             }
         }
 
         private void AcceptAddExecute(object parameter)
         {
-            _application.CreateRelation(ConsumerSearchViewModel.SelectedElement, ProviderSearchViewModel.SelectedElement, SelectedRelationType, Weight);
+            IDsmRelation createdRelation = _application.CreateRelation(ConsumerSearchViewModel.SelectedElement, ProviderSearchViewModel.SelectedElement, SelectedRelationType, Weight);
+            RelationUpdated?.Invoke(this, createdRelation);
         }
 
         private bool AcceptCanExecute(object parameter)

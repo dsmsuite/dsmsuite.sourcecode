@@ -270,10 +270,10 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.GetElementByFullname(text);
         }
 
-        public void CreateElement(string name, string type, IDsmElement parent)
+        public IDsmElement CreateElement(string name, string type, IDsmElement parent)
         {
             ElementCreateAction action = new ElementCreateAction(_dsmModel, name, type, parent);
-            _actionManager.Execute(action);
+            return _actionManager.Execute(action) as IDsmElement;
         }
 
         public void DeleteElement(IDsmElement element)
@@ -303,10 +303,10 @@ namespace DsmSuite.DsmViewer.Application.Core
             }
         }
 
-        public void CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
+        public IDsmRelation CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
         {
             RelationCreateAction action = new RelationCreateAction(_dsmModel, consumer.Id, provider.Id, type, weight);
-            _actionManager.Execute(action);
+            return _actionManager.Execute(action) as IDsmRelation;
         }
 
         public void DeleteRelation(IDsmRelation relation)

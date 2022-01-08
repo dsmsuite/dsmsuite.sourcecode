@@ -17,6 +17,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         private readonly IDsmApplication _application;
         private readonly IDsmElement _selectedConsumer;
         private readonly IDsmElement _selectedProvider;
+        private ObservableCollection<RelationListItemViewModel> _relations;
+        private RelationListItemViewModel _selectedRelation;
 
         public event EventHandler<RelationEditViewModel> RelationAddStarted;
         public event EventHandler<RelationEditViewModel> RelationEditStarted;
@@ -56,15 +58,23 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             DeleteRelationCommand = new RelayCommand<object>(DeleteRelationExecute, DeleteRelationCanExecute);
             EditRelationCommand = new RelayCommand<object>(EditRelationExecute, EditRelationCanExecute);
 
-            UpdateRelations();
+            UpdateRelations(null);
         }
 
         public string Title { get; }
         public string SubTitle { get; }
-        
-        public ObservableCollection<RelationListItemViewModel> Relations { get; private set; }
 
-        public RelationListItemViewModel SelectedRelation { get; set; }
+        public ObservableCollection<RelationListItemViewModel> Relations
+        {
+            get { return _relations; }
+            private set { _relations = value; OnPropertyChanged(); }
+        }
+
+        public RelationListItemViewModel SelectedRelation
+        {
+            get { return _selectedRelation; }
+            set { _selectedRelation = value; OnPropertyChanged(); }
+        }
 
         public ICommand CopyToClipboardCommand { get; }
 
@@ -85,7 +95,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         private void DeleteRelationExecute(object parameter)
         {
             _application.DeleteRelation(SelectedRelation.Relation);
-            UpdateRelations();
+            UpdateRelations(SelectedRelation.Relation);
         }
 
         private bool DeleteRelationCanExecute(object parameter)
@@ -107,24 +117,28 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         private void AddConsumerRelationExecute(object parameter)
         {
             RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _application.RootElement, _selectedProvider);
+            relationEditViewModel.RelationUpdated += OnRelationUpdated;
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private void AddProviderRelationExecute(object parameter)
         {
             RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedProvider, _application.RootElement);
+            relationEditViewModel.RelationUpdated += OnRelationUpdated;
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private void AddInternalRelationExecute(object parameter)
         {
             RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedProvider, _selectedProvider);
+            relationEditViewModel.RelationUpdated += OnRelationUpdated;
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private void AddConsumerProviderRelationExecute(object parameter)
         {
             RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedConsumer, _selectedProvider);
+            relationEditViewModel.RelationUpdated += OnRelationUpdated;
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
@@ -133,8 +147,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             return true;
         }
 
-        private void UpdateRelations()
+        private void OnRelationUpdated(object sender, IDsmRelation updatedRelation)
         {
+            UpdateRelations(updatedRelation);
+        }
+
+        private void UpdateRelations(IDsmRelation updatedRelation)
+        {
+            RelationListItemViewModel selectedRelationListItemViewModel = null;
             IEnumerable<IDsmRelation> relations;
             switch (_viewModelType)
             {
@@ -159,7 +179,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
             foreach (IDsmRelation relation in relations)
             {
-                relationViewModels.Add(new RelationListItemViewModel(_application, relation));
+                RelationListItemViewModel relationListItemViewModel = new RelationListItemViewModel(_application, relation);
+                relationViewModels.Add(relationListItemViewModel);
+
+                if (updatedRelation != null)
+                {
+                    if (relation.Id == updatedRelation.Id)
+                    {
+                        selectedRelationListItemViewModel = relationListItemViewModel;
+                    }
+                }
             }
 
             relationViewModels.Sort();
@@ -172,6 +201,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             }
 
             Relations = new ObservableCollection<RelationListItemViewModel>(relationViewModels);
+            SelectedRelation = selectedRelationListItemViewModel;
         }
     }
 }
