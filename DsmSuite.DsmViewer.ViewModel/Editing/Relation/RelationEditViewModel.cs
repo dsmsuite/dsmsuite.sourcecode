@@ -47,8 +47,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                     break;
             }
 
-            ConsumerSearchViewModel = new ElementSearchViewModel(application, _selectedConsumer);
-            ProviderSearchViewModel = new ElementSearchViewModel(application, _selectedProvider);
+            ConsumerSearchViewModel = new ElementSearchViewModel(application, _selectedConsumer, false);
+            ProviderSearchViewModel = new ElementSearchViewModel(application, _selectedProvider, false);
             RelationTypes = new List<string>(application.GetRelationTypes());
         }
 

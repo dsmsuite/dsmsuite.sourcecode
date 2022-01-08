@@ -117,7 +117,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             _progressViewModel = new ProgressViewModel();
 
             ActiveMatrix = new MatrixViewModel(this, _application, new List<IDsmElement>());
-            ElementSearchViewModel = new ElementSearchViewModel(_application, null);
+            ElementSearchViewModel = new ElementSearchViewModel(_application, null, true);
             ElementSearchViewModel.SearchUpdated += OnSearchUpdated;
         }
 

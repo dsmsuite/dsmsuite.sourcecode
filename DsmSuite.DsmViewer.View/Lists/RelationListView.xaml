@@ -31,6 +31,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Index" Width="auto" DisplayMemberBinding="{Binding Path=Index}" />
+                    <GridViewColumn Header="Cyclic" Width="auto" DisplayMemberBinding="{Binding Path=Cyclic}" />
                     <GridViewColumn Header="Consumer name" Width="auto" DisplayMemberBinding="{Binding Path=ConsumerName}" />
                     <GridViewColumn Header="Consumer type" Width="auto" DisplayMemberBinding="{Binding Path=ConsumerType}" />
                     <GridViewColumn Header="Provider name" Width="auto" DisplayMemberBinding="{Binding Path=ProviderName}" />

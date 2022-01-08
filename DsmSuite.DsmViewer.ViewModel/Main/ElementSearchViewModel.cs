@@ -17,13 +17,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private ObservableCollection<string> _searchMatches;
         private SearchState _searchState;
         private string _searchResult;
-
+        private bool _markMatchingElements;
         public event EventHandler SearchUpdated;
 
-        public ElementSearchViewModel(IDsmApplication application, IDsmElement selectedElement)
+        public ElementSearchViewModel(IDsmApplication application, IDsmElement selectedElement, bool markMatchingElements)
         {
             _application = application;
             SelectedElement = selectedElement;
+            _markMatchingElements = markMatchingElements;
             IsEditable = selectedElement == null;
             SearchText = (selectedElement != null) ? selectedElement.Fullname : "";
 
@@ -77,7 +78,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OnSearchTextUpdated()
         {
-            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, _application.RootElement, CaseSensitiveSearch, SelectedElementType);
+            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, _application.RootElement, CaseSensitiveSearch, SelectedElementType, _markMatchingElements);
             if (SearchText != null)
             {
                 List<string> matchingElementNames = new List<string>();

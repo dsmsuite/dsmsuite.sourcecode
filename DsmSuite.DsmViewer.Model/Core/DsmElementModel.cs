@@ -217,7 +217,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _elementsByName.ContainsKey(fullname) ? _elementsByName[fullname] : null;
         }
 
-        public IList<IDsmElement> SearchElements(string searchText, IDsmElement searchInElement, bool caseSensitive, string elementTypeFilter)
+        public IList<IDsmElement> SearchElements(string searchText, IDsmElement searchInElement, bool caseSensitive, string elementTypeFilter, bool markMatchingElements)
         {
             List<IDsmElement> matchingElements = new List<IDsmElement>();
             if (searchText != null)
@@ -227,7 +227,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
                 if (text.Length > 0)
                 {
-                    RecursiveSearchElements(searchInElement, text, caseSensitive, elementTypeFilter, fullname, matchingElements);
+                    RecursiveSearchElements(searchInElement, text, caseSensitive, elementTypeFilter, markMatchingElements, fullname, matchingElements);
                 }
                 else
                 {
@@ -237,7 +237,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return matchingElements;
         }
 
-        private bool RecursiveSearchElements(IDsmElement element, string searchText, bool caseSensitive, string elementTypeFilter, string fullname, IList<IDsmElement> matchingElements)
+        private bool RecursiveSearchElements(IDsmElement element, string searchText, bool caseSensitive, string elementTypeFilter, bool markMatchingElements, string fullname, IList<IDsmElement> matchingElements)
         {
             bool isMatch = false;
 
@@ -263,14 +263,17 @@ namespace DsmSuite.DsmViewer.Model.Core
 
             foreach (IDsmElement child in element.Children)
             {
-                if (RecursiveSearchElements(child, searchText, caseSensitive, elementTypeFilter, fullname, matchingElements))
+                if (RecursiveSearchElements(child, searchText, caseSensitive, elementTypeFilter, markMatchingElements, fullname, matchingElements))
                 {
                     // Add parent element as match when it contains a matching child
                     isMatch = true;
                 }
             }
 
-            element.IsMatch = isMatch;
+            if (markMatchingElements)
+            {
+                element.IsMatch = isMatch;
+            }
 
             return isMatch;
         }

@@ -8,15 +8,32 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
     public class RelationListItemViewModel : ViewModelBase, IComparable
     {
-        public RelationListItemViewModel(IDsmRelation relation)
+        public RelationListItemViewModel(IDsmApplication application, IDsmRelation relation)
         {
             Relation = relation;
+
             ConsumerName = relation.Consumer.Fullname;
             ConsumerType = relation.Consumer.Type;
             ProviderName = relation.Provider.Fullname;
             ProviderType = relation.Provider.Type;
             RelationType = relation.Type;
             RelationWeight = relation.Weight;
+
+            CycleType cycleType = application.IsCyclicDependency(relation.Consumer, relation.Provider);
+            switch (cycleType)
+            {
+                case CycleType.Hierarchical:
+                    Cyclic = "Hierarchical";
+                    break;
+                case CycleType.System:
+                    Cyclic = "System";
+                    break;
+                case CycleType.None:
+                default:
+                    Cyclic = "";
+                    break;
+            }
+
             if (relation.Properties != null)
             {
                 foreach (KeyValuePair<string, string> elementProperty in relation.Properties)
@@ -36,6 +53,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         public string ProviderType { get; }
         public string RelationType { get; }
         public int RelationWeight { get; }
+        public string Cyclic { get; }
         public string Properties { get; }
 
         public int CompareTo(object obj)

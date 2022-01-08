@@ -159,7 +159,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
             foreach (IDsmRelation relation in relations)
             {
-                relationViewModels.Add(new RelationListItemViewModel(relation));
+                relationViewModels.Add(new RelationListItemViewModel(_application, relation));
             }
 
             relationViewModels.Sort();
