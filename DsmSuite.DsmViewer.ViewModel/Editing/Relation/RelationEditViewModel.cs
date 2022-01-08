@@ -19,9 +19,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
         private int _weight;
         private string _help;
 
-        private static string _lastSelectedRelationType;
-        private static string _lastSelectedConsumerElementType;
-        private static string _lastSelectedProviderElementType;
+        private static string _lastSelectedRelationType = "";
+        private static string _lastSelectedConsumerElementType = "";
+        private static string _lastSelectedProviderElementType = "";
 
         public event EventHandler<IDsmRelation> RelationUpdated;
 

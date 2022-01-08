@@ -30,7 +30,8 @@
         <ComboBox Grid.Row="3" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding ElementTypes, Mode=OneWay}" Text="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="TypeTextBox"/>
         <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource DialogTextBlock}" Text="{Binding Help, UpdateSourceTrigger=PropertyChanged}" Name="HelpTextBlock" Foreground="Red"/>
         <StackPanel Grid.Row="5"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
+            <Button Style="{StaticResource DialogButton}" Content="Ok" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
+            <Button Style="{StaticResource DialogButton}" Content="Ok and close" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
             <Button Style="{StaticResource DialogButton}" Content="Cancel" IsCancel="True" />
         </StackPanel>
     </Grid>

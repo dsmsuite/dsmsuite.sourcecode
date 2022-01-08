@@ -17,7 +17,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         private string _help;
         private string _selectedElementType;
 
-        private static string _lastSelectedElementType;
+        private static string _lastSelectedElementType = "";
 
         public ICommand AcceptChangeCommand { get; }
 
