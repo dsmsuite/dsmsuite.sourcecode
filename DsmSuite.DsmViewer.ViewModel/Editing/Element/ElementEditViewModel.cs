@@ -17,6 +17,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         private string _help;
         private string _selectedElementType;
 
+        private static string _lastSelectedElementType;
+
         public ICommand AcceptChangeCommand { get; }
 
         public ElementEditViewModel(ElementEditViewModelType viewModelType, IDsmApplication application, IDsmElement selectedElement)
@@ -41,7 +43,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                     _parentElement = selectedElement;
                     _selectedElement = null;
                     Name = "";
-                    SelectedElementType = "";
+                    SelectedElementType = _lastSelectedElementType;
                     AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
                     break;
                 default:
@@ -68,7 +70,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         public string SelectedElementType
         {
             get { return _selectedElementType; }
-            set { _selectedElementType = value; OnPropertyChanged(); }
+            set { _selectedElementType = value; _lastSelectedElementType = value; OnPropertyChanged(); }
         }
 
         private void AcceptAddExecute(object parameter)
@@ -104,7 +106,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                 Help = "Name can not be contain dot character";
                 return false;
             }
-            else if (_application.GetElementByFullname(Name) != null)
+            else if (_application.GetElementByFullname(elementName.FullName) != null)
             {
                 Help = "Name can not be an existing name";
                 return false;

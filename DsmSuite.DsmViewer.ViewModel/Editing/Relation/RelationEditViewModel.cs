@@ -19,6 +19,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
         private int _weight;
         private string _help;
 
+        private static string _lastSelectedRelationType;
+        private static string _lastSelectedConsumerElementType;
+        private static string _lastSelectedProviderElementType;
+
         public event EventHandler<IDsmRelation> RelationUpdated;
 
         public RelationEditViewModel(RelationEditViewModelType viewModelType, IDsmApplication application, IDsmRelation selectedRelation, IDsmElement selectedConsumer, IDsmElement selectedProvider)
@@ -42,7 +46,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                     _selectedRelation = null;
                     _selectedConsumer = selectedConsumer;
                     _selectedProvider = selectedProvider;
-                    SelectedRelationType = null;
+                    SelectedRelationType = _lastSelectedRelationType;
                     Weight = 1;
                     AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
                     break;
@@ -50,8 +54,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                     break;
             }
 
-            ConsumerSearchViewModel = new ElementSearchViewModel(application, _selectedConsumer, false);
-            ProviderSearchViewModel = new ElementSearchViewModel(application, _selectedProvider, false);
+            ConsumerSearchViewModel = new ElementSearchViewModel(application, _selectedConsumer, _lastSelectedConsumerElementType, false);
+            ProviderSearchViewModel = new ElementSearchViewModel(application, _selectedProvider, _lastSelectedProviderElementType, false);
             RelationTypes = new List<string>(application.GetRelationTypes());
         }
 
@@ -66,7 +70,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
         public string SelectedRelationType
         {
             get { return _selectedRelationType; }
-            set { _selectedRelationType = value; OnPropertyChanged(); }
+            set { _selectedRelationType = value; _lastSelectedRelationType = value;  OnPropertyChanged(); }
         }
 
         public int Weight
@@ -100,14 +104,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 
             if (relationUpdated)
             {
-                RelationUpdated?.Invoke(this, _selectedRelation);
+                InvokeRelationUpdated(_selectedRelation);
             }
         }
 
         private void AcceptAddExecute(object parameter)
         {
             IDsmRelation createdRelation = _application.CreateRelation(ConsumerSearchViewModel.SelectedElement, ProviderSearchViewModel.SelectedElement, SelectedRelationType, Weight);
-            RelationUpdated?.Invoke(this, createdRelation);
+            InvokeRelationUpdated(createdRelation);
         }
 
         private bool AcceptCanExecute(object parameter)
@@ -142,6 +146,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                 Help = "";
                 return true;
             }
+        }
+        
+        private void InvokeRelationUpdated(IDsmRelation updateRelation)
+        {
+            _lastSelectedConsumerElementType = ConsumerSearchViewModel.SelectedElementType;
+            _lastSelectedProviderElementType = ProviderSearchViewModel.SelectedElementType;
+            RelationUpdated?.Invoke(this, updateRelation);
         }
     }
 }

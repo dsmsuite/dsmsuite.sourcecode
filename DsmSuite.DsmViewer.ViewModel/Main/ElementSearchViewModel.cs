@@ -20,7 +20,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private bool _markMatchingElements;
         public event EventHandler SearchUpdated;
 
-        public ElementSearchViewModel(IDsmApplication application, IDsmElement selectedElement, bool markMatchingElements)
+        public ElementSearchViewModel(IDsmApplication application, IDsmElement selectedElement, string preSelectedElementType, bool markMatchingElements)
         {
             _application = application;
             SelectedElement = selectedElement;
@@ -29,7 +29,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             SearchText = (selectedElement != null) ? selectedElement.Fullname : "";
 
             ElementTypes = new List<string>(application.GetElementTypes());
-            SelectedElementType = (selectedElement != null) ? selectedElement.Type : "";
+            SelectedElementType = (selectedElement != null) ? selectedElement.Type : preSelectedElementType;
 
             ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute, ClearSearchCanExecute);
         }
