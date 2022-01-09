@@ -109,7 +109,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public string SingleSearchMatch
         {
             get { return _singleSearchMatch; }
-            private set { _singleSearchMatch = value; OnPropertyChanged(); }
+            set { _singleSearchMatch = value; OnPropertyChanged(); }
         }
 
         public SearchState SearchState

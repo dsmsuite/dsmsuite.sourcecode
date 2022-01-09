@@ -309,17 +309,37 @@
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
     </Style>
-   
-    <Style x:Key="ToolbarSearchBox" TargetType="ComboBox">
+
+    <Style x:Key="SearchButtonIcon" TargetType="Button" >
+        <Setter Property="Padding" Value="3" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Content" Value="{StaticResource SearchIcon}" />
+    </Style>
+    
+    <Style x:Key="SearchComboBox" TargetType="ComboBox">
         <Setter Property="Background" Value="{StaticResource BackgroundControlColor}" />
-        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="IsEditable" Value="True" />
         <Setter Property="IsReadOnly" Value="False" />
     </Style>
 
+    <Style x:Key="SearchResult" TargetType="TextBox">
+        <Setter Property="Background" Value="Yellow" />
+        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+        <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsReadOnly" Value="True" />
+    </Style>
+    
     <Style x:Key="CaseSensitiveToggleButton" TargetType="ToggleButton">
         <Setter Property="Background" Value="{StaticResource BackgroundControlColor}" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />

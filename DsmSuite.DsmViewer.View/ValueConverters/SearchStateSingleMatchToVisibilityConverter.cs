@@ -6,13 +6,12 @@ using System.Windows.Data;
 
 namespace DsmSuite.DsmViewer.View.ValueConverters
 {
-    public class SearchStateToVisibilityConverter : IValueConverter
+    public class SearchStateSingleMatchToVisibilityConverter : IValueConverter
     {
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             SearchState searchState = (SearchState)value;
-            return (searchState == SearchState.NoMatch) ? Visibility.Hidden : Visibility.Visible;
+            return (searchState == SearchState.SingleMatch) ? Visibility.Visible : Visibility.Hidden;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -20,4 +19,6 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
             throw new NotImplementedException();
         }
     }
+
+
 }
