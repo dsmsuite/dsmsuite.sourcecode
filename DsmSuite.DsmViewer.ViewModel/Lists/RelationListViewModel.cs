@@ -105,7 +105,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void EditRelationExecute(object parameter)
         {
-            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Modify, _application, SelectedRelation.Relation, null, null);
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Modify, _application, SelectedRelation.Relation, null, null, null, null);
             RelationEditStarted?.Invoke(this, relationEditViewModel);
         }
 
@@ -116,28 +116,28 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void AddConsumerRelationExecute(object parameter)
         {
-            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _application.RootElement, _selectedProvider);
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _application.RootElement, null, null, _selectedProvider);
             relationEditViewModel.RelationUpdated += OnRelationUpdated;
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private void AddProviderRelationExecute(object parameter)
         {
-            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedProvider, _application.RootElement);
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, null, _selectedProvider, _application.RootElement, null);
             relationEditViewModel.RelationUpdated += OnRelationUpdated;
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private void AddInternalRelationExecute(object parameter)
         {
-            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedProvider, _selectedProvider);
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedProvider, null, _selectedProvider, null);
             relationEditViewModel.RelationUpdated += OnRelationUpdated;
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }
 
         private void AddConsumerProviderRelationExecute(object parameter)
         {
-            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedConsumer, _selectedProvider);
+            RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Add, _application, null, _selectedConsumer, null, _selectedProvider, null);
             relationEditViewModel.RelationUpdated += OnRelationUpdated;
             RelationAddStarted?.Invoke(this, relationEditViewModel);
         }

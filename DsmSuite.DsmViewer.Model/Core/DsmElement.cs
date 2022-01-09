@@ -71,7 +71,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             string fullname = Name;
             IDsmElement parent = Parent;
-            while (parent != element)
+            while ((parent != element)  && (parent != null))
             {
                 if (parent.Name.Length > 0)
                 {

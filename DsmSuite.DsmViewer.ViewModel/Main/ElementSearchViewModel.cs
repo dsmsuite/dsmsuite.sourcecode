@@ -11,34 +11,51 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
     public class ElementSearchViewModel : ViewModelBase
     {
         private readonly IDsmApplication _application;
+        private readonly IDsmElement _searchPathElement;
+        private IDsmElement _selectedElement;
+        private readonly bool _markMatchingElements;
+
         private string _searchText;
         private bool _caseSensitiveSearch;
         private string _selectedElementType;
         private ObservableCollection<string> _searchMatches;
         private SearchState _searchState;
         private string _searchResult;
-        private bool _markMatchingElements;
+
         public event EventHandler SearchUpdated;
 
-        public ElementSearchViewModel(IDsmApplication application, IDsmElement selectedElement, string preSelectedElementType, bool markMatchingElements)
+        public ElementSearchViewModel(IDsmApplication application, IDsmElement searchPathElement, IDsmElement selectedElement, string preSelectedElementType, bool markMatchingElements)
         {
             _application = application;
-            SelectedElement = selectedElement;
+            _searchPathElement = (searchPathElement != null) ? searchPathElement : _application.RootElement;
+            _selectedElement = selectedElement;
             _markMatchingElements = markMatchingElements;
+
             IsEditable = selectedElement == null;
-            SearchText = (selectedElement != null) ? selectedElement.Fullname : "";
+            SearchPath = (searchPathElement != null) ? searchPathElement.Fullname : "";
+            SearchText = (selectedElement != null) ? selectedElement.GetRelativeName(searchPathElement) : "";
 
             ElementTypes = new List<string>(application.GetElementTypes());
-            SelectedElementType = (selectedElement != null) ? selectedElement.Type : preSelectedElementType;
+            SelectedElementType = preSelectedElementType;
 
             ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute, ClearSearchCanExecute);
         }
 
         public List<string> ElementTypes { get; }
-        public IDsmElement SelectedElement { get; private set; }
         public bool IsEditable { get; }
 
         public ICommand ClearSearchCommand { get; }
+
+        public string SearchPath
+        {
+            get;
+        }
+
+        public IDsmElement SelectedElement
+        {
+            get { return _selectedElement; }
+            private set { _selectedElement = value; OnPropertyChanged(); }
+        }
 
         public string SearchText
         {
@@ -78,13 +95,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OnSearchTextUpdated()
         {
-            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, _application.RootElement, CaseSensitiveSearch, SelectedElementType, _markMatchingElements);
+            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, _searchPathElement, CaseSensitiveSearch, SelectedElementType, _markMatchingElements);
             if (SearchText != null)
             {
                 List<string> matchingElementNames = new List<string>();
                 foreach (IDsmElement matchingElement in matchingElements)
                 {
-                    matchingElementNames.Add(matchingElement.Fullname);
+                    matchingElementNames.Add(matchingElement.GetRelativeName(_searchPathElement));
                 }
                 SearchMatches = new ObservableCollection<string>(matchingElementNames);
 

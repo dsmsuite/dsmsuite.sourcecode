@@ -13,8 +13,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
         private readonly RelationEditViewModelType _viewModelType;
         private readonly IDsmApplication _application;
         private readonly IDsmRelation _selectedRelation;
-        private readonly IDsmElement _selectedConsumer;
-        private readonly IDsmElement _selectedProvider;
+        private readonly IDsmElement _searchPathConsumer;
+        private IDsmElement _selectedConsumer;
+        private readonly IDsmElement _searchPathProvider;
+        private IDsmElement _selectedProvider;
         private string _selectedRelationType;
         private int _weight;
         private string _help;
@@ -25,7 +27,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 
         public event EventHandler<IDsmRelation> RelationUpdated;
 
-        public RelationEditViewModel(RelationEditViewModelType viewModelType, IDsmApplication application, IDsmRelation selectedRelation, IDsmElement selectedConsumer, IDsmElement selectedProvider)
+        public RelationEditViewModel(RelationEditViewModelType viewModelType, IDsmApplication application, IDsmRelation selectedRelation, IDsmElement searchPathConsumer, IDsmElement selectedConsumer, IDsmElement searchPathProvider, IDsmElement selectedProvider)
         {
             _viewModelType = viewModelType;
             _application = application;
@@ -35,7 +37,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                 case RelationEditViewModelType.Modify:
                     Title = "Modify relation";
                     _selectedRelation = selectedRelation;
+                    _searchPathConsumer = null;
                     _selectedConsumer = _selectedRelation.Consumer;
+                    _searchPathProvider = null;
                     _selectedProvider = _selectedRelation.Provider;
                     SelectedRelationType = _selectedRelation.Type;
                     Weight = _selectedRelation.Weight;
@@ -44,7 +48,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                 case RelationEditViewModelType.Add:
                     Title = "Add relation";
                     _selectedRelation = null;
+                    _searchPathConsumer = searchPathConsumer;
                     _selectedConsumer = selectedConsumer;
+                    _searchPathProvider = searchPathProvider;
                     _selectedProvider = selectedProvider;
                     SelectedRelationType = _lastSelectedRelationType;
                     Weight = 1;
@@ -54,8 +60,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                     break;
             }
 
-            ConsumerSearchViewModel = new ElementSearchViewModel(application, _selectedConsumer, _lastSelectedConsumerElementType, false);
-            ProviderSearchViewModel = new ElementSearchViewModel(application, _selectedProvider, _lastSelectedProviderElementType, false);
+            ConsumerSearchViewModel = new ElementSearchViewModel(application, _searchPathConsumer, _selectedConsumer, _lastSelectedConsumerElementType, false);
+            ProviderSearchViewModel = new ElementSearchViewModel(application, _searchPathProvider, _selectedProvider, _lastSelectedProviderElementType, false);
             RelationTypes = new List<string>(application.GetRelationTypes());
         }
 

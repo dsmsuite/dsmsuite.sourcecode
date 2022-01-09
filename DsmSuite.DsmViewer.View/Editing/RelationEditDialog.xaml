@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:usercontrols="clr-namespace:DsmSuite.DsmViewer.View.UserControls"        
              mc:Ignorable="d" 
-        Height="440" 
+        Height="600" 
         Width="500"
              Style="{StaticResource DialogStyle}">
-    <StackPanel FocusManager.FocusedElement="{Binding ElementName=NameTextBox}" Height="428" VerticalAlignment="Top" Orientation="Vertical">
+    <StackPanel FocusManager.FocusedElement="{Binding ElementName=NameTextBox}" VerticalAlignment="Top" Orientation="Vertical">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="{StaticResource TitleBarHeight}"  />
@@ -29,6 +29,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
@@ -36,11 +37,14 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Consumer type"/>
             <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding ElementTypes, Mode=OneWay}" SelectedItem="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Consumer name" />
-            <usercontrols:ElementSearchBox Grid.Row="1" Grid.Column="1" Margin="10"/>
+            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Consumer path" />
+            <Label Grid.Row="1" Grid.Column="1" Style="{StaticResource DialogLabel}"  Content="{Binding SearchPath}" />
+            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Consumer name" />
+            <usercontrols:ElementSearchBox Grid.Row="2" Grid.Column="1" Margin="10"/>
         </Grid>
         <Grid DataContext="{Binding Path=ProviderSearchViewModel}">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -50,8 +54,10 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Provider type"/>
             <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding ElementTypes, Mode=OneWay}" SelectedItem="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Provider name"/>
-            <usercontrols:ElementSearchBox Grid.Row="1" Grid.Column="1" Margin="10"/>
+            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Provider path" />
+            <Label Grid.Row="1" Grid.Column="1" Style="{StaticResource DialogLabel}"  Content="{Binding SearchPath}" />
+            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Provider name"/>
+            <usercontrols:ElementSearchBox Grid.Row="2" Grid.Column="1" Margin="10"/>
         </Grid>
         <Grid>
             <Grid.RowDefinitions>
