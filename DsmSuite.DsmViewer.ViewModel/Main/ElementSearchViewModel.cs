@@ -145,6 +145,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                     SearchState = SearchState.SingleMatch;
                     SearchResult = "1 found";
                     SelectedElement = matchingElements[0];
+                    SearchText = matchingElements[0].Fullname;
                 }
                 else
                 {

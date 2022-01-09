@@ -317,6 +317,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
         <Setter Property="IsEditable" Value="True" />
+        <Setter Property="IsReadOnly" Value="False" />
     </Style>
 
     <Style x:Key="CaseSensitiveToggleButton" TargetType="ToggleButton">
