@@ -310,12 +310,15 @@
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
     </Style>
 
-    <Style x:Key="SearchButtonIcon" TargetType="Button" >
+    <Style x:Key="SearchImage" TargetType="Button" >
+        <Setter Property="Background" Value="{StaticResource BackgroundControlColor}" />
+        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
         <Setter Property="Padding" Value="3" />
         <Setter Property="Width" Value="20" />
         <Setter Property="Height" Value="20" />
-        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Content" Value="{StaticResource SearchIcon}" />
+        <Setter Property="IsEnabled" Value="False" />
     </Style>
     
     <Style x:Key="SearchComboBox" TargetType="ComboBox">
@@ -330,30 +333,42 @@
     </Style>
 
     <Style x:Key="SearchResult" TargetType="TextBox">
-        <Setter Property="Background" Value="Yellow" />
+        <Setter Property="Background" Value="{StaticResource BackgroundControlColor}" />
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
         <Setter Property="Height" Value="26" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="IsReadOnly" Value="True" />
+    </Style>
+
+    <Style x:Key="SearchClearButton" TargetType="Button" >
+        <Setter Property="Background" Value="{StaticResource BackgroundControlColor}" />
+        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+        <Setter Property="Padding" Value="3" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Content" Value="{StaticResource DeleteIcon}" />
     </Style>
     
-    <Style x:Key="CaseSensitiveToggleButton" TargetType="ToggleButton">
+    <Style x:Key="SearchCaseSensitiveButton" TargetType="ToggleButton">
         <Setter Property="Background" Value="{StaticResource BackgroundControlColor}" />
+        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
-        <Setter Property="Content" Value="{StaticResource CaseInsensitiveIcon}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="ToolTip" Value="Click to switch to case sensitive"/>
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="true">
-                <Setter Property="Content" Value="{StaticResource CaseSensitiveIcon}"/>
+                <Setter Property="Content" Value="Aa}"/>
                 <Setter Property="ToolTip" Value="Click to switch to case insensitive"/>
             </Trigger>
             <Trigger Property="IsChecked" Value="false">
-                <Setter Property="Content" Value="{StaticResource CaseInsensitiveIcon}"/>
+                <Setter Property="Content" Value="aa"/>
                 <Setter Property="ToolTip" Value="Click to switch to case sensitive"/>
             </Trigger>
         </Style.Triggers>
