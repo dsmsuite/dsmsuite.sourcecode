@@ -19,6 +19,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private bool _caseSensitiveSearch;
         private string _selectedElementType;
         private ObservableCollection<string> _searchMatches;
+        private string _singleSearchMatch;
         private SearchState _searchState;
         private string _searchResult;
 
@@ -105,6 +106,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             private set { _searchMatches = value; OnPropertyChanged(); }
         }
 
+        public string SingleSearchMatch
+        {
+            get { return _singleSearchMatch; }
+            private set { _singleSearchMatch = value; OnPropertyChanged(); }
+        }
+
         public SearchState SearchState
         {
             get { return _searchState; }
@@ -130,6 +137,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 SearchMatches = new ObservableCollection<string>(matchingElementNames);
 
                 SelectedElement = null;
+                SingleSearchMatch = "";
                 if (SearchText.Length == 0)
                 {
                     SearchState = SearchState.NoInput;
@@ -145,7 +153,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                     SearchState = SearchState.SingleMatch;
                     SearchResult = "1 found";
                     SelectedElement = matchingElements[0];
-                    SearchText = matchingElements[0].Fullname;
+                    SingleSearchMatch = matchingElements[0].Fullname;
                 }
                 else
                 {
