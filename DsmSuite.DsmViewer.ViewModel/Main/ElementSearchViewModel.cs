@@ -60,19 +60,43 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public string SearchText
         {
             get { return _searchText; }
-            set { _searchText = value; OnPropertyChanged(); OnSearchTextUpdated(); }
+            set
+            {
+                if (_searchText != value)
+                {
+                    _searchText = value;
+                    OnPropertyChanged();
+                    OnSearchTextUpdated();
+                }
+            }
         }
 
         public bool CaseSensitiveSearch
         {
             get { return _caseSensitiveSearch; }
-            set { _caseSensitiveSearch = value; OnPropertyChanged(); OnSearchTextUpdated(); }
+            set 
+            {
+                if (_caseSensitiveSearch != value)
+                {
+                    _caseSensitiveSearch = value;
+                    OnPropertyChanged();
+                    OnSearchTextUpdated();
+                }
+            }
         }
 
         public string SelectedElementType
         {
             get { return _selectedElementType; }
-            set { _selectedElementType = value; OnPropertyChanged(); OnSearchTextUpdated(); }
+            set 
+            {
+                if (_selectedElementType != value)
+                {
+                    _selectedElementType = value;
+                    OnPropertyChanged();
+                    OnSearchTextUpdated();
+                }
+            }
         }
 
         public ObservableCollection<string> SearchMatches
