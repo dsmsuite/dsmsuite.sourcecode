@@ -54,7 +54,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public IDsmElement SelectedElement
         {
             get { return _selectedElement; }
-            private set { _selectedElement = value; OnPropertyChanged(); }
+            set { _selectedElement = value; OnPropertyChanged(); }
         }
 
         public string SearchText
@@ -101,7 +101,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                 List<string> matchingElementNames = new List<string>();
                 foreach (IDsmElement matchingElement in matchingElements)
                 {
-                    matchingElementNames.Add(matchingElement.GetRelativeName(_searchPathElement));
+                    matchingElementNames.Add(matchingElement.Fullname);
                 }
                 SearchMatches = new ObservableCollection<string>(matchingElementNames);
 
