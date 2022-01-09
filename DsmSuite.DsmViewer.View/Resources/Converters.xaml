@@ -3,7 +3,8 @@
                     xmlns:valueConverters="clr-namespace:DsmSuite.DsmViewer.View.ValueConverters">
     <valueConverters:SearchStateToColorConverter x:Key="SearchStateToColorConverter" 
                     NoMatchBrush="{StaticResource SearchNoMatchTextColor}"
-                    MatchBrush="{StaticResource SearchMatchTextColor}" />
+                    MatchBrush="{StaticResource SearchMatchTextColor}" 
+                    MultipleMatchesBrush="{StaticResource SearchMultipleMatchesTextColor}" />
     <valueConverters:SearchStateToVisibilityConverter x:Key="SearchStateToVisibilityConverter" />
     <valueConverters:MetricsExpandedToButtonContentConverter x:Key="MetricsExpandedToButtonContentConverter" />
     <valueConverters:MetricsExpandedToViewWidthConverter x:Key="MetricsExpandedToViewWidthConverter" 

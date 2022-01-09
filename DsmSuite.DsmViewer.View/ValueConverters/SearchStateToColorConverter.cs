@@ -10,7 +10,7 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
     {
         public SolidColorBrush NoMatchBrush { get; set; }
         public SolidColorBrush MatchBrush { get; set; }
-
+        public SolidColorBrush MultipleMatchesBrush { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -28,7 +28,7 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
                     brush = MatchBrush;
                     break;
                 case SearchState.MultipleMatches:
-                    brush = MatchBrush;
+                    brush = MultipleMatchesBrush;
                     break;
                 default:
                     brush = NoMatchBrush;
