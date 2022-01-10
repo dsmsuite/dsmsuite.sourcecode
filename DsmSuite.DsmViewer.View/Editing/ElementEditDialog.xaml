@@ -2,12 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Height="280" 
-        Width="450"
+        Width="550"
         Style="{StaticResource DialogStyle}">
-    <Grid FocusManager.FocusedElement="{Binding ElementName=NameTextBox}" Height="228" VerticalAlignment="Top">
+    <Grid FocusManager.FocusedElement="{Binding ElementName=NameTextBox}" VerticalAlignment="Top" HorizontalAlignment="Stretch" >
         <Grid.RowDefinitions>
             <RowDefinition Height="{StaticResource TitleBarHeight}"  />
             <RowDefinition Height="{StaticResource TitleHeight}" />
+            <RowDefinition Height="{StaticResource SubTitleHeight}" />
             <RowDefinition Height="{StaticResource EditFieldHeight}" />
             <RowDefinition Height="{StaticResource EditFieldHeight}" />
             <RowDefinition Height="{StaticResource HelpFieldHeight}" />
@@ -15,8 +16,8 @@
             <RowDefinition Height="{StaticResource BottomRowHeight}" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="340" />
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -24,14 +25,14 @@
             </StackPanel>
         </DockPanel>
         <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogTitle}" Text="{Binding Title}"/>
-        <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Name" />
-        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource DialogTextBox}" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Name="NameTextBox"/>
-        <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Type" />
-        <ComboBox Grid.Row="3" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding ElementTypes, Mode=OneWay}" Text="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="TypeTextBox"/>
-        <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource DialogTextBlock}" Text="{Binding Help, UpdateSourceTrigger=PropertyChanged}" Name="HelpTextBlock" Foreground="Red"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DialogSubTitle}" Text="Element"/>
+        <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Name" />
+        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource DialogTextBox}" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Name="NameTextBox"/>
+        <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Type" />
+        <ComboBox Grid.Row="4" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding ElementTypes, Mode=OneWay}" Text="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="TypeTextBox"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource DialogTextBlock}" Text="{Binding Help, UpdateSourceTrigger=PropertyChanged}" Name="HelpTextBlock" Foreground="Red"/>
         <StackPanel Grid.Row="5"  Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Style="{StaticResource DialogButton}" Content="Ok" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
-            <Button Style="{StaticResource DialogButton}" Content="Ok and close" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
+            <Button Style="{StaticResource DialogButton}" Content="Ok" Click="OnOkButtonClicked" Command="{Binding AcceptChangeCommand}" IsDefault="True"/>
             <Button Style="{StaticResource DialogButton}" Content="Cancel" IsCancel="True" />
         </StackPanel>
     </Grid>

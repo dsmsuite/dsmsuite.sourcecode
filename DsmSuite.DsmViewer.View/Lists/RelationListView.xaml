@@ -8,7 +8,7 @@
         Height="600" 
         Width="800"
         Loaded="RelationListView_OnLoaded"
-        Style="{StaticResource ResizableDialogStyle}">
+        Style="{StaticResource DialogStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="{StaticResource TitleBarHeight}"  />
@@ -20,8 +20,6 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" >
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="Minimize" Style="{StaticResource MinimizeButtonStyle}"/>
-                <Button x:Name="Maximize" Style="{StaticResource MaximizeButtonStyle}"/>
                 <Button x:Name="Close" Style="{StaticResource CloseButtonStyle}"/>
             </StackPanel>
         </DockPanel>

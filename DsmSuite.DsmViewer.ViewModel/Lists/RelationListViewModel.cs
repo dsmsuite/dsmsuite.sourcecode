@@ -106,6 +106,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         private void EditRelationExecute(object parameter)
         {
             RelationEditViewModel relationEditViewModel = new RelationEditViewModel(RelationEditViewModelType.Modify, _application, SelectedRelation.Relation, null, null, null, null);
+            relationEditViewModel.RelationUpdated += OnRelationUpdated;
             RelationEditStarted?.Invoke(this, relationEditViewModel);
         }
 
