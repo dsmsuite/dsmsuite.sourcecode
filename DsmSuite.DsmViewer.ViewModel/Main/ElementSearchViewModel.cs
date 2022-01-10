@@ -31,9 +31,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             _selectedElement = selectedElement;
             _markMatchingElements = markMatchingElements;
 
-            if (selectedElement != null)
+            if ((searchPathElement != null) && (!searchPathElement.HasChildren))
             {
-                SearchText = selectedElement.Fullname;
+                _selectedElement = searchPathElement;
+            }
+            if (_selectedElement != null)
+            {
+                SearchText = _selectedElement.Fullname;
                 SearchState = SearchState.Off;
             }
             else
