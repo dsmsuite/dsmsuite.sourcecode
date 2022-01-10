@@ -7,6 +7,8 @@
                     MultipleMatchesBrush="{StaticResource SearchMultipleMatchesTextColor}" />
     <valueConverters:SearchStateSingleMatchToVisibilityConverter x:Key="SearchStateSingleMatchToVisibilityConverter" />
     <valueConverters:SearchStateNotSingleMatchToVisibilityConverter x:Key="SearchStateNotSingleMatchToVisibilityConverter" />
+    <valueConverters:SearchStateOffToVisibilityConverter x:Key="SearchStateOffToVisibilityConverter" />
+    <valueConverters:SearchStateNotOffToVisibilityConverter x:Key="SearchStateNotOffToVisibilityConverter" />
     <valueConverters:MetricsExpandedToButtonContentConverter x:Key="MetricsExpandedToButtonContentConverter" />
     <valueConverters:MetricsExpandedToViewWidthConverter x:Key="MetricsExpandedToViewWidthConverter" 
                     ViewWidth="120"/>

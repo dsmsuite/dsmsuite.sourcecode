@@ -185,6 +185,22 @@
     <Style x:Key="DialogStyle" TargetType="Window">
         <Setter Property="Background" Value="{StaticResource BackgroundColor}" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
+        <Setter Property="SizeToContent" Value="Height" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="15"
+                              CornerRadius="0"
+                              GlassFrameThickness="0,0,0,-1"
+                              NonClientFrameEdges="None"
+                              ResizeBorderThickness="5"
+                              UseAeroCaptionButtons="true"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FixedHeightDialogStyle" TargetType="Window">
+        <Setter Property="Background" Value="{StaticResource BackgroundColor}" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CaptionHeight="15"
@@ -269,6 +285,10 @@
         <Setter Property="Foreground" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="Height" Value="{StaticResource StandardEditControlHeight}" />        
     </Style>
+
+    <Style x:Key="DialogStackPanel" TargetType="StackPanel">
+        <Setter Property="Margin" Value="10" />
+    </Style>
     
     <!-- Toolbar styles -->
     <Style x:Key="ToolbarButton" TargetType="Button">
@@ -299,12 +319,15 @@
     <Style x:Key="SearchImage" TargetType="Button" >
         <Setter Property="Background" Value="{StaticResource BackgroundControlColor}" />
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
-        <Setter Property="Padding" Value="3" />
-        <Setter Property="Width" Value="20" />
-        <Setter Property="Height" Value="20" />
+        <Setter Property="Width" Value="{StaticResource StandardEditControlHeight}" />
+        <Setter Property="Height" Value="{StaticResource StandardEditControlHeight}"/>
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Content" Value="{StaticResource SearchIcon}" />
-        <Setter Property="IsEnabled" Value="False" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="{StaticResource BackgroundControlColor}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
     
     <Style x:Key="SearchComboBox" TargetType="ComboBox">
@@ -312,7 +335,7 @@
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
-        <Setter Property="Height" Value="26" />
+        <Setter Property="Height" Value="{StaticResource StandardEditControlHeight}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="IsEditable" Value="True" />
         <Setter Property="IsReadOnly" Value="False" />
@@ -321,10 +344,9 @@
     <Style x:Key="SearchResult" TargetType="TextBox">
         <Setter Property="Background" Value="{StaticResource BackgroundControlColor}" />
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
-        <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
+        <Setter Property="Height" Value="{StaticResource StandardEditControlHeight}" />
         <Setter Property="BorderBrush" Value="{StaticResource ForegroundStandardColor}" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
-        <Setter Property="Height" Value="26" />
         <Setter Property="BorderThickness" Value="0" />
     </Style>
 
@@ -343,6 +365,7 @@
         <Setter Property="Background" Value="{StaticResource BackgroundControlColor}" />
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
         <Setter Property="Height" Value="{StaticResource StandardButtonSize}" />
+        <Setter Property="Width" Value="{StaticResource StandardButtonSize}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -350,7 +373,7 @@
         <Setter Property="ToolTip" Value="Click to switch to case sensitive"/>
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="true">
-                <Setter Property="Content" Value="Aa}"/>
+                <Setter Property="Content" Value="Aa"/>
                 <Setter Property="ToolTip" Value="Click to switch to case insensitive"/>
             </Trigger>
             <Trigger Property="IsChecked" Value="false">

@@ -11,7 +11,7 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             SearchState searchState = (SearchState)value;
-            return (searchState == SearchState.SingleMatch) ? Visibility.Visible : Visibility.Hidden;
+            return (searchState == SearchState.SingleMatch) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -19,6 +19,4 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
             throw new NotImplementedException();
         }
     }
-
-
 }

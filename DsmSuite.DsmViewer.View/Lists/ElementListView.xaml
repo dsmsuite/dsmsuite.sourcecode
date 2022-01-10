@@ -8,7 +8,7 @@
         Height="600" 
         Width="800"
         Loaded="ElementListView_OnLoaded"
-        Style="{StaticResource DialogStyle}">
+        Style="{StaticResource FixedHeightDialogStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="{StaticResource TitleBarHeight}"  />

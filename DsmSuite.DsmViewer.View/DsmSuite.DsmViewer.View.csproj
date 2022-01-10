@@ -84,7 +84,9 @@
     <Compile Include="ValueConverters\MetricsExpandedToButtonContentConverter.cs" />
     <Compile Include="ValueConverters\MetricsExpandedToViewWidthConverter.cs" />
     <Compile Include="ValueConverters\SearchIndicatorModeToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\SearchStateNotOffToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\SearchStateNotSingleMatchToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\SearchStateOffToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\SearchStateToColorConverter.cs" />
     <Compile Include="Editing\ElementEditDialog.xaml.cs">
       <DependentUpon>ElementEditDialog.xaml</DependentUpon>

@@ -31,9 +31,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             _selectedElement = selectedElement;
             _markMatchingElements = markMatchingElements;
 
-            IsEditable = selectedElement == null;
+            if (selectedElement != null)
+            {
+                SearchText = selectedElement.Fullname;
+                SearchState = SearchState.Off;
+            }
+            else
+            {
+                SearchText = "";
+                SearchState = SearchState.NoInput;
+            }
+
             SearchPath = (searchPathElement != null) ? searchPathElement.Fullname : "";
-            SearchText = (selectedElement != null) ? selectedElement.GetRelativeName(searchPathElement) : "";
 
             ElementTypes = new List<string>(application.GetElementTypes());
             SelectedElementType = preSelectedElementType;
@@ -42,7 +51,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         }
 
         public List<string> ElementTypes { get; }
-        public bool IsEditable { get; }
 
         public ICommand ClearSearchCommand { get; }
 
@@ -119,41 +127,44 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private void OnSearchTextUpdated()
         {
-            IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, _searchPathElement, CaseSensitiveSearch, SelectedElementType, _markMatchingElements);
-            if (SearchText != null)
+            if (SearchState != SearchState.Off)
             {
-                List<string> matchingElementNames = new List<string>();
-                foreach (IDsmElement matchingElement in matchingElements)
+                IList<IDsmElement> matchingElements = _application.SearchElements(SearchText, _searchPathElement, CaseSensitiveSearch, SelectedElementType, _markMatchingElements);
+                if (SearchText != null)
                 {
-                    matchingElementNames.Add(matchingElement.Fullname);
-                }
-                SearchMatches = new ObservableCollection<string>(matchingElementNames);
+                    List<string> matchingElementNames = new List<string>();
+                    foreach (IDsmElement matchingElement in matchingElements)
+                    {
+                        matchingElementNames.Add(matchingElement.Fullname);
+                    }
+                    SearchMatches = new ObservableCollection<string>(matchingElementNames);
 
-                SelectedElement = null;
-                if (SearchText.Length == 0)
-                {
-                    SearchState = SearchState.NoInput;
-                    SearchResult = "";
-                }
-                if (SearchMatches.Count == 0)
-                {
-                    SearchState = SearchState.NoMatch;
-                    SearchResult = SearchText.Length > 0 ? "None found" : "";
-                }
-                else if (SearchMatches.Count == 1)
-                {
-                    SearchState = SearchState.SingleMatch;
-                    SearchResult = "1 found";
-                    SelectedElement = matchingElements[0];
-                    SearchText = matchingElements[0].Fullname;
-                }
-                else
-                {
-                    SearchState = SearchState.MultipleMatches;
-                    SearchResult = $"{SearchMatches.Count} found";
-                }
+                    SelectedElement = null;
+                    if (SearchText.Length == 0)
+                    {
+                        SearchState = SearchState.NoInput;
+                        SearchResult = "";
+                    }
+                    if (SearchMatches.Count == 0)
+                    {
+                        SearchState = SearchState.NoMatch;
+                        SearchResult = SearchText.Length > 0 ? "None found" : "";
+                    }
+                    else if (SearchMatches.Count == 1)
+                    {
+                        SearchState = SearchState.SingleMatch;
+                        SearchResult = "1 found";
+                        SelectedElement = matchingElements[0];
+                        SearchText = matchingElements[0].Fullname;
+                    }
+                    else
+                    {
+                        SearchState = SearchState.MultipleMatches;
+                        SearchResult = $"{SearchMatches.Count} found";
+                    }
 
-                SearchUpdated?.Invoke(this, EventArgs.Empty);
+                    SearchUpdated?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -164,7 +175,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
         private bool ClearSearchCanExecute(object parameter)
         {
-            return IsEditable;
+            return SearchState != SearchState.Off;
         }
     }
 }
