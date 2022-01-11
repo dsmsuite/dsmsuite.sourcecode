@@ -24,11 +24,8 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
                 case SearchState.NoMatch:
                     brush = NoMatchBrush;
                     break;
-                case SearchState.SingleMatch:
+                case SearchState.Match:
                     brush = MatchBrush;
-                    break;
-                case SearchState.MultipleMatches:
-                    brush = MultipleMatchesBrush;
                     break;
                 default:
                     brush = NoMatchBrush;

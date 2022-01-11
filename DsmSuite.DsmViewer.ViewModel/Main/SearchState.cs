@@ -5,8 +5,7 @@
         Off,
         NoInput,
         NoMatch,
-        SingleMatch,
-        MultipleMatches,
+        Match,
         Selected
     }
 }

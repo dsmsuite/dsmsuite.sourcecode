@@ -14,7 +14,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private readonly IDsmElement _searchPathElement;
         private IDsmElement _selectedElement;
         private readonly bool _markMatchingElements;
-        private int _selectedIndex;
 
         private string _searchText;
         private bool _caseSensitiveSearch;
@@ -62,12 +61,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public string SearchPath
         {
             get;
-        }
-
-        public int SelectedIndex
-        {
-            get { return _selectedIndex; }
-            set { _selectedIndex = value; OnPropertyChanged(); }
         }
 
         public IDsmElement SelectedElement
@@ -150,28 +143,23 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                     }
                     SearchMatches = new ObservableCollection<string>(matchingElementNames);
 
-                    SelectedElement = null;
                     if (SearchText.Length == 0)
                     {
                         SearchState = SearchState.NoInput;
                         SearchResult = "";
+                        SelectedElement = null;
                     }
-                    if (SearchMatches.Count == 0)
+                    else if (SearchMatches.Count == 0)
                     {
                         SearchState = SearchState.NoMatch;
                         SearchResult = SearchText.Length > 0 ? "None found" : "";
-                    }
-                    else if (SearchMatches.Count == 1)
-                    {
-                        SearchState = SearchState.SingleMatch;
-                        SearchResult = "1 found";
-                        SelectedElement = matchingElements[0];
-                        SearchText = matchingElements[0].Fullname;
+                        SelectedElement = null;
                     }
                     else
                     {
-                        SearchState = SearchState.MultipleMatches;
+                        SearchState = SearchState.Match;
                         SearchResult = $"{SearchMatches.Count} found";
+                        SelectedElement = matchingElements[0];
                     }
 
                     SearchUpdated?.Invoke(this, EventArgs.Empty);
