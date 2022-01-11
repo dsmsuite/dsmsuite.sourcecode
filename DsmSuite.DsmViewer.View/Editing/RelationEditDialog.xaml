@@ -6,7 +6,7 @@
              xmlns:usercontrols="clr-namespace:DsmSuite.DsmViewer.View.UserControls"        
              mc:Ignorable="d" 
         Height="750" 
-        Width="550"
+        Width="650"
         Style="{StaticResource DialogStyle}">
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=NameTextBox}" VerticalAlignment="Top" HorizontalAlignment="Stretch" Orientation="Vertical">
         <Grid>
@@ -33,6 +33,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Name" />
             <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogTextBlock}" Text="{Binding SearchText}"/>
@@ -46,6 +47,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Type filter"/>
             <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding ElementTypes, Mode=OneWay}" SelectedItem="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -55,6 +57,7 @@
             <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource DialogStackPanel}">
                 <usercontrols:ElementSearchBox/>
             </StackPanel>
+            <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource DialogTextBlock}" Text="{Binding SearchResult}"/>
         </Grid>
         <TextBlock Style="{StaticResource DialogSubTitle}" Text="Provider"/>
         <Grid Margin="10" DataContext="{Binding Path=ProviderSearchViewModel}" Visibility="{Binding SearchState, Converter={StaticResource SearchStateOffToVisibilityConverter}}">
@@ -64,6 +67,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Name" />
             <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogTextBlock}" Text="{Binding SearchText}"/>
@@ -77,6 +81,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Type filter"/>
             <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding ElementTypes, Mode=OneWay}" SelectedItem="{Binding SelectedElementType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -86,6 +91,7 @@
             <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource DialogStackPanel}">
                 <usercontrols:ElementSearchBox/>
             </StackPanel>
+            <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource DialogTextBlock}" Text="{Binding SearchResult}"/>
         </Grid>
         <TextBlock Style="{StaticResource DialogSubTitle}" Text="Relation"/>
         <Grid Margin="10">
@@ -99,6 +105,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Type"/>
             <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding RelationTypes, Mode=OneWay}" SelectedItem="{Binding SelectedRelationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="TypeTextBox"/>
