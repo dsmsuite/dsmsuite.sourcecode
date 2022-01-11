@@ -11,7 +11,7 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             IDsmElement foundElememt = (IDsmElement)value;
-            return (foundElememt != null) ? Visibility.Visible : Visibility.Collapsed;
+            return (foundElememt == null) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
