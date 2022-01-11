@@ -132,6 +132,21 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                 Help = "No provider selected";
                 return false;
             }
+            else if (ConsumerSearchViewModel.SelectedElement == ProviderSearchViewModel.SelectedElement)
+            {
+                Help = "Can not connect to itself";
+                return false;
+            }
+            else if (ConsumerSearchViewModel.SelectedElement.IsRecursiveChildOf(ProviderSearchViewModel.SelectedElement))
+            {
+                Help = "Can not connect to child";
+                return false;
+            }
+            else if (ProviderSearchViewModel.SelectedElement.IsRecursiveChildOf(ConsumerSearchViewModel.SelectedElement))
+            {
+                Help = "Can not connect to child";
+                return false;
+            }
             else if (SelectedRelationType == null)
             {
                 Help = "No relation type selected";
