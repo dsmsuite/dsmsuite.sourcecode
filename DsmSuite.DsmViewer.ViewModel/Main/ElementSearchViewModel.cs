@@ -14,6 +14,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         private readonly IDsmElement _searchPathElement;
         private IDsmElement _selectedElement;
         private readonly bool _markMatchingElements;
+        private int _selectedIndex;
 
         private string _searchText;
         private bool _caseSensitiveSearch;
@@ -61,6 +62,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public string SearchPath
         {
             get;
+        }
+
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set { _selectedIndex = value; OnPropertyChanged(); }
         }
 
         public IDsmElement SelectedElement

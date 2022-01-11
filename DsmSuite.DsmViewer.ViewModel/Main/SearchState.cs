@@ -6,6 +6,7 @@
         NoInput,
         NoMatch,
         SingleMatch,
-        MultipleMatches
+        MultipleMatches,
+        Selected
     }
 }
