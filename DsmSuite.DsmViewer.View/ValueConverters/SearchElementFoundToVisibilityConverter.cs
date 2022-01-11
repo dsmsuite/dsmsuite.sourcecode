@@ -1,4 +1,4 @@
-﻿using DsmSuite.DsmViewer.ViewModel.Main;
+﻿using DsmSuite.DsmViewer.Model.Interfaces;
 using System;
 using System.Globalization;
 using System.Windows;
@@ -6,12 +6,12 @@ using System.Windows.Data;
 
 namespace DsmSuite.DsmViewer.View.ValueConverters
 {
-    public class SearchStateNotOffToVisibilityConverter : IValueConverter
+    public class SearchElementFoundToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SearchState searchState = (SearchState)value;
-            return (searchState != SearchState.Off) ? Visibility.Visible : Visibility.Collapsed;
+            IDsmElement foundElememt = (IDsmElement)value;
+            return (foundElememt != null) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

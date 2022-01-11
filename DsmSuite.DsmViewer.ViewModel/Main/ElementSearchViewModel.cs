@@ -159,7 +159,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                     {
                         SearchState = SearchState.Match;
                         SearchResult = $"{SearchMatches.Count} found";
-                        SelectedElement = matchingElements[0];
+
+                        if (SearchMatches.Count == 1)
+                        {
+                            SelectedElement = matchingElements[0];
+                            SearchText = matchingElements[0].Fullname;
+                        }
                     }
 
                     SearchUpdated?.Invoke(this, EventArgs.Empty);

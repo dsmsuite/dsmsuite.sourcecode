@@ -108,7 +108,7 @@
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Type"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding RelationTypes, Mode=OneWay}" SelectedItem="{Binding SelectedRelationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="TypeTextBox"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DialogComboBox}" ItemsSource="{Binding RelationTypes, Mode=OneWay}" Text="{Binding SelectedRelationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="TypeTextBox"/>
             <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource DialogLabel}"  Content="Weight"/>
             <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource DialogTextBox}" Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" Name="WeightTextBox"/>
             <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource DialogTextBlock}" Text="{Binding Help, UpdateSourceTrigger=PropertyChanged}" Name="HelpTextBlock" Foreground="Red"/>

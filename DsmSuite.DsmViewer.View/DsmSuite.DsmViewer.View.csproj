@@ -84,6 +84,8 @@
     <Compile Include="ValueConverters\MetricsExpandedToButtonContentConverter.cs" />
     <Compile Include="ValueConverters\MetricsExpandedToViewWidthConverter.cs" />
     <Compile Include="ValueConverters\SearchIndicatorModeToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\SearchElementFoundToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\SearchElementNotFoundToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\SearchStateNotOffToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\SearchStateOffToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\SearchStateToColorConverter.cs" />
