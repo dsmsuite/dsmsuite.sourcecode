@@ -95,6 +95,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         {
             ElementName elementName = new ElementName(_parentElement.Fullname);
             elementName.AddNamePart(Name);
+            IDsmElement existingElement = _application.GetElementByFullname(elementName.FullName);
 
             if (Name.Length == 0)
             {
@@ -106,7 +107,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                 Help = "Name can not be contain dot character";
                 return false;
             }
-            else if (_application.GetElementByFullname(elementName.FullName) != null)
+            else if ((existingElement != _selectedElement) && (existingElement != null))
             {
                 Help = "Name can not be an existing name";
                 return false;
