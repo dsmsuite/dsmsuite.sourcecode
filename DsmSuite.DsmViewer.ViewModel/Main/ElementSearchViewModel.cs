@@ -162,8 +162,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
 
                         if (SearchMatches.Count == 1)
                         {
-                            SelectedElement = matchingElements[0];
                             SearchText = matchingElements[0].Fullname;
+                        }
+                    }
+
+                    foreach (IDsmElement matchingElement in matchingElements)
+                    {
+                        if (SearchText == matchingElement.Fullname)
+                        {
+                            SelectedElement = matchingElement;
                         }
                     }
 
