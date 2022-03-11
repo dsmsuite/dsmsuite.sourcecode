@@ -78,11 +78,15 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
                     IDsmElement element = _importPolicy.ImportElement(elementName.FullName, name, dsiElement.Type, parent, dsiElement.Properties);
                     parent = element;
                     _dsiToDsmMapping[dsiElement.Id] = element.Id;
+
+                    Logger.LogInfo($"Import leaf element dsiId={dsiElement.Id} dsiName={dsiElement.Name} dsmId={element.Id} dsmName={elementName.FullName}");
                 }
                 else
                 {
                     IDsmElement element = _importPolicy.ImportElement(elementName.FullName, name, "", parent, null);
                     parent = element;
+
+                    Logger.LogInfo($"Import non leaf element dsiId={dsiElement.Id} dsiName={dsiElement.Name} dsmName={elementName.FullName}");
                 }
             }
         }
@@ -99,6 +103,8 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
         
         private void ImportRelation(IDsiRelation dsiRelation)
         {
+            Logger.LogInfo($"Import relation consumerId={dsiRelation.ConsumerId} providerId={dsiRelation.ProviderId}");
+
             if (_dsiToDsmMapping.ContainsKey(dsiRelation.ConsumerId) && _dsiToDsmMapping.ContainsKey(dsiRelation.ProviderId))
             {
                 int consumerId = _dsiToDsmMapping[dsiRelation.ConsumerId];
