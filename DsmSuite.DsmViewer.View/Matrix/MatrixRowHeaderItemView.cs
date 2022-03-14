@@ -33,7 +33,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DataObject data = new DataObject();
-                data.SetData(DataObjectName, _viewModel.Element);
+                data.SetData(DataObjectName, _viewModel);
                 DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
             }
         }
@@ -52,8 +52,11 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
             if (e.Data.GetDataPresent(DataObjectName))
             {
-                IDsmElement element = (IDsmElement)e.Data.GetData(DataObjectName);
-                IDsmElement newParent = _viewModel.Element;
+                ElementTreeItemViewModel dragged = (ElementTreeItemViewModel)e.Data.GetData(DataObjectName);
+                ElementTreeItemViewModel dropTarget = _viewModel;
+
+                IDsmElement element = dragged.Element;
+                IDsmElement newParent = dropTarget.Element;
 
                 e.Effects = !newParent.IsRecursiveChildOf(element) ? DragDropEffects.Move : DragDropEffects.None;
             }
@@ -66,8 +69,10 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
             if (e.Data.GetDataPresent(DataObjectName))
             {
-                IDsmElement element = (IDsmElement)e.Data.GetData(DataObjectName);
-                IDsmElement newParent = _viewModel.Element;
+                ElementTreeItemViewModel dragged = (ElementTreeItemViewModel)e.Data.GetData(DataObjectName);
+                ElementTreeItemViewModel dropTarget = _viewModel;
+                IDsmElement element = dragged.Element;
+                IDsmElement newParent = dropTarget.Element;
 
                 if ((element != null) &&
                     (newParent != null) &&
