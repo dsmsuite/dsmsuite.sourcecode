@@ -76,15 +76,13 @@ namespace DsmSuite.DsmViewer.View.Matrix
             {
                 ElementTreeItemViewModel dragged = (ElementTreeItemViewModel)e.Data.GetData(DataObjectName);
                 ElementTreeItemViewModel dropTarget = _viewModel;
-                IDsmElement element = dragged.Element;
-                IDsmElement newParent = dropTarget.Element;
 
-                if ((element != null) &&
-                    (newParent != null) &&
-                    (element != newParent))
+                if ((dragged != null) &&
+                    (dropTarget != null) &&
+                    (dragged != dropTarget))
                 {
                     int index = GetDropAtIndex(e);
-                    Tuple<IDsmElement, IDsmElement, int> moveParameter = new Tuple<IDsmElement, IDsmElement, int>(element, newParent, index);
+                    Tuple<IDsmElement, IDsmElement, int> moveParameter = new Tuple<IDsmElement, IDsmElement, int>(dragged.Element, dropTarget.Element, index);
                     _viewModel.MoveCommand.Execute(moveParameter);
                 }
 
