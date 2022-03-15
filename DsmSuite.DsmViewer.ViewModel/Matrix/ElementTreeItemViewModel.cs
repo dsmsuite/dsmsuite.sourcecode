@@ -11,7 +11,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
     {
         private readonly List<ElementTreeItemViewModel> _children;
         private ElementTreeItemViewModel _parent;
-        private bool _isDragged;
         private bool _isDropTarget;
         private MatrixColor _color;
 
@@ -21,7 +20,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _parent = null;
             Element = element;
             Depth = depth;
-            Color = GetColor();
+            UpdateColor();
 
             MoveCommand = matrixViewModel.ChangeElementParentCommand;
             MoveUpElementCommand = matrixViewModel.MoveUpElementCommand;
@@ -38,22 +37,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ElementToolTipViewModel ToolTipViewModel { get; }
         public IDsmElement Element { get; }
 
-        public bool IsDragged
-        {
-            get { return _isDragged; }
-            set { _isDragged = value; OnPropertyChanged(); Color = GetColor(); }
-        }
-
         public bool IsDropTarget
         {
             get { return _isDropTarget; }
-            set { _isDropTarget = value; OnPropertyChanged(); Color = GetColor(); }
+            set { _isDropTarget = value; UpdateColor(); OnPropertyChanged(); }
         }
 
         public MatrixColor Color
         {
             get { return _color; }
-            set { _color = value; }
+            set { _color = value; OnPropertyChanged();  }
         }
 
         public int Depth { get; }
@@ -135,19 +128,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
         }
 
-        private MatrixColor GetColor()
+        private void UpdateColor()
         {
-            if (_isDragged)
+            if (_isDropTarget)
             {
-                return MatrixColor.Cycle;
-            }
-            else if (_isDropTarget)
-            {
-                return MatrixColor.Cycle;
+                Color = MatrixColor.Cycle;
             }
             else
             {
-                return MatrixColorConverter.GetColor(Depth);
+                Color =  MatrixColorConverter.GetColor(Depth);
             }
         }
     }

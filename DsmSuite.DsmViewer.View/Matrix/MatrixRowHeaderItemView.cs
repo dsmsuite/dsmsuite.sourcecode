@@ -46,6 +46,16 @@ namespace DsmSuite.DsmViewer.View.Matrix
             e.Handled = true;
         }
 
+        protected override void OnDragEnter(DragEventArgs e)
+        {
+            _viewModel.IsDropTarget = true;
+        }
+
+        protected override void OnDragLeave(DragEventArgs e)
+        {
+            _viewModel.IsDropTarget = false;
+        }
+
         protected override void OnDragOver(DragEventArgs e)
         {
             base.OnDragOver(e);
@@ -85,6 +95,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
                 e.Effects = DragDropEffects.Move;
             }
+            _viewModel.IsDropTarget = false;
             e.Handled = true;
         }
 
@@ -103,6 +114,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             _viewModel = e.NewValue as ElementTreeItemViewModel;
             if (_viewModel != null)
             {
+                _viewModel.PropertyChanged += OnViewModelPropertyChanged;
                 ToolTip = _viewModel.ToolTipViewModel;
             }
         }
@@ -116,6 +128,14 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             if ((e.PropertyName == nameof(MatrixViewModel.SelectedRow)) ||
                 (e.PropertyName == nameof(MatrixViewModel.HoveredRow)))
+            {
+                InvalidateVisual();
+            }
+        }
+
+        private void OnViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ElementTreeItemViewModel.Color))
             {
                 InvalidateVisual();
             }
