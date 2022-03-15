@@ -48,7 +48,10 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
         protected override void OnDragEnter(DragEventArgs e)
         {
-            _viewModel.IsDropTarget = true;
+            if (IsValidDropTarget(e))
+            {
+                _viewModel.IsDropTarget = true;
+            }
         }
 
         protected override void OnDragLeave(DragEventArgs e)
@@ -59,17 +62,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
         protected override void OnDragOver(DragEventArgs e)
         {
             base.OnDragOver(e);
-
-            if (e.Data.GetDataPresent(DataObjectName))
-            {
-                ElementTreeItemViewModel dragged = (ElementTreeItemViewModel)e.Data.GetData(DataObjectName);
-                ElementTreeItemViewModel dropTarget = _viewModel;
-
-                IDsmElement element = dragged.Element;
-                IDsmElement newParent = dropTarget.Element;
-
-                e.Effects = !newParent.IsRecursiveChildOf(element) ? DragDropEffects.Move : DragDropEffects.None;
-            }
+            
+            e.Effects = IsValidDropTarget(e) ? DragDropEffects.Move : DragDropEffects.None;
+ 
             e.Handled = true;
         }
 
@@ -97,6 +92,26 @@ namespace DsmSuite.DsmViewer.View.Matrix
             }
             _viewModel.IsDropTarget = false;
             e.Handled = true;
+        }
+
+        private bool IsValidDropTarget(DragEventArgs e)
+        {
+            bool isValidDropTarget = false;
+
+            if (e.Data.GetDataPresent(DataObjectName))
+            {
+                ElementTreeItemViewModel dragged = (ElementTreeItemViewModel)e.Data.GetData(DataObjectName);
+                ElementTreeItemViewModel dropTarget = _viewModel;
+
+                if ((dragged != null) &&
+                    (dropTarget != null) &&
+                    (!dropTarget.Element.IsRecursiveChildOf(dragged.Element)))
+                {
+                    isValidDropTarget = true;
+                }
+            }
+
+            return isValidDropTarget;
         }
 
         private int GetDropAtIndex(DragEventArgs e)
