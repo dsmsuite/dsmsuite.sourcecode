@@ -11,6 +11,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
     {
         private readonly List<ElementTreeItemViewModel> _children;
         private ElementTreeItemViewModel _parent;
+        private bool _isDragged;
+        private bool _isDropTarget;
+        private MatrixColor _color;
 
         public ElementTreeItemViewModel(IMainViewModel mainViewModel, IMatrixViewModel matrixViewModel, IDsmApplication application, IDsmElement element, int depth)
         {
@@ -18,7 +21,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             _parent = null;
             Element = element;
             Depth = depth;
-            Color = MatrixColorConverter.GetColor(depth);
+            Color = GetColor();
 
             MoveCommand = matrixViewModel.ChangeElementParentCommand;
             MoveUpElementCommand = matrixViewModel.MoveUpElementCommand;
@@ -35,8 +38,25 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ElementToolTipViewModel ToolTipViewModel { get; }
         public IDsmElement Element { get; }
 
+        public bool IsDragged
+        {
+            get { return _isDragged; }
+            set { _isDragged = value; OnPropertyChanged(); Color = GetColor(); }
+        }
+
+        public bool IsDropTarget
+        {
+            get { return _isDropTarget; }
+            set { _isDropTarget = value; OnPropertyChanged(); Color = GetColor(); }
+        }
+
+        public MatrixColor Color
+        {
+            get { return _color; }
+            set { _color = value; }
+        }
+
         public int Depth { get; }
-        public MatrixColor Color { get; }
 
         public int Id => Element.Id;
         public int Order => Element.Order;
@@ -112,6 +132,22 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                 {
                     CountLeafElements(child, ref count);
                 }
+            }
+        }
+
+        private MatrixColor GetColor()
+        {
+            if (_isDragged)
+            {
+                return MatrixColor.Cycle;
+            }
+            else if (_isDropTarget)
+            {
+                return MatrixColor.Cycle;
+            }
+            else
+            {
+                return MatrixColorConverter.GetColor(Depth);
             }
         }
     }
