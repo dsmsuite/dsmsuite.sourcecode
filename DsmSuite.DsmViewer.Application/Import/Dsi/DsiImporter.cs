@@ -66,12 +66,15 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
         private void ImportElement(IDsiElement dsiElement)
         {
             IDsmElement parent = null;
+
+            char[] trimCharacters = { ' ', '.'};
+            string dsiElementName = dsiElement.Name.TrimStart(trimCharacters);
             ElementName elementName = new ElementName();
-            foreach (string name in new ElementName(dsiElement.Name).NameParts)
+            foreach (string name in new ElementName(dsiElementName).NameParts)
             {
                 elementName.AddNamePart(name);
 
-                bool isElementLeaf = (dsiElement.Name == elementName.FullName);
+                bool isElementLeaf = (dsiElementName == elementName.FullName);
 
                 if (isElementLeaf)
                 {
