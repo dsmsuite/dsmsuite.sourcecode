@@ -29,17 +29,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="DsmSuiteAnalyzerVisualStudioTestDataComLib">
-      <Guid>{0EDBCC3A-E7CA-4E3F-B8C8-49EBC57EAF03}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DsmSuite.Analyzer.VisualStudio.Test.Data.Clr\DsmSuite.Analyzer.VisualStudio.Test.Data.Clr.vcxproj">
       <Project>{e243c14e-df57-4a98-9690-2a539e1f4c41}</Project>
       <Name>DsmSuite.Analyzer.VisualStudio.Test.Data.Clr</Name>

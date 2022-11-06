@@ -87,90 +87,6 @@
       </Component>
     </ComponentGroup>
 
-    <ComponentGroup Id="VisualStudioAnalyzerComponents" Directory="VISUALSTUDIO_ANALZYER_INSTALL_FOLDER">
-      <Component Id="DsmSuite.Analyzer.VisualStudio.exe" Guid="E1A40F74-72C6-42ED-8227-9B23B8F59069">
-        <File Id="DsmSuite.Analyzer.VisualStudio.exe" Source="..\build\bin\DsmSuite.Analyzer.VisualStudio.exe" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.DotNet.Lib.VisualStudio.dll" Guid="6E2ECF91-5FCE-4AC5-B30B-8E965ECB7784">
-        <File Id="DsmSuite.Analyzer.DotNet.Lib.VisualStudio.dll" Source="..\build\bin\DsmSuite.Analyzer.DotNet.Lib.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.Model.VisualStudio.dll" Guid="D1F4FA40-B75A-4CB8-A18A-20138863AE75">
-        <File Id="DsmSuite.Analyzer.Model.VisualStudio.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.Transformations.VisualStudio.dll" Guid="4DECDEAC-6DEA-42C7-9D6E-A852E443BEAD">
-        <File Id="DsmSuite.Analyzer.Transformations.VisualStudio.dll" Source="..\build\bin\DsmSuite.Analyzer.Transformations.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Model.VisualStudio.dll" Guid="D8CB0B1B-B402-44D9-BFD4-7DBDFFE933A5">
-        <File Id="DsmSuite.Common.Model.VisualStudio.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Util.VisualStudio.dll" Guid="9B4692A7-BB1F-4B40-8336-2A75B87D369A">
-        <File Id="DsmSuite.Common.Util.VisualStudio.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-
-      <Component Id="Microsoft.Bcl.AsyncInterfaces.VisualStudio.dll" Guid="44C4F688-1FE4-4BA5-A3B8-C851B5D74616">
-        <File Id="Microsoft.Bcl.AsyncInterfaces.VisualStudio.dll" Source="..\build\bin\Microsoft.Bcl.AsyncInterfaces.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Microsoft.Build.VisualStudio.dll" Guid="9D8CCFF0-2F1D-4351-96B4-FE6E802885F5">
-        <File Id="Microsoft.Build.VisualStudio.dll" Source="..\build\bin\Microsoft.Build.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Microsoft.Build.Framework.VisualStudio.dll" Guid="DD0FB5F2-08AC-4212-A4EB-DA5F065B5A12">
-        <File Id="Microsoft.Build.Framework.VisualStudio.dll" Source="..\build\bin\Microsoft.Build.Framework.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Microsoft.Build.Tasks.Core.VisualStudio.dll" Guid="B0A3B15C-2568-481C-BE54-A31569464DFB">
-        <File Id="Microsoft.Build.Tasks.Core.VisualStudio.dll" Source="..\build\bin\Microsoft.Build.Tasks.Core.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Microsoft.Build.Utilities.Core.VisualStudio.dll" Guid="687EC26D-60B2-4726-9362-FA5C6F659A79">
-        <File Id="Microsoft.Build.Utilities.Core.VisualStudio.dll" Source="..\build\bin\Microsoft.Build.Utilities.Core.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-
-      <Component Id="Mono.Cecil.VisualStudio.dll" Guid="D5D3A79E-A035-458B-B6E3-193679716D20">
-        <File Id="Mono.Cecil.VisualStudio.dll" Source="..\build\bin\Mono.Cecil.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Mono.Cecil.Mdb.VisualStudio.dll" Guid="F2A3E94B-E8E3-48FD-A10F-1304974F6EB5">
-        <File Id="Mono.Cecil.Mdb.VisualStudio.dll" Source="..\build\bin\Mono.Cecil.Mdb.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Mono.Cecil.Pdb.VisualStudio.dll" Guid="5DEBE0DB-7819-41A0-9AB9-7862BF9FE45F">
-        <File Id="Mono.Cecil.Pdb.VisualStudio.dll" Source="..\build\bin\Mono.Cecil.Pdb.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Mono.Cecil.Rocks.VisualStudio.dll" Guid="07AD1091-13F0-4AF3-BFBE-F4742F126E16">
-        <File Id="Mono.Cecil.Rocks.VisualStudio.dll" Source="..\build\bin\Mono.Cecil.Rocks.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-
-      <Component Id="System.Buffers.VisualStudio.dll" Guid="7D29C8F5-56DE-47F6-BFC8-1AC0974AE131">
-        <File Id="System.Buffers.VisualStudio.dll" Source="..\build\bin\System.Buffers.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="System.Collections.Immutable.VisualStudio.dll" Guid="5CF28040-FC56-424E-BDAA-71F86F13F4FE">
-        <File Id="System.Collections.Immutable.VisualStudio.dll" Source="..\build\bin\System.Collections.Immutable.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="System.Memory.VisualStudio.dll" Guid="B2749297-54E5-4E2F-B57D-9416E5B32D26">
-        <File Id="System.Memory.VisualStudio.dll" Source="..\build\bin\System.Memory.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="System.Numerics.Vectors.VisualStudio.dll" Guid="346BE5BD-54F3-43CC-B7EF-0916D642FA7C">
-        <File Id="System.Numerics.Vectors.VisualStudio.dll" Source="..\build\bin\System.Numerics.Vectors.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="System.Resources.Extensions.VisualStudio.dll" Guid="D3696B0B-7889-420B-8F04-E1FD89B57440">
-        <File Id="System.Resources.Extensions.VisualStudio.dll" Source="..\build\bin\System.Resources.Extensions.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="System.Runtime.CompilerServices.Unsafe.VisualStudio.dll" Guid="BBF7E426-4E25-445A-9BD2-F8AD577D17CE">
-        <File Id="System.Runtime.CompilerServices.Unsafe.VisualStudio.dll" Source="..\build\bin\System.Runtime.CompilerServices.Unsafe.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="System.Text.Encodings.Web.VisualStudio.dll" Guid="DDD92720-F19D-42CC-88D9-89C2BC38C8E7">
-        <File Id="System.Text.Encodings.Web.VisualStudio.dll" Source="..\build\bin\System.Text.Encodings.Web.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="System.Text.Json.VisualStudio.dll" Guid="29B80D6A-BB26-43EC-933F-D3B164033D72">
-        <File Id="System.Text.Json.VisualStudio.dll" Source="..\build\bin\System.Text.Json.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="System.Threading.Tasks.Dataflow.VisualStudio.dll" Guid="C1865B41-C4AF-4CEB-BE07-BF448AEFCF75">
-        <File Id="System.Threading.Tasks.Dataflow.VisualStudio.dll" Source="..\build\bin\System.Threading.Tasks.Dataflow.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="System.Threading.Tasks.Extensions.VisualStudio.dll" Guid="DA6A54B1-DE57-48CC-983E-B5AF7C77D390">
-        <File Id="System.Threading.Tasks.Extensions.VisualStudio.dll" Source="..\build\bin\System.Threading.Tasks.Extensions.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="System.ValueTuple.VisualStudio.dll" Guid="CE1CFAA4-97BC-4DC7-A811-104D28FB5081">
-        <File Id="System.ValueTuple.VisualStudio.dll" Source="..\build\bin\System.ValueTuple.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-    </ComponentGroup>
-
     <ComponentGroup Id="CompareComponents" Directory="COMPARER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Analyzer.Compare.exe" Guid="B4779E46-41B7-468F-A7E3-58D42ACF70D4">
         <File Id="DsmSuite.Analyzer.Compare.exe" Source="..\build\bin\DsmSuite.Analyzer.Compare.exe" KeyPath="yes" Checksum="yes"/>
@@ -231,7 +147,6 @@
             <Directory  Id="DOTNET_ANALYZER_INSTALL_FOLDER" Name="DotNet" />
             <Directory  Id="JAVA_ANALYZER_INSTALL_FOLDER" Name="Java" />
             <Directory  Id="UML_ANALYZER_INSTALL_FOLDER" Name="UML" />
-            <Directory  Id="VISUALSTUDIO_ANALZYER_INSTALL_FOLDER" Name="VisualStudio" />
           </Directory>
           <Directory  Id="COMPARER_INSTALL_FOLDER" Name="Comparer" />
           <Directory  Id="VIEWER_INSTALL_FOLDER" Name="Viewer" />
@@ -293,35 +208,6 @@
       <ComponentRef Id="DsmSuite.Analyzer.Model.Uml.dll" />
       <ComponentRef Id="DsmSuite.Common.Model.Uml.dll" />
       <ComponentRef Id="DsmSuite.Common.Util.Uml.dll" />
-    </Feature>
-
-    <Feature Id="VisualStudioAnalyzerFeature" Title="DSM Suite Visual Studio Analyzer" Level="1">
-      <ComponentRef Id="DsmSuite.Analyzer.VisualStudio.exe" />
-      <ComponentRef Id="DsmSuite.Analyzer.DotNet.Lib.VisualStudio.dll" />
-      <ComponentRef Id="DsmSuite.Analyzer.Model.VisualStudio.dll"/>
-      <ComponentRef Id="DsmSuite.Analyzer.Transformations.VisualStudio.dll" />
-      <ComponentRef Id="DsmSuite.Common.Model.VisualStudio.dll" />
-      <ComponentRef Id="DsmSuite.Common.Util.VisualStudio.dll" />
-      <ComponentRef Id="Microsoft.Bcl.AsyncInterfaces.VisualStudio.dll" />
-      <ComponentRef Id="Microsoft.Build.VisualStudio.dll" />
-      <ComponentRef Id="Microsoft.Build.Framework.VisualStudio.dll" />
-      <ComponentRef Id="Microsoft.Build.Tasks.Core.VisualStudio.dll" />
-      <ComponentRef Id="Microsoft.Build.Utilities.Core.VisualStudio.dll" />
-      <ComponentRef Id="Mono.Cecil.VisualStudio.dll" />
-      <ComponentRef Id="Mono.Cecil.Mdb.VisualStudio.dll" />
-      <ComponentRef Id="Mono.Cecil.Pdb.VisualStudio.dll" />
-      <ComponentRef Id="Mono.Cecil.Rocks.VisualStudio.dll" />
-      <ComponentRef Id="System.Buffers.VisualStudio.dll" />
-      <ComponentRef Id="System.Collections.Immutable.VisualStudio.dll" />
-      <ComponentRef Id="System.Memory.VisualStudio.dll" />
-      <ComponentRef Id="System.Numerics.Vectors.VisualStudio.dll" />
-      <ComponentRef Id="System.Resources.Extensions.VisualStudio.dll" />
-      <ComponentRef Id="System.Runtime.CompilerServices.Unsafe.VisualStudio.dll" />
-      <ComponentRef Id="System.Text.Encodings.Web.VisualStudio.dll" />
-      <ComponentRef Id="System.Text.Json.VisualStudio.dll" />
-      <ComponentRef Id="System.Threading.Tasks.Dataflow.VisualStudio.dll" />
-      <ComponentRef Id="System.Threading.Tasks.Extensions.VisualStudio.dll" />
-      <ComponentRef Id="System.ValueTuple.VisualStudio.dll" />
     </Feature>
 
     <Feature Id="CompareFeature" Title="DSM Suite Compare Tool" Level="1">
