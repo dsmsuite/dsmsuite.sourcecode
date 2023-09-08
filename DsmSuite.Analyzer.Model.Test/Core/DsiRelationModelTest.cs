@@ -68,7 +68,7 @@ namespace DsmSuite.Analyzer.Model.Test.Core
         }
 
         [TestMethod]
-        public void GivenAnRelationIsInTheModelWhenAddRelationIsCalledAgainForThatRelationThenItsHasOneRelationButWeightHasIncreased()
+        public void GivenAnRelationIsInTheModelWhenAddRelationIsCalledAgainForThatRelationThenTheNewRelationIsAdded()
         {
             DsiRelationModel model = new DsiRelationModel(_elementsDataModel);
             Assert.AreEqual(0, model.ImportedRelationCount);
@@ -91,11 +91,15 @@ namespace DsmSuite.Analyzer.Model.Test.Core
             Assert.AreEqual(2, model.ImportedRelationCount);
 
             List<IDsiRelation> relationsAfter = model.GetRelationsOfConsumer(_a.Id).ToList();
-            Assert.AreEqual(1, relationsAfter.Count);
+            Assert.AreEqual(2, relationsAfter.Count);
             Assert.AreEqual(_a.Id, relationsAfter[0].ConsumerId);
             Assert.AreEqual(_b.Id, relationsAfter[0].ProviderId);
             Assert.AreEqual("type", relationsAfter[0].Type);
-            Assert.AreEqual(5, relationsAfter[0].Weight);
+            Assert.AreEqual(2, relationsAfter[0].Weight);
+            Assert.AreEqual(_a.Id, relationsAfter[1].ConsumerId);
+            Assert.AreEqual(_b.Id, relationsAfter[1].ProviderId);
+            Assert.AreEqual("type", relationsAfter[1].Type);
+            Assert.AreEqual(3, relationsAfter[1].Weight);
         }
 
         [TestMethod]

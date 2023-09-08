@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Model.Persistency;
 using DsmSuite.Common.Util;
+using System.Collections.ObjectModel;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
     public class DsiRelationModel : IDsiRelationModelFileCallback
     {
         private readonly DsiElementModel _elementsDataModel;
-        private readonly Dictionary<int, Dictionary<int, Dictionary<string, DsiRelation>>> _relationsByConsumerId;
+        private readonly Dictionary<int, Dictionary<int, Dictionary<string, List<DsiRelation>>>> _relationsByConsumerId;
         private readonly Dictionary<string, int> _relationTypeCount;
         private int _importedRelationCount;
         private int _resolvedRelationCount;
@@ -19,7 +20,7 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             _elementsDataModel = elementsDataModel;
             _elementsDataModel.ElementRemoved += OnElementRemoved;
-            _relationsByConsumerId = new Dictionary<int, Dictionary<int, Dictionary<string, DsiRelation>>>();
+            _relationsByConsumerId = new Dictionary<int, Dictionary<int, Dictionary<string, List<DsiRelation>>>>();
             _relationTypeCount = new Dictionary<string, int>();
         }
         
@@ -86,20 +87,18 @@ namespace DsmSuite.Analyzer.Model.Core
 
         private DsiRelation AddOrUpdateRelation(int consumerId, int providerId, string type, int weight, IDictionary<string, string> properties)
         {
-            Dictionary<string, DsiRelation> relations = GetRelations(consumerId, providerId);
+            Dictionary<string,List<DsiRelation>> relations = GetRelations(consumerId, providerId);
 
             IncrementRelationTypeCount(type);
 
-            if (relations.ContainsKey(type))
+            if (!relations.ContainsKey(type))
             {
-                relations[type].Weight += weight;
-            }
-            else
-            {
-                relations[type] = new DsiRelation(consumerId, providerId, type, weight, properties);
+                relations[type] = new List<DsiRelation>();
             }
 
-            return relations[type];
+            DsiRelation relation = new DsiRelation(consumerId, providerId, type, weight, properties);
+            relations[type].Add(relation);
+            return relation;
         }
 
         public void IgnoreRelation(string consumerName, string providerName, string type)
@@ -141,28 +140,34 @@ namespace DsmSuite.Analyzer.Model.Core
 
         public ICollection<IDsiRelation> GetRelationsOfConsumer(int consumerId)
         {
-            List<IDsiRelation> relations = new List<IDsiRelation>();
+            List<IDsiRelation> consumerRelations = new List<IDsiRelation>();
             if (_relationsByConsumerId.ContainsKey(consumerId))
             {
-                foreach (Dictionary<string, DsiRelation> relations2 in _relationsByConsumerId[consumerId].Values)
+                foreach (Dictionary<string, List<DsiRelation>> relationsForSpecificConsumer in _relationsByConsumerId[consumerId].Values)
                 {
-                    relations.AddRange(relations2.Values);
+                    foreach (List<DsiRelation> relation in relationsForSpecificConsumer.Values)
+                    {
+                        consumerRelations.AddRange(relation);
+                    }
                 }
             }
-            return relations;
+            return consumerRelations;
         }
 
         public IEnumerable<IDsiRelation> GetRelations()
         {
-            List<IDsiRelation> relations = new List<IDsiRelation>();
-            foreach (Dictionary<int, Dictionary<string, DsiRelation>> consumerRelations in _relationsByConsumerId.Values)
+            List<IDsiRelation> allRelations = new List<IDsiRelation>();
+            foreach (Dictionary<int, Dictionary<string, List<DsiRelation>>> consumerRelations in _relationsByConsumerId.Values)
             {
-                foreach (Dictionary<string, DsiRelation> relations2 in consumerRelations.Values)
+                foreach (Dictionary<string,List<DsiRelation>> relationsForSpecificConsumer in consumerRelations.Values)
                 {
-                    relations.AddRange(relations2.Values);
+                    foreach (List<DsiRelation> relation in relationsForSpecificConsumer.Values)
+                    {
+                        allRelations.AddRange(relation);
+                    }
                 }
             }
-            return relations;
+            return allRelations;
         }
 
         public int CurrentRelationCount => GetRelations().Count();
@@ -214,16 +219,16 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationTypeCount[type]++;
         }
 
-        private Dictionary<string, DsiRelation> GetRelations(int consumerId, int providerId)
+        private Dictionary<string, List<DsiRelation>> GetRelations(int consumerId, int providerId)
         {
             if (!_relationsByConsumerId.ContainsKey(consumerId))
             {
-                _relationsByConsumerId[consumerId] = new Dictionary<int, Dictionary<string, DsiRelation>>();
+                _relationsByConsumerId[consumerId] = new Dictionary<int, Dictionary<string, List<DsiRelation>>>();
             }
 
             if (!_relationsByConsumerId[consumerId].ContainsKey(providerId))
             {
-                _relationsByConsumerId[consumerId][providerId] = new Dictionary<string, DsiRelation>();
+                _relationsByConsumerId[consumerId][providerId] = new Dictionary<string, List<DsiRelation>>();
             }
 
             return _relationsByConsumerId[consumerId][providerId];
