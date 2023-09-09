@@ -9,6 +9,8 @@
     <SolidColorBrush x:Key="SearchMultipleMatchesTextColor" po:Freeze="True">#c8bebb</SolidColorBrush>
     
     <SolidColorBrush x:Key="BackgroundColor" po:Freeze="True">#000000</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundHoverColor" po:Freeze="True">#0E2630</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundPressedColor" po:Freeze="True">#888888</SolidColorBrush>
     <SolidColorBrush x:Key="BackgroundControlColor" po:Freeze="True">#ffffff</SolidColorBrush>
     <SolidColorBrush x:Key="ForegroundHoverColor" po:Freeze="True">#CDD6DA</SolidColorBrush>
     <SolidColorBrush x:Key="ForegroundAccentedColor" po:Freeze="True">#B4C2C7</SolidColorBrush>

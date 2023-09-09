@@ -171,13 +171,20 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsDefault" Value="true">
+                <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
                 <Setter Property="Foreground" Value="{StaticResource ForegroundAccentedColor}"/>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="{StaticResource BackgroundHoverColor}"/>
                 <Setter Property="Foreground" Value="{StaticResource ForegroundHoverColor}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
                 <Setter Property="Foreground" Value="{StaticResource ForegroundDisabledColor}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{StaticResource BackgroundPressedColor}"/>
+                <Setter Property="Foreground" Value="{StaticResource ForegroundHoverColor}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
