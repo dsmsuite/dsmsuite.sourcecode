@@ -144,8 +144,10 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public void InsertChild(int index, IDsmElement child)
         {
-            int newIndex = Math.Min(index, _children.Count);
-            _children.Insert(newIndex, child);
+            int rangeLimitedIndex = index;
+            rangeLimitedIndex = Math.Min(rangeLimitedIndex, _children.Count);
+            rangeLimitedIndex = Math.Max(rangeLimitedIndex, 0);
+            _children.Insert(rangeLimitedIndex, child);
             DsmElement c = child as DsmElement;
             if (c != null)
             {

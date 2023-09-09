@@ -13,6 +13,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly string _name;
         private readonly string _type;
         private readonly IDsmElement _parent;
+        private readonly int _index;
 
         public const ActionType RegisteredType = ActionType.ElementCreate;
 
@@ -36,16 +37,18 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
                     {
                         _parent = _model.GetElementById(parentId.Value);
                     }
+                    _index = attributes.GetInt(nameof(_index));
                 }
             }
         }
 
-        public ElementCreateAction(IDsmModel model, string name, string type, IDsmElement parent)
+        public ElementCreateAction(IDsmModel model, string name, string type, IDsmElement parent, int index)
         {
             _model = model;
             _name = name;
             _type = type;
             _parent = parent;
+            _index = index;
         }
 
         public ActionType Type => RegisteredType;
@@ -54,7 +57,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public object Do()
         {
-            _element = _model.AddElement(_name, _type, _parent.Id, null);
+            _element = _model.AddElement(_name, _type, _parent.Id, _index, null);
             Debug.Assert(_element != null);
 
             _model.AssignElementOrder();
@@ -85,6 +88,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
                 attributes.SetString(nameof(_name), _name);
                 attributes.SetString(nameof(_type), _type);
                 attributes.SetNullableInt(nameof(_parent), _parent.Id);
+                attributes.SetInt(nameof(_index), _index);
                 return attributes.Data;
             }
         }

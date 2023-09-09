@@ -57,7 +57,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             ToggleElementBookmarkCommand = mainViewModel.ToggleElementBookmarkCommand;
 
-            AddElementCommand = mainViewModel.AddElementCommand;
+            AddChildElementCommand = mainViewModel.AddChildElementCommand;
+            AddSiblingElementAboveCommand = mainViewModel.AddSiblingElementAboveCommand;
+            AddSiblingElementBelowCommand = mainViewModel.AddSiblingElementBelowCommand;
             ModifyElementCommand = mainViewModel.ModifyElementCommand;
             ChangeElementParentCommand = mainViewModel.ChangeElementParentCommand;
             DeleteElementCommand = mainViewModel.DeleteElementCommand;
@@ -112,7 +114,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         public ICommand ToggleElementBookmarkCommand { get; }
 
-        public ICommand AddElementCommand { get; }
+        public ICommand AddChildElementCommand { get; }
+        public ICommand AddSiblingElementAboveCommand { get; }
+        public ICommand AddSiblingElementBelowCommand { get; }
         public ICommand ModifyElementCommand { get; }
         public ICommand ChangeElementParentCommand { get; }
         public ICommand DeleteElementCommand { get; }

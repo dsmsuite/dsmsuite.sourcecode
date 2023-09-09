@@ -270,9 +270,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.GetElementByFullname(text);
         }
 
-        public IDsmElement CreateElement(string name, string type, IDsmElement parent)
+        public IDsmElement CreateElement(string name, string type, IDsmElement parent, int index)
         {
-            ElementCreateAction action = new ElementCreateAction(_dsmModel, name, type, parent);
+            ElementCreateAction action = new ElementCreateAction(_dsmModel, name, type, parent, index);
             return _actionManager.Execute(action) as IDsmElement;
         }
 

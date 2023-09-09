@@ -52,7 +52,7 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         CycleType IsCyclicDependency(IDsmElement consumer, IDsmElement provider);
         IList<IDsmElement> SearchElements(string searchText, IDsmElement searchInElement, bool caseSensitive, string elementTypeFilter, bool markMatchingElements);
         IDsmElement GetElementByFullname(string fullname);
-        IDsmElement CreateElement(string name, string type, IDsmElement parent);
+        IDsmElement CreateElement(string name, string type, IDsmElement parent, int index);
         void DeleteElement(IDsmElement element);
         void ChangeElementName(IDsmElement element, string name);
         void ChangeElementType(IDsmElement element, string type);

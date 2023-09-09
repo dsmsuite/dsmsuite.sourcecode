@@ -92,7 +92,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             UndoCommand = new RelayCommand<object>(UndoExecute, UndoCanExecute);
             RedoCommand = new RelayCommand<object>(RedoExecute, RedoCanExecute);
 
-            AddElementCommand = new RelayCommand<object>(AddElementExecute, AddElementCanExecute);
+            AddChildElementCommand = new RelayCommand<object>(AddChildElementExecute, AddChildElementCanExecute);
+            AddSiblingElementAboveCommand = new RelayCommand<object>(AddSiblingElementAboveExecute, AddSiblingElementAboveCanExecute);
+            AddSiblingElementBelowCommand = new RelayCommand<object>(AddSiblingElementBelowExecute, AddSiblingElementBelowCanExecute);
             ModifyElementCommand = new RelayCommand<object>(ModifyElementExecute, ModifyElementCanExecute);
             DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
             ChangeElementParentCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
@@ -189,7 +191,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
 
-        public ICommand AddElementCommand { get; }
+        public ICommand AddChildElementCommand { get; }
+        public ICommand AddSiblingElementAboveCommand { get; }
+        public ICommand AddSiblingElementBelowCommand { get; }
         public ICommand ModifyElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
         public ICommand ChangeElementParentCommand { get; }
@@ -484,13 +488,35 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ActiveMatrix?.Reload();
         }
 
-        private void AddElementExecute(object parameter)
+        private void AddChildElementExecute(object parameter)
         {
-            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.Add, _application, SelectedProvider);
+            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.AddChild, _application, SelectedProvider);
             ElementEditStarted?.Invoke(this, elementEditViewModel);
         }
 
-        private bool AddElementCanExecute(object parameter)
+        private bool AddChildElementCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void AddSiblingElementAboveExecute(object parameter)
+        {
+            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.AddSiblingAbove, _application, SelectedProvider);
+            ElementEditStarted?.Invoke(this, elementEditViewModel);
+        }
+
+        private bool AddSiblingElementAboveCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void AddSiblingElementBelowExecute(object parameter)
+        {
+            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.AddSiblingBelow, _application, SelectedProvider);
+            ElementEditStarted?.Invoke(this, elementEditViewModel);
+        }
+
+        private bool AddSiblingElementBelowCanExecute(object parameter)
         {
             return true;
         }

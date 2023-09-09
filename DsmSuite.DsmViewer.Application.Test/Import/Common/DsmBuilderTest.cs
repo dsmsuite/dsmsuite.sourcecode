@@ -77,13 +77,13 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Common
         {
             IDsmElement foundElement = null;
             _dsmModel.Setup(x => x.GetElementByFullname(ElementFullName)).Returns(foundElement);
-            _dsmModel.Setup(x => x.AddElement(ElementName, ElementType, ElementParentId, null)).Returns(_createdElement.Object);
+            _dsmModel.Setup(x => x.AddElement(ElementName, ElementType, ElementParentId, 0, null)).Returns(_createdElement.Object);
 
             DsmBuilder policy = new DsmBuilder(_dsmModel.Object);
             IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, null);
             Assert.AreEqual(_createdElement.Object, element);
 
-            _dsmModel.Verify(x => x.AddElement(ElementName, ElementType, ElementParentId, null), Times.Once());
+            _dsmModel.Verify(x => x.AddElement(ElementName, ElementType, ElementParentId, 0,null), Times.Once());
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Common
             IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, null);
             Assert.AreEqual(_existingElement.Object, element);
 
-            _dsmModel.Verify(x => x.AddElement(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int?>(), null), Times.Never());
+            _dsmModel.Verify(x => x.AddElement(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<int>(), null), Times.Never());
         }
 
         [TestMethod]

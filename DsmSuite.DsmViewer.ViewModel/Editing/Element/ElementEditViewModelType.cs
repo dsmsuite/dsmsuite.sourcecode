@@ -4,6 +4,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
     public enum ElementEditViewModelType
     {
         Modify,
-        Add
+        AddChild,
+        AddSiblingAbove,
+        AddSiblingBelow
     }
 }

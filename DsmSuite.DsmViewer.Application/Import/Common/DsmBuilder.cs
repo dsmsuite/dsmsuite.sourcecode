@@ -27,7 +27,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Common
             if (element == null)
             {
                 int? parentId = parent?.Id;
-                element = _dsmModel.AddElement(name, type, parentId, properties);
+                element = _dsmModel.AddElement(name, type, parentId, 0, properties);
             }
             return element;
         }

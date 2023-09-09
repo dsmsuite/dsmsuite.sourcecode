@@ -47,10 +47,10 @@ namespace DsmSuite.DsmViewer.Model.Core
             {
                 _lastElementId = id;
             }
-            return AddElement(id, name, type, properties, order, expanded, parentId, deleted);
+            return AddElement(id, name, type, null, properties, order, expanded, parentId, deleted);
         }
 
-        public IDsmElement AddElement(string name, string type, int? parentId, IDictionary<string, string> properties)
+        public IDsmElement AddElement(string name, string type, int? parentId, int index, IDictionary<string, string> properties)
         {
             Logger.LogDataModelMessage($"Add element name={name} type={type} parentId={parentId}");
 
@@ -69,7 +69,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             if (element == null)
             {
                 _lastElementId++;
-                element = AddElement(_lastElementId, name, type, properties, 0, false, parentId, false);
+                element = AddElement(_lastElementId, name, type, index, properties, 0, false, parentId, false);
             }
 
             return element;
@@ -364,7 +364,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return previousSibling;
         }
 
-        private IDsmElement AddElement(int id, string name, string type, IDictionary<string, string> properties, int order, bool expanded, int? parentId, bool deleted)
+        private IDsmElement AddElement(int id, string name, string type, int? index, IDictionary<string, string> properties, int order, bool expanded, int? parentId, bool deleted)
         {
             DsmElement element = new DsmElement(id, name, type, properties) { Order = order, IsExpanded = expanded, IsDeleted = deleted };
 
@@ -383,7 +383,14 @@ namespace DsmSuite.DsmViewer.Model.Core
 
                 if (parent != null)
                 {
-                    parent.AddChild(element);
+                    if (index.HasValue)
+                    {
+                        parent.InsertChild(index.Value, element);
+                    }
+                    else
+                    {
+                        parent.AddChild(element);
+                    }
                 }
                 else
                 {

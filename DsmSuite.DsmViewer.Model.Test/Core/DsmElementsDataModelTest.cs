@@ -71,7 +71,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "type", null, null);
+            IDsmElement a = model.AddElement("a", "type", null, 0, null);
             Assert.IsNotNull(a);
 
             Assert.AreEqual(2, model.GetElementCount());
@@ -83,11 +83,11 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "type", null, null);
+            IDsmElement a = model.AddElement("a", "type", null, 0, null);
             Assert.IsNotNull(a);
             Assert.AreEqual("a", a.Fullname);
 
-            IDsmElement b = model.AddElement("b", "type", a.Id, null);
+            IDsmElement b = model.AddElement("b", "type", a.Id, 0, null);
             Assert.IsNotNull(b);
             Assert.AreEqual("a.b", b.Fullname);
 
@@ -355,16 +355,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "", null, null);
+            IDsmElement a = model.AddElement("a", "", null, 0, null);
             Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, null);
+            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, 0, null);
             Assert.AreEqual(2, a1.Id);
-            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, null);
+            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, 0, null);
             Assert.AreEqual(3, a2.Id);
 
-            IDsmElement b = model.AddElement("b", "", null, null);
+            IDsmElement b = model.AddElement("b", "", null, 0, null);
             Assert.AreEqual(4, b.Id);
-            IDsmElement b1 = model.AddElement("b1", "etb", b.Id, null);
+            IDsmElement b1 = model.AddElement("b1", "etb", b.Id, 0, null);
             Assert.AreEqual(5, b1.Id);
 
             Assert.AreEqual(6, model.GetElementCount());
@@ -399,16 +399,16 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "", null, null);
+            IDsmElement a = model.AddElement("a", "", null, 0, null);
             Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, null);
+            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, 0, null);
             Assert.AreEqual(2, a1.Id);
-            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, null);
+            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, 0, null);
             Assert.AreEqual(3, a2.Id);
 
-            IDsmElement b = model.AddElement("b", "", null, null);
+            IDsmElement b = model.AddElement("b", "", null, 0, null);
             Assert.AreEqual(4, b.Id);
-            IDsmElement b1 = model.AddElement("b1", "etb", b.Id, null);
+            IDsmElement b1 = model.AddElement("b1", "etb", b.Id, 0, null);
             Assert.AreEqual(5, b1.Id);
 
             Assert.AreEqual(6, model.GetElementCount());
@@ -447,9 +447,9 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "", null, null);
+            IDsmElement a = model.AddElement("a", "", null, 0, null);
             Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, null);
+            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, 0, null);
             Assert.AreEqual(2, a1.Id);
             Assert.AreEqual(3, model.GetElementCount());
             Assert.AreEqual(1, a.Children.Count);
@@ -469,25 +469,25 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "", null, null);
+            IDsmElement a = model.AddElement("a", "", null, 0, null);
             Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, null);
+            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, 0, null);
             Assert.AreEqual(2, a1.Id);
 
-            IDsmElement b = model.AddElement("b", "", null, null);
+            IDsmElement b = model.AddElement("b", "", null, 0,null);
             Assert.AreEqual(3, b.Id);
-            IDsmElement b1 = model.AddElement("b1", "etb", b.Id, null);
+            IDsmElement b1 = model.AddElement("b1", "etb", b.Id, 0, null);
             Assert.AreEqual(4, b1.Id);
-            IDsmElement b2 = model.AddElement("b2", "etb", b.Id, null);
+            IDsmElement b2 = model.AddElement("b2", "etb", b.Id, 0, null);
             Assert.AreEqual(5, b2.Id);
 
-            IDsmElement c = model.AddElement("c", "", null, null);
+            IDsmElement c = model.AddElement("c", "", null, 0, null);
             Assert.AreEqual(6, c.Id);
-            IDsmElement c1 = model.AddElement("c1", "etc", c.Id, null);
+            IDsmElement c1 = model.AddElement("c1", "etc", c.Id, 0, null);
             Assert.AreEqual(7, c1.Id);
-            IDsmElement c2 = model.AddElement("c2", "etc", c.Id, null);
+            IDsmElement c2 = model.AddElement("c2", "etc", c.Id, 0, null);
             Assert.AreEqual(8, c2.Id);
-            IDsmElement c3 = model.AddElement("c3", "etc", c.Id, null);
+            IDsmElement c3 = model.AddElement("c3", "etc", c.Id, 0, null);
             Assert.AreEqual(9, c3.Id);
 
             List<IDsmElement> rootElements = model.RootElement.Children.OrderBy(x => x.Id).ToList();
@@ -515,13 +515,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "", null, null);
+            IDsmElement a = model.AddElement("a", "", null, 0, null);
             Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, null);
+            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, 0, null);
             Assert.AreEqual(2, a1.Id);
-            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, null);
+            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, 0, null);
             Assert.AreEqual(3, a2.Id);
-            IDsmElement a3 = model.AddElement("a3", "eta", a.Id, null);
+            IDsmElement a3 = model.AddElement("a3", "eta", a.Id, 0, null);
             Assert.AreEqual(4, a3.Id);
 
             List<IDsmElement> rootElementsBefore = model.RootElement.Children.ToList();
@@ -551,15 +551,15 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "", null, null);
+            IDsmElement a = model.AddElement("a", "", null, 0, null);
             Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, null);
+            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, 0, null);
             Assert.AreEqual(2, a1.Id);
-            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, null);
+            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, 0, null);
             Assert.AreEqual(3, a2.Id);
-            IDsmElement a3 = model.AddElement("a3", "eta", a.Id, null);
+            IDsmElement a3 = model.AddElement("a3", "eta", a.Id, 0, null);
             Assert.AreEqual(4, a3.Id);
-            IDsmElement a4 = model.AddElement("a4", "eta", a.Id, null);
+            IDsmElement a4 = model.AddElement("a4", "eta", a.Id, 0, null);
             Assert.AreEqual(5, a4.Id);
 
             List<IDsmElement> rootElementsBefore = model.RootElement.Children.ToList();
@@ -642,13 +642,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "", null, null);
+            IDsmElement a = model.AddElement("a", "", null, 0, null);
             Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, null);
+            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, 0, null);
             Assert.AreEqual(2, a1.Id);
-            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, null);
+            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, 0, null);
             Assert.AreEqual(3, a2.Id);
-            IDsmElement a3 = model.AddElement("a3", "eta", a.Id, null);
+            IDsmElement a3 = model.AddElement("a3", "eta", a.Id, 0, null);
             Assert.AreEqual(4, a3.Id);
 
             Assert.AreEqual(a2, model.NextSibling(a1));
@@ -662,13 +662,13 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             DsmElementModel model = new DsmElementModel(_relationsModel);
             Assert.AreEqual(1, model.GetElementCount());
 
-            IDsmElement a = model.AddElement("a", "", null, null);
+            IDsmElement a = model.AddElement("a", "", null, 0, null);
             Assert.AreEqual(1, a.Id);
-            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, null);
+            IDsmElement a1 = model.AddElement("a1", "eta", a.Id, 0, null);
             Assert.AreEqual(2, a1.Id);
-            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, null);
+            IDsmElement a2 = model.AddElement("a2", "eta", a.Id, 0, null);
             Assert.AreEqual(3, a2.Id);
-            IDsmElement a3 = model.AddElement("a3", "eta", a.Id, null);
+            IDsmElement a3 = model.AddElement("a3", "eta", a.Id, 0, null);
             Assert.AreEqual(4, a3.Id);
 
             Assert.AreEqual(null, model.PreviousSibling(a1));
