@@ -13,18 +13,24 @@ namespace DsmSuite.DsmViewer.Model.Core
         private char _typeId;
         private readonly List<IDsmElement> _children = new List<IDsmElement>();
         private DsmElement _parent;
-        private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
+        private static readonly NameRegistration ElementTypeNameRegistration = new NameRegistration();
+        private static readonly NameRegistration ElementPropertyNameRegistration = new NameRegistration();
 
         public DsmElement(int id, string name, string type, IDictionary<string, string> properties, int order = 0, bool isExpanded = false)
         {
             Id = id;
             Name = name;
-            _typeId = TypeRegistration.AddTypeName(type);
-            Properties = properties;
+            _typeId = ElementTypeNameRegistration.RegisterName(type);
+            Properties = (properties != null) ? properties : new Dictionary<string, string>();
             Order = order;
             IsExpanded = isExpanded;
             IsIncludedInTree = true;
             Dependencies = new DsmDependencies(this);
+
+            foreach (string key in Properties.Keys)
+            {
+                ElementPropertyNameRegistration.RegisterName(key);
+            }
         }
 
         public DsmDependencies Dependencies { get; }
@@ -35,13 +41,18 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public string Type
         {
-            get { return TypeRegistration.GetTypeName(_typeId); }
-            set { _typeId = TypeRegistration.AddTypeName(value); }
+            get { return ElementTypeNameRegistration.GetRegisteredName(_typeId); }
+            set { _typeId = ElementTypeNameRegistration.RegisterName(value); }
         }
 
         public string Name { get; set; }
 
         public IDictionary<string, string> Properties { get; }
+
+        public IEnumerable<string> DiscoveredElementPropertyNames()
+        {
+            return ElementPropertyNameRegistration.GetRegisteredNames();
+        }
 
         public bool IsDeleted { get; set; }
 
@@ -132,7 +143,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public bool HasChildren => Children.Count > 0;
 
-        public void AddChild(IDsmElement child)
+        public void InsertChildAtEnd(IDsmElement child)
         {
             _children.Add(child);
             DsmElement c = child as DsmElement;
@@ -142,7 +153,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
         }
 
-        public void InsertChild(int index, IDsmElement child)
+        public void InsertChildAtIndex(IDsmElement child, int index)
         {
             int rangeLimitedIndex = index;
             rangeLimitedIndex = Math.Min(rangeLimitedIndex, _children.Count);
@@ -216,7 +227,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public static IEnumerable<string> GetTypeNames()
         {
-            return TypeRegistration.GetTypeNames();
+            return ElementTypeNameRegistration.GetRegisteredNames();
         }
     }
 }

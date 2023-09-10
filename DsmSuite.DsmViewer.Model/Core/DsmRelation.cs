@@ -9,16 +9,22 @@ namespace DsmSuite.DsmViewer.Model.Core
     public class DsmRelation : IDsmRelation
     {
         private char _typeId;
-        private static readonly TypeRegistration TypeRegistration = new TypeRegistration();
+        private static readonly NameRegistration RelationTypeNameRegistration = new NameRegistration();
+        private static readonly NameRegistration RelationPropertyNameRegistration = new NameRegistration();
 
         public DsmRelation(int id, IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties)
         {
             Id = id;
             Consumer = consumer;
             Provider = provider;
-            _typeId = TypeRegistration.AddTypeName(type);
+            _typeId = RelationTypeNameRegistration.RegisterName(type);
             Weight = weight;
-            Properties = properties;
+            Properties = (properties != null) ? properties : new Dictionary<string, string>();
+
+            foreach (string key in Properties.Keys)
+            {
+                RelationPropertyNameRegistration.RegisterName(key);
+            }
         }
 
         public int Id { get; }
@@ -29,19 +35,24 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public string Type
         {
-            get { return TypeRegistration.GetTypeName(_typeId); }
-            set { _typeId = TypeRegistration.AddTypeName(value); }
+            get { return RelationTypeNameRegistration.GetRegisteredName(_typeId); }
+            set { _typeId = RelationTypeNameRegistration.RegisterName(value); }
         }
 
         public int Weight { get; set; }
 
         public IDictionary<string, string> Properties { get; }
 
+        public IEnumerable<string> DiscoveredRelationPropertyNames()
+        {
+            return RelationPropertyNameRegistration.GetRegisteredNames();
+        }
+
         public bool IsDeleted { get; set; }
 
         public static IEnumerable<string> GetTypeNames()
         {
-            return TypeRegistration.GetTypeNames();
+            return RelationTypeNameRegistration.GetRegisteredNames();
         }
     }
 }

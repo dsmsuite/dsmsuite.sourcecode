@@ -31,6 +31,10 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         bool IsDeleted { get; }
 
+        // Named properties found for this relation
         IDictionary<string, string> Properties { get; }
+
+        // Property names found across all relations
+        IEnumerable<string> DiscoveredRelationPropertyNames();
     }
 }

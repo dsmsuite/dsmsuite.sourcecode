@@ -50,7 +50,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return AddElement(id, name, type, null, properties, order, expanded, parentId, deleted);
         }
 
-        public IDsmElement AddElement(string name, string type, int? parentId, int index, IDictionary<string, string> properties)
+        public IDsmElement AddElement(string name, string type, int? parentId, int? index, IDictionary<string, string> properties)
         {
             Logger.LogDataModelMessage($"Add element name={name} type={type} parentId={parentId}");
 
@@ -129,7 +129,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                     currentParent.RemoveChild(element);
                     CollapseIfNoChildrenLeft(currentParent);
 
-                    newParent.InsertChild(index, element);
+                    newParent.InsertChildAtIndex(element, index);
                     RegisterElementNameHierarchy(changedElement);
 
                     foreach (IDsmRelation relation in externalRelations)
@@ -311,7 +311,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
                 for (int i = 0; i < sortResult.GetNumberOfElements(); i++)
                 {
-                    parent.AddChild(clonedChildren[sortResult.GetIndex(i)]);
+                    parent.InsertChildAtEnd(clonedChildren[sortResult.GetIndex(i)]);
                 }
             }
         }
@@ -385,11 +385,11 @@ namespace DsmSuite.DsmViewer.Model.Core
                 {
                     if (index.HasValue)
                     {
-                        parent.InsertChild(index.Value, element);
+                        parent.InsertChildAtIndex(element, index.Value);
                     }
                     else
                     {
-                        parent.AddChild(element);
+                        parent.InsertChildAtEnd(element);
                     }
                 }
                 else
@@ -399,7 +399,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             }
             else
             {
-                _root.AddChild(element);
+                _root.InsertChildAtEnd(element);
                 _root.IsExpanded = true;
             }
 

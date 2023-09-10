@@ -86,12 +86,35 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void CopyToClipboardExecute(object parameter)
         {
-            StringBuilder builder = new StringBuilder();
-            foreach (ElementListItemViewModel viewModel in Elements)
+            if (Elements.Count > 0)
             {
-                builder.AppendLine($"{viewModel.Index, -5}, {viewModel.ElementName, -100}, {viewModel.ElementType, -30}, {viewModel.Properties,-150}");
+                StringBuilder builder = new StringBuilder();
+
+                StringBuilder headerLine = new StringBuilder();
+                headerLine.Append($"Index,");
+                headerLine.Append($"Name,");
+                headerLine.Append($"Type,");
+                foreach (string propertyName in Elements[0].DiscoveredElementPropertyNames())
+                {
+                    headerLine.Append($"{propertyName},");
+                }
+                builder.AppendLine(headerLine.ToString());
+
+                foreach (ElementListItemViewModel viewModel in Elements)
+                {
+                    StringBuilder line = new StringBuilder();
+                    line.Append($"{viewModel.Index},");
+                    line.Append($"{viewModel.ElementName},");
+                    line.Append($"{viewModel.ElementType},");
+                    foreach (string propertyName in Elements[0].DiscoveredElementPropertyNames())
+                    {
+                        string propertyValue = viewModel.Properties.ContainsKey(propertyName) ? viewModel.Properties[propertyName] : "";
+                        line.Append($"{propertyValue},");
+                    }
+                    builder.AppendLine(line.ToString());
+                }
+                Clipboard.SetText(builder.ToString());
             }
-            Clipboard.SetText(builder.ToString());
         }
     }
 }
