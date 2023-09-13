@@ -29,13 +29,15 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Index" Width="auto" DisplayMemberBinding="{Binding Path=Index}" />
-                    <GridViewColumn Header="Cyclic" Width="auto" DisplayMemberBinding="{Binding Path=Cyclic}" />
+                    <GridViewColumn Header="Consumer path" Width="auto" DisplayMemberBinding="{Binding Path=ConsumerPath}" />
                     <GridViewColumn Header="Consumer name" Width="auto" DisplayMemberBinding="{Binding Path=ConsumerName}" />
                     <GridViewColumn Header="Consumer type" Width="auto" DisplayMemberBinding="{Binding Path=ConsumerType}" />
+                    <GridViewColumn Header="Provider path" Width="auto" DisplayMemberBinding="{Binding Path=ProviderPath}" />
                     <GridViewColumn Header="Provider name" Width="auto" DisplayMemberBinding="{Binding Path=ProviderName}" />
                     <GridViewColumn Header="Provider type" Width="auto" DisplayMemberBinding="{Binding Path=ProviderType}" />
                     <GridViewColumn Header="Relation type" Width="auto" DisplayMemberBinding="{Binding Path=RelationType}" />
                     <GridViewColumn Header="Relation weight" Width="auto" DisplayMemberBinding="{Binding Path=RelationWeight}" />
+                    <GridViewColumn Header="Cyclic" Width="auto" DisplayMemberBinding="{Binding Path=Cyclic}" />
                 </GridView>
             </ListView.View>
         </ListView>

@@ -12,9 +12,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         {
             Relation = relation;
 
-            ConsumerName = relation.Consumer.Fullname;
+            ConsumerPath = relation.Consumer.Parent.Fullname;
+            ConsumerName = relation.Consumer.Name;
             ConsumerType = relation.Consumer.Type;
-            ProviderName = relation.Provider.Fullname;
+            ProviderPath = relation.Provider.Parent.Fullname;
+            ProviderName = relation.Provider.Name;
             ProviderType = relation.Provider.Type;
             RelationType = relation.Type;
             RelationWeight = relation.Weight;
@@ -40,8 +42,10 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         public int Index { get; set; }
 
+        public string ConsumerPath { get; }
         public string ConsumerName { get; }
         public string ConsumerType { get; }
+        public string ProviderPath { get; }
         public string ProviderName { get; }
         public string ProviderType { get; }
         public string RelationType { get; }

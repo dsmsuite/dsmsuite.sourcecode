@@ -12,12 +12,14 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         public ElementListItemViewModel(IDsmElement element)
         {
             _element = element;
-            ElementName = element.Fullname;
+            ElementName = element.Name;
+            ElementPath = element.Parent.Fullname;
             ElementType = element.Type;
             Properties = _element.Properties;
         }
 
         public int Index { get; set; }
+        public string ElementPath { get; }
         public string ElementName { get; }
         public string ElementType { get; }
         public IDictionary<string, string> Properties { get; }

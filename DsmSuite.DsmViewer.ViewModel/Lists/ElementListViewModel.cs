@@ -92,6 +92,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
                 StringBuilder headerLine = new StringBuilder();
                 headerLine.Append($"Index,");
+                headerLine.Append($"Path,");
                 headerLine.Append($"Name,");
                 headerLine.Append($"Type,");
                 foreach (string propertyName in Elements[0].DiscoveredElementPropertyNames())
@@ -104,6 +105,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
                 {
                     StringBuilder line = new StringBuilder();
                     line.Append($"{viewModel.Index},");
+                    line.Append($"{viewModel.ElementPath},");
                     line.Append($"{viewModel.ElementName},");
                     line.Append($"{viewModel.ElementType},");
                     foreach (string propertyName in Elements[0].DiscoveredElementPropertyNames())

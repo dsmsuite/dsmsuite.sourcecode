@@ -91,10 +91,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
                 StringBuilder headerLine = new StringBuilder();
                 headerLine.Append($"Index,");
-                headerLine.Append($"Consumer,");
-                headerLine.Append($"Provider,");
+                headerLine.Append($"ConsumerPath,");
+                headerLine.Append($"ConsumerName,");
+                headerLine.Append($"ProviderPath,");
+                headerLine.Append($"ProviderName,");
                 headerLine.Append($"Type,");
                 headerLine.Append($"Weight,");
+                headerLine.Append($"Cyclic,");
                 foreach (string propertyName in Relations[0].DiscoveredRelationPropertyNames())
                 {
                     headerLine.Append($"{propertyName},");
@@ -105,10 +108,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
                 {
                     StringBuilder line = new StringBuilder();
                     line.Append($"{viewModel.Index},");
+                    line.Append($"{viewModel.ConsumerPath},");
                     line.Append($"{viewModel.ConsumerName},");
+                    line.Append($"{viewModel.ProviderPath},");
                     line.Append($"{viewModel.ProviderName},");
                     line.Append($"{viewModel.RelationType},");
                     line.Append($"{viewModel.RelationWeight},");
+                    line.Append($"{viewModel.Cyclic},");
                     foreach (string propertyName in Relations[0].DiscoveredRelationPropertyNames())
                     {
                         string propertyValue = viewModel.Properties.ContainsKey(propertyName) ? viewModel.Properties[propertyName] : "";
