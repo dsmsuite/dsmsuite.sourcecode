@@ -64,6 +64,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ChangeElementParentCommand = mainViewModel.ChangeElementParentCommand;
             DeleteElementCommand = mainViewModel.DeleteElementCommand;
 
+            CopyElementCommand = mainViewModel.DeleteElementCommand;
+            CutElementCommand = mainViewModel.DeleteElementCommand;
+            PasteAsChildElementCommand = mainViewModel.DeleteElementCommand;
+            PasteAsSiblingElementAboveCommand = mainViewModel.DeleteElementCommand;
+            PasteAsSiblingElementBelowCommand = mainViewModel.DeleteElementCommand;
+
             ShowElementIngoingRelationsCommand = new RelayCommand<object>(ShowElementIngoingRelationsExecute, ShowElementIngoingRelationsCanExecute);
             ShowElementOutgoingRelationCommand = new RelayCommand<object>(ShowElementOutgoingRelationExecute, ShowElementOutgoingRelationCanExecute);
             ShowElementinternalRelationsCommand = new RelayCommand<object>(ShowElementinternalRelationsExecute, ShowElementinternalRelationsCanExecute);
@@ -120,6 +126,12 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public ICommand ModifyElementCommand { get; }
         public ICommand ChangeElementParentCommand { get; }
         public ICommand DeleteElementCommand { get; }
+
+        public ICommand CopyElementCommand { get; }
+        public ICommand CutElementCommand { get; }
+        public ICommand PasteAsChildElementCommand { get; }
+        public ICommand PasteAsSiblingElementAboveCommand { get; }
+        public ICommand PasteAsSiblingElementBelowCommand { get; }
 
         public ICommand ShowElementIngoingRelationsCommand { get; }
         public ICommand ShowElementOutgoingRelationCommand { get; }

@@ -93,7 +93,7 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _actionsDataModel.GetExportedActions();
         }
 
-        public IDsmElement AddElement(string name, string type, int? parentId, int index, IDictionary<string, string> properties)
+        public IDsmElement AddElement(string name, string type, int? parentId, int? index, IDictionary<string, string> properties)
         {
             return _elementsDataModel.AddElement(name, type, parentId, index, properties);
         }

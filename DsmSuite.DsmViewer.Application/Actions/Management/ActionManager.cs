@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Interfaces;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Management
 {
@@ -10,6 +11,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
     {
         private readonly Stack<IAction> _undoActionStack;
         private readonly Stack<IAction> _redoActionStack;
+        private readonly ActionContext _actionContext;
 
         public event EventHandler ActionPerformed;
 
@@ -17,6 +19,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
         {
             _undoActionStack = new Stack<IAction>();
             _redoActionStack = new Stack<IAction>();
+            _actionContext = new ActionContext();
         }
 
         public bool Validate()
@@ -131,6 +134,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
         public IEnumerable<IAction> GetActionsInChronologicalOrder()
         {
             return _undoActionStack.Reverse();
+        }
+
+        public IActionContext GetContext()
+        {
+            return _actionContext;
         }
     }
 }

@@ -33,9 +33,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
                     if (_types.ContainsKey(actionType))
                     {
                         Type type = _types[actionType];
-                        object[] args = { _model, action.Data };
-                        object argumentList = args;
-                        IAction instance = Activator.CreateInstance(type, argumentList) as IAction;
+                        object[] args = { _model, _actionManager.GetContext(), action.Data };
+                        IAction instance = Activator.CreateInstance(type, args) as IAction;
+ 
                         if (instance != null)
                         {
                             _actionManager.Add(instance);

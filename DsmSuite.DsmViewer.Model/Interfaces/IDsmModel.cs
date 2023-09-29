@@ -20,7 +20,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IMetaDataItem AddMetaData(string group, string name, string value);
 
         // Element editing
-        IDsmElement AddElement(string name, string type, int? parentId, int index, IDictionary<string, string> properties);
+        IDsmElement AddElement(string name, string type, int? parentId, int? index, IDictionary<string, string> properties);
         void RemoveElement(int elementId);
         void UnremoveElement(int elementId);
         void ChangeElementName(IDsmElement element, string name);

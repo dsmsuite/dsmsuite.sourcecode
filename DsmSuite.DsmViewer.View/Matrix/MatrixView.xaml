@@ -134,6 +134,13 @@
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Modify element" Command="{Binding ModifyElementCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Delete element" Command="{Binding DeleteElementCommand}" />
                         <Separator />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Copy element" Command="{Binding CopyElementCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Cut element" Command="{Binding CutElementCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Paste element above" Command="{Binding PasteAsSiblingElementAboveCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Paste element child" Command="{Binding PasteAsChildElementCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Paste element below" Command="{Binding PasteAsSiblingElementBelowCommand}" />
+
+                        <Separator />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show and edit element ingoing relations" Command="{Binding ShowElementIngoingRelationsCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show and edit element outgoing relations" Command="{Binding ShowElementOutgoingRelationCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show and edit element internal relations" Command="{Binding ShowElementinternalRelationsCommand}" />

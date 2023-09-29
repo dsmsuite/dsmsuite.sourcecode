@@ -303,6 +303,25 @@ namespace DsmSuite.DsmViewer.Application.Core
             }
         }
 
+        public void CutElement(IDsmElement element)
+        {
+            ElementCutAction action = new ElementCutAction(_dsmModel, element, _actionManager.GetContext());
+            _actionManager.Execute(action);
+        }
+
+        public void CopyElement(IDsmElement element)
+        {
+            ElementCopyAction action = new ElementCopyAction(_dsmModel, element, _actionManager.GetContext());
+            _actionManager.Execute(action);
+        }
+
+        public void PasteElement(IDsmElement newParent, int index)
+        {
+            ElementPasteAction action = new ElementPasteAction(_dsmModel, newParent, index, _actionManager.GetContext());
+            _actionManager.Execute(action);
+        }
+
+
         public IDsmRelation CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
         {
             RelationCreateAction action = new RelationCreateAction(_dsmModel, consumer.Id, provider.Id, type, weight);

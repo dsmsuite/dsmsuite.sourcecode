@@ -55,6 +55,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Actions\Base\ActionAttributesTest.cs" />
+    <Compile Include="Actions\Element\ElementCopyActionTest.cs" />
+    <Compile Include="Actions\Element\ElementCutActionTest.cs" />
+    <Compile Include="Actions\Element\ElementPasteActionTest.cs" />
     <Compile Include="Actions\Management\ActionManagerTest.cs" />
     <Compile Include="Actions\Management\ActionStoreTest.cs" />
     <Compile Include="Actions\Base\ActionReadOnlyAttributesTest.cs" />
