@@ -9,24 +9,6 @@
                   DowngradeErrorMessage="A later version of the DSM suite C++ analyzer is already installed"
                   AllowSameVersionUpgrades="yes" />
     
-    <ComponentGroup Id="CppAnalyzerComponents" Directory="CPP_ANALYZER_INSTALL_FOLDER">
-      <Component Id="DsmSuite.Analyzer.Cpp.exe" Guid="7A2AAB67-FC9C-4BE1-AD30-F91C96EF06CC">
-        <File Id="DsmSuite.Analyzer.Cpp.exe" Source="..\build\bin\DsmSuite.Analyzer.Cpp.Exe" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.Model.Cpp.dll" Guid="CB822CC5-A318-4998-AF44-2251EF5456F7">
-        <File Id="DsmSuite.Analyzer.Model.Cpp.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.Transformations.Cpp.dll" Guid="7C5DEAAD-1611-496A-AF14-2A750204572D">
-        <File Id="DsmSuite.Analyzer.Transformations.Cpp.dll" Source="..\build\bin\DsmSuite.Analyzer.Transformations.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Model.Cpp.dll" Guid="BBBA1CD5-CE4C-439B-AEE7-AC4B6382FDFB">
-        <File Id="DsmSuite.Common.Model.Cpp.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Util.Cpp.dll" Guid="A754691F-643C-4D3F-A1B1-87F079447FCF">
-        <File Id="DsmSuite.Common.Util.Cpp.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-    </ComponentGroup>
-
     <ComponentGroup Id="DotNetAnalyzerComponents" Directory="DOTNET_ANALYZER_INSTALL_FOLDER">
       <Component Id="DsmSuite.Analyzer.DotNet.exe" Guid="8F930FFA-CBEB-4E48-841D-CC3AE761C1E0">
         <File Id="DsmSuite.Analyzer.DotNet.exe" Source="..\build\bin\DsmSuite.Analyzer.DotNet.exe" KeyPath="yes" Checksum="yes"/>
@@ -143,7 +125,6 @@
       <Directory Id="ProgramFiles64Folder">
         <Directory Id="MAINFOLDER" Name="DsmSuite">
           <Directory Id="ANALYZERS" Name="Analyzers">
-            <Directory  Id="CPP_ANALYZER_INSTALL_FOLDER" Name="C++" />
             <Directory  Id="DOTNET_ANALYZER_INSTALL_FOLDER" Name="DotNet" />
             <Directory  Id="JAVA_ANALYZER_INSTALL_FOLDER" Name="Java" />
             <Directory  Id="UML_ANALYZER_INSTALL_FOLDER" Name="UML" />
@@ -175,14 +156,6 @@
       <UIRef Id="WixUI_FeatureTree"/>
       <UIRef Id="WixUI_ErrorProgressText"/>
     </UI>
-
-    <Feature Id="CppAnalyzerFeature" Title="DSM Suite C++ Analyzer" Level="1">
-      <ComponentRef Id="DsmSuite.Analyzer.Cpp.exe" />
-      <ComponentRef Id="DsmSuite.Analyzer.Transformations.Cpp.dll" />
-      <ComponentRef Id="DsmSuite.Analyzer.Model.Cpp.dll" />
-      <ComponentRef Id="DsmSuite.Common.Model.Cpp.dll" />
-      <ComponentRef Id="DsmSuite.Common.Util.Cpp.dll" />
-    </Feature>
 
     <Feature Id="DotNetAnalyzerFeature" Title="DSM Suite .Net Analyzer" Level="1">
       <ComponentRef Id="DsmSuite.Analyzer.DotNet.exe" />
