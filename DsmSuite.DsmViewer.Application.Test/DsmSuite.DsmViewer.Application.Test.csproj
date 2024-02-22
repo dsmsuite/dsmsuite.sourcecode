@@ -77,12 +77,16 @@
     <Compile Include="Algorithm\WeightsMatrixTest.cs" />
     <Compile Include="Import\Common\DsmBuilderTest.cs" />
     <Compile Include="Import\Dsi\DsiImporterTest.cs" />
+    <Compile Include="Performance\PerformanceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetupAssemblyInitializer.cs" />
     <Compile Include="Stubs\StubbedSortAlgorithm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="DsmSuite.DsmViewer.Application.PerformanceTest.Input.dsm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="DsmSuite.DsmViewer.Application.Test.Input.dsi">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

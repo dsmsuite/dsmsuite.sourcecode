@@ -102,7 +102,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);
         }
 
-        public async Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress)
+        public async Task AsyncOpenModel(string dsmFilename, Progress<ProgressInfo> progress)
         {
             await Task.Run(() => _dsmModel.LoadModel(dsmFilename, progress));
             _actionStore.LoadFromModel();
@@ -110,12 +110,22 @@ namespace DsmSuite.DsmViewer.Application.Core
             Modified?.Invoke(this, IsModified);
         }
 
-        public async Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress)
+        public void LoadModel(string dsmFilename, Progress<ProgressInfo> progress)
+        {
+            _dsmModel.LoadModel(dsmFilename, progress);
+        }
+
+        public async Task AsyncSaveModel(string dsmFilename, Progress<ProgressInfo> progress)
         {
             _actionStore.SaveToModel();
             await Task.Run(() => _dsmModel.SaveModel(dsmFilename, _dsmModel.IsCompressed, progress));
             IsModified = false;
             Modified?.Invoke(this, IsModified);
+        }
+
+        public void SaveModel(string dsmFilename, Progress<ProgressInfo> progress)
+        {
+            _dsmModel.SaveModel(dsmFilename, _dsmModel.IsCompressed, progress);
         }
 
         public IDsmElement RootElement => _dsmModel.RootElement;

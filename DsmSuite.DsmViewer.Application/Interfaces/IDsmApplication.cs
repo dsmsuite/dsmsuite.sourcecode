@@ -14,8 +14,8 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         Task AsyncImportDsiModel(string dsiFilename, string dsmFilename, bool autoPartition, bool compressDsmFile, IProgress<ProgressInfo> progress);
 
         void ImportDsiModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool compressDsmFile, IProgress<ProgressInfo> progress);
-        Task OpenModel(string dsmFilename, Progress<ProgressInfo> progress);
-        Task SaveModel(string dsmFilename, Progress<ProgressInfo> progress);
+        Task AsyncOpenModel(string dsmFilename, Progress<ProgressInfo> progress);
+        Task AsyncSaveModel(string dsmFilename, Progress<ProgressInfo> progress);
         bool IsModified { get; }
         bool CanUndo();
         string GetUndoActionDescription();

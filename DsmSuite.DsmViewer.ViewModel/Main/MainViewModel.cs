@@ -249,7 +249,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                     case ".dsm":
                         {
                             FileInfo dsmFileInfo = fileInfo;
-                            await _application.OpenModel(dsmFileInfo.FullName, progress);
+                            await _application.AsyncOpenModel(dsmFileInfo.FullName, progress);
                             ModelFilename = dsmFileInfo.FullName;
                             Title = $"DSM Viewer - {dsmFileInfo.Name}";
                             IsLoaded = true;
@@ -291,7 +291,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             });
 
             _progressViewModel.Action = "Reading";
-            await _application.SaveModel(ModelFilename, progress);
+            await _application.AsyncSaveModel(ModelFilename, progress);
         }
 
         private bool SaveFileCanExecute(object parameter)
