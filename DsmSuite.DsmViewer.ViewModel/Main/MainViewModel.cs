@@ -92,10 +92,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             UndoCommand = new RelayCommand<object>(UndoExecute, UndoCanExecute);
             RedoCommand = new RelayCommand<object>(RedoExecute, RedoCanExecute);
 
-            AddElementCommand = new RelayCommand<object>(AddElementExecute, AddElementCanExecute);
+            AddChildElementCommand = new RelayCommand<object>(AddChildElementExecute, AddChildElementCanExecute);
+            AddSiblingElementAboveCommand = new RelayCommand<object>(AddSiblingElementAboveExecute, AddSiblingElementAboveCanExecute);
+            AddSiblingElementBelowCommand = new RelayCommand<object>(AddSiblingElementBelowExecute, AddSiblingElementBelowCanExecute);
             ModifyElementCommand = new RelayCommand<object>(ModifyElementExecute, ModifyElementCanExecute);
             DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
             ChangeElementParentCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
+
+            CopyElementCommand = new RelayCommand<object>(CopyElementExecute, CopyElementCanExecute);
+            CutElementCommand = new RelayCommand<object>(CutElementExecute, CutElementCanExecute);
+            PasteAsChildElementCommand = new RelayCommand<object>(PasteAsChildElementExecute, PasteAsChildElementCanExecute);
+            PasteAsSiblingElementAboveCommand = new RelayCommand<object>(PasteAsSiblingElementAboveExecute, PasteAsSiblingElementAboveCanExecute);
+            PasteAsSiblingElementBelowCommand = new RelayCommand<object>(PasteAsSiblingElementBelowExecute, PasteAsSiblingElementBelowCanExecute);
 
             MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
             ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
@@ -189,10 +197,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
 
-        public ICommand AddElementCommand { get; }
+        public ICommand AddChildElementCommand { get; }
+        public ICommand AddSiblingElementAboveCommand { get; }
+        public ICommand AddSiblingElementBelowCommand { get; }
         public ICommand ModifyElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
         public ICommand ChangeElementParentCommand { get; }
+
+        public ICommand CopyElementCommand { get; }
+        public ICommand CutElementCommand { get; }
+        public ICommand PasteAsChildElementCommand { get; }
+        public ICommand PasteAsSiblingElementAboveCommand { get; }
+        public ICommand PasteAsSiblingElementBelowCommand { get; }
 
         public ICommand MakeSnapshotCommand { get; }
         public ICommand ShowHistoryCommand { get; }
@@ -484,13 +500,35 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ActiveMatrix?.Reload();
         }
 
-        private void AddElementExecute(object parameter)
+        private void AddChildElementExecute(object parameter)
         {
-            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.Add, _application, SelectedProvider);
+            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.AddChild, _application, SelectedProvider);
             ElementEditStarted?.Invoke(this, elementEditViewModel);
         }
 
-        private bool AddElementCanExecute(object parameter)
+        private bool AddChildElementCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void AddSiblingElementAboveExecute(object parameter)
+        {
+            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.AddSiblingAbove, _application, SelectedProvider);
+            ElementEditStarted?.Invoke(this, elementEditViewModel);
+        }
+
+        private bool AddSiblingElementAboveCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        private void AddSiblingElementBelowExecute(object parameter)
+        {
+            ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.AddSiblingBelow, _application, SelectedProvider);
+            ElementEditStarted?.Invoke(this, elementEditViewModel);
+        }
+
+        private bool AddSiblingElementBelowCanExecute(object parameter)
         {
             return true;
         }
@@ -526,8 +564,6 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             return canExecute;
         }
 
-
-
         private void MoveElementExecute(object parameter)
         {
             Tuple<IDsmElement, IDsmElement, int> moveParameter = parameter as Tuple<IDsmElement, IDsmElement, int>;
@@ -539,6 +575,80 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         }
 
         private bool MoveElementCanExecute(object parameter)
+        {
+            bool canExecute = false;
+            if (SelectedProvider != null)
+            {
+                canExecute = !SelectedProvider.IsRoot;
+            }
+            return canExecute;
+        }
+
+        private void CopyElementExecute(object parameter)
+        {
+            _application.CopyElement(SelectedProvider);
+        }
+
+        private bool CopyElementCanExecute(object parameter)
+        {
+            bool canExecute = false;
+            if (SelectedProvider != null)
+            {
+                canExecute = !SelectedProvider.IsRoot;
+            }
+            return canExecute;
+        }
+
+        private void CutElementExecute(object parameter)
+        {
+            _application.CutElement(SelectedProvider);
+        }
+
+        private bool CutElementCanExecute(object parameter)
+        {
+            bool canExecute = false;
+            if (SelectedProvider != null)
+            {
+                canExecute = !SelectedProvider.IsRoot;
+            }
+            return canExecute;
+        }
+
+        private void PasteAsChildElementExecute(object parameter)
+        {
+            _application.PasteElement(SelectedProvider.Parent, 0);
+        }
+
+        private bool PasteAsChildElementCanExecute(object parameter)
+        {
+            bool canExecute = false;
+            if (SelectedProvider != null)
+            {
+                canExecute = !SelectedProvider.IsRoot;
+            }
+            return canExecute;
+        }
+
+        private void PasteAsSiblingElementAboveExecute(object parameter)
+        {
+        }
+
+        private bool PasteAsSiblingElementAboveCanExecute(object parameter)
+        {
+            bool canExecute = false;
+            if (SelectedProvider != null)
+            {
+                canExecute = !SelectedProvider.IsRoot;
+            }
+            return canExecute;
+        }
+
+
+        private void PasteAsSiblingElementBelowExecute(object parameter)
+        {
+        }
+
+        private bool PasteAsSiblingElementBelowCanExecute(object parameter)
         {
             bool canExecute = false;
             if (SelectedProvider != null)

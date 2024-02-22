@@ -57,10 +57,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
             ToggleElementBookmarkCommand = mainViewModel.ToggleElementBookmarkCommand;
 
-            AddElementCommand = mainViewModel.AddElementCommand;
+            AddChildElementCommand = mainViewModel.AddChildElementCommand;
+            AddSiblingElementAboveCommand = mainViewModel.AddSiblingElementAboveCommand;
+            AddSiblingElementBelowCommand = mainViewModel.AddSiblingElementBelowCommand;
             ModifyElementCommand = mainViewModel.ModifyElementCommand;
             ChangeElementParentCommand = mainViewModel.ChangeElementParentCommand;
             DeleteElementCommand = mainViewModel.DeleteElementCommand;
+
+            CopyElementCommand = mainViewModel.DeleteElementCommand;
+            CutElementCommand = mainViewModel.DeleteElementCommand;
+            PasteAsChildElementCommand = mainViewModel.DeleteElementCommand;
+            PasteAsSiblingElementAboveCommand = mainViewModel.DeleteElementCommand;
+            PasteAsSiblingElementBelowCommand = mainViewModel.DeleteElementCommand;
 
             ShowElementIngoingRelationsCommand = new RelayCommand<object>(ShowElementIngoingRelationsExecute, ShowElementIngoingRelationsCanExecute);
             ShowElementOutgoingRelationCommand = new RelayCommand<object>(ShowElementOutgoingRelationExecute, ShowElementOutgoingRelationCanExecute);
@@ -112,10 +120,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
 
         public ICommand ToggleElementBookmarkCommand { get; }
 
-        public ICommand AddElementCommand { get; }
+        public ICommand AddChildElementCommand { get; }
+        public ICommand AddSiblingElementAboveCommand { get; }
+        public ICommand AddSiblingElementBelowCommand { get; }
         public ICommand ModifyElementCommand { get; }
         public ICommand ChangeElementParentCommand { get; }
         public ICommand DeleteElementCommand { get; }
+
+        public ICommand CopyElementCommand { get; }
+        public ICommand CutElementCommand { get; }
+        public ICommand PasteAsChildElementCommand { get; }
+        public ICommand PasteAsSiblingElementAboveCommand { get; }
+        public ICommand PasteAsSiblingElementBelowCommand { get; }
 
         public ICommand ShowElementIngoingRelationsCommand { get; }
         public ICommand ShowElementOutgoingRelationCommand { get; }

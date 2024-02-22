@@ -24,7 +24,8 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(providerId, relation.Provider.Id);
             Assert.AreEqual(relationType, relation.Type);
             Assert.AreEqual(weight, relation.Weight);
-            Assert.IsNull(relation.Properties);
+            Assert.IsNotNull(relation.Properties);
+            Assert.AreEqual(0, relation.Properties.Count);
         }
 
         [TestMethod]

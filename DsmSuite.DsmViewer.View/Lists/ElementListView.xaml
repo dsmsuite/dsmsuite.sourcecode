@@ -29,9 +29,9 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Index" Width="auto" DisplayMemberBinding="{Binding Index}" />
+                    <GridViewColumn Header="Element path" Width="auto" DisplayMemberBinding="{Binding ElementPath}" />
                     <GridViewColumn Header="Element name" Width="auto" DisplayMemberBinding="{Binding ElementName}" />
                     <GridViewColumn Header="Element type" Width="auto" DisplayMemberBinding="{Binding ElementType}" />
-                    <GridViewColumn Header="Properties" Width="auto" DisplayMemberBinding="{Binding Properties}" />
                 </GridView>
             </ListView.View>
         </ListView>

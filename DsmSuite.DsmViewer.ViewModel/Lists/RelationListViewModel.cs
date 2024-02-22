@@ -8,6 +8,7 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using System.Collections.ObjectModel;
 using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
 using System;
+using System.Xml.Linq;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
@@ -84,12 +85,45 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
         private void CopyToClipboardExecute(object parameter)
         {
-            StringBuilder builder = new StringBuilder();
-            foreach (RelationListItemViewModel viewModel in Relations)
+            if (Relations.Count > 0)
             {
-                builder.AppendLine($"{viewModel.Index,-5}, {viewModel.ConsumerName,-100}, {viewModel.ProviderName,-100}, {viewModel.RelationType,-30}, {viewModel.RelationWeight,-10}, {viewModel.Properties,-150}");
+                StringBuilder builder = new StringBuilder();
+
+                StringBuilder headerLine = new StringBuilder();
+                headerLine.Append($"Index,");
+                headerLine.Append($"ConsumerPath,");
+                headerLine.Append($"ConsumerName,");
+                headerLine.Append($"ProviderPath,");
+                headerLine.Append($"ProviderName,");
+                headerLine.Append($"Type,");
+                headerLine.Append($"Weight,");
+                headerLine.Append($"Cyclic,");
+                foreach (string propertyName in Relations[0].DiscoveredRelationPropertyNames())
+                {
+                    headerLine.Append($"{propertyName},");
+                }
+                builder.AppendLine(headerLine.ToString());
+
+                foreach (RelationListItemViewModel viewModel in Relations)
+                {
+                    StringBuilder line = new StringBuilder();
+                    line.Append($"{viewModel.Index},");
+                    line.Append($"{viewModel.ConsumerPath},");
+                    line.Append($"{viewModel.ConsumerName},");
+                    line.Append($"{viewModel.ProviderPath},");
+                    line.Append($"{viewModel.ProviderName},");
+                    line.Append($"{viewModel.RelationType},");
+                    line.Append($"{viewModel.RelationWeight},");
+                    line.Append($"{viewModel.Cyclic},");
+                    foreach (string propertyName in Relations[0].DiscoveredRelationPropertyNames())
+                    {
+                        string propertyValue = viewModel.Properties.ContainsKey(propertyName) ? viewModel.Properties[propertyName] : "";
+                        line.Append($"{propertyValue},");
+                    }
+                    builder.AppendLine(line.ToString());
+                }
+                Clipboard.SetText(builder.ToString());
             }
-            Clipboard.SetText(builder.ToString());
         }
 
         private void DeleteRelationExecute(object parameter)

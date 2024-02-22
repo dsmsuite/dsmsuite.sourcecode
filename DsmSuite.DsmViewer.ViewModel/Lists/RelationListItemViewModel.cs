@@ -12,12 +12,15 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         {
             Relation = relation;
 
-            ConsumerName = relation.Consumer.Fullname;
+            ConsumerPath = relation.Consumer.Parent.Fullname;
+            ConsumerName = relation.Consumer.Name;
             ConsumerType = relation.Consumer.Type;
-            ProviderName = relation.Provider.Fullname;
+            ProviderPath = relation.Provider.Parent.Fullname;
+            ProviderName = relation.Provider.Name;
             ProviderType = relation.Provider.Type;
             RelationType = relation.Type;
             RelationWeight = relation.Weight;
+            Properties = relation.Properties;
 
             CycleType cycleType = application.IsCyclicDependency(relation.Consumer, relation.Provider);
             switch (cycleType)
@@ -33,28 +36,27 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
                     Cyclic = "";
                     break;
             }
-
-            if (relation.Properties != null)
-            {
-                foreach (KeyValuePair<string, string> elementProperty in relation.Properties)
-                {
-                    Properties += string.Format("{0}={1} ", elementProperty.Key, elementProperty.Value);
-                }
-            }
         }
 
         public IDsmRelation Relation { get; set; }
 
         public int Index { get; set; }
 
+        public string ConsumerPath { get; }
         public string ConsumerName { get; }
         public string ConsumerType { get; }
+        public string ProviderPath { get; }
         public string ProviderName { get; }
         public string ProviderType { get; }
         public string RelationType { get; }
         public int RelationWeight { get; }
         public string Cyclic { get; }
-        public string Properties { get; }
+        public IDictionary<string, string> Properties { get; }
+
+        public IEnumerable<string> DiscoveredRelationPropertyNames()
+        {
+            return Relation.DiscoveredRelationPropertyNames();
+        }
 
         public int CompareTo(object obj)
         {

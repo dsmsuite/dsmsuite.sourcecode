@@ -25,7 +25,11 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         /// </summary>
         string Name { get; }
 
+        // Named properties found for this element
         IDictionary<string, string> Properties { get; }
+
+        // Property names found across all elements
+        IEnumerable<string> DiscoveredElementPropertyNames();
 
         /// <summary>
         /// Full name of the element based on its position in the element hierarchy

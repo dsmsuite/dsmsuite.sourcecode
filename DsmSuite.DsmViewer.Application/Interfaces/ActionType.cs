@@ -10,6 +10,9 @@
         ElementMoveUp,
         ElementMoveDown,
         ElementSort,
+        ElementCopy,
+        ElementCut,
+        ElementPaste,
         
         RelationChangeType,
         RelationChangeWeight,

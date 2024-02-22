@@ -3,10 +3,12 @@ using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementChangeParentAction : IAction
+    public class ElementPasteAction : IAction
     {
         private readonly IDsmModel _model;
         private readonly IActionContext _actionContext;
@@ -18,9 +20,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly int _newIndex;
         private string _newName;
 
-        public const ActionType RegisteredType = ActionType.ElementChangeParent;
+        public const ActionType RegisteredType = ActionType.ElementPaste;
 
-        public ElementChangeParentAction(object[] args)
+        public ElementPasteAction(object[] args)
         {
             if (args.Length == 3)
             {
@@ -43,23 +45,25 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             }
         }
 
-        public ElementChangeParentAction(IDsmModel model, IDsmElement element, IDsmElement newParent, int index)
+        public ElementPasteAction(IDsmModel model, IDsmElement newParent, int index, IActionContext actionContext)
         {
             _model = model;
-            _element = element;
 
-            _oldParent = element.Parent;
-            _oldIndex = _oldParent.IndexOfChild(element);
-            _oldName = element.Name;
+            _actionContext = actionContext;
+            _element = _actionContext.GetElementOnClipboard();
+
+            _oldParent = _element.Parent;
+            _oldIndex = _oldParent.IndexOfChild(_element);
+            _oldName = _element.Name;
 
             _newParent = newParent;
             _newIndex = index;
-            _newName = element.Name;
-         }
+            _newName = _element.Name;
+        }
 
         public ActionType Type => RegisteredType;
-        public string Title => "Change element parent";
-        public string Description => $"element={_element.Fullname} parent={_oldParent.Fullname}->{_newParent.Fullname}";
+        public string Title => "Paste element";
+        public string Description => $"element={_actionContext.GetElementOnClipboard().Fullname}";
 
         public object Do()
         {
@@ -72,6 +76,8 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
             _model.ChangeElementParent(_element, _newParent, _newIndex);
             _model.AssignElementOrder();
+
+            _actionContext.RemoveElementFromClipboard(_element);
             return null;
         }
 
@@ -89,11 +95,13 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public bool IsValid()
         {
-            return (_model != null) && 
-                   (_element != null) && 
-                   (_oldParent != null) && 
-                   (_oldName != null) && 
-                   (_newParent != null) && 
+            return (_model != null) &&
+                   (_element != null) &&
+                   (_actionContext != null) &&
+                   (_actionContext.IsElementOnClipboard()) &&
+                   (_oldParent != null) &&
+                   (_oldName != null) &&
+                   (_newParent != null) &&
                    (_newName != null);
         }
 
@@ -103,12 +111,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             {
                 ActionAttributes attributes = new ActionAttributes();
                 attributes.SetInt(nameof(_element), _element.Id);
-                attributes.SetInt(nameof(_oldParent), _oldParent.Id);
-                attributes.SetString(nameof(_oldName), _oldName);
-                attributes.SetInt(nameof(_oldIndex), _oldIndex);
-                attributes.SetInt(nameof(_newParent), _newParent.Id);
-                attributes.SetString(nameof(_newName), _newName);
-                attributes.SetInt(nameof(_newIndex), _newIndex);
                 return attributes.Data;
             }
         }

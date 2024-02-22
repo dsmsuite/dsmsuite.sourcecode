@@ -25,6 +25,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\Element\ElementPasteAction.cs" />
+    <Compile Include="Actions\Element\ElementCopyAction.cs" />
+    <Compile Include="Actions\Element\ElementCutAction.cs" />
+    <Compile Include="Actions\Management\ActionContext.cs" />
+    <Compile Include="Actions\Management\IActionContext.cs" />
     <Compile Include="Interfaces\ActionType.cs" />
     <Compile Include="Actions\Base\ActionAttributes.cs" />
     <Compile Include="Actions\Management\ActionStore.cs" />

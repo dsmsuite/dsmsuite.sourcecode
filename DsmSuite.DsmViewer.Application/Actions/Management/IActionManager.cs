@@ -10,5 +10,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
         void Add(IAction action);
         object Execute(IAction action);
         IEnumerable<IAction> GetActionsInChronologicalOrder();
+        IActionContext GetContext();
     }
 }

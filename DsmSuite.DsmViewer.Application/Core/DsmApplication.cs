@@ -280,9 +280,9 @@ namespace DsmSuite.DsmViewer.Application.Core
             return _dsmModel.GetElementByFullname(text);
         }
 
-        public IDsmElement CreateElement(string name, string type, IDsmElement parent)
+        public IDsmElement CreateElement(string name, string type, IDsmElement parent, int index)
         {
-            ElementCreateAction action = new ElementCreateAction(_dsmModel, name, type, parent);
+            ElementCreateAction action = new ElementCreateAction(_dsmModel, name, type, parent, index);
             return _actionManager.Execute(action) as IDsmElement;
         }
 
@@ -312,6 +312,25 @@ namespace DsmSuite.DsmViewer.Application.Core
                 _actionManager.Execute(action);
             }
         }
+
+        public void CutElement(IDsmElement element)
+        {
+            ElementCutAction action = new ElementCutAction(_dsmModel, element, _actionManager.GetContext());
+            _actionManager.Execute(action);
+        }
+
+        public void CopyElement(IDsmElement element)
+        {
+            ElementCopyAction action = new ElementCopyAction(_dsmModel, element, _actionManager.GetContext());
+            _actionManager.Execute(action);
+        }
+
+        public void PasteElement(IDsmElement newParent, int index)
+        {
+            ElementPasteAction action = new ElementPasteAction(_dsmModel, newParent, index, _actionManager.GetContext());
+            _actionManager.Execute(action);
+        }
+
 
         public IDsmRelation CreateRelation(IDsmElement consumer, IDsmElement provider, string type, int weight)
         {

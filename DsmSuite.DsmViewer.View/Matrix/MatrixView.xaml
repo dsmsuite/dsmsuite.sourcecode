@@ -128,9 +128,18 @@
                         <Separator />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Toggle element bookmark" Command="{Binding ToggleElementBookmarkCommand}" />
                         <Separator />
-                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Add element" Command="{Binding AddElementCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Add element above" Command="{Binding AddSiblingElementAboveCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Add element child" Command="{Binding AddChildElementCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Add element below" Command="{Binding AddSiblingElementBelowCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Modify element" Command="{Binding ModifyElementCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Delete element" Command="{Binding DeleteElementCommand}" />
+                        <Separator />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Copy element" Command="{Binding CopyElementCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Cut element" Command="{Binding CutElementCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Paste element above" Command="{Binding PasteAsSiblingElementAboveCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Paste element child" Command="{Binding PasteAsChildElementCommand}" />
+                        <MenuItem Style="{StaticResource MenuItemStyle}" Header="Paste element below" Command="{Binding PasteAsSiblingElementBelowCommand}" />
+
                         <Separator />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show and edit element ingoing relations" Command="{Binding ShowElementIngoingRelationsCommand}" />
                         <MenuItem Style="{StaticResource MenuItemStyle}" Header="Show and edit element outgoing relations" Command="{Binding ShowElementOutgoingRelationCommand}" />

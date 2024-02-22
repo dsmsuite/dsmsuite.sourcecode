@@ -19,6 +19,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         private const string Name = "name";
         private const string Type = "type";
         private const int ParentId = 456;
+        private const int Index = 3;
 
         [TestInitialize()]
         public void Setup()
@@ -32,25 +33,26 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             _model.Setup(x => x.GetElementById(ParentId)).Returns(_parent.Object);
             _parent.Setup(x => x.Id).Returns(ParentId);
 
-            _model.Setup(x => x.AddElement(Name, Type, ParentId, null)).Returns(_element.Object);
+            _model.Setup(x => x.AddElement(Name, Type, ParentId, Index, null)).Returns(_element.Object);
 
             _data = new Dictionary<string, string>
             {
                 ["element"] = ElementId.ToString(),
                 ["name"] = Name,
                 ["type"] = Type,
-                ["parent"] = ParentId.ToString()
+                ["parent"] = ParentId.ToString(),
+                ["index"] = Index.ToString()
             };
         }
 
         [TestMethod]
         public void WhenDoActionThenElementIsAddedToDataModel()
         {
-            ElementCreateAction action = new ElementCreateAction(_model.Object, Name, Type, _parent.Object);
+            ElementCreateAction action = new ElementCreateAction(_model.Object, Name, Type, _parent.Object, Index);
             action.Do();
             Assert.IsTrue(action.IsValid());
 
-            _model.Verify(x => x.AddElement(Name, Type, ParentId, null), Times.Once());
+            _model.Verify(x => x.AddElement(Name, Type, ParentId, Index, null), Times.Once());
         }
 
         [TestMethod]
@@ -70,11 +72,12 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             object[] args = { _model.Object, _data };
             ElementCreateAction action = new ElementCreateAction(args);
 
-            Assert.AreEqual(4, action.Data.Count);
+            Assert.AreEqual(5, action.Data.Count);
             Assert.AreEqual(ElementId.ToString(), _data["element"]);
             Assert.AreEqual(Name, _data["name"]);
             Assert.AreEqual(Type, _data["type"]);
             Assert.AreEqual(ParentId.ToString(), _data["parent"]);
+            Assert.AreEqual(Index.ToString(), _data["index"]);
         }
     }
 }

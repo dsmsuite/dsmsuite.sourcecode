@@ -1,4 +1,5 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
@@ -9,19 +10,22 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
     public class ElementCreateAction : IAction
     {
         private readonly IDsmModel _model;
+        private readonly IActionContext _actionContext;
         private IDsmElement _element;
         private readonly string _name;
         private readonly string _type;
         private readonly IDsmElement _parent;
+        private readonly int _index;
 
         public const ActionType RegisteredType = ActionType.ElementCreate;
 
         public ElementCreateAction(object[] args)
         {
-            if (args.Length == 2)
+            if (args.Length == 3)
             {
                 _model = args[0] as IDsmModel;
-                IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+                _actionContext = args[1] as IActionContext;
+                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
 
                 if ((_model != null) && (data != null))
                 {
@@ -36,16 +40,18 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
                     {
                         _parent = _model.GetElementById(parentId.Value);
                     }
+                    _index = attributes.GetInt(nameof(_index));
                 }
             }
         }
 
-        public ElementCreateAction(IDsmModel model, string name, string type, IDsmElement parent)
+        public ElementCreateAction(IDsmModel model, string name, string type, IDsmElement parent, int index)
         {
             _model = model;
             _name = name;
             _type = type;
             _parent = parent;
+            _index = index;
         }
 
         public ActionType Type => RegisteredType;
@@ -54,7 +60,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public object Do()
         {
-            _element = _model.AddElement(_name, _type, _parent.Id, null);
+            _element = _model.AddElement(_name, _type, _parent.Id, _index, null);
             Debug.Assert(_element != null);
 
             _model.AssignElementOrder();
@@ -85,6 +91,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
                 attributes.SetString(nameof(_name), _name);
                 attributes.SetString(nameof(_type), _type);
                 attributes.SetNullableInt(nameof(_parent), _parent.Id);
+                attributes.SetInt(nameof(_index), _index);
                 return attributes.Data;
             }
         }

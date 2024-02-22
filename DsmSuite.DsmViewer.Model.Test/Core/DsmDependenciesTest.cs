@@ -21,18 +21,18 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             _root = new DsmElement(1, "root", "", null);
 
             _a = new DsmElement(2, "a", "", null);
-            _root.AddChild(_a);
+            _root.InsertChildAtEnd(_a);
             _a1 = new DsmElement(3, "a1", "", null);
-            _a.AddChild(_a1);
+            _a.InsertChildAtEnd(_a1);
             _a2 = new DsmElement(4, "a2", "", null);
-            _a.AddChild(_a2);
+            _a.InsertChildAtEnd(_a2);
 
             _b = new DsmElement(5, "a", "", null);
-            _root.AddChild(_b);
+            _root.InsertChildAtEnd(_b);
             _b1 = new DsmElement(6, "b1", "", null);
-            _b.AddChild(_b1);
+            _b.InsertChildAtEnd(_b1);
             _b2 = new DsmElement(7, "b2", "", null);
-            _b.AddChild(_b2);
+            _b.InsertChildAtEnd(_b2);
         }
 
         [TestMethod]

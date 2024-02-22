@@ -1,23 +1,22 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
-using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
-    public class ElementSortAction : IAction
+    public class ElementCopyAction : IAction
     {
         private readonly IDsmModel _model;
         private readonly IActionContext _actionContext;
         private readonly IDsmElement _element;
-        private readonly string _algorithm;
-        private string _order;
+        private IDsmElement _elementCopy;
 
-        public const ActionType RegisteredType = ActionType.ElementSort;
+        public const ActionType RegisteredType = ActionType.ElementCopy;
 
-        public ElementSortAction(object[] args)
+        public ElementCopyAction(object[] args)
         {
             if (args.Length == 3)
             {
@@ -30,51 +29,39 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
                     ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
                     _element = attributes.GetElement(nameof(_element));
-                    _algorithm = attributes.GetString(nameof(_algorithm));
-                    _order = attributes.GetString(nameof(_order));
+                    _elementCopy = attributes.GetElement(nameof(_elementCopy));
                 }
             }
         }
 
-        public ElementSortAction(IDsmModel model, IDsmElement element, string algorithm)
+        public ElementCopyAction(IDsmModel model, IDsmElement element, IActionContext actionContext)
         {
             _model = model;
             _element = element;
-            _algorithm = algorithm;
-            _order = "";
+            _actionContext = actionContext;
+            _elementCopy = null;
         }
 
         public ActionType Type => RegisteredType;
-        public string Title => "Partition element";
-        public string Description => $"element={_element.Fullname} algorithm={_algorithm}";
+        public string Title => "Copy element";
+        public string Description => $"element={_element.Fullname}";
 
         public object Do()
         {
-            ISortAlgorithm sortAlgorithm = SortAlgorithmFactory.CreateAlgorithm(_model, _element, _algorithm);
-            SortResult sortResult = sortAlgorithm.Sort();
-            _model.ReorderChildren(_element, sortResult);
-            _order = sortResult.Data;
-
-            _model.AssignElementOrder();
-
+            _elementCopy = _model.AddElement(_element.Name, _element.Type, null, null, null);
+            _actionContext.AddElementToClipboard(_elementCopy);
             return null;
         }
 
         public void Undo()
         {
-            SortResult sortResult = new SortResult(_order);
-            sortResult.InvertOrder();
-            _model.ReorderChildren(_element, sortResult);
-
-            _model.AssignElementOrder();
+            _actionContext.RemoveElementFromClipboard(_elementCopy);
         }
 
         public bool IsValid()
         {
-            return (_model != null) && 
-                   (_element != null) && 
-                   (_algorithm != null) && 
-                   (_order != null);
+            return (_model != null) &&
+                   (_element != null);
         }
 
         public IReadOnlyDictionary<string, string> Data
@@ -83,8 +70,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             {
                 ActionAttributes attributes = new ActionAttributes();
                 attributes.SetInt(nameof(_element), _element.Id);
-                attributes.SetString(nameof(_algorithm), _algorithm);
-                attributes.SetString(nameof(_order), _order);
+                attributes.SetInt(nameof(_elementCopy), _elementCopy.Id);
                 return attributes.Data;
             }
         }

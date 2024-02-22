@@ -22,7 +22,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand ShowElementContextMatrixCommand { get; }
         ICommand ShowCellDetailMatrixCommand { get; }
 
-        ICommand AddElementCommand { get; }
+        ICommand AddChildElementCommand { get; }
+        ICommand AddSiblingElementAboveCommand { get; }
+        ICommand AddSiblingElementBelowCommand { get; }
         ICommand ModifyElementCommand { get; }
         ICommand DeleteElementCommand { get; }
         ICommand ChangeElementParentCommand { get; }

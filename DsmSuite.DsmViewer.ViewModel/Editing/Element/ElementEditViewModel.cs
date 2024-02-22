@@ -13,6 +13,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
         private readonly IDsmApplication _application;
         private readonly IDsmElement _parentElement;
         private readonly IDsmElement _selectedElement;
+        private readonly int _addAtIndex;
         private string _name;
         private string _help;
         private string _selectedElementType;
@@ -34,16 +35,36 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                     Title = "Modify element";
                     _parentElement = selectedElement.Parent;
                     _selectedElement = selectedElement;
+                    _addAtIndex = 0;
                     Name = _selectedElement.Name;
                     SelectedElementType = _selectedElement.Type;
                     AcceptChangeCommand = new RelayCommand<object>(AcceptModifyExecute, AcceptCanExecute);
                     break;
-                case ElementEditViewModelType.Add:
+                case ElementEditViewModelType.AddChild:
                     Title = "Add element";
                     _parentElement = selectedElement;
                     _selectedElement = null;
+                    _addAtIndex = _parentElement.Children.Count; // Insert at end
                     Name = "";
                     SelectedElementType = _lastSelectedElementType;
+                    AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
+                    break;
+                case ElementEditViewModelType.AddSiblingAbove:
+                    Title = "Add element";
+                    _parentElement = selectedElement.Parent;
+                    _selectedElement = selectedElement;
+                    _addAtIndex = _parentElement.IndexOfChild(_selectedElement);
+                    Name = "";
+                    SelectedElementType = _selectedElement.Type;
+                    AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
+                    break;
+                case ElementEditViewModelType.AddSiblingBelow:
+                    Title = "Add element";
+                    _parentElement = selectedElement.Parent;
+                    _selectedElement = selectedElement;
+                    _addAtIndex = _parentElement.IndexOfChild(_selectedElement) + 1;
+                    Name = "";
+                    SelectedElementType = _selectedElement.Type;
                     AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
                     break;
                 default:
@@ -75,7 +96,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
 
         private void AcceptAddExecute(object parameter)
         {
-            _application.CreateElement(Name, SelectedElementType, _parentElement);
+            _application.CreateElement(Name, SelectedElementType, _parentElement, _addAtIndex);
         }
 
         private void AcceptModifyExecute(object parameter)

@@ -1,4 +1,5 @@
 ﻿using DsmSuite.DsmViewer.Application.Actions.Base;
+using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
@@ -8,16 +9,18 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
     public class ElementDeleteAction : IAction
     {
         private readonly IDsmModel _model;
+        private readonly IActionContext _actionContext;
         private readonly IDsmElement _element;
 
         public const ActionType RegisteredType = ActionType.ElementDelete;
 
         public ElementDeleteAction(object[] args)
         {
-            if (args.Length == 2)
+            if (args.Length == 3)
             {
                 _model = args[0] as IDsmModel;
-                IReadOnlyDictionary<string, string> data = args[1] as IReadOnlyDictionary<string, string>;
+                _actionContext = args[1] as IActionContext;
+                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
 
                 if ((_model != null) && (data != null))
                 {
