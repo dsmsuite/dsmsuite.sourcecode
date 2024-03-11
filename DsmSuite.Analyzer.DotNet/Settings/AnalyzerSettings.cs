@@ -11,12 +11,18 @@ namespace DsmSuite.Analyzer.DotNet.Settings
     public class InputSettings
     {
         public string AssemblyDirectory { get; set; }
+
+        public List<string> AssemblyDirectories { get; set; }
+
+        public List<string> IncludeAssemblyNames { get; set; }
     }
 
     [Serializable]
     public class TransformationSettings
     {
         public List<string> IgnoredNames { get; set; }
+
+        public List<string> IncludedNames { get; set; }
     }
 
     [Serializable]

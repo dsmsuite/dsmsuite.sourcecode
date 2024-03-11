@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using DsmSuite.Common.Util;
+using System.Text.RegularExpressions;
 using Mono.Cecil;
 
 namespace DsmSuite.Analyzer.DotNet.Lib
@@ -11,11 +14,13 @@ namespace DsmSuite.Analyzer.DotNet.Lib
     {
         private readonly IProgress<ProgressInfo> _progress;
         private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
+        private readonly IList<String> _includedAssemblyStrings = new List<String>();
 
-        public BinaryFile(string filename, IProgress<ProgressInfo> progress)
+        public BinaryFile(string filename, IProgress<ProgressInfo> progress, List<String> includedAssemblyStrings)
         {
             FileInfo = new FileInfo(filename);
             _progress = progress;
+            _includedAssemblyStrings = includedAssemblyStrings;
         }
 
         public List<DotNetType> Types { get; } = new List<DotNetType>();
@@ -389,11 +394,37 @@ namespace DsmSuite.Analyzer.DotNet.Lib
             }
         }
 
+        private bool Accept(string name)
+        {
+            bool accept = false;
+            if (_includedAssemblyStrings.Count() > 0)
+            {
+                foreach (string ignoredName in _includedAssemblyStrings)
+                {
+                    Regex regex = new Regex(ignoredName);
+                    Match match = regex.Match(name);
+                    if (match.Success)
+                    {
+                        accept = true;
+                    }
+                }
+            }
+            else
+            {
+                accept = true;
+            }
+            return accept;
+        }
+
         private void RegisterType(TypeDefinition typeDecl)
         {
-            Types.Add(new DotNetType(typeDecl.GetElementType().ToString(), DetermineType(typeDecl)));
-            _typeList.Add(typeDecl);
-            UpdateTypeProgress(false);
+            DotNetType myDotNetType = new DotNetType(typeDecl.GetElementType().ToString(), DetermineType(typeDecl));
+            if (Accept(myDotNetType.Name))
+            {
+                Types.Add(myDotNetType);
+                _typeList.Add(typeDecl);
+                UpdateTypeProgress(false);
+            }
         }
 
         private void RegisterRelation(TypeReference providerType, TypeReference consumerType, string type, string context)

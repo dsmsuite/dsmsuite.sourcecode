@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using DsmSuite.Analyzer.DotNet.Lib;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
+using Mono.Cecil;
 
 namespace DsmSuite.Analyzer.DotNet.Analysis
 {
@@ -32,18 +35,24 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
         private void FindAssemblies()
         {
-            foreach (string assemblyFilename in Directory.EnumerateFiles(_analyzerSettings.Input.AssemblyDirectory))
+            //For every configured assembly directory lookup the files in the
+            //directory and process the content of the files
+            IList<string> assemblyFolders = _analyzerSettings.Input.AssemblyDirectories;
+            foreach (string assemblyFolder in assemblyFolders)
             {
-                BinaryFile assemblyFile = new BinaryFile(assemblyFilename, _progress);
-
-                if (assemblyFile.Exists && assemblyFile.IsAssembly)
+                Logger.LogUserMessage($"Assembly folder: {assemblyFolder}");
+                foreach (string assemblyFilename in Directory.EnumerateFiles(assemblyFolder))
                 {
-                    _assemblyFiles.Add(assemblyFile);
-                    _resolver.AddSearchPath(assemblyFile);
-                    UpdateAssemblyProgress(false);
+                    BinaryFile assemblyFile = new BinaryFile(assemblyFilename, _progress, _analyzerSettings.Transformation.IncludedNames);
+                    if (assemblyFile.Exists && assemblyFile.IsAssembly && Accept(assemblyFilename))
+                    {
+                        _assemblyFiles.Add(assemblyFile);
+                        _resolver.AddSearchPath(assemblyFile);
+                        UpdateAssemblyProgress(false);
+                    }
                 }
+                UpdateAssemblyProgress(true);
             }
-            UpdateAssemblyProgress(true);
         }
 
         private void FindTypes()
@@ -69,6 +78,50 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 }
             }
         }
+
+
+        private bool Accept(string name)
+        {
+            /*  Check wether the name meets the regex descriptions that have been configured.
+             *  If no regex descriptions have been configured then the file is accepted.
+             */
+            bool accept = false;
+
+            if (_analyzerSettings.Input.IncludeAssemblyNames.Count > 0)
+            {
+                string fileNameWithoutExtension = "";
+                try
+                {
+                    fileNameWithoutExtension = Path.GetFileNameWithoutExtension(name);
+                }
+                catch (ArgumentException)
+                {
+                    //The file does not exist
+                }
+
+                if (fileNameWithoutExtension.Length > 0)
+                {
+                    foreach (string regexIncludedAssembly in _analyzerSettings.Input.IncludeAssemblyNames)
+                    {
+                        Regex regex = new Regex(regexIncludedAssembly);
+                        Match match = regex.Match(fileNameWithoutExtension);
+                        if (match.Success)
+                        {
+                            accept = true;
+                        }
+
+                    }
+                }
+            }
+            else
+            {
+                accept = true;
+            }
+
+            return accept;
+        }
+
+
 
         private void UpdateAssemblyProgress(bool done)
         {

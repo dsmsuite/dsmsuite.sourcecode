@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Core;
@@ -18,10 +19,15 @@ namespace DsmSuite.Analyzer.DotNet
         protected override bool CheckPrecondition()
         {
             bool result = true;
-            if (!Directory.Exists(_analyzerSettings.Input.AssemblyDirectory))
+            IList<string> assemblyFolders = _analyzerSettings.Input.AssemblyDirectories;
+            foreach (string assemblyFolder in assemblyFolders)
             {
-                result = false;
-                Logger.LogUserMessage($"Input directory '{_analyzerSettings.Input.AssemblyDirectory}' does not exist.");
+                if (!Directory.Exists(assemblyFolder))
+                {
+                    result = false;
+                    Logger.LogUserMessage($"Input directory '{assemblyFolder}' does not exist.");
+                }
+
             }
             return result;
         }
