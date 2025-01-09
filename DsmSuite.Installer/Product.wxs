@@ -1,205 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="DSM Suite" Language="1033" Version="$(var.LongAssyVersion)" Manufacturer="DsmSuite" UpgradeCode="C0C28C50-44C7-40DE-AA35-0F13437D7E19">
-    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-    
-    <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
+	<Product Id="*" Name="DSM Suite" Language="1033" Version="$(var.LongAssyVersion)" Manufacturer="DsmSuite" UpgradeCode="C0C28C50-44C7-40DE-AA35-0F13437D7E19">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
-    <MajorUpgrade Schedule="afterInstallInitialize"
-                  DowngradeErrorMessage="A later version of the DSM suite C++ analyzer is already installed"
-                  AllowSameVersionUpgrades="yes" />
-    
-    <ComponentGroup Id="DotNetAnalyzerComponents" Directory="DOTNET_ANALYZER_INSTALL_FOLDER">
-      <Component Id="DsmSuite.Analyzer.DotNet.exe" Guid="8F930FFA-CBEB-4E48-841D-CC3AE761C1E0">
-        <File Id="DsmSuite.Analyzer.DotNet.exe" Source="..\build\bin\DsmSuite.Analyzer.DotNet.exe" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.DotNet.Lib.dll" Guid="F3C5C5B7-F110-493A-B9DB-2BA4B29F0A5A">
-        <File Id="DsmSuite.Analyzer.DotNet.Lib.dll" Source="..\build\bin\DsmSuite.Analyzer.DotNet.Lib.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.Model.DotNet.dll" Guid="08FB95B9-7649-4EE0-9A55-FB6327F1D7C4">
-        <File Id="DsmSuite.Analyzer.Model.DotNet.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Model.DotNet.dll" Guid="8738227D-0914-4BDB-AEE8-6E1DE6C65657">
-        <File Id="DsmSuite.Common.Model.DotNet.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Util.DotNet.dll" Guid="00BD08C4-8733-441A-A718-E39E49DE2D81">
-        <File Id="DsmSuite.Common.Util.DotNet.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Mono.Cecil.DotNet.dll" Guid="C8051805-428D-42AD-B300-2B4FD9CAF66D">
-        <File Id="Mono.Cecil.DotNet.dll" Source="..\build\bin\Mono.Cecil.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Mono.Cecil.Mdb.DotNet.dll" Guid="BFE45360-AA18-4CA8-8E64-74CD9913C1C2">
-        <File Id="Mono.Cecil.Mdb.DotNet.dll" Source="..\build\bin\Mono.Cecil.Mdb.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Mono.Cecil.Pdb.DotNet.dll" Guid="8615B673-B985-4172-A850-F97F8FB6E449">
-        <File Id="Mono.Cecil.Pdb.DotNet.dll" Source="..\build\bin\Mono.Cecil.Pdb.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Mono.Cecil.Rocks.DotNet.dll" Guid="9AF78FE1-8F9C-4446-9A76-8EFA16A73595">
-        <File Id="Mono.Cecil.Rocks.DotNet.dll" Source="..\build\bin\Mono.Cecil.Rocks.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>   
-    </ComponentGroup>
+		<Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
 
-    <ComponentGroup Id="JavaAnalyzerComponents" Directory="JAVA_ANALYZER_INSTALL_FOLDER">
-      <Component Id="DsmSuite.Analyzer.Jdeps.exe" Guid="01EC8FED-31D0-45B4-B3FA-E864BCF54EA0">
-        <File Id="DsmSuite.Analyzer.Jdeps.exe" Source="..\build\bin\DsmSuite.Analyzer.Jdeps.exe" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.Model.Jdeps.dll" Guid="6D750515-B877-48F2-8C10-939D7720DAD1">
-        <File Id="DsmSuite.Analyzer.Model.Jdeps.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Model.Jdeps.dll" Guid="FBC3F60A-6B46-4365-8BD6-D06E9615A3DA">
-        <File Id="DsmSuite.Common.Model.Jdeps.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Util.Jdeps.dll" Guid="E75C3A3A-CE7D-44E4-B585-A0DFB0DC4D50">
-        <File Id="DsmSuite.Common.Util.Jdeps.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-    </ComponentGroup>
+		<MajorUpgrade Schedule="afterInstallInitialize"
+					  DowngradeErrorMessage="A later version of the DSM suite C++ analyzer is already installed"
+					  AllowSameVersionUpgrades="yes" />
 
-    <ComponentGroup Id="UmlAnalyzerComponents" Directory="UML_ANALYZER_INSTALL_FOLDER">
-      <Component Id="DsmSuite.Analyzer.Uml.exe" Guid="841F3BC7-14A5-4D14-AB3D-2D9583D4BFC1">
-        <File Id="DsmSuite.Analyzer.Uml.exe" Source="..\build\bin\DsmSuite.Analyzer.Uml.exe" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.Model.Uml.dll" Guid="A0165030-8D67-4C86-9261-C24BFB11D828">
-        <File Id="DsmSuite.Analyzer.Model.Uml.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Model.Uml.dll" Guid="6A8D2F57-D5B2-44AF-B45E-C1A6CF0A381B">
-        <File Id="DsmSuite.Common.Model.Uml.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Util.Uml.dll" Guid="1D6E11DB-B555-4B2A-996F-7F7D3ADC2DC8">
-        <File Id="DsmSuite.Common.Util.Uml.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-    </ComponentGroup>
+		<ComponentGroup Id="CppAnalyzerComponents" Directory="CPP_ANALYZER_INSTALL_FOLDER">
+			<Component Id="DsmSuite.Analyzer.Cpp.exe" Guid="7A2AAB67-FC9C-4BE1-AD30-F91C96EF06CC">
+				<File Id="DsmSuite.Analyzer.Cpp.exe" Source="..\build\bin\DsmSuite.Analyzer.Cpp.Exe" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Analyzer.Model.Cpp.dll" Guid="CB822CC5-A318-4998-AF44-2251EF5456F7">
+				<File Id="DsmSuite.Analyzer.Model.Cpp.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Analyzer.Transformations.Cpp.dll" Guid="7C5DEAAD-1611-496A-AF14-2A750204572D">
+				<File Id="DsmSuite.Analyzer.Transformations.Cpp.dll" Source="..\build\bin\DsmSuite.Analyzer.Transformations.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Model.Cpp.dll" Guid="BBBA1CD5-CE4C-439B-AEE7-AC4B6382FDFB">
+				<File Id="DsmSuite.Common.Model.Cpp.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Util.Cpp.dll" Guid="A754691F-643C-4D3F-A1B1-87F079447FCF">
+				<File Id="DsmSuite.Common.Util.Cpp.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+		</ComponentGroup>
 
-    <ComponentGroup Id="CompareComponents" Directory="COMPARER_INSTALL_FOLDER">
-      <Component Id="DsmSuite.Analyzer.Compare.exe" Guid="B4779E46-41B7-468F-A7E3-58D42ACF70D4">
-        <File Id="DsmSuite.Analyzer.Compare.exe" Source="..\build\bin\DsmSuite.Analyzer.Compare.exe" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.CompareLib.dll" Guid="772A8523-7304-4059-91CC-92001264E16D">
-        <File Id="DsmSuite.Analyzer.CompareLib.dll" Source="..\build\bin\DsmSuite.Analyzer.CompareLib.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.Model.Compare.dll" Guid="1E4F5108-E51E-4DBA-8AAC-F1C91CB9C003">
-        <File Id="DsmSuite.Analyzer.Model.Compare.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Model.Compare.dll" Guid="C45ADAA8-59B2-4EDB-90EF-E9DCB679D957">
-        <File Id="DsmSuite.Common.Model.Compare.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Util.Compare.dll" Guid="6AB00DBB-64C4-44F7-A18E-992EB71875E8">
-        <File Id="DsmSuite.Common.Util.Compare.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-    </ComponentGroup>
+		<ComponentGroup Id="DotNetAnalyzerComponents" Directory="DOTNET_ANALYZER_INSTALL_FOLDER">
+			<Component Id="DsmSuite.Analyzer.DotNet.exe" Guid="8F930FFA-CBEB-4E48-841D-CC3AE761C1E0">
+				<File Id="DsmSuite.Analyzer.DotNet.exe" Source="..\build\bin\DsmSuite.Analyzer.DotNet.exe" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Analyzer.DotNet.Lib.dll" Guid="F3C5C5B7-F110-493A-B9DB-2BA4B29F0A5A">
+				<File Id="DsmSuite.Analyzer.DotNet.Lib.dll" Source="..\build\bin\DsmSuite.Analyzer.DotNet.Lib.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Analyzer.Model.DotNet.dll" Guid="08FB95B9-7649-4EE0-9A55-FB6327F1D7C4">
+				<File Id="DsmSuite.Analyzer.Model.DotNet.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Model.DotNet.dll" Guid="8738227D-0914-4BDB-AEE8-6E1DE6C65657">
+				<File Id="DsmSuite.Common.Model.DotNet.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Util.DotNet.dll" Guid="00BD08C4-8733-441A-A718-E39E49DE2D81">
+				<File Id="DsmSuite.Common.Util.DotNet.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="Mono.Cecil.DotNet.dll" Guid="C8051805-428D-42AD-B300-2B4FD9CAF66D">
+				<File Id="Mono.Cecil.DotNet.dll" Source="..\build\bin\Mono.Cecil.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="Mono.Cecil.Mdb.DotNet.dll" Guid="BFE45360-AA18-4CA8-8E64-74CD9913C1C2">
+				<File Id="Mono.Cecil.Mdb.DotNet.dll" Source="..\build\bin\Mono.Cecil.Mdb.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="Mono.Cecil.Pdb.DotNet.dll" Guid="8615B673-B985-4172-A850-F97F8FB6E449">
+				<File Id="Mono.Cecil.Pdb.DotNet.dll" Source="..\build\bin\Mono.Cecil.Pdb.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="Mono.Cecil.Rocks.DotNet.dll" Guid="9AF78FE1-8F9C-4446-9A76-8EFA16A73595">
+				<File Id="Mono.Cecil.Rocks.DotNet.dll" Source="..\build\bin\Mono.Cecil.Rocks.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+		</ComponentGroup>
 
-    <ComponentGroup Id="DsmViewerComponents" Directory="VIEWER_INSTALL_FOLDER">
-      <Component Id="DsmSuite.DsmViewer.View.exe" Guid="9E39FD85-9B8E-4B76-9366-13CF6AC732B3">
-        <File Id="DsmSuite.DsmViewer.View.exe" Source="..\build\bin\DsmSuite.DsmViewer.View.exe" KeyPath="yes" Checksum="yes"/>
-        <ProgId Id="DsmViewerDsi" Description="DSM viewer">
-          <Extension Id="dsi">
-            <Verb Id="open" TargetFile="DsmSuite.DsmViewer.View.exe" Argument="&quot;%1&quot;" />
-          </Extension>
-        </ProgId>
-        <ProgId Id="DsmViewerDsm" Description="DSM viewer">
-          <Extension Id="dsm">
-            <Verb Id="open" TargetFile="DsmSuite.DsmViewer.View.exe" Argument="&quot;%1&quot;" />
-          </Extension>
-        </ProgId>
-      </Component>
-      <Component Id="DsmSuite.DsmViewer.ViewModel.dll" Guid="2E011513-1100-4610-A661-EE667AC06151">
-        <File Id="DsmSuite.DsmViewer.ViewModel.dll" Source="..\build\bin\DsmSuite.DsmViewer.ViewModel.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.DsmViewer.Application.dll" Guid="79D6350F-8069-41A7-9A40-F75D928FE985">
-        <File Id="DsmSuite.DsmViewer.Application.dll" Source="..\build\bin\DsmSuite.DsmViewer.Application.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.DsmViewer.Model.dll" Guid="4F1F0718-89B7-4BF1-8AFD-97F6D62D553E">
-        <File Id="DsmSuite.DsmViewer.Model.dll" Source="..\build\bin\DsmSuite.DsmViewer.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Model.DsmViewer.dll" Guid="3B784A87-08E5-4ED0-8730-1868228CD31F">
-        <File Id="DsmSuite.Common.Model.DsmViewer.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Common.Util.DsmViewer.dll" Guid="93B13A2D-50E4-45A1-8C33-3D73E1CCE750">
-        <File Id="DsmSuite.Common.Util.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="DsmSuite.Analyzer.Model.DsmViewer.dll" Guid="4A933F4A-E039-4E1B-B8F7-855809B1B411">
-        <File Id="DsmSuite.Analyzer.Model.DsmViewer.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-    </ComponentGroup>
+		<ComponentGroup Id="JavaAnalyzerComponents" Directory="JAVA_ANALYZER_INSTALL_FOLDER">
+			<Component Id="DsmSuite.Analyzer.Jdeps.exe" Guid="01EC8FED-31D0-45B4-B3FA-E864BCF54EA0">
+				<File Id="DsmSuite.Analyzer.Jdeps.exe" Source="..\build\bin\DsmSuite.Analyzer.Jdeps.exe" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Analyzer.Model.Jdeps.dll" Guid="6D750515-B877-48F2-8C10-939D7720DAD1">
+				<File Id="DsmSuite.Analyzer.Model.Jdeps.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Model.Jdeps.dll" Guid="FBC3F60A-6B46-4365-8BD6-D06E9615A3DA">
+				<File Id="DsmSuite.Common.Model.Jdeps.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Util.Jdeps.dll" Guid="E75C3A3A-CE7D-44E4-B585-A0DFB0DC4D50">
+				<File Id="DsmSuite.Common.Util.Jdeps.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+		</ComponentGroup>
 
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFiles64Folder">
-        <Directory Id="MAINFOLDER" Name="DsmSuite">
-          <Directory Id="ANALYZERS" Name="Analyzers">
-            <Directory  Id="DOTNET_ANALYZER_INSTALL_FOLDER" Name="DotNet" />
-            <Directory  Id="JAVA_ANALYZER_INSTALL_FOLDER" Name="Java" />
-            <Directory  Id="UML_ANALYZER_INSTALL_FOLDER" Name="UML" />
-          </Directory>
-          <Directory  Id="COMPARER_INSTALL_FOLDER" Name="Comparer" />
-          <Directory  Id="VIEWER_INSTALL_FOLDER" Name="Viewer" />
-        </Directory>
-      </Directory>
-      <Directory Id="ProgramMenuFolder">
-        <Directory Id="ApplicationProgramsFolder" Name="Dsm Suite"/>
-      </Directory>
-    </Directory>
+		<ComponentGroup Id="UmlAnalyzerComponents" Directory="UML_ANALYZER_INSTALL_FOLDER">
+			<Component Id="DsmSuite.Analyzer.Uml.exe" Guid="841F3BC7-14A5-4D14-AB3D-2D9583D4BFC1">
+				<File Id="DsmSuite.Analyzer.Uml.exe" Source="..\build\bin\DsmSuite.Analyzer.Uml.exe" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Analyzer.Model.Uml.dll" Guid="A0165030-8D67-4C86-9261-C24BFB11D828">
+				<File Id="DsmSuite.Analyzer.Model.Uml.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Model.Uml.dll" Guid="6A8D2F57-D5B2-44AF-B45E-C1A6CF0A381B">
+				<File Id="DsmSuite.Common.Model.Uml.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Util.Uml.dll" Guid="1D6E11DB-B555-4B2A-996F-7F7D3ADC2DC8">
+				<File Id="DsmSuite.Common.Util.Uml.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+		</ComponentGroup>
 
-    <DirectoryRef Id="ApplicationProgramsFolder">
-      <Component Id="ApplicationShortcut" Guid="633CDBBD-AA1E-4F46-9375-49984FFBC033">
-        <Shortcut Id="ApplicationStartMenuShortcut"
-                  Name="DSM dependency viewer"
-                  Description="Application to software dependencies in a matrix"
-                  Target="[#DsmSuite.DsmViewer.View.exe]"
-                  WorkingDirectory="VIEWER_INSTALL_FOLDER"/>
-        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\Microsoft\MyApplicationName" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
-      </Component>
-    </DirectoryRef>
+		<ComponentGroup Id="CompareComponents" Directory="COMPARER_INSTALL_FOLDER">
+			<Component Id="DsmSuite.Analyzer.Compare.exe" Guid="B4779E46-41B7-468F-A7E3-58D42ACF70D4">
+				<File Id="DsmSuite.Analyzer.Compare.exe" Source="..\build\bin\DsmSuite.Analyzer.Compare.exe" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Analyzer.CompareLib.dll" Guid="772A8523-7304-4059-91CC-92001264E16D">
+				<File Id="DsmSuite.Analyzer.CompareLib.dll" Source="..\build\bin\DsmSuite.Analyzer.CompareLib.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Analyzer.Model.Compare.dll" Guid="1E4F5108-E51E-4DBA-8AAC-F1C91CB9C003">
+				<File Id="DsmSuite.Analyzer.Model.Compare.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Model.Compare.dll" Guid="C45ADAA8-59B2-4EDB-90EF-E9DCB679D957">
+				<File Id="DsmSuite.Common.Model.Compare.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Util.Compare.dll" Guid="6AB00DBB-64C4-44F7-A18E-992EB71875E8">
+				<File Id="DsmSuite.Common.Util.Compare.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+		</ComponentGroup>
 
-    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
-    
-    <UI>
-      <UIRef Id="WixUI_FeatureTree"/>
-      <UIRef Id="WixUI_ErrorProgressText"/>
-    </UI>
+		<ComponentGroup Id="DsmViewerComponents" Directory="VIEWER_INSTALL_FOLDER">
+			<Component Id="DsmSuite.DsmViewer.View.exe" Guid="9E39FD85-9B8E-4B76-9366-13CF6AC732B3">
+				<File Id="DsmSuite.DsmViewer.View.exe" Source="..\build\bin\DsmSuite.DsmViewer.View.exe" KeyPath="yes" Checksum="yes"/>
+				<ProgId Id="DsmViewerDsi" Description="DSM viewer">
+					<Extension Id="dsi">
+						<Verb Id="open" TargetFile="DsmSuite.DsmViewer.View.exe" Argument="&quot;%1&quot;" />
+					</Extension>
+				</ProgId>
+				<ProgId Id="DsmViewerDsm" Description="DSM viewer">
+					<Extension Id="dsm">
+						<Verb Id="open" TargetFile="DsmSuite.DsmViewer.View.exe" Argument="&quot;%1&quot;" />
+					</Extension>
+				</ProgId>
+			</Component>
+			<Component Id="DsmSuite.DsmViewer.ViewModel.dll" Guid="2E011513-1100-4610-A661-EE667AC06151">
+				<File Id="DsmSuite.DsmViewer.ViewModel.dll" Source="..\build\bin\DsmSuite.DsmViewer.ViewModel.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.DsmViewer.Application.dll" Guid="79D6350F-8069-41A7-9A40-F75D928FE985">
+				<File Id="DsmSuite.DsmViewer.Application.dll" Source="..\build\bin\DsmSuite.DsmViewer.Application.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.DsmViewer.Model.dll" Guid="4F1F0718-89B7-4BF1-8AFD-97F6D62D553E">
+				<File Id="DsmSuite.DsmViewer.Model.dll" Source="..\build\bin\DsmSuite.DsmViewer.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Model.DsmViewer.dll" Guid="3B784A87-08E5-4ED0-8730-1868228CD31F">
+				<File Id="DsmSuite.Common.Model.DsmViewer.dll" Source="..\build\bin\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Util.DsmViewer.dll" Guid="93B13A2D-50E4-45A1-8C33-3D73E1CCE750">
+				<File Id="DsmSuite.Common.Util.dll" Source="..\build\bin\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Analyzer.Model.DsmViewer.dll" Guid="4A933F4A-E039-4E1B-B8F7-855809B1B411">
+				<File Id="DsmSuite.Analyzer.Model.DsmViewer.dll" Source="..\build\bin\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+		</ComponentGroup>
 
-    <Feature Id="DotNetAnalyzerFeature" Title="DSM Suite .Net Analyzer" Level="1">
-      <ComponentRef Id="DsmSuite.Analyzer.DotNet.exe" />
-      <ComponentRef Id="DsmSuite.Analyzer.DotNet.Lib.dll" />
-      <ComponentRef Id="DsmSuite.Analyzer.Model.DotNet.dll" />
-      <ComponentRef Id="DsmSuite.Common.Model.DotNet.dll" />
-      <ComponentRef Id="DsmSuite.Common.Util.DotNet.dll" />
-      <ComponentRef Id="Mono.Cecil.DotNet.dll" />
-      <ComponentRef Id="Mono.Cecil.Mdb.DotNet.dll" />
-      <ComponentRef Id="Mono.Cecil.Pdb.DotNet.dll" />
-      <ComponentRef Id="Mono.Cecil.Rocks.DotNet.dll" />
-    </Feature>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFiles64Folder">
+				<Directory Id="MAINFOLDER" Name="DsmSuite">
+					<Directory Id="ANALYZERS" Name="Analyzers">
+						<Directory  Id="CPP_ANALYZER_INSTALL_FOLDER" Name="C++" />
+						<Directory  Id="DOTNET_ANALYZER_INSTALL_FOLDER" Name="DotNet" />
+						<Directory  Id="JAVA_ANALYZER_INSTALL_FOLDER" Name="Java" />
+						<Directory  Id="UML_ANALYZER_INSTALL_FOLDER" Name="UML" />
+					</Directory>
+					<Directory  Id="COMPARER_INSTALL_FOLDER" Name="Comparer" />
+					<Directory  Id="VIEWER_INSTALL_FOLDER" Name="Viewer" />
+				</Directory>
+			</Directory>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="Dsm Suite"/>
+			</Directory>
+		</Directory>
 
-    <Feature Id="JavaAnalyzerFeature" Title="DSM Suite JDeps Analyzer" Level="1">
-      <ComponentRef Id="DsmSuite.Analyzer.Jdeps.exe" />
-      <ComponentRef Id="DsmSuite.Analyzer.Model.Jdeps.dll" />
-      <ComponentRef Id="DsmSuite.Common.Model.Jdeps.dll" />
-      <ComponentRef Id="DsmSuite.Common.Util.Jdeps.dll" />
-    </Feature>
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="ApplicationShortcut" Guid="633CDBBD-AA1E-4F46-9375-49984FFBC033">
+				<Shortcut Id="ApplicationStartMenuShortcut"
+						  Name="DSM dependency viewer"
+						  Description="Application to software dependencies in a matrix"
+						  Target="[#DsmSuite.DsmViewer.View.exe]"
+						  WorkingDirectory="VIEWER_INSTALL_FOLDER"/>
+				<RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+				<RegistryValue Root="HKCU" Key="Software\Microsoft\MyApplicationName" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+			</Component>
+		</DirectoryRef>
 
-    <Feature Id="UmlAnalyzerFeature" Title="DSM Suite UML Analyzer" Level="1">
-      <ComponentRef Id="DsmSuite.Analyzer.Uml.exe" />
-      <ComponentRef Id="DsmSuite.Analyzer.Model.Uml.dll" />
-      <ComponentRef Id="DsmSuite.Common.Model.Uml.dll" />
-      <ComponentRef Id="DsmSuite.Common.Util.Uml.dll" />
-    </Feature>
+		<WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
 
-    <Feature Id="CompareFeature" Title="DSM Suite Compare Tool" Level="1">
-      <ComponentRef Id="DsmSuite.Analyzer.Compare.exe" />
-      <ComponentRef Id="DsmSuite.Analyzer.CompareLib.dll" />
-      <ComponentRef Id="DsmSuite.Analyzer.Model.Compare.dll" />
-      <ComponentRef Id="DsmSuite.Common.Model.Compare.dll" />
-      <ComponentRef Id="DsmSuite.Common.Util.Compare.dll" />
-    </Feature>
+		<UI>
+			<UIRef Id="WixUI_FeatureTree"/>
+			<UIRef Id="WixUI_ErrorProgressText"/>
+		</UI>
 
-    <Feature Id="DsmViewerFeature" Title="DSM Suite Viewer" Level="1">
-      <ComponentRef Id="DsmSuite.DsmViewer.View.exe" />
-      <ComponentRef Id="DsmSuite.DsmViewer.ViewModel.dll" />
-      <ComponentRef Id="DsmSuite.DsmViewer.Application.dll" />
-      <ComponentRef Id="DsmSuite.DsmViewer.Model.dll" />
-      <ComponentRef Id="DsmSuite.Common.Model.DsmViewer.dll" />
-      <ComponentRef Id="DsmSuite.Common.Util.DsmViewer.dll" />
-      <ComponentRef Id="DsmSuite.Analyzer.Model.DsmViewer.dll" />
-      <ComponentRef Id="ApplicationShortcut" />
-    </Feature>
-  </Product>
+		<Feature Id="CppAnalyzerFeature" Title="DSM Suite C++ Analyzer" Level="1">
+			<ComponentRef Id="DsmSuite.Analyzer.Cpp.exe" />
+			<ComponentRef Id="DsmSuite.Analyzer.Transformations.Cpp.dll" />
+			<ComponentRef Id="DsmSuite.Analyzer.Model.Cpp.dll" />
+			<ComponentRef Id="DsmSuite.Common.Model.Cpp.dll" />
+			<ComponentRef Id="DsmSuite.Common.Util.Cpp.dll" />
+		</Feature>
+		
+		<Feature Id="DotNetAnalyzerFeature" Title="DSM Suite .Net Analyzer" Level="1">
+			<ComponentRef Id="DsmSuite.Analyzer.DotNet.exe" />
+			<ComponentRef Id="DsmSuite.Analyzer.DotNet.Lib.dll" />
+			<ComponentRef Id="DsmSuite.Analyzer.Model.DotNet.dll" />
+			<ComponentRef Id="DsmSuite.Common.Model.DotNet.dll" />
+			<ComponentRef Id="DsmSuite.Common.Util.DotNet.dll" />
+			<ComponentRef Id="Mono.Cecil.DotNet.dll" />
+			<ComponentRef Id="Mono.Cecil.Mdb.DotNet.dll" />
+			<ComponentRef Id="Mono.Cecil.Pdb.DotNet.dll" />
+			<ComponentRef Id="Mono.Cecil.Rocks.DotNet.dll" />
+		</Feature>
+
+		<Feature Id="JavaAnalyzerFeature" Title="DSM Suite JDeps Analyzer" Level="1">
+			<ComponentRef Id="DsmSuite.Analyzer.Jdeps.exe" />
+			<ComponentRef Id="DsmSuite.Analyzer.Model.Jdeps.dll" />
+			<ComponentRef Id="DsmSuite.Common.Model.Jdeps.dll" />
+			<ComponentRef Id="DsmSuite.Common.Util.Jdeps.dll" />
+		</Feature>
+
+		<Feature Id="UmlAnalyzerFeature" Title="DSM Suite UML Analyzer" Level="1">
+			<ComponentRef Id="DsmSuite.Analyzer.Uml.exe" />
+			<ComponentRef Id="DsmSuite.Analyzer.Model.Uml.dll" />
+			<ComponentRef Id="DsmSuite.Common.Model.Uml.dll" />
+			<ComponentRef Id="DsmSuite.Common.Util.Uml.dll" />
+		</Feature>
+
+		<Feature Id="CompareFeature" Title="DSM Suite Compare Tool" Level="1">
+			<ComponentRef Id="DsmSuite.Analyzer.Compare.exe" />
+			<ComponentRef Id="DsmSuite.Analyzer.CompareLib.dll" />
+			<ComponentRef Id="DsmSuite.Analyzer.Model.Compare.dll" />
+			<ComponentRef Id="DsmSuite.Common.Model.Compare.dll" />
+			<ComponentRef Id="DsmSuite.Common.Util.Compare.dll" />
+		</Feature>
+
+		<Feature Id="DsmViewerFeature" Title="DSM Suite Viewer" Level="1">
+			<ComponentRef Id="DsmSuite.DsmViewer.View.exe" />
+			<ComponentRef Id="DsmSuite.DsmViewer.ViewModel.dll" />
+			<ComponentRef Id="DsmSuite.DsmViewer.Application.dll" />
+			<ComponentRef Id="DsmSuite.DsmViewer.Model.dll" />
+			<ComponentRef Id="DsmSuite.Common.Model.DsmViewer.dll" />
+			<ComponentRef Id="DsmSuite.Common.Util.DsmViewer.dll" />
+			<ComponentRef Id="DsmSuite.Analyzer.Model.DsmViewer.dll" />
+			<ComponentRef Id="ApplicationShortcut" />
+		</Feature>
+	</Product>
 </Wix>

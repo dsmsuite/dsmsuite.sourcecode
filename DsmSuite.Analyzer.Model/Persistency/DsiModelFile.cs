@@ -85,7 +85,7 @@ namespace DsmSuite.Analyzer.Model.Persistency
             {
                 writer.WriteStartDocument();
 
-                writer.WriteStartElement(RootXmlNode, "urn:dsi-schema");
+                writer.WriteStartElement(RootXmlNode);
                 {
                     WriteModelAttributes(writer);
                     WriteMetaData(writer);
