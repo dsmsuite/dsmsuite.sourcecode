@@ -1,4 +1,5 @@
 ﻿using DsmSuite.Common.Util;
+using System.IO;
 
 namespace DsmSuite.DsmViewer.ViewModel.Settings
 {

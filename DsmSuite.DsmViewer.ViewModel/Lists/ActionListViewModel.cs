@@ -48,7 +48,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             {
                 builder.AppendLine($"{viewModel.Index,-5}, {viewModel.Action,-30}, {viewModel.Details}");
             }
-            //TODO Clipboard.SetText(builder.ToString());
+            Clipboard.SetText(builder.ToString());
         }
 
         private void ClearExecute(object parameter)

@@ -3,6 +3,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
@@ -113,7 +114,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
                     }
                     builder.AppendLine(line.ToString());
                 }
-                // TODO Fix Clipboard.SetText(builder.ToString());
+                Clipboard.SetText(builder.ToString());
             }
         }
     }

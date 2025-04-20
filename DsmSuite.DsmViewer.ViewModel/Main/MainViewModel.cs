@@ -9,6 +9,7 @@ using DsmSuite.DsmViewer.ViewModel.Settings;
 using System.Reflection;
 using System.Windows.Input;
 using DsmSuite.DsmViewer.ViewModel.Common;
+using System.IO;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
