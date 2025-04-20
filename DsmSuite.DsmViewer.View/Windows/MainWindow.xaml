@@ -10,8 +10,7 @@
         Height="Auto" 
         Width="Auto"
         Loaded="MainWindow_OnLoaded"
-        Style="{StaticResource WindowStyle}"
-        Icon="/DsmSuite.DsmViewer.View;component/Resources/DSM.ico">
+        Style="{StaticResource WindowStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />

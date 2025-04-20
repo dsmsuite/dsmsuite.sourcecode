@@ -115,7 +115,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
                     }
                     builder.AppendLine(line.ToString());
                 }
-                Clipboard.SetText(builder.ToString());
+                // TODO Fix Clipboard.SetText(builder.ToString());
             }
         }
     }

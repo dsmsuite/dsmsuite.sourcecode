@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<dsimodel elementCount="3" relationCount="2" xmlns="urn:dsi-schema">
+<dsimodel elementCount="3" relationCount="2">
   <metadatagroup name="group1">
     <metadata name="item1" value="value1" />
     <metadata name="item2" value="value2" />

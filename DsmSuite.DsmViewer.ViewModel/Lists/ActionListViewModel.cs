@@ -49,7 +49,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             {
                 builder.AppendLine($"{viewModel.Index, -5}, {viewModel.Action, -30}, {viewModel.Details}");
             }
-            Clipboard.SetText(builder.ToString());
+            // TODO Fix Clipboard.SetText(builder.ToString());
         }
 
         private void ClearExecute(object parameter)

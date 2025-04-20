@@ -35,8 +35,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Common
 
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            // TODO FIX
+            add { }
+            remove { }
         }
     }
 }
