@@ -1,8 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
-using System.Collections.Generic;
-using DsmSuite.DsmViewer.Application.Actions.Element;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
@@ -87,22 +85,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         public void WhenUndoActionThenElementParentIsRevertedDataModelNameChange()
         {
             Assert.Inconclusive("To be implemented");
-        }
-
-        [TestMethod]
-        public void GivenLoadedActionWhenGettingDataThenActionAttributesMatchNoNameChange()
-        {
-            object[] args = {_model.Object, _data};
-            ElementChangeParentAction action = new ElementChangeParentAction(args);
-
-            Assert.AreEqual(7, action.Data.Count);
-            Assert.AreEqual(ElementId.ToString(), _data["element"]);
-            Assert.AreEqual(OldParentId.ToString(), _data["old"]);
-            Assert.AreEqual(OldIndex.ToString(), _data["oldIndex"]);
-            Assert.AreEqual(OldName, _data["oldName"]);
-            Assert.AreEqual(NewParentId.ToString(), _data["new"]);
-            Assert.AreEqual(NewIndex.ToString(), _data["newIndex"]);
-            Assert.AreEqual(NewName, _data["newName"]);
         }
 
         [TestMethod]

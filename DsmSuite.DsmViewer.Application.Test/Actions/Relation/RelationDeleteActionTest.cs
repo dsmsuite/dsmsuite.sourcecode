@@ -1,8 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DsmSuite.DsmViewer.Application.Actions.Relation;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
-using DsmSuite.DsmViewer.Application.Actions.Relation;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
 {
@@ -56,18 +54,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
             action.Undo();
 
             _model.Verify(x => x.UnremoveRelation(RelationId), Times.Once());
-        }
-
-        [TestMethod]
-        public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
-        {
-            _model.Setup(x => x.GetDeletedRelationById(RelationId)).Returns(_relation.Object);
-
-            object[] args = { _model.Object, _data };
-            RelationDeleteAction action = new RelationDeleteAction(args);
-
-            Assert.AreEqual(1, action.Data.Count);
-            Assert.AreEqual(RelationId.ToString(), _data["relation"]);
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DsmSuite.Common.Util;
+﻿using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Cpp.Utils
 {
@@ -16,7 +13,7 @@ namespace DsmSuite.Analyzer.Cpp.Utils
         {
             FilesNotFoundLogMessages = new Dictionary<string, HashSet<string>>();
         }
-       
+
         public static void LogErrorFileNotFound(string filename, string context)
         {
             string key = filename;
@@ -66,7 +63,7 @@ namespace DsmSuite.Analyzer.Cpp.Utils
                 Logger.LogToFile(logLevel, overviewFilename, "--------------------------------------------");
                 Logger.LogToFile(logLevel, detailsFilename, "---------------------------------------------");
             }
-            
+
             foreach (string key in keys)
             {
                 int occurrences = messages[key].Count;

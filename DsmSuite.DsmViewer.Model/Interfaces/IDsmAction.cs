@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DsmSuite.DsmViewer.Model.Interfaces
+﻿namespace DsmSuite.DsmViewer.Model.Interfaces
 {
     public interface IDsmAction
     {
@@ -8,6 +6,6 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         string Type { get; }
 
-        IReadOnlyDictionary<string,string> Data { get; }
+        IReadOnlyDictionary<string, string> Data { get; }
     }
 }

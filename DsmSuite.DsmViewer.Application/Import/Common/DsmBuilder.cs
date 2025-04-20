@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DsmSuite.Common.Model.Interface;
+﻿using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
 
@@ -37,7 +35,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Common
             IDsmElement consumer = _dsmModel.GetElementById(consumerId);
             IDsmElement provider = _dsmModel.GetElementById(providerId);
 
-            return  _dsmModel.AddRelation(consumer, provider, type, weight, properties);
+            return _dsmModel.AddRelation(consumer, provider, type, weight, properties);
         }
 
         public void FinalizeImport(IProgress<ProgressInfo> progress)

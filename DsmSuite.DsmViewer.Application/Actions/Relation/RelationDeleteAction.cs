@@ -2,7 +2,6 @@
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
@@ -15,25 +14,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         private readonly IDsmElement _provider;
 
         public const ActionType RegisteredType = ActionType.RelationDelete;
-
-        public RelationDeleteAction(object[] args)
-        {
-            if (args.Length == 3)
-            {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
-
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _relation = attributes.GetRelation(nameof(_relation));
-                    _consumer = attributes.GetRelationConsumer(nameof(_relation));
-                    _provider = attributes.GetRelationProvider(nameof(_relation));
-                }
-            }
-        }
 
         public RelationDeleteAction(IDsmModel model, IDsmRelation relation)
         {
@@ -60,9 +40,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public bool IsValid()
         {
-            return (_model != null) && 
-                   (_relation != null) && 
-                   (_consumer != null) && 
+            return (_model != null) &&
+                   (_relation != null) &&
+                   (_consumer != null) &&
                    (_provider != null);
         }
 

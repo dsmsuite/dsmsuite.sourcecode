@@ -1,7 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-
-namespace DsmSuite.Common.Util.Test
+﻿namespace DsmSuite.Common.Util.Test
 {
     [TestClass]
     public class FilePathTest

@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using DsmSuite.DsmViewer.ViewModel.Main;
+using System.Windows;
 using System.Windows.Controls;
-using DsmSuite.DsmViewer.ViewModel.Main;
 
 namespace DsmSuite.DsmViewer.View.UserControls
 {

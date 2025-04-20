@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Model.Persistency;
 using DsmSuite.Common.Model.Core;
-using DsmSuite.Common.Util;
 using DsmSuite.Common.Model.Interface;
-using System;
+using DsmSuite.Common.Util;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace DsmSuite.Analyzer.Model.Core

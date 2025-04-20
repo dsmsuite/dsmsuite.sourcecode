@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DsmSuite.Analyzer.Cpp.IncludeResolve
+﻿namespace DsmSuite.Analyzer.Cpp.IncludeResolve
 {
     public class AllIncludeFileResolveStrategy : IncludeResolveStrategy
     {

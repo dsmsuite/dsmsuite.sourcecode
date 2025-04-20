@@ -1,5 +1,4 @@
-﻿using System;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Uml.Settings;
 using DsmSuite.Common.Util;
 
@@ -32,7 +31,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
                     _elementCount = 0;
                     for (short index = 0; index < _repository.Models.Count; index++)
                     {
-                        EA.Package model = (EA.Package) _repository.Models.GetAt(index);
+                        EA.Package model = (EA.Package)_repository.Models.GetAt(index);
                         FindPackageElements(model);
                     }
                     UpdateElementProgress(true);
@@ -40,7 +39,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
                     _relationCount = 0;
                     for (short index = 0; index < _repository.Models.Count; index++)
                     {
-                        EA.Package model = (EA.Package) _repository.Models.GetAt(index);
+                        EA.Package model = (EA.Package)_repository.Models.GetAt(index);
                         FindPackageRelations(model);
                     }
                     UpdateRelationProgress(true);
@@ -60,13 +59,13 @@ namespace DsmSuite.Analyzer.Uml.Analysis
         {
             for (short index = 0; index < package.Packages.Count; index++)
             {
-                EA.Package subpackage = (EA.Package) package.Packages.GetAt(index);
+                EA.Package subpackage = (EA.Package)package.Packages.GetAt(index);
                 FindPackageElements(subpackage);
             }
 
             for (short index = 0; index < package.Elements.Count; index++)
             {
-                EA.Element element = (EA.Element) package.Elements.GetAt(index);
+                EA.Element element = (EA.Element)package.Elements.GetAt(index);
                 FindNestedElements(element);
             }
         }
@@ -77,7 +76,7 @@ namespace DsmSuite.Analyzer.Uml.Analysis
 
             for (short index = 0; index < element.Elements.Count; index++)
             {
-                EA.Element nestedElement = (EA.Element) element.Elements.GetAt(index);
+                EA.Element nestedElement = (EA.Element)element.Elements.GetAt(index);
                 FindNestedElements(nestedElement);
             }
         }
@@ -86,13 +85,13 @@ namespace DsmSuite.Analyzer.Uml.Analysis
         {
             for (short index = 0; index < package.Packages.Count; index++)
             {
-                EA.Package subpackage = (EA.Package) package.Packages.GetAt(index);
+                EA.Package subpackage = (EA.Package)package.Packages.GetAt(index);
                 FindPackageRelations(subpackage);
             }
 
             for (short index = 0; index < package.Elements.Count; index++)
             {
-                EA.Element element = (EA.Element) package.Elements.GetAt(index);
+                EA.Element element = (EA.Element)package.Elements.GetAt(index);
                 FindElementRelations(element);
             }
         }
@@ -101,14 +100,14 @@ namespace DsmSuite.Analyzer.Uml.Analysis
         {
             for (short index = 0; index < element.Connectors.Count; index++)
             {
-                EA.Connector connector = (EA.Connector) element.Connectors.GetAt(index);
+                EA.Connector connector = (EA.Connector)element.Connectors.GetAt(index);
 
                 RegisterRelation(connector);
             }
 
             for (short index = 0; index < element.Elements.Count; index++)
             {
-                EA.Element nestedElement = (EA.Element) element.Elements.GetAt(index);
+                EA.Element nestedElement = (EA.Element)element.Elements.GetAt(index);
                 FindElementRelations(nestedElement);
             }
         }

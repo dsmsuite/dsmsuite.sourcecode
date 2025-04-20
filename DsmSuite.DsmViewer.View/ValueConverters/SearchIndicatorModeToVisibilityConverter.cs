@@ -1,8 +1,7 @@
-﻿using System;
+﻿using DsmSuite.DsmViewer.ViewModel.Main;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using DsmSuite.DsmViewer.ViewModel.Main;
 
 namespace DsmSuite.DsmViewer.View.ValueConverters
 {

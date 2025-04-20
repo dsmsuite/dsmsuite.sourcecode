@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DsmSuite.DsmViewer.Application.Sorting;
+﻿using DsmSuite.DsmViewer.Application.Sorting;
 
 namespace DsmSuite.DsmViewer.Application.Test.Algorithm
 {
@@ -24,7 +22,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Algorithm
             Assert.AreEqual(2, result.GetIndex(2));
             Assert.AreEqual(3, result.GetIndex(3));
         }
-        
+
         [TestMethod]
         public void WhenSortResultConstructedWithEmptyStringThenOrderItIsInvalid()
         {
@@ -64,7 +62,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Algorithm
             Assert.AreEqual(1, result.GetIndex(1));
             Assert.AreEqual(0, result.GetIndex(2));
         }
-        
+
         [TestMethod]
         public void WhenSortResultConstructedWithCommaSeparatedNumberStringThenDataReturnsSameString()
         {

@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using DsmSuite.DsmViewer.Application.Actions.Management;
+﻿using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Actions.Element;
+using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
 using DsmSuite.DsmViewer.Application.Actions.Snapshot;
+using DsmSuite.DsmViewer.Application.Import.Common;
+using DsmSuite.DsmViewer.Application.Import.Dsi;
 using DsmSuite.DsmViewer.Application.Interfaces;
+using DsmSuite.DsmViewer.Application.Metrics;
 using DsmSuite.DsmViewer.Application.Queries;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.Analyzer.Model.Core;
 using System.Reflection;
-using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.Application.Import.Common;
-using DsmSuite.DsmViewer.Application.Import.Dsi;
-using DsmSuite.DsmViewer.Application.Metrics;
 
 namespace DsmSuite.DsmViewer.Application.Core
 {
@@ -249,7 +246,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             ElementMoveDownAction action = new ElementMoveDownAction(_dsmModel, element);
             _actionManager.Execute(action);
         }
-        
+
         public IEnumerable<string> GetElementTypes()
         {
             return _dsmModel.GetElementTypes();

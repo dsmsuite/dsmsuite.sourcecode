@@ -1,11 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Xml;
+﻿using DsmSuite.Common.Model.Interface;
+using DsmSuite.Common.Model.Persistency;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.Common.Model.Interface;
-using System.Collections.Generic;
-using DsmSuite.Common.Model.Persistency;
+using System.Xml;
 
 namespace DsmSuite.DsmViewer.Model.Persistency
 {
@@ -324,7 +321,7 @@ namespace DsmSuite.DsmViewer.Model.Persistency
                             break;
                     }
                 }
-        
+
                 if (id.HasValue && order.HasValue)
                 {
                     if (elementProperties.Count > 0)

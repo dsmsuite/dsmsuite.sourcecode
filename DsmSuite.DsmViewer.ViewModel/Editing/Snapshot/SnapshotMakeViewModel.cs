@@ -1,6 +1,6 @@
-﻿using System.Windows.Input;
-using DsmSuite.DsmViewer.Application.Interfaces;
+﻿using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
+using System.Windows.Input;
 
 namespace DsmSuite.DsmViewer.ViewModel.Editing.Snapshot
 {
@@ -34,7 +34,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Snapshot
         public string Description
         {
             get { return _description; }
-            set { _description = value; OnPropertyChanged();  }
+            set { _description = value; OnPropertyChanged(); }
         }
 
         private void AcceptChangeExecute(object parameter)

@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using DsmSuite.Common.Model.Core;
+using DsmSuite.Common.Model.Interface;
+using DsmSuite.Common.Model.Persistency;
 using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Model.Persistency;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DsmSuite.Common.Model.Core;
-using DsmSuite.Common.Model.Interface;
-using DsmSuite.Common.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Test.Persistency
 {
@@ -378,17 +374,17 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
 
         private void FindElementById(IDsmElement element, int elementId, ref IDsmElement found)
         {
-           if (element.Id == elementId)
-           {
-               found = element;
-           }
-           else
-           {
-               foreach(IDsmElement child in element.Children)
-               {
-                   FindElementById(child, elementId, ref found);
-               }
-           }
+            if (element.Id == elementId)
+            {
+                found = element;
+            }
+            else
+            {
+                foreach (IDsmElement child in element.Children)
+                {
+                    FindElementById(child, elementId, ref found);
+                }
+            }
         }
 
         public IEnumerable<string> GetExportedMetaDataGroups()
@@ -443,7 +439,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Persistency
 
         public int GetExportedActionCount()
         {
-            return _actions.Count; 
+            return _actions.Count;
         }
     }
 }

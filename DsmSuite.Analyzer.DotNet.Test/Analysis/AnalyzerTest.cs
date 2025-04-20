@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using DsmSuite.Analyzer.DotNet.Settings;
+﻿using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.DotNet.Test.Util;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
 
 namespace DsmSuite.Analyzer.DotNet.Test.Analysis
 {
@@ -81,30 +79,30 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
             IDsiElement elementGenericParameterType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterType`1");
             Assert.IsNotNull(elementGenericParameterType);
 
-            IDsiElement elementGenericParameterTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterTypeParameter"); 
+            IDsiElement elementGenericParameterTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterTypeParameter");
             Assert.IsNotNull(elementGenericParameterTypeParameter);
 
             // Return types
-            IDsiElement elementReturnType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ReturnType"); 
+            IDsiElement elementReturnType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ReturnType");
             Assert.IsNotNull(elementReturnType);
 
-            IDsiElement elementReturnEnum = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ReturnEnum"); 
+            IDsiElement elementReturnEnum = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ReturnEnum");
             Assert.IsNotNull(elementReturnEnum);
 
-            IDsiElement elementGenericReturnType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnType`1"); 
+            IDsiElement elementGenericReturnType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnType`1");
             Assert.IsNotNull(elementGenericReturnType);
 
-            IDsiElement elementGenericReturnTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnTypeParameter"); 
+            IDsiElement elementGenericReturnTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnTypeParameter");
             Assert.IsNotNull(elementGenericReturnTypeParameter);
 
             IDsiElement elementDelegateGenericParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.DelegateGenericParameter");
             Assert.IsNotNull(elementDelegateGenericParameter);
 
-            IDsiElement elementEventsArgsGenericParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.EventsArgsGenericParameter"); 
+            IDsiElement elementEventsArgsGenericParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.EventsArgsGenericParameter");
             Assert.IsNotNull(elementEventsArgsGenericParameter);
 
             // Main relations
-            Assert.IsTrue(model.DoesRelationExist(elementMainClient.Id, elementMainType.Id)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainClient.Id, elementMainType.Id));
             Assert.IsTrue(model.DoesRelationExist(elementMainClient.Id, elementEventsArgsGenericParameter.Id));
 
             Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementNestedType.Id));
@@ -116,15 +114,15 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
             Assert.IsTrue(model.DoesRelationExist(elementMainTypeAnonymous.Id, elementDelegateGenericParameter.Id));
             Assert.IsTrue(model.DoesRelationExist(elementMainTypeAnonymous.Id, elementDelegateGenericParameter.Id));
 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementInterfaceA.Id)); 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementBaseType.Id)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementInterfaceA.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementBaseType.Id));
 
             Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementEventsArgsGenericParameter.Id));
             Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementDelegateGenericParameter.Id));
 
             // Field relations
-            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementFieldType.Id)); 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericFieldType.Id)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementFieldType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericFieldType.Id));
 
             // Property relations
             Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementPropertyType.Id));

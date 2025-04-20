@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DsmSuite.DsmViewer.Application.Actions.Base;
-using System.Collections.Generic;
+﻿using DsmSuite.DsmViewer.Application.Actions.Base;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Base
 {

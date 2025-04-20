@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using DsmSuite.DsmViewer.Model.Core;
+﻿using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Test.Core
 {
@@ -348,7 +345,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IList<IDsmElement> matches = model.SearchElements(".d", model.RootElement, true, null, true);
             Assert.AreEqual(0, matches.Count);
         }
-        
+
         [TestMethod]
         public void GivenAnElementIsInTheModelWhenRemoveElementIsCalledThenElementAndItsChildrenAreRemoved()
         {
@@ -474,7 +471,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             IDsmElement a1 = model.AddElement("a1", "eta", a.Id, null, null);
             Assert.AreEqual(2, a1.Id);
 
-            IDsmElement b = model.AddElement("b", "", null, null,null);
+            IDsmElement b = model.AddElement("b", "", null, null, null);
             Assert.AreEqual(3, b.Id);
             IDsmElement b1 = model.AddElement("b1", "etb", b.Id, null, null);
             Assert.AreEqual(4, b1.Id);

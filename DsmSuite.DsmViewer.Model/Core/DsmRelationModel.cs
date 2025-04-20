@@ -1,7 +1,5 @@
 ﻿using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
@@ -50,7 +48,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
                 if (consumer.Id != provider.Id)
                 {
-                    relation = new DsmRelation(relationId, consumer, provider, type, weight, properties) {IsDeleted = deleted};
+                    relation = new DsmRelation(relationId, consumer, provider, type, weight, properties) { IsDeleted = deleted };
                     if (deleted)
                     {
                         UnregisterRelation(relation);
@@ -77,7 +75,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 if (consumer.Id != provider.Id)
                 {
                     _lastRelationId++;
-                    relation = new DsmRelation(_lastRelationId, consumer, provider, type, weight, properties) {IsDeleted = false};
+                    relation = new DsmRelation(_lastRelationId, consumer, provider, type, weight, properties) { IsDeleted = false };
                     RegisterRelation(relation);
                 }
             }
@@ -233,7 +231,7 @@ namespace DsmSuite.DsmViewer.Model.Core
 
         public int GetRelationCount(IDsmElement consumer, IDsmElement provider)
         {
-            int count =0;
+            int count = 0;
 
             DsmElement consumerDsmElement = consumer as DsmElement;
             DsmElement providerDsmElement = provider as DsmElement;
@@ -449,8 +447,8 @@ namespace DsmSuite.DsmViewer.Model.Core
                 IDsmElement currentProvider = relation.Provider;
                 while (currentProvider != null)
                 {
-                    if ((currentConsumer.Id != currentProvider.Id) && 
-                        !currentConsumer.IsRoot && 
+                    if ((currentConsumer.Id != currentProvider.Id) &&
+                        !currentConsumer.IsRoot &&
                         !currentProvider.IsRoot &&
                         !currentConsumer.IsRecursiveChildOf(currentProvider) &&
                         !currentProvider.IsRecursiveChildOf(currentConsumer))

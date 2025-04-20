@@ -1,8 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
-using DsmSuite.DsmViewer.Application.Actions.Element;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
@@ -54,16 +52,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.Swap(_nextElement.Object, _element.Object), Times.Once());
-        }
-
-        [TestMethod]
-        public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
-        {
-            object[] args = { _model.Object, _data };
-            ElementMoveDownAction action = new ElementMoveDownAction(args);
-
-            Assert.AreEqual(1, action.Data.Count);
-            Assert.AreEqual(ElementId.ToString(), _data["element"]);
         }
     }
 }

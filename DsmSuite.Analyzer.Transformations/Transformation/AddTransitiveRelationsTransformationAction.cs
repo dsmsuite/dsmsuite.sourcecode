@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Transformations.Transformation

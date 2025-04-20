@@ -2,7 +2,6 @@
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
@@ -15,25 +14,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly string _new;
 
         public const ActionType RegisteredType = ActionType.ElementChangeName;
-
-        public ElementChangeNameAction(object[] args)
-        {
-            if (args.Length == 3)
-            {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
-
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _element = attributes.GetElement(nameof(_element));
-                    _old = attributes.GetString(nameof(_old));
-                    _new = attributes.GetString(nameof(_new));
-                }
-            }
-        }
 
         public ElementChangeNameAction(IDsmModel model, IDsmElement element, string name)
         {
@@ -60,9 +40,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public bool IsValid()
         {
-            return (_model != null) && 
-                   (_element != null) && 
-                   (_old != null) && 
+            return (_model != null) &&
+                   (_element != null) &&
+                   (_old != null) &&
                    (_new != null);
         }
 

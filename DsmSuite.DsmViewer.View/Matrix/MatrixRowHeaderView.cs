@@ -1,7 +1,7 @@
-﻿using System.Windows;
+﻿using DsmSuite.DsmViewer.ViewModel.Matrix;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
@@ -93,7 +93,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 renderedRowHeaderItemView?.Redraw();
             }
         }
-        
+
         private void CreateChildViews()
         {
             double y = 0.0;

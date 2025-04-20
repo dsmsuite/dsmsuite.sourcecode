@@ -1,5 +1,4 @@
 ﻿using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {

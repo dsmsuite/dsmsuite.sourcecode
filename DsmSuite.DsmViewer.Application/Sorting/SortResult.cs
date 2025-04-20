@@ -1,6 +1,4 @@
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
-using System;
 
 namespace DsmSuite.DsmViewer.Application.Sorting
 {
@@ -47,7 +45,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
                 order.Add(new KeyValuePair<int, int>(i, _list[i]));
             }
 
-            foreach(var v in order)
+            foreach (var v in order)
             {
                 _list[v.Value] = v.Key;
             }
@@ -113,7 +111,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
                 return (_list.Count > 0) && valid;
             }
         }
-        
+
         private void CheckIndex(int index)
         {
             if ((index < 0) || (index >= _list.Count))

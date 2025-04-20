@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using DsmSuite.DsmViewer.ViewModel.Matrix;
+﻿using DsmSuite.DsmViewer.ViewModel.Matrix;
+using System.Windows;
 
 
 namespace DsmSuite.DsmViewer.View.Matrix

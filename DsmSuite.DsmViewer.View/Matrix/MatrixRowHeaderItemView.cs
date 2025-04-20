@@ -1,10 +1,9 @@
-﻿using System;
+﻿using DsmSuite.DsmViewer.Model.Interfaces;
+using DsmSuite.DsmViewer.ViewModel.Main;
+using DsmSuite.DsmViewer.ViewModel.Matrix;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.ViewModel.Main;
-using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
@@ -62,9 +61,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
         protected override void OnDragOver(DragEventArgs e)
         {
             base.OnDragOver(e);
-            
+
             e.Effects = IsValidDropTarget(e) ? DragDropEffects.Move : DragDropEffects.None;
- 
+
             e.Handled = true;
         }
 
@@ -118,7 +117,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
 
             double pitch = _theme.MatrixCellSize + 2.0;
 
-            int index = (int) (point.Y / pitch);
+            int index = (int)(point.Y / pitch);
             return index;
         }
 
@@ -173,7 +172,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 }
                 else
                 {
-                    Rect indicatorRect =  new Rect(backgroundRect.Width - _indicatorWith, 1.0, _indicatorWith, ActualHeight - _theme.SpacingWidth);
+                    Rect indicatorRect = new Rect(backgroundRect.Width - _indicatorWith, 1.0, _indicatorWith, ActualHeight - _theme.SpacingWidth);
 
                     switch (_viewModel.SelectedIndicatorViewMode)
                     {

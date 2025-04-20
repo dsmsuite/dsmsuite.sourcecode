@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using DsmSuite.DsmViewer.ViewModel.Main;
+using System.Windows;
 using System.Windows.Controls;
-using DsmSuite.DsmViewer.ViewModel.Main;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace DsmSuite.DsmViewer.View.UserControls
@@ -44,7 +44,7 @@ namespace DsmSuite.DsmViewer.View.UserControls
                 Filter = "DSM model|*.dsm|DSI import|*.dsi|All Types|*.dsm;*.dsi",
                 Title = "Open DSM project"
             };
-            
+
             bool? result = dlg.ShowDialog();
 
             if (result.HasValue && result.Value)

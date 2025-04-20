@@ -1,5 +1,4 @@
 using DsmSuite.Analyzer.Model.Interface;
-using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.Model.Core
 {

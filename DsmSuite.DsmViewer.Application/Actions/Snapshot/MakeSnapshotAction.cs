@@ -2,7 +2,6 @@
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 {
@@ -14,28 +13,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 
         public const ActionType RegisteredType = ActionType.Snapshot;
 
-        public MakeSnapshotAction(object[] args)
-        {
-            if (args.Length == 3)
-            {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
-
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _name = attributes.GetString(nameof(_name));
-                }
-            }
-        }
-
         public MakeSnapshotAction(IDsmModel model, string name)
         {
             _name = name;
         }
-        
+
         public ActionType Type => RegisteredType;
         public string Title => "Make snapshot";
         public string Description => $"name={_name}";
@@ -51,7 +33,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Snapshot
 
         public bool IsValid()
         {
-            return (_model != null) && 
+            return (_model != null) &&
                    (_name != null);
         }
 

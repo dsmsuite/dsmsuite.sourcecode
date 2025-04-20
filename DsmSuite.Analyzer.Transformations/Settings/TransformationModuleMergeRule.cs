@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DsmSuite.Analyzer.Transformations.Settings
+﻿namespace DsmSuite.Analyzer.Transformations.Settings
 {
     [Serializable]
     public class TransformationModuleMergeRule

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using DsmSuite.Common.Util;
 using System.Xml;
 using System.Xml.Serialization;
-using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.ViewModel.Settings
 {
@@ -46,7 +45,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
         {
             get { return _caseSensitiveSearch; }
             set { _caseSensitiveSearch = value; }
-        }       
+        }
 
         public bool BetaFeaturesEnabled
         {

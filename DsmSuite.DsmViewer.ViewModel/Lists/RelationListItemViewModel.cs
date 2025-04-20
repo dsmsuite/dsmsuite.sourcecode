@@ -1,8 +1,6 @@
-﻿using System;
+﻿using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
-using DsmSuite.DsmViewer.Application.Interfaces;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {

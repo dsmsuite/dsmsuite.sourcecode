@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+﻿using DsmSuite.Analyzer.CompareLib;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Util;
-using DsmSuite.Analyzer.CompareLib;
+using System.Reflection;
 
 namespace DsmSuite.Analyzer.Compare
 {

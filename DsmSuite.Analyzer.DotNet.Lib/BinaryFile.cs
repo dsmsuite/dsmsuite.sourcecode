@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using DsmSuite.Common.Util;
+using Mono.Cecil;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using DsmSuite.Common.Util;
-using System.Text.RegularExpressions;
-using Mono.Cecil;
 
 namespace DsmSuite.Analyzer.DotNet.Lib
 {

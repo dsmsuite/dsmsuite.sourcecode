@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Analyzer.Model.Interface;
 
 namespace DsmSuite.Analyzer.Model.Persistency
 {

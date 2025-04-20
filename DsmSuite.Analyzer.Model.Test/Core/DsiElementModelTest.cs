@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using DsmSuite.Analyzer.Model.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
-using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.Model.Test.Core
 {

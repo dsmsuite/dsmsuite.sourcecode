@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
-using System.Windows.Input;
-using System.Windows;
-using System.Text;
 using System.Collections.ObjectModel;
-using DsmSuite.DsmViewer.Application.Interfaces;
+using System.Text;
+using System.Windows.Input;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
@@ -78,7 +76,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
         public string Title { get; }
         public string SubTitle { get; }
 
-        public ObservableCollection<ElementListItemViewModel> Elements { get;  }
+        public ObservableCollection<ElementListItemViewModel> Elements { get; }
 
         public ElementListItemViewModel SelectedElement { get; set; }
 

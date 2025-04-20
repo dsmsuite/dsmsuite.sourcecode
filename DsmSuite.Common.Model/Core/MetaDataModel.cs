@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using DsmSuite.Common.Model.Interface;
+﻿using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Model.Persistency;
 using DsmSuite.Common.Util;
+using System.Reflection;
 
 namespace DsmSuite.Common.Model.Core
 {

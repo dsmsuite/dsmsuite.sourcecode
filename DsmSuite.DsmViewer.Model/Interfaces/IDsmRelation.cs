@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DsmSuite.DsmViewer.Model.Interfaces
+﻿namespace DsmSuite.DsmViewer.Model.Interfaces
 {
     public interface IDsmRelation
     {

@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DsmSuite.DsmViewer.Application.Sorting;
+﻿using DsmSuite.DsmViewer.Application.Sorting;
 
 namespace DsmSuite.DsmViewer.Application.Test.Algorithm
 {
@@ -19,7 +18,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Algorithm
         {
             int size = 5;
             WeightsMatrix matrix = new WeightsMatrix(size);
-            for (int i=0; i< size; i++)
+            for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {

@@ -1,7 +1,5 @@
 ﻿using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Test.Core
 {

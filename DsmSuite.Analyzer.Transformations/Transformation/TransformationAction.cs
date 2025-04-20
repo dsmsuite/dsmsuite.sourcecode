@@ -1,5 +1,4 @@
-﻿using System;
-using DsmSuite.Common.Util;
+﻿using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Transformations.Transformation
 {
@@ -15,7 +14,7 @@ namespace DsmSuite.Analyzer.Transformations.Transformation
         public abstract void Execute();
 
         public string Name { get; }
-        
+
         protected void UpdateTransformationProgress(string actionName, int currentItemCount, int totalItemCount)
         {
             ProgressInfo progressInfo = new ProgressInfo

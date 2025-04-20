@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
+﻿using DsmSuite.Common.Util;
+using DsmSuite.DsmViewer.ViewModel.Settings;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
-using DsmSuite.Common.Util;
-using DsmSuite.DsmViewer.ViewModel.Settings;
 using System.Windows.Threading;
 
 namespace DsmSuite.DsmViewer.View
@@ -10,7 +10,7 @@ namespace DsmSuite.DsmViewer.View
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App 
+    public partial class App
     {
         public static Theme Skin { get; set; }
         public static bool ShowCycles { get; set; }

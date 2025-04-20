@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Transformations.Settings;
 using DsmSuite.Common.Util;
 

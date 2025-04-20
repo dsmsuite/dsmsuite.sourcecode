@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Model.Persistency;
 using DsmSuite.Common.Util;
-using System.Collections.ObjectModel;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
@@ -23,7 +20,7 @@ namespace DsmSuite.Analyzer.Model.Core
             _relationsByConsumerId = new Dictionary<int, Dictionary<int, Dictionary<string, List<DsiRelation>>>>();
             _relationTypeCount = new Dictionary<string, int>();
         }
-        
+
         public void Clear()
         {
             _relationsByConsumerId.Clear();
@@ -55,7 +52,7 @@ namespace DsmSuite.Analyzer.Model.Core
             }
             return relation;
         }
-        
+
         public IDsiRelation AddRelation(string consumerName, string providerName, string type, int weight, IDictionary<string, string> properties)
         {
             Logger.LogDataModelMessage($"Add relation consumerName={consumerName} providerName={providerName} type={type} weight={weight}");
@@ -87,7 +84,7 @@ namespace DsmSuite.Analyzer.Model.Core
 
         private DsiRelation AddOrUpdateRelation(int consumerId, int providerId, string type, int weight, IDictionary<string, string> properties)
         {
-            Dictionary<string,List<DsiRelation>> relations = GetRelations(consumerId, providerId);
+            Dictionary<string, List<DsiRelation>> relations = GetRelations(consumerId, providerId);
 
             IncrementRelationTypeCount(type);
 
@@ -159,7 +156,7 @@ namespace DsmSuite.Analyzer.Model.Core
             List<IDsiRelation> allRelations = new List<IDsiRelation>();
             foreach (Dictionary<int, Dictionary<string, List<DsiRelation>>> consumerRelations in _relationsByConsumerId.Values)
             {
-                foreach (Dictionary<string,List<DsiRelation>> relationsForSpecificConsumer in consumerRelations.Values)
+                foreach (Dictionary<string, List<DsiRelation>> relationsForSpecificConsumer in consumerRelations.Values)
                 {
                     foreach (List<DsiRelation> relation in relationsForSpecificConsumer.Values)
                     {

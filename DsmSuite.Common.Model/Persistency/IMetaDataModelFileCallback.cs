@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DsmSuite.Common.Model.Interface;
+﻿using DsmSuite.Common.Model.Interface;
 
 namespace DsmSuite.Common.Model.Persistency
 {

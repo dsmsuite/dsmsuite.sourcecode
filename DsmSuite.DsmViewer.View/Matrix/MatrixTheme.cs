@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+﻿using DsmSuite.DsmViewer.ViewModel.Matrix;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {

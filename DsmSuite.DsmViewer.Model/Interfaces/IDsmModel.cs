@@ -1,7 +1,5 @@
 ﻿using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
-using System;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Interfaces
 {

@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace DsmSuite.Analyzer.Cpp.Test.Analysis
+﻿namespace DsmSuite.Analyzer.Cpp.Test.Analysis
 {
     [TestClass]
     public class AnalyzerTest

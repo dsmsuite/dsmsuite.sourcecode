@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using DsmSuite.DsmViewer.Model.Interfaces;
+﻿using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
@@ -82,7 +79,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             string fullname = Name;
             IDsmElement parent = Parent;
-            while ((parent != element)  && (parent != null))
+            while ((parent != element) && (parent != null))
             {
                 if (parent.Name.Length > 0)
                 {
@@ -200,7 +197,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 GetElementAndItsChildren(child, elements);
             }
         }
-        
+
         public bool Swap(IDsmElement element1, IDsmElement element2)
         {
             bool swapped = false;

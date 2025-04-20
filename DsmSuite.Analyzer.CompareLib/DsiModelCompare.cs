@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.CompareLib
@@ -194,7 +192,7 @@ namespace DsmSuite.Analyzer.CompareLib
                 }
             }
         }
-        
+
         private void UpdateProgress(string actionText, int currentItemCount, int totalItemCount, string itemType)
         {
             ProgressInfo progressInfo = new ProgressInfo

@@ -1,8 +1,7 @@
-﻿using System.IO;
-using System.Reflection;
-using DsmSuite.Analyzer.Jdeps.Settings;
+﻿using DsmSuite.Analyzer.Jdeps.Settings;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Util;
+using System.Reflection;
 
 namespace DsmSuite.Analyzer.Jdeps
 {

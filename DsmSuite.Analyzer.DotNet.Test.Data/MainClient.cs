@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DsmSuite.Analyzer.DotNet.Test.Data
+﻿namespace DsmSuite.Analyzer.DotNet.Test.Data
 {
     public class MainClient
     {

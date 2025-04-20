@@ -1,12 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using DsmSuite.DsmViewer.ViewModel.Common;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
-using DsmSuite.DsmViewer.Application.Interfaces;
+﻿using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.ViewModel.Main;
+using DsmSuite.DsmViewer.ViewModel.Common;
 using DsmSuite.DsmViewer.ViewModel.Lists;
+using DsmSuite.DsmViewer.ViewModel.Main;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {

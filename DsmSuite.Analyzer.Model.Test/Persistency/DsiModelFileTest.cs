@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Model.Persistency;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 using DsmSuite.Common.Model.Core;
 using DsmSuite.Common.Model.Interface;
-using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Common.Model.Persistency;
 
 namespace DsmSuite.Analyzer.Model.Test.Persistency

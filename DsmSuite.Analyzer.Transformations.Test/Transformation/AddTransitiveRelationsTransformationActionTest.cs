@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using DsmSuite.Analyzer.Model.Core;
+﻿using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzer.Transformations.Transformation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
 
 namespace DsmSuite.Analyzer.Transformations.Test.Transformation
 {

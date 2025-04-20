@@ -1,5 +1,4 @@
 ﻿using DsmSuite.DsmViewer.ViewModel.Main;
-using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -16,7 +15,7 @@ namespace DsmSuite.DsmViewer.View.ValueConverters
         {
             SolidColorBrush brush;
             SearchState searchState = (SearchState)value;
-            switch(searchState)
+            switch (searchState)
             {
                 case SearchState.NoInput:
                     brush = NoMatchBrush;

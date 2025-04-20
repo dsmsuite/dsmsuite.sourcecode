@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DsmSuite.DsmViewer.Model.Core;
+﻿using DsmSuite.DsmViewer.Model.Core;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.DsmViewer.Model.Test.Core
 {
@@ -205,7 +202,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             CreateElementRelations();
             Assert.AreEqual(11, _relationsModel.GetExportedRelationCount());
 
-            foreach(IDsmElement element in _elementsDataModel.GetElements())
+            foreach (IDsmElement element in _elementsDataModel.GetElements())
             {
                 Assert.AreEqual(0, _relationsModel.GetDependencyWeight(element, element));
             }
@@ -346,7 +343,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             Assert.AreEqual(0, _relationsModel.GetDependencyWeight(_c2, _a1));
             Assert.AreEqual(CycleType.None, _relationsModel.IsCyclicDependency(_a1, _c2));
         }
-        
+
         [TestMethod]
         public void GivenRelationExistsBetweenElementsWhenFindRelationsThenReturnsRelationBetweenTheElements()
         {
@@ -444,7 +441,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             _expectedWeights[_c1][_b] = 1;
             _expectedWeights[_c][_c2] = 1;
             _expectedWeights[_c2][_c] = 1;
-            
+
             CheckDependencyWeights();
         }
 
@@ -552,7 +549,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             _expectedWeights[_c][_a2] = 4;
             _expectedWeights[_c][_a] = 4;
         }
-        
+
         private void CheckDependencyWeights()
         {
             SetActualDependencyWeights();

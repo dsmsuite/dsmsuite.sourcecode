@@ -1,10 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.Application.Actions.Element;
-using System.Collections.Generic;
+﻿using DsmSuite.DsmViewer.Application.Actions.Element;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Application.Test.Stubs;
+using DsmSuite.DsmViewer.Model.Interfaces;
+using Moq;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
@@ -48,29 +46,6 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ReorderChildren(_element.Object, It.Is<SortResult>(i => i.Data == SortResult)), Times.Once());
-        }
-
-        [TestMethod]
-        public void WhenUndoActionThenElementsChildrenAreSortIsReverted()
-        {
-            object[] args = { _model.Object, _data };
-            ElementSortAction action = new ElementSortAction(args);
-            action.Undo();
-            Assert.IsTrue(action.IsValid());
-
-            _model.Verify(x => x.ReorderChildren(_element.Object, It.Is<SortResult>(i => i.Data == InverseSortResult)), Times.Once());
-        }
-
-        [TestMethod]
-        public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
-        {
-            object[] args = { _model.Object, _data };
-            ElementSortAction action = new ElementSortAction(args);
-
-            Assert.AreEqual(3, action.Data.Count);
-            Assert.AreEqual(ElementId.ToString(), _data["element"]);
-            Assert.AreEqual(UsedAlgorithm, _data["algorithm"]);
-            Assert.AreEqual(SortResult, _data["order"]);
         }
     }
 }

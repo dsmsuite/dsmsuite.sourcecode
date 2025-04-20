@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Input;
-using DsmSuite.DsmViewer.Application.Interfaces;
+﻿using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 using DsmSuite.DsmViewer.ViewModel.Main;
+using System.Windows.Input;
 
 namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
 {
@@ -76,7 +74,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
         public string SelectedRelationType
         {
             get { return _selectedRelationType; }
-            set { _selectedRelationType = value; _lastSelectedRelationType = value;  OnPropertyChanged(); }
+            set { _selectedRelationType = value; _lastSelectedRelationType = value; OnPropertyChanged(); }
         }
 
         public int Weight
@@ -168,7 +166,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                 return true;
             }
         }
-        
+
         private void InvokeRelationUpdated(IDsmRelation updateRelation)
         {
             _lastSelectedConsumerElementType = ConsumerSearchViewModel.SelectedElementType;

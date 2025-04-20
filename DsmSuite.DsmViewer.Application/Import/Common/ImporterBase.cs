@@ -1,5 +1,4 @@
-﻿using System;
-using DsmSuite.Common.Util;
+﻿using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
 

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Xml.Schema;
-
-namespace DsmSuite.Common.Util
+﻿namespace DsmSuite.Common.Util
 {
     public static class FilePath
     {

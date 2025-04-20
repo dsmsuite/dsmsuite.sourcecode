@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using DsmSuite.Analyzer.Model.Core;
+﻿using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Uml.Settings;
 using DsmSuite.Common.Util;
+using System.Reflection;
 
 namespace DsmSuite.Analyzer.Uml
 {

@@ -1,18 +1,16 @@
-﻿using System.Reflection;
-using System.Windows;
-using DsmSuite.DsmViewer.ViewModel.Main;
-using DsmSuite.DsmViewer.Application.Core;
+﻿using DsmSuite.DsmViewer.Application.Core;
 using DsmSuite.DsmViewer.Model.Core;
-using DsmSuite.DsmViewer.ViewModel.Editing.Element;
-using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
-using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
-using DsmSuite.DsmViewer.ViewModel.Settings;
-using SettingsView = DsmSuite.DsmViewer.View.Settings.SettingsView;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
 using DsmSuite.DsmViewer.View.Editing;
 using DsmSuite.DsmViewer.View.Lists;
-using DsmSuite.DsmViewer.View.Settings;
+using DsmSuite.DsmViewer.ViewModel.Editing.Element;
+using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
+using DsmSuite.DsmViewer.ViewModel.Main;
+using DsmSuite.DsmViewer.ViewModel.Settings;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using SettingsView = DsmSuite.DsmViewer.View.Settings.SettingsView;
 
 namespace DsmSuite.DsmViewer.View.Windows
 {
@@ -73,19 +71,19 @@ namespace DsmSuite.DsmViewer.View.Windows
 
         private void OnActionsVisible(object sender, ViewModel.Lists.ActionListViewModel viewModel)
         {
-            ActionListView view = new ActionListView {DataContext = viewModel};
+            ActionListView view = new ActionListView { DataContext = viewModel };
             view.Show();
         }
 
         private void OnSnapshotMakeStarted(object sender, SnapshotMakeViewModel viewModel)
         {
-            SnapshotCreateDialog view = new SnapshotCreateDialog { DataContext = viewModel};
+            SnapshotCreateDialog view = new SnapshotCreateDialog { DataContext = viewModel };
             view.ShowDialog();
         }
 
         private void OnElementEditStarted(object sender, ElementEditViewModel viewModel)
         {
-            ElementEditDialog view = new ElementEditDialog { DataContext = viewModel};
+            ElementEditDialog view = new ElementEditDialog { DataContext = viewModel };
             view.ShowDialog();
         }
 

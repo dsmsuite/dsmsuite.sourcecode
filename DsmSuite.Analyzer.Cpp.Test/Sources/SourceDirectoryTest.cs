@@ -1,7 +1,6 @@
 ﻿using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Cpp.Sources;
 using DsmSuite.Analyzer.Cpp.Test.Util;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.Analyzer.Cpp.Test.Sources
 {
@@ -19,7 +18,7 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
             analyzerSettings.Input.IgnorePaths.Clear();
             analyzerSettings.Analysis.ResolveMethod = ResolveMethod.AddBestMatch;
 
-        SourceDirectory sourceDirectory = new SourceDirectory(analyzerSettings);
+            SourceDirectory sourceDirectory = new SourceDirectory(analyzerSettings);
             sourceDirectory.Analyze();
             const int numberOfHeaderFiles = 7;
             const int numberOfImplementationFiles = 5;

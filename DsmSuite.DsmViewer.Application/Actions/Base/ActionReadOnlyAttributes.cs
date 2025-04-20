@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DsmSuite.DsmViewer.Model.Interfaces;
+﻿using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
@@ -41,14 +40,14 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
         public IDsmElement GetElement(string memberName)
         {
             int id = GetInt(memberName);
-            return _model.GetElementById(id) ?? 
+            return _model.GetElementById(id) ??
                    _model.GetDeletedElementById(id);
         }
 
         public IDsmRelation GetRelation(string memberName)
         {
             int id = GetInt(memberName);
-            return _model.GetRelationById(id) ?? 
+            return _model.GetRelationById(id) ??
                    _model.GetDeletedRelationById(id);
         }
 

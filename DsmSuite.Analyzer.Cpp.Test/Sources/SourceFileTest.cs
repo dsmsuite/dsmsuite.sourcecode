@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using DsmSuite.Analyzer.Cpp.IncludeResolve;
+﻿using DsmSuite.Analyzer.Cpp.IncludeResolve;
 using DsmSuite.Analyzer.Cpp.Sources;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace DsmSuite.Analyzer.Cpp.Test.Sources
@@ -126,8 +122,8 @@ namespace DsmSuite.Analyzer.Cpp.Test.Sources
         {
             string implementationFile = @"D:\Data\my-file.cpp";
             string headerFile = "my-file.h";
-            List<IncludeCandidate> candidates = new List<IncludeCandidate> {new IncludeCandidate(@"D:\Data\my-file.h")};
-            List<string> resolvedIncludes = new List<string> {@"D:\Data\my-file.h"};
+            List<IncludeCandidate> candidates = new List<IncludeCandidate> { new IncludeCandidate(@"D:\Data\my-file.h") };
+            List<string> resolvedIncludes = new List<string> { @"D:\Data\my-file.h" };
 
             SourceFile sourceFile = new SourceFile(new FileInfo(implementationFile));
 

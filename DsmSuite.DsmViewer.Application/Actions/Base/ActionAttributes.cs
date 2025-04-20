@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DsmSuite.DsmViewer.Application.Actions.Base
+﻿namespace DsmSuite.DsmViewer.Application.Actions.Base
 {
     public class ActionAttributes
     {
@@ -33,7 +31,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Base
 
         private static string RemoveUnderscore(string memberName)
         {
-            return memberName.Substring(1); 
+            return memberName.Substring(1);
         }
     }
 }

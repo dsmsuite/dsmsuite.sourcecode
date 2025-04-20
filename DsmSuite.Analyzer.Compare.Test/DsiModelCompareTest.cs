@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using DsmSuite.Analyzer.CompareLib;
 using DsmSuite.Analyzer.Model.Core;
 using DsmSuite.Analyzer.Model.Interface;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DsmSuite.Analyzer.CompareLib;
+using System.Reflection;
 
 namespace DsmSuite.Analyzer.Compare.Test
 {
@@ -23,18 +21,18 @@ namespace DsmSuite.Analyzer.Compare.Test
             _oldModel = new DsiModel("Test1", new List<string>(), Assembly.GetExecutingAssembly());
             _newModel = new DsiModel("Test2", new List<string>(), Assembly.GetExecutingAssembly());
             _dsiModelCompare = new DsiModelCompare(_oldModel, _newModel, null);
-            _allModels = new [] {_oldModel, _newModel};
-            _onlyOldModel = new [] { _oldModel };
-            _onlyNewModel = new [] { _newModel };
+            _allModels = new[] { _oldModel, _newModel };
+            _onlyOldModel = new[] { _oldModel };
+            _onlyNewModel = new[] { _newModel };
         }
-        
+
         [TestMethod]
         public void TestEmptyModelTheSame()
         {
             _dsiModelCompare.Compare();
             Assert.IsTrue(_dsiModelCompare.AreIdentical);
-            Assert.AreEqual(0,_dsiModelCompare.AddedElementCount);
-            Assert.AreEqual(0,_dsiModelCompare.RemovedElementCount);
+            Assert.AreEqual(0, _dsiModelCompare.AddedElementCount);
+            Assert.AreEqual(0, _dsiModelCompare.RemovedElementCount);
             Assert.AreEqual(0, _dsiModelCompare.AddedRelationCount);
             Assert.AreEqual(0, _dsiModelCompare.RemovedRelationCount);
         }
@@ -137,7 +135,7 @@ namespace DsmSuite.Analyzer.Compare.Test
 
         private void AddElement(IEnumerable<IDsiModel> models, string name)
         {
-            foreach(var model in models)
+            foreach (var model in models)
             {
                 model.AddElement(name, "type", null);
             }

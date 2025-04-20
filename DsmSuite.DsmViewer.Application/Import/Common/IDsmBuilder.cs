@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using DsmSuite.Common.Model.Interface;
+﻿using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
 

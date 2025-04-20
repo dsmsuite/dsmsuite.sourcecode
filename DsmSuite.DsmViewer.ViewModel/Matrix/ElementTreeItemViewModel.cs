@@ -1,9 +1,8 @@
-﻿using System.Windows.Input;
+﻿using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
-using System.Collections.Generic;
-using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Main;
+using System.Windows.Input;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
@@ -46,7 +45,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public MatrixColor Color
         {
             get { return _color; }
-            set { _color = value; OnPropertyChanged();  }
+            set { _color = value; OnPropertyChanged(); }
         }
 
         public int Depth { get; }
@@ -136,7 +135,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
             else
             {
-                Color =  MatrixColorConverter.GetColor(Depth);
+                Color = MatrixColorConverter.GetColor(Depth);
             }
         }
     }

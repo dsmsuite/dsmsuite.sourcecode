@@ -2,8 +2,6 @@
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
@@ -14,23 +12,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly IDsmElement _element;
 
         public const ActionType RegisteredType = ActionType.ElementCut;
-
-        public ElementCutAction(object[] args)
-        {
-            if (args.Length == 3)
-            {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
-
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _element = attributes.GetElement(nameof(_element));
-                }
-            }
-        }
 
         public ElementCutAction(IDsmModel model, IDsmElement element, IActionContext actionContext)
         {

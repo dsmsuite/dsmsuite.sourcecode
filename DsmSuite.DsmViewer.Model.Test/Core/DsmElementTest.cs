@@ -1,6 +1,4 @@
 ﻿using DsmSuite.DsmViewer.Model.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Test.Core
 {
@@ -145,7 +143,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
             string child2Name = "child2";
             DsmElement child2 = new DsmElement(child2Id, child2Name, "", null);
             Assert.AreEqual(null, child2.Parent);
-            
+
             parent.InsertChildAtIndex(child2, 1);
             Assert.AreEqual("parent.child2", child2.Fullname);
             Assert.AreEqual("child2", child2.GetRelativeName(parent));

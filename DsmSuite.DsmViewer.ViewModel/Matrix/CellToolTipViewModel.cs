@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using DsmSuite.DsmViewer.Application.Interfaces;
-using DsmSuite.DsmViewer.Model.Interfaces;
+﻿using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
@@ -13,7 +11,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             ConsumerId = consumer.Id;
             ConsumerName = consumer.Fullname;
             ProviderId = provider.Id;
-            ProviderName = provider.Fullname; 
+            ProviderName = provider.Fullname;
             Weight = weight;
             CycleType = cycleType.ToString();
 

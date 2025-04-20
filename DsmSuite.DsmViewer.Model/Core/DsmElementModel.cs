@@ -1,7 +1,5 @@
 ﻿using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
@@ -287,7 +285,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             element.IsMatch = false;
 
-            foreach(IDsmElement child in element.Children)
+            foreach (IDsmElement child in element.Children)
             {
                 ClearMarkElements(child);
             }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Import.Common;
@@ -67,7 +64,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
         {
             IDsmElement parent = null;
 
-            char[] trimCharacters = { ' ', '.'};
+            char[] trimCharacters = { ' ', '.' };
             string dsiElementName = dsiElement.Name.TrimStart(trimCharacters);
             ElementName elementName = new ElementName();
             foreach (string name in new ElementName(dsiElementName).NameParts)
@@ -103,7 +100,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
                 UpdateProgress(progress, "Importing dsi model", _totalItemCount, _progressedItemCount);
             }
         }
-        
+
         private void ImportRelation(IDsiRelation dsiRelation)
         {
             Logger.LogInfo($"Import relation consumerId={dsiRelation.ConsumerId} providerId={dsiRelation.ProviderId}");

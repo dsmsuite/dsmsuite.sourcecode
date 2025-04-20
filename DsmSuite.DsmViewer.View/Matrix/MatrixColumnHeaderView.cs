@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using DsmSuite.DsmViewer.ViewModel.Matrix;
+﻿using DsmSuite.DsmViewer.ViewModel.Matrix;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -103,7 +103,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                 Width = _theme.MatrixCellSize * matrixSize + _theme.SpacingWidth;
             }
         }
-        
+
         private int GetHoveredColumn(Point location)
         {
             double column = (location.X - _offset) / _pitch;

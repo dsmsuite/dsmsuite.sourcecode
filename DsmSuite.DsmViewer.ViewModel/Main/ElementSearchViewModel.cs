@@ -1,8 +1,6 @@
 ﻿using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -86,7 +84,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public bool CaseSensitiveSearch
         {
             get { return _caseSensitiveSearch; }
-            set 
+            set
             {
                 if (_caseSensitiveSearch != value)
                 {
@@ -100,7 +98,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         public string SelectedElementType
         {
             get { return _selectedElementType; }
-            set 
+            set
             {
                 if (_selectedElementType != value)
                 {

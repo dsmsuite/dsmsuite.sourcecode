@@ -1,11 +1,8 @@
-﻿
-using System.Collections.Generic;
-
-namespace DsmSuite.Analyzer.Model.Interface
+﻿namespace DsmSuite.Analyzer.Model.Interface
 {
     public interface IDsiRelation
     {
-        int ConsumerId{ get; }
+        int ConsumerId { get; }
         int ProviderId { get; }
         string Type { get; }
         int Weight { get; }

@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using DsmSuite.Analyzer.Model.Interface;
+﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Model.Interface;
 using DsmSuite.DsmViewer.Application.Import.Common;
 using DsmSuite.DsmViewer.Application.Import.Dsi;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace DsmSuite.DsmViewer.Application.Test.Import.Dsi

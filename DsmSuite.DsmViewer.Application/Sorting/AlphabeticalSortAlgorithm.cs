@@ -1,7 +1,5 @@
 ﻿using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace DsmSuite.DsmViewer.Application.Sorting
 {
@@ -29,7 +27,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
             {
                 List<int> newOrder = _element.Children.OrderBy(x => x.Name).Select(x => x.Id).ToList();
 
-                for (int i=0; i< vector.GetNumberOfElements(); i++)
+                for (int i = 0; i < vector.GetNumberOfElements(); i++)
                 {
                     int id = _element.Children[i].Id;
                     vector.SetIndex(newOrder.IndexOf(id), i);

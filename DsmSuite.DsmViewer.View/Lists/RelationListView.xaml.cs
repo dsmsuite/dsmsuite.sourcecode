@@ -1,5 +1,5 @@
-﻿using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
-using DsmSuite.DsmViewer.View.Editing;
+﻿using DsmSuite.DsmViewer.View.Editing;
+using DsmSuite.DsmViewer.ViewModel.Editing.Relation;
 using DsmSuite.DsmViewer.ViewModel.Lists;
 using System.Windows;
 

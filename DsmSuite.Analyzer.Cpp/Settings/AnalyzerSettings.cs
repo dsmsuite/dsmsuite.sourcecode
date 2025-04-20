@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using DsmSuite.Analyzer.Transformations.Settings;
+using DsmSuite.Common.Util;
 using System.Xml;
 using System.Xml.Serialization;
-using DsmSuite.Common.Util;
-using DsmSuite.Analyzer.Transformations.Settings;
 
 namespace DsmSuite.Analyzer.Cpp.Settings
 {
@@ -61,7 +58,7 @@ namespace DsmSuite.Analyzer.Cpp.Settings
         public string Filename { get; set; }
         public bool Compress { get; set; }
     }
-    
+
     /// <summary>
     /// Settings used during code analysis. Persisted in XML format using serialization.
     /// </summary>
@@ -86,9 +83,9 @@ namespace DsmSuite.Analyzer.Cpp.Settings
             };
 
             analyzerSettings.Input.RootDirectory = @"C:\";
-            analyzerSettings.Input.SourceDirectories = new List<string> {@"C:\"};
-            analyzerSettings.Input.ExternalIncludeDirectories = new List<string> {@"C:\"};
-            analyzerSettings.Input.IgnorePaths = new List<string> {@"C:\"};
+            analyzerSettings.Input.SourceDirectories = new List<string> { @"C:\" };
+            analyzerSettings.Input.ExternalIncludeDirectories = new List<string> { @"C:\" };
+            analyzerSettings.Input.IgnorePaths = new List<string> { @"C:\" };
 
             analyzerSettings.Analysis.ResolveMethod = ResolveMethod.AddBestMatch;
             analyzerSettings.Transformation.IgnoredNames = new List<string>();
@@ -101,7 +98,7 @@ namespace DsmSuite.Analyzer.Cpp.Settings
 
             analyzerSettings.Output.Filename = "Output.dsi";
             analyzerSettings.Output.Compress = true;
-            
+
             return analyzerSettings;
         }
 

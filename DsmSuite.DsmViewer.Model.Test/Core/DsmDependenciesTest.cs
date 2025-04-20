@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using DsmSuite.DsmViewer.Model.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DsmSuite.DsmViewer.Model.Core;
 
 namespace DsmSuite.DsmViewer.Model.Test.Core
 {
@@ -14,7 +12,7 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         DsmElement _b;
         DsmElement _b1;
         DsmElement _b2;
-        
+
         [TestInitialize]
         public void TestInitialize()
         {

@@ -1,7 +1,5 @@
 ﻿using DsmSuite.Common.Model.Interface;
 using DsmSuite.Common.Util;
-using System;
-using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.Model.Interface
 {
@@ -13,7 +11,7 @@ namespace DsmSuite.Analyzer.Model.Interface
         string Filename { get; }
 
         // Model persistency
-        void Load(string dsiFilename,IProgress<ProgressInfo> progress);
+        void Load(string dsiFilename, IProgress<ProgressInfo> progress);
         void Save(string dsiFilename, bool compressFile, IProgress<ProgressInfo> progress);
 
         // Meta data

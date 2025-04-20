@@ -1,6 +1,4 @@
 ﻿using DsmSuite.DsmViewer.Model.Interfaces;
-using System;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Sorting
 {
@@ -26,7 +24,7 @@ namespace DsmSuite.DsmViewer.Application.Sorting
             if (Algorithms.ContainsKey(algorithmName))
             {
                 Type type = Algorithms[algorithmName];
-                object[] args = { model , element };
+                object[] args = { model, element };
                 object argumentList = args;
                 algorithm = Activator.CreateInstance(type, argumentList) as ISortAlgorithm;
             }

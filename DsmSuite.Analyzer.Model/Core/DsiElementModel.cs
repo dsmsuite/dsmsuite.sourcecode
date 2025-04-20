@@ -1,8 +1,6 @@
 ﻿using DsmSuite.Analyzer.Model.Interface;
-using DsmSuite.Common.Util;
-using System;
-using System.Collections.Generic;
 using DsmSuite.Analyzer.Model.Persistency;
+using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
@@ -64,7 +62,7 @@ namespace DsmSuite.Analyzer.Model.Core
         {
             Logger.LogDataModelMessage($"Ignore element name={name} type={type}");
         }
-        
+
         public void RemoveElement(IDsiElement element)
         {
             Logger.LogDataModelMessage($"Remove element id={element.Id} name={element.Name} type={element.Type}");

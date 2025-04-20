@@ -3,7 +3,6 @@ using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
@@ -16,25 +15,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private string _order;
 
         public const ActionType RegisteredType = ActionType.ElementSort;
-
-        public ElementSortAction(object[] args)
-        {
-            if (args.Length == 3)
-            {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
-
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _element = attributes.GetElement(nameof(_element));
-                    _algorithm = attributes.GetString(nameof(_algorithm));
-                    _order = attributes.GetString(nameof(_order));
-                }
-            }
-        }
 
         public ElementSortAction(IDsmModel model, IDsmElement element, string algorithm)
         {
@@ -71,9 +51,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public bool IsValid()
         {
-            return (_model != null) && 
-                   (_element != null) && 
-                   (_algorithm != null) && 
+            return (_model != null) &&
+                   (_element != null) &&
+                   (_algorithm != null) &&
                    (_order != null);
         }
 

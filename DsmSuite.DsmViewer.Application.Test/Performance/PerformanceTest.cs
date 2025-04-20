@@ -1,11 +1,7 @@
 ﻿using DsmSuite.DsmViewer.Application.Core;
 using DsmSuite.DsmViewer.Model.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 
 namespace DsmSuite.DsmViewer.Application.Test.Performance
 {
@@ -21,14 +17,14 @@ namespace DsmSuite.DsmViewer.Application.Test.Performance
         {
             Process currentProcess = Process.GetCurrentProcess();
             const long million = 1000000;
-            
+
             long peakPagedMemMbBefore = currentProcess.PeakPagedMemorySize64 / million;
             long peakVirtualMemMbBefore = currentProcess.PeakVirtualMemorySize64 / million;
             long peakWorkingSetMbBefore = currentProcess.PeakWorkingSet64 / million;
             Console.WriteLine($"Peak physical memory usage {peakWorkingSetMbBefore:0.000}MB");
             Console.WriteLine($"Peak paged memory usage    {peakPagedMemMbBefore:0.000}MB");
             Console.WriteLine($"Peak virtual memory usage  {peakVirtualMemMbBefore:0.000}MB");
-            
+
             string inputFilename = "DsmSuite.DsmViewer.Application.PerformanceTest.Input.dsm";
 
             DsmModel model = new DsmModel("Viewer", Assembly.GetExecutingAssembly());
@@ -37,7 +33,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Performance
             Assert.AreEqual(1, model.GetElementCount());
             Assert.AreEqual(0, model.GetRelationCount());
 
-            Stopwatch watch = new  Stopwatch();
+            Stopwatch watch = new Stopwatch();
             watch.Start();
 
             application.LoadModel(inputFilename, null);

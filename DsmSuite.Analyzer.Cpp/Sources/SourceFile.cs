@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using DsmSuite.Analyzer.Cpp.IncludeResolve;
 using System.Text.RegularExpressions;
-using DsmSuite.Analyzer.Cpp.IncludeResolve;
 
 namespace DsmSuite.Analyzer.Cpp.Sources
 {
@@ -74,7 +71,7 @@ namespace DsmSuite.Analyzer.Cpp.Sources
                 }
             }
         }
-        
+
         public string ExtractFileFromIncludeStatement(string line)
         {
             // Preprocessing directives are lines in your program that start with #.

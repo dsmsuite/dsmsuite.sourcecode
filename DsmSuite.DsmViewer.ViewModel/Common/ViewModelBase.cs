@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
+﻿using DsmSuite.DsmViewer.ViewModel.Properties;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using DsmSuite.DsmViewer.ViewModel.Properties;
 
 namespace DsmSuite.DsmViewer.ViewModel.Common
 {

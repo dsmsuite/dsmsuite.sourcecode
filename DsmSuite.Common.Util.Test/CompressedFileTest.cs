@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace DsmSuite.Common.Util.Test
+﻿namespace DsmSuite.Common.Util.Test
 {
     [TestClass]
     public class CompressedFileTest : IProgress<int>
@@ -17,7 +12,7 @@ namespace DsmSuite.Common.Util.Test
             _lines.Clear();
             _progress = 0;
         }
-        
+
         [TestMethod]
         public void GiveFileDoesNotExistWhenFileExistsIsCalledThenFalseIsReturned()
         {
@@ -152,7 +147,7 @@ namespace DsmSuite.Common.Util.Test
                 for (int lineCount = 0; lineCount < 4; lineCount++)
                 {
                     writer.WriteLine($"line{lineCount}");
-                    progress.Report(lineCount+1);
+                    progress.Report(lineCount + 1);
                 }
             }
         }

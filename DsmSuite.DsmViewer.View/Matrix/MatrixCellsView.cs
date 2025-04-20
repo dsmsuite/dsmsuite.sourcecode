@@ -1,7 +1,7 @@
-﻿using System.Windows;
+﻿using DsmSuite.DsmViewer.ViewModel.Matrix;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
@@ -116,7 +116,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                                 X = (column * _pitch) + (_pitch - textWidth) / 2,
                                 Y = (row * _pitch) + _verticalTextOffset
                             };
-                            DrawText(dc, content, location, _theme.TextColor,_rect.Width - _theme.SpacingWidth);
+                            DrawText(dc, content, location, _theme.TextColor, _rect.Width - _theme.SpacingWidth);
                         }
                     }
                 }

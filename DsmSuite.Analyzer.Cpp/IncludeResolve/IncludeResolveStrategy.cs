@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using DsmSuite.Analyzer.Cpp.Utils;
+﻿using DsmSuite.Analyzer.Cpp.Utils;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Cpp.IncludeResolve

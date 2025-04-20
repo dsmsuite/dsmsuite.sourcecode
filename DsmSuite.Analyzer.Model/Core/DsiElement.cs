@@ -1,5 +1,4 @@
 using DsmSuite.Analyzer.Model.Interface;
-using System.Collections.Generic;
 
 namespace DsmSuite.Analyzer.Model.Core
 {
@@ -17,7 +16,7 @@ namespace DsmSuite.Analyzer.Model.Core
         }
 
         public int Id { get; }
-        public string Name { get; set;}
+        public string Name { get; set; }
         public string Type { get; }
         public IDictionary<string, string> Properties { get; }
     }

@@ -2,7 +2,6 @@
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
@@ -18,32 +17,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
         private readonly int _index;
 
         public const ActionType RegisteredType = ActionType.ElementCreate;
-
-        public ElementCreateAction(object[] args)
-        {
-            if (args.Length == 3)
-            {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
-
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _element = attributes.GetElement(nameof(_element));
-                    _name = attributes.GetString(nameof(_name));
-                    _type = attributes.GetString(nameof(_type));
-
-                    int? parentId = attributes.GetNullableInt(nameof(_parent));
-                    if (parentId.HasValue)
-                    {
-                        _parent = _model.GetElementById(parentId.Value);
-                    }
-                    _index = attributes.GetInt(nameof(_index));
-                }
-            }
-        }
 
         public ElementCreateAction(IDsmModel model, string name, string type, IDsmElement parent, int index)
         {
@@ -76,9 +49,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public bool IsValid()
         {
-            return (_model != null) && 
-                   (_element != null) && 
-                   (_type != null) && 
+            return (_model != null) &&
+                   (_element != null) &&
+                   (_type != null) &&
                    (_parent != null);
         }
 

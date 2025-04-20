@@ -3,7 +3,6 @@ using DsmSuite.DsmViewer.Application.Import.Common;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Application.Test.Stubs;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace DsmSuite.DsmViewer.Application.Test.Import.Common
@@ -41,7 +40,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Common
             _dsmModel = new Mock<IDsmModel>();
 
             _createMetaDataItem = new Mock<IMetaDataItem>();
- 
+
             _existingElement = new Mock<IDsmElement>();
             _createdElement = new Mock<IDsmElement>();
             _elementParent = new Mock<IDsmElement>();
@@ -83,7 +82,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Import.Common
             IDsmElement element = policy.ImportElement(ElementFullName, ElementName, ElementType, _elementParent.Object, null);
             Assert.AreEqual(_createdElement.Object, element);
 
-            _dsmModel.Verify(x => x.AddElement(ElementName, ElementType, ElementParentId, 0,null), Times.Once());
+            _dsmModel.Verify(x => x.AddElement(ElementName, ElementType, ElementParentId, 0, null), Times.Once());
         }
 
         [TestMethod]

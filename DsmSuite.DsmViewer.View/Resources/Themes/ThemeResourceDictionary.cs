@@ -1,6 +1,5 @@
-﻿using System;
+﻿using DsmSuite.DsmViewer.ViewModel.Settings;
 using System.Windows;
-using DsmSuite.DsmViewer.ViewModel.Settings;
 
 namespace DsmSuite.DsmViewer.View.Resources.Themes
 {

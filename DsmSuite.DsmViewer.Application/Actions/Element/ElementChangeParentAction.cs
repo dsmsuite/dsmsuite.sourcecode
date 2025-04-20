@@ -2,7 +2,6 @@
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Element
 {
@@ -20,29 +19,6 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public const ActionType RegisteredType = ActionType.ElementChangeParent;
 
-        public ElementChangeParentAction(object[] args)
-        {
-            if (args.Length == 3)
-            {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
-
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _element = attributes.GetElement(nameof(_element));
-                    _oldParent = attributes.GetElement(nameof(_oldParent));
-                    _oldIndex = attributes.GetInt(nameof(_oldIndex));
-                    _oldName = attributes.GetString(nameof(_oldName));
-                    _newParent = attributes.GetElement(nameof(_newParent));
-                    _newIndex = attributes.GetInt(nameof(_newIndex));
-                    _newName = attributes.GetString(nameof(_newName));
-                }
-            }
-        }
-
         public ElementChangeParentAction(IDsmModel model, IDsmElement element, IDsmElement newParent, int index)
         {
             _model = model;
@@ -55,7 +31,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
             _newParent = newParent;
             _newIndex = index;
             _newName = element.Name;
-         }
+        }
 
         public ActionType Type => RegisteredType;
         public string Title => "Change element parent";
@@ -89,11 +65,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public bool IsValid()
         {
-            return (_model != null) && 
-                   (_element != null) && 
-                   (_oldParent != null) && 
-                   (_oldName != null) && 
-                   (_newParent != null) && 
+            return (_model != null) &&
+                   (_element != null) &&
+                   (_oldParent != null) &&
+                   (_oldName != null) &&
+                   (_newParent != null) &&
                    (_newName != null);
         }
 

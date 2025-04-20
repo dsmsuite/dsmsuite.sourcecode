@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using DsmSuite.Common.Util;
+﻿using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.ViewModel.Settings
 {
@@ -17,7 +15,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             {
                 Directory.CreateDirectory(ApplicationSettingsFolder);
             }
-            
+
             FileInfo settingsFileInfo = new FileInfo(SettingsFilePath);
             if (!settingsFileInfo.Exists)
             {

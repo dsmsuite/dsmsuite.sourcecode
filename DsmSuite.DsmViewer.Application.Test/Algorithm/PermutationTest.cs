@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DsmSuite.DsmViewer.Application.Sorting;
+﻿using DsmSuite.DsmViewer.Application.Sorting;
 
 namespace DsmSuite.DsmViewer.Application.Test.Algorithm
 {

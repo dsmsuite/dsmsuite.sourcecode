@@ -1,6 +1,5 @@
-﻿using System.Reflection;
-using DsmSuite.Common.Util;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DsmSuite.Common.Util;
+using System.Reflection;
 
 namespace DsmSuite.Analyzer.Transformations.Test
 {

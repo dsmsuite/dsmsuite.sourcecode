@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using DsmSuite.DsmViewer.ViewModel.Matrix;
+﻿using DsmSuite.DsmViewer.ViewModel.Matrix;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -13,7 +13,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         private int? _hoveredRow;
         private readonly double _pitch;
         private readonly double _offset;
-        
+
         public MatrixRowMetricsView()
         {
             _theme = new MatrixTheme(this);

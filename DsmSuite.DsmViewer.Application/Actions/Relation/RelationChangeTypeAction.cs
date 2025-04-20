@@ -2,7 +2,6 @@
 using DsmSuite.DsmViewer.Application.Actions.Management;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Relation
 {
@@ -13,31 +12,10 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
         private readonly IDsmRelation _relation;
         private readonly IDsmElement _consumer;
         private readonly IDsmElement _provider;
-        private readonly string _old ;
-        private readonly string _new ;
+        private readonly string _old;
+        private readonly string _new;
 
         public const ActionType RegisteredType = ActionType.RelationChangeType;
-
-        public RelationChangeTypeAction(object[] args)
-        {
-            if (args.Length == 3)
-            {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
-
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _relation = attributes.GetRelation(nameof(_relation));
-                    _consumer = attributes.GetRelationConsumer(nameof(_relation));
-                    _provider = attributes.GetRelationProvider(nameof(_relation));
-                    _old = attributes.GetString(nameof(_old));
-                    _new = attributes.GetString(nameof(_new));
-                }
-            }
-        }
 
         public RelationChangeTypeAction(IDsmModel model, IDsmRelation relation, string type)
         {

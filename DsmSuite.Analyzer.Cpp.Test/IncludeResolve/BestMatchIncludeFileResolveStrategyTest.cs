@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using DsmSuite.Analyzer.Cpp.IncludeResolve;
+﻿using DsmSuite.Analyzer.Cpp.IncludeResolve;
 using DsmSuite.Analyzer.Cpp.Test.Util;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.Analyzer.Cpp.Test.IncludeResolve
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using DsmSuite.Analyzer.Cpp.IncludeResolve;
+﻿using DsmSuite.Analyzer.Cpp.IncludeResolve;
 using DsmSuite.Analyzer.Cpp.Settings;
 using DsmSuite.Analyzer.Cpp.Sources;
 using DsmSuite.Analyzer.Cpp.Utils;

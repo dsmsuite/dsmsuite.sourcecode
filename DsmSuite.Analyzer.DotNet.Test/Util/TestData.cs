@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace DsmSuite.Analyzer.DotNet.Test.Util
+﻿namespace DsmSuite.Analyzer.DotNet.Test.Util
 {
     class TestData
     {

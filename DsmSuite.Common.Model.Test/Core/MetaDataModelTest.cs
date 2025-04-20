@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using DsmSuite.Common.Model.Core;
+﻿using DsmSuite.Common.Model.Core;
 using DsmSuite.Common.Model.Interface;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
 
 namespace DsmSuite.Common.Model.Test.Core
 {
@@ -45,7 +42,7 @@ namespace DsmSuite.Common.Model.Test.Core
             Assert.AreEqual(name, itemsAfter[1].Name);
             Assert.AreEqual(value, itemsAfter[1].Value);
         }
-        
+
         [TestMethod]
         public void GivenItemNamesNotUsedBeforeWhenAddMetaDataItemToDefaultGroupIsCalledTwiceThenTwoItemIAreAddedAndOrderIsMaintained()
         {
@@ -129,7 +126,7 @@ namespace DsmSuite.Common.Model.Test.Core
             Assert.AreEqual(1, itemsAfter.Count);
             Assert.AreEqual(name, itemsAfter[0].Name);
             Assert.AreEqual(value, itemsAfter[0].Value);
-         }
+        }
 
 
         [TestMethod]
@@ -181,6 +178,6 @@ namespace DsmSuite.Common.Model.Test.Core
             Assert.IsTrue(items[0].Name == "Executable");
             Assert.IsTrue(items[0].Value.Contains("DsmSuite.Common.Model.Test"));
         }
-     }
+    }
 }
 

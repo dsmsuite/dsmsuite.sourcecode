@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Reflection;
 
 namespace DsmSuite.Common.Util.Test
 {
@@ -11,7 +9,7 @@ namespace DsmSuite.Common.Util.Test
         public void WhenGetExecutableInfoIsCalledThenInfoContainingTheAssemblyNameIsReturned()
         {
             string executableInfo = SystemInfo.GetExecutableInfo(Assembly.GetExecutingAssembly());
-            char[] itemSeparators = {'=', ' '};
+            char[] itemSeparators = { '=', ' ' };
             string[] elements = executableInfo.Split(itemSeparators);
             Assert.IsTrue(elements.Length >= 6); // Depending on locale PM/AM might be post fixed
 

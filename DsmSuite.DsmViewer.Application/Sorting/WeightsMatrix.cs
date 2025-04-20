@@ -1,5 +1,3 @@
-using System;
-
 namespace DsmSuite.DsmViewer.Application.Sorting
 {
     public class WeightsMatrix : ICloneable

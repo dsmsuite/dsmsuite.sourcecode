@@ -1,5 +1,4 @@
 ﻿using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
@@ -69,7 +68,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         public IEnumerable<DsmRelation> GetOutgoingRelations()
         {
             List<DsmRelation> relations = new List<DsmRelation>();
-            foreach(List<DsmRelation> r in _outgoingRelations.Values)
+            foreach (List<DsmRelation> r in _outgoingRelations.Values)
             {
                 relations.AddRange(r);
             }
@@ -112,7 +111,7 @@ namespace DsmSuite.DsmViewer.Model.Core
                 }
                 else
                 {
-                    
+
                 }
             }
         }
@@ -120,7 +119,7 @@ namespace DsmSuite.DsmViewer.Model.Core
         public int GetDerivedDependencyWeight(IDsmElement provider)
         {
             int weight = 0;
-            if (_element.Id != provider.Id) 
+            if (_element.Id != provider.Id)
             {
                 _derivedWeights.TryGetValue(provider.Id, out weight);
             }

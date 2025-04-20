@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
-using DsmSuite.Common.Util;
+﻿using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Common;
+using System.Windows.Input;
 
 namespace DsmSuite.DsmViewer.ViewModel.Settings
 {

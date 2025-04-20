@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DsmSuite.Analyzer.DotNet.Test.Data
+﻿namespace DsmSuite.Analyzer.DotNet.Test.Data
 {
     public class MainType : BaseType, INterfaceA
     {

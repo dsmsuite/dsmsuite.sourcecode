@@ -1,6 +1,5 @@
 ﻿using DsmSuite.Common.Model.Core;
 using DsmSuite.Common.Model.Interface;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DsmSuite.Common.Model.Test.Core
 {

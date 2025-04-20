@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using DsmSuite.Common.Util;
 using System.Xml;
 using System.Xml.Serialization;
-using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.Jdeps.Settings
 {

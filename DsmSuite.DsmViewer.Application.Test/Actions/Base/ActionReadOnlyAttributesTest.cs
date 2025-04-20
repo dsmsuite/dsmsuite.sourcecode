@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using DsmSuite.DsmViewer.Application.Actions.Base;
+﻿using DsmSuite.DsmViewer.Application.Actions.Base;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 

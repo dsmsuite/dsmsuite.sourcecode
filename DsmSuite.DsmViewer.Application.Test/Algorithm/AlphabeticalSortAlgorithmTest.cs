@@ -1,8 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using System.Collections.Generic;
-using DsmSuite.DsmViewer.Application.Sorting;
+using Moq;
 
 namespace DsmSuite.DsmViewer.Application.Test.Algorithm
 {

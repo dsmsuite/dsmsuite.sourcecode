@@ -1,6 +1,5 @@
-﻿using System;
+﻿using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.ViewModel.Common;
-using DsmSuite.Common.Util;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
