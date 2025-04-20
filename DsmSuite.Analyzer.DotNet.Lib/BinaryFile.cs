@@ -167,9 +167,8 @@ namespace DsmSuite.Analyzer.DotNet.Lib
 
         private void AnalyzeTypeInterfaces(TypeDefinition typeDecl)
         {
-            foreach (InterfaceImplementation interfaceImplementation in typeDecl.Interfaces)
+            foreach (TypeReference interf in typeDecl.Interfaces)
             {
-                TypeReference interf = interfaceImplementation.InterfaceType;
                 try
                 {
                     string context = "Analyze interfaces of type " + typeDecl.Name;
@@ -253,9 +252,8 @@ namespace DsmSuite.Analyzer.DotNet.Lib
         {
             foreach (GenericParameter genericArgument in method.GenericParameters)
             {
-                foreach (GenericParameterConstraint genericParameterConstraint in genericArgument.Constraints)
+                foreach (TypeReference constraint in genericArgument.Constraints)
                 {
-                    TypeReference constraint = genericParameterConstraint.ConstraintType;
                     try
                     {
                         string context = "Analyze generic parameters of method " + typeDecl.Name + "::" + method.Name;
