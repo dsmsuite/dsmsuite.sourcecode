@@ -13,7 +13,7 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
         public void TestAnalyze()
         {
             AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
-            analyzerSettings.Input.AssemblyDirectory = TestData.RootDirectory;
+            analyzerSettings.Input.AssemblyDirectories.Add(TestData.RootDirectory);
             analyzerSettings.Transformation.IgnoredNames = new List<string>();
 
             IDsiModel model = new DsiModel("Test", analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());

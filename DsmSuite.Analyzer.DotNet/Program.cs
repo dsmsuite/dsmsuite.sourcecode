@@ -32,7 +32,10 @@ namespace DsmSuite.Analyzer.DotNet
 
         protected override void LogInputParameters()
         {
-            Logger.LogUserMessage($"Assembly directory:{_analyzerSettings.Input.AssemblyDirectory}");
+            foreach (string assemblyDirectory in _analyzerSettings.Input.AssemblyDirectories)
+            {
+                Logger.LogUserMessage($"Assembly directory:{assemblyDirectory}");
+            }
         }
 
         protected override void Action()

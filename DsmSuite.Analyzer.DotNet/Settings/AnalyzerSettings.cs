@@ -7,8 +7,6 @@ namespace DsmSuite.Analyzer.DotNet.Settings
     [Serializable]
     public class InputSettings
     {
-        public string AssemblyDirectory { get; set; }
-
         public List<string> AssemblyDirectories { get; set; }
 
         public List<string> IncludeAssemblyNames { get; set; }
@@ -50,7 +48,8 @@ namespace DsmSuite.Analyzer.DotNet.Settings
                 Output = new OutputSettings(),
             };
 
-            analyzerSettings.Input.AssemblyDirectory = "";
+            analyzerSettings.Input.AssemblyDirectories = new List<string>();
+            analyzerSettings.Input.IncludeAssemblyNames = new List<string>();
 
             analyzerSettings.Transformation.IgnoredNames = new List<string>
             {
@@ -96,7 +95,10 @@ namespace DsmSuite.Analyzer.DotNet.Settings
 
         private void ResolvePaths(string settingFilePath)
         {
-            Input.AssemblyDirectory = FilePath.ResolveFile(settingFilePath, Input.AssemblyDirectory);
+            for (int i = 0; i < Input.AssemblyDirectories.Count; i++)
+            {
+                Input.AssemblyDirectories[i] = FilePath.ResolveFile(settingFilePath, Input.AssemblyDirectories[i]);
+            }
             Output.Filename = FilePath.ResolveFile(settingFilePath, Output.Filename);
         }
     }
