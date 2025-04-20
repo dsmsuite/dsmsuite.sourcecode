@@ -41,6 +41,8 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                     BinaryFile assemblyFile = new BinaryFile(assemblyFilename, _progress, _analyzerSettings.Transformation.IncludedNames);
                     if (assemblyFile.Exists && assemblyFile.IsAssembly && Accept(assemblyFilename))
                     {
+                        Console.WriteLine($"Assembly={assemblyFile}");
+
                         _assemblyFiles.Add(assemblyFile);
                         _resolver.AddSearchPath(assemblyFile);
                         UpdateAssemblyProgress(false);
@@ -57,6 +59,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
                 assemblyFile.FindTypes(_resolver);
                 foreach (DotNetType type in assemblyFile.Types)
                 {
+                    Console.WriteLine($"DotNetType={type.Name}");
                     _model.AddElement(type.Name, type.Type, null);
                 }
             }
