@@ -493,6 +493,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             UndoText = $"Undo {_application.GetUndoActionDescription()}";
             RedoText = $"Redo {_application.GetRedoActionDescription()}";
             ActiveMatrix?.Reload();
+            NotifyCommandsCanExecuteChanged();
         }
 
         private void AddChildElementExecute(object parameter)

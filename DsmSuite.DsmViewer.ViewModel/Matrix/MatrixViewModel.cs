@@ -751,6 +751,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             _selectedMetricType--;
             SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
+            NotifyCommandsCanExecuteChanged();
         }
 
         private bool PreviousMetricCanExecute(object parameter)
@@ -762,6 +763,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         {
             _selectedMetricType++;
             SelectedMetricTypeName = _metricTypeNames[_selectedMetricType];
+            NotifyCommandsCanExecuteChanged();
         }
 
         private bool NextMetricCanExecute(object parameter)
