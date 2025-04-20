@@ -28,7 +28,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Settings
             LogLevel = ViewerSetting.LogLevel;
             SelectedThemeName = _supportedThemes[ViewerSetting.Theme];
 
-            AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
+            AcceptChangeCommand = RegisterCommand(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public ICommand AcceptChangeCommand { get; }

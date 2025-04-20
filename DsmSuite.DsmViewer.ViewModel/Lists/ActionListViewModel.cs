@@ -2,6 +2,7 @@
 using DsmSuite.DsmViewer.ViewModel.Common;
 using System.Text;
 using System.Windows.Input;
+using System.Windows;
 
 namespace DsmSuite.DsmViewer.ViewModel.Lists
 {
@@ -19,8 +20,8 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
             UpdateActionList();
 
-            CopyToClipboardCommand = new RelayCommand<object>(CopyToClipboardExecute);
-            ClearCommand = new RelayCommand<object>(ClearExecute);
+            CopyToClipboardCommand = RegisterCommand(CopyToClipboardExecute);
+            ClearCommand = RegisterCommand(ClearExecute);
         }
 
         private void OnActionPerformed(object sender, System.EventArgs e)
@@ -47,7 +48,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
             {
                 builder.AppendLine($"{viewModel.Index,-5}, {viewModel.Action,-30}, {viewModel.Details}");
             }
-            // TODO Fix Clipboard.SetText(builder.ToString());
+            //TODO Clipboard.SetText(builder.ToString());
         }
 
         private void ClearExecute(object parameter)

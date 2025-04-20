@@ -70,7 +70,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Lists
 
             Elements = new ObservableCollection<ElementListItemViewModel>(elementViewModels);
 
-            CopyToClipboardCommand = new RelayCommand<object>(CopyToClipboardExecute);
+            CopyToClipboardCommand = RegisterCommand(CopyToClipboardExecute);
         }
 
         public string Title { get; }

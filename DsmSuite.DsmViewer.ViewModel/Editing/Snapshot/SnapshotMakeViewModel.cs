@@ -20,7 +20,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Snapshot
             Help = "";
 
             Description = "";
-            AcceptChangeCommand = new RelayCommand<object>(AcceptChangeExecute, AcceptChangeCanExecute);
+            AcceptChangeCommand = RegisterCommand(AcceptChangeExecute, AcceptChangeCanExecute);
         }
 
         public string Title { get; }

@@ -49,7 +49,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             ElementTypes = new List<string>(application.GetElementTypes());
             SelectedElementType = preSelectedElementType;
 
-            ClearSearchCommand = new RelayCommand<object>(ClearSearchExecute, ClearSearchCanExecute);
+            ClearSearchCommand = RegisterCommand(ClearSearchExecute, ClearSearchCanExecute);
         }
 
         public List<string> ElementTypes { get; }

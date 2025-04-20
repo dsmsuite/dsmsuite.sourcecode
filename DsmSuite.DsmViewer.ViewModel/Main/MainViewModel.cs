@@ -1,7 +1,6 @@
 ﻿using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
-using DsmSuite.DsmViewer.ViewModel.Common;
 using DsmSuite.DsmViewer.ViewModel.Editing.Element;
 using DsmSuite.DsmViewer.ViewModel.Editing.Snapshot;
 using DsmSuite.DsmViewer.ViewModel.Lists;
@@ -9,6 +8,7 @@ using DsmSuite.DsmViewer.ViewModel.Matrix;
 using DsmSuite.DsmViewer.ViewModel.Settings;
 using System.Reflection;
 using System.Windows.Input;
+using DsmSuite.DsmViewer.ViewModel.Common;
 
 namespace DsmSuite.DsmViewer.ViewModel.Main
 {
@@ -64,46 +64,46 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             _application.Modified += OnModelModified;
             _application.ActionPerformed += OnActionPerformed;
 
-            OpenFileCommand = new RelayCommand<object>(OpenFileExecute, OpenFileCanExecute);
-            SaveFileCommand = new RelayCommand<object>(SaveFileExecute, SaveFileCanExecute);
+            OpenFileCommand = RegisterCommand(OpenFileExecute, OpenFileCanExecute);
+            SaveFileCommand = RegisterCommand(SaveFileExecute, SaveFileCanExecute);
 
-            HomeCommand = new RelayCommand<object>(HomeExecute, HomeCanExecute);
+            HomeCommand = RegisterCommand(HomeExecute, HomeCanExecute);
 
-            MoveUpElementCommand = new RelayCommand<object>(MoveUpElementExecute, MoveUpElementCanExecute);
-            MoveDownElementCommand = new RelayCommand<object>(MoveDownElementExecute, MoveDownElementCanExecute);
-            SortElementCommand = new RelayCommand<object>(SortElementExecute, SortElementCanExecute);
+            MoveUpElementCommand = RegisterCommand(MoveUpElementExecute, MoveUpElementCanExecute);
+            MoveDownElementCommand = RegisterCommand(MoveDownElementExecute, MoveDownElementCanExecute);
+            SortElementCommand = RegisterCommand(SortElementExecute, SortElementCanExecute);
 
-            ToggleElementBookmarkCommand = new RelayCommand<object>(ToggleElementBookmarkExecute, ToggleElementBookmarkCanExecute);
+            ToggleElementBookmarkCommand = RegisterCommand(ToggleElementBookmarkExecute, ToggleElementBookmarkCanExecute);
 
-            ShowElementDetailMatrixCommand = new RelayCommand<object>(ShowElementDetailMatrixExecute, ShowElementDetailMatrixCanExecute);
-            ShowElementContextMatrixCommand = new RelayCommand<object>(ShowElementContextMatrixExecute, ShowElementContextMatrixCanExecute);
-            ShowCellDetailMatrixCommand = new RelayCommand<object>(ShowCellDetailMatrixExecute, ShowCellDetailMatrixCanExecute);
+            ShowElementDetailMatrixCommand = RegisterCommand(ShowElementDetailMatrixExecute, ShowElementDetailMatrixCanExecute);
+            ShowElementContextMatrixCommand = RegisterCommand(ShowElementContextMatrixExecute, ShowElementContextMatrixCanExecute);
+            ShowCellDetailMatrixCommand = RegisterCommand(ShowCellDetailMatrixExecute, ShowCellDetailMatrixCanExecute);
 
-            ZoomInCommand = new RelayCommand<object>(ZoomInExecute, ZoomInCanExecute);
-            ZoomOutCommand = new RelayCommand<object>(ZoomOutExecute, ZoomOutCanExecute);
-            ToggleElementExpandedCommand = new RelayCommand<object>(ToggleElementExpandedExecute, ToggleElementExpandedCanExecute);
+            ZoomInCommand = RegisterCommand(ZoomInExecute, ZoomInCanExecute);
+            ZoomOutCommand = RegisterCommand(ZoomOutExecute, ZoomOutCanExecute);
+            ToggleElementExpandedCommand = RegisterCommand(ToggleElementExpandedExecute, ToggleElementExpandedCanExecute);
 
-            UndoCommand = new RelayCommand<object>(UndoExecute, UndoCanExecute);
-            RedoCommand = new RelayCommand<object>(RedoExecute, RedoCanExecute);
+            UndoCommand = RegisterCommand(UndoExecute, UndoCanExecute);
+            RedoCommand = RegisterCommand(RedoExecute, RedoCanExecute);
 
-            AddChildElementCommand = new RelayCommand<object>(AddChildElementExecute, AddChildElementCanExecute);
-            AddSiblingElementAboveCommand = new RelayCommand<object>(AddSiblingElementAboveExecute, AddSiblingElementAboveCanExecute);
-            AddSiblingElementBelowCommand = new RelayCommand<object>(AddSiblingElementBelowExecute, AddSiblingElementBelowCanExecute);
-            ModifyElementCommand = new RelayCommand<object>(ModifyElementExecute, ModifyElementCanExecute);
-            DeleteElementCommand = new RelayCommand<object>(DeleteElementExecute, DeleteElementCanExecute);
-            ChangeElementParentCommand = new RelayCommand<object>(MoveElementExecute, MoveElementCanExecute);
+            AddChildElementCommand = RegisterCommand(AddChildElementExecute, AddChildElementCanExecute);
+            AddSiblingElementAboveCommand = RegisterCommand(AddSiblingElementAboveExecute, AddSiblingElementAboveCanExecute);
+            AddSiblingElementBelowCommand = RegisterCommand(AddSiblingElementBelowExecute, AddSiblingElementBelowCanExecute);
+            ModifyElementCommand = RegisterCommand(ModifyElementExecute, ModifyElementCanExecute);
+            DeleteElementCommand = RegisterCommand(DeleteElementExecute, DeleteElementCanExecute);
+            ChangeElementParentCommand = RegisterCommand(MoveElementExecute, MoveElementCanExecute);
 
-            CopyElementCommand = new RelayCommand<object>(CopyElementExecute, CopyElementCanExecute);
-            CutElementCommand = new RelayCommand<object>(CutElementExecute, CutElementCanExecute);
-            PasteAsChildElementCommand = new RelayCommand<object>(PasteAsChildElementExecute, PasteAsChildElementCanExecute);
-            PasteAsSiblingElementAboveCommand = new RelayCommand<object>(PasteAsSiblingElementAboveExecute, PasteAsSiblingElementAboveCanExecute);
-            PasteAsSiblingElementBelowCommand = new RelayCommand<object>(PasteAsSiblingElementBelowExecute, PasteAsSiblingElementBelowCanExecute);
+            CopyElementCommand = RegisterCommand(CopyElementExecute, CopyElementCanExecute);
+            CutElementCommand = RegisterCommand(CutElementExecute, CutElementCanExecute);
+            PasteAsChildElementCommand = RegisterCommand(PasteAsChildElementExecute, PasteAsChildElementCanExecute);
+            PasteAsSiblingElementAboveCommand = RegisterCommand(PasteAsSiblingElementAboveExecute, PasteAsSiblingElementAboveCanExecute);
+            PasteAsSiblingElementBelowCommand = RegisterCommand(PasteAsSiblingElementBelowExecute, PasteAsSiblingElementBelowCanExecute);
 
-            MakeSnapshotCommand = new RelayCommand<object>(MakeSnapshotExecute, MakeSnapshotCanExecute);
-            ShowHistoryCommand = new RelayCommand<object>(ShowHistoryExecute, ShowHistoryCanExecute);
-            ShowSettingsCommand = new RelayCommand<object>(ShowSettingsExecute, ShowSettingsCanExecute);
+            MakeSnapshotCommand = RegisterCommand(MakeSnapshotExecute, MakeSnapshotCanExecute);
+            ShowHistoryCommand = RegisterCommand(ShowHistoryExecute, ShowHistoryCanExecute);
+            ShowSettingsCommand = RegisterCommand(ShowSettingsExecute, ShowSettingsCanExecute);
 
-            TakeScreenshotCommand = new RelayCommand<object>(TakeScreenshotExecute);
+            TakeScreenshotCommand = RegisterCommand(TakeScreenshotExecute);
 
             _modelFilename = "";
             _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();

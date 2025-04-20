@@ -41,7 +41,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                     _selectedProvider = _selectedRelation.Provider;
                     SelectedRelationType = _selectedRelation.Type;
                     Weight = _selectedRelation.Weight;
-                    AcceptChangeCommand = new RelayCommand<object>(AcceptModifyExecute, AcceptCanExecute);
+                    AcceptChangeCommand = RegisterCommand(AcceptModifyExecute, AcceptCanExecute);
                     break;
                 case RelationEditViewModelType.Add:
                     Title = "Add relation";
@@ -52,7 +52,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Relation
                     _selectedProvider = selectedProvider;
                     SelectedRelationType = _lastSelectedRelationType;
                     Weight = 1;
-                    AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
+                    AcceptChangeCommand = RegisterCommand(AcceptAddExecute, AcceptCanExecute);
                     break;
                 default:
                     break;

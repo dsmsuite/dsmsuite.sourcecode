@@ -68,25 +68,25 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             PasteAsSiblingElementAboveCommand = mainViewModel.DeleteElementCommand;
             PasteAsSiblingElementBelowCommand = mainViewModel.DeleteElementCommand;
 
-            ShowElementIngoingRelationsCommand = new RelayCommand<object>(ShowElementIngoingRelationsExecute, ShowElementIngoingRelationsCanExecute);
-            ShowElementOutgoingRelationCommand = new RelayCommand<object>(ShowElementOutgoingRelationExecute, ShowElementOutgoingRelationCanExecute);
-            ShowElementinternalRelationsCommand = new RelayCommand<object>(ShowElementinternalRelationsExecute, ShowElementinternalRelationsCanExecute);
+            ShowElementIngoingRelationsCommand = RegisterCommand(ShowElementIngoingRelationsExecute, ShowElementIngoingRelationsCanExecute);
+            ShowElementOutgoingRelationCommand = RegisterCommand(ShowElementOutgoingRelationExecute, ShowElementOutgoingRelationCanExecute);
+            ShowElementinternalRelationsCommand = RegisterCommand(ShowElementinternalRelationsExecute, ShowElementinternalRelationsCanExecute);
 
-            ShowElementConsumersCommand = new RelayCommand<object>(ShowElementConsumersExecute, ShowConsumersCanExecute);
-            ShowElementProvidedInterfacesCommand = new RelayCommand<object>(ShowProvidedInterfacesExecute, ShowElementProvidedInterfacesCanExecute);
-            ShowElementRequiredInterfacesCommand = new RelayCommand<object>(ShowElementRequiredInterfacesExecute, ShowElementRequiredInterfacesCanExecute);
+            ShowElementConsumersCommand = RegisterCommand(ShowElementConsumersExecute, ShowConsumersCanExecute);
+            ShowElementProvidedInterfacesCommand = RegisterCommand(ShowProvidedInterfacesExecute, ShowElementProvidedInterfacesCanExecute);
+            ShowElementRequiredInterfacesCommand = RegisterCommand(ShowElementRequiredInterfacesExecute, ShowElementRequiredInterfacesCanExecute);
             ShowCellDetailMatrixCommand = mainViewModel.ShowCellDetailMatrixCommand;
 
-            ShowCellRelationsCommand = new RelayCommand<object>(ShowCellRelationsExecute, ShowCellRelationsCanExecute);
-            ShowCellConsumersCommand = new RelayCommand<object>(ShowCellConsumersExecute, ShowCellConsumersCanExecute);
-            ShowCellProvidersCommand = new RelayCommand<object>(ShowCellProvidersExecute, ShowCellProvidersCanExecute);
+            ShowCellRelationsCommand = RegisterCommand(ShowCellRelationsExecute, ShowCellRelationsCanExecute);
+            ShowCellConsumersCommand = RegisterCommand(ShowCellConsumersExecute, ShowCellConsumersCanExecute);
+            ShowCellProvidersCommand = RegisterCommand(ShowCellProvidersExecute, ShowCellProvidersCanExecute);
             ShowElementDetailMatrixCommand = mainViewModel.ShowElementDetailMatrixCommand;
             ShowElementContextMatrixCommand = mainViewModel.ShowElementContextMatrixCommand;
 
-            ToggleMetricsViewExpandedCommand = new RelayCommand<object>(ToggleMetricsViewExpandedExecute, ToggleMetricsViewExpandedCanExecute);
+            ToggleMetricsViewExpandedCommand = RegisterCommand(ToggleMetricsViewExpandedExecute, ToggleMetricsViewExpandedCanExecute);
 
-            PreviousMetricCommand = new RelayCommand<object>(PreviousMetricExecute, PreviousMetricCanExecute);
-            NextMetricCommand = new RelayCommand<object>(NextMetricExecute, NextMetricCanExecute);
+            PreviousMetricCommand = RegisterCommand(PreviousMetricExecute, PreviousMetricCanExecute);
+            NextMetricCommand = RegisterCommand(NextMetricExecute, NextMetricCanExecute);
 
             Reload();
 

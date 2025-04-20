@@ -37,7 +37,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                     _addAtIndex = 0;
                     Name = _selectedElement.Name;
                     SelectedElementType = _selectedElement.Type;
-                    AcceptChangeCommand = new RelayCommand<object>(AcceptModifyExecute, AcceptCanExecute);
+                    AcceptChangeCommand = RegisterCommand(AcceptModifyExecute, AcceptCanExecute);
                     break;
                 case ElementEditViewModelType.AddChild:
                     Title = "Add element";
@@ -46,7 +46,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                     _addAtIndex = _parentElement.Children.Count; // Insert at end
                     Name = "";
                     SelectedElementType = _lastSelectedElementType;
-                    AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
+                    AcceptChangeCommand = RegisterCommand(AcceptAddExecute, AcceptCanExecute);
                     break;
                 case ElementEditViewModelType.AddSiblingAbove:
                     Title = "Add element";
@@ -55,7 +55,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                     _addAtIndex = _parentElement.IndexOfChild(_selectedElement);
                     Name = "";
                     SelectedElementType = _selectedElement.Type;
-                    AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
+                    AcceptChangeCommand = RegisterCommand(AcceptAddExecute, AcceptCanExecute);
                     break;
                 case ElementEditViewModelType.AddSiblingBelow:
                     Title = "Add element";
@@ -64,7 +64,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Editing.Element
                     _addAtIndex = _parentElement.IndexOfChild(_selectedElement) + 1;
                     Name = "";
                     SelectedElementType = _selectedElement.Type;
-                    AcceptChangeCommand = new RelayCommand<object>(AcceptAddExecute, AcceptCanExecute);
+                    AcceptChangeCommand = RegisterCommand(AcceptAddExecute, AcceptCanExecute);
                     break;
                 default:
                     break;
