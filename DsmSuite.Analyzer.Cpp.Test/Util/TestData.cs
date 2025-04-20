@@ -6,8 +6,9 @@
         {
             get
             {
+                // Assemblies in build\Release\net8.0 or 
                 string pathExecutingAssembly = AppDomain.CurrentDomain.BaseDirectory;
-                return Path.GetFullPath(Path.Combine(pathExecutingAssembly, @"..\..\DsmSuite.Analyzer.Cpp.Test.Data"));
+                return Path.GetFullPath(Path.Combine(pathExecutingAssembly, @"..\..\..\DsmSuite.Analyzer.Cpp.Test.Data"));
             }
         }
     }
