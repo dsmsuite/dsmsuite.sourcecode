@@ -1,5 +1,5 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-	<Package Name="DSM Suite" Language="1033" Version="$(var.LongAssyVersion)" Manufacturer="DsmSuite" UpgradeCode="C0C28C50-44C7-40DE-AA35-0F13437D7E19" InstallerVersion="200"><Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
+	<Package Name="DSM Suite" Language="1033" Version="$(var.LongAssyVersion)"  Manufacturer="DsmSuite" UpgradeCode="C0C28C50-44C7-40DE-AA35-0F13437D7E19" InstallerVersion="200"><Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
 
 		<MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A later version of the DSM suite C++ analyzer is already installed" AllowSameVersionUpgrades="yes" />
 
@@ -116,6 +116,10 @@
 			<Component Id="CommunityToolkit.Mvvm.dll" Guid="B2AC9900-DC63-4926-ACDF-20ECB0D8C8E7">
 				<File Id="CommunityToolkit.Mvvm.dll" Source="..\build\Release\net8.0-windows\CommunityToolkit.Mvvm.dll" KeyPath="yes" Checksum="yes" />
 			</Component>
+			<Component Id="DsmSuite.DsmViewer.View.dll" Guid="EB5791CF-2B06-4B87-A0D8-C2FE876F4A6E">
+				<File Id="DsmSuite.DsmViewer.View.dll" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.View.dll" KeyPath="yes" Checksum="yes" />
+			</Component>
+			
 			<Component Id="DsmSuite.Analyzer.Model.dll" Guid="4A933F4A-E039-4E1B-B8F7-855809B1B411">
 				<File Id="DsmSuite.Analyzer.Model.dll" Source="..\build\Release\net8.0-windows\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes" />
 			</Component>
@@ -131,18 +135,10 @@
 			<Component Id="DsmSuite.DsmViewer.Model.dll" Guid="4F1F0718-89B7-4BF1-8AFD-97F6D62D553E">
 				<File Id="DsmSuite.DsmViewer.Model.dll" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.Model.dll" KeyPath="yes" Checksum="yes" />
 			</Component>
-			<Component Id="DsmSuite.DsmViewer.View.dll" Guid="EB5791CF-2B06-4B87-A0D8-C2FE876F4A6E">
-				<File Id="DsmSuite.DsmViewer.View.dll" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.View.dll" KeyPath="yes" Checksum="yes" />
-			</Component>
+
 			<Component Id="DsmSuite.DsmViewer.ViewModel.dll" Guid="2E011513-1100-4610-A661-EE667AC06151">
 				<File Id="DsmSuite.DsmViewer.ViewModel.dll" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.ViewModel.dll" KeyPath="yes" Checksum="yes" />
-			</Component>
-
-
-
-
-
-			
+			</Component>		
 		</ComponentGroup>
 
 		
@@ -206,12 +202,14 @@
 
 		<Feature Id="DsmViewerFeature" Title="DSM Suite Viewer" Level="1">
 			<ComponentRef Id="DsmSuite.DsmViewer.View.exe" />
+			<ComponentRef Id="DsmSuite.DsmViewer.View.dll" />			
 			<ComponentRef Id="DsmSuite.DsmViewer.ViewModel.dll" />
 			<ComponentRef Id="DsmSuite.DsmViewer.Application.dll" />
 			<ComponentRef Id="DsmSuite.DsmViewer.Model.dll" />
 			<ComponentRef Id="DsmSuite.Common.Model.DsmViewer.dll" />
 			<ComponentRef Id="DsmSuite.Common.Util.DsmViewer.dll" />
-			<ComponentRef Id="DsmSuite.Analyzer.Model.DsmViewer.dll" />
+			<ComponentRef Id="DsmSuite.Analyzer.Model.dll" />
+			<ComponentRef Id="CommunityToolkit.Mvvm.dll" />
 			<ComponentRef Id="ApplicationShortcut" />
 		</Feature>
 	

@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
   <Import Project="Sdk.props" Sdk="WixToolset.Sdk" Version="6.0.0" />
   <PropertyGroup>
     <OutputName>$(SolutionName)</OutputName>
@@ -27,7 +27,7 @@
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="WixToolset.Sdk" Version="6.0.0" />
   <Target Name="BeforeBuild">
-    <GetAssemblyIdentity AssemblyFiles="$(SolutionDir)build\$(Configuration)\net8.0-windows\DsmSuite.DsmViewer.View.exe">
+    <GetAssemblyIdentity AssemblyFiles="$(SolutionDir)build\$(Configuration)\net8.0\DsmSuite.Common.Util.dll">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersions" />
     </GetAssemblyIdentity>
     <CreateProperty Value="%(AssemblyVersions.Version)">
@@ -39,5 +39,5 @@
     <CreateProperty Value="$(SolutionName)_%(AssemblyVersions.Version)">
       <Output TaskParameter="Value" PropertyName="TargetName" />
     </CreateProperty>
-  </Target>
+  </Target>	
 </Project>
