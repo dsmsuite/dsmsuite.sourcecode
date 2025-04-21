@@ -119,8 +119,17 @@
 					</Extension>
 				</ProgId>
 			</Component>
-			<Component Id="DsmSuite.DsmViewer.ViewModel.dll" Guid="2E011513-1100-4610-A661-EE667AC06151">
-				<File Id="DsmSuite.DsmViewer.ViewModel.dll" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.ViewModel.dll" KeyPath="yes" Checksum="yes"/>
+			<Component Id="CommunityToolkit.Mvvm.dll" Guid="B2AC9900-DC63-4926-ACDF-20ECB0D8C8E7">
+				<File Id="CommunityToolkit.Mvvm.dll" Source="..\build\Release\net8.0-windows\CommunityToolkit.Mvvm.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Analyzer.Model.dll" Guid="4A933F4A-E039-4E1B-B8F7-855809B1B411">
+				<File Id="DsmSuite.Analyzer.Model.dll" Source="..\build\Release\net8.0-windows\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Model.DsmViewer.dll" Guid="3B784A87-08E5-4ED0-8730-1868228CD31F">
+				<File Id="DsmSuite.Common.Model.DsmViewer.dll" Source="..\build\Release\net8.0-windows\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+			</Component>
+			<Component Id="DsmSuite.Common.Util.DsmViewer.dll" Guid="93B13A2D-50E4-45A1-8C33-3D73E1CCE750">
+				<File Id="DsmSuite.Common.Util.DsmViewer.dll" Source="..\build\Release\net8.0-windows\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
 			</Component>
 			<Component Id="DsmSuite.DsmViewer.Application.dll" Guid="79D6350F-8069-41A7-9A40-F75D928FE985">
 				<File Id="DsmSuite.DsmViewer.Application.dll" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.Application.dll" KeyPath="yes" Checksum="yes"/>
@@ -128,15 +137,18 @@
 			<Component Id="DsmSuite.DsmViewer.Model.dll" Guid="4F1F0718-89B7-4BF1-8AFD-97F6D62D553E">
 				<File Id="DsmSuite.DsmViewer.Model.dll" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.Model.dll" KeyPath="yes" Checksum="yes"/>
 			</Component>
-			<Component Id="DsmSuite.Common.Model.DsmViewer.dll" Guid="3B784A87-08E5-4ED0-8730-1868228CD31F">
-				<File Id="DsmSuite.Common.Model.DsmViewer.dll" Source="..\build\Release\net8.0-windows\DsmSuite.Common.Model.dll" KeyPath="yes" Checksum="yes"/>
+			<Component Id="DsmSuite.DsmViewer.View.dll" Guid="EB5791CF-2B06-4B87-A0D8-C2FE876F4A6E">
+				<File Id="DsmSuite.DsmViewer.View.dll" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.View.dll" KeyPath="yes" Checksum="yes"/>
 			</Component>
-			<Component Id="DsmSuite.Common.Util.DsmViewer.dll" Guid="93B13A2D-50E4-45A1-8C33-3D73E1CCE750">
-				<File Id="DsmSuite.Common.Util.dll" Source="..\build\Release\net8.0-windows\DsmSuite.Common.Util.dll" KeyPath="yes" Checksum="yes"/>
+			<Component Id="DsmSuite.DsmViewer.ViewModel.dll" Guid="2E011513-1100-4610-A661-EE667AC06151">
+				<File Id="DsmSuite.DsmViewer.ViewModel.dll" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.ViewModel.dll" KeyPath="yes" Checksum="yes"/>
 			</Component>
-			<Component Id="DsmSuite.Analyzer.Model.DsmViewer.dll" Guid="4A933F4A-E039-4E1B-B8F7-855809B1B411">
-				<File Id="DsmSuite.Analyzer.Model.DsmViewer.dll" Source="..\build\Release\net8.0-windows\DsmSuite.Analyzer.Model.dll" KeyPath="yes" Checksum="yes"/>
-			</Component>
+
+
+
+
+
+			
 		</ComponentGroup>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
