@@ -1,0 +1,13 @@
+[04/21/2025 08:56:00.776]: Converting project file DsmSuite.Installer.wixproj...
+[04/21/2025 08:56:01.568]: Converting file: C:\Github\dsmsuite.sourcecode\DsmSuite.Installer\Product.wxs...
+[04/21/2025 08:56:01.583]: C:\Github\dsmsuite.sourcecode\DsmSuite.Installer\Product.wxs : information WIX0005: [Converted] This file contains an XML declaration on the first line. (DeclarationPresent)
+[04/21/2025 08:56:01.583]: C:\Github\dsmsuite.sourcecode\DsmSuite.Installer\Product.wxs(1) : information WIX0009: [Converted] The namespace 'http://schemas.microsoft.com/wix/2006/wi' is out of date. It must be 'http://wixtoolset.org/schemas/v4/wxs'. (XmlnsValueWrong)
+[04/21/2025 08:56:01.593]: C:\Github\dsmsuite.sourcecode\DsmSuite.Installer\Product.wxs(2) : information WIX0023: [Converted] Using '*' for the Product Id attribute is unnecessary. Remove the attribute to remove the redundancy. (AutoGuidUnnecessary)
+[04/21/2025 08:56:01.593]: C:\Github\dsmsuite.sourcecode\DsmSuite.Installer\Product.wxs(2) : information WIX0030: [Converted] The Product and Package elements have been renamed and reorganized for simplicity. (ProductAndPackageRenamed)
+[04/21/2025 08:56:01.593]: C:\Github\dsmsuite.sourcecode\DsmSuite.Installer\Product.wxs : information WIX0058: [Converted] The TARGETDIR directory should no longer be explicitly defined. Remove the Directory element with Id attribute 'TARGETDIR'. (TargetDirDeprecated)
+[04/21/2025 08:56:01.593]: C:\Github\dsmsuite.sourcecode\DsmSuite.Installer\Product.wxs : information WIX0060: [Converted] UI, custom action, and property reference WixUI_FeatureTree has been replaced with strongly-typed element. (ReferencesReplaced)
+[04/21/2025 08:56:01.593]: C:\Github\dsmsuite.sourcecode\DsmSuite.Installer\Product.wxs(218) : information WIX0059: [Converted] Standard directories such as 'ProgramFiles64Folder' should no longer be defined using the Directory element. Use the StandardDirectory element instead. (DefiningStandardDirectoryDeprecated)
+[04/21/2025 08:56:01.593]: C:\Github\dsmsuite.sourcecode\DsmSuite.Installer\Product.wxs(230) : information WIX0059: [Converted] Standard directories such as 'ProgramMenuFolder' should no longer be defined using the Directory element. Use the StandardDirectory element instead. (DefiningStandardDirectoryDeprecated)
+[04/21/2025 08:56:01.593]: ---- Project DsmSuite.Installer: Converted 1 files.
+[04/21/2025 08:56:01.593]: ---- Total time: 00.819
+[04/21/2025 08:56:01.593]: ========== Import complete:  0 errors, 0 warnings

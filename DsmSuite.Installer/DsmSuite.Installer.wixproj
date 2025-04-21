@@ -1,14 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
+  <Import Project="Sdk.props" Sdk="WixToolset.Sdk" Version="6.0.0" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>3.10</ProductVersion>
-    <ProjectGuid>4641d099-c87d-4b5d-8b50-e5c074e619d0</ProjectGuid>
-    <SchemaVersion>2.0</SchemaVersion>
     <OutputName>$(SolutionName)</OutputName>
-    <OutputType>Package</OutputType>
-	<SuppressPdbOutput>true</SuppressPdbOutput>
+    <SuppressPdbOutput>true</SuppressPdbOutput>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>..\build\installer\</OutputPath>
@@ -29,19 +23,9 @@
     <IntermediateOutputPath>..\build\installer\obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Product.wxs" />
+    <PackageReference Include="WixToolset.UI.wixext" Version="6.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <WixExtension Include="WixUIExtension">
-      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
-      <Name>WixUIExtension</Name>
-    </WixExtension>
-  </ItemGroup>
-  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
-  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
-    <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
-  </Target>
+  <Import Project="Sdk.targets" Sdk="WixToolset.Sdk" Version="6.0.0" />
   <Target Name="BeforeBuild">
     <GetAssemblyIdentity AssemblyFiles="$(SolutionDir)build\$(Configuration)\net8.0-windows\DsmSuite.DsmViewer.View.exe">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersions" />
@@ -52,7 +36,7 @@
     <CreateProperty Value="$(DefineConstants);LongAssyVersion=$(AssyVersion)">
       <Output TaskParameter="Value" PropertyName="DefineConstants" />
     </CreateProperty>
-	<CreateProperty Value="$(SolutionName)_%(AssemblyVersions.Version)">
+    <CreateProperty Value="$(SolutionName)_%(AssemblyVersions.Version)">
       <Output TaskParameter="Value" PropertyName="TargetName" />
     </CreateProperty>
   </Target>
