@@ -394,7 +394,7 @@ namespace DsmSuite.Analyzer.DotNet.Lib
         private bool Accept(string name)
         {
             bool accept = false;
-            if (_includedAssemblyStrings.Count() > 0)
+            if ((_includedAssemblyStrings != null) && (_includedAssemblyStrings.Count() > 0))
             {
                 foreach (string ignoredName in _includedAssemblyStrings)
                 {
