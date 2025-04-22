@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DsmSuite.Analyzers.Python": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Github\\dsmsuite.sourcecode\\build\\Release\\net8.0\\Analzyer.Python.xml"
+    }
+  }
+}

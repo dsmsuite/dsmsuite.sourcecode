@@ -9,7 +9,7 @@ namespace DsmSuite.Analyzers.Python
     {
         private readonly AnalyzerSettings _analyzerSettings;
 
-        public ConsoleAction(AnalyzerSettings analyzerSettings) : base("Analyzing Java code")
+        public ConsoleAction(AnalyzerSettings analyzerSettings) : base("Analyzing Python code")
         {
             _analyzerSettings = analyzerSettings;
         }
@@ -32,7 +32,7 @@ namespace DsmSuite.Analyzers.Python
 
         protected override void Action()
         {
-            DsiModel model = new DsiModel("Analyzer", new List<string>, Assembly.GetExecutingAssembly());
+            DsiModel model = new DsiModel("Analyzer", new List<string>(), Assembly.GetExecutingAssembly());
 
             Analysis.Analyzer analyzer = new Analysis.Analyzer(model, _analyzerSettings, this);
             analyzer.Analyze();
