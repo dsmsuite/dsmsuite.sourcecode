@@ -1,4 +1,5 @@
 ﻿using DsmSuite.Analyzer.Model.Core;
+using DsmSuite.Analyzers.Python.Analysis;
 using DsmSuite.Analyzers.Python.Settings;
 using DsmSuite.Common.Util;
 using System.Reflection;
@@ -20,7 +21,7 @@ namespace DsmSuite.Analyzers.Python
             if (!File.Exists(_analyzerSettings.Input.JsonFilename))
             {
                 result = false;
-                Logger.LogUserMessage($"Input file '{_analyzerSettings.Input.JsonFilename}' does not exist.");
+                Logger.LogUserMessage($"Input file '{_analyzerSettings.Input.JsonFilename}' does not exist. Use 'dependenpy.exe -l -f json -o <outputfile>.json <sourcedir>' to generate one");
             }
             return result;
         }

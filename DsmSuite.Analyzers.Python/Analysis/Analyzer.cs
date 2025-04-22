@@ -99,8 +99,16 @@ namespace DsmSuite.Analyzers.Python.Analysis
         {
             foreach (var dep in module.Dependencies)
             {
+                // module info
+                //   "name": "{moduleName}>",
+                //   "path": "{sourcefolder}\\{packageName}\\{namespaceElement}\\{namespaceElement}\\{moduleName}py",
+
+                // dependency info
+                //   "target": "{namespace}.{moduleName}.{moduleName}",
+                // external seems always true so is not usable
+
                 string consumerName = $"{packageName}.{module.Name}";
-                string providerName = dep.Target;
+                string providerName = $"{packageName}.{dep.Target}";
                 RegisterRelation(consumerName, providerName);
             }
         }
