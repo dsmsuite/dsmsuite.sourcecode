@@ -1,8 +1,10 @@
 ﻿using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Analyzers.Python.Settings;
 using DsmSuite.Common.Util;
+using System.Runtime.Intrinsics.Arm;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
 namespace DsmSuite.Analyzers.Python.Analysis
 {
@@ -59,8 +61,10 @@ namespace DsmSuite.Analyzers.Python.Analysis
 
     public class Analyzer
     {
-        private readonly IDsiModel _model;
+        private readonly Dictionary<string, Module> _modules = new Dictionary<string, Module>();
+        private readonly IDsiModel _model;  
         private readonly AnalyzerSettings _analyzerSettings;
+        private string rootPackageName;
 
         public Analyzer(IDsiModel model, AnalyzerSettings analyzerSettings, IProgress<ProgressInfo> progress)
         {
@@ -75,27 +79,47 @@ namespace DsmSuite.Analyzers.Python.Analysis
             {
                 string content = File.ReadAllText(_analyzerSettings.Input.JsonFilename);
                 DependencyRoot root = JsonSerializer.Deserialize<DependencyRoot>(content);
-
-                // top-level modules
-                foreach (var module in root.Modules)
-                    ProcessModule(root.Name, module);
-
-                // nested packages
+    
                 foreach (var pkg in root.Packages)
-                    ProcessPackage(pkg);
+                {
+                    FindElements(pkg);
+                }
+
+                foreach (var pkg in root.Packages)
+                    FindRelations(pkg);
             }
         }
 
-        void ProcessPackage(Package pkg)
+         void FindElements(Package pkg)
         {
-            foreach (var module in pkg.Modules)
-                ProcessModule(pkg.Name, module);
+            foreach (Module module in pkg.Modules)
+            {
+                if (module.Name != "__init__")
+                {
+                    string name = $"{pkg.Name}.{module.Name}";
+                    _modules[name] = module;
+                    string elementName = $"{pkg.Name}.{module.Name}";
+
+                    _model.AddElement(elementName, "module", null);
+                }
+            }
 
             foreach (var sub in pkg.Packages)
-                ProcessPackage(sub);
+            {
+                FindElements(sub);
+            }
         }
 
-        void ProcessModule(string packageName, Module module)
+        void FindRelations(Package pkg)
+        {
+            foreach (var module in pkg.Modules)
+                FindRelations(pkg.Name, module);
+
+            foreach (var sub in pkg.Packages)
+                FindRelations(sub);
+        }
+
+        void FindRelations(string packageName, Module module)
         {
             foreach (var dep in module.Dependencies)
             {
@@ -107,9 +131,29 @@ namespace DsmSuite.Analyzers.Python.Analysis
                 //   "target": "{namespace}.{moduleName}.{moduleName}",
                 // external seems always true so is not usable
 
+                int lastDot = dep.Target.LastIndexOf('.');
+                string depTarget = (lastDot != -1) ? dep.Target.Substring(0, lastDot) : dep.Target;
+
                 string consumerName = $"{packageName}.{module.Name}";
-                string providerName = $"{packageName}.{dep.Target}";
-                RegisterRelation(consumerName, providerName);
+                string providerName = $"{packageName}.{depTarget}";
+                Console.WriteLine($"Dep from {consumerName} to {providerName}");
+
+                if (!_modules.ContainsKey(consumerName))
+                {
+                    Logger.LogError($"Consumer element '{consumerName}' not found");
+                }
+                else if (!_modules.ContainsKey(providerName))
+                {
+                    string externalElementName = $"External.{dep.Target}";
+                    //_model.AddElement(externalElementName, "module", null);
+
+                    //RegisterRelation(consumerName, externalElementName);
+                }
+                else
+                {
+                    RegisterRelation(consumerName, providerName);
+                }
+            
             }
         }
 
