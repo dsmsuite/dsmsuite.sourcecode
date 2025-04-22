@@ -1,7 +1,8 @@
 ﻿<Project>
   <Import Project="Sdk.props" Sdk="WixToolset.Sdk" Version="6.0.0" />
   <PropertyGroup>
-    <OutputName>$(SolutionName)</OutputName>
+	  <ProductVersion>$([System.DateTime]::Now.ToString("yy.MM.dd.HHmm"))</ProductVersion>
+    <OutputName>$(SolutionName)-$(ProductVersion)</OutputName>
     <SuppressPdbOutput>true</SuppressPdbOutput>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
