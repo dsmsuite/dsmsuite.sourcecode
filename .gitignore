@@ -48,3 +48,4 @@ ipch/
 /DsmSuite.DsmViewer.ViewModel.Test/obj
 /DsmSuite.DsmViewer.ViewModel/obj
 /DsmSuite.Installer/obj
+/DsmSuite.Analyzers.Python/obj
