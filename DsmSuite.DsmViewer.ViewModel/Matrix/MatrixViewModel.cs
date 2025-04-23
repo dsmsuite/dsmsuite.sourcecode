@@ -275,6 +275,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             UpdateConsumerRows();
 
             SelectedCellHasRelationCount = 0;
+            _mainViewModel.UpdateCommandStates();
         }
 
         public void SelectColumn(int? column)
@@ -285,6 +286,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             UpdateConsumerRows();
 
             SelectedCellHasRelationCount = 0;
+            _mainViewModel.UpdateCommandStates();
         }
 
         public void SelectCell(int? row, int? columnn)
@@ -295,6 +297,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             UpdateConsumerRows();
 
             SelectedCellHasRelationCount = _application.GetRelationCount(SelectedConsumer, SelectedProvider);
+            _mainViewModel.UpdateCommandStates();
         }
 
         public int? SelectedRow

@@ -29,5 +29,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
         ICommand ChangeElementParentCommand { get; }
 
         IndicatorViewMode SelectedIndicatorViewMode { get; }
+
+        void UpdateCommandStates();
     }
 }

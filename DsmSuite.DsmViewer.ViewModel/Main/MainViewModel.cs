@@ -496,6 +496,11 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
             NotifyCommandsCanExecuteChanged();
         }
 
+        public void UpdateCommandStates()
+        {
+            NotifyCommandsCanExecuteChanged();
+        }
+
         private void AddChildElementExecute(object parameter)
         {
             ElementEditViewModel elementEditViewModel = new ElementEditViewModel(ElementEditViewModelType.AddChild, _application, SelectedProvider);

@@ -102,8 +102,8 @@ namespace DsmSuite.Analyzers.Python.Analysis
                     string moduleName = $"{package.Name}.{module.Name}";
                     _modules[moduleName] = module;
                     _moduleParentPackages[module] = package;
-                    Console.WriteLine($"Node {moduleName}");
-                    _model.AddElement(moduleName, "module", null);
+
+                    RegisterElement(moduleName);
                 }
             }
 
@@ -124,11 +124,11 @@ namespace DsmSuite.Analyzers.Python.Analysis
 
         void FindRelations(string packageName, Module module)
         {
-            foreach (Dependency dep in module.Dependencies)
+            foreach (Dependency dependency in module.Dependencies)
             {
                 string consumerName = $"{packageName}.{module.Name}";
 
-                Module? providerModule = FindProviderModule(dep);
+                Module? providerModule = FindProviderModule(dependency);
 
                 if (providerModule != null)
                 {
@@ -145,17 +145,15 @@ namespace DsmSuite.Analyzers.Python.Analysis
                     }
                     else
                     {
-                        Console.WriteLine($"Edge from {consumerName} to {providerName}");
-                        _model.AddRelation(consumerName, providerName, "dependency", 1, null);
+                        RegisterRelation(consumerName, providerName, dependency.Lineno);
                     }
                 }
                 else
                 {
-                    string providerName = $"External.{dep.Target}";
-                    _model.AddElement(providerName, "module", null);
+                    string providerName = $"External.{dependency.Target}";
+                    RegisterElement(providerName);
 
-                    Console.WriteLine($"Edge from {consumerName} to {providerName}");
-                    _model.AddRelation(consumerName, providerName, "dependency", 1, null);
+                    RegisterRelation(consumerName, providerName, dependency.Lineno);
                 }
             }
         }
@@ -164,21 +162,60 @@ namespace DsmSuite.Analyzers.Python.Analysis
         {
             Module? provider = null;
 
-            int lastDot = dependency.Target.LastIndexOf('.');
-            if (lastDot != -1)
-            {
-                string moduleName = dependency.Target.Substring(0, lastDot);
+            string fullTargetName = dependency.Target;
+            provider = FindTargetModule(fullTargetName);
 
-                foreach (string key in _modules.Keys)
+            if (provider == null)
+            {
+                int lastDot = dependency.Target.LastIndexOf('.');
+                if (lastDot != -1)
                 {
-                    if (key.EndsWith(moduleName))
-                    {
-                        provider = _modules[key];
-                    }
+                    string partialTargetName = dependency.Target.Substring(0, lastDot);
+                    provider = FindTargetModule(partialTargetName);
                 }
             }
 
             return provider;
+        }
+
+        private Module? FindTargetModule(string targetName)
+        {
+            Module? provider = null;
+
+            foreach (string key in _modules.Keys)
+            {
+                if (key.EndsWith(targetName))
+                {
+                    provider = _modules[key];
+                }
+            }
+
+            if (provider != null)
+            {
+                Logger.LogInfo($"Found {targetName}");
+            }
+            else
+            {
+                Logger.LogInfo($"Not found {targetName}");
+            }
+
+            return provider;
+        }
+
+
+        private void RegisterElement(string moduleName)
+        {
+            Logger.LogInfo($"Added element name={moduleName}");
+            _model.AddElement(moduleName, "module", null);
+        }
+
+        private void RegisterRelation(string consumerName, string providerName, int line)
+        {
+            Dictionary<string, string> relationProperties = new Dictionary<string, string>();
+            relationProperties["line"] = line.ToString();
+
+            Logger.LogInfo($"Added relation from consumer='{consumerName}' to provoider='{providerName}'");
+            _model.AddRelation(consumerName, providerName, "dependency", 1, relationProperties);
         }
     }
 }
