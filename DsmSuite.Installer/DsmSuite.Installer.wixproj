@@ -1,9 +1,8 @@
 ﻿<Project>
   <Import Project="Sdk.props" Sdk="WixToolset.Sdk" Version="6.0.0" />
   <PropertyGroup>
-	  <ProductVersion>$([System.DateTime]::Now.ToString("yy.MM.dd.HHmm"))</ProductVersion>
-    <OutputName>$(SolutionName)-$(ProductVersion)</OutputName>
-    <SuppressPdbOutput>true</SuppressPdbOutput>
+	  <OutputName>$(CustomOutputName)</OutputName>
+	  <SuppressPdbOutput>true</SuppressPdbOutput>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>..\build\installer\</OutputPath>
@@ -27,7 +26,7 @@
     <PackageReference Include="WixToolset.UI.wixext" Version="6.0.0" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="WixToolset.Sdk" Version="6.0.0" />
-  <Target Name="BeforeBuild">
+  <Target Name="SetCustomOutputName" BeforeTargets="BeforeBuild">
     <GetAssemblyIdentity AssemblyFiles="$(SolutionDir)build\$(Configuration)\net8.0\DsmSuite.Common.Util.dll">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersions" />
     </GetAssemblyIdentity>
@@ -38,7 +37,7 @@
       <Output TaskParameter="Value" PropertyName="DefineConstants" />
     </CreateProperty>
     <CreateProperty Value="$(SolutionName)_%(AssemblyVersions.Version)">
-      <Output TaskParameter="Value" PropertyName="TargetName" />
+      <Output TaskParameter="Value" PropertyName="CustomOutputName" />
     </CreateProperty>
-  </Target>	
+  </Target>
 </Project>

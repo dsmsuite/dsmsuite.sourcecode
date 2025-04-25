@@ -1,5 +1,5 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-	<Package Name="DSM Suite" Language="1033" Version="1.0.0.0"  Manufacturer="DsmSuite" UpgradeCode="C0C28C50-44C7-40DE-AA35-0F13437D7E19" InstallerVersion="200"><Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
+	<Package Name="DSM Suite" Language="1033" Version="!(bind.FileVersion.DsmSuite.DsmViewer.View.exe)"  Manufacturer="DsmSuite" UpgradeCode="C0C28C50-44C7-40DE-AA35-0F13437D7E19" InstallerVersion="200"><Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
 
 		<MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A later version of the DSM suite C++ analyzer is already installed" AllowSameVersionUpgrades="yes" />
 
