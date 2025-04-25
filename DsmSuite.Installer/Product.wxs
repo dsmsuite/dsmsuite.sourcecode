@@ -138,7 +138,21 @@
 
 			<Component Id="DsmSuite.DsmViewer.ViewModel.dll" Guid="2E011513-1100-4610-A661-EE667AC06151">
 				<File Id="DsmSuite.DsmViewer.ViewModel.dll" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.ViewModel.dll" KeyPath="yes" Checksum="yes" />
-			</Component>		
+			</Component>
+			<Component Id="DsmSuite.DsmViewer.View.runtimeconfig.json" Guid="5948BEB0-3EC3-4C1C-A7C5-B424BE9AA7C5">
+				<File Id="DsmSuite.DsmViewer.View.runtimeconfig.json" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.View.runtimeconfig.json" KeyPath="yes" Checksum="yes" />
+			</Component>
+
+			<Component Id="DsmSuite.DsmViewer.View.deps.json" Guid="A4D76CB2-8BBD-45CD-9188-88ECAFF2086E">
+				<File Id="DsmSuite.DsmViewer.View.deps.json" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.View.deps.json" KeyPath="yes" Checksum="yes" />
+			</Component>
+
+			<Component Id="DsmSuite.DsmViewer.ViewModel.deps.json" Guid="F3FCDC16-B353-43EE-A844-5F2747DF3DB2">
+				<File Id="DsmSuite.DsmViewer.ViewModel.deps.json" Source="..\build\Release\net8.0-windows\DsmSuite.DsmViewer.ViewModel.deps.json" KeyPath="yes" Checksum="yes" />
+			</Component>
+			
+			
+
 		</ComponentGroup>
 
 		
@@ -210,6 +224,9 @@
 			<ComponentRef Id="DsmSuite.Common.Util.DsmViewer.dll" />
 			<ComponentRef Id="DsmSuite.Analyzer.Model.dll" />
 			<ComponentRef Id="CommunityToolkit.Mvvm.dll" />
+			<ComponentRef Id="DsmSuite.DsmViewer.View.runtimeconfig.json" />
+			<ComponentRef Id="DsmSuite.DsmViewer.View.deps.json" />
+			<ComponentRef Id="DsmSuite.DsmViewer.ViewModel.deps.json" />
 			<ComponentRef Id="ApplicationShortcut" />
 		</Feature>
 	
