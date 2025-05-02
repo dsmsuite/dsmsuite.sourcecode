@@ -9,7 +9,9 @@ namespace DsmSuite.DsmViewer.Application.Interfaces
         event EventHandler ActionPerformed;
 
         Task AsyncImportDsiModel(string dsiFilename, string dsmFilename, bool autoPartition, bool compressDsmFile, IProgress<ProgressInfo> progress);
+        Task AsyncImportSqlModel(string sqlFilename, string dsmFilename, bool autoPartition, bool compressDsmFile, IProgress<ProgressInfo> progress);
 
+        void ImportSqlModel(string sqlFilename, string dsmFilename, bool autoPartition, bool compressDsmFile, IProgress<ProgressInfo> progress);
         void ImportDsiModel(string dsiFilename, string dsmFilename, bool applyPartitionAlgorithm, bool compressDsmFile, IProgress<ProgressInfo> progress);
         Task AsyncOpenModel(string dsmFilename, Progress<ProgressInfo> progress);
         Task AsyncSaveModel(string dsmFilename, Progress<ProgressInfo> progress);

@@ -85,6 +85,14 @@ namespace DsmSuite.DsmViewer.Application.Core
             Modified?.Invoke(this, IsModified);
         }
 
+        public async Task AsyncImportSqlModel(string sqlFilename, string dsmFilename, bool autoPartition, bool compressDsmFile, IProgress<ProgressInfo> progress)
+        {
+            await Task.Run(() => ImportSqlModel(sqlFilename, dsmFilename, autoPartition, compressDsmFile, progress));
+            _actionStore.LoadFromModel();
+            IsModified = false;
+            Modified?.Invoke(this, IsModified);
+        }
+
         public void ImportDsiModel(string dsiFilename, string dsmFilename, bool autoPartition, bool compressDsmFile, IProgress<ProgressInfo> progress)
         {
             string processStep = "Builder";
@@ -94,6 +102,15 @@ namespace DsmSuite.DsmViewer.Application.Core
 
             IDsmBuilder importPolicy = new DsmBuilder(_dsmModel);
             DsiImporter importer = new DsiImporter(dsiModel, _dsmModel, importPolicy, autoPartition);
+            importer.Import(progress);
+            _actionStore.SaveToModel();
+            _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);
+        }
+
+        public void ImportSqlModel(string sqlFilename, string dsmFilename, bool autoPartition, bool compressDsmFile, IProgress<ProgressInfo> progress)
+        {
+            IDsmBuilder importPolicy = new DsmBuilder(_dsmModel);
+            SqlImporter importer = new SqlImporter(sqlFilename, _dsmModel, importPolicy, autoPartition);
             importer.Import(progress);
             _actionStore.SaveToModel();
             _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);

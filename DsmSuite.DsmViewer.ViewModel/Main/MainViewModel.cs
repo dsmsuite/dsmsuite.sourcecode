@@ -276,6 +276,16 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                             IsLoaded = true;
                         }
                         break;
+                    case ".sql":
+                        {
+                            FileInfo sqlFileInfo = fileInfo;
+                            FileInfo dsmFileInfo = new FileInfo(fileInfo.FullName.Replace(".dsi", ".dsm"));
+                            await _application.AsyncImportSqlModel(sqlFileInfo.FullName, dsmFileInfo.FullName, false, true, progress);
+                            ModelFilename = dsmFileInfo.FullName;
+                            Title = $"DSM Viewer - {dsmFileInfo.Name}";
+                            IsLoaded = true;
+                        }
+                        break;
                 }
                 ActiveMatrix = new MatrixViewModel(this, _application, GetRootElements());
             }
