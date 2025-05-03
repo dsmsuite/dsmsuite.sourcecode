@@ -9,6 +9,7 @@ using System;
 using SQLitePCL;
 using DsmSuite.DsmViewer.Model.Core;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace DsmSuite.DsmViewer.Application.Import.Dsi
 {
@@ -63,13 +64,13 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
 
         public void Import(IProgress<ProgressInfo> progress)
         {
+            Dictionary<int, string> nodeTypes = new Dictionary<int, string>();
+            Dictionary<int, string> edgeTypes = new Dictionary<int, string>();
+            IDictionary<int, IDsmElement> elements = new Dictionary<int, IDsmElement>();
+            IDictionary<int, int?> parentIds = new Dictionary<int, int?>();
+
             using (var connection = new SqliteConnection($"Data Source={_databaseFilename}"))
             {
-                Dictionary<int, string> nodeTypes = new Dictionary<int, string>();
-                Dictionary<int, string> edgeTypes = new Dictionary<int, string>();
-                IDictionary<int, IDsmElement> elements = new Dictionary<int, IDsmElement>();
-                IDictionary<int, int?> parentIds = new Dictionary<int, int?>();
-
                 connection.Open();
 
                 UpdateProgress(progress, "Importing sql", 4, 0);
@@ -81,16 +82,16 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
                 UpdateProgress(progress, "Importing sql", 4, 3);
                 QueryEdges(connection, edgeTypes, elements);
                 UpdateProgress(progress, "Importing sql", 4, 4);
-
-                BuildHierarchy(elements, parentIds);
-
-                if (_autoPartition)
-                {
-                    Partition(progress);
-                }
-
-                FinalizeImport(progress);
             }
+
+            BuildHierarchy(elements, parentIds);
+
+            if (_autoPartition)
+            {
+                Partition(progress);
+            }
+
+            FinalizeImport(progress);
         }
 
         private static void QueryNodeTypes(SqliteConnection connection, Dictionary<int, string> nodeTypes)

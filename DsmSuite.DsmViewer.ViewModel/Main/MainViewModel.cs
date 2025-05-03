@@ -279,7 +279,7 @@ namespace DsmSuite.DsmViewer.ViewModel.Main
                     case ".sql":
                         {
                             FileInfo sqlFileInfo = fileInfo;
-                            FileInfo dsmFileInfo = new FileInfo(fileInfo.FullName.Replace(".dsi", ".dsm"));
+                            FileInfo dsmFileInfo = new FileInfo(fileInfo.FullName.Replace(".sql", ".dsm"));
                             await _application.AsyncImportSqlModel(sqlFileInfo.FullName, dsmFileInfo.FullName, false, true, progress);
                             ModelFilename = dsmFileInfo.FullName;
                             Title = $"DSM Viewer - {dsmFileInfo.Name}";
