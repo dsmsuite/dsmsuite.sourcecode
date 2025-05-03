@@ -83,6 +83,25 @@ namespace DsmSuite.DsmViewer.Model.Core
             return relation;
         }
 
+        public IDsmRelation AddRelation(int id, IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties)
+        {
+            DsmRelation relation = null;
+
+            if ((consumer != null) && (provider != null))
+            {
+                Logger.LogDataModelMessage(
+                    $"Add relation consumerId={consumer.Id} providerId={provider.Id} type={type} weight={weight}");
+
+                if (consumer.Id != provider.Id)
+                {
+                    relation = new DsmRelation(id, consumer, provider, type, weight, properties) { IsDeleted = false };
+                    RegisterRelation(relation);
+                }
+            }
+
+            return relation;
+        }
+
         public void ChangeRelationType(IDsmRelation relation, string type)
         {
             DsmRelation changedRelation = relation as DsmRelation;

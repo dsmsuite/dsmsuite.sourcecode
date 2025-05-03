@@ -91,6 +91,11 @@ namespace DsmSuite.DsmViewer.Model.Core
             return _actionsDataModel.GetExportedActions();
         }
 
+        public IDsmElement AddElement(int id, string name, string type, IDictionary<string, string> properties, int order)
+        {
+            return _elementsDataModel.AddElement(id, name, type, properties, order);
+        }
+
         public IDsmElement AddElement(string name, string type, int? parentId, int? index, IDictionary<string, string> properties)
         {
             return _elementsDataModel.AddElement(name, type, parentId, index, properties);
@@ -183,6 +188,12 @@ namespace DsmSuite.DsmViewer.Model.Core
         {
             return _relationsDataModel.AddRelation(consumer, provider, type, weight, properties);
         }
+
+        public IDsmRelation AddRelation(int id, IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties)
+        {
+            return _relationsDataModel.AddRelation(id, consumer, provider, type, weight, properties);
+        }
+
 
         public void ChangeRelationType(IDsmRelation relation, string type)
         {

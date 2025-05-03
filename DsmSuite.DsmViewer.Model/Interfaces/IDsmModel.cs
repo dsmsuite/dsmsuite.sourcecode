@@ -18,6 +18,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
         IMetaDataItem AddMetaData(string group, string name, string value);
 
         // Element editing
+        IDsmElement AddElement(int id, string name, string type, IDictionary<string, string> properties, int order);
         IDsmElement AddElement(string name, string type, int? parentId, int? index, IDictionary<string, string> properties);
         void RemoveElement(int elementId);
         void UnremoveElement(int elementId);
@@ -43,6 +44,7 @@ namespace DsmSuite.DsmViewer.Model.Interfaces
 
         // Relation editing
         IDsmRelation AddRelation(IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties);
+        IDsmRelation AddRelation(int id, IDsmElement consumer, IDsmElement provider, string type, int weight, IDictionary<string, string> properties);
         void ChangeRelationType(IDsmRelation relation, string type);
         void ChangeRelationWeight(IDsmRelation relation, int weight);
         void RemoveRelation(int relationId);

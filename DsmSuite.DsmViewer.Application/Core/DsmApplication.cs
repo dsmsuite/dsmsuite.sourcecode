@@ -100,8 +100,7 @@ namespace DsmSuite.DsmViewer.Application.Core
             DsiModel dsiModel = new DsiModel(processStep, new List<string>(), assembly);
             dsiModel.Load(dsiFilename, progress);
 
-            IDsmBuilder importPolicy = new DsmBuilder(_dsmModel);
-            DsiImporter importer = new DsiImporter(dsiModel, _dsmModel, importPolicy, autoPartition);
+            DsiImporter importer = new DsiImporter(dsiModel, _dsmModel, autoPartition);
             importer.Import(progress);
             _actionStore.SaveToModel();
             _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);
@@ -109,8 +108,7 @@ namespace DsmSuite.DsmViewer.Application.Core
 
         public void ImportSqlModel(string sqlFilename, string dsmFilename, bool autoPartition, bool compressDsmFile, IProgress<ProgressInfo> progress)
         {
-            IDsmBuilder importPolicy = new DsmBuilder(_dsmModel);
-            SqlImporter importer = new SqlImporter(sqlFilename, _dsmModel, importPolicy, autoPartition);
+            SqlImporter importer = new SqlImporter(sqlFilename, _dsmModel, autoPartition);
             importer.Import(progress);
             _actionStore.SaveToModel();
             _dsmModel.SaveModel(dsmFilename, compressDsmFile, progress);

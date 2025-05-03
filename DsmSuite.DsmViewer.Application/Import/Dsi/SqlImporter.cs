@@ -4,26 +4,18 @@ using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Import.Common;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using Microsoft.Data.Sqlite;
-using System.Data;
 using Dapper;
+using System;
+using SQLitePCL;
 
 namespace DsmSuite.DsmViewer.Application.Import.Dsi
 {
-    public class SqlImporter
+    public class SqlImporter : ImporterBase
     {
-        private readonly string _filename;
-        private readonly IDsmBuilder _importPolicy;
+        private readonly string _databaseFilename;
+        private readonly IDsmModel _dsmModel;
         private readonly bool _autoPartition;
-        private readonly Dictionary<int, int> _dsiToDsmMapping;
-
-        public class AnalysisRunInfo
-        {
-            public int Id { get; set; }
-            public DateTime Timestamp { get; set; }
-            public string Description { get; set; }
-            public string Author { get; set; }
-            public string SourceCodeLanguage { get; set; }
-        }
+        private static bool batteriesInitDone = false;
 
         public class Node
         {
@@ -63,36 +55,109 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
             public string Name { get; set; }
         }
 
-        public class SourceFile
+        public SqlImporter(string databaseFilename, IDsmModel dsmModel, bool autoPartition) : base(dsmModel)
         {
-            public int Id { get; set; }
-            public string Filename { get; set; }
-        }
-
-
-        public SqlImporter(string filename, IDsmModel dsmModel, IDsmBuilder importPolicy, bool autoPartition) 
-        {
-            _filename = filename;
-            _importPolicy = importPolicy;
+            _databaseFilename = databaseFilename;
+            _dsmModel = dsmModel;
             _autoPartition = autoPartition;
-            _dsiToDsmMapping = new Dictionary<int, int>();
+
+            if (!batteriesInitDone)
+            {
+                Batteries.Init();
+                batteriesInitDone = true;
+            }
         }
 
         public void Import(IProgress<ProgressInfo> progress)
         {
-            using (var connection = new SqliteConnection($"Data Source={_filename}"))
+            using (var connection = new SqliteConnection($"Data Source={_databaseFilename}"))
             {
+                Dictionary<int, string> nodeTypes = new Dictionary<int, string>();
+                Dictionary<int, string> edgeTypes = new Dictionary<int, string>();
+                IDictionary<int, IDsmElement> elements = new Dictionary<int, IDsmElement>();
+                IDictionary<int, int?> parentIds = new Dictionary<int, int?>();
+
                 connection.Open();
 
-                var runs = connection.Query<AnalysisRunInfo>("SELECT * FROM AnalysisRunInfo");
-                var nodes = connection.Query<Node>("SELECT * FROM Node");
-                var edges = connection.Query<Edge>("SELECT * FROM Edge");
-                var nodeTypes = connection.Query<NodeType>("SELECT * FROM NodeType");
-                var edgeTypes = connection.Query<EdgeType>("SELECT * FROM EdgeType");
-                var sourceFiles = connection.Query<SourceFile>("SELECT * FROM SourceFile");
-            }
+                UpdateProgress(progress, "Importing sql", 4, 0);
+                QueryNodeTypes(connection, nodeTypes);
+                UpdateProgress(progress, "Importing sql", 4, 1);
+                QueryEdgeTypes(connection, edgeTypes);
+                UpdateProgress(progress, "Importing sql", 4, 2);
+                QueryNodes(connection, nodeTypes, elements, parentIds);
+                UpdateProgress(progress, "Importing sql", 4, 3);
+                QueryEdges(connection, edgeTypes, elements);
+                UpdateProgress(progress, "Importing sql", 4, 4);
 
-            _importPolicy.FinalizeImport(progress);
+                BuildHierarchy(elements, parentIds);
+
+                if (_autoPartition)
+                {
+                    Partition(progress);
+                }
+
+                FinalizeImport(progress);
+            }
+        }
+
+        private static void QueryNodeTypes(SqliteConnection connection, Dictionary<int, string> nodeTypes)
+        {
+            foreach (NodeType nodeType in connection.Query<NodeType>("SELECT * FROM NodeType"))
+            {
+                nodeTypes[nodeType.Id] = nodeType.Name;
+            }
+        }
+
+        private static void QueryEdgeTypes(SqliteConnection connection, Dictionary<int, string> edgeTypes)
+        {
+            foreach (EdgeType edgeType in connection.Query<EdgeType>("SELECT * FROM EdgeType"))
+            {
+                edgeTypes[edgeType.Id] = edgeType.Name;
+            }
+        }
+
+        private void QueryNodes(SqliteConnection connection, Dictionary<int, string> nodeTypes, IDictionary<int, IDsmElement> elements, IDictionary<int, int?> parentIds)
+        {
+            foreach (Node node in connection.Query<Node>("SELECT * FROM Node"))
+            {
+                if (nodeTypes.ContainsKey(node.NodeTypeId))
+                {
+                    elements[node.Id] = _dsmModel.AddElement(node.Id, node.Name, nodeTypes[node.NodeTypeId], null, 0);
+                    parentIds[node.Id] = node.ParentId;
+                }
+            }
+        }
+        private void QueryEdges(SqliteConnection connection, Dictionary<int, string> edgeTypes, IDictionary<int, IDsmElement> elements)
+        {
+            foreach (Edge edge in connection.Query<Edge>("SELECT * FROM Edge"))
+            {
+                if (elements.ContainsKey(edge.SourceId) && elements.ContainsKey(edge.TargetId) && edgeTypes.ContainsKey(edge.EdgeTypeId))
+                {
+                    _dsmModel.AddRelation(edge.Id, elements[edge.SourceId], elements[edge.TargetId], edgeTypes[edge.EdgeTypeId], edge.Strength, null);
+                }
+            }
+        }
+
+        private static void BuildHierarchy(IDictionary<int, IDsmElement> elements, IDictionary<int, int?> parentIds)
+        {
+            foreach (IDsmElement element in elements.Values)
+            {
+                if (parentIds.ContainsKey(element.Id))
+                {
+                    int? parentId = parentIds[element.Id];
+                    if (parentId.HasValue)
+                    {
+                        if (elements.ContainsKey(parentId.Value))
+                        {
+                            IDsmElement parentElement = elements[parentId.Value];
+                            if (parentElement != null)
+                            {
+                                parentElement.AllChildren.Add(element);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
