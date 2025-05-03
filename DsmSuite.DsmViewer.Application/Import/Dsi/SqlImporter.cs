@@ -7,6 +7,8 @@ using Microsoft.Data.Sqlite;
 using Dapper;
 using System;
 using SQLitePCL;
+using DsmSuite.DsmViewer.Model.Core;
+using System.Diagnostics;
 
 namespace DsmSuite.DsmViewer.Application.Import.Dsi
 {
@@ -129,7 +131,8 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
             }
         }
 
-        private static void BuildHierarchy(IDictionary<int, IDsmElement> elements, IDictionary<int, int?> parentIds)
+
+        private void BuildHierarchy(IDictionary<int, IDsmElement> elements, IDictionary<int, int?> parentIds)
         {
             foreach (IDsmElement element in elements.Values)
             {
@@ -140,11 +143,31 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
                     {
                         if (elements.ContainsKey(parentId.Value))
                         {
-                            IDsmElement parentElement = elements[parentId.Value];
+                            DsmElement? parentElement = elements[parentId.Value] as DsmElement;
                             if (parentElement != null)
                             {
-                                parentElement.AllChildren.Add(element);
+                                parentElement.InsertChildAtEnd(element);
                             }
+                            else
+                            {
+                                Debug.Assert(false);
+                            }
+                        }
+                        else
+                        {
+                            Debug.Assert(false);
+                        }
+                    }
+                    else
+                    {
+                        DsmElement? root = _dsmModel.RootElement as DsmElement;
+                        if (root != null)
+                        {
+                            root.InsertChildAtEnd(element);
+                        }
+                        else
+                        {
+                            Debug.Assert(false);
                         }
                     }
                 }
