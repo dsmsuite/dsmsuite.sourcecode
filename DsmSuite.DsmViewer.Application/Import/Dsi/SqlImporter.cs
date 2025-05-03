@@ -21,14 +21,8 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
         {
             public int Id { get; set; }
             public int? ParentId { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = string.Empty;
             public int NodeTypeId { get; set; }
-            public int? SourceFileId { get; set; }
-            public int? BeginLineNo { get; set; }
-            public int? EndLineNo { get; set; }
-            public int? Complexity { get; set; }
-            public string Documentation { get; set; }
-            public string Annotation { get; set; }
         }
 
         public class Edge
@@ -38,9 +32,6 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
             public int TargetId { get; set; }
             public int EdgeTypeId { get; set; }
             public int Strength { get; set; }
-            public int? SourceFileId { get; set; }
-            public int? LineNo { get; set; }
-            public string Annotation { get; set; }
         }
 
         public class NodeType
@@ -102,7 +93,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
 
         private static void QueryNodeTypes(SqliteConnection connection, Dictionary<int, string> nodeTypes)
         {
-            foreach (NodeType nodeType in connection.Query<NodeType>("SELECT * FROM NodeType"))
+            foreach (NodeType nodeType in connection.Query<NodeType>("SELECT id, name FROM NodeType"))
             {
                 nodeTypes[nodeType.Id] = nodeType.Name;
             }
@@ -110,7 +101,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
 
         private static void QueryEdgeTypes(SqliteConnection connection, Dictionary<int, string> edgeTypes)
         {
-            foreach (EdgeType edgeType in connection.Query<EdgeType>("SELECT * FROM EdgeType"))
+            foreach (EdgeType edgeType in connection.Query<EdgeType>("SELECT id, name FROM EdgeType"))
             {
                 edgeTypes[edgeType.Id] = edgeType.Name;
             }
@@ -118,7 +109,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
 
         private void QueryNodes(SqliteConnection connection, Dictionary<int, string> nodeTypes, IDictionary<int, IDsmElement> elements, IDictionary<int, int?> parentIds)
         {
-            foreach (Node node in connection.Query<Node>("SELECT * FROM Node"))
+            foreach (Node node in connection.Query<Node>("SELECT id as Id, parent_id AS ParentId, name as Name, node_type_id AS NodeTypeId FROM Node"))
             {
                 if (nodeTypes.ContainsKey(node.NodeTypeId))
                 {
@@ -129,7 +120,7 @@ namespace DsmSuite.DsmViewer.Application.Import.Dsi
         }
         private void QueryEdges(SqliteConnection connection, Dictionary<int, string> edgeTypes, IDictionary<int, IDsmElement> elements)
         {
-            foreach (Edge edge in connection.Query<Edge>("SELECT * FROM Edge"))
+            foreach (Edge edge in connection.Query<Edge>("SELECT id as Id, source_id as SourceId, target_id as TargetId, strength as Strength, edge_type_id as EdgeTypeId FROM Edge"))
             {
                 if (elements.ContainsKey(edge.SourceId) && elements.ContainsKey(edge.TargetId) && edgeTypes.ContainsKey(edge.EdgeTypeId))
                 {
